@@ -84,13 +84,13 @@ function statusMeta(status: StatusCheckItem['status']) {
       return { badge: 'secondary' as const, label: 'Verified', text: 'text-emerald-400', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' };
     case 'pending':
     case 'in_progress':
-      return { badge: 'secondary' as const, label: 'Pending', text: 'text-zinc-300', className: 'bg-zinc-800 text-zinc-300 border-white/[0.08]' };
+      return { badge: 'secondary' as const, label: 'Pending', text: 'text-zinc-300', className: 'bg-zinc-800 text-zinc-300 border-zinc-200 dark:border-white/[0.08]' };
     case 'requires_review':
       return { badge: 'outline' as const, label: 'Needs Review', text: 'text-zinc-300', className: 'border-amber-500/30 text-zinc-300' };
     case 'rejected':
       return { badge: 'destructive' as const, label: 'Not Verified', text: 'text-red-500', className: '' };
     default:
-      return { badge: 'secondary' as const, label: 'Not Verified', text: 'text-zinc-400', className: 'bg-slate-500/10 text-zinc-400 border-slate-500/20' };
+      return { badge: 'secondary' as const, label: 'Not Verified', text: 'text-zinc-500 dark:text-zinc-400', className: 'bg-slate-500/10 text-zinc-500 dark:text-zinc-400 border-slate-500/20' };
   }
 }
 
@@ -173,8 +173,8 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
 
       {!allVerified && (
         <div className="glass-card border-slate-800 bg-zinc-900">
-          <div className="px-6 py-5 border-b border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-white text-slate-100">Identity Checks</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-slate-100">Identity Checks</h3>
           </div>
           <div className="p-6">
             <div className="grid gap-3 sm:grid-cols-2">
@@ -188,7 +188,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
                     <div className={meta.text}>{StatusIcon({ status: item.status })}</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-slate-100">{item.label}</p>
-                      <p className="text-xs text-zinc-400">{item.description}</p>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400">{item.description}</p>
                     </div>
                     <Badge variant={meta.badge} className={cn('text-[10px]', meta.className)}>
                       {meta.label}
@@ -199,7 +199,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
             </div>
 
             {anyPendingOrInProgress && (
-              <p className="text-xs text-zinc-400 mt-4">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-4">
                 Identity checks are in progress. This usually completes within a few minutes.
               </p>
             )}
@@ -209,8 +209,8 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
 
       {!allVerified && (
         <div className="glass-card border-slate-800 bg-zinc-900">
-          <div className="px-6 py-5 border-b border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-white text-slate-100">Complete Identity Check</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-slate-100">Complete Identity Check</h3>
           </div>
           <div className="p-6">
             <p className="text-sm text-slate-300 mb-4">

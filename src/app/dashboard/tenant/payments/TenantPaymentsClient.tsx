@@ -179,66 +179,66 @@ export default function TenantPaymentsClient({ userId }: Props) {
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[220px]">
-            <Download className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <Download className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
             <Input
               placeholder="Search payments..."
-              className="pl-10 bg-zinc-950 border-white/[0.08] text-white"
+              className="pl-10 bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
               disabled
             />
           </div>
-          <Button variant="outline" size="sm" className="border-white/[0.08] text-zinc-400">
+          <Button variant="outline" size="sm" className="border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400">
             <CreditCard className="h-4 w-4 mr-2" /> All Methods
           </Button>
         </div>
       </div>
 
       {/* Payments Table */}
-      <div className="glass-card glass-card border-white/[0.08]">
+      <div className="glass-card glass-card border-zinc-200 dark:border-white/[0.08]">
         <div className="p-6 p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/[0.08]">
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Property</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Amount</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Status</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Method</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Date</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Actions</th>
+                <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Property</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Amount</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Status</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Method</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Date</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
                     <td colSpan={6} className="p-8 text-center">
-                      <div className="inline-flex items-center gap-2 text-zinc-400">
+                      <div className="inline-flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
                         <Download className="h-4 w-4 animate-spin" /> Loading...
                       </div>
                     </td>
                   </tr>
                 ) : filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-8 text-center text-zinc-500">
+                    <td colSpan={6} className="p-8 text-center text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                       No payments match your filters.
                     </td>
                   </tr>
                 ) : (
                   filtered.map((payment) => (
-                    <tr key={payment.id} className="border-b border-white/[0.08] hover:bg-white/[0.02] transition-colors">
+                    <tr key={payment.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
                       <td className="px-4 py-3">
-                        <p className="text-sm font-medium text-white">{payment.listing.title}</p>
-                        <p className="text-xs text-zinc-500">{payment.listing.area}</p>
+                        <p className="text-sm font-medium text-zinc-900 dark:text-white">{payment.listing.title}</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{payment.listing.area}</p>
                       </td>
-                      <td className="px-4 py-3 text-sm font-medium text-white">
+                      <td className="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">
                         {formatCurrency(Number(payment.amount))}
                       </td>
                       <td className="px-4 py-3">
                         {paymentStatusBadge(payment.status)}
                       </td>
-                      <td className="px-4 py-3 text-sm text-zinc-400 capitalize">
+                      <td className="px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400 capitalize">
                         {payment.paymentMethod.replace('_', ' ')}
                       </td>
-                      <td className="px-4 py-3 text-sm text-zinc-400">
+                      <td className="px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">
                         {payment.paidAt
                           ? new Date(payment.paidAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })
                           : '—'}
@@ -262,7 +262,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
             Page {currentPage} of {totalPages}
           </p>
           <div className="flex gap-2">
@@ -270,7 +270,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
               variant="outline"
               size="sm"
               disabled={!hasPrevious}
-              className="border-white/[0.08] text-zinc-400 disabled:opacity-50"
+              className="border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 disabled:opacity-50"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -278,7 +278,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
               variant="outline"
               size="sm"
               disabled={!hasNext}
-              className="border-white/[0.08] text-zinc-400 disabled:opacity-50"
+              className="border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 disabled:opacity-50"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>

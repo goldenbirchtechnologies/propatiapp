@@ -60,7 +60,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Transactions</h1>
-          <p className="text-zinc-500">View and manage your payment history</p>
+          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">View and manage your payment history</p>
         </div>
         <Button onClick={() => router.push('/dashboard/payments/new')}>
           <Plus className="mr-2 h-4 w-4" />
@@ -80,20 +80,20 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
 
         <TabsContent value={activeTab} className="mt-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-white">Transaction History</h3>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Transaction History</h3>
             </div>
             <div className="p-6">
               {isLoading ? (
                 <div className="py-12 text-center">
-                  <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-zinc-500" />
-                  <p className="text-zinc-500">Loading transactions...</p>
+                  <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                  <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Loading transactions...</p>
                 </div>
               ) : filteredTransactions.length === 0 ? (
                 <div className="py-12 text-center">
-                  <CreditCard className="h-12 w-12 mx-auto mb-4 text-zinc-500 opacity-50" />
+                  <CreditCard className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
                   <h3 className="text-lg font-semibold mb-2">No transactions found</h3>
-                  <p className="text-zinc-500 mb-4">
+                  <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-4">
                     {activeTab === 'all'
                       ? 'You haven\'t made unknown payments yet'
                       : `No ${activeTab} transactions`}
@@ -135,7 +135,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                                 {tx.listing?.title || 'N/A'}
                               </p>
                               {tx.agreements?.[0] && (
-                                <p className="text-xs text-zinc-500">
+                                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                                   Agreement: {tx.agreements[0].id.slice(-8).toUpperCase()}
                                 </p>
                               )}

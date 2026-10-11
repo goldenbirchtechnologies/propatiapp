@@ -118,7 +118,7 @@ export default function TenantDashboardClient({
         actions={
           <Link
             href="/listings"
-            className="inline-flex items-center gap-1.5 px-4 py-2 border border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-white hover:border-zinc-600 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 border border-zinc-200 dark:border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors"
           >
             <Home size={14} /> Browse Listings
           </Link>
@@ -139,10 +139,10 @@ export default function TenantDashboardClient({
         <div className="lg:col-span-2 glass-card p-6">
           <div className="flex items-start justify-between mb-5">
             <div>
-              <h3 className="text-white font-semibold">Current Lease</h3>
-              <p className="text-zinc-500 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
+              <h3 className="text-zinc-900 dark:text-white font-semibold">Current Lease</h3>
+              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
             </div>
-            {activeAgreement ? <StatusBadge status="Active" /> : <span className="px-2.5 py-1 text-xs font-medium bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-full">No lease</span>}
+            {activeAgreement ? <StatusBadge status="Active" /> : <span className="px-2.5 py-1 text-xs font-medium bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-700 rounded-full">No lease</span>}
           </div>
           <div className="grid grid-cols-3 gap-4 mb-5">
             {[
@@ -152,20 +152,20 @@ export default function TenantDashboardClient({
             ].map((item) => (
               <div key={item.label}>
                 <div className="text-xs text-zinc-600 mb-1">{item.label}</div>
-                <div className="text-white text-sm font-semibold">{item.value}</div>
+                <div className="text-zinc-900 dark:text-white text-sm font-semibold">{item.value}</div>
               </div>
             ))}
           </div>
           {activeAgreement ? (
             <div>
               <div className="flex justify-between text-xs mb-2">
-                <span className="text-zinc-500">Lease Progress</span>
-                <span className="text-white">{leaseProgress}% complete</span>
+                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Lease Progress</span>
+                <span className="text-zinc-900 dark:text-white">{leaseProgress}% complete</span>
               </div>
               <Progress value={leaseProgress} color="#10b981" />
             </div>
           ) : (
-            <p className="text-xs text-zinc-500">No lease dates to track yet.</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No lease dates to track yet.</p>
           )}
         </div>
 
@@ -175,13 +175,13 @@ export default function TenantDashboardClient({
         <div className="glass-card p-5 flex flex-col">
           {activeAgreement ? (
             <>
-              <h3 className="text-white font-semibold text-sm mb-4">Next Payment</h3>
+              <h3 className="text-zinc-900 dark:text-white font-semibold text-sm mb-4">Next Payment</h3>
               <div className="flex-1">
-                <div className="text-3xl font-black text-white mb-1">
+                <div className="text-3xl font-black text-zinc-900 dark:text-white mb-1">
                   {activeAgreement?.listing?.price ? formatCurrency(activeAgreement.listing.price) : '₦0'}
                 </div>
-                <div className="text-zinc-500 text-xs mb-1">Due {formatDate(activeAgreement.endDate!)}</div>
-                <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-500'}`}>
+                <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mb-1">Due {formatDate(activeAgreement.endDate!)}</div>
+                <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}>
                   <Clock size={11} />
                   {daysUntilRent} days remaining
                 </div>
@@ -196,8 +196,8 @@ export default function TenantDashboardClient({
             </>
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center text-center py-8 gap-2">
-              <h3 className="text-white font-semibold text-sm">No Payment Due</h3>
-              <p className="text-xs text-zinc-500 max-w-[20rem]">
+              <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">No Payment Due</h3>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 max-w-[20rem]">
                 You have no active lease. When you verify a tenancy, rent dates and payment actions appear here.
               </p>
               <Link
@@ -216,14 +216,14 @@ export default function TenantDashboardClient({
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold text-sm">Payment History</h3>
+            <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Payment History</h3>
             <Link href="/dashboard/tenant/payments" className="text-xs text-emerald-400 flex items-center gap-1">
               All <ArrowRight size={11} />
             </Link>
           </div>
           <div className="space-y-2">
             {paymentHistory.length === 0 ? (
-              <p className="text-sm text-zinc-500 text-center py-4">No payment history yet.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No payment history yet.</p>
             ) : (
               paymentHistory.map((p, i) => (
                 <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.05] last:border-0">
@@ -231,7 +231,7 @@ export default function TenantDashboardClient({
                     <CheckCircle size={14} className="text-emerald-400" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-white text-sm">{p.month}</div>
+                    <div className="text-zinc-900 dark:text-white text-sm">{p.month}</div>
                     <div className="text-zinc-600 text-xs">Paid on {p.date}</div>
                   </div>
                   <div className="text-right">
@@ -246,7 +246,7 @@ export default function TenantDashboardClient({
 
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold text-sm">Maintenance Requests</h3>
+            <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Maintenance Requests</h3>
             <Link href="/dashboard/tenant/maintenance" className="text-xs text-emerald-400 flex items-center gap-1">
               All <ArrowRight size={11} />
             </Link>
@@ -258,7 +258,7 @@ export default function TenantDashboardClient({
                   m.priority === 'High' ? 'bg-amber-400' : m.priority === 'Medium' ? 'bg-blue-400' : 'bg-zinc-600'
                 }`} />
                 <div className="flex-1 min-w-0">
-                  <div className="text-white text-xs font-medium">{m.title}</div>
+                  <div className="text-zinc-900 dark:text-white text-xs font-medium">{m.title}</div>
                   <div className="text-zinc-600 text-xs">{m.date}</div>
                 </div>
                 <StatusBadge status={m.status} />
@@ -267,7 +267,7 @@ export default function TenantDashboardClient({
           </div>
           <Link
             href="/dashboard/tenant/maintenance/new"
-            className="mt-3 w-full py-2 text-xs font-medium text-zinc-400 border border-dashed border-white/[0.08] rounded-lg hover:border-zinc-600 hover:text-zinc-200 transition-colors text-center block"
+            className="mt-3 w-full py-2 text-xs font-medium text-zinc-500 dark:text-zinc-400 border border-dashed border-zinc-200 dark:border-white/[0.08] rounded-lg hover:border-zinc-600 hover:text-zinc-200 transition-colors text-center block"
           >
             + New maintenance request
           </Link>

@@ -39,8 +39,8 @@ interface UtilityAllocationItem {
 }
 
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-surface text-zinc-500 border-white/[0.08]', label: 'Draft' },
-  sent: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Sent' },
+  draft: { class: 'bg-surface text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  sent: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20', label: 'Sent' },
   paid: { class: 'bg-emerald-500/10 text-[#10b981] border-success/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
@@ -128,12 +128,12 @@ export default function UtilitiesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1
-            className="text-white"
+            className="text-zinc-900 dark:text-white"
             style={{ color: 'var(--primary)' }}
           >
             Utility Allocations
           </h1>
-          <p className="text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
+          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
             View and manage utility allocations for your portfolio
           </p>
         </div>
@@ -204,8 +204,8 @@ export default function UtilitiesPage() {
         </Dialog>
       </div>
 
-      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-none p-4 flex flex-wrap items-center gap-4">
-        <Filter className="h-4 w-4 text-zinc-500" />
+      <div className="bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none p-4 flex flex-wrap items-center gap-4">
+        <Filter className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Status" />
@@ -234,7 +234,7 @@ export default function UtilitiesPage() {
         </Select>
       </div>
 
-      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-none overflow-hidden hover:shadow-none transition-shadow">
+      <div className="bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden hover:shadow-none transition-shadow">
         {loading ? (
           <div className="p-4 space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -243,29 +243,29 @@ export default function UtilitiesPage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-12">
-            <Zap className="mx-auto h-12 w-12 text-zinc-500 opacity-50" />
-            <p className="mt-2 text-zinc-500">No utility allocations found</p>
+            <Zap className="mx-auto h-12 w-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
+            <p className="mt-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No utility allocations found</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-white/[0.08]">
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
+              <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   Unit
                 </th>
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   Type
                 </th>
-                <th className="text-right p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
+                <th className="text-right p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   Amount
                 </th>
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   Billing Period
                 </th>
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   Due Date
                 </th>
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   Status
                 </th>
               </tr>
@@ -279,24 +279,24 @@ export default function UtilitiesPage() {
                 return (
                   <tr
                     key={allocation.id}
-                    className="border-b border-white/[0.08] transition-colors hover:bg-zinc-900/30"
+                    className="border-b border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900/30"
                   >
-                    <td className="p-4 text-sm text-white">
+                    <td className="p-4 text-sm text-zinc-900 dark:text-white">
                       <span className="font-medium">{allocation.unit?.unitNumber}</span>
-                      <p className="text-xs text-zinc-500">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                         {allocation.unit?.buildingName}
                       </p>
                     </td>
-                    <td className="p-4 text-sm text-white">
+                    <td className="p-4 text-sm text-zinc-900 dark:text-white">
                       {utilityTypeLabels[allocation.type] || allocation.type}
                     </td>
-                    <td className="p-4 text-sm text-right font-medium text-white">
+                    <td className="p-4 text-sm text-right font-medium text-zinc-900 dark:text-white">
                       ₦{Number(allocation.amount).toLocaleString()}
                     </td>
-                    <td className="p-4 text-sm text-white">
+                    <td className="p-4 text-sm text-zinc-900 dark:text-white">
                       {allocation.billingPeriod}
                     </td>
-                    <td className="p-4 text-sm text-white">
+                    <td className="p-4 text-sm text-zinc-900 dark:text-white">
                       {new Date(allocation.dueDate).toLocaleDateString('en-NG', {
                         day: '2-digit',
                         month: 'short',

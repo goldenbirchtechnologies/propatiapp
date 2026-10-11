@@ -31,7 +31,7 @@ function StatCard({
 }: StatCardProps) {
   const isDirection = trend === "up" || trend === "down" || trend === "flat"
   const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus
-  const trendColor = trend === "up" ? "text-emerald-400" : trend === "down" ? "text-red-400" : "text-zinc-400"
+  const trendColor = trend === "up" ? "text-emerald-400" : trend === "down" ? "text-red-400" : "text-zinc-500 dark:text-zinc-400"
 
   // Accept both `icon={Users}` (component) and `icon={<Users />}` (element) —
   // call sites use both, and the element form is not a valid component.
@@ -42,19 +42,19 @@ function StatCard({
       : null
 
   const content = (
-    <div className={cn("rounded-xl border border-[#27272a] bg-[#121214] p-5 flex flex-col gap-3 hover:border-zinc-700 transition-colors", className)}>
+    <div className={cn("rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5 flex flex-col gap-3 hover:border-zinc-700 transition-colors", className)}>
       <div className="flex items-start justify-between">
-        <span className="text-xs text-zinc-400 uppercase tracking-wider font-medium">{label}</span>
+        <span className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium">{label}</span>
         {iconNode && (
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center border border-[#27272a]"
+            className="w-8 h-8 rounded-lg flex items-center justify-center border border-zinc-200 dark:border-[#27272a]"
             style={{ background: `${accentColor}15` }}
           >
             {iconNode}
           </div>
         )}
       </div>
-      <div className="text-2xl font-bold text-white tracking-tight">{value}</div>
+      <div className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{value}</div>
       {(sub || trendValue || trend) && (
         <div className="flex items-center gap-2">
           {trendValue && (
@@ -64,9 +64,9 @@ function StatCard({
             </span>
           )}
           {!trendValue && trend && !isDirection && (
-            <span className="text-xs font-medium text-zinc-400">{trend}</span>
+            <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">{trend}</span>
           )}
-          {sub && <span className="text-xs text-zinc-500">{sub}</span>}
+          {sub && <span className="text-xs text-zinc-600 dark:text-zinc-500">{sub}</span>}
         </div>
       )}
     </div>

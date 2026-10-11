@@ -32,26 +32,26 @@ export default async function AdminDisputeDetailPage({ params }: { params: Promi
           <div className="flex items-center gap-4">
             <div>
               <h1 className="text-2xl font-bold">Dispute Review</h1>
-              <p className="text-zinc-500">{tx.listing?.title || 'Transaction'}</p>
+              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{tx.listing?.title || 'Transaction'}</p>
             </div>
             <Link href="/dashboard/admin/disputes" className="ml-auto text-sm underline">Back</Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="glass-card p-4">
-              <p className="text-xs uppercase tracking-wider text-zinc-500">Buyer</p>
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Buyer</p>
               <p className="text-sm font-medium mt-1">{tx.payer?.fullName ?? '—'}</p>
-              <p className="text-xs text-zinc-500">{tx.payer?.email ?? ''}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{tx.payer?.email ?? ''}</p>
             </div>
             <div className="glass-card p-4">
-              <p className="text-xs uppercase tracking-wider text-zinc-500">Seller</p>
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Seller</p>
               <p className="text-sm font-medium mt-1">{tx.payee?.fullName ?? '—'}</p>
-              <p className="text-xs text-zinc-500">{tx.payee?.email ?? ''}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{tx.payee?.email ?? ''}</p>
             </div>
             <div className="glass-card p-4">
-              <p className="text-xs uppercase tracking-wider text-zinc-500">Agent</p>
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Agent</p>
               <p className="text-sm font-medium mt-1">{tx.agent?.fullName ?? '—'}</p>
-              <p className="text-xs text-zinc-500">{tx.agent?.email ?? ''}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{tx.agent?.email ?? ''}</p>
             </div>
           </div>
 

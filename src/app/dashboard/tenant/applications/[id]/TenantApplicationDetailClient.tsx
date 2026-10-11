@@ -89,7 +89,7 @@ const statusConfig: Record<
   },
   withdrawn: {
     label: 'Withdrawn',
-    className: 'bg-zinc-900/50 text-zinc-400 border-white/[0.08]',
+    className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]',
   },
 };
 
@@ -128,11 +128,11 @@ export default function TenantApplicationDetailClient({
             <li key={index} className="flex items-center gap-2">
               {index > 0 && <span className="text-zinc-600">/</span>}
               {item.href ? (
-                <Link href={item.href} className="text-zinc-400 hover:text-white transition-colors">
+                <Link href={item.href} className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors">
                   {item.label}
                 </Link>
               ) : (
-                <span className="font-medium text-white">{item.label}</span>
+                <span className="font-medium text-zinc-900 dark:text-white">{item.label}</span>
               )}
             </li>
           ))}
@@ -168,45 +168,45 @@ export default function TenantApplicationDetailClient({
           <DashboardSection>
             <div className="grid gap-6 md:grid-cols-2">
               <div className="glass-card glass-card">
-                <div className="px-6 py-5 border-b border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                     <Building2 className="h-5 w-5 text-emerald-400" />
                     Property Details
                   </h3>
                 </div>
                 <div className="p-6 space-y-4">
                   <div>
-                    <p className="text-sm text-zinc-500">Property</p>
-                    <p className="font-medium text-white">{initial.listing.title}</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</p>
+                    <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.title}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-zinc-500">Area</p>
-                      <p className="font-medium text-white">{initial.listing.area}</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Area</p>
+                      <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.area}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-zinc-500">State</p>
-                      <p className="font-medium text-white">{initial.listing.state}</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">State</p>
+                      <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.state}</p>
                     </div>
                   </div>
                   <Separator />
                   <div>
-                    <p className="text-sm text-zinc-500">Rent</p>
-                    <p className="text-2xl font-bold text-white">
+                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent</p>
+                    <p className="text-2xl font-bold text-zinc-900 dark:text-white">
                       ₦{initial.listing.price.toLocaleString()}
                       {initial.listing.pricePeriod ? `/${initial.listing.pricePeriod}` : ''}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-zinc-500">Type</p>
-                    <p className="font-medium text-white">{initial.listing.listingType}</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Type</p>
+                    <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.listingType}</p>
                   </div>
                 </div>
               </div>
 
               <div className="glass-card glass-card">
-                <div className="px-6 py-5 border-b border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                     <User className="h-5 w-5 text-emerald-400" />
                     Landlord Information
                   </h3>
@@ -219,29 +219,29 @@ export default function TenantApplicationDetailClient({
                       size="md"
                     />
                     <div>
-                      <p className="font-medium text-white">{initial.landlord.fullName}</p>
-                      <p className="text-sm text-zinc-500">{initial.landlord.email}</p>
+                      <p className="font-medium text-zinc-900 dark:text-white">{initial.landlord.fullName}</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{initial.landlord.email}</p>
                     </div>
                   </div>
                   <Separator />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-zinc-500">Applied On</p>
-                      <p className="font-medium text-white">
+                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Applied On</p>
+                      <p className="font-medium text-zinc-900 dark:text-white">
                         {new Date(initial.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-zinc-500">Last Updated</p>
-                      <p className="font-medium text-white">
+                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last Updated</p>
+                      <p className="font-medium text-zinc-900 dark:text-white">
                         {new Date(initial.updatedAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
                   </div>
                   {initial.reviewedAt && (
                     <div>
-                      <p className="text-sm text-zinc-500">Reviewed On</p>
-                      <p className="font-medium text-white">
+                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Reviewed On</p>
+                      <p className="font-medium text-zinc-900 dark:text-white">
                         {new Date(initial.reviewedAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
@@ -257,8 +257,8 @@ export default function TenantApplicationDetailClient({
           <DashboardSection emptyMessage="No documents attached to this application." onRetry={handleRetry}>
             {initial.listing.images.length > 0 ? (
               <div className="glass-card glass-card">
-                <div className="px-6 py-5 border-b border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                     <FileText className="h-5 w-5 text-emerald-400" />
                     Listing Media
                   </h3>
@@ -266,20 +266,20 @@ export default function TenantApplicationDetailClient({
                 <div className="p-6">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {initial.listing.images.map((img) => (
-                      <div key={img.id} className="rounded-xl overflow-hidden border border-white/[0.08]">
+                      <div key={img.id} className="rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
                         <img src={img.url} alt={initial.listing.title} className="w-full h-32 object-cover" />
                       </div>
                     ))}
                   </div>
-                  <p className="text-sm mt-4 text-zinc-500">These are the listing images associated with the property.</p>
+                  <p className="text-sm mt-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">These are the listing images associated with the property.</p>
                 </div>
               </div>
             ) : (
               <div className="glass-card glass-card">
                 <div className="p-6 flex flex-col items-center justify-center py-16 text-center">
-                  <ImageIcon className="text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
-                  <h3 className="font-headline-sm text-white mb-2 text-white">No documents yet</h3>
-                  <p className="text-zinc-500">There are no documents attached to this application.</p>
+                  <ImageIcon className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
+                  <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">No documents yet</h3>
+                  <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">There are no documents attached to this application.</p>
                 </div>
               </div>
             )}
@@ -290,8 +290,8 @@ export default function TenantApplicationDetailClient({
         <TabsContent value="timeline" className="mt-6">
           <DashboardSection>
             <div className="glass-card glass-card">
-              <div className="px-6 py-5 border-b border-white/[0.08]">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                   <Clock className="h-5 w-5 text-emerald-400" />
                   Application Timeline
                 </h3>
@@ -304,8 +304,8 @@ export default function TenantApplicationDetailClient({
                       {initial.reviewedAt && <div className="w-0.5 h-full bg-zinc-800" />}
                     </div>
                     <div className="space-y-1">
-                      <p className="font-medium text-white">Application Submitted</p>
-                      <p className="text-sm text-zinc-500">
+                      <p className="font-medium text-zinc-900 dark:text-white">Application Submitted</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                         {new Date(initial.createdAt).toLocaleString('en-NG', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>
@@ -319,8 +319,8 @@ export default function TenantApplicationDetailClient({
                         />
                       </div>
                       <div className="space-y-1">
-                        <p className="font-medium text-white">Application Reviewed</p>
-                        <p className="text-sm text-zinc-500">
+                        <p className="font-medium text-zinc-900 dark:text-white">Application Reviewed</p>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                           {new Date(initial.reviewedAt).toLocaleString('en-NG', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
@@ -332,8 +332,8 @@ export default function TenantApplicationDetailClient({
                         <CheckCircle2 className="h-5 w-5 text-emerald-400" />
                       </div>
                       <div className="space-y-1">
-                        <p className="font-medium text-white">Application Accepted</p>
-                        <p className="text-sm text-zinc-500">Congratulations! Your application has been accepted.</p>
+                        <p className="font-medium text-zinc-900 dark:text-white">Application Accepted</p>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Congratulations! Your application has been accepted.</p>
                       </div>
                     </div>
                   )}
@@ -343,8 +343,8 @@ export default function TenantApplicationDetailClient({
                         <XCircle className="h-5 w-5 text-red-400" />
                       </div>
                       <div className="space-y-1">
-                        <p className="font-medium text-white">Application Not Successful</p>
-                        <p className="text-sm text-zinc-500">Unfortunately, your application was not successful.</p>
+                        <p className="font-medium text-zinc-900 dark:text-white">Application Not Successful</p>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Unfortunately, your application was not successful.</p>
                       </div>
                     </div>
                   )}
@@ -360,36 +360,36 @@ export default function TenantApplicationDetailClient({
             <div className="space-y-6">
               {initial.message && (
                 <div className="glass-card glass-card">
-                  <div className="px-6 py-5 border-b border-white/[0.08]">
-                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                    <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                       <MessageSquare className="h-5 w-5 text-emerald-400" />
                       Your Message
                     </h3>
                   </div>
                   <div className="p-6">
-                    <p className="whitespace-pre-line text-white">{initial.message}</p>
+                    <p className="whitespace-pre-line text-zinc-900 dark:text-white">{initial.message}</p>
                   </div>
                 </div>
               )}
               {initial.landlordNotes && (
                 <div className="glass-card glass-card">
-                  <div className="px-6 py-5 border-b border-white/[0.08]">
-                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                    <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                       <User className="h-5 w-5 text-emerald-400" />
                       Landlord Notes
                     </h3>
                   </div>
                   <div className="p-6">
-                    <p className="whitespace-pre-line text-white">{initial.landlordNotes}</p>
+                    <p className="whitespace-pre-line text-zinc-900 dark:text-white">{initial.landlordNotes}</p>
                   </div>
                 </div>
               )}
               {!initial.message && !initial.landlordNotes && (
                 <div className="glass-card glass-card">
                   <div className="p-6 flex flex-col items-center justify-center py-16 text-center">
-                    <MessageSquare className="text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
-                    <h3 className="font-headline-sm text-white mb-2 text-white">No notes yet</h3>
-                    <p className="text-zinc-500">There are no messages or notes on this application.</p>
+                    <MessageSquare className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
+                    <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">No notes yet</h3>
+                    <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">There are no messages or notes on this application.</p>
                   </div>
                 </div>
               )}

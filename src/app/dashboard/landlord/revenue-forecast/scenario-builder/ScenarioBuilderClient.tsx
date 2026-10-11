@@ -19,7 +19,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
     return (
       <DashboardShell navigation={LANDLORD_NAVIGATION}>
         <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-white">Advanced Scenario Builder</h1>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Advanced Scenario Builder</h1>
           <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-6">
             <p className="text-red-500 font-medium">Error</p>
             <p className="text-red-500 text-sm mt-1">{error}</p>
@@ -36,21 +36,21 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white">Advanced Scenario Builder</h1>
-        <p className="text-zinc-400 mt-1">Model 'what-if' scenarios for your portfolio.</p>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Advanced Scenario Builder</h1>
+        <p className="text-zinc-500 dark:text-zinc-400 mt-1">Model 'what-if' scenarios for your portfolio.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 card p-5 rounded-xl border border-white/[0.08] shadow-none">
-          <h3 className="font-heading font-bold text-white mb-4">Growth Trajectory (FY 24-26)</h3>
-          <div className="h-64 flex items-end gap-2 border-b border-white/[0.08] relative">
+        <div className="lg:col-span-2 card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none">
+          <h3 className="font-heading font-bold text-zinc-900 dark:text-white mb-4">Growth Trajectory (FY 24-26)</h3>
+          <div className="h-64 flex items-end gap-2 border-b border-zinc-200 dark:border-white/[0.08] relative">
             {[40, 65, 80, 95].map((h, i) => (
               <div key={i} className="flex-1 flex flex-col gap-1 items-center">
                 <div className="w-full flex items-end gap-1">
                   <div className="w-1/2 bg-tertiary/40 rounded-t-sm h-[60%]" />
                   <div className="w-1/2 bg-secondary/40 rounded-t-sm h-[30%]" />
                 </div>
-                <span className="text-xs text-zinc-400">{['2023', '2024(P)', '2025', '2026'][i]}</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">{['2023', '2024(P)', '2025', '2026'][i]}</span>
               </div>
             ))}
           </div>

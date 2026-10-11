@@ -21,7 +21,7 @@ export default function RecentUsersTable({ users }: { users: RecentUser[] }) {
             <div className="flex items-center gap-3">
               <Avatar name={String(row.fullName || '')} size="sm" />
               <div>
-                <div className="text-white text-sm font-medium">{String(row.fullName)}</div>
+                <div className="text-zinc-900 dark:text-white text-sm font-medium">{String(row.fullName)}</div>
                 <div className="text-zinc-600 text-xs">{String(row.email)}</div>
               </div>
             </div>
@@ -38,7 +38,7 @@ export default function RecentUsersTable({ users }: { users: RecentUser[] }) {
           key: 'createdAt',
           label: 'Joined',
           render: (row) => (
-            <span className="text-zinc-500">
+            <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
               {new Date(String(row.createdAt)).toLocaleDateString('en-NG', {
                 month: 'short',
                 day: 'numeric',

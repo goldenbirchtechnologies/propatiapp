@@ -50,11 +50,11 @@ export default async function LandlordRevenueForecastPage() {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white">Revenue Forecasting</h1>
-            <p className="text-zinc-400 mt-1">Predictive financial analysis for {now.getFullYear()}-{String(now.getFullYear() + 1).slice(2)}</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Revenue Forecasting</h1>
+            <p className="text-zinc-600 dark:text-zinc-400 mt-1">Predictive financial analysis for {now.getFullYear()}-{String(now.getFullYear() + 1).slice(2)}</p>
           </div>
           <div className="flex gap-2">
-            <Link href="/dashboard/landlord/revenue-forecast/report" className="px-4 py-2 rounded-lg border border-white/[0.08] bg-zinc-950/50 hover:bg-zinc-900 transition-colors text-sm font-medium">
+            <Link href="/dashboard/landlord/revenue-forecast/report" className="px-4 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 hover:bg-zinc-900 transition-colors text-sm font-medium">
               View Full Forecast →
             </Link>
           </div>
@@ -62,45 +62,45 @@ export default async function LandlordRevenueForecastPage() {
 
         {/* KPI Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">YTD</span>
             </div>
-            <p className="text-sm text-zinc-400 mb-1">Projected Gross Revenue</p>
-            <p className="text-2xl font-bold text-white">₦{totalRevenue.toLocaleString()}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">Projected Gross Revenue</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">₦{totalRevenue.toLocaleString()}</p>
           </div>
-          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Portfolio</span>
             </div>
-            <p className="text-sm text-zinc-400 mb-1">Active Listings</p>
-            <p className="text-2xl font-bold text-white">{activeListingCount}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">Active Listings</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{activeListingCount}</p>
           </div>
-          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Total</span>
             </div>
-            <p className="text-sm text-zinc-400 mb-1">Total Listings</p>
-            <p className="text-2xl font-bold text-white">{listingCount}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">Total Listings</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{listingCount}</p>
           </div>
-          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Realized</span>
             </div>
-            <p className="text-sm text-zinc-400 mb-1">Transactions YTD</p>
-            <p className="text-2xl font-bold text-white">{transactionCountKobo}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">Transactions YTD</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{transactionCountKobo}</p>
           </div>
         </div>
 
         {/* Asset Class Table */}
-        <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden">
-          <div className="p-5 border-b border-white/[0.08] flex justify-between items-center">
-            <h3 className="font-heading font-bold text-white">Portfolio Summary</h3>
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
+          <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
+            <h3 className="font-heading font-bold text-zinc-900 dark:text-white">Portfolio Summary</h3>
             <Link href="/dashboard/landlord/revenue-forecast/report" className="text-sm text-secondary hover:underline font-medium">View Detailed Forecast →</Link>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-zinc-800 text-zinc-400 text-xs uppercase">
+              <thead className="bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs uppercase">
                 <tr>
                   <th className="px-5 py-3">Asset Category</th>
                   <th className="px-5 py-3">Current Revenue</th>
@@ -112,10 +112,10 @@ export default async function LandlordRevenueForecastPage() {
                 <tr className="hover:bg-surface-variant/20 transition-colors">
                   <td className="px-5 py-4 flex items-center gap-3">
                     <div className="w-2 h-8 rounded-full bg-tertiary" />
-                    <span className="font-medium text-white">Residential Portfolio</span>
+                    <span className="font-medium text-zinc-900 dark:text-white">Residential Portfolio</span>
                   </td>
-                  <td className="px-5 py-4 text-sm text-zinc-400">₦{totalRevenue.toLocaleString()}</td>
-                  <td className="px-5 py-4 text-sm text-white">{activeListingCount}</td>
+                  <td className="px-5 py-4 text-sm text-zinc-600 dark:text-zinc-400">₦{totalRevenue.toLocaleString()}</td>
+                  <td className="px-5 py-4 text-sm text-zinc-900 dark:text-white">{activeListingCount}</td>
                   <td className="px-5 py-4">
                     <span className="px-2 py-1 rounded-full text-xs font-bold bg-tertiary-fixed text-on-tertiary-fixed">
                       {activeListingCount > 0 ? 'ACTIVE' : 'DORMANT'}
@@ -125,10 +125,10 @@ export default async function LandlordRevenueForecastPage() {
                 <tr className="hover:bg-surface-variant/20 transition-colors">
                   <td className="px-5 py-4 flex items-center gap-3">
                     <div className="w-2 h-8 rounded-full bg-secondary" />
-                    <span className="font-medium text-white">Commercial Portfolio</span>
+                    <span className="font-medium text-zinc-900 dark:text-white">Commercial Portfolio</span>
                   </td>
-                  <td className="px-5 py-4 text-sm text-zinc-400">₦0</td>
-                  <td className="px-5 py-4 text-sm text-white">0</td>
+                  <td className="px-5 py-4 text-sm text-zinc-600 dark:text-zinc-400">₦0</td>
+                  <td className="px-5 py-4 text-sm text-zinc-900 dark:text-white">0</td>
                   <td className="px-5 py-4">
                     <span className="px-2 py-1 rounded-full text-xs font-bold bg-secondary-fixed text-on-secondary-fixed">
                       EMPTY

@@ -269,7 +269,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
           <Button
             size="sm"
             variant="ghost"
-            className="rounded-lg text-zinc-400 hover:text-white"
+            className="rounded-lg text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white"
             onClick={() => setSelectedIds(new Set())}
           >
             <X className="mr-2 size-3.5" />
@@ -278,7 +278,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
         </div>
       )}
 
-      <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-4">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-4">
         <form action={globalSearchPath} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Tabs value={statusFilter} onValueChange={setStatusFilter} className="w-full sm:w-auto">
             <TabsList>
@@ -298,7 +298,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
           </Tabs>
 
           <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
             <Input
               name="q"
               placeholder="Search managed properties..."
@@ -308,29 +308,29 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
         </form>
       </div>
 
-      <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] overflow-hidden">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow className="bg-zinc-900/40">
-              <TableHead className="w-10 text-zinc-400">
+              <TableHead className="w-10 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
                 <Checkbox
                   checked={filtered.length > 0 && selectedIds.size === filtered.length}
                   onCheckedChange={toggleSelectAll}
                   aria-label="Select all"
                 />
               </TableHead>
-              <TableHead className="text-zinc-400">Property</TableHead>
-              <TableHead className="text-zinc-400">Owner</TableHead>
-              <TableHead className="text-zinc-400">Units</TableHead>
-              <TableHead className="text-zinc-400">Listed</TableHead>
-              <TableHead className="text-zinc-400">Permissions</TableHead>
-              <TableHead className="text-right text-zinc-400">Action</TableHead>
+              <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Property</TableHead>
+              <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Owner</TableHead>
+              <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Units</TableHead>
+              <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Listed</TableHead>
+              <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Permissions</TableHead>
+              <TableHead className="text-right text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-sm text-zinc-500 py-12">
+                <TableCell colSpan={7} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
                   No managed properties found.
                 </TableCell>
               </TableRow>
@@ -342,7 +342,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                   <>
                     <TableRow
                       key={listing.id}
-                      className={`border-b border-white/[0.08] ${isSelected ? 'bg-white/[0.02]' : ''}`}
+                      className={`border-b border-zinc-200 dark:border-white/[0.08] ${isSelected ? 'bg-white/[0.02]' : ''}`}
                     >
                       <TableCell className="py-4">
                         <Checkbox
@@ -355,11 +355,11 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                         <div className="space-y-1">
                           <Link
                             href={`/dashboard/agent/properties/${listing.id}`}
-                            className="block text-sm font-medium text-white hover:text-emerald-400 transition-colors"
+                            className="block text-sm font-medium text-zinc-900 dark:text-white hover:text-emerald-400 transition-colors"
                           >
                             {listing.title}
                           </Link>
-                          <p className="text-xs text-zinc-500 truncate max-w-xs">
+                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate max-w-xs">
                             {listing.address || `${listing.area}, ${listing.state}`}
                           </p>
                           <div className="flex items-center gap-2">
@@ -372,20 +372,20 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                       </TableCell>
                       <TableCell className="py-4">
                         <div className="space-y-1">
-                          <p className="text-sm text-white">{listing.owner?.fullName || '—'}</p>
-                          <p className="text-xs text-zinc-500">{listing.owner?.email || ''}</p>
+                          <p className="text-sm text-zinc-900 dark:text-white">{listing.owner?.fullName || '—'}</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{listing.owner?.email || ''}</p>
                         </div>
                       </TableCell>
                       <TableCell className="py-4">
                         <div className="space-y-1">
-                          <p className="text-sm text-white">{listing.unitCount}</p>
-                          <p className="text-xs text-zinc-500">{listing.vacantUnitCount} vacant</p>
+                          <p className="text-sm text-zinc-900 dark:text-white">{listing.unitCount}</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{listing.vacantUnitCount} vacant</p>
                         </div>
                       </TableCell>
                       <TableCell className="py-4">
                         <div className="space-y-1">
-                          <p className="text-sm text-white">{listing.listedUnitCount}</p>
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-sm text-zinc-900 dark:text-white">{listing.listedUnitCount}</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                             {listing.listedUnitCount > 0 ? 'published' : 'unpublished'}
                           </p>
                         </div>
@@ -404,7 +404,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                             ))}
                           </div>
                         ) : (
-                          <span className="text-xs text-zinc-500">Not assigned</span>
+                          <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Not assigned</span>
                         )}
                       </TableCell>
                       <TableCell className="py-4 text-right">
@@ -434,19 +434,19 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                       <TableRow className="bg-zinc-950/40">
                         <TableCell colSpan={7} className="p-0">
                           <div className="px-6 py-4">
-                            <p className="text-xs font-medium text-zinc-400 mb-3">Units</p>
+                            <p className="text-xs font-medium text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 mb-3">Units</p>
                             {listing.units.length === 0 ? (
-                              <p className="text-xs text-zinc-500">No units added yet.</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No units added yet.</p>
                             ) : (
-                              <div className="rounded-xl border border-white/[0.08] bg-[#11151c] overflow-hidden">
+                              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#11151c] overflow-hidden">
                                 <Table>
                                   <TableHeader>
                                     <TableRow className="bg-zinc-900/40">
-                                      <TableHead className="text-zinc-400">Unit Name</TableHead>
-                                      <TableHead className="text-zinc-400">Price</TableHead>
-                                      <TableHead className="text-zinc-400">Occupancy</TableHead>
-                                      <TableHead className="text-zinc-400">Status</TableHead>
-                                      <TableHead className="text-right text-zinc-400">Actions</TableHead>
+                                      <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Unit Name</TableHead>
+                                      <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Price</TableHead>
+                                      <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Occupancy</TableHead>
+                                      <TableHead className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Status</TableHead>
+                                      <TableHead className="text-right text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Actions</TableHead>
                                     </TableRow>
                                   </TableHeader>
                                   <TableBody>
@@ -454,12 +454,12 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                       <TableRow key={unit.id} className="border-b border-white/[0.06]">
                                         <TableCell className="py-3">
                                           <div>
-                                            <p className="text-sm font-medium text-white">{unit.unitNumber}</p>
-                                            <p className="text-xs text-zinc-500">{unit.buildingName || '—'}</p>
+                                            <p className="text-sm font-medium text-zinc-900 dark:text-white">{unit.unitNumber}</p>
+                                            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
                                           </div>
                                         </TableCell>
                                         <TableCell className="py-3">
-                                          <span className="text-sm text-white">
+                                          <span className="text-sm text-zinc-900 dark:text-white">
                                             {unit.rent > 0
                                               ? formatCurrency(unit.rent)
                                               : 'Contact for Pricing'}
@@ -469,7 +469,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                           </span>
                                         </TableCell>
                                         <TableCell className="py-3">
-                                          <span className="text-xs text-zinc-400">{unit.occupancy}</span>
+                                          <span className="text-xs text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">{unit.occupancy}</span>
                                         </TableCell>
                                         <TableCell className="py-3">
                                           {unit.isListed ? (
@@ -477,7 +477,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                               Listed
                                             </span>
                                           ) : (
-                                            <span className="tag bg-muted text-zinc-500 border border-white/[0.08]">
+                                            <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]">
                                               Unlisted
                                             </span>
                                           )}

@@ -50,9 +50,9 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <h2 className="text-lg font-semibold">Safety details and legal disclosures</h2>
-        <Shield className="size-5 text-white" />
+        <Shield className="size-5 text-zinc-900 dark:text-white" />
       </div>
-      <p className="text-sm text-zinc-500">Please disclose any safety features or hazards on your property.</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Please disclose any safety features or hazards on your property.</p>
 
       <div className="glass-card p-4 space-y-4">
         {ITEMS.map((item) => {
@@ -83,12 +83,12 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
                     )}
                   </Label>
                   {item.policyLink && (
-                    <a href={item.policyLink} className="text-xs text-white flex items-center gap-1">
+                    <a href={item.policyLink} className="text-xs text-zinc-900 dark:text-white flex items-center gap-1">
                       <FileText className="size-3" /> Policy
                     </a>
                   )}
                 </div>
-                <p className="text-xs text-zinc-500">{item.description}</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{item.description}</p>
               </div>
             </div>
           );
@@ -96,7 +96,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
       </div>
 
       <div className="glass-card p-4 bg-muted/50 border-dashed">
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
           You are required to keep this information accurate. Review your local safety regulations before submitting.
         </p>
       </div>

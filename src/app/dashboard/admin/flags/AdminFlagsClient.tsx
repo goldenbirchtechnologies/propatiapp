@@ -25,8 +25,8 @@ export default function AdminFlagsClient({
   if (error && onRetry) {
     return (
       <section className="space-y-6">
-        <h1 className="text-3xl font-bold text-white">Flags</h1>
-        <p className="text-zinc-500">Review flagged listings and user reports.</p>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Flags</h1>
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Review flagged listings and user reports.</p>
         <div className="rounded-lg border border-red-200 bg-red-50 p-6">
           <p className="text-red-800 font-medium">Unable to load page</p>
           <p className="text-red-600 text-sm mt-1">{error}</p>
@@ -44,8 +44,8 @@ export default function AdminFlagsClient({
   if (error) {
     return (
       <section className="space-y-6">
-        <h1 className="text-3xl font-bold text-white">Flags</h1>
-        <p className="text-zinc-500">Review flagged listings and user reports.</p>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Flags</h1>
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Review flagged listings and user reports.</p>
         <div className="rounded-lg border border-red-200 bg-red-50 p-6">
           <p className="text-red-800 font-medium">Unable to load page</p>
           <p className="text-red-600 text-sm mt-1">{error}</p>
@@ -64,8 +64,8 @@ export default function AdminFlagsClient({
     <section className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Flags</h1>
-          <p className="text-zinc-500 mt-1">Review flagged listings and user reports.</p>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Flags</h1>
+          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Review flagged listings and user reports.</p>
         </div>
         <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
           Review Flagged
@@ -73,21 +73,21 @@ export default function AdminFlagsClient({
       </div>
 
       {!flags || flags.length === 0 ? (
-        <div className="rounded-lg border border-white/[0.08] bg-zinc-950/50 p-12 text-center shadow-card">
-          <div className="text-zinc-500 mb-4">
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-12 text-center shadow-card">
+          <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-4">
             <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-white">No flagged items</h3>
-          <p className="mt-1 text-zinc-500">Flagged listings and reports will appear here for review.</p>
+          <h3 className="text-lg font-medium text-zinc-900 dark:text-white">No flagged items</h3>
+          <p className="mt-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Flagged listings and reports will appear here for review.</p>
         </div>
       ) : (
-        <div className="rounded-lg border border-white/[0.08] bg-zinc-950/50 shadow-card overflow-hidden">
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 shadow-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/[0.08] text-left text-zinc-500">
+                <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   <th className="p-3 font-medium">Listing</th>
                   <th className="p-3 font-medium">Type</th>
                   <th className="p-3 font-medium">Reported By</th>
@@ -97,16 +97,16 @@ export default function AdminFlagsClient({
               </thead>
               <tbody>
                 {flags.map((flag) => (
-                  <tr key={flag.id} className="border-b border-white/[0.08] last:border-0 hover:bg-zinc-900/50">
-                    <td className="p-3 text-white">{flag.listing.title ?? '—'}</td>
-                    <td className="p-3 text-white capitalize">{flag.type}</td>
-                    <td className="p-3 text-white">{flag.flaggedByUser.fullName || flag.flaggedByUser.email || '—'}</td>
+                  <tr key={flag.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-900/50">
+                    <td className="p-3 text-zinc-900 dark:text-white">{flag.listing.title ?? '—'}</td>
+                    <td className="p-3 text-zinc-900 dark:text-white capitalize">{flag.type}</td>
+                    <td className="p-3 text-zinc-900 dark:text-white">{flag.flaggedByUser.fullName || flag.flaggedByUser.email || '—'}</td>
                     <td className="p-3">
-                      <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-white capitalize">
+                      <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-zinc-900 dark:text-white capitalize">
                         {flag.status}
                       </span>
                     </td>
-                    <td className="p-3 text-white">{new Date(flag.createdAt).toLocaleDateString('en-NG')}</td>
+                    <td className="p-3 text-zinc-900 dark:text-white">{new Date(flag.createdAt).toLocaleDateString('en-NG')}</td>
                   </tr>
                 ))}
               </tbody>

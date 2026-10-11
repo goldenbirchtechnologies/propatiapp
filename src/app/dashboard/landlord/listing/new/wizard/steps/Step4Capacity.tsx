@@ -53,7 +53,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   }) => (
     <div className="flex items-center justify-between py-3 border-b last:border-b-0">
       <div className="flex items-center gap-3">
-        <div className="text-zinc-500">{icon}</div>
+        <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{icon}</div>
         <Label className="text-sm font-medium">{label}</Label>
       </div>
       <div className="flex items-center gap-2">

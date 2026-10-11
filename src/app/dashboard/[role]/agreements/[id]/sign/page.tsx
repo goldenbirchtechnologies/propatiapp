@@ -109,7 +109,7 @@ export default function SignAgreementPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Sign Agreement</h1>
-        <p className="text-zinc-500">
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
           Review the agreement carefully and provide your electronic signature
         </p>
       </div>
@@ -122,7 +122,7 @@ export default function SignAgreementPage() {
               <div
                 className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                   currentStep >= step
-                    ? 'bg-primary text-white border-white/[0.08]'
+                    ? 'bg-primary text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]'
                     : 'bg-background border-muted'
                 }`}
               >
@@ -139,10 +139,10 @@ export default function SignAgreementPage() {
           ))}
         </div>
         <div className="flex justify-between mt-2 text-xs">
-          <span className="text-zinc-500">Preview</span>
-          <span className="text-zinc-500">Consent</span>
-          <span className="text-zinc-500">Sign</span>
-          <span className="text-zinc-500">Confirm</span>
+          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Preview</span>
+          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Consent</span>
+          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Sign</span>
+          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Confirm</span>
         </div>
       </div>
 
@@ -150,13 +150,13 @@ export default function SignAgreementPage() {
       {currentStep === 1 && (
         <div className="glass-card rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <FileText className="h-5 w-5 text-white" />
+            <FileText className="h-5 w-5 text-zinc-900 dark:text-white" />
             <h2 className="text-xl font-semibold">Agreement Preview</h2>
           </div>
 
           {loadingPreview ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/[0.08]"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-200 dark:border-white/[0.08]"></div>
             </div>
           ) : (
             <div className="border rounded-lg p-6 max-h-[600px] overflow-y-auto bg-zinc-950/50">
@@ -175,7 +175,7 @@ export default function SignAgreementPage() {
       {currentStep === 2 && (
         <div className="glass-card rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Shield className="h-5 w-5 text-white" />
+            <Shield className="h-5 w-5 text-zinc-900 dark:text-white" />
             <h2 className="text-xl font-semibold">Consent & Acknowledgment</h2>
           </div>
 
@@ -192,7 +192,7 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-1" className="text-base font-medium cursor-pointer">
                   I have read and understood the agreement
                 </Label>
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   I confirm that I have carefully read all terms and conditions in this rental
                   agreement and understand my obligations.
                 </p>
@@ -211,7 +211,7 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-2" className="text-base font-medium cursor-pointer">
                   I agree to all terms and conditions
                 </Label>
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   I accept and agree to be legally bound by all terms, conditions, and obligations
                   outlined in this agreement.
                 </p>
@@ -230,15 +230,15 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-3" className="text-base font-medium cursor-pointer">
                   I consent to electronic signature
                 </Label>
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   I understand that my electronic signature will have the same legal effect as a
                   handwritten signature.
                 </p>
               </div>
             </div>
 
-            <div className="bg-zinc-900 border border-white/[0.08] rounded-lg p-4 mt-6">
-              <p className="text-sm text-white">
+            <div className="bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg p-4 mt-6">
+              <p className="text-sm text-zinc-900 dark:text-white">
                 <strong>Legal Notice:</strong> By proceeding, you acknowledge that this electronic
                 signature creates a legally binding contract. Your IP address, signature, and
                 timestamp will be recorded for security and legal purposes.
@@ -253,7 +253,7 @@ export default function SignAgreementPage() {
         <div>
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Provide Your Signature</h2>
-            <p className="text-zinc-500">
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
               Draw your signature in the box below to complete the signing process
             </p>
           </div>

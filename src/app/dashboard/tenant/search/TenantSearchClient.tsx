@@ -82,19 +82,19 @@ export default function TenantSearchClient({
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-3">
           <div className="relative flex-1 min-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
             <Input
               placeholder="Search by area, city, or address..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-zinc-950 border-white/[0.08] text-white"
+              className="pl-10 bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
             />
           </div>
           <div className="flex items-center gap-1">
             <Button
               variant={viewMode === 'grid' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/[0.08] text-zinc-400'}
+              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
               onClick={() => setViewMode('grid')}
             >
               <Grid className="h-4 w-4" />
@@ -102,7 +102,7 @@ export default function TenantSearchClient({
             <Button
               variant={viewMode === 'list' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/[0.08] text-zinc-400'}
+              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
               onClick={() => setViewMode('list')}
             >
               <LayoutList className="h-4 w-4" />
@@ -119,7 +119,7 @@ export default function TenantSearchClient({
                 'cursor-pointer',
                 searchQuery.toLowerCase() === city.toLowerCase()
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : 'border-white/[0.08] text-zinc-400 hover:text-white'
+                  : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'
               )}
               onClick={() => setSearchQuery(city)}
             >
@@ -134,7 +134,7 @@ export default function TenantSearchClient({
             <Badge
               key={type}
               variant="outline"
-              className="cursor-pointer border-white/[0.08] text-zinc-400 hover:text-white"
+              className="cursor-pointer border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white"
             >
               {type}
             </Badge>
@@ -143,8 +143,8 @@ export default function TenantSearchClient({
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="text-sm text-zinc-500">{totalCount} properties found</div>
-        <Button variant="outline" size="sm" className="border-white/[0.08] text-zinc-400">
+        <div className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{totalCount} properties found</div>
+        <Button variant="outline" size="sm" className="border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400">
           <Filter className="h-4 w-4 mr-2" /> More Filters
         </Button>
       </div>
@@ -181,16 +181,16 @@ export default function TenantSearchClient({
               </div>
               <div className="p-6 p-4 space-y-3">
                 <div>
-                  <h3 className="font-medium text-white line-clamp-1">{property.title}</h3>
-                  <p className="text-sm text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
+                  <h3 className="font-medium text-zinc-900 dark:text-white line-clamp-1">{property.title}</h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold text-white">{formatPrice(property.price)}</span>
+                  <span className="text-lg font-bold text-zinc-900 dark:text-white">{formatPrice(property.price)}</span>
                   {property.pricePeriod && (
-                    <span className="text-xs text-zinc-400">/{property.pricePeriod}</span>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">/{property.pricePeriod}</span>
                   )}
                 </div>
-                <div className="flex items-center gap-4 text-xs text-zinc-400">
+                <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400">
                   <span className="flex items-center gap-1">
                     <BedDouble className="h-3.5 w-3.5" /> {property.bedrooms}
                   </span>
@@ -201,7 +201,7 @@ export default function TenantSearchClient({
                     <Maximize className="h-3.5 w-3.5" /> {property.area} sqm
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-white/[0.08]">
+                <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-white/[0.08]">
                   <Avatar
                     src={property.landlord?.avatarUrl || undefined}
                     name={property.landlord?.fullName || 'L'}
@@ -220,8 +220,8 @@ export default function TenantSearchClient({
       {initialProperties.length === 0 && (
         <div className="text-center py-16">
           <Search className="h-16 w-16 mx-auto mb-4 text-zinc-700" />
-          <h3 className="text-xl font-semibold text-white mb-2">No properties found</h3>
-          <p className="text-zinc-400">Try adjusting your filters or search query.</p>
+          <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">No properties found</h3>
+          <p className="text-zinc-500 dark:text-zinc-400">Try adjusting your filters or search query.</p>
         </div>
       )}
     </div>

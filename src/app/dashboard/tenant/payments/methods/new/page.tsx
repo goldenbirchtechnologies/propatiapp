@@ -24,11 +24,11 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-white/[0.08] bg-zinc-900 p-6 shadow-none">
+        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-900 p-6 shadow-none">
           <div className="flex items-center gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-white">Add Payment Method</h1>
-              <p className="text-zinc-500 mt-1">
+              <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Add Payment Method</h1>
+              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
                 Add a verified payment method to your tenant portal for secure transactions.
               </p>
             </div>
@@ -38,13 +38,13 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="glass-card lg:col-span-2">
-            <div className="px-6 py-5 border-b border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-white">Payment Method</h3>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Method</h3>
             </div>
             <div className="p-6 space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-white">Cardholder Name</label>
+                  <label className="text-sm font-medium text-zinc-900 dark:text-white">Cardholder Name</label>
                   <input
                     type="text"
                     placeholder="Name on card"
@@ -52,7 +52,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-white">Card Number</label>
+                  <label className="text-sm font-medium text-zinc-900 dark:text-white">Card Number</label>
                   <input
                     type="text"
                     placeholder="1234 5678 9012 3456"
@@ -60,7 +60,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-white">Expiry Date</label>
+                  <label className="text-sm font-medium text-zinc-900 dark:text-white">Expiry Date</label>
                   <input
                     type="text"
                     placeholder="MM/YY"
@@ -68,7 +68,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-white">CVV</label>
+                  <label className="text-sm font-medium text-zinc-900 dark:text-white">CVV</label>
                   <input
                     type="text"
                     placeholder="123"
@@ -82,7 +82,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   id="save"
                   className="h-4 w-4 rounded border-input"
                 />
-                <label htmlFor="save" className="text-sm text-white">
+                <label htmlFor="save" className="text-sm text-zinc-900 dark:text-white">
                   Save this card for future payments
                 </label>
               </div>
@@ -95,8 +95,8 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
 
           <div className="space-y-4">
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-white/[0.08]">
-                <h3 className="text-lg font-semibold text-white">Design Reference</h3>
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Design Reference</h3>
               </div>
               <div className="p-6">
                 <Image
@@ -104,16 +104,16 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   alt="Add Payment Method Modal Reference"
                   width={480}
                   height={360}
-                  className="rounded-lg border border-white/[0.08]"
+                  className="rounded-lg border border-zinc-200 dark:border-white/[0.08]"
                 />
               </div>
             </div>
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-white/[0.08]">
-                <h3 className="text-lg font-semibold text-white">Saved Methods</h3>
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Saved Methods</h3>
               </div>
               <div className="p-6">
-                <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-500">
+                <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   <li>Secure Access</li>
                   <li>Visa **** 4242</li>
                   <li>Expires 12/25</li>

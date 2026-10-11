@@ -56,10 +56,10 @@ export default async function VerificationGuidePage({
       <ErrorBoundary>
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
               Verification Guide
             </h1>
-            <p className="text-zinc-400 mt-1">
+            <p className="text-zinc-500 dark:text-zinc-400 mt-1">
               How verification works and what to expect for your selected type.
             </p>
           </div>

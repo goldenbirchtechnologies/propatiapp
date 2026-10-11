@@ -23,26 +23,26 @@ export default async function AgentWithdrawalsPage() {
       <ErrorBoundary>
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold text-white">Withdrawals</h1>
-            <p className="text-zinc-500 mt-1">Payout history and fund transfers.</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Withdrawals</h1>
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Payout history and fund transfers.</p>
           </div>
 
-          <div className="rounded-xl border border-white/[0.08] p-4">
-            <p className="text-xs text-zinc-500">Total Withdrawn</p>
-            <p className="text-2xl font-bold text-white">₦{totalWithdrawn.toLocaleString()}</p>
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-4">
+            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Withdrawn</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">₦{totalWithdrawn.toLocaleString()}</p>
           </div>
 
-          <div className="rounded-xl border border-white/[0.08]">
-            <div className="p-4 border-b border-white/[0.08]">
-              <h2 className="text-lg font-semibold text-white">Payouts</h2>
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08]">
+            <div className="p-4 border-b border-zinc-200 dark:border-white/[0.08]">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Payouts</h2>
             </div>
             <div className="divide-y divide-border">
-              {withdrawals.length === 0 && <p className="p-4 text-sm text-zinc-500">No withdrawals yet.</p>}
+              {withdrawals.length === 0 && <p className="p-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No withdrawals yet.</p>}
               {withdrawals.map((tx) => (
                 <div key={tx.id} className="flex items-center justify-between p-4">
                   <div>
-                    <p className="text-sm font-medium text-white">{tx.description || 'Payout'}</p>
-                    <p className="text-xs text-zinc-500">{new Date(tx.createdAt).toLocaleString()}</p>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-white">{tx.description || 'Payout'}</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{new Date(tx.createdAt).toLocaleString()}</p>
                   </div>
                   <p className="text-sm font-semibold text-red-500">-₦{Number(tx.amount).toLocaleString()}</p>
                 </div>

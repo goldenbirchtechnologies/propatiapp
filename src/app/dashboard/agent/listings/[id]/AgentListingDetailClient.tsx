@@ -259,8 +259,8 @@ function SectionHeader({ title, subtitle, action }: { title: string; subtitle?: 
   return (
     <div className="flex items-center justify-between gap-3">
       <div>
-        <h3 className="text-white font-semibold text-sm">{title}</h3>
-        {subtitle && <p className="text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
+        <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">{title}</h3>
+        {subtitle && <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
       </div>
       {action}
     </div>
@@ -319,16 +319,16 @@ function PermissionModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-300 sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-white">Owner Access Controls</DialogTitle>
+          <DialogTitle className="text-zinc-900 dark:text-white">Owner Access Controls</DialogTitle>
           <DialogDescription>Customize what the owner can see and do in their portal.</DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-3">
             {Object.entries(PERMISSION_LABELS).map(([key, label]) => (
-              <div key={key} className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-zinc-950/60 p-3">
+              <div key={key} className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
                 <div>
-                  <p className="text-sm text-white">{label}</p>
-                  <p className="text-xs text-zinc-500">{key.replace(/_/g, ' ')}</p>
+                  <p className="text-sm text-zinc-900 dark:text-white">{label}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{key.replace(/_/g, ' ')}</p>
                 </div>
                 <Switch
                   checked={permissions.includes(key)}
@@ -339,7 +339,7 @@ function PermissionModal({
             ))}
           </div>
           <div className="space-y-2">
-            <Label className="text-zinc-400">Scope</Label>
+            <Label className="text-zinc-500 dark:text-zinc-400">Scope</Label>
             <div className="flex gap-2">
               {['full_access', 'limited_scope', 'read_only'].map((s) => (
                 <Button
@@ -359,7 +359,7 @@ function PermissionModal({
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-zinc-400 hover:text-white">
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
             Cancel
           </Button>
           <Button onClick={handleSave} disabled={saving} className="bg-emerald-500 hover:bg-emerald-600 text-white">
@@ -467,7 +467,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="rounded-lg text-zinc-400 hover:text-white">
+                <Button variant="ghost" size="sm" className="rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                   <MoreHorizontal className="size-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -516,19 +516,19 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
       {/* Permission Banner */}
       {listing.assignments.length > 0 && (
-        <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-4 flex items-center justify-between">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={cn(
               "size-10 rounded-lg flex items-center justify-center",
               ownerAccessLevel === 'full_access' ? 'bg-emerald-500/10 text-emerald-400' :
-                ownerAccessLevel === 'read_only' ? 'bg-zinc-800 text-zinc-400' : 'bg-amber-500/10 text-amber-400'
+                ownerAccessLevel === 'read_only' ? 'bg-zinc-800 text-zinc-500 dark:text-zinc-400' : 'bg-amber-500/10 text-amber-400'
             )}>
               {ownerAccessLevel === 'full_access' ? <Unlock className="size-5" /> :
                 ownerAccessLevel === 'read_only' ? <Lock className="size-5" /> : <ToggleRight className="size-5" />}
             </div>
             <div>
-              <p className="text-sm text-white font-medium">Owner Access: {ownerAccessLevel.replace(/_/g, ' ')}</p>
-              <p className="text-xs text-zinc-500">{ownerPermissions.length} permissions enabled</p>
+              <p className="text-sm text-zinc-900 dark:text-white font-medium">Owner Access: {ownerAccessLevel.replace(/_/g, ' ')}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{ownerPermissions.length} permissions enabled</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-1">
@@ -557,7 +557,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList className="bg-zinc-900/60 border border-white/[0.08]">
+            <TabsList className="bg-zinc-900/60 border border-zinc-200 dark:border-white/[0.08]">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="media">Media ({listing.images.length})</TabsTrigger>
               <TabsTrigger value="units">Units ({listing.units.length})</TabsTrigger>
@@ -568,7 +568,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">
-              <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
                 <SectionHeader title="Description" />
                 <p className="text-sm text-zinc-300 leading-relaxed">
                   {listing.description || 'No description provided for this property.'}
@@ -583,19 +583,19 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     { label: 'Floor Level', value: listing.floorLevel ?? '—', icon: Building2 },
                     { label: 'Parking', value: String(listing.parkingSpaces), icon: Car },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-lg border border-white/[0.08] bg-zinc-950/60 p-3">
-                      <div className="flex items-center gap-2 text-zinc-500 mb-1">
+                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
+                      <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">
                         <item.icon className="size-3.5" />
                         <span className="text-xs">{item.label}</span>
                       </div>
-                      <p className="text-sm text-white font-medium">{item.value}</p>
+                      <p className="text-sm text-zinc-900 dark:text-white font-medium">{item.value}</p>
                     </div>
                   ))}
                 </div>
 
                 {amenityList.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-500 uppercase tracking-wider font-medium">Amenities</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Amenities</p>
                     <div className="flex flex-wrap gap-2">
                       {amenityList.map((a: unknown, idx: number) => (
                         <Badge key={idx} variant="outline" className="border-white/10 text-zinc-300">
@@ -608,7 +608,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
                 {listing.highlights && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-500 uppercase tracking-wider font-medium">Highlights</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Highlights</p>
                     <div className="flex flex-wrap gap-2">
                       {(Array.isArray(listing.highlights) ? listing.highlights : []).map((h: unknown, idx: number) => (
                         <Badge key={idx} variant="outline" className="border-emerald-500/20 text-emerald-300">
@@ -621,7 +621,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
                 {houseRulesList.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-500 uppercase tracking-wider font-medium">House Rules</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">House Rules</p>
                     <div className="flex flex-wrap gap-2">
                       {houseRulesList.map((r: unknown, idx: number) => (
                         <Badge key={idx} variant="outline" className="border-white/10 text-zinc-300">
@@ -635,7 +635,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="media" className="space-y-4">
-              <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
                 <SectionHeader
                   title="Gallery"
                   action={
@@ -648,13 +648,13 @@ export default function AgentListingDetailClient({ listing }: Props) {
                 {listing.images.length === 0 ? (
                   <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/10 p-10 text-center">
                     <ImageIcon className="size-8 text-zinc-600 mb-3" />
-                    <p className="text-sm text-zinc-500">No photos uploaded yet</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No photos uploaded yet</p>
                     <p className="text-xs text-zinc-600 mt-1">Upload photos to showcase this property</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {listing.images.map((img) => (
-                      <div key={img.id} className="relative rounded-xl overflow-hidden border border-white/[0.08] aspect-video bg-zinc-900">
+                      <div key={img.id} className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] aspect-video bg-zinc-900">
                         <img src={img.url} alt={listing.title} className="h-full w-full object-cover" />
                         {img.isCover && (
                           <Badge className="absolute top-2 left-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px]">
@@ -669,22 +669,22 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="units" className="space-y-4">
-              <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
-                      <TableHead className="text-zinc-400">Unit</TableHead>
-                      <TableHead className="text-zinc-400">Type</TableHead>
-                      <TableHead className="text-zinc-400">Rent</TableHead>
-                      <TableHead className="text-zinc-400">Occupancy</TableHead>
-                      <TableHead className="text-zinc-400">Status</TableHead>
-                      <TableHead className="text-zinc-400">Tenant</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Unit</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Type</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Rent</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Occupancy</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Status</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Tenant</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {listing.units.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center text-sm text-zinc-500 py-12">
+                        <TableCell colSpan={6} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
                           No units added yet.
                         </TableCell>
                       </TableRow>
@@ -693,8 +693,8 @@ export default function AgentListingDetailClient({ listing }: Props) {
                         <TableRow key={unit.id} className="border-b border-white/[0.06]">
                           <TableCell className="py-3">
                             <div>
-                              <p className="text-sm font-medium text-white">{unit.unitNumber}</p>
-                              <p className="text-xs text-zinc-500">{unit.buildingName || '—'}</p>
+                              <p className="text-sm font-medium text-zinc-900 dark:text-white">{unit.unitNumber}</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
                             </div>
                           </TableCell>
                           <TableCell className="py-3">
@@ -703,7 +703,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                             </Badge>
                           </TableCell>
                           <TableCell className="py-3">
-                            <span className="text-sm text-white">
+                            <span className="text-sm text-zinc-900 dark:text-white">
                               {unit.rent > 0 ? formatCurrency(unit.rent) : 'Contact for Pricing'}
                             </span>
                           </TableCell>
@@ -716,7 +716,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                                 Listed
                               </span>
                             ) : (
-                              <span className="tag bg-muted text-zinc-500 border border-white/[0.08] text-xs px-2 py-1 rounded-full">
+                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
                                 Unlisted
                               </span>
                             )}
@@ -724,7 +724,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                           <TableCell className="py-3">
                             {unit.currentTenant ? (
                               <div className="flex items-center gap-2">
-                                <div className="size-6 rounded-full bg-zinc-800 flex items-center justify-center text-[10px] text-white">
+                                <div className="size-6 rounded-full bg-zinc-800 flex items-center justify-center text-[10px] text-zinc-900 dark:text-white">
                                   {initials(unit.currentTenant.fullName)}
                                 </div>
                                 <span className="text-xs text-zinc-300">{unit.currentTenant.fullName}</span>
@@ -742,20 +742,20 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="inquiries" className="space-y-4">
-              <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
-                      <TableHead className="text-zinc-400">Applicant</TableHead>
-                      <TableHead className="text-zinc-400">Status</TableHead>
-                      <TableHead className="text-zinc-400">Date</TableHead>
-                      <TableHead className="text-right text-zinc-400">Action</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Applicant</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Status</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Date</TableHead>
+                      <TableHead className="text-right text-zinc-500 dark:text-zinc-400">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {listing.applications.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center text-sm text-zinc-500 py-12">
+                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
                           No inquiries yet.
                         </TableCell>
                       </TableRow>
@@ -764,16 +764,16 @@ export default function AgentListingDetailClient({ listing }: Props) {
                         <TableRow key={app.id} className="border-b border-white/[0.06]">
                           <TableCell className="py-3">
                             <div>
-                              <p className="text-sm text-white">{app.applicant?.fullName || '—'}</p>
-                              <p className="text-xs text-zinc-500">{app.applicant?.email || ''}</p>
+                              <p className="text-sm text-zinc-900 dark:text-white">{app.applicant?.fullName || '—'}</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{app.applicant?.email || ''}</p>
                             </div>
                           </TableCell>
                           <TableCell className="py-3">
                             <StatusBadge status={app.status} />
                           </TableCell>
-                          <TableCell className="py-3 text-xs text-zinc-400">{formatDate(app.createdAt)}</TableCell>
+                          <TableCell className="py-3 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(app.createdAt)}</TableCell>
                           <TableCell className="py-3 text-right">
-                            <Button asChild size="sm" variant="ghost" className="rounded-lg text-zinc-400 hover:text-white">
+                            <Button asChild size="sm" variant="ghost" className="rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                               <Link href={`/dashboard/agent/applications/${app.id}`}>Review</Link>
                             </Button>
                           </TableCell>
@@ -786,31 +786,31 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="bookings" className="space-y-4">
-              <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
-                      <TableHead className="text-zinc-400">Tenant</TableHead>
-                      <TableHead className="text-zinc-400">Check-in</TableHead>
-                      <TableHead className="text-zinc-400">Check-out</TableHead>
-                      <TableHead className="text-zinc-400">Amount</TableHead>
-                      <TableHead className="text-zinc-400">Status</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Tenant</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Check-in</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Check-out</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Amount</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Status</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {listing.bookings.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center text-sm text-zinc-500 py-12">
+                        <TableCell colSpan={5} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
                           No bookings yet.
                         </TableCell>
                       </TableRow>
                     ) : (
                       listing.bookings.map((bk) => (
                         <TableRow key={bk.id} className="border-b border-white/[0.06]">
-                          <TableCell className="py-3 text-sm text-white">{bk.tenant?.fullName || '—'}</TableCell>
-                          <TableCell className="py-3 text-xs text-zinc-400">{formatDate(bk.checkIn)}</TableCell>
-                          <TableCell className="py-3 text-xs text-zinc-400">{formatDate(bk.checkOut)}</TableCell>
-                          <TableCell className="py-3 text-sm text-white">{formatCurrency(bk.totalPrice)}</TableCell>
+                          <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">{bk.tenant?.fullName || '—'}</TableCell>
+                          <TableCell className="py-3 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(bk.checkIn)}</TableCell>
+                          <TableCell className="py-3 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(bk.checkOut)}</TableCell>
+                          <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">{formatCurrency(bk.totalPrice)}</TableCell>
                           <TableCell className="py-3">
                             <StatusBadge status={bk.status} />
                           </TableCell>
@@ -823,35 +823,35 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="documents" className="space-y-4">
-              <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
-                      <TableHead className="text-zinc-400">Name</TableHead>
-                      <TableHead className="text-zinc-400">Type</TableHead>
-                      <TableHead className="text-zinc-400">Added</TableHead>
-                      <TableHead className="text-right text-zinc-400">Action</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Name</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Type</TableHead>
+                      <TableHead className="text-zinc-500 dark:text-zinc-400">Added</TableHead>
+                      <TableHead className="text-right text-zinc-500 dark:text-zinc-400">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {listing.documents.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center text-sm text-zinc-500 py-12">
+                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
                           No documents uploaded.
                         </TableCell>
                       </TableRow>
                     ) : (
                       listing.documents.map((d) => (
                         <TableRow key={d.id} className="border-b border-white/[0.06]">
-                          <TableCell className="py-3 text-sm text-white">{d.name}</TableCell>
+                          <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">{d.name}</TableCell>
                           <TableCell className="py-3">
                             <Badge variant="outline" className="text-[11px] border-white/10 text-zinc-300 capitalize">
                               {d.type}
                             </Badge>
                           </TableCell>
-                          <TableCell className="py-3 text-xs text-zinc-400">{formatDate(d.createdAt)}</TableCell>
+                          <TableCell className="py-3 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(d.createdAt)}</TableCell>
                           <TableCell className="py-3 text-right">
-                            <Button asChild variant="ghost" size="sm" className="rounded-lg text-zinc-400 hover:text-white">
+                            <Button asChild variant="ghost" size="sm" className="rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                               <a href={d.url} target="_blank" rel="noreferrer">
                                 <Download className="size-4" />
                               </a>
@@ -866,7 +866,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="financials" className="space-y-4">
-              <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
                 <SectionHeader title="Pricing" />
                 <div className="grid grid-cols-2 gap-3">
                   {[
@@ -875,31 +875,31 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     { label: 'Caution Deposit', value: listing.cautionDeposit > 0 ? formatCurrency(listing.cautionDeposit) : '—' },
                     { label: 'Service Charge', value: listing.serviceCharge > 0 ? formatCurrency(listing.serviceCharge) : '—' },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-lg border border-white/[0.08] bg-zinc-950/60 p-3">
-                      <p className="text-xs text-zinc-500 mb-1">{item.label}</p>
-                      <p className="text-sm text-white font-medium">{item.value}</p>
+                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">{item.label}</p>
+                      <p className="text-sm text-zinc-900 dark:text-white font-medium">{item.value}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {listing.invoices.length > 0 && (
-                <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] overflow-hidden">
+                <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-zinc-900/40">
-                        <TableHead className="text-zinc-400">Invoice</TableHead>
-                        <TableHead className="text-zinc-400">Amount</TableHead>
-                        <TableHead className="text-zinc-400">Due</TableHead>
-                        <TableHead className="text-zinc-400">Status</TableHead>
+                        <TableHead className="text-zinc-500 dark:text-zinc-400">Invoice</TableHead>
+                        <TableHead className="text-zinc-500 dark:text-zinc-400">Amount</TableHead>
+                        <TableHead className="text-zinc-500 dark:text-zinc-400">Due</TableHead>
+                        <TableHead className="text-zinc-500 dark:text-zinc-400">Status</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {listing.invoices.map((inv) => (
                         <TableRow key={inv.id} className="border-b border-white/[0.06]">
-                          <TableCell className="py-3 text-sm text-white">#{inv.id.slice(-6)}</TableCell>
-                          <TableCell className="py-3 text-sm text-white">{formatCurrency(inv.amount)}</TableCell>
-                          <TableCell className="py-3 text-xs text-zinc-400">{formatDate(inv.dueDate)}</TableCell>
+                          <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">#{inv.id.slice(-6)}</TableCell>
+                          <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">{formatCurrency(inv.amount)}</TableCell>
+                          <TableCell className="py-3 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(inv.dueDate)}</TableCell>
                           <TableCell className="py-3">
                             <StatusBadge status={inv.status} />
                           </TableCell>
@@ -917,24 +917,24 @@ export default function AgentListingDetailClient({ listing }: Props) {
         <div className="space-y-6">
           {/* Owner / Landlord */}
           {listing.owner && (
-            <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Owner / Landlord" />
               <div className="flex items-center gap-3">
-                <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-white text-sm font-medium">
+                <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-sm font-medium">
                   {initials(listing.owner.fullName)}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-white font-medium truncate">{listing.owner.fullName}</p>
-                  <p className="text-xs text-zinc-500 truncate">{listing.owner.email}</p>
+                  <p className="text-sm text-zinc-900 dark:text-white font-medium truncate">{listing.owner.fullName}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{listing.owner.email}</p>
                 </div>
               </div>
               <div className="space-y-2">
                 {listing.owner.phone && (
-                  <a href={`tel:${listing.owner.phone}`} className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white">
+                  <a href={`tel:${listing.owner.phone}`} className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                     <ShieldCheck className="size-3.5" /> {listing.owner.phone}
                   </a>
                 )}
-                <a href={`mailto:${listing.owner.email}`} className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white">
+                <a href={`mailto:${listing.owner.email}`} className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                   <MessageSquare className="size-3.5" /> {listing.owner.email}
                 </a>
               </div>
@@ -943,37 +943,37 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
           {/* Assigned Agent */}
           {listing.agent && (
-            <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Assigned Agent" />
               <div className="flex items-center gap-3">
-                <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-white text-sm font-medium">
+                <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-sm font-medium">
                   {initials(listing.agent.fullName)}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-white font-medium truncate">{listing.agent.fullName}</p>
-                  <p className="text-xs text-zinc-500 truncate">{listing.agent.email}</p>
+                  <p className="text-sm text-zinc-900 dark:text-white font-medium truncate">{listing.agent.fullName}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{listing.agent.email}</p>
                 </div>
               </div>
             </div>
           )}
 
           {/* Lease Terms */}
-          <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
             <SectionHeader title="Lease Terms" />
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-zinc-500">Billing</span>
-                <span className="text-white font-medium">{listing.pricePeriod ? listing.pricePeriod.charAt(0).toUpperCase() + listing.pricePeriod.slice(1) : '—'}</span>
+                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Billing</span>
+                <span className="text-zinc-900 dark:text-white font-medium">{listing.pricePeriod ? listing.pricePeriod.charAt(0).toUpperCase() + listing.pricePeriod.slice(1) : '—'}</span>
               </div>
               {listing.minimumStay && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-500">Min Stay</span>
+                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Min Stay</span>
                   <span className="text-zinc-300">{listing.minimumStay} {listing.minimumStay === 1 ? 'month' : 'months'}</span>
                 </div>
               )}
               {listing.availableFrom && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-500">Available From</span>
+                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Available From</span>
                   <span className="text-zinc-300">{formatDate(listing.availableFrom)}</span>
                 </div>
               )}
@@ -981,7 +981,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
           </div>
 
           {/* Quick Actions */}
-          <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
             <SectionHeader title="Quick Actions" />
             <div className="grid grid-cols-2 gap-2">
               <Button size="sm" className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white" onClick={() => setMessageOpen(true)}>
@@ -1003,7 +1003,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
           {/* Recent Conversations */}
           {listing.conversations.length > 0 && (
-            <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Recent Conversations" subtitle={formatRelativeDate(listing.conversations[0].lastMessageAt)} />
               <div className="space-y-3">
                 {listing.conversations.map((c) => (
@@ -1012,12 +1012,12 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     href={`/dashboard/agent/messages`}
                     className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors"
                   >
-                    <div className="size-8 rounded-full bg-zinc-800 flex items-center justify-center text-white text-xs">
-                      <MessageSquare className="size-3.5 text-zinc-400" />
+                    <div className="size-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-xs">
+                      <MessageSquare className="size-3.5 text-zinc-500 dark:text-zinc-400" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm text-white truncate">{c.subject}</p>
-                      <p className="text-xs text-zinc-500 truncate">{c.lastMessage || 'No messages yet'}</p>
+                      <p className="text-sm text-zinc-900 dark:text-white truncate">{c.subject}</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{c.lastMessage || 'No messages yet'}</p>
                     </div>
                     <span className="text-[10px] text-zinc-600 whitespace-nowrap">{formatRelativeDate(c.lastMessageAt)}</span>
                   </Link>
@@ -1028,7 +1028,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
           {/* Recent Documents */}
           {listing.documents.length > 0 && (
-            <div className="rounded-xl border border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Documents" />
               <div className="space-y-2">
                 {listing.documents.map((d) => (
@@ -1040,13 +1040,13 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-zinc-950/60 px-3 py-2 hover:border-zinc-700/80 transition-colors"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <FileText className="size-3.5 text-zinc-500 flex-shrink-0" />
+                      <FileText className="size-3.5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-xs text-white truncate">{d.name}</p>
+                        <p className="text-xs text-zinc-900 dark:text-white truncate">{d.name}</p>
                         <p className="text-[10px] text-zinc-600 capitalize">{d.type}</p>
                       </div>
                     </div>
-                    <Download className="size-3.5 text-zinc-500 flex-shrink-0" />
+                    <Download className="size-3.5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
                   </a>
                 ))}
               </div>
@@ -1062,7 +1062,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
       <Dialog open={messageOpen} onOpenChange={setMessageOpen}>
         <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-300 sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle className="text-white">Message Owner</DialogTitle>
+            <DialogTitle className="text-zinc-900 dark:text-white">Message Owner</DialogTitle>
             <DialogDescription>Send a message about {listing.title}</DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
@@ -1070,10 +1070,10 @@ export default function AgentListingDetailClient({ listing }: Props) {
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Type your message..."
-              className="bg-zinc-900 border-white/10 text-white min-h-[120px]"
+              className="bg-zinc-900 border-white/10 text-zinc-900 dark:text-white min-h-[120px]"
             />
             <div className="flex justify-end gap-2">
-              <Button variant="ghost" onClick={() => setMessageOpen(false)} className="text-zinc-400 hover:text-white">
+              <Button variant="ghost" onClick={() => setMessageOpen(false)} className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                 Cancel
               </Button>
               <Button onClick={handleSendMessage} disabled={sending || !messageText.trim()} className="bg-emerald-500 hover:bg-emerald-600 text-white">

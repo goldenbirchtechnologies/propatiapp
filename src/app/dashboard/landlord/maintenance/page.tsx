@@ -47,7 +47,7 @@ export default async function LandlordMaintenancePage() {
       medium: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
       low: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
     };
-    return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${classes[p] || 'bg-zinc-800 text-zinc-400 border-[#27272a]'}`}>{p}</span>;
+    return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${classes[p] || 'bg-zinc-800 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-[#27272a]'}`}>{p}</span>;
   };
 
   const statusBadge = (s: string) => {
@@ -55,9 +55,9 @@ export default async function LandlordMaintenancePage() {
       open: 'bg-red-500/10 text-red-400 border-red-500/20',
       in_progress: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
       resolved: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
-      closed: 'bg-zinc-800 text-zinc-400 border-[#27272a]',
+      closed: 'bg-zinc-800 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-[#27272a]',
     };
-    return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium capitalize ${classes[s] || 'bg-zinc-800 text-zinc-400 border-[#27272a]'}`}>{s.replace('_', ' ')}</span>;
+    return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium capitalize ${classes[s] || 'bg-zinc-800 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-[#27272a]'}`}>{s.replace('_', ' ')}</span>;
   };
 
   return (
@@ -65,11 +65,11 @@ export default async function LandlordMaintenancePage() {
 
       <ErrorBoundary>
 
-      <div className="space-y-6 bg-[#09090b]">
+      <div className="space-y-6 bg-[#F8FAFC] dark:bg-[#09090b]">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">Maintenance Requests</h1>
-            <p className="text-zinc-400 text-sm mt-1">Track and manage maintenance requests across your properties.</p>
+            <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Maintenance Requests</h1>
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">Track and manage maintenance requests across your properties.</p>
           </div>
           <Button className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 shrink-0" onClick={() => (window.location.href = '/dashboard/landlord/maintenance/new')}>
             <Plus className="w-4 h-4" /> New Maintenance Request
@@ -82,23 +82,23 @@ export default async function LandlordMaintenancePage() {
           <StatCard label="Completed" value={String(completedCount)} trend="+ this month" icon={CheckCircle2} accentColor="#10b981" />
         </div>
 
-        <div className="rounded-xl border border-[#27272a] bg-[#121214]">
-          <div className="px-6 py-4 border-b border-[#27272a]">
-            <h3 className="text-sm font-semibold text-white">Recent Tickets</h3>
+        <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214]">
+          <div className="px-6 py-4 border-b border-zinc-200 dark:border-[#27272a]">
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Recent Tickets</h3>
           </div>
           <div className="p-6">
             {tickets.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-[#27272a] bg-[#18181b] p-8 text-center">
+              <div className="rounded-xl border border-dashed border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] p-8 text-center">
                 <div className="w-12 h-12 rounded-xl bg-[#27272a] border border-white/[0.06] flex items-center justify-center mx-auto mb-3">
-                  <Wrench className="w-6 h-6 text-zinc-400" />
+                  <Wrench className="w-6 h-6 text-zinc-500 dark:text-zinc-400" />
                 </div>
-                <p className="font-medium text-white mb-1">No maintenance requests yet</p>
-                <p className="text-sm text-zinc-400 mb-4">Requests from tenants and on-site managers will appear here.</p>
+                <p className="font-medium text-zinc-900 dark:text-white mb-1">No maintenance requests yet</p>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">Requests from tenants and on-site managers will appear here.</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   <Button className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => (window.location.href = '/dashboard/landlord/maintenance/new')}>
                     <Plus className="w-4 h-4" /> New Maintenance Request
                   </Button>
-                  <Button asChild variant="outline" size="sm" className="gap-2 border-[#27272a] bg-[#121214] text-zinc-300">
+                  <Button asChild variant="outline" size="sm" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] text-zinc-300">
                     <Link href="/dashboard/landlord/properties">View properties</Link>
                   </Button>
                 </div>
@@ -106,7 +106,7 @@ export default async function LandlordMaintenancePage() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-zinc-400 border-b border-[#27272a]">
+                  <thead className="text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-[#27272a]">
                     <tr>
                       <th className="px-4 py-3 font-medium text-xs uppercase tracking-wider">Property</th>
                       <th className="px-4 py-3 font-medium text-xs uppercase tracking-wider">Issue</th>
@@ -117,12 +117,12 @@ export default async function LandlordMaintenancePage() {
                   </thead>
                   <tbody className="divide-y divide-[#27272a]">
                     {tickets.map((ticket) => (
-                      <tr key={ticket.id} className="hover:bg-[#18181b]/50 transition-colors">
-                        <td className="px-4 py-3 font-medium text-white">{ticket.listing?.title || '—'}</td>
+                      <tr key={ticket.id} className="hover:bg-zinc-50 dark:bg-[#18181b]/50 transition-colors">
+                        <td className="px-4 py-3 font-medium text-zinc-900 dark:text-white">{ticket.listing?.title || '—'}</td>
                         <td className="px-4 py-3 text-zinc-300">{ticket.title}</td>
                         <td className="px-4 py-3">{priorityBadge(ticket.priority)}</td>
                         <td className="px-4 py-3">{statusBadge(ticket.status)}</td>
-                        <td className="px-4 py-3 text-zinc-400 text-xs">
+                        <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400 text-xs">
                           {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
                         </td>
                       </tr>
@@ -139,4 +139,3 @@ export default async function LandlordMaintenancePage() {
 </DashboardShell>
   );
 }
-

@@ -101,7 +101,7 @@ export default function NotificationSettingsPage() {
     return (
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+          <Loader2 className="w-8 h-8 text-zinc-900 dark:text-white animate-spin" />
         </div>
       </div>
     );
@@ -121,15 +121,15 @@ export default function NotificationSettingsPage() {
     <div className="max-w-4xl mx-auto p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-2">Notification Settings</h1>
-        <p className="text-zinc-500">Manage how you receive notifications</p>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Notification Settings</h1>
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Manage how you receive notifications</p>
       </div>
 
       <div className="space-y-6">
         {/* Notification Channels */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-white">Notification Channels</CardTitle>
+            <CardTitle className="text-zinc-900 dark:text-white">Notification Channels</CardTitle>
             <CardDescription>Choose how you want to receive notifications</CardDescription>
           </CardHeader>
           <CardContent>
@@ -138,10 +138,10 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center justify-between py-3 border-b border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                    <Bell className="w-5 h-5 text-white" />
+                    <Bell className="w-5 h-5 text-zinc-900 dark:text-white" />
                   </div>
                   <div>
-                    <p className="font-medium text-white">In-App Notifications</p>
+                    <p className="font-medium text-zinc-900 dark:text-white">In-App Notifications</p>
                     <p className="text-sm text-muted-foreground">Receive notifications in the app</p>
                   </div>
                 </div>
@@ -160,10 +160,10 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center justify-between py-3 border-b border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-white" />
+                    <Mail className="w-5 h-5 text-zinc-900 dark:text-white" />
                   </div>
                   <div>
-                    <p className="font-medium text-white">Email Notifications</p>
+                    <p className="font-medium text-zinc-900 dark:text-white">Email Notifications</p>
                     <p className="text-sm text-muted-foreground">Receive notifications via email</p>
                   </div>
                 </div>
@@ -182,10 +182,10 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center justify-between py-3 border-b border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                    <MessageSquare className="w-5 h-5 text-white" />
+                    <MessageSquare className="w-5 h-5 text-zinc-900 dark:text-white" />
                   </div>
                   <div>
-                    <p className="font-medium text-white">SMS Notifications</p>
+                    <p className="font-medium text-zinc-900 dark:text-white">SMS Notifications</p>
                     <p className="text-sm text-muted-foreground">Receive notifications via text message</p>
                   </div>
                 </div>
@@ -204,10 +204,10 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center justify-between py-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-white" />
+                    <Phone className="w-5 h-5 text-zinc-900 dark:text-white" />
                   </div>
                   <div>
-                    <p className="font-medium text-white">WhatsApp Notifications</p>
+                    <p className="font-medium text-zinc-900 dark:text-white">WhatsApp Notifications</p>
                     <p className="text-sm text-muted-foreground">Receive notifications via WhatsApp</p>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export default function NotificationSettingsPage() {
         {/* Notification Types */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-white">Notification Types</CardTitle>
+            <CardTitle className="text-zinc-900 dark:text-white">Notification Types</CardTitle>
             <CardDescription>Choose which types of notifications you want to receive</CardDescription>
           </CardHeader>
           <CardContent>
@@ -244,7 +244,7 @@ export default function NotificationSettingsPage() {
                 system: 'System Announcements',
               }).map(([key, label]) => (
                 <div key={key} className="flex items-center justify-between py-2">
-                  <span className="text-sm font-medium text-white">{label}</span>
+                  <span className="text-sm font-medium text-zinc-900 dark:text-white">{label}</span>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"

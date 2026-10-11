@@ -42,7 +42,7 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
         <h2 className="text-lg font-semibold">What makes your place special?</h2>
         <Sparkles className="size-5 text-yellow-500" />
       </div>
-      <p className="text-sm text-zinc-500">Pick up to 2 highlights that best describe your listing.</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Pick up to 2 highlights that best describe your listing.</p>
       <div className="flex flex-wrap gap-3">
         {OPTIONS.map((opt) => {
           const isActive = selected.includes(opt.value);
@@ -53,24 +53,24 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
               onClick={() => toggle(opt.value)}
               className={`relative cursor-pointer transition border-2 min-w-[140px] ${
                 isActive
-                  ? 'border-white/[0.08] bg-zinc-900'
-                  : 'border-white/[0.08] hover:border-white/40'
+                  ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-900'
+                  : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
               }`}
             >
               {isActive && (
-                <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-1">
+                <div className="absolute top-2 right-2 bg-primary text-zinc-900 dark:text-white rounded-full p-1">
                   <Check className="w-3 h-3" />
                 </div>
               )}
               <div className="p-3 text-center space-y-1">
                 <div className="font-medium text-sm">{opt.label}</div>
-                <div className="text-xs text-zinc-500">{opt.description}</div>
+                <div className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{opt.description}</div>
               </div>
             </div>
           );
         })}
       </div>
-      <div className="text-sm text-zinc-500">
+      <div className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
         {selected.length}/2 selected
       </div>
     </div>

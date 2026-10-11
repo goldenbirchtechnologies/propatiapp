@@ -41,17 +41,17 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
               onClick={() => handleSelect(opt.value)}
               className={`relative cursor-pointer transition border-2 ${
                 isActive
-                  ? 'border-white/[0.08] bg-zinc-900'
-                  : 'border-white/[0.08] hover:border-white/40'
+                  ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-900'
+                  : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
               }`}
             >
               {isActive && (
-                <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-1">
+                <div className="absolute top-2 right-2 bg-primary text-zinc-900 dark:text-white rounded-full p-1">
                   <Check className="w-3 h-3" />
                 </div>
               )}
               <div className="p-4 flex flex-col items-center gap-2 text-center">
-                <div className={isActive ? 'text-white' : 'text-zinc-500'}>
+                <div className={isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}>
                   {opt.icon}
                 </div>
                 <span className="text-sm font-medium">{opt.label}</span>

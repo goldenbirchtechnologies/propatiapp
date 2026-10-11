@@ -36,7 +36,7 @@ const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
     <div className="flex items-center gap-3 py-2 border-b border-white/[0.05] last:border-0 hover:bg-white/[0.025] transition-colors">
       <Avatar name={userItem.name} size="md" />
       <div className="flex-1 min-w-0">
-        <div className="text-white text-sm font-medium">{userItem.name}</div>
+        <div className="text-zinc-900 dark:text-white text-sm font-medium">{userItem.name}</div>
         <div className="text-zinc-600 text-xs">{userItem.email}</div>
       </div>
       <div className="flex items-center gap-2">
@@ -159,7 +159,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         description={`Platform overview · ${new Date().toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}`}
         actions={
           <div className="flex gap-2">
-            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-white/[0.08] text-zinc-300 rounded-lg hover:text-white hover:border-zinc-600 transition-colors">
+            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-zinc-200 dark:border-white/[0.08] text-zinc-300 rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors">
               Export Report
             </a>
             <a href="/dashboard/admin/settings" className="inline-flex items-center px-4 py-2 text-sm bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
@@ -184,8 +184,8 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         <div className="lg:col-span-2 glass-card p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-white font-semibold text-sm">User Growth</h3>
-              <p className="text-zinc-500 text-xs mt-0.5">Platform revenue · last 12 months</p>
+              <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">User Growth</h3>
+              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Platform revenue · last 12 months</p>
             </div>
             <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
               View users <ArrowRight size={11} />
@@ -193,7 +193,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           </div>
           {revenueByMonth.length === 0 || revenueByMonth.every((m) => !m.amount) ? (
             <div className="h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.02]">
-              <p className="text-sm text-zinc-400">No revenue recorded yet</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">No revenue recorded yet</p>
               <p className="text-xs text-zinc-600">
                 {loadError ? 'Could not load platform stats.' : 'Completed transactions will appear here.'}
               </p>
@@ -230,7 +230,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
 
         {/* Alerts */}
         <div className="glass-card p-5">
-          <h3 className="text-white font-semibold text-sm mb-4">System Alerts</h3>
+          <h3 className="text-zinc-900 dark:text-white font-semibold text-sm mb-4">System Alerts</h3>
           <div className="space-y-2.5">
             {/* Derived from real counts only. The previous list included
                 infrastructure telemetry (backups, API latency) that this app
@@ -260,12 +260,12 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
                     <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
                       a.severity === 'critical' ? 'bg-red-400' : a.severity === 'warning' ? 'bg-amber-400' : 'bg-blue-400'
                     }`} />
-                    <span className="text-xs text-zinc-400">{a.msg}</span>
+                    <span className="text-xs text-zinc-600 dark:text-zinc-400">{a.msg}</span>
                   </a>
                 );
               })}
             {stats.pendingVerifications === 0 && stats.disputesCases === 0 && stats.totalUsers > 0 && (
-              <p className="text-xs text-zinc-500 text-center py-4">No alerts. Platform is healthy.</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No alerts. Platform is healthy.</p>
             )}
           </div>
         </div>
@@ -276,14 +276,14 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         {/* Recent users */}
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold text-sm">Recent Users</h3>
+            <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Recent Users</h3>
             <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
               All users <ArrowRight size={11} />
             </a>
           </div>
           <div className="space-y-2">
             {recentUsers.length === 0 ? (
-              <p className="text-sm text-zinc-500 text-center py-4">No users yet</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No users yet</p>
             ) : (
               recentUsers.map((u) => (
                 <UserActivityRow key={u.id} user={u} />
@@ -295,7 +295,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         {/* Verification queue */}
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold text-sm flex items-center gap-2">
+            <h3 className="text-zinc-900 dark:text-white font-semibold text-sm flex items-center gap-2">
               <Shield size={14} className="text-emerald-400" />
               Verification Queue
               <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-400 rounded-full">
@@ -308,12 +308,12 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           </div>
           <div className="space-y-2">
             {verificationQueue.length === 0 ? (
-              <p className="text-sm text-zinc-500 text-center py-4">Nothing awaiting review.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">Nothing awaiting review.</p>
             ) : (
               verificationQueue.map((v) => (
                 <div key={v.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-zinc-950/60">
                   <div className="flex-1 min-w-0">
-                    <div className="text-white text-xs font-medium">{v.property}</div>
+                    <div className="text-zinc-900 dark:text-white text-xs font-medium">{v.property}</div>
                     <div className="text-zinc-600 text-xs">{v.owner} · {v.type}</div>
                   </div>
                   <div className="text-right flex-shrink-0">
@@ -330,13 +330,13 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
       {/* Transactions */}
       <div className="glass-card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-semibold text-sm">Recent Transactions</h3>
+          <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Recent Transactions</h3>
           <a href="/dashboard/admin/transactions" className="text-xs text-emerald-400 flex items-center gap-1">
             All transactions <ArrowRight size={11} />
           </a>
         </div>
         {recentTransactions.length === 0 ? (
-          <p className="text-sm text-zinc-500 text-center py-4">No transactions recorded yet.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No transactions recorded yet.</p>
         ) : (
           <DataTable columns={transactionColumns} data={recentTransactions} />
         )}

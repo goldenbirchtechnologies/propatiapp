@@ -8,10 +8,11 @@ import { usePathname } from 'next/navigation';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SkeletonNavItem, SidebarOverlay } from '@/components/layout/sidebar';
-import { HelpCircle, ChevronDown, Settings, Plus, MessageSquare, Mail, Shield } from 'lucide-react';
+import { HelpCircle, ChevronDown, Settings, Plus, MessageSquare, Mail, Shield, Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDashboardPageTitle } from '@/lib/dashboard-titles';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 export interface NavItem {
   label: string;
@@ -528,6 +529,7 @@ export function DashboardShell({
   quickAction,
   hideGlobalSearch = false,
 }: DashboardShellProps) {
+  const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
@@ -767,6 +769,15 @@ export function DashboardShell({
           {!hideGlobalSearch && <GlobalSearch userRole={userRole} />}
 
           <div className="flex items-center gap-2 sm:gap-3 ml-auto">
+            <button
+              onClick={toggleTheme}
+              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/10 text-sm font-medium transition-colors"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+              <span className="hidden lg:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+            </button>
             <button
               className="hidden md:flex p-2 rounded-full transition hover:bg-muted"
               aria-label="Help"

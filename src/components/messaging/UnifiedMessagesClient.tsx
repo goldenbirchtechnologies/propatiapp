@@ -11,6 +11,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
 async function withRetry<T>(fn: () => Promise<T>, tries = 2, label?: string): Promise<T> {
@@ -462,10 +463,27 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
         ) : null}
       </div>
 
-      <Card className="overflow-hidden" style={elevationStyle(ELEVATION_TOKENS.elevation_1)}>
-        <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-1 sm:gap-2 border-b border-zinc-800 overflow-x-auto">
+      {/* Zillow Rentals — Messages header + 3-pane */}
+      <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-white">Messages</h1>
+            <Button variant="outline" size="sm" className="rounded-full border-emerald-600 text-emerald-600 dark:text-emerald-400 dark:border-emerald-500/30 bg-white dark:bg-transparent hover:bg-emerald-50 dark:hover:bg-emerald-500/10 gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h3M3 12h3M3 18h3M8 6h13M8 12h13M8 18h13" /><circle cx="6" cy="6" r="2" /><circle cx="6" cy="12" r="2" /><circle cx="6" cy="18" r="2" /></svg>
+              Filters
+            </Button>
+            <Select defaultValue="inbox">
+              <SelectTrigger className="w-[120px] rounded-full border-emerald-600 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-transparent h-9">
+                <SelectValue placeholder="Inbox" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="inbox">Inbox</SelectItem>
+                <SelectItem value="archived">Archived</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 border-b border-zinc-200 dark:border-zinc-800">
               {tabs.map((tab) => (
                 <button
                   key={tab.value}
@@ -474,70 +492,130 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
                     if (tab.value === 'screening') setSelectedId(null);
                   }}
                   className={cn(
-                    'inline-flex items-center justify-center whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium transition-colors',
-                    activeTab === tab.value
-                      ? 'border-emerald-500 text-emerald-400'
-                      : 'border-transparent text-zinc-400 hover:text-white'
+                    'px-3 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
+                    activeTab === tab.value ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400' : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                   )}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
-            {(activeTab === 'all' || activeTab === 'chats') && (
-              <div className="relative max-w-xl">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
-                <Input
-                  type="text"
-                  placeholder="Search conversations..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-                    )}
-                    {(activeTab === 'all' || activeTab === 'chats' || activeTab === 'invites') && (
-                      <div className="relative max-w-xl">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
-                        <Input
-                          type="text"
-                          placeholder={activeTab === 'invites' ? 'Search invites...' : 'Search conversations...'}
-                          value={activeTab === 'invites' ? '' : search}
-                          onChange={(e) => activeTab === 'invites' ? null : setSearch(e.target.value)}
-                          className="pl-10"
-                        />
-                      </div>
-                    )}
+            {(activeTab === 'chats' || activeTab === 'all') && (
+              <Dialog open={newOpen} onOpenChange={setNewOpen}>
+                <DialogTrigger asChild>
+                  <Button size="sm" className="rounded-full bg-emerald-600 hover:bg-emerald-500 text-white hidden sm:inline-flex">
+                    <Plus className="w-4 h-4" /> New
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader><DialogTitle>New Conversation</DialogTitle></DialogHeader>
+                  <NewConversationForm userId={userId} userRole={userRole} onSubmit={handleNewConversation} />
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         </div>
 
         {error && (
-          <div className="p-4">
-            <Card className="p-4 border" style={{ borderColor: 'var(--border)' }}>
-              <p style={{ color: 'var(--text)' }}>{error}</p>
-              <Button onClick={loadConversations} className="mt-3">Retry</Button>
-            </Card>
+          <div className="p-4 bg-red-50 dark:bg-red-500/10 border-b border-red-200 dark:border-red-500/20">
+            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <Button onClick={loadConversations} size="sm" className="mt-2">Retry</Button>
           </div>
         )}
 
         {activeTab === 'invites' ? (
-          <InvitesList invites={invites} loading={invitesLoading} error={invitesError} userRole={userRole} onAccept={handleAcceptInvite} onRemove={handleRemoveInvite} onRetry={loadInvites} />
+          <div className="p-4">
+            <InvitesList invites={invites} loading={invitesLoading} error={invitesError} userRole={userRole} onAccept={handleAcceptInvite} onRemove={handleRemoveInvite} onRetry={loadInvites} />
+          </div>
         ) : activeTab === 'screening' ? (
-          <ScreeningCallsList calls={screeningCalls} loading={screeningLoading} />
-        ) : showList ? (
-          <ConversationList conversations={filtered} loading={loading} onSelect={setSelectedId} />
-        ) : showDetail && selectedId ? (
-          <ConversationDetail
-            conversationId={selectedId}
-            messages={messages}
-            loading={messagesLoading}
-            onBack={() => setSelectedId(null)}
-            content={content}
-            onContentChange={setContent}
-            onSend={handleSendMessage}
-          />
-        ) : null}
-      </Card>
+          <div className="p-4">
+            <ScreeningCallsList calls={screeningCalls} loading={screeningLoading} />
+          </div>
+        ) : (
+          <div className="flex min-h-[520px] flex-col lg:flex-row">
+            {/* Left: conversation list */}
+            <div className={`w-full lg:w-[320px] shrink-0 border-b lg:border-b-0 lg:border-r border-zinc-200 dark:border-zinc-800 flex flex-col ${selectedId ? 'hidden lg:flex' : 'flex'}`}>
+              <div className="p-3 border-b border-zinc-200 dark:border-zinc-800">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                  <Input type="text" placeholder="Search conversations..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9 bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" />
+                </div>
+              </div>
+              <div className="flex-1 overflow-y-auto">
+                <ConversationList conversations={filtered} loading={loading} onSelect={setSelectedId} selectedId={selectedId} />
+              </div>
+            </div>
+            {/* Middle: thread */}
+            <div className={`flex-1 min-w-0 flex flex-col bg-zinc-50 dark:bg-zinc-950/50 ${!selectedId ? 'hidden lg:flex' : 'flex'}`}>
+              {selectedId ? (
+                <ConversationDetail
+                  conversationId={selectedId}
+                  messages={messages}
+                  loading={messagesLoading}
+                  onBack={() => setSelectedId(null)}
+                  content={content}
+                  onContentChange={setContent}
+                  onSend={handleSendMessage}
+                />
+              ) : (
+                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+                  <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mb-3">
+                    <MessageSquare className="w-6 h-6 text-zinc-400" />
+                  </div>
+                  <p className="text-sm font-medium text-zinc-900 dark:text-white">Select a conversation</p>
+                  <p className="text-xs text-zinc-500 mt-1">Choose from the list to view messages</p>
+                </div>
+              )}
+            </div>
+            {/* Right: details */}
+            <div className="hidden xl:flex w-[300px] shrink-0 border-l border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex-col">
+              <div className="p-4 flex-1">
+                {selectedId ? (
+                  (() => {
+                    const conv = conversations.find((c) => c.id === selectedId);
+                    return conv ? (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage src={conv.participant?.avatarUrl as string | undefined} alt={conv.participant?.fullName || 'User'} />
+                            <AvatarFallback>{initials(conv.participant?.fullName)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-semibold text-sm text-zinc-900 dark:text-white">{conv.participant?.fullName || 'Conversation'}</p>
+                            <p className="text-xs text-zinc-500">{conv.participant?.role || conv.listing?.title || ''}</p>
+                          </div>
+                        </div>
+                        {conv.listing && (
+                          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-3">
+                            <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Property</p>
+                            <p className="text-sm font-medium mt-1 text-zinc-900 dark:text-white line-clamp-2">{conv.listing.title}</p>
+                            <p className="text-xs text-zinc-500">{[conv.listing.area, conv.listing.state].filter(Boolean).join(', ')}</p>
+                          </div>
+                        )}
+                        <div className="text-xs text-zinc-500 space-y-1">
+                          <p>Status: <span className="capitalize text-zinc-900 dark:text-white">{conv.status}</span></p>
+                          {conv.lastMessageAt && <p>Last: {new Date(conv.lastMessageAt).toLocaleString('en-NG')}</p>}
+                        </div>
+                      </div>
+                    ) : null;
+                  })()
+                ) : (
+                  <div className="h-full flex flex-col gap-3">
+                    <div className="h-6 w-24 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                    <div className="h-4 w-full bg-zinc-100 dark:bg-zinc-800 rounded" />
+                    <div className="h-4 w-5/6 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                    <div className="mt-4 space-y-3">
+                      <div className="h-3 w-20 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                      <div className="h-10 w-full bg-zinc-100 dark:bg-zinc-800 rounded-lg" />
+                      <div className="h-10 w-full bg-zinc-100 dark:bg-zinc-800 rounded-lg" />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -614,7 +692,7 @@ function initials(name: string | null | undefined) {
   return parts[0]?.[0]?.toUpperCase() || 'U';
 }
 
-function ConversationList({ conversations, loading, onSelect }: { conversations: Conversation[]; loading: boolean; onSelect: (id: string) => void }) {
+function ConversationList({ conversations, loading, onSelect, selectedId }: { conversations: Conversation[]; loading: boolean; onSelect: (id: string) => void; selectedId?: string | null }) {
   if (loading) {
     return (
       <div className="p-4 space-y-3">
@@ -645,8 +723,7 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
           <button
             key={conv.id}
             onClick={() => onSelect(conv.id)}
-            className="w-full flex items-center gap-4 p-4 border-b transition-colors text-left hover:bg-zinc-900/30"
-            style={{ borderColor: 'var(--border)' }}
+            className={`w-full flex items-center gap-4 p-4 border-b transition-colors text-left ${selectedId === conv.id ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20' : 'hover:bg-zinc-50 dark:hover:bg-zinc-900/30 border-zinc-200 dark:border-zinc-800'}`}
           >
             <Avatar>
               <AvatarImage src={conv.participant?.avatarUrl as string | undefined} alt={conv.participant?.fullName || 'User'} />

@@ -9,7 +9,7 @@ import { PropertyCard } from '@/components/listings/PropertyCard';
 import { Button } from '@/components/ui/button';
 import { SectionLabel, InteractiveHoverButton } from '@/components/ui';
 
-const categories = ['All', 'Rent', 'Buy', 'Shortlet', 'Lease', 'Room Share'];
+const categories = ['All', 'Rent', 'Shortlet', 'Commercial', 'Share'];
 const bedroomOptions = ['Any', '1', '2', '3', '4', '5+'];
 const sortOptions = ['Newest First', 'Price: Low to High', 'Price: High to Low', 'Most Verified'];
 
@@ -67,8 +67,11 @@ export default function ListingsPage() {
     };
   }, []);
 
+  const categoryMap: Record<string, string> = { Rent: 'rent', Shortlet: 'short_let', Commercial: 'commercial', Share: 'share' };
   const filtered = listings.filter((l) => {
-    const matchesCategory = category === 'All' || (l.listingType || l.type)?.toLowerCase() === category.toLowerCase();
+    const type = (l.listingType || l.type || '').toLowerCase();
+    const wanted = category === 'All' ? null : (categoryMap[category] || category.toLowerCase());
+    const matchesCategory = !wanted || type === wanted;
     const matchesSearch =
       !search ||
       l.title.toLowerCase().includes(search.toLowerCase()) ||

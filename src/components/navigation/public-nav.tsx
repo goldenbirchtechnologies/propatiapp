@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth, useClerk, useUser } from '@clerk/nextjs';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { Sun, Moon } from 'lucide-react';
+import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 const LISTINGS_PATH = '/listings';
 
@@ -77,20 +78,7 @@ export default function PublicNav() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2.5"
-              >
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-              </svg>
-            </div>
-            <span className="text-white font-bold text-lg tracking-tight">PROPATI</span>
+            <PropatiBoxLogo size="sm" variant="horizontal" />
           </Link>
 
           <div className="hidden md:flex items-center gap-1">

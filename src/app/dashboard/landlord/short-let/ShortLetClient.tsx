@@ -213,9 +213,9 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Operations</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-600 dark:text-zinc-500">Operations</p>
           <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Short-let Bookings</h2>
-          <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-500">
             Manage guest reservations, review booking requests, and track short-stay earnings.
           </p>
         </div>
@@ -230,22 +230,22 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
           <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Pending Approvals</p>
           <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{pendingApprovals}</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Booking requests awaiting host confirmation</p>
+          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-500">Booking requests awaiting host confirmation</p>
         </div>
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
           <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Upcoming Check-ins</p>
           <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{upcomingCheckIns}</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Stays starting within the next 7 days</p>
+          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-500">Stays starting within the next 7 days</p>
         </div>
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
           <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Monthly Revenue</p>
           <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatCurrency(monthlyRevenue)}</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Confirmed/completed payouts this month</p>
+          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-500">Confirmed/completed payouts this month</p>
         </div>
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
           <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Occupancy Rate</p>
           <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{occupancyRate}%</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Available days booked this month</p>
+          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-500">Available days booked this month</p>
         </div>
       </div>
 
@@ -269,7 +269,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
                 )}
               </select>
               {sanitizedListings.length === 0 && (
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">No properties available</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">No properties available</p>
               )}
             </div>
             <div className="flex items-end">
@@ -315,7 +315,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
                   <th className="py-2 pr-4">Guest</th>
                   <th className="py-2 pr-4">Property / Unit</th>
                   <th className="py-2 pr-4">Dates</th>
@@ -331,16 +331,16 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
                         <span className="font-medium text-zinc-900 dark:text-white">{req.guestName}</span>
-                        <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{req.guestEmail || req.guestPhone || '—'}</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-500">{req.guestEmail || req.guestPhone || '—'}</span>
                       </div>
                     </td>
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
                         <span className="font-medium text-zinc-900 dark:text-white">{req.listingTitle}</span>
-                        <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{req.listingAddress || '—'}</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-500">{req.listingAddress || '—'}</span>
                       </div>
                     </td>
-                    <td className="py-3 pr-4 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                    <td className="py-3 pr-4 text-xs text-zinc-600 dark:text-zinc-500">
                       {formatDateRange(req.checkIn, req.checkOut, req.nights)}
                     </td>
                     <td className="py-3 pr-4">
@@ -349,7 +349,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
                         <span className="font-medium text-zinc-900 dark:text-white">{formatCurrency(req.totalPrice)}</span>
-                        <span className={`text-xs ${req.paymentStatus === 'paid' ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}>
+                        <span className={`text-xs ${req.paymentStatus === 'paid' ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-500'}`}>
                           {req.paymentStatus === 'paid' ? 'Paid' : 'Pending Payout'}
                         </span>
                       </div>

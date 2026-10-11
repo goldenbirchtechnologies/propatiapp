@@ -55,7 +55,7 @@ export default async function LandlordLeasesPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Leases</h1>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
+            <p className="text-zinc-600 dark:text-zinc-500 mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
           </div>
           <Link
             href="/dashboard/landlord/agreements/new"
@@ -76,12 +76,12 @@ export default async function LandlordLeasesPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Tenant</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Start Date</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">End Date</th>
-                  <th className="px-4 py-3 text-right text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-500">Property</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-500">Tenant</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-500">Status</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-500">Start Date</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-500">End Date</th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-zinc-600 dark:text-zinc-500">Rent</th>
                 </tr>
               </thead>
               <tbody>
@@ -90,10 +90,10 @@ export default async function LandlordLeasesPage() {
                     <td className="px-4 py-3 font-medium">{lease.listing.title}</td>
                     <td className="px-4 py-3">{lease.tenant.fullName}</td>
                     <td className="px-4 py-3">{statusBadge(lease.status)}</td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-500">
                       {lease.startDate ? new Date(lease.startDate).toLocaleDateString('en-NG') : '—'}
                     </td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-500">
                       {lease.endDate ? new Date(lease.endDate).toLocaleDateString('en-NG') : '—'}
                     </td>
                     <td className="px-4 py-3 text-right font-mono">
@@ -105,7 +105,7 @@ export default async function LandlordLeasesPage() {
             </table>
             {leases.length === 0 && (
               <div className="p-12 text-center">
-                <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No lease agreements yet.</p>
+                <p className="text-zinc-600 dark:text-zinc-500">No lease agreements yet.</p>
                 <Link href="/dashboard/landlord/agreements/new" className="text-sm text-zinc-900 dark:text-white mt-2 inline-block hover:underline">
                   Create your first agreement
                 </Link>

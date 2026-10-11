@@ -260,7 +260,7 @@ export default function LandlordFinancialsPage() {
 
   const statusBadge = (variant: TransactionRow['statusBadgeVariant'], label: string) => {
     const map: Record<string, string> = {
-      default: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20',
+      default: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20',
       secondary: 'bg-secondary text-secondary-foreground border-zinc-200 dark:border-white/[0.08]',
       destructive: 'bg-red-500/10 text-red-500 border-red-500/20',
       outline: 'bg-background text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]',
@@ -302,7 +302,7 @@ export default function LandlordFinancialsPage() {
                         className="h-9 text-xs bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-300 rounded-lg focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500/30"
                       />
                     </div>
-                    <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 shrink-0">—</span>
+                    <span className="text-xs text-zinc-600 dark:text-zinc-500 shrink-0">—</span>
                     <div className="relative flex-1">
                       <Input
                         type="date"
@@ -400,7 +400,7 @@ export default function LandlordFinancialsPage() {
                     <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-6">
                       <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-[#27272a] mb-4">
                         <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Available Balance</h3>
-                        <Wallet className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                        <Wallet className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                       </div>
                       <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</div>
                       {wallet.availableBalance === 0 && !wallet.bankAccount ? (
@@ -449,7 +449,7 @@ export default function LandlordFinancialsPage() {
                       ) : (
                         <div className="overflow-x-auto">
                           <table className="w-full text-left text-sm">
-                            <thead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-b">
+                            <thead className="text-zinc-600 dark:text-zinc-500 border-b">
                               <tr>
                                 <th className="py-3 font-medium">Date</th>
                                 <th className="py-3 font-medium">Reference</th>
@@ -462,7 +462,7 @@ export default function LandlordFinancialsPage() {
                             <tbody>
                               {transactions.map((tx) => (
                                 <tr key={tx.id} className="border-b last:border-0">
-                                  <td className="py-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{tx.date}</td>
+                                  <td className="py-3 text-zinc-600 dark:text-zinc-500">{tx.date}</td>
                                   <td className="py-3 font-mono text-xs">{tx.reference}</td>
                                   <td className="py-3">{tx.listing || tx.reference}</td>
                                   <td className="py-3 capitalize">{tx.type}</td>
@@ -473,7 +473,7 @@ export default function LandlordFinancialsPage() {
                               {transactions.length === 0 &&
                                 wallet.recentTransactions.map((tx) => (
                                   <tr key={`wt-${tx.id}`} className="border-b last:border-0">
-                                    <td className="py-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{tx.date}</td>
+                                    <td className="py-3 text-zinc-600 dark:text-zinc-500">{tx.date}</td>
                                     <td className="py-3 font-mono text-xs">{tx.providerRef || tx.id}</td>
                                     <td className="py-3">{tx.description || tx.type}</td>
                                     <td className="py-3 capitalize">{tx.type.replace(/_/g, ' ')}</td>
@@ -538,11 +538,11 @@ export default function LandlordFinancialsPage() {
                     </SelectItem>
                   ))}
                   {!banksLoading && banks.length === 0 && (
-                    <div className="px-2 py-1.5 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No banks loaded — check PAYSTACK_SECRET_KEY</div>
+                    <div className="px-2 py-1.5 text-xs text-zinc-600 dark:text-zinc-500">No banks loaded — check PAYSTACK_SECRET_KEY</div>
                   )}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Choose your bank — no code needed</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500">Choose your bank — no code needed</p>
             </div>
             <Button variant="secondary" className="w-full gap-2" onClick={resolveAccount} disabled={resolving}>
               {resolving && <Loader2 className="w-4 h-4 animate-spin" />} Verify Account
@@ -571,7 +571,7 @@ export default function LandlordFinancialsPage() {
             <DialogDescription>Request a payout to your saved bank account via Paystack Transfers.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-3 text-xs text-zinc-600 dark:text-zinc-500">
               Available: <span className="font-semibold text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</span> · Min withdrawal: ₦{MIN_WITHDRAWAL.toLocaleString()}
             </div>
             <div className="space-y-2">
@@ -583,7 +583,7 @@ export default function LandlordFinancialsPage() {
               <Input value={withdrawReason} onChange={(e) => setWithdrawReason(e.target.value)} />
             </div>
             {wallet.bankAccount && (
-              <div className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+              <div className="text-xs text-zinc-600 dark:text-zinc-500">
                 Payout to: <span className="font-semibold text-zinc-900 dark:text-white">{wallet.bankAccount.accountName || 'Saved account'} - {wallet.bankAccount.bankName || ''} ****{wallet.bankAccount.accountNumber?.slice(-4)}</span>
               </div>
             )}
@@ -608,7 +608,7 @@ function PlaceholderTab({ title, description }: { title: string; description: st
       <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
         {title}
       </p>
-      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{description}</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">{description}</p>
     </div>
   );
 }

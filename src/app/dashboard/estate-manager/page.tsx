@@ -388,7 +388,7 @@ export default async function EstateManagerDashboardPage() {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Progress</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">Progress</p>
                   <p className="text-lg font-bold text-zinc-300 font-mono">20% Completed</p>
                 </div>
               </div>
@@ -413,7 +413,7 @@ export default async function EstateManagerDashboardPage() {
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-zinc-800 text-zinc-300 border-zinc-200 dark:border-white/[0.08] px-2 py-0.5 text-[9px] font-mono">Step 2</Badge>
-                      <Clock className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                      <Clock className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                     </div>
                     <h4 className="font-semibold text-sm text-zinc-900 dark:text-white">Add Properties & Units</h4>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">Add physical units, rent details, and caution deposits.</p>
@@ -428,7 +428,7 @@ export default async function EstateManagerDashboardPage() {
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-zinc-800 text-zinc-300 border-zinc-200 dark:border-white/[0.08] px-2 py-0.5 text-[9px] font-mono">Step 3</Badge>
-                      <Clock className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                      <Clock className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                     </div>
                     <h4 className="font-semibold text-sm text-zinc-900 dark:text-white">Setup Service Charges</h4>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">Generate cycle periods and allocate water/electricity meters.</p>
@@ -443,7 +443,7 @@ export default async function EstateManagerDashboardPage() {
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-zinc-800 text-zinc-300 border-zinc-200 dark:border-white/[0.08] px-2 py-0.5 text-[9px] font-mono">Step 4</Badge>
-                      <Clock className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                      <Clock className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                     </div>
                     <h4 className="font-semibold text-sm text-zinc-900 dark:text-white">Invite Team Members</h4>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">Add co-managers, agents, and sub-staff to your profile.</p>
@@ -664,7 +664,7 @@ export default async function EstateManagerDashboardPage() {
                   <div className="text-center py-8">
                     <Wrench className="w-8 h-8 text-zinc-600 mx-auto mb-2 opacity-50" />
                     <p className="text-zinc-600 dark:text-zinc-400 text-sm font-medium">No tickets open</p>
-                    <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Any tenant request will show up here.</p>
+                    <p className="text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Any tenant request will show up here.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
@@ -686,7 +686,7 @@ export default async function EstateManagerDashboardPage() {
                             </TableCell>
                             <TableCell className="text-zinc-300 text-xs max-w-[200px] truncate">
                               <span className="block text-zinc-900 dark:text-white font-medium truncate">{t.title}</span>
-                              <span className="block text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 capitalize">{t.category}</span>
+                              <span className="block text-[10px] text-zinc-600 dark:text-zinc-500 capitalize">{t.category}</span>
                             </TableCell>
                             <TableCell>
                               <Badge className={`text-[10px] border px-2 py-0.5 ${priorityColors[t.priority] || 'bg-zinc-800 text-zinc-300 border-zinc-200 dark:border-white/[0.08]'}`}>
@@ -730,7 +730,7 @@ export default async function EstateManagerDashboardPage() {
                   <div className="text-center py-8">
                     <Receipt className="w-8 h-8 text-zinc-600 mx-auto mb-2 opacity-50" />
                     <p className="text-zinc-600 dark:text-zinc-400 text-sm font-medium">No service charges created</p>
-                    <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Set up cycles and invoice tenants.</p>
+                    <p className="text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Set up cycles and invoice tenants.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
@@ -787,7 +787,7 @@ export default async function EstateManagerDashboardPage() {
                     <Building2 className="w-4 h-4 text-zinc-300" />
                     <div className="text-left">
                       <span className="block font-semibold">Register New Unit</span>
-                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Configure size, bedrooms & pricing</span>
+                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-500">Configure size, bedrooms & pricing</span>
                     </div>
                   </Button>
                 </Link>
@@ -797,7 +797,7 @@ export default async function EstateManagerDashboardPage() {
                     <Zap className="w-4 h-4 text-purple-400" />
                     <div className="text-left">
                       <span className="block font-semibold">Allocate Utilities</span>
-                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Electricity, water & security meters</span>
+                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-500">Electricity, water & security meters</span>
                     </div>
                   </Button>
                 </Link>
@@ -807,7 +807,7 @@ export default async function EstateManagerDashboardPage() {
                     <ClipboardList className="w-4 h-4 text-[#10b981]" />
                     <div className="text-left">
                       <span className="block font-semibold">Import CSV Data</span>
-                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Upload units and history records</span>
+                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-500">Upload units and history records</span>
                     </div>
                   </Button>
                 </Link>
@@ -817,7 +817,7 @@ export default async function EstateManagerDashboardPage() {
                     <Wrench className="w-4 h-4 text-zinc-300" />
                     <div className="text-left">
                       <span className="block font-semibold">Log Maintenance Ticket</span>
-                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">File issue for plumbing or electrical</span>
+                      <span className="block text-[10px] text-zinc-600 dark:text-zinc-500">File issue for plumbing or electrical</span>
                     </div>
                   </Button>
                 </Link>
@@ -840,7 +840,7 @@ export default async function EstateManagerDashboardPage() {
                       act.type === 'utility' ? 'bg-neutral-600' : 'bg-neutral-600'
                     }`} />
                     <p className="text-xs text-zinc-300 font-medium leading-relaxed">{act.desc}</p>
-                    <span className="block text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-mono">{act.time}</span>
+                    <span className="block text-[10px] text-zinc-600 dark:text-zinc-500 font-mono">{act.time}</span>
                   </div>
                 ))}
               </div>

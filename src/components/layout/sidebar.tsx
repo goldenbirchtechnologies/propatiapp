@@ -163,7 +163,7 @@ export function NavItemComponent({
             </span>
           )}
         </Link>
-        <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 whitespace-nowrap rounded-md border border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-2.5 py-1 text-xs font-medium text-zinc-100 opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+        <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 whitespace-nowrap rounded-md border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 px-2.5 py-1 text-xs font-medium text-zinc-900 dark:text-zinc-100 opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
           {item.label}
         </span>
       </div>
@@ -493,7 +493,7 @@ export function Sidebar({
         <div className="px-3 pb-3" style={{ marginTop: 'auto' }}>
           <button
             onClick={handleToggle}
-            className="hidden md:flex w-full items-center justify-center gap-2 rounded-lg border border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-3 py-2.5 text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+            className="hidden md:flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-100 dark:bg-zinc-900 px-3 py-2.5 text-zinc-700 dark:text-zinc-300 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >

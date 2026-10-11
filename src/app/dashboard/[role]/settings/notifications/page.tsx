@@ -122,7 +122,7 @@ export default function NotificationSettingsPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Notification Settings</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Manage how you receive notifications</p>
+        <p className="text-zinc-600 dark:text-zinc-500">Manage how you receive notifications</p>
       </div>
 
       <div className="space-y-6">

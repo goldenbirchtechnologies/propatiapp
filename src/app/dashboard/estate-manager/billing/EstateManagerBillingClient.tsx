@@ -30,7 +30,7 @@ export default function EstateManagerBillingClient({ initialBills }: { initialBi
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-zinc-900 dark:text-white' }}>Billing</h1>
-          <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500', marginTop: 'mt-1' }}>Manage portfolio invoices and payments</p>
+          <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500', marginTop: 'mt-1' }}>Manage portfolio invoices and payments</p>
         </div>
         <button className="btn btn-primary inline-flex items-center gap-2"><Plus className="w-4 h-4" /> Generate Invoice</button>
       </div>
@@ -43,18 +43,18 @@ export default function EstateManagerBillingClient({ initialBills }: { initialBi
         </div>
         {filtered.length === 0 ? (
           <div className="card-body text-center py-16">
-            <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>No bills found.</p>
+            <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>No bills found.</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Title</th>
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Tenant</th>
-                <th className="text-right p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Amount</th>
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Due</th>
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Status</th>
-                <th className="text-right p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Actions</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Title</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Tenant</th>
+                <th className="text-right p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Amount</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Due</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Status</th>
+                <th className="text-right p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -63,7 +63,7 @@ export default function EstateManagerBillingClient({ initialBills }: { initialBi
                 return (
                   <tr key={b.id} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-white/[0.08]">
                     <td className="p-4 font-medium text-sm text-zinc-900 dark:text-white">{b.title}</td>
-                    <td className="p-4 text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{b.tenant}</td>
+                    <td className="p-4 text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{b.tenant}</td>
                     <td className="p-4 text-sm font-medium text-right text-zinc-900 dark:text-white">₦{b.amount.toLocaleString()}</td>
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">{new Date(b.dueDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                     <td className="p-4">

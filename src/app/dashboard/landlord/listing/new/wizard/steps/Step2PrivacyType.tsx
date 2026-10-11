@@ -63,12 +63,12 @@ export default function Step2PrivacyType({ value, onChange }: Step2Props) {
                 </div>
               )}
               <div className="p-4 flex items-center gap-4">
-                <div className={isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}>
+                <div className={isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-500'}>
                   {opt.icon}
                 </div>
                 <div className="flex-1">
                   <div className="font-medium">{opt.label}</div>
-                  <div className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{opt.description}</div>
+                  <div className="text-sm text-zinc-600 dark:text-zinc-500">{opt.description}</div>
                 </div>
               </div>
             </div>

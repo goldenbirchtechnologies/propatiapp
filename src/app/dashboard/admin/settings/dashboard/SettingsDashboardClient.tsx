@@ -13,12 +13,12 @@ export default function SettingsDashboardClient() {
         <section className="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-md">
           <div>
             <h2 className="font-headline-lg text-headline-lg text-zinc-900 dark:text-white">System Settings</h2>
-            <p className="font-body-md text-body-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="font-body-md text-body-md text-zinc-600 dark:text-zinc-500">
               Manage platform-wide configurations, security, and integrations.
             </p>
           </div>
           <div className="flex gap-md">
-            <button className="px-6 py-3 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white font-label-sm hover:bg-zinc-900 transition-all">
+            <button className="px-6 py-3 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white font-label-sm hover:bg-white dark:bg-zinc-900 transition-all">
               Discard
             </button>
             <button className="px-xl py-3 rounded-lg bg-emerald-500 text-white font-label-sm shadow-none hover:shadow-none transition-all">
@@ -37,7 +37,7 @@ export default function SettingsDashboardClient() {
             </div>
             <div className="space-y-md">
               <div className="group">
-                <label className="font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 block mb-xs">Platform Name</label>
+                <label className="font-label-sm text-zinc-600 dark:text-zinc-500 block mb-xs">Platform Name</label>
                 <input
                   className="w-full border border-zinc-200 dark:border-white/[0.08] rounded-lg px-md py-sm focus:border-zinc-200 dark:border-white/[0.08] focus:ring-1 focus:ring-primary transition-all"
                   type="text"
@@ -45,7 +45,7 @@ export default function SettingsDashboardClient() {
                 />
               </div>
               <div className="group">
-                <label className="font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 block mb-xs">Contact Email</label>
+                <label className="font-label-sm text-zinc-600 dark:text-zinc-500 block mb-xs">Contact Email</label>
                 <input
                   className="w-full border border-zinc-200 dark:border-white/[0.08] rounded-lg px-md py-sm focus:border-zinc-200 dark:border-white/[0.08] focus:ring-1 focus:ring-primary transition-all"
                   type="email"
@@ -53,7 +53,7 @@ export default function SettingsDashboardClient() {
                 />
               </div>
               <div className="group">
-                <label className="font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 block mb-xs">Timezone</label>
+                <label className="font-label-sm text-zinc-600 dark:text-zinc-500 block mb-xs">Timezone</label>
                 <select className="w-full border border-zinc-200 dark:border-white/[0.08] rounded-lg px-md py-sm focus:border-zinc-200 dark:border-white/[0.08] focus:ring-1 focus:ring-primary transition-all">
                   <option selected={true}>WAT (West Africa Time)</option>
                   <option>GMT (Greenwich Mean Time)</option>
@@ -83,7 +83,7 @@ export default function SettingsDashboardClient() {
                 </div>
                 <div className="flex justify-between items-center py-sm">
                   <span className="text-body-sm font-medium">Last Security Audit</span>
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-label-sm">Oct 24, 2023</span>
+                  <span className="text-zinc-600 dark:text-zinc-500 font-label-sm">Oct 24, 2023</span>
                 </div>
               </div>
             </div>
@@ -105,7 +105,7 @@ export default function SettingsDashboardClient() {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-zinc-900 dark:text-white">Payment Gateway</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Paystack • Online</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">Paystack • Online</p>
                 </div>
               </div>
               <div className="flex items-center gap-md">
@@ -114,7 +114,7 @@ export default function SettingsDashboardClient() {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-zinc-900 dark:text-white">SMS Service</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Twilio • Online</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">Twilio • Online</p>
                 </div>
               </div>
               <div className="flex items-center gap-md">
@@ -123,7 +123,7 @@ export default function SettingsDashboardClient() {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-zinc-900 dark:text-white">Email (SendGrid)</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Degraded • Check logs</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">Degraded • Check logs</p>
                 </div>
               </div>
             </div>
@@ -136,10 +136,10 @@ export default function SettingsDashboardClient() {
             <button className="px-6 py-3 font-label-sm text-label-md text-zinc-900 dark:text-white border-b-2 border-zinc-200 dark:border-white/[0.08] font-bold whitespace-nowrap">
               Platform Logic
             </button>
-            <button className="px-6 py-3 font-label-sm text-label-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors whitespace-nowrap">
+            <button className="px-6 py-3 font-label-sm text-label-md text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors whitespace-nowrap">
               Localization & Advanced
             </button>
-            <button className="px-6 py-3 font-label-sm text-label-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors whitespace-nowrap">
+            <button className="px-6 py-3 font-label-sm text-label-md text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors whitespace-nowrap">
               Maintenance Mode
             </button>
           </div>
@@ -149,34 +149,34 @@ export default function SettingsDashboardClient() {
             <div>
               <h4 className="font-headline-sm text-zinc-900 dark:text-white mb-md">Registration Settings</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
+                <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
                   <div>
                     <p className="font-bold text-zinc-900 dark:text-white text-sm">Auto-Verify Properties</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Automatically approve properties with valid docs</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500">Automatically approve properties with valid docs</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
-                <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
+                <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
                   <div>
                     <p className="font-bold text-zinc-900 dark:text-white text-sm">Require Email Verification</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Block logins until email is confirmed</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500">Block logins until email is confirmed</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
-                <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
+                <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
                   <div>
                     <p className="font-bold text-zinc-900 dark:text-white text-sm">Enable Agent Commissions</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Allow agents to earn on closed deals</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500">Allow agents to earn on closed deals</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
               </div>
@@ -190,16 +190,16 @@ export default function SettingsDashboardClient() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-surface border border-zinc-200 dark:border-white/[0.08]">
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">API Latency</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 mb-1">API Latency</p>
                   <p className="text-2xl font-bold text-zinc-900 dark:text-white">42ms</p>
-                  <div className="w-full bg-zinc-50 dark:bg-zinc-900 rounded-full h-1.5 mt-2">
+                  <div className="w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-full h-1.5 mt-2">
                     <div className="h-full bg-success rounded-full" style={{ width: '95%' }}></div>
                   </div>
                 </div>
                 <div className="p-4 rounded-xl bg-surface border border-zinc-200 dark:border-white/[0.08]">
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">DB Connection Pool</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 mb-1">DB Connection Pool</p>
                   <p className="text-2xl font-bold text-zinc-900 dark:text-white">68/100</p>
-                  <div className="w-full bg-zinc-50 dark:bg-zinc-900 rounded-full h-1.5 mt-2">
+                  <div className="w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-full h-1.5 mt-2">
                     <div className="h-full bg-warning rounded-full" style={{ width: '68%' }}></div>
                   </div>
                 </div>
@@ -209,17 +209,17 @@ export default function SettingsDashboardClient() {
         </div>
 
         {/* Footer Fixed Save Bar */}
-        <div className="fixed bottom-0 left-64 right-0 bg-zinc-950/50/80 backdrop-blur-md border-t border-zinc-200 dark:border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
+        <div className="fixed bottom-0 left-64 right-0 bg-white dark:bg-zinc-950/50/80 backdrop-blur-md border-t border-zinc-200 dark:border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
           <div className="flex items-center gap-4">
             <span className="lucide text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }}>
               check_circle
             </span>
-            <p className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="text-body-sm text-zinc-600 dark:text-zinc-500">
               System-wide auto-save enabled. Last saved <span className="font-bold text-zinc-900 dark:text-white">12 seconds ago</span>.
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase font-bold tracking-widest mr-4">
+            <p className="text-[10px] text-zinc-600 dark:text-zinc-500 uppercase font-bold tracking-widest mr-4">
               Revision History: V4.1.09
             </p>
             <button className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-white rounded-lg font-bold shadow-none shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">

@@ -31,7 +31,7 @@ export default async function AgentInvitesPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
           <div>
             <h3 className="font-heading text-headline-lg text-zinc-900 dark:text-white">Invitations</h3>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Landlords can optionally invite you to manage their listings.</p>
+            <p className="text-zinc-600 dark:text-zinc-500">Landlords can optionally invite you to manage their listings.</p>
           </div>
           <AcceptInviteClient invites={invites} email={user.email ?? ''} />
         </div>

@@ -84,7 +84,7 @@ export default async function LandlordVerificationPage() {
               <div className="col-span-full bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-12 text-center">
                 <BuildingIcon className="w-5 h-5" />
                 <h3 className="text-zinc-900 dark:text-white">No properties to verify</h3>
-                <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Add a property to start the verification process.</p>
+                <p className="text-zinc-600 dark:text-zinc-500">Add a property to start the verification process.</p>
                 <Link href="/dashboard/landlord/properties/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Add Property
                 </Link>
@@ -106,19 +106,19 @@ function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }
     <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{label}</p>
+          <p className="text-zinc-600 dark:text-zinc-500">{label}</p>
           <p className="text-zinc-900 dark:text-white">{value}</p>
         </div>
-        <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+        <div className="bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
           {Icon}
         </div>
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className={`text-xs font-medium ${trendPositive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}>
+          <span className={`text-xs font-medium ${trendPositive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-500'}`}>
             {trendPositive ? '✓' : ''}
           </span>
-          <span className={`text-xs ${trendPositive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}>
+          <span className={`text-xs ${trendPositive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-500'}`}>
             {trend}
           </span>
         </div>
@@ -171,7 +171,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
             <span className="font-medium text-zinc-300">{approvedCount} of 4 Steps Completed</span>
             <span className="text-zinc-600 dark:text-zinc-400">{progress}%</span>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-white dark:bg-zinc-900">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white dark:bg-white dark:bg-zinc-900">
             <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${progress}%` }} />
           </div>
         </div>
@@ -179,7 +179,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
       <div className="p-4">
         <div className="mb-3 flex items-start justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
               <BuildingIcon className="h-5 w-5" />
             </div>
             <div className="min-w-0">
@@ -207,7 +207,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
               className="flex flex-col gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50 p-3 sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400'}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400'}`}>
                   {isApproved ? <CheckIcon className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
                 </div>
                 <div className="min-w-0">
@@ -236,7 +236,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
         {overallStatus === 'certified' ? (
           <Link
             href={`/dashboard/landlord/properties/${listing.id}`}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:bg-zinc-800"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:bg-zinc-800"
           >
             <BuildingIcon className="h-4 w-4" /> Manage Property
           </Link>

@@ -166,18 +166,18 @@ function formatPropertyType(value?: string) {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     active: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Active' },
-    draft: { class: 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+    draft: { class: 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
     suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
-    deleted: { class: 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
+    deleted: { class: 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: status };
+  const cfg = config[status] || { class: 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
+      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
         Not Started
       </span>
     );
@@ -186,13 +186,13 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
           Not Started
         </span>
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-white border border-zinc-200 dark:border-white/[0.08]/20 dark:bg-emerald-500/20 dark:text-white dark:border-zinc-200 dark:border-white/[0.08]/30">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-white border border-zinc-200 dark:border-white/[0.08]/20 dark:bg-emerald-500/20 dark:text-white dark:border-zinc-200 dark:border-white/[0.08]/30">
           <svg
             width="10"
             height="10"
@@ -218,7 +218,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
           {verification.overallStatus}
         </span>
       );
@@ -326,7 +326,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   ];
 
   const statusColors: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started' },
+    not_started: { class: 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started' },
     in_progress: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'In Review' },
     certified: { class: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', label: 'Verified' },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected' },
@@ -367,7 +367,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="flex items-center gap-3 min-w-0">
           <Link
             href="/dashboard/landlord/properties"
-            className="inline-flex items-center gap-1.5 shrink-0 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-300 hover:bg-zinc-800 hover:text-zinc-900 dark:text-white"
+            className="inline-flex items-center gap-1.5 shrink-0 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-300 hover:bg-zinc-800 hover:text-zinc-900 dark:text-white"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to Properties
@@ -605,7 +605,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     onClick={async () => {
                       try { await navigator.clipboard.writeText(listing.id); } catch {}
                     }}
-                    className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:bg-zinc-800 hover:text-zinc-900 dark:text-white"
+                    className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:bg-zinc-800 hover:text-zinc-900 dark:text-white"
                   >
                     <Copy className="h-3 w-3" />
                   </button>
@@ -673,7 +673,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         <span className="text-sm text-zinc-900 dark:text-white">{formatPropertyType(unit.type)}</span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="inline-flex items-center rounded-full bg-zinc-50 dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/[0.08]">
+                        <span className="inline-flex items-center rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/[0.08]">
                           {formatListingType(unit.listingType)}
                         </span>
                       </td>
@@ -688,7 +688,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                           unit.occupancy === 'VACANT'
                             ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'
                             : unit.occupancy === 'OCCUPIED'
-                              ? 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]'
+                              ? 'bg-white dark:bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]'
                               : 'bg-amber-500/15 text-amber-400 border-amber-500/20'
                         }`}>
                           {unit.occupancy === 'VACANT' ? 'Vacant' : unit.occupancy === 'OCCUPIED' ? 'Occupied' : unit.occupancy === 'NOTICE_GIVEN' ? 'Notice Given' : unit.occupancy}
@@ -696,7 +696,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                       </td>
                       <td className="px-4 py-3">
                         <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                          unit.isListed ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'
+                          unit.isListed ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'
                         }`}>
                           {unit.isListed ? 'Listed' : 'Unlisted'}
                         </span>
@@ -731,7 +731,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <h2 className="font-headline-sm font-bold text-zinc-900 dark:text-white">
                 Verification Status
               </h2>
-              <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusColors[verificationStatus]?.class || 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'}`}>
+              <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusColors[verificationStatus]?.class || 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'}`}>
                 {statusColors[verificationStatus]?.label || 'Unknown'}
               </span>
             </div>
@@ -745,7 +745,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     <span className="font-medium text-zinc-300">{approvedCount} of {total} Steps Completed</span>
                     <span className="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">{pct}%</span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white dark:bg-zinc-900">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-white dark:bg-white dark:bg-zinc-900">
                     <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${pct}%` }} />
                   </div>
                   {verificationStatus === 'certified' && (
@@ -775,7 +775,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 className="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400'}`}>
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400'}`}>
                     {isApproved ? <CheckCircle2 className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
                   </div>
                   <div className="min-w-0">
@@ -834,7 +834,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </p>
 
           {listing.verification && listing.verification.overallStatus !== 'certified' && (
-            <div className="flex items-center gap-2 p-3 rounded-lg mb-4 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/[0.08]">
+            <div className="flex items-center gap-2 p-3 rounded-lg mb-4 bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/[0.08]">
               <AlertTriangle className="h-4 w-4 text-zinc-900 dark:text-white" />
               <p className="text-sm text-zinc-900 dark:text-white">
                 Amenity updates will be reviewed during verification.
@@ -887,8 +887,8 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     }}
                     className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                       active
-                        ? 'bg-zinc-900 border-zinc-200 dark:border-white/[0.08]/20 text-zinc-900 dark:text-white'
-                        : 'bg-zinc-900 border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:border-white/40'
+                        ? 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]/20 text-zinc-900 dark:text-white'
+                        : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:border-white/40'
                     }`}
                   >
                     {active ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -978,7 +978,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="w-full h-40 object-cover"
                   />
                   {image.isCover && (
-                    <span className="absolute top-2 left-2 tag bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20">
+                    <span className="absolute top-2 left-2 tag bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20">
                       Cover
                     </span>
                   )}

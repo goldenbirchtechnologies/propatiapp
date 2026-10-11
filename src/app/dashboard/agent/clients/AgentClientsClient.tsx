@@ -96,7 +96,7 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
           {Icon}
         </div>
         <div>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
             {label}
           </p>
           <p className="text-2xl font-headline-sm font-bold text-zinc-900 dark:text-white">
@@ -112,11 +112,11 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
 function EmptyClientsState({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="glass-card flex flex-col items-center justify-center p-12 text-center">
-      <Users className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.4 }} />
+      <Users className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.4 }} />
       <h3 className="font-headline-sm font-bold text-lg mb-2 text-zinc-900 dark:text-white">
         No clients yet
       </h3>
-      <p className="text-xs font-label-sm uppercase tracking-wider mb-6 max-w-sm mx-auto text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+      <p className="text-xs font-label-sm uppercase tracking-wider mb-6 max-w-sm mx-auto text-zinc-600 dark:text-zinc-500">
         Your client portfolio is empty. Start by adding buyers or sellers to track your deals and relationships.
       </p>
       <Button onClick={onAdd} className="gap-2">
@@ -180,7 +180,7 @@ function ClientRow({ client }: { client: Client }) {
               {client.type}
             </span>
           </div>
-          <div className="flex items-center gap-3 mt-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <div className="flex items-center gap-3 mt-1 text-xs text-zinc-600 dark:text-zinc-500">
             {client.email && (
               <span className="flex items-center gap-1 truncate">
                 <Mail className="h-3 w-3" />
@@ -192,7 +192,7 @@ function ClientRow({ client }: { client: Client }) {
               {client.phone}
             </span>
           </div>
-          <div className="flex items-center gap-3 mt-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <div className="flex items-center gap-3 mt-1 text-xs text-zinc-600 dark:text-zinc-500">
             {client.assignedAgent && (
               <span className="flex items-center gap-1 truncate">
                 Agent: {client.assignedAgent}
@@ -211,36 +211,36 @@ function ClientRow({ client }: { client: Client }) {
         <div className="text-right hidden xl:block flex-shrink-0" style={{ minWidth: 140 }}>
           {client.type === 'Landlord' || client.type === 'Seller' ? (
             <>
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Portfolio</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Portfolio</p>
               <p className="text-sm font-medium text-zinc-900 dark:text-white">
                 {client.dealsCount > 0 ? `${client.dealsCount} Managed Unit${client.dealsCount === 1 ? '' : 's'}` : 'No units'}
               </p>
               {client.managedValue > 0 && (
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{formatNaira(client.managedValue)} value</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">{formatNaira(client.managedValue)} value</p>
               )}
             </>
           ) : client.dealsCount > 0 ? (
             <>
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Active Deals</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Active Deals</p>
               <p className="text-sm font-medium text-zinc-900 dark:text-white">{client.dealsCount}</p>
             </>
           ) : (
             <>
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</p>
-              <Badge variant="outline" className="border-white/10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs">Unset</Badge>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Status</p>
+              <Badge variant="outline" className="border-white/10 text-zinc-600 dark:text-zinc-500 text-xs">Unset</Badge>
             </>
           )}
         </div>
 
         {/* Deals count */}
         <div className="text-right hidden lg:block flex-shrink-0" style={{ minWidth: 100 }}>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Deals</p>
+          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Deals</p>
           <p className="text-sm font-medium text-zinc-900 dark:text-white">{client.dealsCount}</p>
         </div>
 
         {/* Last contact */}
         <div className="text-right hidden 2xl:block flex-shrink-0" style={{ minWidth: 110 }}>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last Contact</p>
+          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Last Contact</p>
           <p className="text-sm text-zinc-900 dark:text-white" title={lastContactDate.toISOString()}>
             {contactRelative}
           </p>
@@ -281,7 +281,7 @@ function ClientRow({ client }: { client: Client }) {
                 aria-label="More actions"
                 title="More actions"
               >
-                <MoreVertical className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                <MoreVertical className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-40">
@@ -405,7 +405,7 @@ export default function AgentClientsClient({
       {/* Filters */}
       <div className="glass-card p-4 flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
             <Building2 className="w-3.5 h-3.5 inline mr-1" />
             Filter
           </span>
@@ -416,7 +416,7 @@ export default function AgentClientsClient({
               className={cn(
                 'px-3 py-1.5 rounded-md text-sm font-medium border transition-all capitalize',
                 filter === f
-                  ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50'
+                  ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50'
                   : 'border-transparent hover:bg-[#171717]/50'
               )}
             >
@@ -440,11 +440,11 @@ export default function AgentClientsClient({
           <EmptyClientsState onAdd={() => {}} />
         ) : filtered.length === 0 ? (
           <div className="glass-card flex flex-col items-center justify-center p-12 text-center">
-            <Users className="w-12 h-12 mx-auto mb-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.4 }} />
+            <Users className="w-12 h-12 mx-auto mb-3 text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.4 }} />
             <p className="text-sm font-medium text-zinc-900 dark:text-white">
               No clients in this category
             </p>
-            <p className="text-xs font-label-sm uppercase tracking-wider mt-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="text-xs font-label-sm uppercase tracking-wider mt-1 text-zinc-600 dark:text-zinc-500">
               Try clearing the filter to see all clients.
             </p>
           </div>
@@ -467,7 +467,7 @@ function PageHeader() {
         >
           My Clients
         </h1>
-        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 mt-1">
           Manage lead relationships and budgets
         </p>
       </div>

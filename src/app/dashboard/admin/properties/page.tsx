@@ -33,7 +33,7 @@ export default async function AdminPropertiesPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Properties</h1>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Manage and approve property listings.</p>
+            <p className="text-zinc-600 dark:text-zinc-500 mt-1">Manage and approve property listings.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
             Add Property
@@ -42,19 +42,19 @@ export default async function AdminPropertiesPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Total Listings</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Total Listings</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{totalListings.toLocaleString()}</p>
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Active</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Active</p>
             <p className="text-2xl font-bold text-emerald-500 mt-2">{activeCount.toLocaleString()}</p>
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Draft</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Draft</p>
             <p className="text-2xl font-bold text-amber-600 mt-2">{draftCount.toLocaleString()}</p>
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Open Flags</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Open Flags</p>
             <p className="text-2xl font-bold text-red-600 mt-2">{flaggedCount.toLocaleString()}</p>
           </div>
         </div>
@@ -65,13 +65,13 @@ export default async function AdminPropertiesPage() {
           </div>
           {recentListings.length === 0 ? (
             <div className="p-12 text-center">
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No properties listed.</p>
+              <p className="text-zinc-600 dark:text-zinc-500">No properties listed.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                  <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-500">
                     <th className="p-3 font-medium">Title</th>
                     <th className="p-3 font-medium">Type</th>
                     <th className="p-3 font-medium">Status</th>
@@ -80,11 +80,11 @@ export default async function AdminPropertiesPage() {
                 </thead>
                 <tbody>
                   {recentListings.map((listing) => (
-                    <tr key={listing.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-900/50">
+                    <tr key={listing.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-100 dark:hover:bg-zinc-900/50">
                       <td className="p-3 text-zinc-900 dark:text-white">{listing.title}</td>
                       <td className="p-3 text-zinc-900 dark:text-white capitalize">{listing.listingType.replace(/_/g, ' ')}</td>
                       <td className="p-3">
-                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white capitalize">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white capitalize">
                           {listing.status}
                         </span>
                       </td>

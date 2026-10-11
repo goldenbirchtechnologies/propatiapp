@@ -153,7 +153,7 @@ function UsersManagementClient({
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/[0.08] sticky top-0">
+                <tr className="bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/[0.08] sticky top-0">
                   {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
                     <th
                       key={h}
@@ -166,7 +166,7 @@ function UsersManagementClient({
               </thead>
               <tbody className="divide-y divide-[#262626]/50">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-zinc-900 transition-all duration-200">
+                  <tr key={u.id} className="hover:bg-white dark:bg-zinc-900 transition-all duration-200">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-emerald-500-fixed-dim flex items-center justify-center __PHWHITE__ font-bold text-sm">
@@ -232,7 +232,7 @@ function UsersManagementClient({
             <a
               href={buildHref(currentPage - 1)}
               className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] transition-colors ${
-                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-zinc-900 dark:text-white'
+                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
               }`}
             >
               <ChevronLeft className="!w-5 !h-5" />
@@ -250,7 +250,7 @@ function UsersManagementClient({
                   className={`w-10 h-10 flex items-center justify-center rounded-lg text-xs text-label-md transition-colors ${
                     pageNum === currentPage
                       ? 'bg-emerald-500 text-white shadow-none font-bold'
-                      : 'border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-900'
+                      : 'border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
                   }`}
                 >
                   {pageNum}
@@ -260,7 +260,7 @@ function UsersManagementClient({
             <a
               href={buildHref(currentPage + 1)}
               className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] transition-colors ${
-                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-zinc-900 dark:text-white'
+                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
               }`}
             >
               <ChevronRight className="!w-5 !h-5" />

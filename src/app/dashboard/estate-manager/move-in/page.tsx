@@ -169,7 +169,7 @@ export default function EstateManagerMoveInPage() {
               </div>
             ))}
           </div>
-          <div className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center gap-3 border-t border-zinc-200 dark:border-white/[0.08]">
+          <div className="p-4 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-lg flex items-center gap-3 border-t border-zinc-200 dark:border-white/[0.08]">
             <Info className="w-5 h-5 text-zinc-500 dark:text-zinc-400 shrink-0" />
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               Temperature controls for Suite 402 can be managed via the{' '}

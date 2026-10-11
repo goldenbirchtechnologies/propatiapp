@@ -58,7 +58,7 @@ export default async function LandlordWithdrawalsPage() {
                   </tr>
                 ) : (
                   payouts.map((w) => (
-                    <tr key={w.id} className="hover:bg-zinc-900 transition-colors">
+                    <tr key={w.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
                       <td className="px-5 py-4 text-sm font-mono text-zinc-500 dark:text-zinc-400">{w.reference || w.id}</td>
                       <td className="px-5 py-4 text-sm">{new Date(w.createdAt).toLocaleDateString('en-NG')}</td>
                       <td className="px-5 py-4 text-sm"><span className="capitalize">{w.type.replace('_', ' ')}</span></td>

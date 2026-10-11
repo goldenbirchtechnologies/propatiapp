@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 
 const listingStatusConfig: Record<string, { color: string; label: string }> = {
   active: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Active' },
-  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
   suspended: { color: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Suspended' },
   deleted: { color: 'bg-destructive/5 text-red-500/60 border border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
 };
@@ -43,13 +43,13 @@ export default function AgentMarketClient({ initialListings }: { initialListings
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">Market Overview</h1>
-        <p className="text-base text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Browse active listings across the marketplace</p>
+        <p className="text-base text-zinc-600 dark:text-zinc-500 mt-1">Browse active listings across the marketplace</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Active Listings</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Active Listings</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stats.active}</p>
@@ -57,7 +57,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
         </div>
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Avg Price</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Avg Price</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{fmtCurrency(stats.avgPrice)}</p>
@@ -65,7 +65,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
         </div>
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Shown</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Total Shown</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stats.total}</p>
@@ -73,7 +73,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
         </div>
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property Types</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Property Types</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stats.types.length}</p>
@@ -85,19 +85,19 @@ export default function AgentMarketClient({ initialListings }: { initialListings
         <div className="p-6 p-0">
           {initialListings.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
-              <TrendingUp className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
+              <TrendingUp className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500 opacity-50" />
               <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No active listings</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Market listings will appear here.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Market listings will appear here.</p>
             </div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
                 <tr>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Type</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Price</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
-                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Details</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Property</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Type</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Price</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Status</th>
+                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,7 +107,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
                     <tr key={l.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
                       <td className="p-4">
                         <p className="font-medium text-sm text-zinc-900 dark:text-white">{l.title}</p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{l.address}</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-500">{l.address}</p>
                       </td>
                       <td className="p-4 text-sm text-zinc-900 dark:text-white capitalize">{l.type}</td>
                       <td className="p-4 text-sm text-zinc-900 dark:text-white font-medium">{fmtCurrency(l.price)}</td>

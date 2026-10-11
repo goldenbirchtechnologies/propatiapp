@@ -71,7 +71,7 @@ export default async function LandlordPortfolioPage() {
                   </thead>
                   <tbody className="divide-y divide-[#262626]">
                     {listings.map((l) => (
-                      <tr key={l.id} className="hover:bg-zinc-900 transition-colors">
+                      <tr key={l.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
                         <td className="px-5 py-4 font-medium">{l.title}</td>
                         <td className="px-5 py-4 text-sm text-zinc-500 dark:text-zinc-400 capitalize">{l.listingType.replace('_', ' ')}</td>
                         <td className="px-5 py-4 text-sm">{l.area}</td>

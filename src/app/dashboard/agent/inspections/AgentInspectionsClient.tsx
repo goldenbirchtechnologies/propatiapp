@@ -30,33 +30,33 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: '#ffffff' }}>Inspections</h1>
-            <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Schedule and track property inspections</p>
+            <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 mt-1">Schedule and track property inspections</p>
           </div>
           <button className="btn btn-primary inline-flex items-center gap-2"><Plus className="w-4 h-4" /> Schedule Inspection</button>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialInspections.length}</p></div>
-          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Scheduled</p><p className="text-2xl font-bold text-info">{initialInspections.filter((i) => i.status === 'scheduled').length}</p></div>
-          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Completed</p><p className="text-2xl font-bold text-[#10b981]">{initialInspections.filter((i) => i.status === 'completed').length}</p></div>
-          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Cancelled</p><p className="text-2xl font-bold text-red-500">{initialInspections.filter((i) => i.status === 'cancelled').length}</p></div>
+          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Total</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialInspections.length}</p></div>
+          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Scheduled</p><p className="text-2xl font-bold text-info">{initialInspections.filter((i) => i.status === 'scheduled').length}</p></div>
+          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Completed</p><p className="text-2xl font-bold text-[#10b981]">{initialInspections.filter((i) => i.status === 'completed').length}</p></div>
+          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Cancelled</p><p className="text-2xl font-bold text-red-500">{initialInspections.filter((i) => i.status === 'cancelled').length}</p></div>
         </div>
 
         <div className="glass-card overflow-hidden">
           <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-white/[0.08]">
             {['all', 'scheduled', 'completed', 'cancelled'].map((f) => (
-              <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
+              <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
             ))}
           </div>
           {filtered.length === 0 ? (
-            <div className="card-body text-center py-16"><Phone className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} /><h3 className="font-headline-sm font-bold text-lg mb-2 text-zinc-900 dark:text-white">No inspections</h3><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Schedule your first inspection.</p></div>
+            <div className="card-body text-center py-16"><Phone className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} /><h3 className="font-headline-sm font-bold text-lg mb-2 text-zinc-900 dark:text-white">No inspections</h3><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Schedule your first inspection.</p></div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead><tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Date</th>
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
-                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Report</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Property</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Date</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Status</th>
+                <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Report</th>
               </tr></thead>
               <tbody>
                 {filtered.map((i) => {
@@ -66,7 +66,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                       <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white">{i.listing?.title || '—'}</td>
                       <td className="p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-900 dark:text-white">{new Date(i.scheduledAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                       <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>
-                      <td className="p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{i.reportUrl ? 'Available' : 'Pending'}</td>
+                      <td className="p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">{i.reportUrl ? 'Available' : 'Pending'}</td>
                     </tr>
                   );
                 })}

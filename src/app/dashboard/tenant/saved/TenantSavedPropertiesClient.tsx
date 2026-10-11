@@ -59,7 +59,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
       />
 
       <div className="flex items-center justify-between">
-        <div className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{filtered.length} properties saved</div>
+        <div className="text-sm text-zinc-600 dark:text-zinc-500">{filtered.length} properties saved</div>
         <div className="flex items-center gap-1">
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
@@ -82,7 +82,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
 
       <div className="glass-card rounded-xl p-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-500" />
           <Input
             placeholder="Search saved properties..."
             value={searchQuery}
@@ -136,7 +136,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
                 <div className="p-6 p-4 space-y-3">
                   <div>
                     <h3 className="font-medium text-zinc-900 dark:text-white line-clamp-1">{property.title}</h3>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-bold text-zinc-900 dark:text-white">{formatPrice(property.price)}</span>

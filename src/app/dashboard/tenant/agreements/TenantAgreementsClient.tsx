@@ -102,7 +102,7 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-500" />
             <Input
               placeholder="Search agreements..."
               value={searchQuery}
@@ -151,14 +151,14 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-base font-semibold text-zinc-900 dark:text-white">{agreement.title}</h3>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{agreement.property.address}, {agreement.property.area}</p>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-500">{agreement.property.address}, {agreement.property.area}</p>
                       </div>
                     </div>
                     <StatusBadge status={agreement.status} />
                   </div>
                 </div>
                 <div className="p-6 space-y-4">
-                  <div className="aspect-video rounded-lg overflow-hidden bg-white dark:bg-zinc-900">
+                  <div className="aspect-video rounded-lg overflow-hidden bg-white dark:bg-white dark:bg-zinc-900">
                     <img src={image} alt={agreement.property.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -182,13 +182,13 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
                   {isActive && (
                     <div>
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Lease Progress</span>
+                        <span className="text-zinc-600 dark:text-zinc-500">Lease Progress</span>
                         <span className="text-zinc-900 dark:text-white">{lease.progress}% complete</span>
                       </div>
-                      <div className="h-2 w-full bg-zinc-50 dark:bg-zinc-900 rounded-full overflow-hidden">
+                      <div className="h-2 w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-full overflow-hidden">
                         <div className="h-full bg-emerald-500" style={{ width: `${lease.progress}%` }} />
                       </div>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{lease.daysLeft} days remaining</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">{lease.daysLeft} days remaining</p>
                     </div>
                   )}
                   <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-white/[0.08]">

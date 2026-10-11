@@ -121,7 +121,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
       {/* Unified Toolbar */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 dark:text-zinc-500" />
           <input
             type="text"
             placeholder="Search deals..."
@@ -229,7 +229,7 @@ function PipelineColumn({ stage, deals, color, nextStageTitle, onMoveStage }: { 
           <div className="space-y-3 min-h-[400px]">
             {deals.length === 0 ? (
               <div className="h-32 flex flex-col items-center justify-center gap-2" style={{ border: '2px dashed #262626', borderRadius: '0.75rem' }}>
-                <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No deals in this stage</span>
+                <span className="text-xs text-zinc-600 dark:text-zinc-500">No deals in this stage</span>
                 <Button size="sm" variant="ghost" className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                   <Plus className="w-3 h-3 mr-1" /> Add Deal
                 </Button>
@@ -263,10 +263,10 @@ function DealCard({ deal, color, stageId, nextStageTitle, onMoveStage }: { deal:
             <span className="text-sm font-medium truncate text-zinc-900 dark:text-white">{deal.title}</span>
             <Badge variant="outline" className="text-xs">{deal.property}</Badge>
           </div>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Client: {deal.client}</p>
+          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Client: {deal.client}</p>
         </div>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <GripVertical className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ cursor: 'grab' }} />
+          <GripVertical className="w-4 h-4 text-zinc-600 dark:text-zinc-500" style={{ cursor: 'grab' }} />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-6 w-6">
@@ -297,7 +297,7 @@ function DealCard({ deal, color, stageId, nextStageTitle, onMoveStage }: { deal:
         </div>
       </div>
 
-      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-sm uppercase tracking-wider border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-sm uppercase tracking-wider border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-500">
         <span className="text-zinc-900 dark:text-white font-medium">₦{deal.value.toLocaleString('en-NG')}</span>
         <span>{formatAge(deal.createdAt)}</span>
       </div>
@@ -306,23 +306,23 @@ function DealCard({ deal, color, stageId, nextStageTitle, onMoveStage }: { deal:
         <div className="mt-3 p-3 rounded-xl" style={{ background: 'rgba(10,10,10,0.3)', border: '1px solid #262626' }}>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Property:</span>
               <span className="text-zinc-900 dark:text-white">{deal.property}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Client:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Client:</span>
               <span className="text-zinc-900 dark:text-white">{deal.client}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Value:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Value:</span>
               <span className="text-sm font-medium text-zinc-900 dark:text-white">₦{deal.value.toLocaleString('en-NG')}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Agent:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Agent:</span>
               <span className="text-zinc-900 dark:text-white">{deal.assignedAgent}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last Contact:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Last Contact:</span>
               <span className="text-zinc-900 dark:text-white">{deal.lastContact}</span>
             </div>
           </div>

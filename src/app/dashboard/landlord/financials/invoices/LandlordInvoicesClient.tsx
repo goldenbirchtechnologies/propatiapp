@@ -9,8 +9,8 @@ import { Input } from '@/components/ui/input';
 import type { Invoice } from '@/lib/api';
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  sent: { class: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Sent' },
+  draft: { class: 'bg-white dark:bg-zinc-950/50 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  sent: { class: 'bg-white dark:bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Sent' },
   paid: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
@@ -76,7 +76,7 @@ export default function LandlordInvoicesClient() {
       <div className="flex items-center justify-between">
         <div>
           <h4 className="font-heading text-zinc-900 dark:text-white">Invoices</h4>
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Create, send, and manage invoices.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-500">Create, send, and manage invoices.</p>
         </div>
         <Button onClick={() => setShowForm(!showForm)}>{showForm ? 'Cancel' : 'New Invoice'}</Button>
       </div>
@@ -95,19 +95,19 @@ export default function LandlordInvoicesClient() {
 
       <div className="glass-card rounded-xl p-6">
         {loading ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Loading invoices...</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-500">Loading invoices...</p>
         ) : invoices.length === 0 ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No invoices yet.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-500">No invoices yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white dark:bg-zinc-950/50">
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase">Invoice</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase">Status</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase">Amount</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase">Due</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase">Actions</th>
+                <tr className="bg-white dark:bg-white dark:bg-zinc-950/50">
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Invoice</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Status</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Amount</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Due</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
@@ -120,7 +120,7 @@ export default function LandlordInvoicesClient() {
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-sm">₦{Number(invoice.amount).toLocaleString()}</td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{new Date(invoice.dueDate).toLocaleDateString('en-NG')}</td>
+                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-500">{new Date(invoice.dueDate).toLocaleDateString('en-NG')}</td>
                     <td className="px-4 py-3 text-sm flex gap-2">
                       {invoice.status !== 'paid' && (
                         <>

@@ -45,7 +45,7 @@ export default function Amenities({ amenities }: Props) {
     return (
       <div>
         <h2 className="text-xl font-semibold mb-3 text-zinc-900 dark:text-white">Amenities</h2>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">No amenities listed.</p>
+        <p className="text-zinc-600 dark:text-zinc-500 text-sm">No amenities listed.</p>
       </div>
     );
   }

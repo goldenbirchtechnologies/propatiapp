@@ -14,7 +14,7 @@ export default async function AdminTransactionsPage() {
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Transactions</h3>
         </div>
         <div className="p-6">
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Use the sidebar links to view escrow or withdrawal transactions.</p>
+          <p className="text-zinc-600 dark:text-zinc-500">Use the sidebar links to view escrow or withdrawal transactions.</p>
         </div>
       </div>
     </DashboardShell>

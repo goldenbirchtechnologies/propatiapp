@@ -129,7 +129,7 @@ function AuditLogsClient({
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-zinc-900 transition-colors">
+                  <tr key={log.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
                     <td className="px-md py-3 whitespace-nowrap">
                       <p className="text-xs text-label-md text-zinc-900 dark:text-white">{formatDate(log.timestamp)}</p>
                       <p className="font-label-sm text-label-sm text-zinc-500 dark:text-zinc-400">{formatTime(log.timestamp)}</p>

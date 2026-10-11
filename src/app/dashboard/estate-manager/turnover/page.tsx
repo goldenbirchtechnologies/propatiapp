@@ -39,24 +39,24 @@ export default function EstateManagerTurnoverPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Turnover</h1>
-          <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500', marginTop: 'mt-1' }}>Vacate / handover checklist and inspection tracking</p>
+          <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500', marginTop: 'mt-1' }}>Vacate / handover checklist and inspection tracking</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Pending Handovers</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Pending Handovers</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{queue.length}</p>
           </div>
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Inspections</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Inspections</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{inspections.length}</p>
           </div>
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Avg Score</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Avg Score</p>
             <p className="text-2xl font-bold text-[#10b981]">{inspections.length > 0 ? Math.round(inspections.reduce((sum, i) => sum + i.score, 0) / inspections.length) : 0}%</p>
           </div>
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Open Issues</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Open Issues</p>
             <p className="text-2xl font-bold text-red-500">{queue.filter((t) => t.priority === 'high').length}</p>
           </div>
         </div>
@@ -67,16 +67,16 @@ export default function EstateManagerTurnoverPage() {
           </div>
           <div className="p-6">
             {queue.length === 0 ? (
-              <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>No inspections in queue.</p>
+              <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>No inspections in queue.</p>
             ) : (
               <div className="space-y-3">
                 {queue.map((t) => (
                   <div key={t.id} className="glass-card p-4 flex items-center justify-between">
                     <div>
                       <p className="font-medium text-sm text-zinc-900 dark:text-white">{t.title}</p>
-                      <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{t.unit} · {t.category}</p>
+                      <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{t.unit} · {t.category}</p>
                     </div>
-                    <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' : t.priority === 'medium' ? 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' : 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]')}>{t.priority}</span>
+                    <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' : t.priority === 'medium' ? 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]')}>{t.priority}</span>
                   </div>
                 ))}
               </div>
@@ -90,7 +90,7 @@ export default function EstateManagerTurnoverPage() {
           </div>
           <div className="p-6">
             {inspections.length === 0 ? (
-              <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>No inspections yet.</p>
+              <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>No inspections yet.</p>
             ) : (
               <div className="space-y-3">
                 {inspections.map((ins) => (
@@ -98,13 +98,13 @@ export default function EstateManagerTurnoverPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium text-sm text-zinc-900 dark:text-white">Unit {ins.unit}</p>
-                        <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                        <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                       </div>
                       <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]' : 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]')}>{ins.result}</span>
                     </div>
                     <div className="mt-3">
                       <Progress value={ins.score} className="h-2" />
-                      <p className="text-xs text-xs uppercase tracking-wider mt-1 text-right" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{ins.score}%</p>
+                      <p className="text-xs text-xs uppercase tracking-wider mt-1 text-right" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{ins.score}%</p>
                     </div>
                   </div>
                 ))}

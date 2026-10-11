@@ -128,7 +128,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
         </Button>
         <div>
           <h1 className="text-3xl font-bold">Initiate Payment</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <p className="text-zinc-600 dark:text-zinc-500">
             Make a secure payment for rent, deposits, or service charges
           </p>
         </div>
@@ -140,7 +140,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
           <div className="glass-card">
             <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Type</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Select the type of payment you want to make</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Select the type of payment you want to make</p>
             </div>
             <div className="p-6">
               <Select value={paymentType} onValueChange={setPaymentType}>
@@ -161,7 +161,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
           <div className="glass-card">
             <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Agreement</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">
                 Select the agreement this payment is for (optional for direct payments)
               </p>
             </div>
@@ -183,10 +183,10 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
               </div>
 
               {selectedAgreement && (
-                <div className="bg-zinc-950/50/50 rounded-lg p-4">
+                <div className="dark:bg-zinc-950/50 rounded-lg p-4">
                   <p className="text-sm font-semibold">{selectedAgreement.listing?.title}</p>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{selectedAgreement.listing?.area}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-500">{selectedAgreement.listing?.area}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">
                     Agreement: {selectedAgreement.id.slice(-8).toUpperCase()}
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
           <div className="glass-card">
             <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Amount</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Enter the amount to pay (in Naira)</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Enter the amount to pay (in Naira)</p>
             </div>
             <div className="p-6 space-y-4">
               <div className="space-y-2">
@@ -236,12 +236,12 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
               <div className="p-6">
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Payment Amount</span>
+                    <span className="text-zinc-600 dark:text-zinc-500">Payment Amount</span>
                     <span className="font-semibold">{formatAmountFromKobo(breakdown.amount)}</span>
                   </div>
                   {breakdown.platformFee > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                      <span className="text-zinc-600 dark:text-zinc-500">
                         Platform Fee ({((breakdown.platformFee / breakdown.amount) * 100).toFixed(1)}%)
                       </span>
                       <AppIcon name={formatAmountFromKobo(breakdown.platformFee)} className="lucide" />
@@ -249,7 +249,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   )}
                   {breakdown.agentCommission > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Agent Commission</span>
+                      <span className="text-zinc-600 dark:text-zinc-500">Agent Commission</span>
                       <span>{formatAmountFromKobo(breakdown.agentCommission)}</span>
                     </div>
                   )}
@@ -259,7 +259,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </div>
                 </div>
 
-                <div className="mt-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
+                <div className="mt-4 bg-zinc-50 dark:bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
                   <div className="flex gap-2">
                     <AlertCircle className="h-5 w-5 text-zinc-900 dark:text-white flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-zinc-900 dark:text-white">
@@ -296,7 +296,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </>
                 )}
               </Button>
-              <p className="text-xs text-center text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-3">
+              <p className="text-xs text-center text-zinc-600 dark:text-zinc-500 mt-3">
                 You will be redirected to Paystack to complete your payment securely
               </p>
             </div>

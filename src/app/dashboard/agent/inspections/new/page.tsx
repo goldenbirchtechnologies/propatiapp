@@ -15,7 +15,7 @@ export default async function AgentInspectionNewPage({ searchParams }: { searchP
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">New Inspection</h3>
         </div>
         <div className="p-6">
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <p className="text-zinc-600 dark:text-zinc-500">
             {searchParams?.dealId
               ? `Create an inspection request for deal ${searchParams.dealId}.`
               : 'Select a deal and create a new inspection request from the deal detail page.'}

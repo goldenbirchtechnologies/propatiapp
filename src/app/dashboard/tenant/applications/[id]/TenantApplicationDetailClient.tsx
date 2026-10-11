@@ -176,29 +176,29 @@ export default function TenantApplicationDetailClient({
                 </div>
                 <div className="p-6 space-y-4">
                   <div>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-500">Property</p>
                     <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.title}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Area</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">Area</p>
                       <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.area}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">State</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">State</p>
                       <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.state}</p>
                     </div>
                   </div>
                   <Separator />
                   <div>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-500">Rent</p>
                     <p className="text-2xl font-bold text-zinc-900 dark:text-white">
                       ₦{initial.listing.price.toLocaleString()}
                       {initial.listing.pricePeriod ? `/${initial.listing.pricePeriod}` : ''}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Type</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-500">Type</p>
                     <p className="font-medium text-zinc-900 dark:text-white">{initial.listing.listingType}</p>
                   </div>
                 </div>
@@ -220,19 +220,19 @@ export default function TenantApplicationDetailClient({
                     />
                     <div>
                       <p className="font-medium text-zinc-900 dark:text-white">{initial.landlord.fullName}</p>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{initial.landlord.email}</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">{initial.landlord.email}</p>
                     </div>
                   </div>
                   <Separator />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Applied On</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">Applied On</p>
                       <p className="font-medium text-zinc-900 dark:text-white">
                         {new Date(initial.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last Updated</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">Last Updated</p>
                       <p className="font-medium text-zinc-900 dark:text-white">
                         {new Date(initial.updatedAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </p>
@@ -240,7 +240,7 @@ export default function TenantApplicationDetailClient({
                   </div>
                   {initial.reviewedAt && (
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Reviewed On</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">Reviewed On</p>
                       <p className="font-medium text-zinc-900 dark:text-white">
                         {new Date(initial.reviewedAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </p>
@@ -271,15 +271,15 @@ export default function TenantApplicationDetailClient({
                       </div>
                     ))}
                   </div>
-                  <p className="text-sm mt-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">These are the listing images associated with the property.</p>
+                  <p className="text-sm mt-4 text-zinc-600 dark:text-zinc-500">These are the listing images associated with the property.</p>
                 </div>
               </div>
             ) : (
               <div className="glass-card glass-card">
                 <div className="p-6 flex flex-col items-center justify-center py-16 text-center">
-                  <ImageIcon className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
+                  <ImageIcon className="text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
                   <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">No documents yet</h3>
-                  <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">There are no documents attached to this application.</p>
+                  <p className="text-zinc-600 dark:text-zinc-500">There are no documents attached to this application.</p>
                 </div>
               </div>
             )}
@@ -305,7 +305,7 @@ export default function TenantApplicationDetailClient({
                     </div>
                     <div className="space-y-1">
                       <p className="font-medium text-zinc-900 dark:text-white">Application Submitted</p>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">
                         {new Date(initial.createdAt).toLocaleString('en-NG', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>
@@ -320,7 +320,7 @@ export default function TenantApplicationDetailClient({
                       </div>
                       <div className="space-y-1">
                         <p className="font-medium text-zinc-900 dark:text-white">Application Reviewed</p>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                        <p className="text-sm text-zinc-600 dark:text-zinc-500">
                           {new Date(initial.reviewedAt).toLocaleString('en-NG', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
@@ -333,7 +333,7 @@ export default function TenantApplicationDetailClient({
                       </div>
                       <div className="space-y-1">
                         <p className="font-medium text-zinc-900 dark:text-white">Application Accepted</p>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Congratulations! Your application has been accepted.</p>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-500">Congratulations! Your application has been accepted.</p>
                       </div>
                     </div>
                   )}
@@ -344,7 +344,7 @@ export default function TenantApplicationDetailClient({
                       </div>
                       <div className="space-y-1">
                         <p className="font-medium text-zinc-900 dark:text-white">Application Not Successful</p>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Unfortunately, your application was not successful.</p>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-500">Unfortunately, your application was not successful.</p>
                       </div>
                     </div>
                   )}
@@ -387,9 +387,9 @@ export default function TenantApplicationDetailClient({
               {!initial.message && !initial.landlordNotes && (
                 <div className="glass-card glass-card">
                   <div className="p-6 flex flex-col items-center justify-center py-16 text-center">
-                    <MessageSquare className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
+                    <MessageSquare className="text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
                     <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">No notes yet</h3>
-                    <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">There are no messages or notes on this application.</p>
+                    <p className="text-zinc-600 dark:text-zinc-500">There are no messages or notes on this application.</p>
                   </div>
                 </div>
               )}

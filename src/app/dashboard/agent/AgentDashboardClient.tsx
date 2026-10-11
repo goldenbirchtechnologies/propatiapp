@@ -175,7 +175,7 @@ export default function AgentDashboardClient({
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Managed Properties</h3>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Properties assigned to you by landlords</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Properties assigned to you by landlords</p>
           </div>
           <Link href="/dashboard/agent/properties" className="text-xs text-emerald-400 flex items-center gap-1">
             View all <ArrowRight size={11} />
@@ -183,7 +183,7 @@ export default function AgentDashboardClient({
         </div>
         {previewListings.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 text-center">
-            <Building2 className="w-10 h-10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
+            <Building2 className="w-10 h-10 text-zinc-600 dark:text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
             <p className="text-sm text-zinc-500 dark:text-zinc-400">No managed properties yet</p>
             <p className="text-xs text-zinc-600 mt-1">Accepted invites will appear here.</p>
           </div>
@@ -195,7 +195,7 @@ export default function AgentDashboardClient({
                 href={`/dashboard/agent/properties`}
                 className="group rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 overflow-hidden hover:border-zinc-700/80 transition-colors"
               >
-                <div className="relative h-32 bg-white dark:bg-zinc-900">
+                <div className="relative h-32 bg-white dark:bg-white dark:bg-zinc-900">
                   {listing.coverImage ? (
                     <img src={listing.coverImage} alt={listing.title} className="h-full w-full object-cover" />
                   ) : (
@@ -211,7 +211,7 @@ export default function AgentDashboardClient({
                 </div>
                 <div className="p-3">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Occupancy</span>
+                    <span className="text-zinc-600 dark:text-zinc-500">Occupancy</span>
                     <span className="text-zinc-900 dark:text-white font-medium">{listing.occupiedCount}/{listing.unitCount}</span>
                   </div>
                   <div className="mt-2 h-1.5 w-full rounded-full bg-zinc-800">
@@ -221,7 +221,7 @@ export default function AgentDashboardClient({
                     />
                   </div>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-[11px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 capitalize">{listing.listingType.replace('_', ' ')}</span>
+                    <span className="text-[11px] text-zinc-600 dark:text-zinc-500 capitalize">{listing.listingType.replace('_', ' ')}</span>
                     <span className="text-xs text-zinc-900 dark:text-white font-medium">{formatNaira(listing.price)}</span>
                   </div>
                 </div>
@@ -242,28 +242,28 @@ export default function AgentDashboardClient({
               <Building2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Properties</p>
             </div>
-            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-500" />
           </Link>
           <Link href="/dashboard/agent/listings" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Listings</p>
             </div>
-            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-500" />
           </Link>
           <Link href="/dashboard/agent/messages" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <MessageSquare className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Messages</p>
             </div>
-            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-500" />
           </Link>
           <Link href="/dashboard/agent/payments" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Payments</p>
             </div>
-            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-500" />
           </Link>
         </div>
       </div>

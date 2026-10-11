@@ -64,7 +64,7 @@ export default function ImageGallery({ images }: Props) {
             </div>
           </>
         ) : (
-          <div className="md:col-span-3 flex items-center justify-center bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <div className="md:col-span-3 flex items-center justify-center bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500">
             No images available
           </div>
         )}

@@ -98,7 +98,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
             Tips
           </Button>
         </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Select all furnishings available in the bedrooms.</p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-500">Select all furnishings available in the bedrooms.</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {FURNISHING_OPTIONS.map((opt) => (
             <label
@@ -121,7 +121,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
 
       <div className="space-y-2">
         <h2 className="text-lg font-semibold">Space photos</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+        <p className="text-sm text-zinc-600 dark:text-zinc-500">
           Upload photos of your property (you will need at least 5 in the next step).
         </p>
         <div
@@ -134,8 +134,8 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
         >
           {images.length === 0 ? (
             <>
-              <ImageIcon className="size-8 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Drag and drop photos here, or click to browse</p>
+              <ImageIcon className="size-8 text-zinc-600 dark:text-zinc-500" />
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Drag and drop photos here, or click to browse</p>
             </>
           ) : (
             <div className="flex flex-wrap gap-2">

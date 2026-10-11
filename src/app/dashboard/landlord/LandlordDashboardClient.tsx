@@ -195,7 +195,7 @@ export default function LandlordDashboardClient({
           ) : (
             <div className="h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b]">
               <p className="text-sm text-zinc-300">No revenue recorded yet</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+              <p className="text-xs text-zinc-600 dark:text-zinc-500">
                 Rent payments will appear here once your first tenant pays.
               </p>
             </div>
@@ -215,7 +215,7 @@ export default function LandlordDashboardClient({
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">{openMaintenanceCount} maintenance ticket{openMaintenanceCount === 1 ? '' : 's'} needs attention</p>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">Resolve urgent requests</p>
                 </div>
-                <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 shrink-0" />
+                <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-500 shrink-0" />
               </Link>
             )}
             {pendingApplicationCount > 0 && (
@@ -227,7 +227,7 @@ export default function LandlordDashboardClient({
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">{pendingApplicationCount} application{pendingApplicationCount === 1 ? '' : 's'} awaiting review</p>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">Review and approve tenants</p>
                 </div>
-                <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 shrink-0" />
+                <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-500 shrink-0" />
               </Link>
             )}
             {listingCount > 0 && activeListingCount === 0 && (
@@ -239,7 +239,7 @@ export default function LandlordDashboardClient({
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">No active listings</p>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">Publish a listing to find tenants</p>
                 </div>
-                <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 shrink-0" />
+                <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-500 shrink-0" />
               </Link>
             )}
             {openMaintenanceCount === 0 && pendingApplicationCount === 0 && !(listingCount > 0 && activeListingCount === 0) && (
@@ -248,7 +248,7 @@ export default function LandlordDashboardClient({
                   <Plus size={16} className="text-emerald-400" />
                 </div>
                 <p className="text-sm font-medium text-zinc-900 dark:text-white">All caught up</p>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No urgent actions right now</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">No urgent actions right now</p>
               </div>
             )}
           </div>
@@ -351,7 +351,7 @@ export default function LandlordDashboardClient({
                 );
               })}
             {pendingApplicationCount === 0 && openMaintenanceCount === 0 && listingCount > 0 && (
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">Nothing needs your attention.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 text-center py-4">Nothing needs your attention.</p>
             )}
           </div>
         </div>
@@ -379,7 +379,7 @@ export default function LandlordDashboardClient({
                   }`} />
                   <div className="flex-1 min-w-0">
                     <div className="text-zinc-900 dark:text-white text-xs font-medium">{t.title}</div>
-                    <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs">{t.unit || ''} · {t.tenant?.fullName || ''}</div>
+                    <div className="text-zinc-600 dark:text-zinc-500 text-xs">{t.unit || ''} · {t.tenant?.fullName || ''}</div>
                   </div>
                   <StatusBadge status={t.status} />
                 </Link>

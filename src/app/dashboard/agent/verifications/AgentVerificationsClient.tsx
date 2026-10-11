@@ -40,13 +40,13 @@ const statusBadge = (status: 'verified' | 'pending' | 'not-started') => {
       );
     case 'pending':
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
           <Clock className="h-3 w-3" /> Pending Review
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#171717] text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
           Not Started
         </span>
       );
@@ -60,7 +60,7 @@ export default function AgentVerificationsClient() {
     <div className="space-y-8">
       <div>
         <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-zinc-900 dark:text-white' }}>Verification Overview</h1>
-        <p className="mt-2 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Complete your profile to unlock premium marketplace listings.</p>
+        <p className="mt-2 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Complete your profile to unlock premium marketplace listings.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -70,11 +70,11 @@ export default function AgentVerificationsClient() {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-headline-sm font-bold">Verification Status</h3>
-                  <p className="text-xs font-label-sm uppercase tracking-wider mt-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Track your onboarding completion.</p>
+                  <p className="text-xs font-label-sm uppercase tracking-wider mt-1 text-zinc-600 dark:text-zinc-500">Track your onboarding completion.</p>
                 </div>
                 <div className="text-right">
                   <span className="text-4xl font-bold text-zinc-900 dark:text-white">{progress}%</span>
-                  <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Profile Progress</p>
+                  <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Profile Progress</p>
                 </div>
               </div>
             </div>
@@ -86,12 +86,12 @@ export default function AgentVerificationsClient() {
                     <div
                       className={cn(
                         'w-8 h-8 rounded-full flex items-center justify-center',
-                        idx < 2 ? 'bg-success text-zinc-900 dark:text-white' : idx === 2 ? 'bg-zinc-900 text-zinc-900 dark:text-white' : 'opacity-40 bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
+                        idx < 2 ? 'bg-success text-zinc-900 dark:text-white' : idx === 2 ? 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white' : 'opacity-40 bg-[#171717] text-zinc-600 dark:text-zinc-500'
                       )}
                     >
                       <span className="lucide text-[18px]">{idx < 2 ? 'check' : idx === 2 ? 'pending' : 'location_on'}</span>
                     </div>
-                    <span className="text-[10px] font-label-sm uppercase tracking-wider text-center text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{step}</span>
+                    <span className="text-[10px] font-label-sm uppercase tracking-wider text-center text-zinc-600 dark:text-zinc-500">{step}</span>
                   </div>
                 ))}
               </div>
@@ -109,7 +109,7 @@ export default function AgentVerificationsClient() {
                     {statusBadge(mod.status)}
                   </div>
                   <h4 className="font-headline-sm font-bold text-lg mb-2 text-zinc-900 dark:text-white">{mod.title}</h4>
-                  <p className="text-xs font-label-sm uppercase tracking-wider flex-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{mod.description}</p>
+                  <p className="text-xs font-label-sm uppercase tracking-wider flex-1 text-zinc-600 dark:text-zinc-500">{mod.description}</p>
                   {mod.actionLabel && (
                     <div className="mt-4">
                       <Button variant={mod.status === 'not-started' ? 'default' : 'outline'} className="gap-2">
@@ -136,7 +136,7 @@ export default function AgentVerificationsClient() {
             </div>
             <div className="p-6 space-y-4">
               <p className="text-xs font-label-sm uppercase tracking-wider opacity-90">Upload your Office Verification documents to schedule your mandatory physical site inspection.</p>
-              <Button className="w-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold hover:brightness-110">Complete Office Verification</Button>
+              <Button className="w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold hover:brightness-110">Complete Office Verification</Button>
             </div>
           </div>
 
@@ -144,7 +144,7 @@ export default function AgentVerificationsClient() {
             <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg font-headline-sm font-bold">Recent Activity</h3>
-                <History className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                <History className="h-4 w-4 text-zinc-600 dark:text-zinc-500" />
               </div>
             </div>
             <div className="p-6">
@@ -157,8 +157,8 @@ export default function AgentVerificationsClient() {
                     </div>
                     <div>
                       <p className="font-headline-sm font-bold text-sm text-zinc-900 dark:text-white">{item.title}</p>
-                      <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{item.description}</p>
-                      <span className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.7 }}>{item.timestamp}</span>
+                      <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">{item.description}</p>
+                      <span className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.7 }}>{item.timestamp}</span>
                     </div>
                   </div>
                 ))}

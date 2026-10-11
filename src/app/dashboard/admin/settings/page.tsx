@@ -27,30 +27,30 @@ export default async function AdminSettingsPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Settings</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Configure platform settings and preferences.</p>
+          <p className="text-zinc-600 dark:text-zinc-500 mt-1">Configure platform settings and preferences.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Total Users</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Total Users</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{userCount.toLocaleString()}</p>
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Total Listings</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Total Listings</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{listingCount.toLocaleString()}</p>
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Organisations</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Organisations</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{orgCount.toLocaleString()}</p>
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Verified Orgs</p>
+            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Verified Orgs</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{activeOrgCount.toLocaleString()}</p>
           </div>
         </div>
 
         <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Platform settings will appear here.</p>
+          <p className="text-zinc-600 dark:text-zinc-500">Platform settings will appear here.</p>
         </div>
       </div>
     

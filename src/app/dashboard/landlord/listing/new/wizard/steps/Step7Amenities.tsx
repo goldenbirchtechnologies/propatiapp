@@ -60,7 +60,7 @@ export default function Step7Amenities({ amenities = [], onChange }: Step7Props)
       <h2 className="text-lg font-semibold">What amenities does your place offer?</h2>
       {Object.entries(CATEGORIES).map(([category, items]) => (
         <div key={category} className="space-y-2">
-          <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{category}</h3>
+          <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-500">{category}</h3>
           <div className="grid grid-cols-3 gap-2">
             {items.map((item) => (
               <label

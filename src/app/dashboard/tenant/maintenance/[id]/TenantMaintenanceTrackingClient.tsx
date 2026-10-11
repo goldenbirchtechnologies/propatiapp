@@ -72,7 +72,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
               {steps.map((step, i) => (
                 <div key={step.label} className="flex flex-col items-center text-center max-w-[120px]">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-                    step.done ? 'bg-emerald-500 text-white shadow-none' : step.active ? 'bg-emerald-500 text-white ring-4 ring-primary/20 shadow-none' : 'bg-zinc-900 text-zinc-500 dark:text-zinc-400'
+                    step.done ? 'bg-emerald-500 text-white shadow-none' : step.active ? 'bg-emerald-500 text-white ring-4 ring-primary/20 shadow-none' : 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400'
                   }`}>
                     {step.done ? <CheckCircle2 className="w-5 h-5" /> : step.active ? <CalendarDays className="w-5 h-5" /> : <span className="w-5 h-5" />}
                   </div>
@@ -99,7 +99,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                 </span>
               </div>
               <div className="flex items-center gap-4 mb-5">
-                <div className="w-16 h-16 rounded-xl overflow-hidden bg-white dark:bg-zinc-900">
+                <div className="w-16 h-16 rounded-xl overflow-hidden bg-white dark:bg-white dark:bg-zinc-900">
                   <svg className="w-full h-full text-zinc-500 dark:text-zinc-400 p-3" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                 </div>
                 <div>
@@ -123,9 +123,9 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           <div className="glass-card">
             <div className="p-6 p-6">
               <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-white mb-4">Appointment</h3>
-              <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 space-y-4">
+              <div className="bg-white dark:bg-white dark:bg-zinc-900 rounded-xl p-4 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex items-center justify-center">
                     <CalendarDays className="w-5 h-5 text-zinc-900 dark:text-white" />
                   </div>
                   <div>
@@ -134,7 +134,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex items-center justify-center">
                     <svg className="w-5 h-5 text-zinc-900 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   </div>
                   <div>
@@ -186,7 +186,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                         <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     ))}
-                    <div className="aspect-square rounded-xl bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-900/80 transition-all cursor-pointer">
+                    <div className="aspect-square rounded-xl bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-100 dark:hover:bg-zinc-900/80 transition-all cursor-pointer">
                       <Camera className="w-5 h-5 text-zinc-900 dark:text-white mb-1" />
                       <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">Add more</span>
                     </div>

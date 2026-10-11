@@ -115,9 +115,9 @@ export default function EstateManagerTenantsPage() {
       case 'pending':
         return <Badge variant="secondary" className="bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]">Pending</Badge>;
       case 'notice_period':
-        return <Badge variant="outline" className="bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">Notice Period</Badge>;
+        return <Badge variant="outline" className="bg-white dark:bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">Notice Period</Badge>;
       default:
-        return <Badge variant="outline" className="bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">{status}</Badge>;
+        return <Badge variant="outline" className="bg-white dark:bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">{status}</Badge>;
     }
   };
 

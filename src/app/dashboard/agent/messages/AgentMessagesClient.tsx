@@ -49,7 +49,7 @@ export default function AgentMessagesClient({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">Messages</h1>
-          <p className="text-base text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+          <p className="text-base text-zinc-600 dark:text-zinc-500 mt-1">
             {unreadTotal > 0
               ? `You have ${unreadTotal} unread message${unreadTotal > 1 ? 's' : ''}`
               : 'No unread messages'}
@@ -59,7 +59,7 @@ export default function AgentMessagesClient({
 
       <div className="flex items-center gap-3">
         <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-500" />
           <Input
             placeholder="Search conversations..."
             value={filter}
@@ -73,9 +73,9 @@ export default function AgentMessagesClient({
         <div className="p-6 p-0">
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
-              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
+              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500 opacity-50" />
               <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No conversations</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">
                 {filter ? 'No matches for your search.' : 'Messages will appear here when someone contacts you.'}
               </p>
             </div>
@@ -91,7 +91,7 @@ export default function AgentMessagesClient({
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${unread > 0 ? 'bg-[#10b981]/10 text-zinc-900 dark:text-white' : 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}
+                        className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${unread > 0 ? 'bg-[#10b981]/10 text-zinc-900 dark:text-white' : 'bg-[#171717] text-zinc-600 dark:text-zinc-500'}`}
                       >
                         <MessageSquare className="h-4 w-4" />
                       </div>
@@ -99,7 +99,7 @@ export default function AgentMessagesClient({
                         <p className={`text-sm truncate ${unread > 0 ? 'font-bold text-zinc-900 dark:text-white' : 'font-medium text-zinc-900 dark:text-white'}`}>
                           {c.subject || `Conversation ${c.id}`}
                         </p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate mt-0.5">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate mt-0.5">
                           {c.lastMessage || 'No messages yet'}
                         </p>
                       </div>
@@ -107,7 +107,7 @@ export default function AgentMessagesClient({
                         {unread > 0 ? (
                           <Badge className="bg-[#10b981] text-zinc-900 dark:text-white">{unread}</Badge>
                         ) : null}
-                        <span className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                        <span className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-500">
                           <Clock className="h-3 w-3" />
                           {c.lastMessageAt
                             ? new Date(c.lastMessageAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short' })

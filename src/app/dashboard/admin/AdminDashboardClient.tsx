@@ -185,7 +185,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">User Growth</h3>
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Platform revenue · last 12 months</p>
+              <p className="text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Platform revenue · last 12 months</p>
             </div>
             <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
               View users <ArrowRight size={11} />
@@ -265,7 +265,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
                 );
               })}
             {stats.pendingVerifications === 0 && stats.disputesCases === 0 && stats.totalUsers > 0 && (
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No alerts. Platform is healthy.</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500 text-center py-4">No alerts. Platform is healthy.</p>
             )}
           </div>
         </div>
@@ -283,7 +283,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           </div>
           <div className="space-y-2">
             {recentUsers.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No users yet</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 text-center py-4">No users yet</p>
             ) : (
               recentUsers.map((u) => (
                 <UserActivityRow key={u.id} user={u} />
@@ -308,7 +308,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           </div>
           <div className="space-y-2">
             {verificationQueue.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">Nothing awaiting review.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 text-center py-4">Nothing awaiting review.</p>
             ) : (
               verificationQueue.map((v) => (
                 <div key={v.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-zinc-950/60">
@@ -336,7 +336,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           </a>
         </div>
         {recentTransactions.length === 0 ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No transactions recorded yet.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-500 text-center py-4">No transactions recorded yet.</p>
         ) : (
           <DataTable columns={transactionColumns} data={recentTransactions} />
         )}

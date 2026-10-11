@@ -53,17 +53,17 @@ export default function AutoPayConfigurationClient() {
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors">
+        <Link href="/dashboard/tenant/payments" className="font-mono text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors">
           PAYMENTS
         </Link>
-        <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+        <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
         <span className="font-mono text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold">AUTO-PAY SETTINGS</span>
       </nav>
 
       {/* Header */}
       <div className="space-y-xs">
         <h2 className="font-heading text-headline-lg text-zinc-900 dark:text-white">Manage Automated Payments</h2>
-        <p className="font-body-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 max-w-2xl">
+        <p className="font-body-md text-zinc-600 dark:text-zinc-500 max-w-2xl">
           Automate your monthly payments to avoid late fees and maintain your{' '}
           <span className="text-[#10b981] font-semibold">Perfect Payer status</span>.
         </p>
@@ -78,7 +78,7 @@ export default function AutoPayConfigurationClient() {
             </div>
             <div>
               <h3 className="font-heading text-zinc-900 dark:text-white">Global Auto-Pay Status</h3>
-              <p className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+              <p className="text-body-sm text-zinc-600 dark:text-zinc-500">
                 Enable to allow the system to process scheduled charges automatically.
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function AutoPayConfigurationClient() {
               </button>
             </div>
             <div className="p-6">
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Auto-pay method will appear here once configured.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Auto-pay method will appear here once configured.</p>
             </div>
           </div>
 
@@ -119,7 +119,7 @@ export default function AutoPayConfigurationClient() {
             <div className="p-6 space-y-6">
               {/* Timing */}
               <div className="space-y-3">
-                <p className="font-label-sm text-label-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">PAYMENT TIMING</p>
+                <p className="font-label-sm text-label-md text-zinc-600 dark:text-zinc-500">PAYMENT TIMING</p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {timingOptions.map((opt) => (
                     <button
@@ -139,10 +139,10 @@ export default function AutoPayConfigurationClient() {
               {/* Limit */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <p className="font-label-sm text-label-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                  <p className="font-label-sm text-label-md text-zinc-600 dark:text-zinc-500">
                     MAXIMUM PAYMENT LIMIT (OPTIONAL)
                   </p>
-                  <span className="lucide text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 cursor-help" title="Security measure: Transactions above this amount will require manual approval.">
+                  <span className="lucide text-zinc-600 dark:text-zinc-500 cursor-help" title="Security measure: Transactions above this amount will require manual approval.">
                     info
                   </span>
                 </div>
@@ -152,7 +152,7 @@ export default function AutoPayConfigurationClient() {
                     type="text"
                     value={maxLimit}
                     onChange={(e) => setMaxLimit(e.target.value)}
-                    className="pl-10 pr-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] font-label-sm text-zinc-900 dark:text-white"
+                    className="pl-10 pr-4 py-3 bg-zinc-50 dark:bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] font-label-sm text-zinc-900 dark:text-white"
                   />
                 </div>
               </div>
@@ -212,7 +212,7 @@ export default function AutoPayConfigurationClient() {
             <Button className="w-full py-3 bg-primary text-zinc-900 dark:text-white rounded-xl font-bold hover:bg-primary-container transition-all active:scale-95">
               Save Configuration
             </Button>
-            <Button variant="outline" className="w-full py-3 border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 rounded-xl font-bold hover:bg-surface-variant transition-all">
+            <Button variant="outline" className="w-full py-3 border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-500 rounded-xl font-bold hover:bg-surface-variant transition-all">
               Cancel
             </Button>
           </div>
@@ -224,14 +224,14 @@ export default function AutoPayConfigurationClient() {
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
             <AppIcon name="lock" className="lucide" />
-            <span className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Bank-grade Encryption</span>
+            <span className="text-body-sm text-zinc-600 dark:text-zinc-500">Bank-grade Encryption</span>
           </div>
           <div className="flex items-center gap-2">
             <AppIcon name="verified" className="lucide" />
-            <span className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Central Bank Licensed</span>
+            <span className="text-body-sm text-zinc-600 dark:text-zinc-500">Central Bank Licensed</span>
           </div>
         </div>
-        <p className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">© 2024 PROPATI Nigerian Real Estate Fintech. All rights reserved.</p>
+        <p className="text-body-sm text-zinc-600 dark:text-zinc-500">© 2024 PROPATI Nigerian Real Estate Fintech. All rights reserved.</p>
       </footer>
     </div>
   );

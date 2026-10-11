@@ -38,7 +38,7 @@ export default async function CommercialLeasesPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Commercial Lease Management</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+          <p className="text-zinc-600 dark:text-zinc-500 mt-1">
             Verified Enterprise — Manage revenue, billing, and legal records for commercial properties.
           </p>
         </div>
@@ -49,13 +49,13 @@ export default async function CommercialLeasesPage() {
           </div>
           <div className="p-6">
             {agreements.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-6 text-center">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 py-6 text-center">
                 No commercial lease agreements yet.
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-b">
+                  <thead className="text-zinc-600 dark:text-zinc-500 border-b">
                     <tr>
                       <th className="py-3 font-medium">Property</th>
                       <th className="py-3 font-medium">Tenant</th>
@@ -72,7 +72,7 @@ export default async function CommercialLeasesPage() {
                         <td className="py-3 font-mono">
                           {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : '—'}
                         </td>
-                        <td className="py-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                        <td className="py-3 text-zinc-600 dark:text-zinc-500">
                           {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} →{' '}
                           {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
                         </td>

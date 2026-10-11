@@ -15,7 +15,7 @@ type Screening = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  scheduled: { class: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Scheduled' },
+  scheduled: { class: 'bg-white dark:bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Scheduled' },
   completed: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Completed' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };
@@ -28,13 +28,13 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
     <div className="space-y-6">
       <div>
         <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>Screening Calls</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>View landlord and tenant screening results</p>
+        <p className="text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>View landlord and tenant screening results</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {['scheduled', 'completed', 'cancelled'].map((key) => (
           <div key={key} className="glass-card p-4">
-            <p className="text-xs font-medium capitalize text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{key}</p>
+            <p className="text-xs font-medium capitalize text-zinc-600 dark:text-zinc-500">{key}</p>
             <p className="text-2xl font-bold mt-1 text-zinc-900 dark:text-white">{initialScreenings.filter((s) => s.status === key).length}</p>
           </div>
         ))}
@@ -48,20 +48,20 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
         </div>
         {filtered.length === 0 ? (
           <div className="card-body text-center py-16">
-            <Phone className="w-12 h-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} />
+            <Phone className="w-12 h-12 text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} />
             <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">No screenings yet</h3>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Screening requests will appear here.</p>
+            <p className="text-zinc-600 dark:text-zinc-500">Screening requests will appear here.</p>
             <Button variant="default" className="mt-4">Schedule a Screening</Button>
           </div>
         ) : (
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Landlord</th>
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Notes</th>
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Date</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Landlord</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Property</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Status</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Notes</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -79,7 +79,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
                     </td>
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">{s.property}</td>
                     <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>
-                    <td className="p-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{s.notes}</td>
+                    <td className="p-4 text-sm text-zinc-600 dark:text-zinc-500">{s.notes}</td>
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">{new Date(s.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                   </tr>
                 );

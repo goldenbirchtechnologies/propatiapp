@@ -42,7 +42,7 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
         <h2 className="text-lg font-semibold">What makes your place special?</h2>
         <Sparkles className="size-5 text-yellow-500" />
       </div>
-      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Pick up to 2 highlights that best describe your listing.</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-500">Pick up to 2 highlights that best describe your listing.</p>
       <div className="flex flex-wrap gap-3">
         {OPTIONS.map((opt) => {
           const isActive = selected.includes(opt.value);
@@ -64,13 +64,13 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
               )}
               <div className="p-3 text-center space-y-1">
                 <div className="font-medium text-sm">{opt.label}</div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{opt.description}</div>
+                <div className="text-xs text-zinc-600 dark:text-zinc-500">{opt.description}</div>
               </div>
             </div>
           );
         })}
       </div>
-      <div className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+      <div className="text-sm text-zinc-600 dark:text-zinc-500">
         {selected.length}/2 selected
       </div>
     </div>

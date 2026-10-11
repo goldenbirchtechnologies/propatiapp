@@ -51,7 +51,7 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
                 </div>
               )}
               <div className="p-4 flex flex-col items-center gap-2 text-center">
-                <div className={isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}>
+                <div className={isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-500'}>
                   {opt.icon}
                 </div>
                 <span className="text-sm font-medium">{opt.label}</span>

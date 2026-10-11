@@ -231,7 +231,7 @@ function SectionHeader({ title, subtitle, action }: { title: string; subtitle?: 
     <div className="flex items-center justify-between gap-3">
       <div>
         <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">{title}</h3>
-        {subtitle && <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
+        {subtitle && <p className="text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
       </div>
       {action}
     </div>
@@ -308,7 +308,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
         description={listing.address}
         actions={
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900" onClick={() => router.back()}>
+            <Button variant="outline" size="sm" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900" onClick={() => router.back()}>
               <ArrowLeft className="mr-2 size-3.5" /> Back
             </Button>
             <DropdownMenu>
@@ -334,7 +334,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
       {/* Hero */}
       <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
-        <div className="relative h-56 bg-white dark:bg-zinc-900">
+        <div className="relative h-56 bg-white dark:bg-white dark:bg-zinc-900">
           {listing.coverImage ? (
             <img src={listing.coverImage} alt={listing.title} className="h-full w-full object-cover" />
           ) : (
@@ -406,7 +406,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                     { label: 'Parking', value: String(listing.parkingSpaces), icon: Car },
                   ].map((item) => (
                     <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
-                      <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">
+                      <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 mb-1">
                         <item.icon className="size-3.5" />
                         <span className="text-xs">{item.label}</span>
                       </div>
@@ -417,7 +417,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
                 {listing.amenities && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Amenities</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Amenities</p>
                     <div className="flex flex-wrap gap-2">
                       {(Array.isArray(listing.amenities) ? listing.amenities : []).map((a: string) => (
                         <AmenityBadge key={a} label={a} />
@@ -428,7 +428,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
                 {listing.houseRules && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">House Rules</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">House Rules</p>
                     <div className="flex flex-wrap gap-2">
                       {(Array.isArray(listing.houseRules) ? listing.houseRules : []).map((r: string) => (
                         <AmenityBadge key={r} label={r} />
@@ -456,7 +456,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                   <TableBody>
                     {listing.units.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={7} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={7} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No units added yet.
                         </TableCell>
                       </TableRow>
@@ -466,7 +466,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                           <TableCell className="py-3">
                             <div>
                               <p className="text-sm font-medium text-zinc-900 dark:text-white">{unit.unitNumber}</p>
-                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
                             </div>
                           </TableCell>
                           <TableCell className="py-3">
@@ -488,7 +488,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                                 Listed
                               </span>
                             ) : (
-                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
+                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
                                 Unlisted
                               </span>
                             )}
@@ -542,7 +542,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                   <TableBody>
                     {listing.applications.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={3} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={3} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No applications yet.
                         </TableCell>
                       </TableRow>
@@ -552,7 +552,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                           <TableCell className="py-3">
                             <div>
                               <p className="text-sm text-zinc-900 dark:text-white">{app.applicant?.fullName || '—'}</p>
-                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{app.applicant?.email || ''}</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-500">{app.applicant?.email || ''}</p>
                             </div>
                           </TableCell>
                           <TableCell className="py-3">
@@ -580,7 +580,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                   <TableBody>
                     {listing.agreements.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={3} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={3} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No agreements yet.
                         </TableCell>
                       </TableRow>
@@ -619,7 +619,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                   <TableBody>
                     {listing.bookings.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={5} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No bookings yet.
                         </TableCell>
                       </TableRow>
@@ -655,7 +655,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                   <TableBody>
                     {listing.maintenanceTickets.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No maintenance tickets.
                         </TableCell>
                       </TableRow>
@@ -694,7 +694,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                   <TableBody>
                     {listing.documents.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No documents uploaded.
                         </TableCell>
                       </TableRow>
@@ -732,24 +732,24 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             <SectionHeader title="Pricing" />
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Price</span>
+                <span className="text-zinc-600 dark:text-zinc-500">Price</span>
                 <span className="text-zinc-900 dark:text-white font-medium">{formatCurrency(listing.price)}</span>
               </div>
               {listing.pricePeriod && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Period</span>
+                  <span className="text-zinc-600 dark:text-zinc-500">Period</span>
                   <span className="text-zinc-300 capitalize">{listing.pricePeriod}</span>
                 </div>
               )}
               {listing.cautionDeposit > 0 && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Caution Deposit</span>
+                  <span className="text-zinc-600 dark:text-zinc-500">Caution Deposit</span>
                   <span className="text-zinc-900 dark:text-white font-medium">{formatCurrency(listing.cautionDeposit)}</span>
                 </div>
               )}
               {listing.serviceCharge > 0 && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Service Charge</span>
+                  <span className="text-zinc-600 dark:text-zinc-500">Service Charge</span>
                   <span className="text-zinc-900 dark:text-white font-medium">{formatCurrency(listing.serviceCharge)}</span>
                 </div>
               )}
@@ -766,7 +766,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm text-zinc-900 dark:text-white font-medium truncate">{listing.owner.fullName}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{listing.owner.email}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate">{listing.owner.email}</p>
                 </div>
               </div>
               <div className="space-y-2">
@@ -792,7 +792,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm text-zinc-900 dark:text-white font-medium truncate">{listing.agent.fullName}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{listing.agent.email}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate">{listing.agent.email}</p>
                 </div>
               </div>
             </div>
@@ -809,7 +809,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
               >
                 <MessageSquare className="mr-2 size-3.5" /> Message
               </Button>
-              <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900">
+              <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900">
                 <Link href={`/dashboard/agent/properties/${listing.id}`}>
                   <ExternalLink className="mr-2 size-3.5" /> Manage
                 </Link>
@@ -833,7 +833,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm text-zinc-900 dark:text-white truncate">{c.subject}</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{c.lastMessage || 'No messages yet'}</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate">{c.lastMessage || 'No messages yet'}</p>
                     </div>
                     <span className="text-[10px] text-zinc-600 whitespace-nowrap">{formatRelativeDate(c.lastMessageAt)}</span>
                   </Link>
@@ -856,13 +856,13 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                     className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] bg-zinc-950/60 px-3 py-2 hover:border-zinc-700/80 transition-colors"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <FileText className="size-3.5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
+                      <FileText className="size-3.5 text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
                       <div className="min-w-0">
                         <p className="text-xs text-zinc-900 dark:text-white truncate">{d.name}</p>
                         <p className="text-[10px] text-zinc-600 capitalize">{d.type}</p>
                       </div>
                     </div>
-                    <Download className="size-3.5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
+                    <Download className="size-3.5 text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
                   </a>
                 ))}
               </div>
@@ -883,7 +883,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Type your message..."
-              className="bg-white dark:bg-zinc-900 border-white/10 text-zinc-900 dark:text-white min-h-[120px]"
+              className="bg-white dark:bg-white dark:bg-zinc-900 border-white/10 text-zinc-900 dark:text-white min-h-[120px]"
             />
             <div className="flex justify-end gap-2">
               <Button variant="ghost" onClick={() => setMessageOpen(false)} className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">

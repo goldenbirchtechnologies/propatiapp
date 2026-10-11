@@ -101,12 +101,12 @@ export default function RulesEnginePage() {
                 </button>
               </div>
               {rules.length === 0 ? (
-                <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-8 text-center text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
+                <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-8 text-center text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
                   No rules configured. Add your first jurisdiction rule.
                 </div>
               ) : (
                 rules.map(rule => (
-                  <div key={rule.id} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-4">
+                  <div key={rule.id} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-zinc-900 dark:text-white">{rule.name}</h3>
@@ -130,10 +130,10 @@ export default function RulesEnginePage() {
           {tab === "compliance" && (
             <div className="space-y-4">
               {events.length === 0 ? (
-                <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-8 text-center text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">No compliance events.</div>
+                <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-8 text-center text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">No compliance events.</div>
               ) : (
                 events.map(event => (
-                  <div key={event.id} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-4">
+                  <div key={event.id} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-zinc-900 dark:text-white">{event.title}</h3>
@@ -157,10 +157,10 @@ export default function RulesEnginePage() {
                 </button>
               </div>
               {templates.length === 0 ? (
-                <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-8 text-center text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">No document templates configured.</div>
+                <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-8 text-center text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">No document templates configured.</div>
               ) : (
                 templates.map(tpl => (
-                  <div key={tpl.id} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-4">
+                  <div key={tpl.id} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-zinc-900 dark:text-white">{tpl.name}</h3>

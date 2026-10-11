@@ -43,7 +43,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-600 dark:text-zinc-500" />
       </div>
     );
   }
@@ -51,9 +51,9 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
   if (!transaction) {
     return (
       <div className="text-center py-12">
-        <AlertCircle className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+        <AlertCircle className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-500" />
         <h2 className="text-2xl font-bold mb-2">Transaction Not Found</h2>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-4">
+        <p className="text-zinc-600 dark:text-zinc-500 mb-4">
           The transaction you're looking for doesn't exist or you don't have access to it.
         </p>
         <Button onClick={() => router.push('/dashboard/payments')}>
@@ -78,7 +78,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
           </Button>
           <div>
             <h1 className="text-3xl font-bold">Transaction Details</h1>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="text-zinc-600 dark:text-zinc-500">
               Reference: {formatTransactionReference(transaction.reference)}
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Status</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Current status of this transaction</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Current status of this transaction</p>
             </div>
             <TransactionStatusBadge status={transaction.status} />
           </div>
@@ -111,7 +111,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
               </div>
               <div className="flex-1">
                 <p className="font-semibold">Payment Initiated</p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">
                   {format(new Date(transaction.createdAt), 'PPpp')}
                 </p>
               </div>
@@ -119,12 +119,12 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
 
             {transaction.status !== 'pending' && transaction.status !== 'failed' && (
               <div className="flex items-start gap-3">
-                <div className="bg-white dark:bg-zinc-900 rounded-full p-2 mt-1">
+                <div className="bg-white dark:bg-white dark:bg-zinc-900 rounded-full p-2 mt-1">
                   <CheckCircle className="h-4 w-4 text-zinc-900 dark:text-white" />
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold">Payment Verified - In Escrow</p>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-500">
                     Funds are being held securely
                   </p>
                 </div>
@@ -138,7 +138,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold">Payment Released</p>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-500">
                     {transaction.releasedAt
                       ? format(new Date(transaction.releasedAt), 'PPpp')
                       : 'Completed'}
@@ -154,7 +154,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold">Payment Failed</p>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-500">
                     The payment could not be processed
                   </p>
                 </div>
@@ -172,7 +172,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
         <div className="p-6">
           <div className="space-y-3">
             <div className="flex justify-between text-lg">
-              <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Payment Amount</span>
+              <span className="text-zinc-600 dark:text-zinc-500">Payment Amount</span>
               <span className="font-bold">{formatAmountFromKobo(transaction.amount)}</span>
             </div>
 
@@ -180,21 +180,21 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
 
             {transaction.platformFee > 0 && (
               <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Platform Fee</span>
+                <span className="text-zinc-600 dark:text-zinc-500">Platform Fee</span>
                 <AppIcon name={formatAmountFromKobo(transaction.platformFee)} className="lucide" />
               </div>
             )}
 
             {transaction.agentCommission > 0 && (
               <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Agent Commission</span>
+                <span className="text-zinc-600 dark:text-zinc-500">Agent Commission</span>
                 <span>{formatAmountFromKobo(transaction.agentCommission)}</span>
               </div>
             )}
 
             {transaction.payeeAmount && (
               <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Amount to Landlord</span>
+                <span className="text-zinc-600 dark:text-zinc-500">Amount to Landlord</span>
                 <span className="font-semibold">{formatAmountFromKobo(transaction.payeeAmount)}</span>
               </div>
             )}
@@ -210,7 +210,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
         <div className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 mb-2">
                 <CreditCard className="h-4 w-4" />
                 <span className="text-sm font-semibold">Payment Type</span>
               </div>
@@ -220,7 +220,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             </div>
 
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 mb-2">
                 <FileText className="h-4 w-4" />
                 <span className="text-sm font-semibold">Reference</span>
               </div>
@@ -228,21 +228,21 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             </div>
 
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 mb-2">
                 <User className="h-4 w-4" />
                 <span className="text-sm font-semibold">Payer</span>
               </div>
               <p className="font-medium">{transaction.payer?.fullName || 'N/A'}</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{transaction.payer?.email || ''}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">{transaction.payer?.email || ''}</p>
             </div>
 
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 mb-2">
                 <User className="h-4 w-4" />
                 <span className="text-sm font-semibold">Payee</span>
               </div>
               <p className="font-medium">{transaction.payee?.fullName || 'N/A'}</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{transaction.payee?.email || ''}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">{transaction.payee?.email || ''}</p>
             </div>
           </div>
         </div>
@@ -261,7 +261,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold">{transaction.listing.title}</h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{transaction.listing.area}</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">{transaction.listing.area}</p>
                 {transaction.agreements?.[0] && (
                   <div className="mt-2">
                     <Badge variant="secondary">

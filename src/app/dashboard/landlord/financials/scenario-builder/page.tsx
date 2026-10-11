@@ -121,7 +121,7 @@ export default async function LandlordScenarioBuilderPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Advanced Scenario Builder</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+          <p className="text-zinc-600 dark:text-zinc-500 mt-1">
             Model rent, occupancy, and revenue outcomes under different assumptions.
           </p>
         </div>
@@ -133,15 +133,15 @@ export default async function LandlordScenarioBuilderPage() {
           <div className="p-6">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Average Rent</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Average Rent</p>
                 <p className="text-xl font-semibold">₦{avgRent.toLocaleString()}</p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Occupancy Target</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Occupancy Target</p>
                 <p className="text-xl font-semibold">{occupancyRate}%</p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Lease Cycle</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Lease Cycle</p>
                 <p className="text-xl font-semibold">{leaseCycle} Months</p>
               </div>
             </div>
@@ -166,11 +166,11 @@ export default async function LandlordScenarioBuilderPage() {
                       <Badge variant="secondary">{s.occupancyRate}%</Badge>
                     </div>
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Monthly Revenue</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">Monthly Revenue</p>
                       <p className="text-2xl font-bold">₦{(s.monthlyIncome || 0).toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Vacancy</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">Vacancy</p>
                       <p className="text-sm">{s.vacancy}</p>
                     </div>
                   </div>

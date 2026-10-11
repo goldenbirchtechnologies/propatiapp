@@ -54,7 +54,7 @@ export default async function LandlordRevenueForecastPage() {
             <p className="text-zinc-600 dark:text-zinc-400 mt-1">Predictive financial analysis for {now.getFullYear()}-{String(now.getFullYear() + 1).slice(2)}</p>
           </div>
           <div className="flex gap-2">
-            <Link href="/dashboard/landlord/revenue-forecast/report" className="px-4 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 hover:bg-zinc-900 transition-colors text-sm font-medium">
+            <Link href="/dashboard/landlord/revenue-forecast/report" className="px-4 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 hover:bg-white dark:bg-zinc-900 transition-colors text-sm font-medium">
               View Full Forecast →
             </Link>
           </div>

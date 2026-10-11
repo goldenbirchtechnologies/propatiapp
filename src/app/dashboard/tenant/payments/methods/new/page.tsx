@@ -24,11 +24,11 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-6 shadow-none">
+        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-6 shadow-none">
           <div className="flex items-center gap-3">
             <div>
               <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Add Payment Method</h1>
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+              <p className="text-zinc-600 dark:text-zinc-500 mt-1">
                 Add a verified payment method to your tenant portal for secure transactions.
               </p>
             </div>
@@ -113,7 +113,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Saved Methods</h3>
               </div>
               <div className="p-6">
-                <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-500">
                   <li>Secure Access</li>
                   <li>Visa **** 4242</li>
                   <li>Expires 12/25</li>

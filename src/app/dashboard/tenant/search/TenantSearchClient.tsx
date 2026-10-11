@@ -82,7 +82,7 @@ export default function TenantSearchClient({
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-3">
           <div className="relative flex-1 min-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-500" />
             <Input
               placeholder="Search by area, city, or address..."
               value={searchQuery}
@@ -143,7 +143,7 @@ export default function TenantSearchClient({
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{totalCount} properties found</div>
+        <div className="text-sm text-zinc-600 dark:text-zinc-500">{totalCount} properties found</div>
         <Button variant="outline" size="sm" className="border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400">
           <Filter className="h-4 w-4 mr-2" /> More Filters
         </Button>
@@ -182,7 +182,7 @@ export default function TenantSearchClient({
               <div className="p-6 p-4 space-y-3">
                 <div>
                   <h3 className="font-medium text-zinc-900 dark:text-white line-clamp-1">{property.title}</h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-bold text-zinc-900 dark:text-white">{formatPrice(property.price)}</span>

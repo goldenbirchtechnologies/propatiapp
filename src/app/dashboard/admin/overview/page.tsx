@@ -102,10 +102,10 @@ export default async function AdminOverviewPage() {
             <div className="lg:col-span-2 glass-card overflow-hidden">
               <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
                 <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Newest Users</h3>
-                <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last 5 signups</span>
+                <span className="text-xs text-zinc-600 dark:text-zinc-500">Last 5 signups</span>
               </div>
               {recentUsers.length === 0 ? (
-                <p className="p-6 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center">No users registered yet.</p>
+                <p className="p-6 text-sm text-zinc-600 dark:text-zinc-500 text-center">No users registered yet.</p>
               ) : (
                 <RecentUsersTable users={recentUsers} />
               )}
@@ -123,7 +123,7 @@ export default async function AdminOverviewPage() {
                     { label: 'Total Listings', value: totalListings.toLocaleString() },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center justify-between text-sm">
-                      <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{item.label}</span>
+                      <span className="text-zinc-600 dark:text-zinc-500">{item.label}</span>
                       <span className="font-semibold text-zinc-900 dark:text-white">{item.value}</span>
                     </div>
                   ))}
@@ -131,7 +131,7 @@ export default async function AdminOverviewPage() {
               </div>
               <div className="glass-card p-5">
                 <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-2">Trend Snapshot</h3>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 leading-relaxed">
+                <p className="text-xs text-zinc-600 dark:text-zinc-500 leading-relaxed">
                   Revenue tracked to date includes{' '}
                   <span className="font-semibold text-zinc-900 dark:text-white">released</span> and{' '}
                   <span className="font-semibold text-emerald-400">in-escrow</span> transactions.

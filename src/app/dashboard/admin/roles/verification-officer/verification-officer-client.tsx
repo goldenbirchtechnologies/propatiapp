@@ -83,7 +83,7 @@ function VerificationOfficerClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/[0.08]">
+                <tr className="bg-white dark:bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/[0.08]">
                   <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">User</th>
                   <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Role</th>
                   <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Status</th>
@@ -92,7 +92,7 @@ function VerificationOfficerClient({
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-zinc-900 transition-colors">
+                  <tr key={u.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-surface-elevated flex items-center justify-center text-sm font-bold text-zinc-900 dark:text-white">

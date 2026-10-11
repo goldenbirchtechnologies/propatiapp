@@ -31,10 +31,10 @@ export default function EstateManagerCommercialLeasesPage() {
         <ErrorBoundary>
           <div className="space-y-6">
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-zinc-900 dark:text-white' }}>Commercial Leases</h1>
-            <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Unable to load commercial lease data.</p>
+            <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Unable to load commercial lease data.</p>
             <div className="rounded-lg border border-red-500/30 bg-destructive/5 p-6">
               <p className="text-red-500 font-medium mb-1">Error</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-3">{error}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 mb-3">{error}</p>
               <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-on-error rounded-lg hover:bg-destructive/90">Retry</button>
             </div>
           </div>
@@ -52,7 +52,7 @@ export default function EstateManagerCommercialLeasesPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-zinc-900 dark:text-white' }}>Commercial Lease Collection</h1>
-            <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>
+            <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>
               Managing revenue for The Platinum Plaza &amp; Business District. Automated billing for rent, service charges, and utility recoveries.
             </p>
           </div>
@@ -69,7 +69,7 @@ export default function EstateManagerCommercialLeasesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Collection Rate</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Collection Rate</span>
               <TrendingUp className="w-5 h-5 text-[#10b981]" />
             </div>
             <div className="mt-3">
@@ -79,22 +79,22 @@ export default function EstateManagerCommercialLeasesPage() {
           </div>
           <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Total Arrears</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Total Arrears</span>
               <Wrench className="w-5 h-5 text-red-500" />
             </div>
             <div className="mt-3">
               <p className="text-2xl font-bold text-red-500">₦14.2M</p>
-              <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>12 Pending notices</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>12 Pending notices</p>
             </div>
           </div>
           <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Service Charges</span>
-              <Receipt className="w-5 h-5" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }} />
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Service Charges</span>
+              <Receipt className="w-5 h-5" style={{ color: 'text-zinc-600 dark:text-zinc-500' }} />
             </div>
             <div className="mt-3">
               <p className="text-2xl font-bold text-zinc-900 dark:text-white">₦8.5M</p>
-              <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>88% Recovery achieved</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>88% Recovery achieved</p>
             </div>
           </div>
           <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow bg-primary text-on-primary relative overflow-hidden">
@@ -115,7 +115,7 @@ export default function EstateManagerCommercialLeasesPage() {
           <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface">
             <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white">Unit Collections</h3>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Filter by:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Filter by:</span>
               <select className="border border-zinc-200 dark:border-white/[0.08] rounded-lg text-sm px-3 py-1.5 bg-background">
                 <option>All Units</option>
                 <option>Premium Plaza A</option>
@@ -127,13 +127,13 @@ export default function EstateManagerCommercialLeasesPage() {
             <table className="w-full text-left border-collapse">
               <thead className="bg-muted border-b border-zinc-200 dark:border-white/[0.08]">
                 <tr>
-                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Unit / Tenant</th>
-                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Base Rent</th>
-                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Service Charge</th>
-                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Utilities</th>
-                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Status</th>
-                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Lease Expiry</th>
-                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Actions</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Unit / Tenant</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Base Rent</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Service Charge</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Utilities</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Status</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Lease Expiry</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
@@ -144,17 +144,17 @@ export default function EstateManagerCommercialLeasesPage() {
                         <div className="w-10 h-10 rounded-lg bg-accent-container flex items-center justify-center text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">{row.unit}</div>
                         <div>
                           <div className="font-headline-sm font-bold text-zinc-900 dark:text-white">{row.tenant}</div>
-                          <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{row.location}</div>
+                          <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{row.location}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-5 py-4 text-sm font-medium text-zinc-900 dark:text-white">₦{row.baseRent.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>₦{row.serviceCharge.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>₦{row.utilities.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>₦{row.serviceCharge.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>₦{row.utilities.toLocaleString()}</td>
                     <td className="px-5 py-4">
                       <span className={cn('inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border', statusStyles[row.status]?.class)}>{statusStyles[row.status]?.label}</span>
                     </td>
-                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{row.expiry}</td>
+                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{row.expiry}</td>
                     <td className="px-5 py-4">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon"><Eye className="w-4 h-4" /></Button>
@@ -167,7 +167,7 @@ export default function EstateManagerCommercialLeasesPage() {
             </table>
           </div>
           <div className="p-4 border-t border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
-            <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Showing {leases.length} of 42 active commercial leases</div>
+            <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Showing {leases.length} of 42 active commercial leases</div>
             <div className="flex gap-1">
               <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] hover:bg-background">←</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary">1</button>

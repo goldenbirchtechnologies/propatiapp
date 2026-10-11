@@ -28,7 +28,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard/agent/clients"
-          className="p-2 rounded-xl hover:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500"
+          className="p-2 rounded-xl hover:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
@@ -45,7 +45,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
             <h1 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">
               {client.fullName}
             </h1>
-            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="text-sm text-zinc-600 dark:text-zinc-500">
               {client.role === 'landlord' ? 'Seller' : 'Buyer'} · Client since{' '}
               {new Date(client.createdAt).toLocaleDateString('en-NG', {
                 month: 'short',
@@ -66,18 +66,18 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
           </div>
           <div className="p-6 space-y-4">
             <div className="flex items-center gap-2 text-sm">
-              <Mail className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+              <Mail className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
               <span className="text-zinc-900 dark:text-white">{client.email}</span>
             </div>
             {client.phone && (
               <div className="flex items-center gap-2 text-sm">
-                <Phone className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                <Phone className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                 <span className="text-zinc-900 dark:text-white">{client.phone}</span>
               </div>
             )}
             {client.profileBio && (
               <div className="pt-2 border-t border-zinc-200 dark:border-white/[0.08]">
-                <p className="text-xs font-medium mb-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <p className="text-xs font-medium mb-1 text-zinc-600 dark:text-zinc-500">
                   Notes
                 </p>
                 <p className="text-sm text-zinc-900 dark:text-white">{client.profileBio}</p>
@@ -95,7 +95,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
           </div>
           <div className="p-6">
             {client.deals.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-6">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 text-center py-6">
                 No deals yet
               </p>
             ) : (
@@ -109,11 +109,11 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
                       <p className="text-sm font-medium text-zinc-900 dark:text-white">
                         {deal.property}
                       </p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 capitalize">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500 capitalize">
                         {deal.status.replace(/_/g, ' ')}
                       </p>
                     </div>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500">
                       {new Date(deal.createdAt).toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',

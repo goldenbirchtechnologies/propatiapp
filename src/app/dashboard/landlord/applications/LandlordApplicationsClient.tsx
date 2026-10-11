@@ -36,7 +36,7 @@ export function EmptyState() {
   return (
     <div className="glass-card glass-card border-dashed border-zinc-700 p-8 text-center">
       <div className="p-6 flex flex-col items-center gap-4 py-4">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
           <ClipboardList className="h-6 w-6" />
         </div>
         <div className="space-y-2">
@@ -294,7 +294,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       {filtered.length === 0 ? (
         <div className="glass-card glass-card">
           <div className="p-6 py-16 text-center">
-            <Users className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Users className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500" />
             <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No applications found</h3>
             <p className="text-zinc-500 dark:text-zinc-400">
               {applications.length === 0
@@ -310,7 +310,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               <thead>
                 <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                   {['Tenant', 'Listing', 'Stage', 'Status', 'Date', 'Actions'].map((h) => (
-                    <th key={h} className="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">{h}</th>
+                    <th key={h} className="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -341,13 +341,13 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                           />
                           <div>
                             <p className="font-medium text-sm text-zinc-900 dark:text-white">{tenantName}</p>
-                            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{app.tenant?.email || ''}</p>
+                            <p className="text-xs text-zinc-600 dark:text-zinc-500">{app.tenant?.email || ''}</p>
                           </div>
                         </div>
                       </td>
                       <td className="p-4">
                         <p className="text-sm font-medium text-zinc-900 dark:text-white">{listingTitle}</p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{listingLocation}</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-500">{listingLocation}</p>
                       </td>
                       <td className="p-4">
                         <StatusBadge status={stageCfg.label} className={stageCfg.className}>
@@ -454,7 +454,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                   {selectedApp.tenant?.profileBio && (
                     <div>
-                      <p className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider mb-1">About</p>
+                      <p className="text-xs font-medium text-zinc-600 dark:text-zinc-500 uppercase tracking-wider mb-1">About</p>
                       <p className="text-sm text-zinc-500 dark:text-zinc-400">{selectedApp.tenant.profileBio}</p>
                     </div>
                   )}
@@ -463,7 +463,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     <p className="text-xs font-medium text-zinc-900 dark:text-white">Screening</p>
                     <div className="flex flex-wrap gap-2">
                       {Object.keys(selectedApp.screeningStatus || {}).length === 0 && (
-                        <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No screening checks yet.</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-500">No screening checks yet.</span>
                       )}
                       {Object.entries(selectedApp.screeningStatus || {}).map(([key, value]) => (
                         <div key={key} className="flex items-center gap-2 border border-zinc-200 dark:border-white/[0.08] rounded-full px-2 py-1 text-xs">
@@ -477,7 +477,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   <div className="space-y-2">
                     <p className="text-xs font-medium text-zinc-900 dark:text-white">Documents</p>
                     {(selectedApp.applicantDocuments || []).length === 0 && (
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No documents uploaded.</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500">No documents uploaded.</p>
                     )}
                     {(selectedApp.applicantDocuments || []).map((doc, idx) => (
                       <a key={idx} href={String(doc.url)} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm underline text-zinc-900 dark:text-white">

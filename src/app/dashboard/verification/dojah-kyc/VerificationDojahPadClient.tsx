@@ -172,7 +172,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
       )}
 
       {!allVerified && (
-        <div className="glass-card border-slate-800 bg-white dark:bg-zinc-900">
+        <div className="glass-card border-slate-800 bg-white dark:bg-white dark:bg-zinc-900">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-slate-100">Identity Checks</h3>
           </div>
@@ -208,7 +208,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
       )}
 
       {!allVerified && (
-        <div className="glass-card border-slate-800 bg-white dark:bg-zinc-900">
+        <div className="glass-card border-slate-800 bg-white dark:bg-white dark:bg-zinc-900">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-slate-100">Complete Identity Check</h3>
           </div>

@@ -82,8 +82,8 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
       case 'in_progress': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
       case 'resolved': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'closed': return 'bg-zinc-800 text-zinc-300 border-zinc-700';
-      case 'cancelled': return 'bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
-      default: return 'bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
+      case 'cancelled': return 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
+      default: return 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
     }
   };
 
@@ -95,9 +95,9 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
       case 'medium':
         return <Clock className="h-4 w-4 text-amber-400" />;
       case 'low':
-        return <Clock className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />;
+        return <Clock className="h-4 w-4 text-zinc-600 dark:text-zinc-500" />;
       default:
-        return <Clock className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />;
+        return <Clock className="h-4 w-4 text-zinc-600 dark:text-zinc-500" />;
     }
   };
 
@@ -120,7 +120,7 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-500" />
             <Input
               placeholder="Search requests..."
               value={searchQuery}
@@ -189,16 +189,16 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
                       {ticket.status.replace('_', ' ')}
                     </span>
                   </div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 line-clamp-1">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-500 text-xs text-zinc-600 dark:text-zinc-500 line-clamp-1">
                     {ticket.property.title} · {ticket.category}
                   </p>
                 </div>
                 <div className="p-6 space-y-3">
-                  <div className="aspect-video rounded-lg overflow-hidden bg-white dark:bg-zinc-900">
+                  <div className="aspect-video rounded-lg overflow-hidden bg-white dark:bg-white dark:bg-zinc-900">
                     <img src={image} alt={ticket.title} className="w-full h-full object-cover" />
                   </div>
                   <p className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2">{ticket.description}</p>
-                  <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                  <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-500">
                     <span>Created {formatDate(ticket.createdAt)}</span>
                     <span className="capitalize">{ticket.priority} priority</span>
                   </div>

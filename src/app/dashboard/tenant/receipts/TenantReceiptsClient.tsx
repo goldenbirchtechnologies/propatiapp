@@ -30,14 +30,14 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
     <div className="space-y-6">
       <div>
         <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>Receipts</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>Download rental and transaction receipts</p>
+        <p className="text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>Download rental and transaction receipts</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Paid</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialReceipts.filter((r) => r.status === 'released').length}</p></div>
-        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Pending</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialReceipts.filter((r) => r.status === 'pending').length}</p></div>
-        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialReceipts.length}</p></div>
-        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Value</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">₦{(totalValue / 1000000).toFixed(1)}M</p></div>
+        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-500">Paid</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialReceipts.filter((r) => r.status === 'released').length}</p></div>
+        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-500">Pending</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialReceipts.filter((r) => r.status === 'pending').length}</p></div>
+        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-500">Total</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{initialReceipts.length}</p></div>
+        <div className="glass-card p-4"><p className="text-xs text-zinc-600 dark:text-zinc-500">Total Value</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">₦{(totalValue / 1000000).toFixed(1)}M</p></div>
       </div>
 
       <div className="glass-card overflow-hidden">
@@ -48,20 +48,20 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
         </div>
         {filtered.length === 0 ? (
           <div className="card-body text-center py-16">
-            <Receipt className="w-12 h-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} />
+            <Receipt className="w-12 h-12 text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} />
             <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">No receipts yet</h3>
-            <p  className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Purchase history will appear here.</p>
+            <p  className="text-zinc-600 dark:text-zinc-500">Purchase history will appear here.</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Reference</th>
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Description</th>
-                <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Amount</th>
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
-                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Date</th>
-                <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Actions</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Reference</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Description</th>
+                <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Amount</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Status</th>
+                <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Date</th>
+                <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -76,7 +76,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">{new Date(r.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                     <td className="p-4 text-right">
                       <a href={`/api/payments/transactions/${r.id}/receipt`} target="_blank" rel="noopener noreferrer" className="p-2 rounded-md hover:bg-muted/50 inline-flex items-center justify-center">
-                        <Download className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                        <Download className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                       </a>
                     </td>
                   </tr>

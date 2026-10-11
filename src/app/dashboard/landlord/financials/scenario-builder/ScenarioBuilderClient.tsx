@@ -8,7 +8,7 @@ export default function FinancialScenarioBuilderClient() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Advanced Scenario Builder</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Model rent, occupancy, and revenue outcomes under different assumptions.</p>
+        <p className="text-zinc-600 dark:text-zinc-500 mt-1">Model rent, occupancy, and revenue outcomes under different assumptions.</p>
       </div>
 
       <div className="glass-card">
@@ -18,15 +18,15 @@ export default function FinancialScenarioBuilderClient() {
         <div className="p-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Average Rent</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Average Rent</p>
               <p className="text-xl font-semibold">₦420,000</p>
             </div>
             <div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Occupancy Target</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Occupancy Target</p>
               <p className="text-xl font-semibold">95%</p>
             </div>
             <div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Lease Cycle</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Lease Cycle</p>
               <p className="text-xl font-semibold">12 Months</p>
             </div>
           </div>
@@ -42,7 +42,7 @@ export default function FinancialScenarioBuilderClient() {
           </Button>
         </div>
         <div className="p-6">
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Use the Scenario Builder to configure and save custom models.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-500">Use the Scenario Builder to configure and save custom models.</p>
         </div>
       </div>
     </div>

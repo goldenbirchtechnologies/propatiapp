@@ -59,10 +59,10 @@ export default function AutomatedMonthlyStatementClient() {
         </div>
         <div className="flex items-center gap-3">
           <button
-            className="p-2 rounded-full hover:bg-zinc-900 transition-colors"
+            className="p-2 rounded-full hover:bg-white dark:bg-zinc-900 transition-colors"
             onClick={() => window.print()}
           >
-            <Printer className="w-5 h-5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Printer className="w-5 h-5 text-zinc-600 dark:text-zinc-500" />
           </button>
           <Button variant="outline" size="sm" className="flex items-center gap-2">
             <Download className="w-4 h-4" /> Download
@@ -84,10 +84,10 @@ export default function AutomatedMonthlyStatementClient() {
             </p>
           </div>
           <div className="text-right">
-            <h2 className="font-headline-sm headline-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">
+            <h2 className="font-headline-sm headline-sm text-zinc-600 dark:text-zinc-500 mb-1">
               MONTHLY RENT & SERVICE STATEMENT
             </h2>
-            <div className="flex flex-col gap-1 font-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <div className="flex flex-col gap-1 font-body-sm text-zinc-600 dark:text-zinc-500">
               <p>
                 Statement ID: <span className="font-label-sm label-sm font-bold">PRP-2024-1104</span>
               </p>
@@ -118,7 +118,7 @@ export default function AutomatedMonthlyStatementClient() {
 
           <div className="flex flex-col gap-4">
             <div className="bg-zinc-800 p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] flex flex-col items-center justify-center text-center">
-              <p className="font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2 uppercase">Payment Status</p>
+              <p className="font-label-sm text-zinc-600 dark:text-zinc-500 mb-2 uppercase">Payment Status</p>
               <div className="px-3 py-1 bg-warning/10 text-warning rounded-full flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-warning animate-pulse"></span>
                 <span className="font-label-sm label-md">Awaiting Payment</span>
@@ -127,12 +127,12 @@ export default function AutomatedMonthlyStatementClient() {
             <div className="bg-white dark:bg-zinc-950/50 p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center gap-2 mb-1">
                 <AppIcon name="domain" className="lucide" />
-                <span className="font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase text-xs">
+                <span className="font-label-sm text-zinc-600 dark:text-zinc-500 uppercase text-xs">
                   The Obsidian Penthouse
                 </span>
               </div>
               <p className="font-body-sm text-sm text-zinc-900 dark:text-white">Unit 402, Victoria Tower, Lagos, NG</p>
-              <p className="font-body-sm text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Manager: David Kolawole</p>
+              <p className="font-body-sm text-xs text-zinc-600 dark:text-zinc-500 mt-1">Manager: David Kolawole</p>
             </div>
           </div>
         </div>
@@ -154,10 +154,10 @@ export default function AutomatedMonthlyStatementClient() {
               </thead>
               <tbody className="font-body-sm">
                 {ledgerRows.map((row, i) => (
-                  <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08] even:bg-zinc-950/50">
+                  <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08] even:bg-white dark:bg-zinc-950/50">
                     <td className="p-3">
                       <p className="font-bold">{row.desc}</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{row.sub}</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500">{row.sub}</p>
                     </td>
                     <td className="p-3">
                       {row.badge ? (
@@ -187,7 +187,7 @@ export default function AutomatedMonthlyStatementClient() {
         {/* History Sparkline / Mini-Table */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
           <div className="p-5 bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-            <h5 className="font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-3">PAYMENT HISTORY (LAST 3)</h5>
+            <h5 className="font-label-sm text-zinc-600 dark:text-zinc-500 mb-3">PAYMENT HISTORY (LAST 3)</h5>
             <div className="space-y-2">
               {paymentHistory.map((item, i) => (
                 <div
@@ -196,7 +196,7 @@ export default function AutomatedMonthlyStatementClient() {
                 >
                   <div>
                     <p className="text-xs font-bold">{item.statement}</p>
-                    <p className="text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{item.date}</p>
+                    <p className="text-[10px] text-zinc-600 dark:text-zinc-500">{item.date}</p>
                   </div>
                   <span className="text-[#009e6f] font-bold text-xs">{item.amount}</span>
                 </div>
@@ -209,7 +209,7 @@ export default function AutomatedMonthlyStatementClient() {
               <FileText className="w-6 h-6 text-tertiary-fixed" style={{ fontVariationSettings: "'FILL' 1" }} />
             </div>
             <p className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-1">Perfect Payer Status</p>
-            <p className="font-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="font-body-sm text-zinc-600 dark:text-zinc-500">
               Your account has no outstanding arrears. Maintain this status for future rent discounts.
             </p>
           </div>
@@ -224,7 +224,7 @@ export default function AutomatedMonthlyStatementClient() {
                 DIGITALLY VERIFIED DOCUMENT
               </span>
             </div>
-            <p className="text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 leading-relaxed">
+            <p className="text-[10px] text-zinc-600 dark:text-zinc-500 leading-relaxed">
               This document is an automated electronic statement generated by PROPATI Technologies.
               It serves as an official notice of dues for the specified period. Terms and conditions
               of the lease agreement apply. For disputes, contact support@propati.io within 48 hours
@@ -237,7 +237,7 @@ export default function AutomatedMonthlyStatementClient() {
               <FileText className="w-5 h-5 text-zinc-900 dark:text-white" />
               <FileText className="w-5 h-5 text-zinc-900 dark:text-white" />
             </div>
-            <p className="font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="font-label-sm text-zinc-600 dark:text-zinc-500">
               © 2024 PROPATI Technologies. Lagos, Nigeria.
             </p>
           </div>
@@ -250,7 +250,7 @@ export default function AutomatedMonthlyStatementClient() {
           <div className="flex items-center gap-4">
             <div
               className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-                enrolled ? 'bg-teal-500/10 text-teal-500' : 'bg-zinc-900 text-zinc-500 dark:text-zinc-400'
+                enrolled ? 'bg-teal-500/10 text-teal-500' : 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400'
               }`}
             >
               <FileText className="w-6 h-6" />
@@ -269,7 +269,7 @@ export default function AutomatedMonthlyStatementClient() {
           <button
             onClick={() => setEnrolled(!enrolled)}
             className={`w-12 h-6 rounded-full transition-colors ${
-              enrolled ? 'bg-teal-500' : 'bg-zinc-900 border border-zinc-200 dark:border-white/[0.08]'
+              enrolled ? 'bg-teal-500' : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08]'
             }`}
           >
             <div

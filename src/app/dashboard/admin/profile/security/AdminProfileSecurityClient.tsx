@@ -32,7 +32,7 @@ export default function AdminProfileSecurityClient() {
               </span>
               <span className="px-3 py-1 rounded-full bg-primary-container text-on-primary-container font-label-sm text-[10px]">Super Admin</span>
             </div>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-body-md max-w-lg">
+            <p className="text-zinc-600 dark:text-zinc-500 text-body-md max-w-lg">
               Overseeing regional operations and high-value asset verification across West Africa. Active member since January 2023.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
@@ -66,7 +66,7 @@ export default function AdminProfileSecurityClient() {
           </div>
           <div className="z-10 mt-6">
             <p className="text-xs text-on-primary-container mb-4">Your security level is at 94%. Enabling Biometric login will reach 100%.</p>
-            <div className="w-full h-1.5 bg-zinc-950/50/10 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-white dark:bg-zinc-950/50/10 rounded-full overflow-hidden">
               <div className="h-full bg-secondary-container w-[94%]"></div>
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function AdminProfileSecurityClient() {
           <form className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2 md:col-span-1">
-                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">FULL NAME</label>
+                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-500 mb-2">FULL NAME</label>
                 <input
                   className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="text"
@@ -98,7 +98,7 @@ export default function AdminProfileSecurityClient() {
                 />
               </div>
               <div className="col-span-2 md:col-span-1">
-                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">EMAIL ADDRESS</label>
+                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-500 mb-2">EMAIL ADDRESS</label>
                 <input
                   className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="email"
@@ -108,7 +108,7 @@ export default function AdminProfileSecurityClient() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2 md:col-span-1">
-                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">PHONE NUMBER</label>
+                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-500 mb-2">PHONE NUMBER</label>
                 <input
                   className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="tel"
@@ -116,8 +116,8 @@ export default function AdminProfileSecurityClient() {
                 />
               </div>
               <div className="col-span-2 md:col-span-1">
-                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">OFFICE LOCATION</label>
-                <select className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none bg-white dark:bg-zinc-950/50">
+                <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-500 mb-2">OFFICE LOCATION</label>
+                <select className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none bg-white dark:bg-white dark:bg-zinc-950/50">
                   <option>Lagos HQ, Victoria Island</option>
                   <option>Abuja Hub, Garki</option>
                   <option>Port Harcourt Branch</option>
@@ -147,7 +147,7 @@ export default function AdminProfileSecurityClient() {
                 <AppIcon name="lock_reset" className="lucide" />
                 <div>
                   <p className="font-bold text-zinc-900 dark:text-white text-body-md">Password Management</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last changed 2 days ago</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">Last changed 2 days ago</p>
                 </div>
               </div>
               <button className="px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm font-semibold hover:bg-emerald-500/90 transition-colors">
@@ -161,7 +161,7 @@ export default function AdminProfileSecurityClient() {
                 <AppIcon name="smartphone" className="lucide" />
                 <div>
                   <p className="font-bold text-zinc-900 dark:text-white text-body-md">Multi-Factor Authentication</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Authenticator app enabled</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">Authenticator app enabled</p>
                 </div>
               </div>
               <span className="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary-container font-label-sm text-xs font-bold border border-secondary-container/30">
@@ -175,7 +175,7 @@ export default function AdminProfileSecurityClient() {
                 <AppIcon name="devices" className="lucide" />
                 <div>
                   <p className="font-bold text-zinc-900 dark:text-white text-body-md">Active Sessions</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">3 sessions across 2 devices</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">3 sessions across 2 devices</p>
                 </div>
               </div>
               <button className="text-error font-bold text-label-sm px-4 py-2 hover:bg-error/5 rounded-lg transition-colors">
@@ -198,25 +198,25 @@ export default function AdminProfileSecurityClient() {
           <div className="relative pl-10">
             <div className="absolute left-2.5 top-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-none"></div>
             <p className="font-bold text-body-sm text-zinc-900 dark:text-white">Password changed successfully</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">2 days ago • IP: 102.89.23.41</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-500">2 days ago • IP: 102.89.23.41</p>
           </div>
           <div className="relative pl-10">
             <div className="absolute left-2.5 top-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-none"></div>
             <p className="font-bold text-body-sm text-zinc-900 dark:text-white">2FA verified at 09:41 AM</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Today • iPhone 15 Pro</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-500">Today • iPhone 15 Pro</p>
           </div>
           <div className="relative pl-10">
             <div className="absolute left-2.5 top-1 w-3 h-3 bg-secondary-container rounded-full border-2 border-white shadow-none"></div>
             <p className="font-bold text-body-sm text-zinc-900 dark:text-white">New device login detected</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Yesterday • Lagos, Nigeria</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-500">Yesterday • Lagos, Nigeria</p>
           </div>
           <div className="relative pl-10">
             <div className="absolute left-2.5 top-1 w-3 h-3 bg-outline-variant rounded-full border-2 border-white shadow-none"></div>
             <p className="font-bold text-body-sm text-zinc-900 dark:text-white">Recovery codes viewed</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Oct 12, 2023 • MacBook Pro</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-500">Oct 12, 2023 • MacBook Pro</p>
           </div>
         </div>
-        <button className="w-full mt-8 py-3 border border-zinc-200 dark:border-white/[0.08] rounded-xl text-label-sm font-bold text-zinc-900 dark:text-white hover:bg-zinc-900 transition-all">
+        <button className="w-full mt-8 py-3 border border-zinc-200 dark:border-white/[0.08] rounded-xl text-label-sm font-bold text-zinc-900 dark:text-white hover:bg-white dark:bg-zinc-900 transition-all">
           View Full Security Log
         </button>
       </div>

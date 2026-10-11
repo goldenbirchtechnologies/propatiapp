@@ -503,7 +503,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </Button>
           <div>
             <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Add property</h1>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Create a new building and its units</p>
+            <p className="text-zinc-600 dark:text-zinc-500 mt-1">Create a new building and its units</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -549,7 +549,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Basic Details</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">General information about the building.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">General information about the building.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <FormField
@@ -627,7 +627,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Address</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Where is this property located?</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">Where is this property located?</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <FormField
@@ -729,7 +729,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Units ({units.length})</h2>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Add address and details for each unit in this building.</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">Add address and details for each unit in this building.</p>
               </div>
               <div className="flex flex-wrap gap-3">
                 <Button type="button" variant="secondary" onClick={addUnit} className="gap-2">
@@ -744,7 +744,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                 <Settings2 className="h-4 w-4" />
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Quick setup</h3>
               </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Bulk-apply listing intent, price, and period to all units.</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500">Bulk-apply listing intent, price, and period to all units.</p>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Select value={quickListingType} onValueChange={(val) => setQuickListingType(val as ListingIntent)}>
                   <SelectTrigger>
@@ -813,14 +813,14 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Unit Name / No</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Unit Name / No</label>
                       <Input
                         value={u.unitNumber}
                         onChange={(e) => updateUnit(u.id, { unitNumber: e.target.value })}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Bedrooms</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Bedrooms</label>
                       <Input
                         type="number"
                         min={0}
@@ -829,7 +829,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Bathrooms</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Bathrooms</label>
                       <Input
                         type="number"
                         min={0}
@@ -838,7 +838,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Size (M²)</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Size (M²)</label>
                       <Input
                         type="number"
                         min={0}
@@ -854,7 +854,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   </div>
 
                   <div>
-                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Listing Intent</label>
+                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Listing Intent</label>
                     <div className="flex flex-wrap gap-3 mt-2">
                       {['For Rent', 'Short-Let', 'For Sale'].map((intent) => {
                         const value = intent.toLowerCase().replace(' ', '_') as ListingIntent;
@@ -875,7 +875,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                             className={[
                               'inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors',
                               active
-                                ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white'
+                                ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
                                 : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
                             ].join(' ')}
                           >
@@ -890,7 +890,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   {true && (
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                        <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">
                           {u.listingType === 'short_let'
                             ? 'Nightly Rate (NGN)'
                             : u.listingType === 'sale'
@@ -906,7 +906,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       </div>
                       {u.listingType === 'rent' && (
                         <div className="space-y-2">
-                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Period</label>
+                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Period</label>
                           <Select value={u.pricePeriod} onValueChange={(val) => updateUnit(u.id, { pricePeriod: val })}>
                             <SelectTrigger>
                               <SelectValue />
@@ -923,7 +923,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       )}
                       {u.listingType === 'short_let' && (
                         <div className="space-y-2">
-                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Min. Stay (nights)</label>
+                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Min. Stay (nights)</label>
                           <Input
                             type="number"
                             min={1}
@@ -940,7 +940,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   )}
 
                   <div className="space-y-2">
-                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Unit photos</label>
+                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Unit photos</label>
                     <DroppableArea
                       accept="image/jpeg,image/png,image/webp,image/heic"
                       maxSize={10 * 1024 * 1024}
@@ -960,9 +960,9 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       }
                       className="min-h-[120px]"
                     >
-                      <Upload className="h-5 w-5 mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                      <Upload className="h-5 w-5 mb-2 text-zinc-600 dark:text-zinc-500" />
                       <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop unit photos here, or click to browse</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">These images belong to this unit only.</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500">These images belong to this unit only.</p>
                     </DroppableArea>
                   </div>
                 </div>
@@ -996,7 +996,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Photos & Video</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">
                 Optional · helps listings stand out
               </p>
             </div>
@@ -1012,9 +1012,9 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   onRemoveFile={(idx) => setPhotos((cur) => cur.filter((_, i) => i !== idx))}
                   className="min-h-[180px]"
                 >
-                  <Upload className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                  <Upload className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-500" />
                   <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop images here, or click to browse</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">JPEG, PNG, HEIC, or WebP up to 10MB</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">JPEG, PNG, HEIC, or WebP up to 10MB</p>
                 </DroppableArea>
               </div>
               <div className="space-y-3">
@@ -1028,10 +1028,10 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   onRemoveFile={(idx) => setVideos((cur) => cur.filter((_, i) => i !== idx))}
                   className="min-h-[180px]"
                 >
-                  <Film className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                  <Film className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-500" />
                   <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop videos here, or click to browse</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">MP4, MOV, or WebM up to 50MB</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Short walk-around clips work best.</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">MP4, MOV, or WebM up to 50MB</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">Short walk-around clips work best.</p>
                 </DroppableArea>
               </div>
             </div>
@@ -1041,7 +1041,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-5">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Amenities</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Toggle features available in this building.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">Toggle features available in this building.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               {AMENITIES.map((a) => {
@@ -1054,7 +1054,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                     className={[
                       'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
                       active
-                        ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white'
+                        ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
                         : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
                     ].join(' ')}
                   >

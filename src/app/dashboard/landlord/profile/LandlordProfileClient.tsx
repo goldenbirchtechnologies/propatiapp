@@ -214,7 +214,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <Badge variant="secondary" className="text-xs font-semibold">{profileProgress}% complete</Badge>
               <span className="text-xs text-zinc-600 dark:text-zinc-400">{profileCompleteSteps}/{totalSteps} steps</span>
             </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white dark:bg-zinc-900">
+            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white dark:bg-white dark:bg-zinc-900">
               <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${profileProgress}%` }} />
             </div>
             <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-zinc-400">{setupComplete ? 'Setup complete — all steps verified.' : profileProgress === 100 ? 'Profile complete — finish verification to unlock all features.' : `${totalSteps - profileCompleteSteps} step${totalSteps - profileCompleteSteps === 1 ? '' : 's'} remaining.`}</p>
@@ -427,7 +427,7 @@ function SessionItem({ current = false, device = 'Current Device', browser, loca
   return (
     <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-950')}>
       <div className="flex items-center gap-3">
-        <div className="bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+        <div className="bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
           <Monitor className="h-5 w-5" />
         </div>
         <div>
@@ -478,7 +478,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
       </div>
       <div className="p-6">
         <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
             <ShieldCheck className="h-8 w-8" />
           </div>
           <div className="space-y-1">

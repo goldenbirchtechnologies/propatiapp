@@ -55,7 +55,7 @@ export default function AgentProfileClient({
       ? 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20'
       : user.agentTier === 'standard'
         ? 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20'
-        : 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]';
+        : 'bg-[#171717] text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]';
 
   const { data: kyc, reload } = useKycStatus();
 
@@ -63,7 +63,7 @@ export default function AgentProfileClient({
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">My Profile</h1>
-        <p className="text-base text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Manage your agent account details and preferences</p>
+        <p className="text-base text-zinc-600 dark:text-zinc-500 mt-1">Manage your agent account details and preferences</p>
       </div>
 
       <div className="glass-card">
@@ -82,7 +82,7 @@ export default function AgentProfileClient({
             )}
             <div>
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">{user.fullName}</h3>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Agent since {formattedDate}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">Agent since {formattedDate}</p>
               <div className="flex items-center gap-2 mt-2">
                 <Badge variant="outline" className={tierColor}>{user.agentTier}</Badge>
                 {user.agentApproved && (
@@ -99,7 +99,7 @@ export default function AgentProfileClient({
                 <Mail className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Email</p>
+                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Email</p>
                 <p className="text-sm text-zinc-900 dark:text-white mt-0.5 truncate">{user.email}</p>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function AgentProfileClient({
                 <Phone className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Phone</p>
+                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Phone</p>
                 <p className="text-sm text-zinc-900 dark:text-white mt-0.5">
                   {user.phone ? '••••••' : 'Not provided'}
                 </p>
@@ -119,7 +119,7 @@ export default function AgentProfileClient({
                 <Shield className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Role</p>
+                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Role</p>
                 <p className="text-sm text-zinc-900 dark:text-white mt-0.5 capitalize">{user.role}</p>
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function AgentProfileClient({
                 <Calendar className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Member Since</p>
+                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Member Since</p>
                 <p className="text-sm text-zinc-900 dark:text-white mt-0.5">{formattedDate}</p>
               </div>
             </div>
@@ -136,7 +136,7 @@ export default function AgentProfileClient({
 
           {user.profileBio && (
             <div className="p-4 rounded-xl bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08]">
-              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">Bio</p>
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500 mb-2">Bio</p>
               <p className="text-sm text-zinc-900 dark:text-white">{user.profileBio}</p>
             </div>
           )}

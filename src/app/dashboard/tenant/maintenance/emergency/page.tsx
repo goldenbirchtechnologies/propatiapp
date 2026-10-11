@@ -22,9 +22,9 @@ export default function refinedemergencyhotlinestatepropatimaintenancePage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-6 shadow-none">
+        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-6 shadow-none">
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Refined Emergency Hotline State Maintenance</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">PROPATI - New Maintenance Request PROPATI Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
+          <p className="text-zinc-600 dark:text-zinc-500 mt-1">PROPATI - New Maintenance Request PROPATI Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
         </section>
         <div className="flex flex-wrap gap-2">
           <Button variant="default">Low</Button>
@@ -35,7 +35,7 @@ export default function refinedemergencyhotlinestatepropatimaintenancePage() {
         </div>
         <div className="glass-card">
           <div className="p-6 pt-6">
-            <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-500">
               <li>Provide the details of your issue and we'll connect you with a certified technician from our verified network.</li>
               <li>For life-threatening emergencies, fire, or severe flooding, please call the local emergency services immediately before filing a report.</li>
               <li>Critical Issue</li>
@@ -49,7 +49,7 @@ export default function refinedemergencyhotlinestatepropatimaintenancePage() {
         </div>
         <div className="glass-card">
           <div className="p-6 pt-6">
-            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">This page was ported from the reference design: <strong>refined_emergency_hotline_state_propati_maintenance.html</strong></p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-500">This page was ported from the reference design: <strong>refined_emergency_hotline_state_propati_maintenance.html</strong></p>
           </div>
         </div>
       </div>

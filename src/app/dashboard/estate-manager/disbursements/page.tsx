@@ -52,7 +52,7 @@ function DisbursementsForm() {
 
 export default function DisbursementsPage() {
   return (
-    <Suspense fallback={<div className="p-6 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Loading…</div>}>
+    <Suspense fallback={<div className="p-6 text-sm text-zinc-600 dark:text-zinc-500">Loading…</div>}>
       <DisbursementsForm />
     </Suspense>
   );

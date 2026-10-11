@@ -260,7 +260,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
           <Button
             size="sm"
             variant="outline"
-            className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900"
+            className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900"
             onClick={handleExportCSV}
           >
             <Download className="mr-2 size-3.5" />
@@ -298,7 +298,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
           </Tabs>
 
           <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-500" />
             <Input
               name="q"
               placeholder="Search managed properties..."
@@ -330,7 +330,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                <TableCell colSpan={7} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                   No managed properties found.
                 </TableCell>
               </TableRow>
@@ -359,7 +359,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                           >
                             {listing.title}
                           </Link>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate max-w-xs">
+                          <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate max-w-xs">
                             {listing.address || `${listing.area}, ${listing.state}`}
                           </p>
                           <div className="flex items-center gap-2">
@@ -373,19 +373,19 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                       <TableCell className="py-4">
                         <div className="space-y-1">
                           <p className="text-sm text-zinc-900 dark:text-white">{listing.owner?.fullName || '—'}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{listing.owner?.email || ''}</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-500">{listing.owner?.email || ''}</p>
                         </div>
                       </TableCell>
                       <TableCell className="py-4">
                         <div className="space-y-1">
                           <p className="text-sm text-zinc-900 dark:text-white">{listing.unitCount}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{listing.vacantUnitCount} vacant</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-500">{listing.vacantUnitCount} vacant</p>
                         </div>
                       </TableCell>
                       <TableCell className="py-4">
                         <div className="space-y-1">
                           <p className="text-sm text-zinc-900 dark:text-white">{listing.listedUnitCount}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                          <p className="text-xs text-zinc-600 dark:text-zinc-500">
                             {listing.listedUnitCount > 0 ? 'published' : 'unpublished'}
                           </p>
                         </div>
@@ -404,7 +404,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                             ))}
                           </div>
                         ) : (
-                          <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Not assigned</span>
+                          <span className="text-xs text-zinc-600 dark:text-zinc-500">Not assigned</span>
                         )}
                       </TableCell>
                       <TableCell className="py-4 text-right">
@@ -412,7 +412,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900"
+                            className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900"
                             onClick={() => toggleRow(listing.id)}
                           >
                             {isExpanded ? 'Hide Units' : 'View Units'}
@@ -436,7 +436,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                           <div className="px-6 py-4">
                             <p className="text-xs font-medium text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 mb-3">Units</p>
                             {listing.units.length === 0 ? (
-                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No units added yet.</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-500">No units added yet.</p>
                             ) : (
                               <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#11151c] overflow-hidden">
                                 <Table>
@@ -455,7 +455,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                         <TableCell className="py-3">
                                           <div>
                                             <p className="text-sm font-medium text-zinc-900 dark:text-white">{unit.unitNumber}</p>
-                                            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
+                                            <p className="text-xs text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
                                           </div>
                                         </TableCell>
                                         <TableCell className="py-3">
@@ -477,7 +477,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                               Listed
                                             </span>
                                           ) : (
-                                            <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]">
+                                            <span className="tag bg-muted text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]">
                                               Unlisted
                                             </span>
                                           )}
@@ -487,7 +487,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                             asChild
                                             size="sm"
                                             variant="outline"
-                                            className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900"
+                                            className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900"
                                           >
                                             <Link href={`/dashboard/agent/properties/${listing.id}`}>View</Link>
                                           </Button>

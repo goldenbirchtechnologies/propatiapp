@@ -122,7 +122,7 @@ function EscrowClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-white/[0.08]">
+                <tr className="bg-white dark:bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-white/[0.08]">
                   {['ID', 'Type', 'Amount', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
                     <th
                       key={h}
@@ -135,7 +135,7 @@ function EscrowClient({
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {escrowed.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-zinc-900 transition-colors">
+                  <tr key={tx.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
                     <td className="px-md py-4 font-label-sm text-label-sm text-zinc-900 dark:text-white whitespace-nowrap">
                       {tx.reference || tx.id.slice(0, 12)}
                     </td>

@@ -86,11 +86,11 @@ export default function TenantDashboardClient({
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 w-64 bg-zinc-50 dark:bg-zinc-900 rounded animate-pulse" />
-        <div className="h-40 w-full bg-zinc-50 dark:bg-zinc-900 rounded animate-pulse" />
+        <div className="h-10 w-64 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded animate-pulse" />
+        <div className="h-40 w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-24 w-full bg-zinc-50 dark:bg-zinc-900 rounded animate-pulse" />
+            <div key={i} className="h-24 w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded animate-pulse" />
           ))}
         </div>
       </div>
@@ -140,7 +140,7 @@ export default function TenantDashboardClient({
           <div className="flex items-start justify-between mb-5">
             <div>
               <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold">Current Lease</h3>
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
+              <p className="text-zinc-600 dark:text-zinc-500 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
             </div>
             {activeAgreement ? <StatusBadge status="Active" /> : <span className="px-2.5 py-1 text-xs font-medium bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-700 rounded-full">No lease</span>}
           </div>
@@ -159,13 +159,13 @@ export default function TenantDashboardClient({
           {activeAgreement ? (
             <div>
               <div className="flex justify-between text-xs mb-2">
-                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Lease Progress</span>
+                <span className="text-zinc-600 dark:text-zinc-500">Lease Progress</span>
                 <span className="text-zinc-900 dark:text-white">{leaseProgress}% complete</span>
               </div>
               <Progress value={leaseProgress} color="#10b981" />
             </div>
           ) : (
-            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No lease dates to track yet.</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-500">No lease dates to track yet.</p>
           )}
         </div>
 
@@ -180,8 +180,8 @@ export default function TenantDashboardClient({
                 <div className="text-3xl font-black text-zinc-900 dark:text-white mb-1">
                   {activeAgreement?.listing?.price ? formatCurrency(activeAgreement.listing.price) : '₦0'}
                 </div>
-                <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mb-1">Due {formatDate(activeAgreement.endDate!)}</div>
-                <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}>
+                <div className="text-zinc-600 dark:text-zinc-500 text-xs mb-1">Due {formatDate(activeAgreement.endDate!)}</div>
+                <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-600 dark:text-zinc-500'}`}>
                   <Clock size={11} />
                   {daysUntilRent} days remaining
                 </div>
@@ -197,7 +197,7 @@ export default function TenantDashboardClient({
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center text-center py-8 gap-2">
               <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">No Payment Due</h3>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 max-w-[20rem]">
+              <p className="text-xs text-zinc-600 dark:text-zinc-500 max-w-[20rem]">
                 You have no active lease. When you verify a tenancy, rent dates and payment actions appear here.
               </p>
               <Link
@@ -223,7 +223,7 @@ export default function TenantDashboardClient({
           </div>
           <div className="space-y-2">
             {paymentHistory.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-center py-4">No payment history yet.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 text-center py-4">No payment history yet.</p>
             ) : (
               paymentHistory.map((p, i) => (
                 <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.05] last:border-0">

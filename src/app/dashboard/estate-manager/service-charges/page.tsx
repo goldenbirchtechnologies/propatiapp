@@ -35,8 +35,8 @@ interface ServiceChargeItem {
 }
 
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-surface text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  sent: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20', label: 'Sent' },
+  draft: { class: 'bg-surface text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  sent: { class: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20', label: 'Sent' },
   paid: { class: 'bg-emerald-500/10 text-[#10b981] border-success/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
@@ -117,7 +117,7 @@ export default function ServiceChargesPage() {
           >
             Service Charges
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
+          <p className="text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
             View and manage service charges for your portfolio
           </p>
         </div>
@@ -177,8 +177,8 @@ export default function ServiceChargesPage() {
         </Dialog>
       </div>
 
-      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none p-4 flex flex-wrap items-center gap-4">
-        <Filter className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+      <div className="bg-white dark:bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none p-4 flex flex-wrap items-center gap-4">
+        <Filter className="h-4 w-4 text-zinc-600 dark:text-zinc-500" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Status" />
@@ -194,7 +194,7 @@ export default function ServiceChargesPage() {
         </Select>
       </div>
 
-      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden hover:shadow-none transition-shadow">
+      <div className="bg-white dark:bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden hover:shadow-none transition-shadow">
         {loading ? (
           <div className="p-4 space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -203,26 +203,26 @@ export default function ServiceChargesPage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-12">
-            <Receipt className="mx-auto h-12 w-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
-            <p className="mt-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No service charges found</p>
+            <Receipt className="mx-auto h-12 w-12 text-zinc-600 dark:text-zinc-500 opacity-50" />
+            <p className="mt-2 text-zinc-600 dark:text-zinc-500">No service charges found</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
                   Period
                 </th>
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
                   Listing
                 </th>
-                <th className="text-right p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <th className="text-right p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
                   Amount
                 </th>
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
                   Due Date
                 </th>
-                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
                   Status
                 </th>
               </tr>
@@ -236,14 +236,14 @@ export default function ServiceChargesPage() {
                 return (
                   <tr
                     key={charge.id}
-                    className="border-b border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900/30"
+                    className="border-b border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900/30"
                   >
                     <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white">
                       {charge.period}
                     </td>
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">
                       {charge.listing?.title}
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500">
                         {charge.listing?.address}
                       </p>
                     </td>

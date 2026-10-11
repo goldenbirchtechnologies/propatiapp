@@ -190,7 +190,7 @@ export default function LandlordApplicationDetailClient({
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+      <nav className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-500">
         <Link href="/dashboard/landlord" className="hover:underline">Dashboard</Link>
         <span>/</span>
         <Link href="/dashboard/landlord/applications" className="hover:underline">Applications</Link>
@@ -225,7 +225,7 @@ export default function LandlordApplicationDetailClient({
           </div>
           <div className="p-6 space-y-4">
             {(application.listing?.images?.length || 0) > 0 && (
-              <div className="aspect-video rounded-lg overflow-hidden bg-white dark:bg-zinc-900">
+              <div className="aspect-video rounded-lg overflow-hidden bg-white dark:bg-white dark:bg-zinc-900">
                 <img
                   src={application.listing.images[0].url}
                   alt={application.listing.title}
@@ -235,28 +235,28 @@ export default function LandlordApplicationDetailClient({
             )}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Price</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">Price</p>
                 <p className="text-sm font-bold text-zinc-900 dark:text-white">
                   ₦{Number(application.listing.price).toLocaleString()}
                   {application.listing.pricePeriod && `/${application.listing.pricePeriod}`}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Type</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">Type</p>
                 <p className="text-sm font-medium capitalize text-zinc-900 dark:text-white">{application.listing.propertyType || '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Listing Type</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">Listing Type</p>
                 <p className="text-sm font-medium capitalize text-zinc-900 dark:text-white">{application.listing.listingType || '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Address</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">Address</p>
                 <p className="text-sm font-medium text-zinc-900 dark:text-white">{application.listing.address || '—'}</p>
               </div>
             </div>
             {application.listing.amenities.length > 0 && (
               <div>
-                <p className="text-xs font-medium mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Amenities</p>
+                <p className="text-xs font-medium mb-2 text-zinc-600 dark:text-zinc-500">Amenities</p>
                 <div className="flex flex-wrap gap-2">
                   {application.listing.amenities.map((a) => (
                     <span
@@ -292,7 +292,7 @@ export default function LandlordApplicationDetailClient({
               />
               <div>
                 <p className="font-bold text-zinc-900 dark:text-white">{application.tenant.fullName}</p>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">
                   Applied {new Date(application.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                 </p>
               </div>
@@ -300,24 +300,24 @@ export default function LandlordApplicationDetailClient({
 
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-sm">
-                <Mail className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                <Mail className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                 <span className="text-zinc-900 dark:text-white">{application.tenant.email}</span>
               </div>
               {application.tenant.phone && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Phone className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                  <Phone className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                   <span className="text-zinc-900 dark:text-white">{application.tenant.phone}</span>
                 </div>
               )}
               {application.tenant.employmentStatus && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Briefcase className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                  <Briefcase className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                   <span className="capitalize text-zinc-900 dark:text-white">{application.tenant.employmentStatus.replace('_', ' ')}</span>
                 </div>
               )}
               {application.tenant.yearlyIncome && (
                 <div className="flex items-center gap-2 text-sm">
-                  <DollarSign className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+                  <DollarSign className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
                   <span className="text-zinc-900 dark:text-white">₦{Number(application.tenant.yearlyIncome).toLocaleString()}/yr</span>
                 </div>
               )}
@@ -338,7 +338,7 @@ export default function LandlordApplicationDetailClient({
 
             {application.tenant.profileBio && (
               <div>
-                <p className="text-xs font-medium mb-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">About</p>
+                <p className="text-xs font-medium mb-1 text-zinc-600 dark:text-zinc-500">About</p>
                 <p className="text-sm text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">{application.tenant.profileBio}</p>
               </div>
             )}
@@ -353,7 +353,7 @@ export default function LandlordApplicationDetailClient({
             <div className="flex items-start gap-3">
               <MessageSquare className="w-5 h-5 mt-0.5 text-emerald-400" />
               <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">Applicant Message</p>
+                <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-500 mb-1">Applicant Message</p>
                 <p className="text-sm p-3 rounded-lg bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white">{application.message}</p>
               </div>
             </div>
@@ -368,21 +368,21 @@ export default function LandlordApplicationDetailClient({
             <button
               type="button"
               onClick={() => setDetailTab('applicant')}
-              className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-emerald-500 text-white' : 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:text-white'}`}
+              className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-emerald-500 text-white' : 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:text-white'}`}
             >
               Applicant
             </button>
             <button
               type="button"
               onClick={() => setDetailTab('guarantor')}
-              className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-emerald-500 text-white' : 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:text-white'}`}
+              className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-emerald-500 text-white' : 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:text-white'}`}
             >
               Guarantor
             </button>
             <button
               type="button"
               onClick={() => setDetailTab('decision')}
-              className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-emerald-500 text-white' : 'bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:text-white'}`}
+              className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-emerald-500 text-white' : 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 hover:text-white'}`}
             >
               Decision
             </button>
@@ -394,7 +394,7 @@ export default function LandlordApplicationDetailClient({
               <div className="space-y-2">
                 <p className="text-xs font-medium text-zinc-900 dark:text-white">Screening</p>
                 {Object.keys(application.screeningStatus || {}).length === 0 && (
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No screening checks yet.</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">No screening checks yet.</p>
                 )}
                 <div className="flex flex-wrap gap-2">
                   {Object.entries(application.screeningStatus || {}).map(([key, value]) => (
@@ -409,7 +409,7 @@ export default function LandlordApplicationDetailClient({
               <div className="space-y-2">
                 <p className="text-xs font-medium text-zinc-900 dark:text-white">Documents</p>
                 {application.applicantDocuments.length === 0 && (
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No documents uploaded.</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">No documents uploaded.</p>
                 )}
                 {application.applicantDocuments.map((doc, idx) => (
                   <a key={idx} href={String(doc.url)} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm underline text-zinc-900 dark:text-white">
@@ -424,11 +424,11 @@ export default function LandlordApplicationDetailClient({
             <div className="space-y-3">
               <p className="text-xs font-medium text-zinc-900 dark:text-white">Guarantor Information</p>
               {(!application.guarantorData || Object.keys(application.guarantorData).length === 0) && (
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No guarantor information provided yet.</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">No guarantor information provided yet.</p>
               )}
               {Object.entries(application.guarantorData || {}).map(([key, value]) => (
                 <div key={key} className="flex items-start justify-between gap-4 text-sm">
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 capitalize">{key.replace('_', ' ')}</span>
+                  <span className="text-zinc-600 dark:text-zinc-500 capitalize">{key.replace('_', ' ')}</span>
                   <span className="text-zinc-900 dark:text-white font-medium text-right">{String(value)}</span>
                 </div>
               ))}
@@ -528,7 +528,7 @@ export default function LandlordApplicationDetailClient({
               )}
 
               {application.agreement && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-emerald-500/20">
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-emerald-500/20">
                   <FileText className="w-4 h-4 text-emerald-400" />
                   <span className="text-sm text-zinc-900 dark:text-white">
                     Agreement {application.agreement.status} —{' '}

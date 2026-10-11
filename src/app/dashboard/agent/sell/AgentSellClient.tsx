@@ -17,9 +17,9 @@ type AgreementItem = {
 };
 
 const statusConfig: Record<string, { color: string; label: string }> = {
-  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  pending_landlord: { color: 'bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
-  pending_tenant: { color: 'bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
+  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  pending_landlord: { color: 'bg-white dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
+  pending_tenant: { color: 'bg-white dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
   tenant_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Tenant Signed' },
   landlord_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Landlord Signed' },
   fully_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Fully Signed' },
@@ -29,7 +29,7 @@ const statusConfig: Record<string, { color: string; label: string }> = {
 };
 
 function sc(s: string) {
-  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]', label: s };
+  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]', label: s };
 }
 
 const fmtCurrency = (v: number) =>
@@ -49,14 +49,14 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">Sell Pipeline</h1>
-          <p className="text-base text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Sale agreements where you are the listing agent</p>
+          <p className="text-base text-zinc-600 dark:text-zinc-500 mt-1">Sale agreements where you are the listing agent</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Deals</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Total Deals</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stats.total}</p>
@@ -64,7 +64,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
         </div>
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Value</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Total Value</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">{fmtCurrency(stats.totalValue)}</p>
@@ -72,7 +72,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
         </div>
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">In Progress</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">In Progress</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-300">{stats.activeCount}</p>
@@ -80,7 +80,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
         </div>
         <div className="glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Closed</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Closed</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-[#10b981]">{stats.closedCount}</p>
@@ -92,20 +92,20 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
         <div className="p-6 p-0">
           {initialDeals.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
-              <FileSearch className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
+              <FileSearch className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500 opacity-50" />
               <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No sell deals</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Sale agreements will appear here.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Sale agreements will appear here.</p>
             </div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
                 <tr>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
-                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Value</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Client</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Created</th>
-                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Details</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Property</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Status</th>
+                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Value</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Client</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Created</th>
+                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-500">Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,8 +116,8 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
                       <td className="p-4 font-medium text-sm text-zinc-900 dark:text-white">{d.property}</td>
                       <td className="p-4"><Badge variant="outline" className={st.color}>{st.label}</Badge></td>
                       <td className="p-4 text-sm text-right text-zinc-900 dark:text-white font-medium">{fmtCurrency(d.value)}</td>
-                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{d.tenant}</td>
-                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-500">{d.tenant}</td>
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-500">
                         {new Date(d.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </td>
                       <td className="p-4 text-right">

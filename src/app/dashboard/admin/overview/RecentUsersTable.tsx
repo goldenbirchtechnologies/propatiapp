@@ -38,7 +38,7 @@ export default function RecentUsersTable({ users }: { users: RecentUser[] }) {
           key: 'createdAt',
           label: 'Joined',
           render: (row) => (
-            <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <span className="text-zinc-600 dark:text-zinc-500">
               {new Date(String(row.createdAt)).toLocaleDateString('en-NG', {
                 month: 'short',
                 day: 'numeric',

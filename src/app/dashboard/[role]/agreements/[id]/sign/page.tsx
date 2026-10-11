@@ -109,7 +109,7 @@ export default function SignAgreementPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Sign Agreement</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+        <p className="text-zinc-600 dark:text-zinc-500">
           Review the agreement carefully and provide your electronic signature
         </p>
       </div>
@@ -131,7 +131,7 @@ export default function SignAgreementPage() {
               {step < 4 && (
                 <div
                   className={`flex-1 h-1 mx-2 ${
-                    currentStep > step ? 'bg-primary' : 'bg-zinc-950/50'
+                    currentStep > step ? 'bg-primary' : 'bg-white dark:bg-zinc-950/50'
                   }`}
                 />
               )}
@@ -139,10 +139,10 @@ export default function SignAgreementPage() {
           ))}
         </div>
         <div className="flex justify-between mt-2 text-xs">
-          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Preview</span>
-          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Consent</span>
-          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Sign</span>
-          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Confirm</span>
+          <span className="text-zinc-600 dark:text-zinc-500">Preview</span>
+          <span className="text-zinc-600 dark:text-zinc-500">Consent</span>
+          <span className="text-zinc-600 dark:text-zinc-500">Sign</span>
+          <span className="text-zinc-600 dark:text-zinc-500">Confirm</span>
         </div>
       </div>
 
@@ -159,7 +159,7 @@ export default function SignAgreementPage() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-200 dark:border-white/[0.08]"></div>
             </div>
           ) : (
-            <div className="border rounded-lg p-6 max-h-[600px] overflow-y-auto bg-white dark:bg-zinc-950/50">
+            <div className="border rounded-lg p-6 max-h-[600px] overflow-y-auto bg-white dark:bg-white dark:bg-zinc-950/50">
               <iframe
                 srcDoc={previewHtml}
                 className="w-full min-h-[500px] border-0"
@@ -192,7 +192,7 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-1" className="text-base font-medium cursor-pointer">
                   I have read and understood the agreement
                 </Label>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">
                   I confirm that I have carefully read all terms and conditions in this rental
                   agreement and understand my obligations.
                 </p>
@@ -211,7 +211,7 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-2" className="text-base font-medium cursor-pointer">
                   I agree to all terms and conditions
                 </Label>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">
                   I accept and agree to be legally bound by all terms, conditions, and obligations
                   outlined in this agreement.
                 </p>
@@ -230,14 +230,14 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-3" className="text-base font-medium cursor-pointer">
                   I consent to electronic signature
                 </Label>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">
                   I understand that my electronic signature will have the same legal effect as a
                   handwritten signature.
                 </p>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg p-4 mt-6">
+            <div className="bg-white dark:bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg p-4 mt-6">
               <p className="text-sm text-zinc-900 dark:text-white">
                 <strong>Legal Notice:</strong> By proceeding, you acknowledge that this electronic
                 signature creates a legally binding contract. Your IP address, signature, and
@@ -253,7 +253,7 @@ export default function SignAgreementPage() {
         <div>
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Provide Your Signature</h2>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <p className="text-zinc-600 dark:text-zinc-500">
               Draw your signature in the box below to complete the signing process
             </p>
           </div>

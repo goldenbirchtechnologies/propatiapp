@@ -56,14 +56,14 @@ const statusConfig: Record<
   string,
   { label: string; class: string }
 > = {
-  draft: { class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  pending_landlord: { label: 'Pending Landlord', class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/30' },
+  draft: { class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  pending_landlord: { label: 'Pending Landlord', class: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/30' },
   pending_tenant: { label: 'Pending Your Signature', class: 'bg-warning/10 text-warning border-warning/20' },
   tenant_signed: { label: 'Tenant Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
   landlord_signed: { label: 'Landlord Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
   fully_signed: { label: 'Fully Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
   terminated: { label: 'Terminated', class: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  expired: { label: 'Expired', class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
+  expired: { label: 'Expired', class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
 };
 
 function fmtCurrency(value: number) {
@@ -125,28 +125,28 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             )}
             <div className="space-y-3">
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Property</p>
                 <p className="font-medium text-zinc-900 dark:text-white">{agreement.listing?.title}</p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Location</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Location</p>
                 <p className="font-medium text-zinc-900 dark:text-white">
                   {agreement.listing?.area}
                   {agreement.listing?.state ? `, ${agreement.listing.state}` : ''}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Rent</p>
                 <p className="font-medium text-zinc-900 dark:text-white">{fmtCurrency(agreement.rentAmount)} {agreement.rentPeriod ? `/ ${agreement.rentPeriod}` : ''}</p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Period</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Period</p>
                 <p className="font-medium text-zinc-900 dark:text-white">
                   {agreement.startDate ? new Date(agreement.startDate).toLocaleDateString('en-NG') : '—'} – {agreement.endDate ? new Date(agreement.endDate).toLocaleDateString('en-NG') : '—'}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Jurisdiction</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Jurisdiction</p>
                 <p className="font-medium text-zinc-900 dark:text-white">
                   {agreement.jurisdictionState ? `${agreement.jurisdictionState}` : '—'}
                   {agreement.governingStatute ? ` • ${agreement.governingStatute}` : ''}
@@ -157,7 +157,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
 
           {agreement.specialClauses && (
             <div className="mt-4">
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Special Clauses</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Special Clauses</p>
               <p className="text-sm whitespace-pre-wrap text-zinc-900 dark:text-white">{agreement.specialClauses}</p>
             </div>
           )}
@@ -174,19 +174,19 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
         <div className="p-6">
           <div className="grid md:grid-cols-3 gap-4">
             <div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Landlord</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Landlord</p>
               <p className="font-medium text-zinc-900 dark:text-white">{agreement.landlord?.fullName || 'Unknown'}</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{agreement.landlord?.email}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500">{agreement.landlord?.email}</p>
             </div>
             <div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Tenant</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Tenant</p>
               <p className="font-medium text-zinc-900 dark:text-white">{agreement.tenant?.fullName || 'Unknown'}</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{agreement.tenant?.email}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500">{agreement.tenant?.email}</p>
             </div>
             <div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Agent</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">Agent</p>
               <p className="font-medium text-zinc-900 dark:text-white">{agreement.agent?.fullName || '—'}</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{agreement.agent?.email}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500">{agreement.agent?.email}</p>
             </div>
           </div>
         </div>
@@ -208,7 +208,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                   <div>
                     <p className="text-sm font-medium capitalize text-zinc-900 dark:text-white">{role}</p>
                     {sig && (
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500">
                         Signed on {new Date(sig.signedAt).toLocaleString('en-NG')}
                       </p>
                     )}
@@ -219,7 +219,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                       Signed
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                    <Badge variant="outline" className="border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-500">
                       <Clock className="h-3 w-3 mr-1" />
                       Pending
                     </Badge>
@@ -245,11 +245,11 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                 <div key={tx.id} className="flex items-center justify-between border border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
                   <div>
                     <p className="text-sm font-medium text-zinc-900 dark:text-white capitalize">{tx.type}</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{new Date(tx.createdAt).toLocaleString('en-NG')}</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500">{new Date(tx.createdAt).toLocaleString('en-NG')}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-medium text-zinc-900 dark:text-white">{fmtCurrency(tx.amount)}</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 capitalize">{tx.status.replace(/_/g, ' ')}</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500 capitalize">{tx.status.replace(/_/g, ' ')}</p>
                   </div>
                 </div>
               ))}

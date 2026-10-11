@@ -25,10 +25,10 @@ export default function EstateManagerLeaseNegotiationPage() {
         <ErrorBoundary>
           <div className="space-y-6">
             <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Lease Negotiation</h1>
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Unable to load negotiation terms.</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Unable to load negotiation terms.</p>
             <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-6">
               <p className="text-red-500 font-medium mb-1">Error</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-3">{error}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 mb-3">{error}</p>
               <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-on-destructive rounded-lg hover:bg-destructive">Retry</button>
             </div>
           </div>
@@ -49,7 +49,7 @@ export default function EstateManagerLeaseNegotiationPage() {
               <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Grade A Serviced Office</h1>
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border border-zinc-200 dark:border-white/[0.08] bg-amber-500/10 text-amber-400">Active Negotiation</span>
             </div>
-            <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>
+            <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>
               <span className="inline-block mr-2">📍 Victoria Island, Lagos, Nigeria</span>
               <span className="text-xs font-mono">Ref ID: PR-1092-VI</span>
             </p>
@@ -60,17 +60,17 @@ export default function EstateManagerLeaseNegotiationPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden bg-white dark:bg-zinc-900">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden bg-white dark:bg-white dark:bg-zinc-900">
           <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08] bg-surface">
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">Term Sheet Comparison</h3>
-            <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Original listing vs proposed counter-offer</p>
+            <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Original listing vs proposed counter-offer</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-white/[0.08]">
+              <thead className="bg-white dark:bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-white/[0.08]">
                 <tr>
-                  <th className="px-5 py-4 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Term</th>
-                  <th className="px-5 py-4 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Original Listing</th>
+                  <th className="px-5 py-4 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Term</th>
+                  <th className="px-5 py-4 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Original Listing</th>
                   <th className="px-5 py-4 text-xs text-xs uppercase tracking-wider text-zinc-900 dark:text-white">Proposed Counter</th>
                 </tr>
               </thead>
@@ -78,7 +78,7 @@ export default function EstateManagerLeaseNegotiationPage() {
                 {terms.map((item) => (
                   <tr key={item.term} className="hover:bg-surface transition-colors">
                     <td className="px-5 py-4 font-medium text-sm text-zinc-900 dark:text-white">{item.term}</td>
-                    <td className="px-5 py-4 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{item.original}</td>
+                    <td className="px-5 py-4 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{item.original}</td>
                     <td className="px-5 py-4 text-sm font-medium text-zinc-900 dark:text-white">{item.proposed}</td>
                   </tr>
                 ))}
@@ -97,12 +97,12 @@ export default function EstateManagerLeaseNegotiationPage() {
             ].map((doc, idx) => (
               <div key={idx} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-zinc-200 dark:border-white/[0.08]">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-zinc-50 dark:bg-zinc-900 rounded-lg text-zinc-900 dark:text-white">
+                  <div className="p-2 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-lg text-zinc-900 dark:text-white">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-zinc-900 dark:text-white">{doc.name}</p>
-                    <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{doc.date} · {doc.size}</p>
+                    <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{doc.date} · {doc.size}</p>
                   </div>
                 </div>
                 <button className="text-xs text-xs uppercase tracking-wider text-zinc-900 dark:text-white hover:underline font-medium">Download</button>

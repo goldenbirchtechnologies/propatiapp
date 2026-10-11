@@ -27,13 +27,13 @@ export default function LandlordScreeningClient({ initialScreenings }: { initial
     <div className="space-y-6">
       <div>
         <h1 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Screening Calls</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">View tenant screening results</p>
+        <p className="text-zinc-600 dark:text-zinc-500">View tenant screening results</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {['scheduled', 'completed', 'cancelled'].map((key) => (
           <div key={key} className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-4 shadow-none hover:shadow-none transition-shadow">
-            <p className="text-xs font-medium capitalize text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{key}</p>
+            <p className="text-xs font-medium capitalize text-zinc-600 dark:text-zinc-500">{key}</p>
             <p className="text-2xl font-bold mt-1 text-zinc-900 dark:text-white">{initialScreenings.filter((s) => s.status === key).length}</p>
           </div>
         ))}
@@ -47,19 +47,19 @@ export default function LandlordScreeningClient({ initialScreenings }: { initial
         </div>
         {filtered.length === 0 ? (
           <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-12 text-center shadow-none hover:shadow-none transition-shadow">
-            <Phone className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Phone className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500" />
             <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">No screenings yet</h3>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Screening requests will appear here.</p>
+            <p className="text-zinc-600 dark:text-zinc-500">Screening requests will appear here.</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Tenant</th>
-                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
-                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
-                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Notes</th>
-                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Date</th>
+                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-500">Tenant</th>
+                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-500">Property</th>
+                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-500">Status</th>
+                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-500">Notes</th>
+                <th className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-500">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -75,7 +75,7 @@ export default function LandlordScreeningClient({ initialScreenings }: { initial
                     </td>
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">{s.property}</td>
                     <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>
-                    <td className="p-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{s.notes}</td>
+                    <td className="p-4 text-sm text-zinc-600 dark:text-zinc-500">{s.notes}</td>
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">{new Date(s.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                   </tr>
                 );

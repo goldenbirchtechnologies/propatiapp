@@ -79,7 +79,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       failed: { class: 'bg-red-500/10 text-red-400 border-red-500/20', label: 'Failed' },
       refunded: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'Refunded' },
     };
-    const cfg = config[status] || { class: 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: status };
+    const cfg = config[status] || { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: status };
     return <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${cfg.class}`}>{cfg.label}</span>;
   }
 
@@ -90,7 +90,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
           <thead>
             <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
               {['Date', 'Property', 'Tenant', 'Type', 'Amount', 'Status', 'Actions'].map((h) => (
-                <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
+                <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
               ))}
             </tr>
           </thead>
@@ -178,7 +178,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
         <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
           {transactions.length === 0 ? (
             <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08] text-center py-16">
-              <CurrencyIcon className="w-5 h-5 mx-auto text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2" />
+              <CurrencyIcon className="w-5 h-5 mx-auto text-zinc-600 dark:text-zinc-500 mb-2" />
               <h3 className="text-zinc-900 dark:text-white">No transactions yet</h3>
               <p className="text-zinc-600 dark:text-zinc-400">Rent payments will appear here once tenants start paying.</p>
             </div>
@@ -189,7 +189,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                   <thead>
                     <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                       {['Date', 'Property', 'Tenant', 'Type', 'Amount', 'Status', 'Actions'].map((h) => (
-                        <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
+                        <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -201,13 +201,13 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                         </td>
                         <td className="p-4">
                           <p className="text-zinc-900 dark:text-white text-sm">{tx.listing?.title || 'N/A'}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{tx.listing?.area}</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-500">{tx.listing?.area}</p>
                         </td>
                         <td className="p-4 text-sm text-zinc-900 dark:text-white">
                           {tx.agreements?.[0]?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
                         </td>
                         <td className="p-4">
-                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08] capitalize">{tx.type}</span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08] capitalize">{tx.type}</span>
                         </td>
                         <td className="p-4 text-sm text-zinc-900 dark:text-white font-medium">
                           ₦{Number(tx.amount).toLocaleString()}
@@ -246,7 +246,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
             <thead>
               <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                 {['Property', 'Tenant', 'Amount', 'Due Date', 'Status'].map((h) => (
-                  <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
+                  <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
                 ))}
               </tr>
             </thead>

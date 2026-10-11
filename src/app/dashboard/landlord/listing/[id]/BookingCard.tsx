@@ -45,9 +45,9 @@ export default function BookingCard({ listing }: Props) {
           : '/ Month';
 
   return (
-    <div className="border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 shadow-none bg-zinc-50 dark:bg-zinc-900 space-y-6">
+    <div className="border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 shadow-none bg-zinc-50 dark:bg-white dark:bg-zinc-900 space-y-6">
       {listing.availableFrom && (
-        <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-2">
+        <div className="bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-2">
           <Info className="w-4 h-4" />
           Available from:{' '}
           <span className="font-semibold">
@@ -61,12 +61,12 @@ export default function BookingCard({ listing }: Props) {
       )}
 
       <div>
-        <p className="text-xs uppercase font-semibold text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent Price</p>
+        <p className="text-xs uppercase font-semibold text-zinc-600 dark:text-zinc-500">Rent Price</p>
         <div className="flex items-baseline gap-1 mt-1">
           <span className="text-3xl font-extrabold text-zinc-900 dark:text-white">
             {formatCurrency(listing.price)}
           </span>
-          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">{pricePeriodLabel}</span>
+          <span className="text-zinc-600 dark:text-zinc-500 text-sm">{pricePeriodLabel}</span>
         </div>
       </div>
 
@@ -86,7 +86,7 @@ export default function BookingCard({ listing }: Props) {
         </select>
       </div>
 
-      <div className="space-y-3 text-sm border-t border-zinc-200 dark:border-white/[0.08] pt-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+      <div className="space-y-3 text-sm border-t border-zinc-200 dark:border-white/[0.08] pt-4 text-zinc-600 dark:text-zinc-500">
         <div className="flex justify-between">
           <span>Rent ({duration} mo)</span>
           <span className="font-medium text-zinc-900 dark:text-white">{formatCurrency(totalRent)}</span>

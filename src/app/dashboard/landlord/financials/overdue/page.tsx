@@ -110,7 +110,7 @@ export default async function LandlordOverduePaymentsPage() {
                 </thead>
                 <tbody className="divide-y divide-[#262626]">
                   {rows.map((row) => (
-                    <tr key={row.id} className="hover:bg-zinc-900 transition-colors">
+                    <tr key={row.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
                       <td className="px-5 py-4 text-sm font-mono text-zinc-500 dark:text-zinc-400">{row.id}</td>
                       <td className="px-5 py-4 text-sm"><Badge variant="outline">{row.type}</Badge></td>
                       <td className="px-5 py-4 text-sm font-medium">{row.tenant}</td>

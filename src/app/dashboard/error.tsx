@@ -17,7 +17,7 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
           <AlertTriangle size={28} className="text-red-400" />
         </div>
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Something went wrong</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm mb-6">
+        <p className="text-zinc-600 dark:text-zinc-500 text-sm mb-6">
           An error occurred while loading this page. Please try again or contact the administrator.
         </p>
 

@@ -91,7 +91,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Financial Reports</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+          <p className="text-zinc-600 dark:text-zinc-500 mt-1">
             Export accountant-ready P&amp;L, balance sheet, and cash-flow reports.
           </p>
         </div>

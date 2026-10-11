@@ -86,14 +86,14 @@ export default function CountriesAdminPage() {
       </div>
 
       {showAdd && (
-        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-6">
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-6">
           <h2 className="text-lg font-semibold mb-4">Add New Country</h2>
           <form onSubmit={addCountry} className="grid grid-cols-2 gap-4">
-            <input placeholder="Code (e.g. GH)" value={form.code} onChange={e => setForm({...form, code: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-3 py-2" />
-            <input placeholder="Name (e.g. Ghana)" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-3 py-2" />
-            <input placeholder="Currency (e.g. GHS)" value={form.currency} onChange={e => setForm({...form, currency: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-3 py-2" />
-            <input placeholder="Locale (e.g. en-GH)" value={form.locale} onChange={e => setForm({...form, locale: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-3 py-2" />
-            <input placeholder="Timezone (e.g. Africa/Accra)" value={form.timezone} onChange={e => setForm({...form, timezone: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-3 py-2" />
+            <input placeholder="Code (e.g. GH)" value={form.code} onChange={e => setForm({...form, code: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-3 py-2" />
+            <input placeholder="Name (e.g. Ghana)" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-3 py-2" />
+            <input placeholder="Currency (e.g. GHS)" value={form.currency} onChange={e => setForm({...form, currency: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-3 py-2" />
+            <input placeholder="Locale (e.g. en-GH)" value={form.locale} onChange={e => setForm({...form, locale: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-3 py-2" />
+            <input placeholder="Timezone (e.g. Africa/Accra)" value={form.timezone} onChange={e => setForm({...form, timezone: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-3 py-2" />
             <div className="flex gap-2">
               <button type="submit" className="rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground">Save</button>
               <button type="button" onClick={() => setShowAdd(false)} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] px-4 py-2">Cancel</button>
@@ -104,7 +104,7 @@ export default function CountriesAdminPage() {
 
       <div className="space-y-4">
         {countries.map(country => (
-          <div key={country.code} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-6">
+          <div key={country.code} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <Globe className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />

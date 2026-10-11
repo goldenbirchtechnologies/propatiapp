@@ -7,7 +7,7 @@ export default function VerificationQueueDetailObsidianClient() {
     <div className="w-full p-6 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-label-sm">
+          <div className="flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-500 font-label-sm">
             <AppIcon name="queues" className="lucide" />
             <AppIcon name="chevron_right" className="lucide" />
             <AppIcon name="high_priority" className="lucide" />
@@ -20,13 +20,13 @@ export default function VerificationQueueDetailObsidianClient() {
               <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>stars</span>
               INSPECTED
             </span>
-            <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-label-sm text-zinc-600 dark:text-zinc-500">
               Created 2h ago
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button className="rounded-lg border border-zinc-200 dark:border-white/[0.08] px-5 py-2 font-bold text-zinc-900 dark:text-white hover:bg-zinc-900 transition-colors">Request Info</button>
+          <button className="rounded-lg border border-zinc-200 dark:border-white/[0.08] px-5 py-2 font-bold text-zinc-900 dark:text-white hover:bg-white dark:bg-zinc-900 transition-colors">Request Info</button>
           <button className="rounded-lg bg-error px-5 py-2 font-bold text-on-error hover:opacity-90 transition-opacity">Reject</button>
           <button className="rounded-lg bg-primary-container px-5 py-2 font-bold text-on-primary-container shadow-none hover:-translate-y-0.5 transition-all">Approve & Certify</button>
         </div>
@@ -48,7 +48,7 @@ export default function VerificationQueueDetailObsidianClient() {
                 ? 'bg-on-tertiary-container text-[#10b981]'
                 : step.state === 'active'
                   ? 'bg-secondary-container text-on-secondary-fixed ring-4 ring-background'
-                  : 'bg-zinc-800 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500';
+                  : 'bg-zinc-800 text-zinc-600 dark:text-zinc-500';
               return (
                 <div key={step.label} className="flex gap-4 relative">
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center z-10 ${cls}`}>
@@ -56,7 +56,7 @@ export default function VerificationQueueDetailObsidianClient() {
                   </div>
                   <div className="flex-1 space-y-1">
                     <p className="font-label-sm text-zinc-900 dark:text-white">{step.label}</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{step.sub}</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-500">{step.sub}</p>
                   </div>
                 </div>
               );
@@ -67,23 +67,23 @@ export default function VerificationQueueDetailObsidianClient() {
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property Owner</h4>
+              <h4 className="font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Property Owner</h4>
               <span className="rounded bg-on-tertiary-container/10 px-2 py-0.5 text-xs font-label-sm text-[#10b981]">MATCHED 98%</span>
             </div>
             <div className="flex items-center gap-4">
               <img alt="Owner avatar" className="h-12 w-12 rounded-full border border-zinc-200 dark:border-white/[0.08] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRtVkTaJtRyCVW7YClt5jsc2v2_klnwX2OEojt3Ht0JZoh9tP55l32XVouzrCafjRxTqn0gXWoLQlMwZ7dUOMRQqvfPbBGwj5C9ADSl4K9W5PO0CLYKtPZOeCjg0c64x6OB0Z-1n8t1vVKyUqFNBoA9xJ7bu9kOue7rsijLpShIHReVxnkQXuLs4vtzyIYUV2t9Bd33yaqmh69JV0dYYiD1Y__xfrysY3JM1pZ8SSp_PFIT4oEmtJcJNE1tuX5MadK9GpxIFq6ABM" />
               <div>
                 <p className="font-headline-sm text-zinc-900 dark:text-white">Emeka Adeyemi</p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Verified BVN: 221****092</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-500">Verified BVN: 221****092</p>
               </div>
             </div>
           </div>
 
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 space-y-3">
-            <h4 className="font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Location Signature</h4>
+            <h4 className="font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Location Signature</h4>
             <div className="space-y-1">
               <p className="font-headline-sm text-zinc-900 dark:text-white">Banana Island, Ikoyi</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex items-center gap-1">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 flex items-center gap-1">
                 <AppIcon name="location_on" className="lucide" />
                 Zone A, Waterfront District, Lagos
               </p>
@@ -105,9 +105,9 @@ export default function VerificationQueueDetailObsidianClient() {
                   <p className="truncate text-[10px] font-label-sm text-zinc-900 dark:text-white">Survey_Plan_2023.pdf</p>
                 </div>
               </div>
-              <div className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-200 dark:border-white/[0.08] h-32 hover:bg-zinc-900 transition-colors">
+              <div className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-200 dark:border-white/[0.08] h-32 hover:bg-white dark:bg-zinc-900 transition-colors">
                 <AppIcon name="add_circle" className="lucide" />
-                <p className="mt-2 text-xs font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Add Document</p>
+                <p className="mt-2 text-xs font-label-sm text-zinc-600 dark:text-zinc-500">Add Document</p>
               </div>
             </div>
           </div>
@@ -122,11 +122,11 @@ export default function VerificationQueueDetailObsidianClient() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-label-sm">Inspector Notes</p>
+              <p className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-500 font-label-sm">Inspector Notes</p>
               <p className="italic text-on-primary-container text-body-md">"The property structural integrity matches the architectural plans submitted. High-end finishing confirmed. Boundary markers are clearly visible and match survey data."</p>
             </div>
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-label-sm">Utility Verification</p>
+              <p className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-500 font-label-sm">Utility Verification</p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2 text-body-sm">
                   <AppIcon name="check_circle" className="lucide" />
@@ -143,7 +143,7 @@ export default function VerificationQueueDetailObsidianClient() {
               </ul>
             </div>
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-label-sm">Risk Assessment</p>
+              <p className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-500 font-label-sm">Risk Assessment</p>
               <div className="rounded-r-lg border-l-4 border-on-tertiary-container bg-on-tertiary-container/5 p-4">
                 <p className="font-headline-sm text-[#10b981] text-zinc-900 dark:text-white">LOW RISK</p>
                 <p className="text-sm opacity-80 text-[#10b981]">9.5/10 Security Score</p>
@@ -187,21 +187,21 @@ export default function VerificationQueueDetailObsidianClient() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm"><span className="font-bold">{who}</span> {what}</p>
-                  <p className="text-[10px] font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{time}</p>
+                  <p className="text-[10px] font-label-sm text-zinc-600 dark:text-zinc-500">{time}</p>
                 </div>
               </div>
             ))}
           </div>
-          <button className="w-full rounded-lg border border-zinc-200 dark:border-white/[0.08] py-2 font-bold text-sm hover:bg-zinc-900 transition-colors">Add Admin Note</button>
+          <button className="w-full rounded-lg border border-zinc-200 dark:border-white/[0.08] py-2 font-bold text-sm hover:bg-white dark:bg-zinc-900 transition-colors">Add Admin Note</button>
         </div>
       </div>
 
       <div className="h-20 md:hidden"></div>
       <nav className="md:hidden fixed inset-x-0 bottom-0 z-50 flex justify-around border-t border-zinc-200 dark:border-white/[0.08] bg-surface py-3">
-        <a className="flex flex-col items-center gap-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" href="#"><AppIcon name="dashboard" className="lucide" /><span className="text-[10px] font-label-sm">Home</span></a>
+        <a className="flex flex-col items-center gap-1 text-zinc-600 dark:text-zinc-500" href="#"><AppIcon name="dashboard" className="lucide" /><span className="text-[10px] font-label-sm">Home</span></a>
         <a className="flex flex-col items-center gap-1 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" href="#"><span className="lucide" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span><span className="text-[10px] font-label-sm">Queue</span></a>
-        <a className="flex flex-col items-center gap-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" href="#"><AppIcon name="domain" className="lucide" /><span className="text-[10px] font-label-sm">Units</span></a>
-        <a className="flex flex-col items-center gap-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" href="#"><AppIcon name="settings" className="lucide" /><span className="text-[10px] font-label-sm">Settings</span></a>
+        <a className="flex flex-col items-center gap-1 text-zinc-600 dark:text-zinc-500" href="#"><AppIcon name="domain" className="lucide" /><span className="text-[10px] font-label-sm">Units</span></a>
+        <a className="flex flex-col items-center gap-1 text-zinc-600 dark:text-zinc-500" href="#"><AppIcon name="settings" className="lucide" /><span className="text-[10px] font-label-sm">Settings</span></a>
       </nav>
     </div>
   );

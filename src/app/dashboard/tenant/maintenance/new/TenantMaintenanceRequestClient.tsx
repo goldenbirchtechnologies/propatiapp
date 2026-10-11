@@ -30,11 +30,11 @@ function StepIndicator({ currentStep }: { currentStep: Step }) {
           className={`flex items-center gap-3 ${s.num > currentStep ? 'opacity-40' : ''}`}
         >
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-            s.num === currentStep ? 'bg-primary text-zinc-900 dark:text-white' : s.num < currentStep ? 'bg-success text-zinc-900 dark:text-white' : 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]'
+            s.num === currentStep ? 'bg-primary text-zinc-900 dark:text-white' : s.num < currentStep ? 'bg-success text-zinc-900 dark:text-white' : 'bg-white dark:bg-zinc-950/50 text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]'
           }`}>
             {s.num < currentStep ? <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> : s.num}
           </div>
-          <span className={`text-sm font-semibold ${s.num === currentStep ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}>{s.label}</span>
+          <span className={`text-sm font-semibold ${s.num === currentStep ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-500'}`}>{s.label}</span>
         </div>
       ))}
     </div>
@@ -63,7 +63,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                 </span>
               </div>
               <h1 className="font-heading text-2xl font-bold text-zinc-900 dark:text-white mb-2">New Maintenance Request</h1>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500">
                 Provide the details of your issue and we&apos;ll connect you with a certified technician from our verified network.
               </p>
               <div className="mt-6">
@@ -76,7 +76,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
               <h3 className="font-heading text-base font-semibold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-warning" /> Emergency Protocol
               </h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-600 dark:text-zinc-500 mb-4">
                 For life-threatening emergencies, fire, or severe flooding, please call the local emergency services immediately before filing a report.
               </p>
               <Button variant="destructive" className="w-full flex items-center justify-center gap-2">
@@ -119,7 +119,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                                 ? u === 'emergency'
                                   ? 'bg-destructive text-zinc-900 dark:text-white border-red-500'
                                   : 'bg-primary text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]'
-                                : 'border-zinc-200 dark:border-white/[0.08] hover:border-white text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
+                                : 'border-zinc-200 dark:border-white/[0.08] hover:border-white text-zinc-600 dark:text-zinc-500'
                             }`}
                           >
                             {u}
@@ -155,10 +155,10 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <Label className="font-bold text-zinc-900 dark:text-white text-sm">Upload Photos</Label>
-                    <div className="border-2 border-dashed border-zinc-200 dark:border-white/[0.08] rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-zinc-900/30 transition-all cursor-pointer group">
-                      <svg className="w-12 h-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 group-hover:text-zinc-900 dark:text-white mb-3 transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18.75 21H5.25A2.25 2.25 0 013 18.75V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5A2.25 2.25 0 0118.75 21z" /></svg>
+                    <div className="border-2 border-dashed border-zinc-200 dark:border-white/[0.08] rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-zinc-100 dark:hover:bg-zinc-900/30 transition-all cursor-pointer group">
+                      <svg className="w-12 h-12 text-zinc-600 dark:text-zinc-500 group-hover:text-zinc-900 dark:text-white mb-3 transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18.75 21H5.25A2.25 2.25 0 013 18.75V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5A2.25 2.25 0 0118.75 21z" /></svg>
                       <h4 className="font-bold text-zinc-900 dark:text-white mb-1">Drag and drop or click to upload</h4>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">High-resolution photos help our technicians diagnose the issue faster (Max 5 photos, 10MB each)</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-500">High-resolution photos help our technicians diagnose the issue faster (Max 5 photos, 10MB each)</p>
                     </div>
                   </div>
 
@@ -195,14 +195,14 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
               {[
                 { icon: '✓', color: 'bg-success text-[#10b981]', title: 'Certified Techs', desc: 'All our technicians are background-checked and certified.' },
-                { icon: '⏱', color: 'bg-zinc-950/50 text-zinc-900 dark:text-white', title: 'Fast Response', desc: 'Requests are usually acknowledged within 2 hours.' },
+                { icon: '⏱', color: 'bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white', title: 'Fast Response', desc: 'Requests are usually acknowledged within 2 hours.' },
                 { icon: '📋', color: 'bg-warning/10 text-warning', title: 'Track Progress', desc: 'Real-time tracking of your technician\'s arrival time.' },
               ].map((tip, i) => (
                 <div className="glass-card" key={i}>
                   <div className="p-6 p-5 flex flex-col items-center text-center">
                     <span className="text-2xl mb-2">{tip.icon}</span>
                     <p className="text-xs font-mono font-bold uppercase tracking-tighter text-zinc-900 dark:text-white">{tip.title}</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{tip.desc}</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">{tip.desc}</p>
                   </div>
                 </div>
               ))}

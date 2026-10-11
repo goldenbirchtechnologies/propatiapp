@@ -179,7 +179,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[220px]">
-            <Download className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
+            <Download className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 dark:text-zinc-500" />
             <Input
               placeholder="Search payments..."
               className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
@@ -199,12 +199,12 @@ export default function TenantPaymentsClient({ userId }: Props) {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Property</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Amount</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Status</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Method</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Date</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Actions</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Property</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Amount</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Status</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Method</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Date</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-zinc-600 dark:text-zinc-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -218,7 +218,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
                   </tr>
                 ) : filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-8 text-center text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                    <td colSpan={6} className="p-8 text-center text-zinc-600 dark:text-zinc-500">
                       No payments match your filters.
                     </td>
                   </tr>
@@ -227,7 +227,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
                     <tr key={payment.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
                       <td className="px-4 py-3">
                         <p className="text-sm font-medium text-zinc-900 dark:text-white">{payment.listing.title}</p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{payment.listing.area}</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-500">{payment.listing.area}</p>
                       </td>
                       <td className="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">
                         {formatCurrency(Number(payment.amount))}
@@ -262,7 +262,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <p className="text-sm text-zinc-600 dark:text-zinc-500">
             Page {currentPage} of {totalPages}
           </p>
           <div className="flex gap-2">

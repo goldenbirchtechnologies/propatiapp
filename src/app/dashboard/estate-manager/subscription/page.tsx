@@ -45,8 +45,8 @@ export default function SubscriptionPage() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-4" />
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{error.message}</p>
+        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-500 mb-4" />
+        <p className="text-zinc-600 dark:text-zinc-500">{error.message}</p>
       </div>
     );
   }
@@ -54,8 +54,8 @@ export default function SubscriptionPage() {
   if (data?.noOrg || !data?.org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-4" />
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No organization found</p>
+        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-500 mb-4" />
+        <p className="text-zinc-600 dark:text-zinc-500">No organization found</p>
       </div>
     );
   }
@@ -108,7 +108,7 @@ export default function SubscriptionPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Subscription & Billing</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+        <p className="text-zinc-600 dark:text-zinc-500">
           Manage your subscription plan and billing
         </p>
       </div>
@@ -117,7 +117,7 @@ export default function SubscriptionPage() {
       <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
         <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Current Plan</h3>
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+          <p className="text-sm text-zinc-600 dark:text-zinc-500">
             You are currently on the {org.planTier.toUpperCase()} plan
           </p>
         </div>
@@ -127,13 +127,13 @@ export default function SubscriptionPage() {
               <h3 className="text-2xl font-bold capitalize">
                 {currentPlan ? `${currentPlan.name} Plan` : `${org.planTier} Plan`}
               </h3>
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+              <p className="text-zinc-600 dark:text-zinc-500">
                 {currentPlan
                   ? `₦${currentPlan.price.toLocaleString()}/month`
                   : 'Custom plan'}
               </p>
               {subscription && (
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+                <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">
                   Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </p>
               )}
@@ -148,7 +148,7 @@ export default function SubscriptionPage() {
             {usageStats.map((stat) => (
               <div key={stat.label}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{stat.label}</span>
+                  <span className="text-sm text-zinc-600 dark:text-zinc-500">{stat.label}</span>
                   <span className="text-sm font-medium">
                     {stat.used} / {stat.limit === 999 ? 'Unlimited' : stat.limit}
                   </span>
@@ -196,7 +196,7 @@ export default function SubscriptionPage() {
                   <span className="text-3xl font-bold text-zinc-900 dark:text-white">
                     ₦{plan.price.toLocaleString()}
                   </span>
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">/{plan.period}</span>
+                  <span className="text-zinc-600 dark:text-zinc-500">/{plan.period}</span>
                 </div>
               </div>
               <div className="p-6 space-y-4">
@@ -234,7 +234,7 @@ export default function SubscriptionPage() {
       <div className="glass-card">
         <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Billing History</h3>
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">View your past invoices and payments</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-500">View your past invoices and payments</p>
         </div>
         <div className="p-6">
           {billingHistory.length > 0 ? (
@@ -279,7 +279,7 @@ export default function SubscriptionPage() {
                           </a>
                         </Button>
                       ) : (
-                        <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">—</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-500">—</span>
                       )}
                     </TableCell>
                   </TableRow>
@@ -288,9 +288,9 @@ export default function SubscriptionPage() {
             </Table>
           ) : (
             <div className="text-center py-12">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No billing history yet</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+              <FileText className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-500 opacity-50" />
+              <p className="text-zinc-600 dark:text-zinc-500">No billing history yet</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">
                 Your first billing entry will appear here once your subscription is active.
               </p>
             </div>

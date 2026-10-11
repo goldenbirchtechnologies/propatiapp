@@ -260,7 +260,7 @@ function SectionHeader({ title, subtitle, action }: { title: string; subtitle?: 
     <div className="flex items-center justify-between gap-3">
       <div>
         <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">{title}</h3>
-        {subtitle && <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
+        {subtitle && <p className="text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
       </div>
       {action}
     </div>
@@ -328,7 +328,7 @@ function PermissionModal({
               <div key={key} className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
                 <div>
                   <p className="text-sm text-zinc-900 dark:text-white">{label}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{key.replace(/_/g, ' ')}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500">{key.replace(/_/g, ' ')}</p>
                 </div>
                 <Switch
                   checked={permissions.includes(key)}
@@ -348,7 +348,7 @@ function PermissionModal({
                   variant={scope === s ? 'default' : 'outline'}
                   className={cn(
                     'rounded-lg capitalize',
-                    scope === s ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/10 text-zinc-300 hover:bg-zinc-900'
+                    scope === s ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/10 text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900'
                   )}
                   onClick={() => setScope(s)}
                 >
@@ -462,7 +462,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
         description={listing.address}
         actions={
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900" onClick={() => router.back()}>
+            <Button variant="outline" size="sm" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900" onClick={() => router.back()}>
               <ArrowLeft className="mr-2 size-3.5" /> Back
             </Button>
             <DropdownMenu>
@@ -495,21 +495,21 @@ export default function AgentListingDetailClient({ listing }: Props) {
         <Button size="sm" className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white" onClick={handlePublish}>
           <CheckCircle2 className="mr-2 size-3.5" /> Publish Listing
         </Button>
-        <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900">
+        <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900">
           <Link href={`/dashboard/agent/listings/${listing.id}/edit`}>
             <Edit3 className="mr-2 size-3.5" /> Edit
           </Link>
         </Button>
-        <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900" onClick={() => document.getElementById('upload-input')?.click()}>
+        <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900" onClick={() => document.getElementById('upload-input')?.click()}>
           <Upload className="mr-2 size-3.5" /> Upload Photos
         </Button>
         <input id="upload-input" type="file" accept="image/*" multiple className="hidden" onChange={handleUpload} />
-        <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900">
+        <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900">
           <Link href={`/dashboard/agent/calendar`}>
             <Calendar className="mr-2 size-3.5" /> Schedule Viewing
           </Link>
         </Button>
-        <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900" onClick={() => setPermissionOpen(true)}>
+        <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900" onClick={() => setPermissionOpen(true)}>
           <Settings2 className="mr-2 size-3.5" /> Owner Access
         </Button>
       </div>
@@ -528,7 +528,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </div>
             <div>
               <p className="text-sm text-zinc-900 dark:text-white font-medium">Owner Access: {ownerAccessLevel.replace(/_/g, ' ')}</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{ownerPermissions.length} permissions enabled</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-500">{ownerPermissions.length} permissions enabled</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-1">
@@ -584,7 +584,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     { label: 'Parking', value: String(listing.parkingSpaces), icon: Car },
                   ].map((item) => (
                     <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
-                      <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">
+                      <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 mb-1">
                         <item.icon className="size-3.5" />
                         <span className="text-xs">{item.label}</span>
                       </div>
@@ -595,7 +595,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
                 {amenityList.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Amenities</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Amenities</p>
                     <div className="flex flex-wrap gap-2">
                       {amenityList.map((a: unknown, idx: number) => (
                         <Badge key={idx} variant="outline" className="border-white/10 text-zinc-300">
@@ -608,7 +608,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
                 {listing.highlights && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Highlights</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">Highlights</p>
                     <div className="flex flex-wrap gap-2">
                       {(Array.isArray(listing.highlights) ? listing.highlights : []).map((h: unknown, idx: number) => (
                         <Badge key={idx} variant="outline" className="border-emerald-500/20 text-emerald-300">
@@ -621,7 +621,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
                 {houseRulesList.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">House Rules</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-500 uppercase tracking-wider font-medium">House Rules</p>
                     <div className="flex flex-wrap gap-2">
                       {houseRulesList.map((r: unknown, idx: number) => (
                         <Badge key={idx} variant="outline" className="border-white/10 text-zinc-300">
@@ -639,7 +639,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                 <SectionHeader
                   title="Gallery"
                   action={
-                    <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900" onClick={() => document.getElementById('gallery-upload')?.click()}>
+                    <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900" onClick={() => document.getElementById('gallery-upload')?.click()}>
                       <Upload className="mr-2 size-3.5" /> Upload
                     </Button>
                   }
@@ -648,13 +648,13 @@ export default function AgentListingDetailClient({ listing }: Props) {
                 {listing.images.length === 0 ? (
                   <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/10 p-10 text-center">
                     <ImageIcon className="size-8 text-zinc-600 mb-3" />
-                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No photos uploaded yet</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-500">No photos uploaded yet</p>
                     <p className="text-xs text-zinc-600 mt-1">Upload photos to showcase this property</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {listing.images.map((img) => (
-                      <div key={img.id} className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] aspect-video bg-white dark:bg-zinc-900">
+                      <div key={img.id} className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] aspect-video bg-white dark:bg-white dark:bg-zinc-900">
                         <img src={img.url} alt={listing.title} className="h-full w-full object-cover" />
                         {img.isCover && (
                           <Badge className="absolute top-2 left-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px]">
@@ -684,7 +684,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                   <TableBody>
                     {listing.units.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={6} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No units added yet.
                         </TableCell>
                       </TableRow>
@@ -694,7 +694,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                           <TableCell className="py-3">
                             <div>
                               <p className="text-sm font-medium text-zinc-900 dark:text-white">{unit.unitNumber}</p>
-                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-500">{unit.buildingName || '—'}</p>
                             </div>
                           </TableCell>
                           <TableCell className="py-3">
@@ -716,7 +716,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                                 Listed
                               </span>
                             ) : (
-                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
+                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
                                 Unlisted
                               </span>
                             )}
@@ -755,7 +755,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                   <TableBody>
                     {listing.applications.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No inquiries yet.
                         </TableCell>
                       </TableRow>
@@ -765,7 +765,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                           <TableCell className="py-3">
                             <div>
                               <p className="text-sm text-zinc-900 dark:text-white">{app.applicant?.fullName || '—'}</p>
-                              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{app.applicant?.email || ''}</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-500">{app.applicant?.email || ''}</p>
                             </div>
                           </TableCell>
                           <TableCell className="py-3">
@@ -800,7 +800,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                   <TableBody>
                     {listing.bookings.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={5} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No bookings yet.
                         </TableCell>
                       </TableRow>
@@ -836,7 +836,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                   <TableBody>
                     {listing.documents.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 py-12">
+                        <TableCell colSpan={4} className="text-center text-sm text-zinc-600 dark:text-zinc-500 py-12">
                           No documents uploaded.
                         </TableCell>
                       </TableRow>
@@ -876,7 +876,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     { label: 'Service Charge', value: listing.serviceCharge > 0 ? formatCurrency(listing.serviceCharge) : '—' },
                   ].map((item) => (
                     <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">{item.label}</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500 mb-1">{item.label}</p>
                       <p className="text-sm text-zinc-900 dark:text-white font-medium">{item.value}</p>
                     </div>
                   ))}
@@ -925,7 +925,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm text-zinc-900 dark:text-white font-medium truncate">{listing.owner.fullName}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{listing.owner.email}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate">{listing.owner.email}</p>
                 </div>
               </div>
               <div className="space-y-2">
@@ -951,7 +951,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm text-zinc-900 dark:text-white font-medium truncate">{listing.agent.fullName}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{listing.agent.email}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate">{listing.agent.email}</p>
                 </div>
               </div>
             </div>
@@ -962,18 +962,18 @@ export default function AgentListingDetailClient({ listing }: Props) {
             <SectionHeader title="Lease Terms" />
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Billing</span>
+                <span className="text-zinc-600 dark:text-zinc-500">Billing</span>
                 <span className="text-zinc-900 dark:text-white font-medium">{listing.pricePeriod ? listing.pricePeriod.charAt(0).toUpperCase() + listing.pricePeriod.slice(1) : '—'}</span>
               </div>
               {listing.minimumStay && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Min Stay</span>
+                  <span className="text-zinc-600 dark:text-zinc-500">Min Stay</span>
                   <span className="text-zinc-300">{listing.minimumStay} {listing.minimumStay === 1 ? 'month' : 'months'}</span>
                 </div>
               )}
               {listing.availableFrom && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Available From</span>
+                  <span className="text-zinc-600 dark:text-zinc-500">Available From</span>
                   <span className="text-zinc-300">{formatDate(listing.availableFrom)}</span>
                 </div>
               )}
@@ -987,15 +987,15 @@ export default function AgentListingDetailClient({ listing }: Props) {
               <Button size="sm" className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white" onClick={() => setMessageOpen(true)}>
                 <MessageSquare className="mr-2 size-3.5" /> Message
               </Button>
-              <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900">
+              <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900">
                 <Link href={`/dashboard/agent/listings/${listing.id}/edit`}>
                   <Edit3 className="mr-2 size-3.5" /> Edit
                 </Link>
               </Button>
-              <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900" onClick={handlePublish}>
+              <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900" onClick={handlePublish}>
                 <CheckCircle2 className="mr-2 size-3.5" /> Publish
               </Button>
-              <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-zinc-900" onClick={() => setPermissionOpen(true)}>
+              <Button size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-300 hover:bg-white dark:bg-zinc-900" onClick={() => setPermissionOpen(true)}>
                 <Settings2 className="mr-2 size-3.5" /> Permissions
               </Button>
             </div>
@@ -1017,7 +1017,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm text-zinc-900 dark:text-white truncate">{c.subject}</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 truncate">{c.lastMessage || 'No messages yet'}</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-500 truncate">{c.lastMessage || 'No messages yet'}</p>
                     </div>
                     <span className="text-[10px] text-zinc-600 whitespace-nowrap">{formatRelativeDate(c.lastMessageAt)}</span>
                   </Link>
@@ -1040,13 +1040,13 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] bg-zinc-950/60 px-3 py-2 hover:border-zinc-700/80 transition-colors"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <FileText className="size-3.5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
+                      <FileText className="size-3.5 text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
                       <div className="min-w-0">
                         <p className="text-xs text-zinc-900 dark:text-white truncate">{d.name}</p>
                         <p className="text-[10px] text-zinc-600 capitalize">{d.type}</p>
                       </div>
                     </div>
-                    <Download className="size-3.5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
+                    <Download className="size-3.5 text-zinc-600 dark:text-zinc-500 flex-shrink-0" />
                   </a>
                 ))}
               </div>
@@ -1070,7 +1070,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Type your message..."
-              className="bg-white dark:bg-zinc-900 border-white/10 text-zinc-900 dark:text-white min-h-[120px]"
+              className="bg-white dark:bg-white dark:bg-zinc-900 border-white/10 text-zinc-900 dark:text-white min-h-[120px]"
             />
             <div className="flex justify-end gap-2">
               <Button variant="ghost" onClick={() => setMessageOpen(false)} className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">

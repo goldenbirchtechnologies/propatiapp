@@ -37,7 +37,7 @@ export default async function CommercialAgreementsReviewPage() {
       <div className="space-y-6">
         <section>
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Commercial Lease Agreement Review</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
+          <p className="text-zinc-600 dark:text-zinc-500 mt-1">
             Gold Verified Agent workspace — review proposed commercial terms.
           </p>
         </section>
@@ -45,7 +45,7 @@ export default async function CommercialAgreementsReviewPage() {
         {agreements.length === 0 ? (
           <div className="glass-card">
             <div className="p-6 p-8 text-center">
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No agreements currently pending review.</p>
+              <p className="text-zinc-600 dark:text-zinc-500">No agreements currently pending review.</p>
             </div>
           </div>
         ) : (
@@ -59,24 +59,24 @@ export default async function CommercialAgreementsReviewPage() {
                 </div>
                 <div className="p-6 space-y-2 text-sm">
                   <p>
-                    <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Tenant:</span> {agr.tenant.fullName}
+                    <span className="text-zinc-600 dark:text-zinc-500">Tenant:</span> {agr.tenant.fullName}
                   </p>
                   <p>
-                    <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent:</span>{' '}
+                    <span className="text-zinc-600 dark:text-zinc-500">Rent:</span>{' '}
                     {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : 'Negotiable'}
                     {agr.rentPeriod ? `/${agr.rentPeriod}` : ''}
                   </p>
                   <p>
-                    <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Term:</span>{' '}
+                    <span className="text-zinc-600 dark:text-zinc-500">Term:</span>{' '}
                     {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} →{' '}
                     {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
                   </p>
                   <p>
-                    <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Deposit:</span>{' '}
+                    <span className="text-zinc-600 dark:text-zinc-500">Deposit:</span>{' '}
                     {agr.cautionDeposit ? `₦${Number(agr.cautionDeposit).toLocaleString()}` : '—'}
                   </p>
                   <p>
-                    <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Service Charge:</span>{' '}
+                    <span className="text-zinc-600 dark:text-zinc-500">Service Charge:</span>{' '}
                     {agr.serviceCharge ? `₦${Number(agr.serviceCharge).toLocaleString()}/yr` : '—'}
                   </p>
                   <div>

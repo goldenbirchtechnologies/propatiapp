@@ -485,17 +485,16 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                     </div>
                   </button>
                 ))}
-              {filteredConversations.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-                  <div className="w-10 h-10 flex items-center justify-center mb-4 text-zinc-400">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <rect x="3" y="6" width="18" height="12" rx="2" />
-                      <path d="M3 7l9 6 9-6" />
-                    </svg>
-                  </div>
-                  <p className="text-sm text-zinc-900 dark:text-zinc-300 leading-relaxed max-w-[200px]">To get older conversations, try selecting a single property.</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                <div className="w-10 h-10 flex items-center justify-center mb-4 text-zinc-400">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <rect x="3" y="6" width="18" height="12" rx="2" />
+                    <path d="M3 7l9 6 9-6" />
+                  </svg>
                 </div>
-              )}
+                <p className="text-sm text-zinc-900 dark:text-zinc-300 leading-relaxed max-w-[200px]">To get older conversations, try selecting a single property.</p>
               </div>
             )}
           </div>

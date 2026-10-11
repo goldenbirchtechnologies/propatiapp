@@ -624,7 +624,6 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
         </div>
         </div>
       </div>
-      </div>
 
       {/* New Conversation Modal */}
       {showNewConversation && (

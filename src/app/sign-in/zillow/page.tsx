@@ -156,11 +156,22 @@ export default function ZillowStyleSignInPage() {
         </div>
       </div>
 
-      {/* Right side — hero image */}
-      <div className="hidden md:flex flex-1 relative items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/brand/signin-hero.jpg)' }}>
+      {/* Right side — hero image with overlay */}
+      <div className="hidden md:flex flex-1 relative items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1613490499028-4f6d2fddc3ec?w=1600&auto=format&fit=crop&q=80)' }}>
+        {/* Dark gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         {/* Overlay text from screenshot */}
-        <div className="absolute top-12 right-12 bg-black/50 text-white px-4 py-2 rounded-lg text-sm">
+        <div className="absolute top-12 right-12 bg-black/40 text-white px-4 py-2 rounded-lg text-sm font-medium">
           To exit full screen, press and hold Esc
+        </div>
+        {/* Hero content */}
+        <div className="relative text-center text-white px-8">
+          <h2 className="text-3xl font-bold mb-4 drop-shadow-lg">
+            Find your perfect home
+          </h2>
+          <p className="text-lg drop-shadow-md">
+            Verified rental properties across Lagos
+          </p>
         </div>
       </div>
     </div>

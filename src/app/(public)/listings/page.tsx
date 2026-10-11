@@ -379,7 +379,6 @@ export default function ListingsPage() {
                   bathrooms: l.baths,
                   coverImage: l.image,
                   images: l.image ? [{ url: l.image }] : [],
-                  // mock position will be jittered around Lagos in the map component
                 })) as any}
                 onPropertyHover={(p) => setHoveredId((p as any)?.id || null)}
                 onPropertyClick={(p) => router.push(`/listings/${(p as any).id}`)}
@@ -389,6 +388,7 @@ export default function ListingsPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Mobile filter drawer */}

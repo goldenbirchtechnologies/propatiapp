@@ -123,6 +123,17 @@ export default function PublicNav() {
               </Link>
             )}
 
+            {/* Find My Agent button — Zillow-style */}
+            <Link href="/find-my-agent" className="hidden sm:inline-flex">
+              <Button
+                variant="default"
+                size="sm"
+                className="bg-emerald-600 text-white hover:bg-emerald-700 border-none shadow-sm"
+              >
+                Find My Agent
+              </Button>
+            </Link>
+
             {userId ? (
               <div className="hidden md:flex items-center gap-3">
                 <Link href="/dashboard" className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5">
@@ -171,6 +182,12 @@ export default function PublicNav() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/find-my-agent"
+              className="block px-3 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg"
+            >
+              Find My Agent
+            </Link>
             <div className="border-t border-white/[0.08] mt-2 pt-2 flex gap-2">
               <Link to="/sign-in" className="flex-1 text-center py-2 text-sm text-zinc-400 border border-zinc-800 rounded-lg">
                 Sign in

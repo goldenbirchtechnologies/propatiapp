@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Globe, Mail, ArrowLeft, CheckCircle } from "lucide-react";
 import { getCountryByCode, type CountryCode } from "@/lib/countries";
 import { SectionLabel, InteractiveHoverButton } from "@/components/ui";
+import PropatiBoxLogo from "@/components/brand/PropatiBoxLogo";
 
 function ComingSoonContent() {
   const searchParams = useSearchParams();
@@ -24,9 +25,9 @@ function ComingSoonContent() {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-md text-center">
-        <Link href="/" className="inline-flex items-center gap-2 mb-8">
-          <span className="text-3xl font-bold tracking-tight text-emerald-400">PROPATI</span>
-        </Link>
+        <div className="flex justify-center mb-8">
+          <PropatiBoxLogo size="lg" />
+        </div>
         <div className="glass-card p-8">
           <div className="flex justify-center mb-6">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">

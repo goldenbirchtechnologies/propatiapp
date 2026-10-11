@@ -2,14 +2,14 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'PROPATI - Nigeria Property Marketplace',
-    short_name: 'PROPATI',
+    name: 'PropatiBox - Nigeria Property Marketplace',
+    short_name: 'PropatiBox',
     description: 'Nigeria\'s most trusted property marketplace. Verified listings, secure payments, escrow, and rental agreements.',
     start_url: '/',
     display: 'standalone',
     orientation: 'portrait',
     background_color: '#0f172a',
-    theme_color: '#2563eb',
+    theme_color: '#8CC63F',
     categories: ['real estate', 'property', 'rentals'],
     icons: [
       {

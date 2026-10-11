@@ -1,13 +1,13 @@
 {
-  "name": "PROPATI - Property Marketplace",
-  "short_name": "PROPATI",
+  "name": "PropatiBox - Property Marketplace",
+  "short_name": "PropatiBox",
   "description": "Find verified properties for rent and sale in Nigeria.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "theme_color": "#8CC63F",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }

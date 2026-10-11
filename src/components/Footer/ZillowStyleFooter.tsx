@@ -52,7 +52,7 @@ export default function ZillowStyleFooter() {
         {/* Recommendation blurb */}
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h3 className="font-bold text-zinc-900 dark:text-white text-lg mb-2">
-            About PROPATI&apos;s Recommendations
+            About PropatiBox&apos;s Recommendations
           </h3>
           <p className="text-sm text-zinc-600 dark:text-zinc-500 leading-relaxed">
             Recommendations are personalized based on your location, search activity, and viewed or saved homes so you never miss a suitable listing in your preferred Nigerian city.

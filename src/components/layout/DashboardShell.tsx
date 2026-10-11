@@ -1,6 +1,7 @@
 'use client'
 
 import AppIcon from '@/components/icons/app-icon';
+import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
@@ -620,24 +621,12 @@ export function DashboardShell({
         `}</style>
         <div className="sb-inner">
           <div className="sb-header-bar">
-            <Link href="/dashboard" className="flex items-center gap-2.5 overflow-hidden">
-              <video
-                src="/brand/Transform_static_logo_into_motion_202608041922.mp4"
-                poster="/brand/propatibox-logo-dark.jpg"
-                autoPlay
-                loop
-                muted
-                playsInline
-                width="36"
-                height="36"
-                className="w-9 h-9 rounded-lg object-cover shrink-0 bg-[#0A0F18]"
-              />
-              {!sidebarCollapsed && (
-                <span className="font-bold text-base tracking-tight text-foreground truncate">
-                  PROPATI
-                </span>
-              )}
-            </Link>
+            <PropatiBoxLogo
+              href="/dashboard"
+              size="sm"
+              variant={sidebarCollapsed ? 'iconOnly' : 'horizontal'}
+              className="overflow-hidden"
+            />
             <button
               className="hidden md:flex p-2 rounded-lg bg-surface-elevated text-foreground"
               onClick={toggleSidebar}

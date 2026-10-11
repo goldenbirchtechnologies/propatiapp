@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAuth, useUser } from '@clerk/nextjs';
 import PublicNav from '@/components/navigation/public-nav';
+import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 export default function PublicLayout({
   children,
@@ -27,14 +28,8 @@ export default function PublicLayout({
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
             {/* Brand col */}
             <div className="col-span-2 md:col-span-2">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                  </svg>
-                </div>
-                <span className="text-white font-bold text-lg">PROPATI</span>
+              <div className="mb-4">
+                <PropatiBoxLogo size="sm" />
               </div>
               <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
                 Nigeria&apos;s first verified property marketplace. Find, rent, buy, and manage real estate with confidence.
@@ -99,7 +94,7 @@ export default function PublicLayout({
           </div>
 
           <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p className="text-xs text-zinc-600">© 2026 Propati Technologies Ltd. All rights reserved.</p>
+            <p className="text-xs text-zinc-600">© 2026 PropatiBox Technologies Ltd. All rights reserved.</p>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               <span className="text-xs text-zinc-600">All systems operational</span>

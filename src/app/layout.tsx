@@ -24,14 +24,14 @@ const inter = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
-    template: '%s - PROPATI',
+    default: 'PropatiBox \u2014 Nigeria\'s Verified Property Marketplace',
+    template: '%s - PropatiBox',
   },
   description: 'Manage, view, and organize all your properties in one verified box. Secure transactions, escrow payments, stamp duty verification, and tenancy management.',
-  keywords: ['property management', 'real estate', 'Nigeria', 'Lagos', 'rent', 'sale', 'verified properties', 'PROPATI'],
-  authors: [{ name: 'PROPATI' }],
-  creator: 'PROPATI',
-  publisher: 'PROPATI',
+  keywords: ['property management', 'real estate', 'Nigeria', 'Lagos', 'rent', 'sale', 'verified properties', 'PropatiBox'],
+  authors: [{ name: 'PropatiBox' }],
+  creator: 'PropatiBox',
+  publisher: 'PropatiBox',
   formatDetection: {
     email: false,
     address: false,
@@ -45,21 +45,21 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_NG',
     url: '/',
-    siteName: 'PROPATI',
-    title: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
+    siteName: 'PropatiBox',
+    title: 'PropatiBox \u2014 Nigeria\'s Verified Property Marketplace',
     description: 'Manage, view, and organize all your properties in one verified box. Secure transactions, escrow payments, stamp duty verification, and tenancy management.',
     images: [
       {
         url: '/brand/propatibox-logo-dark.jpg',
         width: 1200,
         height: 630,
-        alt: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
+        alt: 'PropatiBox \u2014 Nigeria\'s Verified Property Marketplace',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
+    title: 'PropatiBox \u2014 Nigeria\'s Verified Property Marketplace',
     description: 'Manage, view, and organize all your properties in one verified box.',
     images: ['/brand/propatibox-logo-dark.jpg'],
   },
@@ -106,11 +106,11 @@ export default async function RootLayout({
         <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <meta name="description" content="PROPATI - Nigeria's Most Trusted Property Marketplace" />
-        <meta name="theme-color" content="#2563eb" />
+        <meta name="description" content="PropatiBox - Nigeria's Most Trusted Property Marketplace" />
+        <meta name="theme-color" content="#8CC63F" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="PROPATI" />
+        <meta name="apple-mobile-web-app-title" content="PropatiBox" />
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col antialiased tracking-body-md">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-foreground focus:text-background focus:rounded-md">Skip to main content</a>

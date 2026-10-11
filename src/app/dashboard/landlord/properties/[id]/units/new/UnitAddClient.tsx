@@ -265,7 +265,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
               onRemoveFile={(index) => setPhotos((prev) => prev.filter((_, i) => i !== index))}
               showFileList
             >
-              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-zinc-200 dark:border-white/[0.08] p-6 text-center">
+              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6 text-center">
                 <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Drag and drop unit photos here, or click to browse</p>
               </div>
             </DroppableArea>

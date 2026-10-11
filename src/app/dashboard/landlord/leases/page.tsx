@@ -71,11 +71,11 @@ export default async function LandlordLeasesPage() {
           <StatCard label="Expired / Terminated" value={String(stats.expired)} trend="Needs attention" />
         </div>
 
-        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 shadow-none">
+        <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 shadow-none">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
                   <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Tenant</th>
                   <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
@@ -86,7 +86,7 @@ export default async function LandlordLeasesPage() {
               </thead>
               <tbody>
                 {leases.map((lease) => (
-                  <tr key={lease.id} className="border-b border-zinc-200 dark:border-white/[0.08]">
+                  <tr key={lease.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <td className="px-4 py-3 font-medium">{lease.listing.title}</td>
                     <td className="px-4 py-3">{lease.tenant.fullName}</td>
                     <td className="px-4 py-3">{statusBadge(lease.status)}</td>

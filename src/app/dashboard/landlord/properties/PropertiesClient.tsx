@@ -132,9 +132,9 @@ function OccupancyBadge({ occupancy }: { occupancy?: string }) {
       VACANT: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Vacant' },
       OCCUPIED: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Occupied' },
       NOTICE_GIVEN: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Notice Given' },
-      MAINTENANCE: { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Under Maintenance' },
+      MAINTENANCE: { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Under Maintenance' },
     }[occupancy || 'VACANT'] || {
-      class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]',
+      class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
       label: occupancy || 'Unknown',
     };
 
@@ -143,9 +143,9 @@ function OccupancyBadge({ occupancy }: { occupancy?: string }) {
 
 function ListingStatusBadge({ isListed }: { isListed?: boolean }) {
   if (isListed) {
-    return <span className="tag bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20">Listed</span>;
+    return <span className="tag bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20">Listed</span>;
   }
-  return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]">Unlisted</span>;
+  return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Unlisted</span>;
 }
 
 export default function PropertiesClient({ listings }: Props) {
@@ -251,12 +251,12 @@ export default function PropertiesClient({ listings }: Props) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.length === 0 ? (
-            <div className="col-span-full rounded-xl border border-dashed border-zinc-200 dark:border-white/[0.08] bg-[#121820] p-10 text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <div className="col-span-full rounded-xl border border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#121820] p-10 text-center text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
               No properties found.
             </div>
           ) : (
             filtered.map((listing) => (
-              <div key={listing.id} className="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950 transition hover:border-zinc-700/60 md:flex-col">
+              <div key={listing.id} className="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950 transition hover:border-zinc-700/60 md:flex-col">
                 <Link href={`/dashboard/landlord/properties/${listing.id}`} className="relative block h-40 w-full shrink-0 overflow-hidden bg-zinc-900 md:aspect-[16/9] md:h-auto">
                   {listing.images[0]?.url ? (
                     <img src={listing.images[0].url} alt={titleCase(listing.title)} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -280,7 +280,7 @@ export default function PropertiesClient({ listings }: Props) {
                           <button
                             type="button"
                             aria-label="Property actions"
-                            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-zinc-200 dark:border-white/[0.08] bg-zinc-900 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                           >
                             <MoreVertical className="h-4 w-4" />
                           </button>
@@ -307,14 +307,14 @@ export default function PropertiesClient({ listings }: Props) {
                       <span className="shrink-0 font-medium text-zinc-300">{listing.unitCount} Units</span>
                     </div>
                     <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${listing.listedUnitCount > 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]'}`}>
+                      <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${listing.listedUnitCount > 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'}`}>
                         {listing.listedUnitCount > 0 ? 'Listed' : 'Unlisted'}
                       </span>
                       <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${listing.vacantUnitCount > 0 ? 'bg-amber-500/15 text-amber-400 border-amber-500/20' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'}`}>
                         {listing.vacantUnitCount > 0 ? `${listing.vacantUnitCount} Vacant` : 'Full'}
                       </span>
                       {listing.assignedAgent ? (
-                        <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-zinc-200 dark:border-white/[0.08] bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-zinc-300">
+                        <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-zinc-300">
                           Agent: {listing.assignedAgent.fullName || listing.assignedAgent.email}
                         </span>
                       ) : null}
@@ -324,7 +324,7 @@ export default function PropertiesClient({ listings }: Props) {
                     <Button size="sm" asChild className="rounded-lg bg-emerald-600 text-white hover:bg-emerald-500">
                       <Link href={`/dashboard/landlord/properties/${listing.id}`}>Manage</Link>
                     </Button>
-                    <Button variant="outline" size="sm" asChild className="rounded-lg border-zinc-200 dark:border-white/[0.08] bg-transparent text-zinc-300 hover:bg-zinc-900 hover:text-zinc-900 dark:text-white">
+                    <Button variant="outline" size="sm" asChild className="rounded-lg border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-transparent text-zinc-300 hover:bg-zinc-900 hover:text-zinc-900 dark:text-white">
                       <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
                     </Button>
                   </div>
@@ -342,25 +342,25 @@ export default function PropertiesClient({ listings }: Props) {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     active: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Active' },
-    draft: { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+    draft: { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
     suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
-    deleted: { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
+    deleted: { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: status };
+  const cfg = config[status] || { class: 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: { overallStatus: string; currentLayer: number } | null }) {
   if (!verification) {
-    return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]">Not Started</span>;
+    return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Not Started</span>;
   }
 
   switch (verification.overallStatus) {
     case 'not_started':
-      return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]">Not Started</span>;
+      return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Not Started</span>;
     case 'in_progress':
       return (
-        <span className="tag bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20 inline-flex items-center gap-1">
+        <span className="tag bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20 inline-flex items-center gap-1">
           <svg
             width="10"
             height="10"
@@ -381,7 +381,7 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
     case 'rejected':
       return <span className="tag bg-red-500/10 text-red-500 border-red-500/20">Rejected</span>;
     default:
-      return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]">{verification.overallStatus}</span>;
+      return <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">{verification.overallStatus}</span>;
   }
 }
 

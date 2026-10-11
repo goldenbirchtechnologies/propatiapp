@@ -61,8 +61,8 @@ export default function EstateManagerLeaseReviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Document Viewer */}
-          <div className="lg:col-span-2 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none bg-zinc-900 p-6">
-            <div className="border-b border-zinc-200 dark:border-white/[0.08] pb-4 mb-6 flex justify-between items-start">
+          <div className="lg:col-span-2 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none bg-zinc-900 p-6">
+            <div className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4 mb-6 flex justify-between items-start">
               <div>
                 <h2 className="font-heading text-xl font-bold text-zinc-900 dark:text-white uppercase">Commercial Lease Agreement</h2>
                 <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Reference: PROP-2024-88492-L</p>
@@ -94,11 +94,11 @@ export default function EstateManagerLeaseReviewPage() {
           </div>
 
           {/* Clause Checklist */}
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none bg-zinc-900 p-5">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none bg-zinc-900 p-5">
             <h3 className="font-heading font-bold text-zinc-900 dark:text-white mb-4">Clause Checklist</h3>
             <div className="space-y-3">
               {clauses.map((clause) => (
-                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-zinc-200 dark:border-white/[0.08]">
+                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <span className="text-sm font-medium text-zinc-900 dark:text-white">{clause.title}</span>
                   <span className="tag tag-amber">Pending</span>
                 </div>

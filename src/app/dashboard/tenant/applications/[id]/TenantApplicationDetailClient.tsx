@@ -89,7 +89,7 @@ const statusConfig: Record<
   },
   withdrawn: {
     label: 'Withdrawn',
-    className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]',
+    className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
   },
 };
 
@@ -168,7 +168,7 @@ export default function TenantApplicationDetailClient({
           <DashboardSection>
             <div className="grid gap-6 md:grid-cols-2">
               <div className="glass-card glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                     <Building2 className="h-5 w-5 text-emerald-400" />
                     Property Details
@@ -205,7 +205,7 @@ export default function TenantApplicationDetailClient({
               </div>
 
               <div className="glass-card glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                     <User className="h-5 w-5 text-emerald-400" />
                     Landlord Information
@@ -257,7 +257,7 @@ export default function TenantApplicationDetailClient({
           <DashboardSection emptyMessage="No documents attached to this application." onRetry={handleRetry}>
             {initial.listing.images.length > 0 ? (
               <div className="glass-card glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                     <FileText className="h-5 w-5 text-emerald-400" />
                     Listing Media
@@ -266,7 +266,7 @@ export default function TenantApplicationDetailClient({
                 <div className="p-6">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {initial.listing.images.map((img) => (
-                      <div key={img.id} className="rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
+                      <div key={img.id} className="rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                         <img src={img.url} alt={initial.listing.title} className="w-full h-32 object-cover" />
                       </div>
                     ))}
@@ -290,7 +290,7 @@ export default function TenantApplicationDetailClient({
         <TabsContent value="timeline" className="mt-6">
           <DashboardSection>
             <div className="glass-card glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                   <Clock className="h-5 w-5 text-emerald-400" />
                   Application Timeline
@@ -360,7 +360,7 @@ export default function TenantApplicationDetailClient({
             <div className="space-y-6">
               {initial.message && (
                 <div className="glass-card glass-card">
-                  <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                       <MessageSquare className="h-5 w-5 text-emerald-400" />
                       Your Message
@@ -373,7 +373,7 @@ export default function TenantApplicationDetailClient({
               )}
               {initial.landlordNotes && (
                 <div className="glass-card glass-card">
-                  <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                       <User className="h-5 w-5 text-emerald-400" />
                       Landlord Notes

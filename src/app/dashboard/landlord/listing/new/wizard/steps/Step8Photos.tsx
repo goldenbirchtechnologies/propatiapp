@@ -105,7 +105,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
             onDragLeave={() => setDragOver(false)}
             onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
             className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
-              dragOver ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
+              dragOver ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
             }`}
             onClick={openFilePicker}
           >

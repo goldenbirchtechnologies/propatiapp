@@ -89,7 +89,7 @@ export default async function LandlordMaintenancePage() {
           <div className="p-6">
             {tickets.length === 0 ? (
               <div className="rounded-xl border border-dashed border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] p-8 text-center">
-                <div className="w-12 h-12 rounded-xl bg-[#27272a] border border-white/[0.06] flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 rounded-xl bg-[#27272a] border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] flex items-center justify-center mx-auto mb-3">
                   <Wrench className="w-6 h-6 text-zinc-500 dark:text-zinc-400" />
                 </div>
                 <p className="font-medium text-zinc-900 dark:text-white mb-1">No maintenance requests yet</p>

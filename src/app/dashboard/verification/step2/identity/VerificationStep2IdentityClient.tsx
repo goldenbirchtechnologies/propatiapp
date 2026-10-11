@@ -74,7 +74,7 @@ function Step2IdentityClient(props: Props) {
   return (
     <div className="space-y-6">
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Verification Progress</h3>
         </div>
         <div className="p-6">
@@ -86,7 +86,7 @@ function Step2IdentityClient(props: Props) {
       </div>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Identity Details</h3>
         </div>
         <div className="p-6 space-y-4">
@@ -112,7 +112,7 @@ function Step2IdentityClient(props: Props) {
                 <select
                   value={idType}
                   onChange={(e) => setIdType(e.target.value)}
-                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                   disabled={isReadOnly}
                 >
                   <option value="">Select ID type</option>
@@ -128,7 +128,7 @@ function Step2IdentityClient(props: Props) {
                   value={idNumber}
                   onChange={(e) => setIdNumber(e.target.value)}
                   placeholder="Enter ID number"
-                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                   disabled={isReadOnly}
                 />
               </div>

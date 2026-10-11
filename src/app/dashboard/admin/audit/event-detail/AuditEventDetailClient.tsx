@@ -13,7 +13,7 @@ export default function AuditEventDetailClient() {
         <AppIcon name="chevron_right" className="lucide" />
         <a className="hover:text-zinc-900 dark:text-white" href="#">Audit Logs</a>
         <AppIcon name="chevron_right" className="lucide" />
-        <span className="text-zinc-900 dark:text-white font-bold">Event #EV-9821</span>
+        <span className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">Event #EV-9821</span>
       </nav>
 
       {/* Header Section */}
@@ -29,7 +29,7 @@ export default function AuditEventDetailClient() {
           <h2 className="font-headline-lg text-headline-lg text-zinc-900 dark:text-white tracking-tight">Event Detail: Permission Update</h2>
         </div>
         <div className="flex items-center gap-sm">
-          <button className="flex items-center gap-sm px-6 h-11 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-zinc-900 transition-all active:scale-95">
+          <button className="flex items-center gap-sm px-6 h-11 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-zinc-900 transition-all active:scale-95">
             <AppIcon name="download" className="lucide" />
             Export JSON
           </button>
@@ -41,7 +41,7 @@ export default function AuditEventDetailClient() {
       </section>
 
       {/* Metadata Summary Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-gutter bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08] p-lg rounded-xl shadow-none mb-lg">
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-gutter bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-lg rounded-xl shadow-none mb-lg">
         <div className="flex flex-col gap-xs">
           <span className="text-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Administrator</span>
           <div className="flex items-center gap-sm mt-xs">
@@ -83,8 +83,8 @@ export default function AuditEventDetailClient() {
       {/* Main Workspace: Diff & Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
         {/* Change Diff Code Container */}
-        <section className="lg:col-span-8 flex flex-col h-full bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden shadow-none">
-          <div className="bg-zinc-900 p-md border-b border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
+        <section className="lg:col-span-8 flex flex-col h-full bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden shadow-none">
+          <div className="bg-zinc-900 p-md border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
             <div className="flex items-center gap-md">
               <AppIcon name="code" className="lucide" />
               <h3 className="font-label-sm text-zinc-900 dark:text-white uppercase tracking-wider font-bold">JSON Payload Diff</h3>
@@ -96,7 +96,7 @@ export default function AuditEventDetailClient() {
             </div>
           </div>
           <div className="p-lg font-label-sm overflow-x-auto">
-            <div className="min-w-[600px] bg-surface rounded-lg p-md border border-zinc-200 dark:border-white/[0.08]/30 space-y-1">
+            <div className="min-w-[600px] bg-surface rounded-lg p-md border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30 space-y-1">
               <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500/40">{'{'}</div>
               <div className="pl-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500/70">&quot;role&quot;: &quot;Verification Officer&quot;,</div>
               <div className="pl-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500/70">&quot;module&quot;: &quot;Identity_Verification&quot;,</div>
@@ -126,12 +126,12 @@ export default function AuditEventDetailClient() {
 
         {/* Contextual Timeline Sidebar */}
         <aside className="space-y-lg">
-          <div className="bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08] p-lg rounded-xl shadow-none h-full">
+          <div className="bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-lg rounded-xl shadow-none h-full">
             <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-lg">Related Activity</h3>
             <p className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-xl">
               Activity within 1-hour window for Admin <span className="font-bold">Ade Ben-G.</span>
             </p>
-            <div className="relative space-y-xl pl-6 border-l-2 border-zinc-200 dark:border-white/[0.08]/30">
+            <div className="relative space-y-xl pl-6 border-l-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30">
               {/* Timeline Item 1 */}
               <div className="relative">
                 <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-secondary-container ring-4 ring-surface-container-lowest"></div>
@@ -144,7 +144,7 @@ export default function AuditEventDetailClient() {
               {/* Timeline Item 2 (Current) */}
               <div className="relative">
                 <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-surface-container-lowest"></div>
-                <div className="flex flex-col gap-1 p-md bg-primary-fixed/30 rounded-lg -mx-2 border border-zinc-200 dark:border-white/[0.08]-fixed">
+                <div className="flex flex-col gap-1 p-md bg-primary-fixed/30 rounded-lg -mx-2 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]-fixed">
                   <div className="flex justify-between items-start">
                     <span className="text-label-sm font-bold text-zinc-900 dark:text-white">14:22:10 WAT</span>
                     <span className="px-xs py-[2px] bg-emerald-500 text-white text-[10px] rounded uppercase font-bold">Current</span>
@@ -171,7 +171,7 @@ export default function AuditEventDetailClient() {
                 </div>
               </div>
             </div>
-            <button className="w-full mt-xl py-3 text-label-md font-bold text-zinc-900 dark:text-white hover:text-secondary transition-colors border-t border-zinc-200 dark:border-white/[0.08]/30 flex items-center justify-center gap-sm">
+            <button className="w-full mt-xl py-3 text-label-md font-bold text-zinc-900 dark:text-white hover:text-secondary transition-colors border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30 flex items-center justify-center gap-sm">
               View Full Admin Audit Trail
               <AppIcon name="arrow_forward" className="lucide" />
             </button>

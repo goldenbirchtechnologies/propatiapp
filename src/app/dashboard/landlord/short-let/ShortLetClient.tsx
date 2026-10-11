@@ -297,7 +297,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
           {loading && !actionIds.length && <p className="text-sm text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Loading bookings…</p>}
           {!loading && filtered.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] p-10 text-center">
-              <div className="w-14 h-14 rounded-xl bg-[#27272a] border border-white/[0.06] flex items-center justify-center mx-auto mb-4">
+              <div className="w-14 h-14 rounded-xl bg-[#27272a] border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] flex items-center justify-center mx-auto mb-4">
                 <Calendar className="w-7 h-7 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400" />
               </div>
               <p className="font-semibold text-zinc-900 dark:text-white mb-1">No bookings yet</p>
@@ -315,7 +315,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   <th className="py-2 pr-4">Guest</th>
                   <th className="py-2 pr-4">Property / Unit</th>
                   <th className="py-2 pr-4">Dates</th>
@@ -327,7 +327,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
               </thead>
               <tbody>
                 {filtered.map((req) => (
-                  <tr key={req.id} className="border-b border-zinc-200 dark:border-white/[0.08]/60">
+                  <tr key={req.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/60">
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
                         <span className="font-medium text-zinc-900 dark:text-white">{req.guestName}</span>

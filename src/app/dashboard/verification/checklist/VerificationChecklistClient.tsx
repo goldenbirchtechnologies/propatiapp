@@ -34,7 +34,7 @@ function statusColor(status: string) {
   if (status === 'approved') return 'bg-success/10 text-[#10b981] border-success/20';
   if (status === 'rejected') return 'bg-red-500/10 text-red-500 border-red-500/20';
   if (status === 'pending') return 'bg-warning/10 text-warning border-warning/20';
-  return 'bg-muted text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
+  return 'bg-muted text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]';
 }
 
 function VerificationChecklistClient(props: Props) {
@@ -44,7 +44,7 @@ function VerificationChecklistClient(props: Props) {
   return (
     <div className="space-y-6">
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Overall Progress</h3>
             <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
@@ -59,14 +59,14 @@ function VerificationChecklistClient(props: Props) {
       </div>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Layer Status</h3>
         </div>
         <div className="p-6">
           <div className="space-y-4">
             {props.layers.map((layer, idx) => (
               <div key={layer.label}>
-                <div className="flex items-center justify-between p-4 rounded-lg border border-zinc-200 dark:border-white/[0.08]">
+                <div className="flex items-center justify-between p-4 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-sm">
                       {idx + 1}
@@ -92,7 +92,7 @@ function VerificationChecklistClient(props: Props) {
 
       {props.adminNotes && (
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Admin Notes</h3>
           </div>
           <div className="p-6">

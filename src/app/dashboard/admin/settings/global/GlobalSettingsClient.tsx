@@ -8,7 +8,7 @@ export default function GlobalSettingsClient() {
       {/* Ported from global_settings_configuration_propati_admin.html */}
 
       {/* TOP APP BAR */}
-      <div className="flex items-center w-full px-margin-desktop h-16 sticky top-0 z-40 bg-surface border-b border-zinc-200 dark:border-white/[0.08] mb-lg">
+      <div className="flex items-center w-full px-margin-desktop h-16 sticky top-0 z-40 bg-surface border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] mb-lg">
         <div className="flex items-center gap-md">
           <h2 className="font-headline-sm text-zinc-900 dark:text-white font-black text-zinc-900 dark:text-white">Admin Console</h2>
         </div>
@@ -23,7 +23,7 @@ export default function GlobalSettingsClient() {
             <p className="text-body-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Platform-wide parameters, verification rules, and security posture.</p>
           </div>
           <div className="flex gap-sm">
-            <button className="flex items-center gap-sm px-6 h-11 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-zinc-900 transition-all">
+            <button className="flex items-center gap-sm px-6 h-11 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-zinc-900 transition-all">
               <AppIcon name="undo" className="lucide" />
               Discard
             </button>
@@ -51,7 +51,7 @@ export default function GlobalSettingsClient() {
                 <AppIcon name="verified_user" className="lucide" />
                 Verification
               </a>
-              <a className="flex items-center gap-sm px-md py-sm border-l-4 border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 text-zinc-900 dark:text-white font-bold rounded-r-lg transition-colors font-label-sm" href="#">
+              <a className="flex items-center gap-sm px-md py-sm border-l-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold rounded-r-lg transition-colors font-label-sm" href="#">
                 <AppIcon name="security" className="lucide" />
                 Security
               </a>
@@ -69,7 +69,7 @@ export default function GlobalSettingsClient() {
           {/* Configuration Forms */}
           <div className="lg:col-span-9 space-y-lg">
             {/* SECTION: Platform Parameters */}
-            <section className="bg-zinc-950/50 p-lg rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none">
+            <section className="bg-zinc-950/50 p-lg rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white">
                   <AppIcon name="tune" className="lucide" />
@@ -87,7 +87,7 @@ export default function GlobalSettingsClient() {
                     </label>
                     <div className="relative">
                       <input
-                        className="w-full h-[44px] rounded-lg border-zinc-200 dark:border-white/[0.08] border px-4 focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-white/[0.08] outline-none font-semibold"
+                        className="w-full h-[44px] rounded-lg border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border px-4 focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] outline-none font-semibold"
                         type="number"
                         defaultValue={14}
                       />
@@ -101,7 +101,7 @@ export default function GlobalSettingsClient() {
                     <label className="block font-label-sm text-label-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">Rental Service Fee</label>
                     <div className="relative">
                       <input
-                        className="w-full h-[44px] rounded-lg border-zinc-200 dark:border-white/[0.08] border px-4 focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-white/[0.08] outline-none font-semibold"
+                        className="w-full h-[44px] rounded-lg border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border px-4 focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] outline-none font-semibold"
                         type="number"
                         defaultValue={5.0}
                       />
@@ -115,7 +115,7 @@ export default function GlobalSettingsClient() {
                     <label className="block font-label-sm text-label-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">
                       Min. Verification Level (Public)
                     </label>
-                    <select className="w-full h-[44px] rounded-lg border-zinc-200 dark:border-white/[0.08] border px-4 focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-white/[0.08] outline-none font-semibold appearance-none bg-no-repeat bg-[right_1rem_center]">
+                    <select className="w-full h-[44px] rounded-lg border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border px-4 focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] outline-none font-semibold appearance-none bg-no-repeat bg-[right_1rem_center]">
                       <option>Level 3 - Inspected</option>
                       <option selected={true}>Level 4 - Verified Gold</option>
                       <option>Level 5 - Platinum Certified</option>
@@ -129,7 +129,7 @@ export default function GlobalSettingsClient() {
             </section>
 
             {/* SECTION: Verification Rules (Bento Grid Internal) */}
-            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-white/[0.08]/30 shadow-none relative overflow-hidden" id="verification">
+            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30 shadow-none relative overflow-hidden" id="verification">
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center">
                   <span className="lucide text-secondary" data-icon="verified_user">verified_user</span>
@@ -143,7 +143,7 @@ export default function GlobalSettingsClient() {
               </div>
               <div className="grid grid-cols-3 gap-6">
                 {/* Rule Card */}
-                <div className="p-4 bg-surface rounded-lg border border-zinc-200 dark:border-white/[0.08]/50">
+                <div className="p-4 bg-surface rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/50">
                   <div className="flex justify-between items-start mb-4">
                     <span className="px-2 py-1 bg-on-tertiary-container/10 text-[#10b981] text-[10px] font-bold rounded uppercase tracking-wider">
                       Automated
@@ -159,7 +159,7 @@ export default function GlobalSettingsClient() {
                   </p>
                   <div className="flex items-center gap-2">
                     <input
-                      className="w-16 h-8 text-center rounded border-zinc-200 dark:border-white/[0.08] border text-sm font-bold"
+                      className="w-16 h-8 text-center rounded border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border text-sm font-bold"
                       type="number"
                       defaultValue={30}
                     />
@@ -168,7 +168,7 @@ export default function GlobalSettingsClient() {
                 </div>
 
                 {/* Rule Card */}
-                <div className="p-4 bg-surface rounded-lg border border-zinc-200 dark:border-white/[0.08]/50">
+                <div className="p-4 bg-surface rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/50">
                   <div className="flex justify-between items-start mb-4">
                     <span className="px-2 py-1 bg-secondary-container/20 text-secondary text-[10px] font-bold rounded uppercase tracking-wider">
                       Document
@@ -184,7 +184,7 @@ export default function GlobalSettingsClient() {
                   </p>
                   <div className="flex items-center gap-2">
                     <input
-                      className="w-16 h-8 text-center rounded border-zinc-200 dark:border-white/[0.08] border text-sm font-bold"
+                      className="w-16 h-8 text-center rounded border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border text-sm font-bold"
                       type="number"
                       defaultValue={90}
                     />
@@ -213,7 +213,7 @@ export default function GlobalSettingsClient() {
             </section>
 
             {/* SECTION: Security & Access */}
-            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-white/[0.08]/30 shadow-none" id="security">
+            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30 shadow-none" id="security">
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-10 h-10 rounded-lg bg-on-error-container/10 flex items-center justify-center">
                   <span className="lucide text-error" data-icon="security">security</span>
@@ -226,11 +226,11 @@ export default function GlobalSettingsClient() {
                 </div>
               </div>
               <div className="space-y-6">
-                <div className="flex items-center justify-between p-4 bg-zinc-950/50 rounded-lg border border-zinc-200 dark:border-white/[0.08]/20">
+                <div className="flex items-center justify-between p-4 bg-zinc-950/50 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20">
                   <div className="flex gap-4">
                     <span className="lucide text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" data-icon="key">key</span>
                     <div>
-                      <p className="font-body-md text-zinc-900 dark:text-white font-semibold">
+                      <p className="font-body-md text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold">
                         Two-Factor Authentication (2FA)
                       </p>
                       <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
@@ -249,7 +249,7 @@ export default function GlobalSettingsClient() {
                       Admin IP Whitelist
                     </label>
                     <textarea
-                      className="w-full rounded-lg border-zinc-200 dark:border-white/[0.08] border p-4 font-label-sm text-label-md focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-white/[0.08] outline-none"
+                      className="w-full rounded-lg border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border p-4 font-label-sm text-label-md focus:ring-2 focus:ring-primary/10 focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] outline-none"
                       placeholder="192.168.1.1, 45.32.11.200 (Separated by commas)"
                       rows={3}
                       defaultValue="192.168.1.1, 102.176.4.55, 102.176.4.56"
@@ -259,7 +259,7 @@ export default function GlobalSettingsClient() {
                     </p>
                   </div>
                   <div className="col-span-4 flex flex-col justify-end">
-                    <button className="w-full h-[44px] flex items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] __PHWHITE__ font-bold hover:bg-emerald-500/5 transition-all">
+                    <button className="w-full h-[44px] flex items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] __PHWHITE__ font-bold hover:bg-emerald-500/5 transition-all">
                       <span className="lucide text-sm" data-icon="add">add</span>
                       Detect Current IP
                     </button>
@@ -269,7 +269,7 @@ export default function GlobalSettingsClient() {
             </section>
 
             {/* SECTION: Notifications & API */}
-            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-white/[0.08]/30 shadow-none" id="notifications">
+            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30 shadow-none" id="notifications">
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center">
                   <span className="lucide text-on-tertiary-fixed-variant" data-icon="api">api</span>
@@ -282,7 +282,7 @@ export default function GlobalSettingsClient() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-6">
-                <div className="border border-zinc-200 dark:border-white/[0.08] rounded-lg p-5">
+                <div className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg p-5">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center">
@@ -297,7 +297,7 @@ export default function GlobalSettingsClient() {
                   <div className="space-y-3">
                     <div className="relative">
                       <input
-                        className="w-full bg-surface text-xs font-label-sm p-3 border border-zinc-200 dark:border-white/[0.08]/50 rounded pr-10"
+                        className="w-full bg-surface text-xs font-label-sm p-3 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/50 rounded pr-10"
                         readOnly={true}
                         type="password"
                         defaultValue="sk_tes...p7dc"
@@ -313,7 +313,7 @@ export default function GlobalSettingsClient() {
                   </div>
                 </div>
 
-                <div className="border border-zinc-200 dark:border-white/[0.08] rounded-lg p-5">
+                <div className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg p-5">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center">
@@ -334,7 +334,7 @@ export default function GlobalSettingsClient() {
                       <span className="font-medium text-zinc-900 dark:text-white">listing.flagged</span>
                       <span className="lucide text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 cursor-pointer" data-icon="edit">edit</span>
                     </div>
-                    <button className="w-full py-1 text-[10px] font-bold text-center border border-dashed border-zinc-200 dark:border-white/[0.08] rounded hover:bg-zinc-900 transition-colors">
+                    <button className="w-full py-1 text-[10px] font-bold text-center border border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded hover:bg-zinc-900 transition-colors">
                       Add Webhook Secret
                     </button>
                   </div>
@@ -343,7 +343,7 @@ export default function GlobalSettingsClient() {
             </section>
 
             {/* SECTION: Data Map Integration (Mockup) */}
-            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-white/[0.08]/30 shadow-none">
+            <section className="bg-zinc-950/50 p-8 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30 shadow-none">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center">
@@ -383,7 +383,7 @@ export default function GlobalSettingsClient() {
       </div>
 
       {/* Footer Fixed Save Bar */}
-      <div className="fixed bottom-0 left-64 right-0 bg-zinc-950/50/80 backdrop-blur-md border-t border-zinc-200 dark:border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
+      <div className="fixed bottom-0 left-64 right-0 bg-zinc-950/50/80 backdrop-blur-md border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
         <div className="flex items-center gap-4">
           <span className="lucide text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }}>
             check_circle

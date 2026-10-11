@@ -84,7 +84,7 @@ export default async function AgentCommissionsPage() {
         userAvatar={user.avatarUrl || undefined}
       >
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Commissions</h3>
           </div>
           <div className="p-6">

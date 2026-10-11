@@ -48,16 +48,16 @@ function formatDate(date: Date | null) {
 
 function rentBadge(tenant: Tenant) {
   const s = tenant.latestInvoice?.status;
-  if (!s) return <Badge variant="outline" className="bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]">No Record</Badge>;
+  if (!s) return <Badge variant="outline" className="bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">No Record</Badge>;
   switch (s) {
     case 'paid':
-      return <Badge variant="default" className="bg-success/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]">Paid</Badge>;
+      return <Badge variant="default" className="bg-success/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Paid</Badge>;
     case 'overdue':
-      return <Badge variant="destructive" className="bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]">Overdue</Badge>;
+      return <Badge variant="destructive" className="bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Overdue</Badge>;
     case 'sent':
-      return <Badge variant="secondary" className="bg-warning/10 text-warning border border-zinc-200 dark:border-white/[0.08]">Pending</Badge>;
+      return <Badge variant="secondary" className="bg-warning/10 text-warning border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Pending</Badge>;
     default:
-      return <Badge variant="outline" className="bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]">{s.replace('_', ' ')}</Badge>;
+      return <Badge variant="outline" className="bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">{s.replace('_', ' ')}</Badge>;
   }
 }
 
@@ -124,25 +124,25 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">Total</p>
           <p className="text-2xl font-bold mt-1 text-zinc-900 dark:text-white">{stats.total}</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">Active</p>
           <p className="text-2xl font-bold mt-1 text-[#10b981]">{stats.active}</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">Pending</p>
           <p className="text-2xl font-bold mt-1 text-warning">{stats.pending}</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">Moved Out</p>
           <p className="text-2xl font-bold mt-1 text-red-500">{stats.expired}</p>
         </div>
       </div>
 
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-4 shadow-none">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-4 shadow-none">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
@@ -174,7 +174,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
         </div>
       </div>
 
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 shadow-none">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 shadow-none">
         {tenants.length === 0 ? (
           <div className="p-12 text-center">
             <Users className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-60" />
@@ -235,7 +235,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
                         {tenant.idVerified || tenant.ninVerified ? (
                           <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-success/10 text-[#10b981] border-success/20">Verified</span>
                         ) : (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]">Unverified</span>
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Unverified</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">

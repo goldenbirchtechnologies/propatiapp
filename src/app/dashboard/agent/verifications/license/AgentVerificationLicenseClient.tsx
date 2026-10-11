@@ -77,7 +77,7 @@ export default function AgentVerificationLicenseClient() {
         );
       case 'under-review':
         return (
-          <span className="px-3 py-1 rounded-full bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+          <span className="px-3 py-1 rounded-full bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
             Under Review
           </span>
           );
@@ -101,7 +101,7 @@ export default function AgentVerificationLicenseClient() {
       </div>
 
       {/* Header Status */}
-      <div className="glass-card bg-[#171717]/50 border border-zinc-200 dark:border-white/[0.08]">
+      <div className="glass-card bg-[#171717]/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
         <div className="p-6 p-4 flex flex-wrap items-center gap-6">
           <div className="flex flex-col">
             <span className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
@@ -126,7 +126,7 @@ export default function AgentVerificationLicenseClient() {
         {/* Form & Upload */}
         <div className="lg:col-span-8 space-y-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-[#10b981] text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm">
                   1
@@ -141,7 +141,7 @@ export default function AgentVerificationLicenseClient() {
                   <select
                     value={licenseType}
                     onChange={(e) => setLicenseType(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                   >
                     {licenseTypes.map((lt) => (
                       <option key={lt}>{lt}</option>
@@ -153,7 +153,7 @@ export default function AgentVerificationLicenseClient() {
                   <input
                     value={licenseNumber}
                     onChange={(e) => setLicenseNumber(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                     placeholder="e.g. EAR/2023/8892"
                   />
                 </div>
@@ -162,7 +162,7 @@ export default function AgentVerificationLicenseClient() {
                   <input
                     value={issuingAuthority}
                     onChange={(e) => setIssuingAuthority(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                     placeholder="e.g. EAR Council of Nigeria"
                   />
                 </div>
@@ -172,7 +172,7 @@ export default function AgentVerificationLicenseClient() {
                     type="date"
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                   />
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function AgentVerificationLicenseClient() {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-[#10b981] text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm">
                   2
@@ -219,7 +219,7 @@ export default function AgentVerificationLicenseClient() {
         {/* Guidance */}
         <div className="lg:col-span-4 space-y-6">
           <div className="glass-card bg-[#10b981] text-zinc-900 dark:text-white">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#10b981]" />
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-[#10b981]">Verification Tips</h3>
@@ -247,7 +247,7 @@ export default function AgentVerificationLicenseClient() {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Process Journey</h3>
             </div>
             <div className="p-6">
@@ -284,7 +284,7 @@ export default function AgentVerificationLicenseClient() {
 
       {/* Submission History */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Submission History</h3>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" /> Export Log

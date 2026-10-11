@@ -87,14 +87,14 @@ export default function TenantSearchClient({
               placeholder="Search by area, city, or address..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
+              className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
             />
           </div>
           <div className="flex items-center gap-1">
             <Button
               variant={viewMode === 'grid' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
+              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
               onClick={() => setViewMode('grid')}
             >
               <Grid className="h-4 w-4" />
@@ -102,7 +102,7 @@ export default function TenantSearchClient({
             <Button
               variant={viewMode === 'list' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
+              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
               onClick={() => setViewMode('list')}
             >
               <LayoutList className="h-4 w-4" />
@@ -119,7 +119,7 @@ export default function TenantSearchClient({
                 'cursor-pointer',
                 searchQuery.toLowerCase() === city.toLowerCase()
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'
+                  : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'
               )}
               onClick={() => setSearchQuery(city)}
             >
@@ -134,7 +134,7 @@ export default function TenantSearchClient({
             <Badge
               key={type}
               variant="outline"
-              className="cursor-pointer border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white"
+              className="cursor-pointer border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white"
             >
               {type}
             </Badge>
@@ -144,7 +144,7 @@ export default function TenantSearchClient({
 
       <div className="flex items-center justify-between">
         <div className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{totalCount} properties found</div>
-        <Button variant="outline" size="sm" className="border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400">
+        <Button variant="outline" size="sm" className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400">
           <Filter className="h-4 w-4 mr-2" /> More Filters
         </Button>
       </div>
@@ -201,7 +201,7 @@ export default function TenantSearchClient({
                     <Maximize className="h-3.5 w-3.5" /> {property.area} sqm
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-white/[0.08]">
+                <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <Avatar
                     src={property.landlord?.avatarUrl || undefined}
                     name={property.landlord?.fullName || 'L'}

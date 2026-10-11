@@ -124,30 +124,30 @@ export default function RevenueSignatureClient({
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Revenue</p>
           <p className="text-2xl font-bold text-[#10b981] font-mono">₦{(totalRevenue / 1e6).toFixed(2)}M</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Service Charges</p>
           <p className="text-2xl font-bold text-zinc-300 font-mono">₦{(totalServiceCharges / 1e6).toFixed(2)}M</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent Transactions</p>
           <p className="text-2xl font-bold text-zinc-900 dark:text-white font-mono">₦{(totalRent / 1e6).toFixed(2)}M</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Net Signature</p>
           <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
             {totalNet >= 0 ? '+' : ''}₦{(totalNet / 1e6).toFixed(2)}M
           </p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Avg Transaction</p>
           <p className="text-2xl font-bold text-zinc-900 dark:text-white font-mono">₦{(avgTransactionAmount / 1000).toFixed(0)}K</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{transactionCount} transactions</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Pending Settlement</p>
           <p className="text-2xl font-bold text-red-500 font-mono">₦{(pendingSettlement / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Awaiting clearance</p>
@@ -155,8 +155,8 @@ export default function RevenueSignatureClient({
       </div>
 
       {/* Table */}
-      <div className="glass-card border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
-        <div className="p-4 border-b border-zinc-200 dark:border-white/[0.08]">
+      <div className="glass-card border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
             <FileText className="w-4 h-4 text-zinc-300" />
             Monthly Revenue Signature
@@ -165,7 +165,7 @@ export default function RevenueSignatureClient({
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="border-zinc-200 dark:border-white/[0.08] hover:bg-transparent">
+              <TableRow className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-transparent">
                 <TableHead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Month</TableHead>
                 <TableHead className="text-right text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Revenue</TableHead>
                 <TableHead className="text-right text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Service Charges</TableHead>
@@ -182,7 +182,7 @@ export default function RevenueSignatureClient({
                 </TableRow>
               ) : (
                 filtered.map((m) => (
-                  <TableRow key={m.month} className="border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900est">
+                  <TableRow key={m.month} className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900est">
                     <TableCell className="text-zinc-900 dark:text-white text-sm">{m.month}</TableCell>
                     <TableCell className="text-right text-[#10b981] font-mono text-sm">₦{m.totalRevenue.toLocaleString()}</TableCell>
                     <TableCell className="text-right text-zinc-300 font-mono text-sm">₦{m.serviceCharges.toLocaleString()}</TableCell>

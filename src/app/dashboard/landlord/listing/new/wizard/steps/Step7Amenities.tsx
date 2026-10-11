@@ -67,8 +67,8 @@ export default function Step7Amenities({ amenities = [], onChange }: Step7Props)
                 key={item.value}
                 className={`flex items-center gap-2 rounded-md border p-3 cursor-pointer transition ${
                   selected.includes(item.value)
-                    ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5'
-                    : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
+                    ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-primary/5'
+                    : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
                 }`}
               >
                 <Checkbox

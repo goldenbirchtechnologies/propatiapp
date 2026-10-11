@@ -34,19 +34,19 @@ const statusBadge = (status: 'verified' | 'pending' | 'not-started') => {
   switch (status) {
     case 'verified':
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
           <CheckCircle className="h-3 w-3" /> Verified
         </span>
       );
     case 'pending':
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
           <Clock className="h-3 w-3" /> Pending Review
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
           Not Started
         </span>
       );
@@ -66,7 +66,7 @@ export default function AgentVerificationsClient() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-8 space-y-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-headline-sm font-bold">Verification Status</h3>
@@ -100,7 +100,7 @@ export default function AgentVerificationsClient() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {modules.map((mod) => (
-              <div className="glass-card" key={mod.id} className={cn('flex flex-col transition-all hover:shadow-none', mod.status === 'not-started' ? 'border-dashed border-2' : mod.status === 'pending' ? 'border-l-4 border-zinc-200 dark:border-white/[0.08]' : '')}>
+              <div className="glass-card" key={mod.id} className={cn('flex flex-col transition-all hover:shadow-none', mod.status === 'not-started' ? 'border-dashed border-2' : mod.status === 'pending' ? 'border-l-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : '')}>
                 <div className="p-6 p-5 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-2 bg-[#171717] rounded-xl">
@@ -131,17 +131,17 @@ export default function AgentVerificationsClient() {
 
         <div className="lg:col-span-4 space-y-6">
           <div className="glass-card bg-[#10b981] text-zinc-900 dark:text-white">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-300">Next Priority Action</h3>
             </div>
             <div className="p-6 space-y-4">
               <p className="text-xs font-label-sm uppercase tracking-wider opacity-90">Upload your Office Verification documents to schedule your mandatory physical site inspection.</p>
-              <Button className="w-full bg-zinc-900 text-zinc-900 dark:text-white font-bold hover:brightness-110">Complete Office Verification</Button>
+              <Button className="w-full bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold hover:brightness-110">Complete Office Verification</Button>
             </div>
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-3">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg font-headline-sm font-bold">Recent Activity</h3>
                 <History className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
@@ -149,7 +149,7 @@ export default function AgentVerificationsClient() {
             </div>
             <div className="p-6">
               <div className="space-y-6 relative">
-                <div className="absolute left-4 top-2 bottom-2 w-[1px]" style={{ background: 'border-zinc-200 dark:border-white/[0.08]' }} />
+                <div className="absolute left-4 top-2 bottom-2 w-[1px]" style={{ background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
                 {recentActivity.map((item, idx) => (
                   <div key={idx} className="flex gap-4 relative">
                     <div className="z-10 w-8 h-8 rounded-full bg-success text-zinc-900 dark:text-white flex items-center justify-center shrink-0">

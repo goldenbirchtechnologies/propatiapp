@@ -230,7 +230,7 @@ function SectionHeader({ title, subtitle, action }: { title: string; subtitle?: 
   return (
     <div className="flex items-center justify-between gap-3">
       <div>
-        <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">{title}</h3>
+        <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">{title}</h3>
         {subtitle && <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
       </div>
       {action}
@@ -333,7 +333,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
       />
 
       {/* Hero */}
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
         <div className="relative h-56 bg-zinc-900">
           {listing.coverImage ? (
             <img src={listing.coverImage} alt={listing.title} className="h-full w-full object-cover" />
@@ -379,7 +379,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
         {/* Left column */}
         <div className="lg:col-span-2 space-y-6">
           <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList className="bg-zinc-900/60 border border-zinc-200 dark:border-white/[0.08]">
+            <TabsList className="bg-zinc-900/60 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="units">Units ({listing.units.length})</TabsTrigger>
               <TabsTrigger value="applications">Applications ({listing.applications.length})</TabsTrigger>
@@ -390,7 +390,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
                 <SectionHeader title="Description" />
                 <p className="text-sm text-zinc-300 leading-relaxed">
                   {listing.description || 'No description provided for this property.'}
@@ -405,7 +405,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                     { label: 'Floor Level', value: listing.floorLevel ?? '—', icon: Building2 },
                     { label: 'Parking', value: String(listing.parkingSpaces), icon: Car },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
+                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
                       <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">
                         <item.icon className="size-3.5" />
                         <span className="text-xs">{item.label}</span>
@@ -440,7 +440,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             </TabsContent>
 
             <TabsContent value="units" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -462,7 +462,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       </TableRow>
                     ) : (
                       listing.units.map((unit) => (
-                        <TableRow key={unit.id} className="border-b border-white/[0.06]">
+                        <TableRow key={unit.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06]">
                           <TableCell className="py-3">
                             <div>
                               <p className="text-sm font-medium text-zinc-900 dark:text-white">{unit.unitNumber}</p>
@@ -488,7 +488,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                                 Listed
                               </span>
                             ) : (
-                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
+                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
                                 Unlisted
                               </span>
                             )}
@@ -530,7 +530,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             </TabsContent>
 
             <TabsContent value="applications" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -548,7 +548,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       </TableRow>
                     ) : (
                       listing.applications.map((app) => (
-                        <TableRow key={app.id} className="border-b border-white/[0.06]">
+                        <TableRow key={app.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06]">
                           <TableCell className="py-3">
                             <div>
                               <p className="text-sm text-zinc-900 dark:text-white">{app.applicant?.fullName || '—'}</p>
@@ -568,7 +568,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             </TabsContent>
 
             <TabsContent value="agreements" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -586,7 +586,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       </TableRow>
                     ) : (
                       listing.agreements.map((agr) => (
-                        <TableRow key={agr.id} className="border-b border-white/[0.06]">
+                        <TableRow key={agr.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06]">
                           <TableCell className="py-3">
                             <p className="text-sm text-zinc-900 dark:text-white">
                               {agr.partyA?.fullName || '—'} & {agr.partyB?.fullName || '—'}
@@ -605,7 +605,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             </TabsContent>
 
             <TabsContent value="bookings" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -625,7 +625,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       </TableRow>
                     ) : (
                       listing.bookings.map((bk) => (
-                        <TableRow key={bk.id} className="border-b border-white/[0.06]">
+                        <TableRow key={bk.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06]">
                           <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">{bk.tenant?.fullName || '—'}</TableCell>
                           <TableCell className="py-3 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(bk.checkIn)}</TableCell>
                           <TableCell className="py-3 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(bk.checkOut)}</TableCell>
@@ -642,7 +642,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             </TabsContent>
 
             <TabsContent value="maintenance" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -661,7 +661,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       </TableRow>
                     ) : (
                       listing.maintenanceTickets.map((t) => (
-                        <TableRow key={t.id} className="border-b border-white/[0.06]">
+                        <TableRow key={t.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06]">
                           <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">{t.title}</TableCell>
                           <TableCell className="py-3">
                             <Badge variant="outline" className="text-[11px] border-white/10 text-zinc-300 capitalize">
@@ -681,7 +681,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             </TabsContent>
 
             <TabsContent value="documents" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -700,7 +700,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       </TableRow>
                     ) : (
                       listing.documents.map((d) => (
-                        <TableRow key={d.id} className="border-b border-white/[0.06]">
+                        <TableRow key={d.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06]">
                           <TableCell className="py-3 text-sm text-zinc-900 dark:text-white">{d.name}</TableCell>
                           <TableCell className="py-3">
                             <Badge variant="outline" className="text-[11px] border-white/10 text-zinc-300 capitalize">
@@ -728,7 +728,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
         {/* Right sidebar */}
         <div className="space-y-6">
           {/* Pricing */}
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
             <SectionHeader title="Pricing" />
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
@@ -758,7 +758,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
           {/* Owner */}
           {listing.owner && (
-            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Owner" />
               <div className="flex items-center gap-3">
                 <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-sm font-medium">
@@ -784,7 +784,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
           {/* Agent */}
           {listing.agent && (
-            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Assigned Agent" />
               <div className="flex items-center gap-3">
                 <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-sm font-medium">
@@ -799,7 +799,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
           )}
 
           {/* Quick Actions */}
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
             <SectionHeader title="Quick Actions" />
             <div className="grid grid-cols-2 gap-2">
               <Button
@@ -819,14 +819,14 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
           {/* Recent Conversations */}
           {listing.conversations.length > 0 && (
-            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Recent Conversations" subtitle={formatRelativeDate(listing.conversations[0].lastMessageAt)} />
               <div className="space-y-3">
                 {listing.conversations.map((c) => (
                   <Link
                     key={c.id}
                     href={`/dashboard/agent/messages`}
-                    className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors"
+                    className="flex items-start gap-3 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors"
                   >
                     <div className="size-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-xs">
                       <MessageSquare className="size-3.5 text-zinc-500 dark:text-zinc-400" />
@@ -844,7 +844,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
           {/* Recent Documents */}
           {listing.documents.length > 0 && (
-            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Documents" />
               <div className="space-y-2">
                 {listing.documents.map((d) => (
@@ -853,7 +853,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                     href={d.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-zinc-950/60 px-3 py-2 hover:border-zinc-700/80 transition-colors"
+                    className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] bg-zinc-950/60 px-3 py-2 hover:border-zinc-700/80 transition-colors"
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <FileText className="size-3.5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 flex-shrink-0" />

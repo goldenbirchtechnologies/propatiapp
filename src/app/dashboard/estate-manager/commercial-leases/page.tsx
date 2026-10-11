@@ -16,9 +16,9 @@ const leases = [
 ];
 
 const statusStyles: Record<string, { class: string; label: string }> = {
-  paid: { class: 'bg-success/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]', label: 'PAID' },
-  overdue: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]', label: 'OVERDUE' },
-  partial: { class: 'bg-warning/10 text-warning border border-zinc-200 dark:border-white/[0.08]', label: 'PARTIAL' },
+  paid: { class: 'bg-success/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'PAID' },
+  overdue: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'OVERDUE' },
+  partial: { class: 'bg-warning/10 text-warning border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'PARTIAL' },
 };
 
 export default function EstateManagerCommercialLeasesPage() {
@@ -57,7 +57,7 @@ export default function EstateManagerCommercialLeasesPage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-background hover:bg-surface transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-background hover:bg-surface transition-colors text-sm font-medium">
               <Download className="w-4 h-4" /> Export Report
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-sm font-medium shadow-none">
@@ -67,7 +67,7 @@ export default function EstateManagerCommercialLeasesPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
               <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Collection Rate</span>
               <TrendingUp className="w-5 h-5 text-[#10b981]" />
@@ -77,7 +77,7 @@ export default function EstateManagerCommercialLeasesPage() {
               <p className="text-xs text-[#10b981] mt-1">+2.4% from last month</p>
             </div>
           </div>
-          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
               <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Total Arrears</span>
               <Wrench className="w-5 h-5 text-red-500" />
@@ -87,7 +87,7 @@ export default function EstateManagerCommercialLeasesPage() {
               <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>12 Pending notices</p>
             </div>
           </div>
-          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
               <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Service Charges</span>
               <Receipt className="w-5 h-5" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }} />
@@ -97,7 +97,7 @@ export default function EstateManagerCommercialLeasesPage() {
               <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>88% Recovery achieved</p>
             </div>
           </div>
-          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow bg-primary text-on-primary relative overflow-hidden">
+          <div className="glass-card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow bg-primary text-on-primary relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
@@ -111,12 +111,12 @@ export default function EstateManagerCommercialLeasesPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden bg-background">
-          <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden bg-background">
+          <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface">
             <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white">Unit Collections</h3>
             <div className="flex items-center gap-2">
               <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Filter by:</span>
-              <select className="border border-zinc-200 dark:border-white/[0.08] rounded-lg text-sm px-3 py-1.5 bg-background">
+              <select className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg text-sm px-3 py-1.5 bg-background">
                 <option>All Units</option>
                 <option>Premium Plaza A</option>
                 <option>Commercial Wing B</option>
@@ -125,7 +125,7 @@ export default function EstateManagerCommercialLeasesPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-muted border-b border-zinc-200 dark:border-white/[0.08]">
+              <thead className="bg-muted border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <tr>
                   <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Unit / Tenant</th>
                   <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Base Rent</th>
@@ -141,7 +141,7 @@ export default function EstateManagerCommercialLeasesPage() {
                   <tr key={row.unit} className="hover:bg-surface transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-accent-container flex items-center justify-center text-zinc-900 dark:text-white font-bold">{row.unit}</div>
+                        <div className="w-10 h-10 rounded-lg bg-accent-container flex items-center justify-center text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">{row.unit}</div>
                         <div>
                           <div className="font-headline-sm font-bold text-zinc-900 dark:text-white">{row.tenant}</div>
                           <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{row.location}</div>
@@ -166,13 +166,13 @@ export default function EstateManagerCommercialLeasesPage() {
               </tbody>
             </table>
           </div>
-          <div className="p-4 border-t border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
+          <div className="p-4 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
             <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Showing {leases.length} of 42 active commercial leases</div>
             <div className="flex gap-1">
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] hover:bg-background">←</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-background">←</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary">1</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] hover:bg-background">2</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] hover:bg-background">→</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-background">2</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-background">→</button>
             </div>
           </div>
         </div>

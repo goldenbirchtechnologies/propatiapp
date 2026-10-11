@@ -278,7 +278,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
         </div>
       )}
 
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-4">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-4">
         <form action={globalSearchPath} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Tabs value={statusFilter} onValueChange={setStatusFilter} className="w-full sm:w-auto">
             <TabsList>
@@ -308,7 +308,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
         </form>
       </div>
 
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow className="bg-zinc-900/40">
@@ -342,7 +342,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                   <>
                     <TableRow
                       key={listing.id}
-                      className={`border-b border-zinc-200 dark:border-white/[0.08] ${isSelected ? 'bg-white/[0.02]' : ''}`}
+                      className={`border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] ${isSelected ? 'bg-white/[0.02]' : ''}`}
                     >
                       <TableCell className="py-4">
                         <Checkbox
@@ -438,7 +438,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                             {listing.units.length === 0 ? (
                               <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No units added yet.</p>
                             ) : (
-                              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#11151c] overflow-hidden">
+                              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#11151c] overflow-hidden">
                                 <Table>
                                   <TableHeader>
                                     <TableRow className="bg-zinc-900/40">
@@ -451,7 +451,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                   </TableHeader>
                                   <TableBody>
                                     {listing.units.map((unit) => (
-                                      <TableRow key={unit.id} className="border-b border-white/[0.06]">
+                                      <TableRow key={unit.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06]">
                                         <TableCell className="py-3">
                                           <div>
                                             <p className="text-sm font-medium text-zinc-900 dark:text-white">{unit.unitNumber}</p>
@@ -477,7 +477,7 @@ export default function AgentPropertiesClient({ listings, userRole }: Props) {
                                               Listed
                                             </span>
                                           ) : (
-                                            <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]">
+                                            <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                                               Unlisted
                                             </span>
                                           )}

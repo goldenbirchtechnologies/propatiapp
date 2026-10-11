@@ -26,13 +26,13 @@ export default async function AccountantWithdrawalsPage() {
             <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Platform payout and withdrawal records.</p>
           </div>
 
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] p-4">
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4">
             <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Withdrawn</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white">₦{total.toLocaleString()}</p>
           </div>
 
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08]">
-            <div className="p-4 border-b border-zinc-200 dark:border-white/[0.08]">
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Payouts</h2>
             </div>
             <div className="divide-y divide-border">

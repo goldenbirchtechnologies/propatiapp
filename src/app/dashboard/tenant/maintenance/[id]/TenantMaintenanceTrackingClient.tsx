@@ -42,7 +42,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
       <nav className="flex items-center gap-2 text-sm">
         <span className="font-mono text-zinc-500 dark:text-zinc-400">MAINTENANCE</span>
         <svg className="w-4 h-4 text-zinc-500 dark:text-zinc-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-        <span className="font-mono text-zinc-900 dark:text-white font-semibold">#{requestId.toUpperCase()}</span>
+        <span className="font-mono text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold">#{requestId.toUpperCase()}</span>
       </nav>
 
       {/* Page Header */}
@@ -61,7 +61,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
 
       {/* Lifecycle Tracker */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-heading text-lg">Request Lifecycle</h3>
         </div>
         <div className="p-6">
@@ -181,12 +181,12 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <h5 className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase mb-2">Attached Photos</h5>
                   <div className="grid grid-cols-3 gap-3">
                     {photos.map((photo) => (
-                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] hover:border-green-500 transition-all cursor-zoom-in group">
+                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-green-500 transition-all cursor-zoom-in group">
                         { }
                         <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     ))}
-                    <div className="aspect-square rounded-xl bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-900/80 transition-all cursor-pointer">
+                    <div className="aspect-square rounded-xl bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-900/80 transition-all cursor-pointer">
                       <Camera className="w-5 h-5 text-zinc-900 dark:text-white mb-1" />
                       <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">Add more</span>
                     </div>
@@ -205,7 +205,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mx-auto mb-5">
             You can change your appointment time up to 24 hours before the scheduled slot without unknown additional fees.
           </p>
-          <Button variant="outline" className="border-2 border-zinc-200 dark:border-white/[0.08] font-bold hover:bg-emerald-500 hover:text-white transition-all">
+          <Button variant="outline" className="border-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] font-bold hover:bg-emerald-500 hover:text-white transition-all">
             Reschedule Appointment
           </Button>
         </div>

@@ -94,7 +94,7 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
                 <User className="w-10 h-10" />
               </div>
               <button
-                className="absolute bottom-0 right-0 p-2 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50"
+                className="absolute bottom-0 right-0 p-2 rounded-full border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50"
               >
                 <Camera className="w-4 h-4 text-zinc-900 dark:text-white" />
               </button>

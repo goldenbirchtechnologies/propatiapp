@@ -246,7 +246,7 @@ export default function AgentInviteManagementClient({
       </div>
 
       <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto bg-zinc-950 border-zinc-200 dark:border-white/[0.08] sm:max-w-xl">
+        <DialogContent className="max-h-[90vh] overflow-y-auto bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] sm:max-w-xl">
           <DialogHeader>
             <DialogTitle className="text-zinc-900 dark:text-white">Invite Agent</DialogTitle>
           </DialogHeader>
@@ -293,8 +293,8 @@ export default function AgentInviteManagementClient({
                     className={cn(
                       'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                       isSelected
-                        ? 'border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
-                        : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est',
+                        ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                        : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est',
                       (isManageTeam && !canGrantManageTeam) && 'opacity-50 cursor-not-allowed'
                     )}
                   >
@@ -340,8 +340,8 @@ export default function AgentInviteManagementClient({
               className={cn(
                 'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                 scopeType === 'all'
-                  ? 'border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
-                  : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
+                  ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                  : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
               )}
             >
               <input
@@ -364,8 +364,8 @@ export default function AgentInviteManagementClient({
               className={cn(
                 'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                 scopeType === 'specific'
-                  ? 'border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
-                  : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
+                  ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                  : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
               )}
             >
               <input
@@ -395,7 +395,7 @@ export default function AgentInviteManagementClient({
                       placeholder="Search properties..."
                       value={inviteSearch}
                       onChange={(e) => setInviteSearch(e.target.value)}
-                      className="h-8 w-40 bg-zinc-900 border-zinc-200 dark:border-white/[0.08] text-xs"
+                      className="h-8 w-40 bg-zinc-900 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs"
                     />
                   </div>
                 )}
@@ -420,7 +420,7 @@ export default function AgentInviteManagementClient({
                           'flex items-start gap-3 rounded-lg border p-3 transition-all cursor-pointer select-none',
                           isSelected
                             ? 'border-emerald-500/30 bg-emerald-500/5'
-                            : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/20'
+                            : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/20'
                         )}
                       >
                         <Checkbox
@@ -456,7 +456,7 @@ export default function AgentInviteManagementClient({
       </Dialog>
 
       {/* Sent Invites — focused roster */}
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950 p-6">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950 p-6">
         <div className="mb-4 flex items-center justify-between">
           <h4 className="font-heading font-semibold text-zinc-900 dark:text-white">Sent Invites</h4>
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">{groupedInvites.length} total</span>
@@ -464,9 +464,9 @@ export default function AgentInviteManagementClient({
         {loading ? (
           <p className="text-sm text-zinc-500 dark:text-zinc-400">Loading invites...</p>
         ) : groupedInvites.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50 p-8 text-center">
+          <div className="rounded-lg border border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50 p-8 text-center">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">No invites sent yet.</p>
-            <Button onClick={() => setInviteOpen(true)} variant="outline" size="sm" className="mt-3 border-zinc-200 dark:border-white/[0.08] text-zinc-300 hover:bg-zinc-900">
+            <Button onClick={() => setInviteOpen(true)} variant="outline" size="sm" className="mt-3 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-300 hover:bg-zinc-900">
               Invite your first agent
             </Button>
           </div>
@@ -544,7 +544,7 @@ export default function AgentInviteManagementClient({
       </div>
       {/* Reassign Dialog */}
       <Dialog open={reassignOpen} onOpenChange={(open) => { setReassignOpen(open); if (!open) setReassignSearch(''); }}>
-        <DialogContent className="bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white sm:max-w-lg">
+        <DialogContent className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-zinc-900 dark:text-white">Reassign Listings</DialogTitle>
           </DialogHeader>
@@ -555,7 +555,7 @@ export default function AgentInviteManagementClient({
                 placeholder="Search properties..."
                 value={reassignSearch}
                 onChange={(e) => setReassignSearch(e.target.value)}
-                className="bg-zinc-900 border-zinc-200 dark:border-white/[0.08]"
+                className="bg-zinc-900 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"
               />
             )}
             {properties.length === 0 ? (
@@ -571,7 +571,7 @@ export default function AgentInviteManagementClient({
                       key={prop.id}
                       className={cn(
                         'flex items-start gap-3 rounded-lg border p-3 cursor-pointer select-none transition-all',
-                        checked ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/20'
+                        checked ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/20'
                       )}
                     >
                       <Checkbox

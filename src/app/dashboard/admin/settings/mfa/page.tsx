@@ -21,13 +21,13 @@ export default function securitymfasettingspropatiPage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-900 p-6 shadow-none">
+        <section className="rounded-2xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900 p-6 shadow-none">
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Security Mfa Settings</h1>
           <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Security & MFA Settings | EstateVerify EstateVerify Admin Console dashboard Overview domain Properties payments Transact...</p>
         </section>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Security &amp; Privacy</h3></div>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Security &amp; Privacy</h3></div>
             <div className="p-6"><p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Content from security_mfa_settings_propati.</p></div>
           </div>
         </div>

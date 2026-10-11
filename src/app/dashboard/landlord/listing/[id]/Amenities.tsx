@@ -57,7 +57,7 @@ export default function Amenities({ amenities }: Props) {
         {amenities.map((amenity) => (
           <div
             key={amenity}
-            className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-3 text-sm text-zinc-900 dark:text-white shadow-none"
+            className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-3 text-sm text-zinc-900 dark:text-white shadow-none"
           >
             <span className="text-zinc-900 dark:text-white">{AMENITY_ICON_MAP[amenity]}</span>
             <span className="font-medium truncate">{amenity}</span>

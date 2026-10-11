@@ -47,7 +47,7 @@ export default async function LandlordAgreementPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">All Agreements</h3>
           </div>
           <div className="p-6">

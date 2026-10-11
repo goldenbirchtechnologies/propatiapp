@@ -115,7 +115,7 @@ export default function SubscriptionPage() {
 
       {/* Current Plan */}
       <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Current Plan</h3>
           <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
             You are currently on the {org.planTier.toUpperCase()} plan
@@ -182,9 +182,9 @@ export default function SubscriptionPage() {
           {plans.map((plan) => (
             <div className="glass-card"
               key={plan.name}
-              className={plan.popular ? 'border-zinc-200 dark:border-white/[0.08] border-2' : ''}
+              className={plan.popular ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-2' : ''}
             >
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 {plan.popular && (
                   <Badge className="w-fit mb-2" variant="default">
                     <Crown className="h-3 w-3 mr-1" />
@@ -232,7 +232,7 @@ export default function SubscriptionPage() {
 
       {/* Billing History */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Billing History</h3>
           <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">View your past invoices and payments</p>
         </div>

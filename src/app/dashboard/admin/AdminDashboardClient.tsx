@@ -159,7 +159,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         description={`Platform overview · ${new Date().toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}`}
         actions={
           <div className="flex gap-2">
-            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-zinc-200 dark:border-white/[0.08] text-zinc-300 rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors">
+            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-300 rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors">
               Export Report
             </a>
             <a href="/dashboard/admin/settings" className="inline-flex items-center px-4 py-2 text-sm bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
@@ -184,7 +184,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         <div className="lg:col-span-2 glass-card p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">User Growth</h3>
+              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">User Growth</h3>
               <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Platform revenue · last 12 months</p>
             </div>
             <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
@@ -192,7 +192,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
             </a>
           </div>
           {revenueByMonth.length === 0 || revenueByMonth.every((m) => !m.amount) ? (
-            <div className="h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.02]">
+            <div className="h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] bg-white/[0.02]">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">No revenue recorded yet</p>
               <p className="text-xs text-zinc-600">
                 {loadError ? 'Could not load platform stats.' : 'Completed transactions will appear here.'}
@@ -230,7 +230,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
 
         {/* Alerts */}
         <div className="glass-card p-5">
-          <h3 className="text-zinc-900 dark:text-white font-semibold text-sm mb-4">System Alerts</h3>
+          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4">System Alerts</h3>
           <div className="space-y-2.5">
             {/* Derived from real counts only. The previous list included
                 infrastructure telemetry (backups, API latency) that this app
@@ -276,7 +276,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         {/* Recent users */}
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Recent Users</h3>
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Recent Users</h3>
             <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
               All users <ArrowRight size={11} />
             </a>
@@ -295,7 +295,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         {/* Verification queue */}
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-zinc-900 dark:text-white font-semibold text-sm flex items-center gap-2">
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm flex items-center gap-2">
               <Shield size={14} className="text-emerald-400" />
               Verification Queue
               <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-400 rounded-full">
@@ -330,7 +330,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
       {/* Transactions */}
       <div className="glass-card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Recent Transactions</h3>
+          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Recent Transactions</h3>
           <a href="/dashboard/admin/transactions" className="text-xs text-emerald-400 flex items-center gap-1">
             All transactions <ArrowRight size={11} />
           </a>

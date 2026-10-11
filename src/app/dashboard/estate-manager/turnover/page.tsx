@@ -38,7 +38,7 @@ export default function EstateManagerTurnoverPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Turnover</h1>
+          <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Turnover</h1>
           <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500', marginTop: 'mt-1' }}>Vacate / handover checklist and inspection tracking</p>
         </div>
 
@@ -62,8 +62,8 @@ export default function EstateManagerTurnoverPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white font-bold" className="text-zinc-900 dark:text-white">Inspection Queue</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" className="text-zinc-900 dark:text-white">Inspection Queue</h3>
           </div>
           <div className="p-6">
             {queue.length === 0 ? (
@@ -76,7 +76,7 @@ export default function EstateManagerTurnoverPage() {
                       <p className="font-medium text-sm text-zinc-900 dark:text-white">{t.title}</p>
                       <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{t.unit} · {t.category}</p>
                     </div>
-                    <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' : t.priority === 'medium' ? 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' : 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]')}>{t.priority}</span>
+                    <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : t.priority === 'medium' ? 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]')}>{t.priority}</span>
                   </div>
                 ))}
               </div>
@@ -85,8 +85,8 @@ export default function EstateManagerTurnoverPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white font-bold" className="text-zinc-900 dark:text-white">Recent Inspections</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" className="text-zinc-900 dark:text-white">Recent Inspections</h3>
           </div>
           <div className="p-6">
             {inspections.length === 0 ? (
@@ -100,7 +100,7 @@ export default function EstateManagerTurnoverPage() {
                         <p className="font-medium text-sm text-zinc-900 dark:text-white">Unit {ins.unit}</p>
                         <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                       </div>
-                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]' : 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]')}>{ins.result}</span>
+                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]')}>{ins.result}</span>
                     </div>
                     <div className="mt-3">
                       <Progress value={ins.score} className="h-2" />

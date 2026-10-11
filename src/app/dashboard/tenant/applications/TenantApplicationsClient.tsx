@@ -38,10 +38,10 @@ interface Application {
 
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
-  under_review: { label: 'Under Review', className: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]' },
+  under_review: { label: 'Under Review', className: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
   accepted: { label: 'Accepted', className: 'bg-success/10 text-[#10b981] border-[#10b981]/20' },
   rejected: { label: 'Not Successful', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
 };
 
 export default function TenantApplicationsClient({ applications: initial }: { applications: Application[] }) {

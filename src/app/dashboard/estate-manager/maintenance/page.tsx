@@ -135,7 +135,7 @@ export default function MaintenancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Maintenance Tickets</h1>
+          <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Maintenance Tickets</h1>
           <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Track and manage maintenance requests</p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -229,7 +229,7 @@ export default function MaintenancePage() {
       <div className="grid gap-4 md:grid-cols-4">
         {columns.map(({ status, label }) => (
           <div className="glass-card" key={status} className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 animate-fadeIn">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-3">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-3">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-semibold flex items-center justify-between">
                 <AppIcon name={label} className="lucide" />
                 <Badge variant="secondary">{ticketsByStatus[status].length}</Badge>

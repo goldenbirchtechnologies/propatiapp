@@ -22,7 +22,7 @@ export default function refinedemergencyprotocolpropatimaintenancePage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-900 p-6 shadow-none">
+        <section className="rounded-2xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900 p-6 shadow-none">
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Refined Emergency Protocol Maintenance</h1>
           <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">PROPATI - New Maintenance Request PROPATI Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
         </section>

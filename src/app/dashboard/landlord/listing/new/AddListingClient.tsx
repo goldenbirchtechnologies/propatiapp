@@ -195,8 +195,11 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     return errors.length === 0;
   };
 
+  const isSaleLike = form.watch('listingType') === 'sale';
+  const needsUnit = !isSaleLike;
+
   const handleSubmitClick = () => {
-    if (!selectedUnitId) {
+    if (needsUnit && !selectedUnitId) {
       toast({
         title: 'Select a unit',
         description: 'Please select a vacant unit before publishing.',
@@ -331,6 +334,38 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       )}
 
       <div className="space-y-6 pb-20">
+        {/* Listing Type — Zillow fork (Rent / Buy / Shortlet / Commercial / Share) */}
+        <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] overflow-hidden">
+          <div className="p-6 border-b border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b]/50">
+            <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">What are you listing?</h2>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Choose one — the rest of the form adapts (Zillow Rentals merged)</p>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              {[
+                { id: 'rent', label: 'Rent', desc: 'Long-term' },
+                { id: 'sale', label: 'Buy/Sell', desc: 'Transfer ownership' },
+                { id: 'short_let', label: 'Shortlet', desc: 'Nightly' },
+                { id: 'commercial', label: 'Commercial', desc: 'Shop / Office' },
+                { id: 'share', label: 'Room Share', desc: 'Shared' },
+              ].map((t) => {
+                const active = form.watch('listingType') === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => form.setValue('listingType', t.id as any)}
+                    className={`p-3 rounded-xl border text-left transition-all ${active ? 'bg-emerald-600 border-emerald-600 text-white shadow-md' : 'bg-white dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-700 dark:text-zinc-300 hover:border-emerald-500/30'}`}
+                  >
+                    <div className="text-sm font-semibold">{t.label}</div>
+                    <div className={`text-xs ${active ? 'text-white/80' : 'text-zinc-500'}`}>{t.desc}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
         {/* Property Source — Step 1 */}
         <div className="rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden">
           <div className="p-6 border-b border-[#27272a] bg-[#18181b]/50">
@@ -340,41 +375,48 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
               </div>
               <div>
                 <h2 className="text-sm font-semibold text-white">Property Source</h2>
-                <p className="text-xs text-zinc-400">Select a vacant unit — this is required to publish</p>
+                <p className="text-xs text-zinc-400">{form.watch('listingType') === 'sale' ? 'Sale — no unit required (uses property directly)' : 'Select a vacant unit — required to publish'}</p>
               </div>
-              {!selectedUnitId && <span className="ml-auto text-xs font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1">Required</span>}
+              {needsUnit && !selectedUnitId && <span className="ml-auto text-xs font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1">Required</span>}
               {selectedUnitId && <span className="ml-auto flex items-center gap-1 text-xs font-medium text-emerald-400"><CheckCircle2 className="w-3.5 h-3.5" /> Selected</span>}
             </div>
           </div>
           <div className="p-6 space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-white mb-1.5">Vacant Unit <span className="text-red-400">*</span></label>
-              <Select value={selectedUnitId} onValueChange={(value) => {
-                setSelectedUnitId(value);
-                setClientErrors([]);
-              }}>
-                <SelectTrigger className="bg-[#09090b] border-[#27272a] text-white rounded-lg h-11">
-                  <SelectValue placeholder="Select a vacant unit from your properties" />
-                </SelectTrigger>
-                <SelectContent className="bg-[#121214] border-[#27272a]">
-                  {listings.map((listing) => {
-                    const units = vacantUnits.filter((u) => u.listingId === listing.id);
-                    if (!units.length) return null;
-                    return (
-                      <div key={listing.id}>
-                        <p className="px-2 py-1 text-xs text-zinc-500 uppercase tracking-wide">{listing.title.length > 40 ? `${listing.title.slice(0, 40)}…` : listing.title}</p>
-                        {units.map((unit) => (
-                          <SelectItem key={unit.id} value={unit.id} className="text-zinc-300 focus:bg-[#18181b] focus:text-white">
-                            Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''} — {unit.bedrooms ?? 0}bd/{unit.bathrooms ?? 0}ba
-                          </SelectItem>
-                        ))}
-                      </div>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-zinc-500 mt-1.5">Choose a unit to auto-populate listing details. Remaining fields will unlock after selection.</p>
-            </div>
+            {needsUnit ? (
+              <div>
+                <label className="block text-sm font-medium text-white mb-1.5">Vacant Unit <span className="text-red-400">*</span></label>
+                <Select value={selectedUnitId} onValueChange={(value) => {
+                  setSelectedUnitId(value);
+                  setClientErrors([]);
+                }}>
+                  <SelectTrigger className="bg-[#09090b] border-[#27272a] text-white rounded-lg h-11">
+                    <SelectValue placeholder="Select a vacant unit from your properties" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#121214] border-[#27272a]">
+                    {listings.map((listing) => {
+                      const units = vacantUnits.filter((u) => u.listingId === listing.id);
+                      if (!units.length) return null;
+                      return (
+                        <div key={listing.id}>
+                          <p className="px-2 py-1 text-xs text-zinc-500 uppercase tracking-wide">{listing.title.length > 40 ? `${listing.title.slice(0, 40)}…` : listing.title}</p>
+                          {units.map((unit) => (
+                            <SelectItem key={unit.id} value={unit.id} className="text-zinc-300 focus:bg-[#18181b] focus:text-white">
+                              Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''} — {unit.bedrooms ?? 0}bd/{unit.bathrooms ?? 0}ba
+                            </SelectItem>
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-zinc-500 mt-1.5">Choose a unit to auto-populate listing details. Remaining fields will unlock after selection.</p>
+              </div>
+            ) : (
+              <div className="rounded-lg border border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] p-4">
+                <p className="text-sm font-medium text-zinc-900 dark:text-white">Sale listing</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">No unit selection needed — this will list the property itself. Fill in sale price and ownership docs below.</p>
+              </div>
+            )}
             {autoFilledSource && (
               <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
                 <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -394,7 +436,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
         </div>
 
         {/* Media Upload Zone */}
-        <div className={`rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden transition-all ${!selectedUnitId ? 'opacity-40 pointer-events-none select-none' : ''}`}>
+        <div className={`rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden transition-all ${needsUnit && !selectedUnitId ? 'opacity-40 pointer-events-none select-none' : ''}`}>
           <div className="p-6 border-b border-[#27272a] bg-[#18181b]/50">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-[#27272a] flex items-center justify-center shrink-0">
@@ -479,9 +521,9 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             const first = Object.values(errors)[0];
             toast({ title: 'Check the form', description: (first as any)?.message || 'Please fix the highlighted fields.', variant: 'destructive' });
           })} className="space-y-6">
-            <div className={`space-y-6 transition-all ${!selectedUnitId ? 'opacity-40 pointer-events-none select-none' : ''}`}>
+            <div className={`space-y-6 transition-all ${needsUnit && !selectedUnitId ? 'opacity-40 pointer-events-none select-none' : ''}`}>
               {/* Gate overlay hint */}
-              {!selectedUnitId && (
+              {needsUnit && !selectedUnitId && (
                 <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 flex items-center gap-2 text-sm text-amber-300">
                   <Building2 className="w-4 h-4 shrink-0" /> Select a vacant unit above to unlock the remaining fields
                 </div>
@@ -672,13 +714,13 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       <div className="fixed bottom-0 left-0 right-0 lg:left-[260px] border-t border-[#27272a] bg-[#121214]/95 backdrop-blur supports-[backdrop-filter]:bg-[#121214]/80 p-4 z-20">
         <div className="max-w-7xl mx-auto flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-xs text-zinc-500 hidden sm:block">
-            {!selectedUnitId ? 'Select a vacant unit to publish' : `${listingImages.length} photo${listingImages.length === 1 ? '' : 's'} • Ready to publish`}
+            {needsUnit && !selectedUnitId ? 'Select a vacant unit to publish' : `${listingImages.length} photo${listingImages.length === 1 ? '' : 's'} • Ready to publish`}
           </p>
           <div className="flex items-center gap-2 justify-end">
             <Button type="button" variant="outline" onClick={() => router.back()} className="border-[#27272a] bg-[#18181b] text-zinc-300 hover:text-white rounded-lg">
               <ArrowLeft className="mr-2 h-4 w-4" /> Cancel
             </Button>
-            <Button type="button" onClick={handleSubmitClick} disabled={submitting || !selectedUnitId || safeVacantUnits.length === 0} className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 rounded-lg disabled:opacity-40">
+            <Button type="button" onClick={handleSubmitClick} disabled={submitting || (needsUnit && (!selectedUnitId || safeVacantUnits.length === 0))} className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 rounded-lg disabled:opacity-40">
               {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} <Store className="mr-2 h-4 w-4" /> Publish to Marketplace
             </Button>
           </div>

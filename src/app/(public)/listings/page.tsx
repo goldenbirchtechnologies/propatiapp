@@ -8,6 +8,7 @@ import { SlidersHorizontal, Grid3X3, List, X, ChevronDown, Search } from 'lucide
 import { PropertyCard } from '@/components/listings/PropertyCard';
 import { Button } from '@/components/ui/button';
 import { SectionLabel, InteractiveHoverButton } from '@/components/ui';
+import { AdvancedSearchMapView } from '@/components/search/AdvancedSearchMapView';
 
 const categories = ['All', 'Rent', 'Shortlet', 'Commercial', 'Share'];
 const bedroomOptions = ['Any', '1', '2', '3', '4', '5+'];
@@ -27,6 +28,7 @@ export default function ListingsPage() {
   const [maxPrice, setMaxPrice] = useState('');
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -244,8 +246,9 @@ export default function ListingsPage() {
             </div>
           </aside>
 
-          {/* Main content */}
-          <div className="flex-1 min-w-0">
+          {/* Main content — Zillow split: Left scroll list (white F8FAFC + shadow-sm), Right sticky Mapbox (emerald pins) */}
+          <div className="flex-1 min-w-0 lg:flex gap-6">
+            <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-3">
               <p className="text-sm text-zinc-500">
                 Showing <span className="text-white font-medium">{filtered.length}</span> properties
@@ -287,8 +290,14 @@ export default function ListingsPage() {
               <div className={viewMode === 'grid' ? 'grid sm:grid-cols-2 xl:grid-cols-3 gap-4' : 'space-y-3'}>
                 {filtered.map((listing) => {
                   const isCompared = compareIds.includes(listing.id);
+                  const isHovered = hoveredId === listing.id;
                   return (
-                    <div key={listing.id} className="relative">
+                    <div
+                      key={listing.id}
+                      className={`relative transition-all duration-200 ${isHovered ? 'scale-[1.02] z-10' : ''}`}
+                      onMouseEnter={() => setHoveredId(listing.id)}
+                      onMouseLeave={() => setHoveredId(null)}
+                    >
                       <Link href={`/listings/${listing.id}`}>
                         <PropertyCard
                           id={listing.id}
@@ -348,9 +357,35 @@ export default function ListingsPage() {
 
             {/* Load more */}
             <div className="text-center mt-10">
-              <Button variant="outline" size="lg" className="border-white/15 text-white hover:bg-white/10">
+              <Button variant="outline" size="lg" className="border-zinc-200 dark:border-white/15 bg-white dark:bg-transparent text-zinc-700 dark:text-white hover:bg-zinc-50 dark:hover:bg-white/10">
                 Load more listings
               </Button>
+            </div>
+          </div>
+          {/* Right: sticky Mapbox — emerald pins + price label, hover sync */}
+          <div className="hidden lg:block w-[480px] xl:w-[560px] shrink-0">
+            <div className="sticky top-[112px] h-[calc(100vh-112px)] rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 shadow-sm">
+              <AdvancedSearchMapView
+                properties={filtered.map((l) => ({
+                  id: l.id,
+                  title: l.title,
+                  address: l.address,
+                  area: l.address,
+                  price: l.price,
+                  priceFormatted: `₦${Number(l.price).toLocaleString()}`,
+                  listingType: l.listingType,
+                  propertyType: l.category === 'commercial' ? 'office' : 'apartment',
+                  bedrooms: l.beds,
+                  bathrooms: l.baths,
+                  coverImage: l.image,
+                  images: l.image ? [{ url: l.image }] : [],
+                  // mock position will be jittered around Lagos in the map component
+                })) as any}
+                onPropertyHover={(p) => setHoveredId((p as any)?.id || null)}
+                onPropertyClick={(p) => router.push(`/listings/${(p as any).id}`)}
+                initialCenter={{ lat: 6.5244, lng: 3.3792 }}
+                initialZoom={11}
+              />
             </div>
           </div>
         </div>

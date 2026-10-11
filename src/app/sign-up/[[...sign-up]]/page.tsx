@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Building2, Search, Building, Handshake, CheckCircle2 } from 'lucide-react';
 import { SectionLabel } from '@/components/ui/section-label';
+import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
 
@@ -45,15 +46,7 @@ export default function SignUpPage() {
       <div className="min-h-screen bg-black flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-sm">
           <div className="flex justify-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#10b981] flex items-center justify-center">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-              </div>
-              <span className="text-white font-bold text-lg">PropatiBox</span>
-            </Link>
+            <PropatiBoxLogo size="sm" />
           </div>
 
           <div className="glass-card p-8">

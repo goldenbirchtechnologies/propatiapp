@@ -2,342 +2,343 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, MapPin, Star, ChevronDown, Grid, List } from 'lucide-react';
+import { Search, Star, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface AgentResult {
   id: string;
   name: string;
-  title: string;
+  team: string;
   company: string;
   photo: string;
   rating: number;
   reviewCount: number;
-  salesCount: number;
-  salesVolume: string;
-  priceRange: string;
-  location: string;
-  specialities: string[];
-  isTopAgent: boolean;
+  teamPriceRange: string;
+  salesLast12: number;
+  teamSales: number;
+  isTopAgent?: boolean;
+  isZillowPremier?: boolean;
 }
 
-// Mock agent data — in production this queries Supabase or Zillow-style live API
+// Exact data from Zillow screenshot
 const mockAgents: AgentResult[] = [
   {
     id: '1',
-    name: 'Matt Larity',
-    title: 'Real Estate Agent',
+    name: 'Matt Laricy',
+    team: 'TEAM',
     company: 'Americorp Real Estate',
-    photo: 'https://images.unsplash.com/photo-1507003211169-c0a010004511?w=150&h=150&fit=crop&crop=face',
+    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face',
     rating: 5.0,
     reviewCount: 2022,
-    salesCount: 5920,
-    salesVolume: 'Chicago',
-    priceRange: '$43K - $4.3M',
-    location: 'Chicago, IL',
-    specialities: ['First-Time Home Buyer', 'Relocation', 'Waterfront'],
+    teamPriceRange: '$43K - $4.3M',
+    salesLast12: 572,
+    teamSales: 5920,
     isTopAgent: true,
   },
   {
     id: '2',
-    name: 'Sam B Shaffer',
-    title: 'Real Estate Agent',
-    company: 'Chicago Properties',
-    photo: 'https://images.unsplash.com/photo-1507003211169-c0a010004511?w=150&h=150&fit=crop&crop=face',
+    name: 'Patrick Shino',
+    team: 'TEAM',
+    company: 'FULTON GRACE REALTY',
+    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face',
     rating: 5.0,
-    reviewCount: 895,
-    salesCount: 3200,
-    salesVolume: 'Chicago',
-    priceRange: '$130K - $5.7M',
-    location: 'Chicago, IL',
-    specialities: ['First-Time Home Buyer', 'New Construction'],
+    reviewCount: 1323,
+    teamPriceRange: '$115K - $2.7M',
+    salesLast12: 142,
+    teamSales: 659,
     isTopAgent: true,
   },
   {
     id: '3',
-    name: 'Vesta Preferred Realty',
-    title: 'Broker',
-    company: 'Vesta Preferred LLC',
-    photo: 'https://images.unsplash.com/photo-1507003211169-c0a010004511?w=150&h=150&fit=crop&crop=face',
+    name: 'Sam B Shaffer',
+    team: 'TEAM',
+    company: 'Chicago Properties',
+    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
     rating: 5.0,
-    reviewCount: 908,
-    salesCount: 4500,
-    salesVolume: 'Chicago',
-    priceRange: '$50K - $3.2M',
-    location: 'Chicago, IL',
-    specialities: ['First-Time Home Buyer', 'Relocation', 'Luxury'],
+    reviewCount: 895,
+    teamPriceRange: '$130K - $5.7M',
+    salesLast12: 142,
+    teamSales: 2040,
     isTopAgent: true,
   },
   {
     id: '4',
-    name: 'Jennifer Martinez',
-    title: 'Real Estate Agent',
-    company: 'Dream Home Realty',
-    photo: 'https://images.unsplash.com/photo-1494790108377-be9c2a77d604?w=150&h=150&fit=crop&crop=face',
-    rating: 4.9,
-    reviewCount: 1432,
-    salesCount: 4800,
-    salesVolume: 'Chicago',
-    priceRange: '$75K - $2.8M',
-    location: 'Chicago, IL',
-    specialities: ['First-Time Home Buyer', 'Investors'],
-    isTopAgent: false,
+    name: 'Vesta Preferred Realty',
+    team: 'TEAM',
+    company: 'Vesta Preferred LLC',
+    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=face',
+    rating: 5.0,
+    reviewCount: 908,
+    teamPriceRange: '$68K - $3.1M',
+    salesLast12: 747,
+    teamSales: 3362,
+    isTopAgent: true,
   },
   {
     id: '5',
-    name: 'David Kim',
-    title: 'Real Estate Agent',
-    company: 'Urban Edge Realty',
-    photo: 'https://images.unsplash.com/photo-1507003211169-c0a010004511?w=150&h=150&fit=crop&crop=face',
-    rating: 4.8,
-    reviewCount: 765,
-    salesCount: 3100,
-    salesVolume: 'Chicago',
-    priceRange: '$95K - $4.1M',
-    location: 'Chicago, IL',
-    specialities: ['Relocation', 'Waterfront', 'First-Time Home Buyer'],
-    isTopAgent: false,
-  },
-  {
-    id: '6',
-    name: 'Sarah Thompson',
-    title: 'Broker Associate',
-    company: 'Windy City Real Estate',
-    photo: 'https://images.unsplash.com/photo-1507003211169-c0a010004511?w=150&h=150&fit=crop&crop=face',
-    rating: 4.9,
-    reviewCount: 920,
-    salesCount: 3850,
-    salesVolume: 'Chicago',
-    priceRange: '$60K - $3.9M',
-    location: 'Chicago, IL',
-    specialities: ['Luxury', 'Investors'],
-    isTopAgent: false,
+    name: 'Bari Levine Bruszer',
+    team: '',
+    company: "Refine Residential x @properties Christie's...",
+    photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face',
+    rating: 5.0,
+    reviewCount: 576,
+    teamPriceRange: '$114K - $4.3M',
+    salesLast12: 114,
+    teamSales: 2059,
+    isTopAgent: true,
   },
 ];
 
-export default function FindMyAgentPage() {
+export default function FindAgentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [location, setLocation] = useState('Chicago, IL');
-  const [agentName, setAgentName] = useState('');
-  const [activeFilter, setActiveFilter] = useState<'buying' | 'selling'>('buying');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [location, setLocation] = useState('');
+  const [activeTab, setActiveTab] = useState<'location' | 'name'>('location');
   const [results, setResults] = useState<AgentResult[]>(mockAgents);
-  const [showFilters, setShowFilters] = useState(false);
 
-  // Live query: sync URL params to form state
   useEffect(() => {
-    const loc = searchParams.get('location');
-    const name = searchParams.get('q') || searchParams.get('agent');
-    const filter = searchParams.get('filter');
-
+    const loc = searchParams.get('location') || searchParams.get('q');
     if (loc) setLocation(loc);
-    if (name) setAgentName(name);
-    if (filter === 'selling') setActiveFilter('selling');
-    else if (filter === 'buying') setActiveFilter('buying');
   }, [searchParams]);
 
-  // Live query: filter agents based on search (simulated — real impl calls API)
   const handleSearch = () => {
-    const query = agentName.toLowerCase().trim();
-    const filtered = query
-      ? mockAgents.filter(a =>
-          a.name.toLowerCase().includes(query) ||
-          a.company.toLowerCase().includes(query)
-      )
+    const q = location.toLowerCase().trim();
+    const filtered = q
+      ? mockAgents.filter(a => a.name.toLowerCase().includes(q) || a.company.toLowerCase().includes(q))
       : mockAgents;
     setResults(filtered);
-    // Live query: update URL
-    const params = new URLSearchParams();
-    if (location) params.set('location', location);
-    if (query) params.set('q', query);
-    params.set('filter', activeFilter);
-    router.push(`?${params.toString()}`, { scroll: false });
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handleSearch();
-  };
-
-  const handleLocationChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handleSearch();
+    if (location) router.push(`?location=${encodeURIComponent(location)}`, { scroll: false });
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-black pb-12">
-      {/* Header Section */}
-      <div className="bg-white dark:bg-[#09090b] border-b border-zinc-200 dark:border-white/[0.07]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
-            Find a Real Estate Agent
+    <div className="min-h-screen bg-white dark:bg-black">
+      {/* Hero - exact Zillow clone */}
+      <div className="relative h-[420px] overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1600&h=600&fit=crop&crop=face"
+          alt="Agent"
+          fill
+          className="object-cover object-top"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-black text-white leading-tight max-w-xl drop-shadow-lg">
+            A great agent makes<br />all the difference
           </h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-xl">
-            Search verified real estate agents by location, name, or specialty.
-            Get matched with top-rated professionals for buying, selling, or renting.
+          <div className="mt-6 bg-white rounded-lg shadow-xl max-w-xl overflow-hidden">
+            <div className="px-4 pt-3 pb-1">
+              <p className="text-sm font-bold text-zinc-900">Find a real estate agent</p>
+              <div className="flex gap-1 mt-2">
+                <button
+                  onClick={() => setActiveTab('location')}
+                  className={`px-3 py-1.5 text-xs font-bold border ${activeTab === 'location' ? 'bg-white border-blue-600 text-blue-600' : 'bg-zinc-100 border-zinc-300 text-zinc-600'}`}
+                >
+                  Location
+                </button>
+                <button
+                  onClick={() => setActiveTab('name')}
+                  className={`px-3 py-1.5 text-xs font-bold border ${activeTab === 'name' ? 'bg-white border-blue-600 text-blue-600' : 'bg-zinc-100 border-zinc-300 text-zinc-600'}`}
+                >
+                  Name
+                </button>
+              </div>
+            </div>
+            <div className="px-4 pb-4 pt-2">
+              <div className="flex items-center border border-zinc-300 rounded-md overflow-hidden">
+                <div className="pl-3 pr-2 text-zinc-500">
+                  <MapPin className="h-4 w-4" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="City, neighborhood, or ZIP code"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  className="flex-1 h-10 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none"
+                />
+                <button onClick={handleSearch} className="pr-3">
+                  <Search className="h-4 w-4 text-zinc-700" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Agents in Chicago */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center mb-6">
+          <h2 className="text-xl font-bold text-zinc-900">Real Estate Agents in Chicago, IL</h2>
+          <p className="text-xs text-zinc-600 mt-1 max-w-2xl mx-auto">
+            With over a million agents from all the top brokerages, a local agent knows your market and can guide you through the process from start to finish
           </p>
         </div>
-      </div>
 
-      {/* Search Bar */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-6 mb-6">
-        <div className="bg-white dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 rounded-lg shadow-md p-4">
-          <div className="flex gap-3">
-            {/* Location input */}
-            <div className="relative flex-1">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-              <input
-                type="text"
-                placeholder="City, neighborhood, or ZIP code"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                onKeyDown={handleLocationChange}
-                className="w-full pl-9 h-10 text-sm bg-[#F8FAFC] dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md text-zinc-900 dark:text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
-              />
-            </div>
-
-            {/* Agent name input */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-              <input
-                type="text"
-                placeholder="Agent name"
-                value={agentName}
-                onChange={(e) => setAgentName(e.target.value)}
-                onKeyDown={handleKeyPress}
-                className="w-full pl-9 h-10 text-sm bg-[#F8FAFC] dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md text-zinc-900 dark:text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
-              />
-            </div>
-
-            {/* Find My Agent Button — cloned from Zillow screenshot */}
-            <button
-              onClick={handleSearch}
-              className="flex items-center justify-center gap-2 bg-emerald-600 text-white px-6 py-2.5 rounded-xl hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
-            >
-              <Search className="h-4 w-4" />
-              <span className="font-semibold">Find My Agent</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-6">
-        <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800">
-          <button
-            onClick={() => setActiveFilter('buying')}
-            className={`pb-3 px-1 text-sm font-medium transition-colors ${
-              activeFilter === 'buying'
-                ? 'text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400'
-                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
-            }`}
-          >
-            Buying
-          </button>
-          <button
-            onClick={() => setActiveFilter('selling')}
-            className={`pb-3 px-1 text-sm font-medium transition-colors ${
-              activeFilter === 'selling'
-                ? 'text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400'
-                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
-            }`}
-          >
-            Selling
-          </button>
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="pb-3 px-1 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white flex items-center gap-1"
-          >
-            Filters
-            <ChevronDown className={`h-4 w-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-          </button>
-        </div>
-
-        {showFilters && (
-          <div className="py-4 flex flex-wrap gap-4">
-            <select className="text-sm border border-zinc-200 dark:border-zinc-800 rounded-md px-3 py-1.5 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-              <option>Specialty</option>
-              <option>First-Time Home Buyer</option>
-              <option>Luxury</option>
-              <option>Investors</option>
-            </select>
-            <select className="text-sm border border-zinc-200 dark:border-zinc-800 rounded-md px-3 py-1.5 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-              <option>Language</option>
-              <option>English</option>
-              <option>Spanish</option>
-            </select>
-          </div>
-        )}
-      </div>
-
-      {/* Results Header */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-4 flex items-center justify-between">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          {results.length} agents found
-        </p>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-400'}`}
-          >
-            <Grid className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-400'}`}
-          >
-            <List className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Results Grid */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {results.map((agent) => (
-            <AgentCard key={agent.id} agent={agent} viewMode={viewMode} />
+            <AgentCard key={agent.id} agent={agent} />
           ))}
+          {/* Get help card - light blue, spans one grid cell */}
+          <div className="bg-[#E8F4FD] border border-[#CDE8FB] rounded-md p-6 flex flex-col justify-center">
+            <div className="flex gap-3">
+              <div className="text-blue-600 mt-1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="8" r="5" />
+                  <path d="M12 13c-4 0-7 2-7 5v2h14v-2c0-3-3-5-7-5z" />
+                  <path d="M16 8l2 2 4-4" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-zinc-900">Get help finding an agent</h3>
+                <p className="text-xs text-zinc-600 mt-1 leading-relaxed">
+                  We will pair you with a Zillow Premier Agent who has the inside scoop on your market.
+                </p>
+                <Link href="#" className="text-xs font-bold text-blue-600 hover:underline mt-2 inline-block">
+                  Connect with a local agent
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-6">
+          <button className="px-4 py-1.5 text-xs font-bold text-blue-600 border border-blue-600 rounded-sm hover:bg-blue-50">
+            View more
+          </button>
+        </div>
+      </div>
+
+      {/* Second help banner */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h2 className="text-2xl font-black text-zinc-900">Get help finding an agent</h2>
+            <p className="text-xs text-zinc-600 mt-1">We will pair you with a Zillow Premier Agent who has the inside scoop on your market.</p>
+            <Link href="#" className="inline-block mt-3 px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-sm hover:bg-blue-700">
+              Connect with a local agent
+            </Link>
+          </div>
+          <div className="w-full md:w-[520px] h-[180px] relative flex-shrink-0">
+            <Image
+              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=400&fit=crop"
+              alt="For Sale"
+              fill
+              className="object-cover rounded-md"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ - dark */}
+      <div className="bg-[#1A2B49] text-white py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-xl font-bold text-center mb-6">Frequently asked questions</h2>
+          <div className="space-y-0 divide-y divide-white/20">
+            {[
+              'How to find a good real estate agent near me?',
+              'How to pick a real estate agent?',
+              'How to contact a real estate agent?',
+              'How do I leave a review for a real estate agent?',
+              'What is the difference between an agent and a broker?',
+            ].map((q) => (
+              <details key={q} className="group py-3">
+                <summary className="flex items-center justify-between cursor-pointer list-none text-sm font-medium">
+                  {q}
+                  <svg className="w-4 h-4 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </summary>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Are you a real estate agent? */}
+      <div className="bg-white border-t border-zinc-200 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h3 className="text-sm font-bold text-zinc-900">Are you a real estate agent?</h3>
+          <p className="text-xs text-zinc-600 mt-1 leading-relaxed">
+            Check out the extensive resources you can find in our <Link href="#" className="text-blue-600 underline">Premier Agent® Resource Center</Link>, covering
+            everything from <Link href="#" className="text-blue-600 underline">business plan templates</Link> to complete guides on{' '}
+            <Link href="#" className="text-blue-600 underline">real estate marketing</Link>. Not a Premier Agent yet? Find out how{' '}
+            <Link href="#" className="text-blue-600 underline">real estate advertising</Link> on Zillow and Trulia can help you get more leads.
+          </p>
+          <div className="grid grid-cols-3 gap-6 mt-6 bg-zinc-100 p-4 text-xs">
+            <div>
+              <p className="font-bold text-zinc-900">Real Estate Agents</p>
+              <ul className="mt-2 space-y-1 text-zinc-600">
+                <li>Chicago Real Estate Agents</li>
+                <li>Cicero Real Estate Agents</li>
+                <li>Stickney Real Estate Agents</li>
+                <li>Berwyn Real Estate Agents</li>
+                <li>Forestview Real Estate Agents</li>
+                <li><Link href="#" className="text-blue-600 font-bold">+ Show more</Link></li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-bold text-zinc-900">Mortgage Lenders</p>
+              <ul className="mt-2 space-y-1 text-zinc-600">
+                <li>Chicago Mortgage Lenders</li>
+                <li>Cicero Mortgage Lenders</li>
+                <li>Stickney Mortgage Lenders</li>
+                <li>Berwyn Mortgage Lenders</li>
+                <li>Forestview Mortgage Lenders</li>
+                <li><Link href="#" className="text-blue-600 font-bold">+ Show more</Link></li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-bold text-zinc-900">Home Builders</p>
+              <ul className="mt-2 space-y-1 text-zinc-600">
+                <li>Chicago Home Builders</li>
+                <li>Cicero Home Builders</li>
+                <li>Stickney Home Builders</li>
+                <li>Berwyn Home Builders</li>
+                <li>Forestview Home Builders</li>
+                <li><Link href="#" className="text-blue-600 font-bold">+ Show more</Link></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function AgentCard({ agent, viewMode }: { agent: AgentResult; viewMode: 'grid' | 'list' }) {
+function AgentCard({ agent }: { agent: AgentResult }) {
   return (
-    <div
-      className={`bg-white dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 rounded-lg p-6 cursor-pointer transition-shadow hover:shadow-md ${
-        viewMode === 'list' ? 'flex items-center gap-6' : 'flex flex-col items-center text-center'
-      }`}
-    >
-      <div className={`relative ${viewMode === 'list' ? 'w-20 h-20' : 'w-24 h-24'} rounded-full overflow-hidden mb-4 ${viewMode === 'list' ? 'mb-0' : ''}`}>
-        <Image
-          src={agent.photo}
-          alt={agent.name}
-          fill
-          className="object-cover"
-        />
+    <div className="bg-white border border-zinc-200 rounded-md p-4 flex gap-4">
+      <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
+        <Image src={agent.photo} alt={agent.name} fill className="object-cover" />
+        <div className="absolute -top-1 -left-1 w-6 h-6 bg-[#1A2B49] rounded-full flex items-center justify-center">
+          <span className="text-[8px] font-bold text-white">LP</span>
+        </div>
         {agent.isTopAgent && (
-          <div className="absolute -top-1 -right-1 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-            TOP
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-zinc-200 rounded-full px-1.5 py-0.5 flex items-center gap-1 shadow-sm">
+            <Star className="h-3 w-3 fill-blue-600 text-blue-600" />
+            <span className="text-[8px] font-bold text-zinc-900">Top Agent</span>
           </div>
         )}
       </div>
-
-      <div className="flex-1">
-        <div className={viewMode === 'list' ? 'text-left' : 'text-center'}>
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{agent.name}</h3>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">{agent.title} · {agent.company}</p>
-
-          <div className="flex items-center justify-center md:justify-start gap-1 mb-3">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium text-zinc-900 dark:text-white">{agent.rating}</span>
-            <span className="text-sm text-zinc-600 dark:text-zinc-400">({agent.reviewCount} reviews)</span>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between">
+          <div>
+            {agent.team && <p className="text-[10px] font-bold text-zinc-500 tracking-widest">{agent.team}</p>}
+            <h3 className="text-sm font-bold text-zinc-900 leading-tight">{agent.name}</h3>
+            <p className="text-xs text-zinc-600">{agent.company}</p>
           </div>
-
-          <div className="text-xs text-zinc-600 dark:text-zinc-400 space-y-1">
-            <div>{agent.priceRange}</div>
-            <div>{agent.salesCount.toLocaleString()} transactions</div>
+          <div className="text-right flex items-center gap-1">
+            <span className="text-xs font-bold text-zinc-900">{agent.rating.toFixed(1)}</span>
+            <Star className="h-3 w-3 fill-blue-600 text-blue-600" />
+            <span className="text-xs text-zinc-500">({agent.reviewCount.toLocaleString()})</span>
           </div>
+        </div>
+        <div className="mt-2 space-y-0.5">
+          <p className="text-xs font-bold text-zinc-900">{agent.teamPriceRange} team price range</p>
+          <p className="text-xs text-zinc-600">{agent.salesLast12} sales last 12 months</p>
+          <p className="text-xs font-bold text-zinc-900">{agent.teamSales.toLocaleString()} team sales in Chicago</p>
         </div>
       </div>
     </div>

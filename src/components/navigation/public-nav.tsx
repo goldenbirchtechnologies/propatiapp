@@ -12,8 +12,10 @@ import { Sun, Moon } from 'lucide-react';
 const LISTINGS_PATH = '/listings';
 
 const publicNavLinks = [
-  { href: '/listings', label: 'Find Property' },
-  { href: '/compare', label: 'Compare' },
+  { href: '/listings?category=Buy', label: 'Buy' },
+  { href: '/listings?category=Rent', label: 'Rent' },
+  { href: '/listings?category=Sell', label: 'Sell' },
+  { href: '/find-agent', label: 'Find an agent' },
 ];
 
 export default function PublicNav() {
@@ -91,15 +93,19 @@ export default function PublicNav() {
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 py-1.5 text-sm text-zinc-300 hover:text-white transition-colors rounded-lg hover:bg-white/5"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const base = link.href.split('?')[0];
+              const active = pathname === link.href || pathname === base;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${active ? 'text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-500/10' : 'text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/5'}`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-2">

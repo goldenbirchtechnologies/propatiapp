@@ -19,8 +19,8 @@ function StatCardSkeleton() {
   return (
     <div className="glass-card p-5" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
       <div className="space-y-3">
-        <div className="rounded" style={{ height: 12, width: '55%', background: 'border-zinc-200 dark:border-white/[0.08]' }} />
-        <div className="rounded" style={{ height: 30, width: '45%', background: 'border-zinc-200 dark:border-white/[0.08]' }} />
+        <div className="rounded" style={{ height: 12, width: '55%', background: 'var(--border)' }} />
+        <div className="rounded" style={{ height: 30, width: '45%', background: 'var(--border)' }} />
       </div>
     </div>
   );
@@ -29,8 +29,8 @@ function StatCardSkeleton() {
 function RowSkeleton() {
   return (
     <tr className="border-b border-zinc-200 dark:border-white/[0.08]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-5"><div className="rounded" style={{ height: 15, width: '50%', background: 'border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-5"><div className="rounded" style={{ height: 15, width: '30%', background: 'border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-5"><div className="rounded" style={{ height: 15, width: '50%', background: 'var(--border)' }} /></td>
+      <td className="p-5"><div className="rounded" style={{ height: 15, width: '30%', background: 'var(--border)' }} /></td>
     </tr>
   );
 }
@@ -100,8 +100,8 @@ export default function EstateManagerFinancialsPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
                 <div>
-                  <h1 className="font-headline-sm font-bold text-zinc-900 dark:text-white" style={{ fontSize: 'var(--font-size-headline-sm)', color: 'var(--color-primary)', marginBottom: 'var(--space-vs)' }}>Financials</h1>
-                  <p className="text-base text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" style={{ marginTop: 'var(--space-vs)' }}>Profit and loss summary</p>
+                  <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Financials</h1>
+                  <p className="text-base text-zinc-600 dark:text-zinc-400 mt-1">Profit and loss summary</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <select className="inp-field" value={period} onChange={(e) => setPeriod(e.target.value)} style={{ maxWidth: '180px' }}>
@@ -121,30 +121,41 @@ export default function EstateManagerFinancialsPage() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="glass-card p-6 space-y-4">
-                      <div className="rounded" style={{ height: 18, width: 120, background: 'border-zinc-200 dark:border-white/[0.08]' }} />
+                      <div className="rounded" style={{ height: 18, width: 120, background: 'var(--border)' }} />
                       {[1, 2, 3].map((i) => <RowSkeleton key={i} />)}
                     </div>
                     <div className="glass-card p-6 space-y-4">
-                      <div className="rounded" style={{ height: 18, width: 120, background: 'border-zinc-200 dark:border-white/[0.08]' }} />
+                      <div className="rounded" style={{ height: 18, width: 120, background: 'var(--border)' }} />
                       {[1, 2, 3, 4, 5].map((i) => <RowSkeleton key={i} />)}
                     </div>
                   </div>
                   <div className="glass-card p-8">
-                    <div className="rounded mb-6" style={{ height: 18, width: 140, background: 'border-zinc-200 dark:border-white/[0.08]' }} />
-                    <div className="rounded-lg" style={{ height: 300, background: 'border-zinc-200 dark:border-white/[0.08]', opacity: 0.4 }} />
+                    <div className="rounded mb-6" style={{ height: 18, width: 140, background: 'var(--border)' }} />
+                    <div className="rounded-lg" style={{ height: 300, background: 'var(--border)', opacity: 0.4 }} />
                   </div>
                 </>
               ) : noOrg ? (
                 <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-8 text-center">
-                  <Wallet className="w-10 h-10 mx-auto mb-3 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
+                  <Wallet className="w-10 h-10 mx-auto mb-3 text-zinc-600 dark:text-zinc-400" />
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">No organisation linked</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">Create or join an organisation to see financial summaries.</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Create or join an organisation to see financial summaries.</p>
+                  <div className="flex gap-2 justify-center mt-4">
+                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={() => router.push('/dashboard/estate-manager/profile')}>
+                      Create Organization
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => router.push('/dashboard/estate-manager/invite-property-manager')}>
+                      Link Organization
+                    </Button>
+                  </div>
                 </div>
               ) : pl?.hasData === false ? (
                 <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-8 text-center">
-                  <Wallet className="w-10 h-10 mx-auto mb-3 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
+                  <Wallet className="w-10 h-10 mx-auto mb-3 text-zinc-600 dark:text-zinc-400" />
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">No financial data yet</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">Add units, generate service charges, and record allocations to see your P&L.</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Add units, generate service charges, and record allocations to see your P&amp;L.</p>
+                  <Button size="sm" className="mt-4 bg-blue-600 hover:bg-blue-700" asChild>
+                    <Link href="/dashboard/estate-manager/units">Add Units</Link>
+                  </Button>
                 </div>
               ) : pl ? (
                 <>
@@ -224,9 +235,9 @@ export default function EstateManagerFinancialsPage() {
                       <table className="w-full">
                         <thead>
                           <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                            <th className="text-left p-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400 dark:text-zinc-400' }}>Category</th>
-                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400 dark:text-zinc-400' }}>Amount</th>
-                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider hidden sm:table-cell" style={{ color: 'text-zinc-600 dark:text-zinc-400 dark:text-zinc-400' }}>Share</th>
+                            <th className="text-left p-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'var(--muted-foreground)' }}>Category</th>
+                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'var(--muted-foreground)' }}>Amount</th>
+                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider hidden sm:table-cell" style={{ color: 'var(--muted-foreground)' }}>Share</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -237,14 +248,14 @@ export default function EstateManagerFinancialsPage() {
                               <tr key={i} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-white/[0.08]">
                                 <td className="p-4 text-sm text-zinc-900 dark:text-white">{row.label}</td>
                                 <td className="p-4 text-sm font-medium text-right text-red-500">{formatNairaFull(row.amount)}</td>
-                                <td className="p-4 text-sm text-right hidden sm:table-cell" style={{ color: 'text-zinc-600 dark:text-zinc-400 dark:text-zinc-400' }}>{share}%</td>
+                                <td className="p-4 text-sm text-right hidden sm:table-cell" style={{ color: 'var(--muted-foreground)' }}>{share}%</td>
                               </tr>
                             );
                           })}
                           <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                             <td className="p-4 text-sm font-bold text-zinc-900 dark:text-white">Total Expenses</td>
                             <td className="p-4 text-sm font-bold text-right text-red-500">{formatNairaFull(pl.totalExpenses)}</td>
-                            <td className="p-4 text-sm font-bold text-right hidden sm:table-cell" style={{ color: 'text-zinc-600 dark:text-zinc-400 dark:text-zinc-400' }}>100%</td>
+                            <td className="p-4 text-sm font-bold text-right hidden sm:table-cell" style={{ color: 'var(--muted-foreground)' }}>100%</td>
                           </tr>
                         </tbody>
                       </table>

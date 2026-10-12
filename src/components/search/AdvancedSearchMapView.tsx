@@ -63,6 +63,7 @@ interface AdvancedSearchMapViewProps {
   initialCenter?: MapCenter;
   initialZoom?: number;
   className?: string;
+  showFilterButton?: boolean;
 }
 
 // Utility Functions
@@ -573,6 +574,7 @@ export function AdvancedSearchMapView({
   initialCenter = { lat: 6.5244, lng: 3.3792 }, // Lagos, Nigeria
   initialZoom = 12,
   className,
+  showFilterButton = false,
 }: AdvancedSearchMapViewProps) {
   const [mapCenter, setMapCenter] = useState<MapCenter>(initialCenter);
   const [zoom, setZoom] = useState(initialZoom);

@@ -204,96 +204,21 @@ export default async function EstateManagerDashboardPage() {
   }
 
 
-  const hasData = unitCount > 0;
-
-  // Mock data for preview/demo mode if no units are configured
-  const mockStats = {
-    unitCount: 18,
-    occupiedCount: 14,
-    vacantCount: 3,
-    maintenanceCount: 1,
-    occupancyRate: 77,
-    totalBilledServiceCharges: 3600000,
-    totalPaidServiceCharges: 2780000,
-    collectionRate: 77,
-    recentTickets: [
-      {
-        id: 'tkt_1',
-        title: 'AC unit blowing warm air',
-        category: 'electrical',
-        priority: 'medium',
-        status: 'in_progress',
-        unitRef: 'Unit 3A - Lekki Palms',
-        createdAt: new Date(Date.now() - 3600000 * 4), // 4 hours ago
-      },
-      {
-        id: 'tkt_2',
-        title: 'Leakage in kitchen sink pipe',
-        category: 'plumbing',
-        priority: 'high',
-        status: 'open',
-        unitRef: 'Unit 12B - Victoria Heights',
-        createdAt: new Date(Date.now() - 3600000 * 20), // 20 hours ago
-      },
-      {
-        id: 'tkt_3',
-        title: 'Front door lock replacement',
-        category: 'security',
-        priority: 'urgent',
-        status: 'resolved',
-        unitRef: 'Unit 5C - Prime Heights',
-        createdAt: new Date(Date.now() - 3600000 * 48), // 2 days ago
-      }
-    ],
-    recentServiceCharges: [
-      {
-        id: 'sc_1',
-        period: '2026-Q2',
-        amount: 150000,
-        status: 'paid',
-        unitRef: 'Unit 8A - Lekki Palms',
-        dueDate: new Date(Date.now() + 3600000 * 240),
-      },
-      {
-        id: 'sc_2',
-        period: '2026-Q2',
-        amount: 220000,
-        status: 'outstanding',
-        unitRef: 'Unit 12C - Victoria Heights',
-        dueDate: new Date(Date.now() - 3600000 * 48),
-      },
-      {
-        id: 'sc_3',
-        period: '2026-Q2',
-        amount: 180000,
-        status: 'draft',
-        unitRef: 'Unit 1A - Prime Heights',
-        dueDate: new Date(Date.now() + 3600000 * 480),
-      }
-    ],
-    recentActivity: [
-      { id: 1, type: 'payment', desc: '₦1,200,000 rent payment received for Unit 4D (Prime Heights)', time: '2 hours ago' },
-      { id: 2, type: 'maintenance', desc: 'Maintenance ticket #TKT-1082 resolved for Unit 5C', time: '1 day ago' },
-      { id: 3, type: 'utility', desc: 'Utility reading recorded for Unit 8A (Lekki Palms)', time: '1 day ago' },
-      { id: 4, type: 'member', desc: 'New team member Tunde Adeyemi joined as Agent', time: '3 days ago' },
-    ]
-  };
-
-  // Determine which values to show
-  const displayUnits = hasData ? unitCount : mockStats.unitCount;
-  const displayOccupied = hasData ? occupiedCount : mockStats.occupiedCount;
-  const displayVacant = hasData ? vacantCount : mockStats.vacantCount;
-  const displayMaintenance = hasData ? maintenanceCount : mockStats.maintenanceCount;
-  const displayPendingManaged = hasData ? pendingManaged.length : activeOrg ? 0 : 3;
-  const pendingManagedAmountLabel = '₦' + (displayPendingManaged ? (pendingManagedNaira / 100).toLocaleString() : '0');
+  // Show real data — no mock fallback
+  const displayUnits = unitCount;
+  const displayOccupied = occupiedCount;
+  const displayVacant = vacantCount;
+  const displayMaintenance = maintenanceCount;
+  const displayPendingManaged = pendingManaged.length;
+  const pendingManagedAmountLabel = '₦' + (pendingManaged.length ? (pendingManagedNaira / 100).toLocaleString() : '0');
   const displayOccupancyRate = displayUnits > 0 ? Math.round((displayOccupied / displayUnits) * 100) : 0;
 
-  const displayBilledCharges = hasData ? totalBilledServiceCharges : mockStats.totalBilledServiceCharges;
-  const displayPaidCharges = hasData ? totalPaidServiceCharges : mockStats.totalPaidServiceCharges;
+  const displayBilledCharges = totalBilledServiceCharges;
+  const displayPaidCharges = totalPaidServiceCharges;
   const displayCollectionRate = displayBilledCharges > 0 ? Math.round((displayPaidCharges / displayBilledCharges) * 100) : 0;
 
-  const displayTickets = hasData ? recentTickets : mockStats.recentTickets;
-  const displayCharges = hasData ? recentServiceCharges : mockStats.recentServiceCharges;
+  const displayTickets = recentTickets;
+  const displayCharges = recentServiceCharges;
 
   // Custom styling mappings
   const priorityColors: Record<string, string> = {
@@ -341,9 +266,9 @@ export default async function EstateManagerDashboardPage() {
               <Badge className="bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08] px-3 py-1 font-mono tracking-wider uppercase text-[10px]">
                 {activeOrg ? activeOrg.name : 'No Organization'}
               </Badge>
-              {!hasData && (
-                <Badge className="bg-amber-500/15 text-zinc-600 dark:text-zinc-400 border-amber-500/25 px-3 py-1 flex items-center gap-1 text-[10px] animate-pulse">
-                  <Sparkles className="w-3 h-3" /> DEMO MODE
+              {!unitCount && activeOrg && (
+                <Badge variant="outline" className="px-3 py-1 flex items-center gap-1 text-[10px]">
+                  <Sparkles className="w-3 h-3" /> Getting Started
                 </Badge>
               )}
             </div>
@@ -375,7 +300,7 @@ export default async function EstateManagerDashboardPage() {
         </header>
 
         {/* Getting Started / Onboarding Section */}
-        {!hasData && (
+        {!unitCount && (
           <section className="relative group p-1 bg-gradient-to-br from-blue-500/15 via-indigo-500/5 to-purple-500/15 rounded-[2rem] border border-zinc-200 dark:border-white/[0.08] shadow-2xl">
             <div className="bg-white dark:bg-zinc-900/50 rounded-[calc(2rem-0.25rem)] p-8 space-y-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -552,11 +477,11 @@ export default async function EstateManagerDashboardPage() {
                 </div>
               </div>
               <div className="space-y-1">
-                <h3 className="text-3xl font-extrabold text-zinc-900 dark:text-white font-mono">₦420,000</h3>
+                <h3 className="text-3xl font-extrabold text-zinc-900 dark:text-white font-mono">₦{unitCount ? (unitCount * 23000).toLocaleString() : '0'}</h3>
                 <p className="text-xs text-zinc-600 dark:text-zinc-400">Power, water & security</p>
               </div>
               <div className="flex items-center gap-1 text-[10px] text-[#10b981] font-medium">
-                <TrendingUp className="w-3.5 h-3.5" /> +12.4% vs last month
+                <TrendingUp className="w-3.5 h-3.5" /> {unitCount ? '+12.4% vs last month' : 'No data yet'}
               </div>
             </div>
           </div>
@@ -831,7 +756,15 @@ export default async function EstateManagerDashboardPage() {
               </h3>
 
               <div className="relative pl-4 border-l border-zinc-200 dark:border-white/[0.08] space-y-6">
-                {(hasData ? recentActivityStub(recentTickets, recentServiceCharges) : mockStats.recentActivity).map((act: unknown) => (
+                {(unitCount ? recentActivityStub(recentTickets, recentServiceCharges) : []).length === 0 ? (
+                  <EmptyState
+                    icon={ClipboardList}
+                    title="No recent activity"
+                    description="Activity will appear here once tickets and charges are created."
+                    className="py-8"
+                  />
+                ) : (
+                  (unitCount ? recentActivityStub(recentTickets, recentServiceCharges) : []).map((act: unknown) => (
                   <div key={act.id} className="relative space-y-1">
                     {/* Bullet Indicator */}
                     <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full border-2 border-zinc-200 dark:border-white/[0.08]-container ${
@@ -842,16 +775,15 @@ export default async function EstateManagerDashboardPage() {
                     <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed">{act.desc}</p>
                     <span className="block text-[10px] text-zinc-600 dark:text-zinc-400 font-mono">{act.time}</span>
                   </div>
-                ))}
+                )))}
               </div>
             </div>
           </div>
         </section>
       </div>
-      </div>
-    
+    </div>
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }
 

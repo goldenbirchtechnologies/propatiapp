@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useOrganizations } from '@/hooks/useOrganizations';
+import { useActiveOrganization, useActiveOrganizationId } from '@/contexts/ActiveOrganizationContext';
 import { useOrganizationListings } from '@/hooks/useOrganizations';
 import { useUnits, usePortfolioOverview } from '@/hooks/useUnits';
+import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
+import { NoOrgState } from '@/components/organizations/NoOrgState';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { StatusBadge } from '@/components/ui';
@@ -23,7 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Building2, Plus, Search, Filter, FileUp, Eye, Edit, Home } from 'lucide-react';
+import { Building2, Plus, Search, FileUp, Eye, Edit, Home } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PortfolioPage() {
@@ -31,18 +34,17 @@ export default function PortfolioPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [occupancyFilter, setOccupancyFilter] = useState<string>('all');
 
-  const { data: orgsData, isLoading: orgsLoading } = useOrganizations();
-  const org = orgsData?.data?.[0];
-  const orgId = org?.id;
+  const { organization, organizations, setOrganization, loading: orgLoading } = useActiveOrganization();
+  const { orgId } = useActiveOrganizationId();
 
   const { data: portfolioData } = usePortfolioOverview(orgId ?? '');
   const { data: unitsData } = useUnits(orgId ?? '', { limit: 100 });
 
   const portfolioUnits = portfolioData?.data?.units || {};
   const units = unitsData?.data || [];
-  const unitsByListingId = new Map(units.map((u: unknown) => [u.listingId, u]));
+  const unitsByListingId = new Map(units.map((u: any) => [u.listingId, u]));
 
-  // Only fetch listings when we have a valid organization ID to avoid repeated requests
+  // Only fetch listings when we have a valid organization ID
   const { data: listingsData, isLoading: listingsLoading } = useOrganizationListings(
     orgId ?? '',
     { limit: 100 },
@@ -52,7 +54,7 @@ export default function PortfolioPage() {
   const listings = listingsData?.data || [];
 
   // Filter listings based on search and filters
-  const filteredListings = listings.filter((listing: unknown) => {
+  const filteredListings = listings.filter((listing: any) => {
     const matchesSearch = listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       listing.address?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'all' || listing.status === statusFilter;
@@ -65,21 +67,29 @@ export default function PortfolioPage() {
     return matchesSearch && matchesStatus && matchesOccupancy;
   });
 
-  if (orgsLoading || listingsLoading) {
+  if (orgLoading) {
     return (
-      <div className="space-y-6">
-        <Skeleton className="h-10 w-full max-w-md" />
-        <Skeleton className="h-96" />
-      </div>
+      <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Manager">
+        <div className="space-y-6">
+          <Skeleton className="h-10 w-full max-w-md" />
+          <Skeleton className="h-96" />
+        </div>
+      </DashboardShell>
     );
   }
 
-  if (!org) {
+  if (!organization || !orgId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-400 mb-4" />
-        <p className="text-zinc-600 dark:text-zinc-400">No organization found</p>
-      </div>
+      <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Manager">
+        <NoOrgState
+          title="No Organization"
+          description="You need an organization to manage your portfolio. Create one or link an existing organization."
+          actionLabel="Create Organization"
+          actionHref="/dashboard/estate-manager/profile"
+          secondaryLabel="Link Organization"
+          secondaryHref="/dashboard/estate-manager/invite-property-manager"
+        />
+      </DashboardShell>
     );
   }
 
@@ -88,13 +98,14 @@ export default function PortfolioPage() {
   const vacantUnits = portfolioUnits.vacantUnits ?? 0;
 
   return (
+    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Manager">
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Portfolio</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Portfolio</h1>
           <p className="text-zinc-600 dark:text-zinc-400">
-            Manage all properties under {org.name}
+            Manage all properties under {organization.name}
           </p>
         </div>
         <div className="flex gap-2">
@@ -112,34 +123,34 @@ export default function PortfolioPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-3 animate-fadeIn">
-        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Total Units</h3>
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Total Units</h3>
             <Home className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
           </div>
           <div className="p-6">
-            <div className="text-2xl font-bold">{totalUnits}</div>
+            <div className="text-2xl font-bold text-zinc-900 dark:text-white">{totalUnits}</div>
           </div>
         </div>
 
-        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+        <div className="glass-card bg-gradient-to-br from-emerald-500/10 via-emerald-500/20 to-emerald-500/30">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Occupied</h3>
-            <Building2 className="h-4 w-4 text-emerald-500" />
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Occupied</h3>
+            <Building2 className="h-4 w-4 text-[#10b981]" />
           </div>
           <div className="p-6">
-            <div className="text-2xl font-bold text-emerald-500">{occupiedUnits}</div>
+            <div className="text-2xl font-bold text-[#10b981]">{occupiedUnits}</div>
           </div>
         </div>
 
-        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+        <div className="glass-card bg-gradient-to-br from-amber-500/10 via-amber-500/20 to-amber-500/30">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Vacant</h3>
-            <Building2 className="h-4 w-4 text-emerald-500" />
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Vacant</h3>
+            <Building2 className="h-4 w-4 text-amber-500" />
           </div>
           <div className="p-6">
-            <div className="text-2xl font-bold text-emerald-500">{vacantUnits}</div>
+            <div className="text-2xl font-bold text-amber-500">{vacantUnits}</div>
           </div>
         </div>
       </div>
@@ -162,7 +173,7 @@ export default function PortfolioPage() {
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="all" className="font-medium" style={{ backgroundColor: 'var(--accent)' }}>All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="draft">Draft</SelectItem>
                 <SelectItem value="suspended">Suspended</SelectItem>
@@ -173,7 +184,7 @@ export default function PortfolioPage() {
                 <SelectValue placeholder="Occupancy" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Units</SelectItem>
+                <SelectItem value="all" className="font-medium" style={{ backgroundColor: 'var(--accent)' }}>All Units</SelectItem>
                 <SelectItem value="occupied">Occupied</SelectItem>
                 <SelectItem value="vacant">Vacant</SelectItem>
               </SelectContent>
@@ -201,64 +212,38 @@ export default function PortfolioPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredListings.map((listing: unknown) => {
+                {filteredListings.map((listing: any) => {
                   const unit = unitsByListingId.get(listing.id);
                   const isOccupied = unit?.occupancy?.toUpperCase?.() === 'OCCUPIED';
                   return (
                     <TableRow key={listing.id}>
                       <TableCell>
                         <div>
-                          <p className="font-medium">{listing.title}</p>
+                          <p className="font-medium text-zinc-900 dark:text-white">{listing.title}</p>
                           <p className="text-sm text-zinc-600 dark:text-zinc-400">
                             {listing.address}
                           </p>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        {listing.propertyType || 'N/A'}
-                      </TableCell>
+                      <TableCell>{listing.propertyType || 'N/A'}</TableCell>
                       <TableCell>
                         ₦{Number(listing.price || 0).toLocaleString()}
                         {listing.pricePeriod && `/${listing.pricePeriod}`}
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          variant={
-                            listing.status === 'active'
-                              ? 'default'
-                              : listing.status === 'draft'
-                              ? 'secondary'
-                              : 'outline'
-                          }
-                        >
-                          {listing.status}
-                        </Badge>
+                        <StatusBadge status={listing.status === 'active' ? 'active' : 'inactive'} />
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          variant={isOccupied ? 'success' : 'secondary'}
-                        >
-                          {isOccupied ? 'Occupied' : 'Vacant'}
-                        </Badge>
+                        <StatusBadge status={isOccupied ? 'occupied' : 'vacant'} />
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
-                          <Button
-                            asChild
-                            size="sm"
-                            variant="ghost"
-                          >
-                            <Link
-                              href={`/dashboard/estate-manager/portfolio/${listing.id}`}
-                            >
+                          <Button asChild size="sm" variant="ghost">
+                            <Link href={`/dashboard/estate-manager/portfolio/${listing.id}`}>
                               <Eye className="h-4 w-4" />
                             </Link>
                           </Button>
-                          <Button
-                            asChild
-                            size="sm"
-                            variant="ghost"
-                          >
+                          <Button asChild size="sm" variant="ghost">
                             <Link href={`/listings/${listing.id}/edit`}>
                               <Edit className="h-4 w-4" />
                             </Link>
@@ -273,7 +258,7 @@ export default function PortfolioPage() {
           ) : (
             <div className="text-center py-12">
               <Home className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-400 opacity-50" />
-              <p className="text-zinc-600 dark:text-zinc-400">No units found</p>
+              <p className="text-zinc-600 dark:text-zinc-400">No units found. Add your first property to get started.</p>
               <Button asChild className="mt-4" variant="outline">
                 <Link href={`/dashboard/landlord/properties/new`}>
                   <Plus className="mr-2 h-4 w-4" />
@@ -285,5 +270,6 @@ export default function PortfolioPage() {
         </div>
       </div>
     </div>
+    </DashboardShell>
   );
 }

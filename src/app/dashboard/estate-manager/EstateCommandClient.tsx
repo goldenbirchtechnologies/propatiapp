@@ -726,7 +726,7 @@ export default function EstateCommandClient({ userName }: { userName: string }) 
           title="No Organization"
           description="You need an organization before the operations command centre can surface live data."
           actionLabel="Create Organization"
-          actionHref="/dashboard/estate-manager/profile"
+          actionHref="/dashboard/estate-manager/organizations/new"
           secondaryLabel="Link Organization"
           secondaryHref="/dashboard/estate-manager/invite-property-manager"
         />

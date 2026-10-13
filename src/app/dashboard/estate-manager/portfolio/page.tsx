@@ -85,7 +85,7 @@ export default function PortfolioPage() {
           title="No Organization"
           description="You need an organization to manage your portfolio. Create one or link an existing organization."
           actionLabel="Create Organization"
-          actionHref="/dashboard/estate-manager/profile"
+          actionHref="/dashboard/estate-manager/organizations/new"
           secondaryLabel="Link Organization"
           secondaryHref="/dashboard/estate-manager/invite-property-manager"
         />

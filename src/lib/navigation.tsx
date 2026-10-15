@@ -4,7 +4,7 @@ import {
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
-  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Clock, UserPlus, Store
+  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2
 } from 'lucide-react';
 
 export interface NavItem {
@@ -195,10 +195,15 @@ export const ACCOUNTANT_NAVIGATION: NavItem[] = [
 export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Home', href: '/dashboard/estate-manager', icon: <Home className="h-5 w-5" /> },
   { label: 'Rent & Payments', href: '/dashboard/estate-manager/financials', icon: <DollarSign className="h-5 w-5" /> },
+  { label: 'Billing', href: '/dashboard/estate-manager/billing', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Receipts', href: '/dashboard/estate-manager/receipts', icon: <FileCheck2 className="h-5 w-5" /> },
+  { label: 'Managed Collections', href: '/dashboard/estate-manager/collections', icon: <Wallet className="h-5 w-5" /> },
+  { label: 'Disbursements', href: '/dashboard/estate-manager/disbursements', icon: <Landmark className="h-5 w-5" /> },
   { label: 'Portfolio', href: '/dashboard/estate-manager/portfolio', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Units', href: '/dashboard/estate-manager/units', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Tenants', href: '/dashboard/estate-manager/tenants', icon: <Users className="h-5 w-5" /> },
   { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Wrench className="h-5 w-5" /> },
+  { label: 'Move-in Coordination', href: '/dashboard/estate-manager/move-in', icon: <KeyRound className="h-5 w-5" /> },
   { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
   { label: 'Agreements', href: '/dashboard/estate-manager/agreements', icon: <FileText className="h-5 w-5" /> },
   { label: 'Commercial Leases', href: '/dashboard/estate-manager/commercial-leases', icon: <Store className="h-5 w-5" /> },

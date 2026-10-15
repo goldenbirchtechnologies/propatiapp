@@ -4,7 +4,7 @@ import {
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
-  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2
+  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2, BookOpen, BarChart3
 } from 'lucide-react';
 
 export interface NavItem {
@@ -199,7 +199,12 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Receipts', href: '/dashboard/estate-manager/receipts', icon: <FileCheck2 className="h-5 w-5" /> },
   { label: 'Managed Collections', href: '/dashboard/estate-manager/collections', icon: <Wallet className="h-5 w-5" /> },
   { label: 'Disbursements', href: '/dashboard/estate-manager/disbursements', icon: <Landmark className="h-5 w-5" /> },
+  { label: 'Utility Allocations', href: '/dashboard/estate-manager/utility-allocations', icon: <Zap className="h-5 w-5" /> },
+  { label: 'Ledger', href: '/dashboard/estate-manager/ledger', icon: <BookOpen className="h-5 w-5" /> },
+  { label: 'Financial Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart3 className="h-5 w-5" /> },
   { label: 'Portfolio', href: '/dashboard/estate-manager/portfolio', icon: <Building2 className="h-5 w-5" /> },
+  { label: 'Listings', href: '/dashboard/estate-manager/listings', icon: <Store className="h-5 w-5" /> },
+  { label: 'Applications', href: '/dashboard/estate-manager/applications', icon: <ClipboardList className="h-5 w-5" /> },
   { label: 'Units', href: '/dashboard/estate-manager/units', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Tenants', href: '/dashboard/estate-manager/tenants', icon: <Users className="h-5 w-5" /> },
   { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Wrench className="h-5 w-5" /> },

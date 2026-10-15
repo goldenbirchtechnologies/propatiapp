@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
+import { managedListingWhere } from '@/lib/org-scope';
 import { z } from 'zod';
 
 const listQuery = z.object({
@@ -33,6 +34,8 @@ export async function GET(request: NextRequest) {
       where.tenantId = user.id;
     } else if (user.role === 'landlord') {
       where.landlordId = user.id;
+    } else if (user.role === 'estate_manager') {
+      where.listing = await managedListingWhere(user.id);
     } else if (user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }

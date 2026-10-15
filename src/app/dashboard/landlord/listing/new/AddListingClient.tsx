@@ -89,9 +89,15 @@ type Props = {
     propertyType: string | null;
   }>;
   vacantUnits: ListingUnit[];
+  basePath?: string;
+  newPropertyHref?: string;
+  propertiesHref?: string;
+  successHref?: string;
 };
 
-export default function AddListingClient({ listings, vacantUnits }: Props) {
+export default function AddListingClient({ listings, vacantUnits, basePath = '/dashboard/landlord', newPropertyHref, propertiesHref, successHref }: Props) {
+  const resolvedNewPropertyHref = newPropertyHref ?? `${basePath}/properties/new`;
+  const resolvedPropertiesHref = propertiesHref ?? `${basePath}/properties`;
   const router = useRouter();
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
@@ -246,7 +252,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
         title: 'Listed',
         description: 'Your property is now live on the marketplace.',
       });
-      router.push(`/dashboard/landlord/properties/${listing.id}`);
+      router.push(successHref ?? `${basePath}/properties/${listing.id}`);
     } catch (error) {
       toast({
         title: 'Listing failed',
@@ -279,13 +285,13 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button asChild>
-              <Link href="/dashboard/landlord/properties/new">
+              <Link href={resolvedNewPropertyHref}>
                 <Plus className="mr-2 h-4 w-4" />
                 Add Property
               </Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="/dashboard/landlord/properties">
+              <Link href={resolvedPropertiesHref}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 View My Properties
               </Link>
@@ -307,7 +313,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             title: 'Listing created',
             description: 'Your shortlet listing has been created.',
           });
-          router.push(`/dashboard/landlord/properties/${listing.id}`);
+          router.push(successHref ?? `${basePath}/properties/${listing.id}`);
         }}
       />
     );

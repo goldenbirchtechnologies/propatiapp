@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
+import { userManagesListing } from '@/lib/org-scope';
 
 function safeJson(value: unknown, fallback: unknown = {}) {
   if (!value) return fallback;
@@ -54,7 +55,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     if (!application) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     if ((application as any).landlordId !== user.id && (application as any).tenantId !== user.id && user.role !== 'admin') {
-      return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
+      if (user.role !== 'estate_manager' || !(await userManagesListing(user.id, (application as any).listingId))) {
+        return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
+      }
     }
 
     return NextResponse.json({ success: true, data: serialize(application) });
@@ -79,7 +82,9 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
     if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     if (user.role !== 'admin' && existing.landlordId !== user.id && existing.tenantId !== user.id) {
-      return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
+      if (user.role !== 'estate_manager' || !(await userManagesListing(user.id, existing.listingId))) {
+        return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
+      }
     }
 
     const body: Record<string, unknown> = await request.json();
@@ -97,7 +102,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }
 
-    if (body.action === 'approve' && existing.landlordId === user.id) {
+    const canApprove =
+      existing.landlordId === user.id ||
+      (user.role === 'estate_manager' && (await userManagesListing(user.id, existing.listingId)));
+    if (body.action === 'approve' && canApprove) {
       const listing = await prisma.listing.findUnique({ where: { id: existing.listingId } });
       if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
 

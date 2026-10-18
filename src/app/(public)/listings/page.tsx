@@ -3,13 +3,22 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, SlidersHorizontal, Grid3X3, List, X, ChevronDown, MapPin, Bed, Bath, Square, ShieldCheck, Zap, Home, Building2, Heart, MessageCircle, RotateCcw, Bell, UserCheck, ArrowRight } from 'lucide-react';
+import {
+  Search, SlidersHorizontal, Grid3X3, List, X, ChevronDown, MapPin, Square,
+  ShieldCheck, Zap, Home, Building2, RotateCcw, Bell, UserCheck, ArrowRight,
+  ChevronUp, Car, Trees, Dumbbell, Waves,
+} from 'lucide-react';
 import { PropertyCard } from '@/components/listings/PropertyCard';
 import { InteractiveHoverButton } from '@/components/ui';
 import { AdvancedSearchMapView } from '@/components/search/AdvancedSearchMapView';
 
-const BATHROOM_OPTIONS = ['Any', '1', '2', '3+', '5+'];
-const FURNISHING_OPTIONS = ['Fully Furnished', 'Semi-Furnished', 'Serviced & Managed BQ'];
+const AMENITY_FILTERS = [
+  'Swimming Pool', 'Gym / Fitness Centre', 'Tennis Court', 'Children Playground',
+  'Rooftop Lounge', 'Cinema Room', 'Conference Centre',
+];
+
+const FURNISHING_OPTIONS = ['Fully Furnished', 'Semi-Furnished', 'Serviced & Managed BQ', 'Unfurnished'];
+
 const INFRASTRUCTURE_FILTERS = [
   '24/7 Dedicated Power (IPPs/Gen)',
   'Treated Borehole / Water Supply',
@@ -17,6 +26,7 @@ const INFRASTRUCTURE_FILTERS = [
   'Private Jetty / Waterfront Access',
   'Flood-Free Elevation Verified',
 ];
+
 const LEGAL_FILTERS = [
   { id: 'gov_consent', label: "Governor's Consent", tag: 'Prime' },
   { id: 'c_of_o', label: 'Certificate of Occupancy', tag: 'C of O' },
@@ -32,6 +42,7 @@ interface Listing {
   beds?: number;
   baths?: number;
   sqm?: number;
+  parking?: number;
   image: string;
   listingType: string;
   verificationTier: string;
@@ -39,6 +50,37 @@ interface Listing {
   status: string;
   area?: string;
   state?: string;
+}
+
+// ─── Collapsible Accordion Section ───
+function Accordion({ title, icon, badge, defaultOpen = false, children }: {
+  title: string;
+  icon: React.ReactNode;
+  badge?: number;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="border-b border-zinc-200 last:border-b-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between py-3 text-left"
+      >
+        <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-zinc-800">
+          {icon}
+          {title}
+          {badge != null && badge > 0 && (
+            <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-bold text-emerald-700">{badge}</span>
+          )}
+        </span>
+        {open
+          ? <ChevronUp className="h-3.5 w-3.5 text-zinc-400" />
+          : <ChevronDown className="h-3.5 w-3.5 text-zinc-400" />}
+      </button>
+      {open && <div className="pb-4">{children}</div>}
+    </div>
+  );
 }
 
 export default function ListingsPage() {
@@ -52,13 +94,13 @@ export default function ListingsPage() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [compareIds, setCompareIds] = useState<string[]>([]);
 
-  // Sidebar filters
+  // Granular sidebar filters
   const [legalFilters, setLegalFilters] = useState<string[]>(['gov_consent', 'c_of_o', 'lasrera']);
-  const [bathrooms, setBathrooms] = useState('3+');
-  const [minSqm, setMinSqm] = useState('100');
-  const [maxSqm, setMaxSqm] = useState('900');
+  const [amenities, setAmenities] = useState<string[]>([]);
   const [infraFilters, setInfraFilters] = useState<string[]>(['24/7', 'borehole', 'security']);
   const [furnishing, setFurnishing] = useState('Semi-Furnished');
+  const [parkingMin, setParkingMin] = useState('Any');
+  const [serviceChargeMax, setServiceChargeMax] = useState('');
 
   useEffect(() => {
     let cancelled = false;
@@ -79,6 +121,7 @@ export default function ListingsPage() {
               beds: l.bedrooms,
               baths: l.bathrooms,
               sqm: l.sizeSqm,
+              parking: l.parkingSpaces,
               image: l.coverImage || l.images?.[0]?.url || '',
               listingType: l.listingType || 'rent',
               verificationTier: l.verificationTier || (l.verified ? 'verified' : 'basic'),
@@ -109,55 +152,75 @@ export default function ListingsPage() {
       const label = LEGAL_FILTERS.find((f) => f.id === id)?.label;
       if (label) filters.push({ label, clear: () => setLegalFilters((prev) => prev.filter((x) => x !== id)) });
     });
-    if (bathrooms !== 'Any') filters.push({ label: `${bathrooms} Baths`, clear: () => setBathrooms('Any') });
+    if (amenities.length > 0) filters.push({ label: `${amenities.length} amenit${amenities.length === 1 ? 'y' : 'ies'}`, clear: () => setAmenities([]) });
     if (infraFilters.length > 0) filters.push({ label: 'Infrastructure', clear: () => setInfraFilters([]) });
+    if (furnishing !== 'Any') filters.push({ label: furnishing, clear: () => setFurnishing('Any') });
+    if (parkingMin !== 'Any') filters.push({ label: `${parkingMin}+ parking`, clear: () => setParkingMin('Any') });
+    if (serviceChargeMax) filters.push({ label: `Service charge ≤ ₦${serviceChargeMax}`, clear: () => setServiceChargeMax('') });
     return filters;
-  }, [legalFilters, bathrooms, infraFilters]);
+  }, [legalFilters, amenities, infraFilters, furnishing, parkingMin, serviceChargeMax]);
+
+  const activeFilterCount = legalFilters.length + amenities.length + infraFilters.length
+    + (furnishing !== 'Any' ? 1 : 0)
+    + (parkingMin !== 'Any' ? 1 : 0)
+    + (serviceChargeMax ? 1 : 0);
 
   const toggleInfra = (id: string) => {
     setInfraFilters((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
   };
 
+  const toggleAmenity = (id: string) => {
+    setAmenities((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+  };
+
   const sidebarContent = (
-    <div className="space-y-5">
+    <div>
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <SlidersHorizontal className="h-4 w-4 text-emerald-600" />
-          <span className="text-xs font-bold uppercase tracking-wider text-zinc-800">Filter Deep Dive</span>
-          <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">{legalFilters.length + infraFilters.length + (bathrooms !== 'Any' ? 1 : 0)}</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-zinc-800">Refine Results</span>
+          {activeFilterCount > 0 && (
+            <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">{activeFilterCount}</span>
+          )}
         </div>
         <button
-          onClick={() => { setLegalFilters([]); setBathrooms('Any'); setInfraFilters([]); setMinSqm(''); setMaxSqm(''); }}
+          onClick={() => { setLegalFilters([]); setAmenities([]); setInfraFilters([]); setFurnishing('Any'); setParkingMin('Any'); setServiceChargeMax(''); }}
           className="text-[11px] font-semibold text-zinc-500 transition-colors hover:text-rose-600"
         >
           Reset All
         </button>
       </div>
 
-      {/* Apply Button */}
-      <button className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-emerald-700 px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-800">
-        Apply {legalFilters.length + infraFilters.length + (bathrooms !== 'Any' ? 1 : 0)} Filters
-        <ArrowRight className="h-3.5 w-3.5" />
-      </button>
-
-      {/* Verification & Legal */}
-      <div>
-        <div className="mb-2.5 flex items-center justify-between">
-          <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-800">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-            Verification &amp; Legal
-          </span>
-          <span className="rounded border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[9px] font-bold text-emerald-700">Alausa Sync</span>
+      {/* Trust Badge */}
+      <div className="mb-4 rounded-xl border border-emerald-200/80 bg-emerald-50 p-3">
+        <div className="flex items-start gap-2">
+          <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
+          <div>
+            <p className="text-[11px] font-bold text-emerald-950">Lagos Surveyor Audit Guaranteed</p>
+            <p className="mt-0.5 text-[10px] font-medium leading-relaxed text-emerald-900/90">
+              All cadastral coordinates mapped via Lagos State GIS Alausa registry.
+            </p>
+          </div>
         </div>
-        <div className="space-y-2">
+      </div>
+
+      {/* ─── Accordion: Verification & Legal ─── */}
+      <Accordion
+        title="Verification & Legal"
+        icon={<ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />}
+        badge={legalFilters.length}
+        defaultOpen
+      >
+        <span className="mb-2 inline-block rounded border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[9px] font-bold text-emerald-700">Alausa Sync</span>
+        <div className="space-y-1.5">
           {LEGAL_FILTERS.map((filter) => {
             const isChecked = legalFilters.includes(filter.id);
             return (
               <label
                 key={filter.id}
-                className={`flex cursor-pointer items-center justify-between rounded-lg border p-2 transition-colors ${
-                  isChecked ? 'border-emerald-200 bg-emerald-50/50 hover:bg-emerald-50' : 'border-zinc-200 bg-white hover:bg-zinc-50'
+                className={`flex cursor-pointer items-center justify-between rounded-lg border px-2.5 py-2 transition-colors ${
+                  isChecked ? 'border-emerald-200 bg-emerald-50/50' : 'border-zinc-200 bg-white hover:bg-zinc-50'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -176,68 +239,95 @@ export default function ListingsPage() {
             );
           })}
         </div>
-      </div>
+      </Accordion>
 
-      {/* Specifications & Space */}
-      <div className="border-t border-zinc-200 pt-3.5">
-        <span className="mb-2 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-800">
-          <Square className="h-3.5 w-3.5 text-zinc-500" />
-          Specifications &amp; Space
-        </span>
-        <div className="mb-3">
-          <label className="mb-1.5 block text-[10.5px] font-semibold text-zinc-600">Bathrooms</label>
-          <div className="flex flex-wrap gap-1">
-            {BATHROOM_OPTIONS.map((b) => (
-              <button
-                key={b}
-                onClick={() => setBathrooms(b)}
-                className={`rounded border px-2 py-1 text-[11px] font-semibold transition-colors ${
-                  bathrooms === b
-                    ? 'bg-emerald-700 text-white shadow-sm'
-                    : 'border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50'
-                }`}
-              >
-                {b}
-              </button>
-            ))}
-          </div>
+      {/* ─── Accordion: Building Amenities ─── */}
+      <Accordion
+        title="Building Amenities"
+        icon={<Waves className="h-3.5 w-3.5 text-emerald-600" />}
+        badge={amenities.length}
+      >
+        <div className="space-y-1.5">
+          {AMENITY_FILTERS.map((amenity) => {
+            const isChecked = amenities.includes(amenity);
+            return (
+              <label key={amenity} className="flex cursor-pointer items-center gap-2.5 text-xs font-medium text-zinc-600 hover:text-zinc-900">
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={() => toggleAmenity(amenity)}
+                  className="h-3.5 w-3.5 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500"
+                />
+                {amenity}
+              </label>
+            );
+          })}
         </div>
-        <div>
-          <div className="mb-1 flex items-center justify-between">
-            <label className="text-[10.5px] font-semibold text-zinc-600">Area Range (sqm)</label>
-            <span className="text-[10px] font-medium text-zinc-500">{minSqm || '50'} - {maxSqm || '1,500+'} sqm</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="relative">
-              <input
-                value={minSqm}
-                onChange={(e) => setMinSqm(e.target.value.replace(/[^0-9]/g, ''))}
-                className="w-full rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-800 focus:border-emerald-500 focus:ring-emerald-500"
-                placeholder="Min sqm"
-                type="text"
-              />
-              <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-[10px] font-medium text-zinc-400">sqm</span>
-            </div>
-            <div className="relative">
-              <input
-                value={maxSqm}
-                onChange={(e) => setMaxSqm(e.target.value.replace(/[^0-9]/g, ''))}
-                className="w-full rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-800 focus:border-emerald-500 focus:ring-emerald-500"
-                placeholder="Max sqm"
-                type="text"
-              />
-              <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-[10px] font-medium text-zinc-400">sqm</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </Accordion>
 
-      {/* Infrastructure & Power */}
-      <div className="border-t border-zinc-200 pt-3.5">
-        <span className="mb-2 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-800">
-          <Zap className="h-3.5 w-3.5 text-amber-600" />
-          Infrastructure &amp; Power
-        </span>
+      {/* ─── Accordion: Furnishing & Fit-Out ─── */}
+      <Accordion
+        title="Furnishing"
+        icon={<Home className="h-3.5 w-3.5 text-zinc-500" />}
+        badge={furnishing !== 'Any' ? 1 : 0}
+      >
+        <div className="space-y-1.5">
+          {['Any', ...FURNISHING_OPTIONS].map((option) => (
+            <label key={option} className="flex cursor-pointer items-center gap-2.5 text-xs font-medium text-zinc-600 hover:text-zinc-900">
+              <input
+                type="radio"
+                name="furnishing"
+                checked={furnishing === option}
+                onChange={() => setFurnishing(option)}
+                className="h-3.5 w-3.5 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500"
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+      </Accordion>
+
+      {/* ─── Accordion: Service Charge ─── */}
+      <Accordion title="Service Charge" icon={<Zap className="h-3.5 w-3.5 text-amber-600" />}>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-zinc-500">Max ₦</span>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="500,000"
+            value={serviceChargeMax}
+            onChange={(e) => setServiceChargeMax(e.target.value.replace(/[^0-9]/g, ''))}
+            className="w-full rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-800 focus:border-emerald-500 focus:ring-emerald-500"
+          />
+          <span className="text-xs text-zinc-500">/yr</span>
+        </div>
+      </Accordion>
+
+      {/* ─── Accordion: Parking ─── */}
+      <Accordion title="Parking Spaces" icon={<Car className="h-3.5 w-3.5 text-zinc-500" />}>
+        <div className="flex flex-wrap gap-1.5">
+          {['Any', '1', '2', '3+'].map((option) => (
+            <button
+              key={option}
+              onClick={() => setParkingMin(option)}
+              className={`rounded border px-2.5 py-1 text-[11px] font-semibold transition-colors ${
+                parkingMin === option
+                  ? 'bg-emerald-700 text-white shadow-sm'
+                  : 'border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50'
+              }`}
+            >
+              {option === 'Any' ? 'Any' : `${option}+`}
+            </button>
+          ))}
+        </div>
+      </Accordion>
+
+      {/* ─── Accordion: Infrastructure & Power ─── */}
+      <Accordion
+        title="Infrastructure & Power"
+        icon={<Zap className="h-3.5 w-3.5 text-amber-600" />}
+        badge={infraFilters.length}
+      >
         <div className="space-y-1.5">
           {INFRASTRUCTURE_FILTERS.map((filter, i) => {
             const id = ['24/7', 'borehole', 'security', 'jetty', 'flood'][i];
@@ -255,51 +345,17 @@ export default function ListingsPage() {
             );
           })}
         </div>
-      </div>
-
-      {/* Furnishing & Fit-Out */}
-      <div className="border-t border-zinc-200 pt-3.5">
-        <span className="mb-2 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-800">
-          <Home className="h-3.5 w-3.5 text-zinc-500" />
-          Furnishing &amp; Fit-Out
-        </span>
-        <div className="space-y-1.5">
-          {FURNISHING_OPTIONS.map((option) => (
-            <label key={option} className="flex cursor-pointer items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900">
-              <input
-                type="radio"
-                name="furnishing"
-                checked={furnishing === option}
-                onChange={() => setFurnishing(option)}
-                className="h-3.5 w-3.5 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500"
-              />
-              {option}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Trust Badge */}
-      <div className="rounded-xl border border-emerald-200/80 bg-emerald-50 p-3">
-        <div className="flex items-start gap-2">
-          <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
-          <div>
-            <p className="text-[11px] font-bold text-emerald-950">Lagos Surveyor Audit Guaranteed</p>
-            <p className="mt-0.5 text-[10px] font-medium leading-relaxed text-emerald-900/90">
-              All cadastral coordinates mapped via Lagos State GIS Alausa registry.
-            </p>
-          </div>
-        </div>
-      </div>
+      </Accordion>
 
       {/* Bottom Actions */}
-      <div className="flex items-center gap-2 border-t border-zinc-200 pt-2">
-        <button className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-emerald-700 px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-800">
-          Apply ({legalFilters.length + infraFilters.length + (bathrooms !== 'Any' ? 1 : 0)})
+      <div className="mt-4 flex items-center gap-2">
+        <button className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-emerald-700 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-800">
+          Apply Filters
+          {activeFilterCount > 0 && <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px]">{activeFilterCount}</span>}
         </button>
         <button
-          onClick={() => { setLegalFilters([]); setBathrooms('Any'); setInfraFilters([]); setMinSqm(''); setMaxSqm(''); }}
-          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs font-semibold text-zinc-600 transition-colors hover:bg-zinc-50"
+          onClick={() => { setLegalFilters([]); setAmenities([]); setInfraFilters([]); setFurnishing('Any'); setParkingMin('Any'); setServiceChargeMax(''); }}
+          className="rounded-lg border border-zinc-200 bg-white px-3 py-2.5 text-xs font-semibold text-zinc-600 transition-colors hover:bg-zinc-50"
         >
           Reset
         </button>
@@ -314,7 +370,7 @@ export default function ListingsPage() {
         <div className="mx-auto flex h-16 max-w-[1920px] items-center justify-between gap-4 px-4 lg:px-6">
           {/* Brand */}
           <Link href="/" className="flex shrink-0 items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 shadow-sm transition-transform group-hover:scale-105">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 shadow-sm">
               <Building2 className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
@@ -388,7 +444,9 @@ export default function ListingsPage() {
             >
               <SlidersHorizontal className="h-3.5 w-3.5" />
               <span>Filters</span>
-              <span className="rounded-full bg-emerald-500 px-1.5 py-0.2 text-[10px] font-bold text-white">{legalFilters.length + infraFilters.length + (bathrooms !== 'Any' ? 1 : 0)}</span>
+              {activeFilterCount > 0 && (
+                <span className="rounded-full bg-emerald-500 px-1.5 py-0.2 text-[10px] font-bold text-white">{activeFilterCount}</span>
+              )}
             </button>
           </div>
         </div>
@@ -437,7 +495,7 @@ export default function ListingsPage() {
         {/* Left Pane: Sidebar + Listings */}
         <div className="flex w-full flex-col border-r border-zinc-200 bg-white lg:w-[60%] xl:w-[58%] xl:flex-row">
           {/* Sidebar */}
-          <aside className="w-full shrink-0 border-b border-zinc-200 bg-zinc-50/50 p-5 xl:w-64 xl:border-b-0 xl:border-r">
+          <aside className="w-full shrink-0 border-b border-zinc-200 bg-zinc-50/50 p-5 xl:w-72 xl:border-b-0 xl:border-r">
             {sidebarContent}
           </aside>
 
@@ -474,7 +532,7 @@ export default function ListingsPage() {
                   </span>
                 ))}
                 <button
-                  onClick={() => { setLegalFilters([]); setBathrooms('Any'); setInfraFilters([]); setSearch(''); }}
+                  onClick={() => { setLegalFilters([]); setAmenities([]); setInfraFilters([]); setFurnishing('Any'); setParkingMin('Any'); setServiceChargeMax(''); setSearch(''); }}
                   className="text-xs text-zinc-500 hover:text-zinc-800"
                 >
                   Clear all
@@ -498,11 +556,11 @@ export default function ListingsPage() {
                   </div>
                   <h2 className="mb-1.5 text-base font-bold text-zinc-900 lg:text-lg">No Verified Properties Found</h2>
                   <p className="mx-auto mb-5 max-w-lg text-xs leading-relaxed text-zinc-500">
-                    No properties match your exact combination of {activeFilters.length} active filters.
+                    No properties match your exact combination of {activeFilterCount} active filters.
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3">
                     <button
-                      onClick={() => { setLegalFilters([]); setBathrooms('Any'); setInfraFilters([]); setSearch(''); }}
+                      onClick={() => { setLegalFilters([]); setAmenities([]); setInfraFilters([]); setFurnishing('Any'); setParkingMin('Any'); setServiceChargeMax(''); setSearch(''); }}
                       className="flex items-center gap-1.5 rounded-lg bg-emerald-700 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-800"
                     >
                       <RotateCcw className="h-3.5 w-3.5" />
@@ -524,7 +582,7 @@ export default function ListingsPage() {
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                     {[
                       { icon: <ArrowRight className="h-3.5 w-3.5 text-emerald-600" />, title: 'Expand Search Radius', desc: 'Extend polygon boundary to Victoria Island or Ikoyi (+14 verified listings).', action: 'Expand to VI & Ikoyi →' },
-                      { icon: <Zap className="h-3.5 w-3.5 text-amber-600" />, title: 'Relax Power Constraint', desc: "Uncheck '24/7 Dedicated Power' filter to reveal 6 prime private inverter units.", action: 'Remove Power Filter →' },
+                      { icon: <SlidersHorizontal className="h-3.5 w-3.5 text-amber-600" />, title: 'Relax Power Constraint', desc: "Uncheck '24/7 Dedicated Power' filter to reveal 6 prime private inverter units.", action: 'Remove Power Filter →' },
                       { icon: <UserCheck className="h-3.5 w-3.5 text-blue-600" />, title: 'Lagos Alausa Desk', desc: 'Request an accredited sovereign agent to source off-market Lekki listings.', action: 'Request Agent Match →' },
                     ].map((step) => (
                       <div key={step.title} className="group cursor-pointer rounded-lg border border-zinc-200 bg-white p-3 shadow-sm transition-colors hover:border-emerald-500">
@@ -562,7 +620,7 @@ export default function ListingsPage() {
                           verificationTier={listing.verificationTier as 'basic' | 'verified' | 'inspected' | 'certified'}
                           listingType={listing.listingType as 'rent' | 'sale' | 'short_let' | 'share' | 'commercial'}
                           image={listing.image}
-                          specs={{ beds: listing.beds, baths: listing.baths, sqm: listing.sqm }}
+                          specs={{ beds: listing.beds, baths: listing.baths, sqm: listing.sqm, parking: listing.parking }}
                         />
                       </Link>
                       <label className="absolute left-3 top-3 z-10 flex cursor-pointer items-center gap-1.5 rounded-full border border-white/10 bg-black/70 px-2 py-1 text-xs text-white backdrop-blur transition-colors hover:bg-black/80">
@@ -652,7 +710,7 @@ export default function ListingsPage() {
             <div className="flex-1 overflow-y-auto p-5">{sidebarContent}</div>
             <div className="flex gap-2 border-t border-zinc-200 p-5">
               <button
-                onClick={() => { setLegalFilters([]); setBathrooms('Any'); setInfraFilters([]); setMinSqm(''); setMaxSqm(''); }}
+                onClick={() => { setLegalFilters([]); setAmenities([]); setInfraFilters([]); setFurnishing('Any'); setParkingMin('Any'); setServiceChargeMax(''); }}
                 className="flex-1 rounded-lg border border-zinc-200 py-2.5 text-sm text-zinc-600 transition-colors hover:bg-zinc-50"
               >
                 Reset

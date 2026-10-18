@@ -219,6 +219,7 @@ export default function SignUpPage() {
             </div>
 
             <SignUp
+              unsafeMetadata={{ role: selectedRole }}
               appearance={{
                 elements: {
                   rootBox: 'w-full',

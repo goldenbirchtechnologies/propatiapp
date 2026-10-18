@@ -37,12 +37,14 @@ export default function OnboardingPage() {
     setError(null);
 
     try {
-      // Use Clerk's native user update
+      // Use Clerk's native user update — persist role to privateMetadata
+      // so it's readable by server-side code and never lost
       await user.update({
         firstName: formData.firstName,
         lastName: formData.lastName,
         unsafeMetadata: {
           ...user.unsafeMetadata,
+          role: user.unsafeMetadata?.role || user.publicMetadata?.role || 'tenant',
           phone: formData.phone,
           bio: formData.bio,
           onboardingComplete: true,

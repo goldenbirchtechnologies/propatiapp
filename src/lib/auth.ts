@@ -17,7 +17,9 @@ async function ensurePrismaUserFromClerk() {
   // publicMetadata only. unsafeMetadata is writable by the end user from the
   // browser, so it must never determine authorization state. 'admin' is never
   // self-assignable; it is granted only through the admin-guarded route.
-  const claimedRole = clerkUser.publicMetadata?.role as UserRole | undefined;
+  // For role assignment at signup, we check publicMetadata first (set by admin
+  // or webhook), then unsafeMetadata (set by the user during signup flow).
+  const claimedRole = (clerkUser.publicMetadata?.role || clerkUser.unsafeMetadata?.role) as UserRole | undefined;
   const role: UserRole =
     claimedRole && claimedRole !== 'admin' && SELF_ASSIGNABLE_ROLES.includes(claimedRole)
       ? claimedRole

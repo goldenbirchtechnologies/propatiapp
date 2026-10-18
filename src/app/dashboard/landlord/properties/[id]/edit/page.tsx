@@ -1,7 +1,15 @@
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
+import PropertyEditClient from './PropertyEditClient';
+
+export const metadata = {
+  title: 'Edit Property – Landlord',
+  description: 'Edit property details and configuration',
+};
 
 export default async function LandlordPropertyEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -9,5 +17,95 @@ export default async function LandlordPropertyEditPage({ params }: { params: Pro
   if (!user) redirect('/sign-in');
   if (user.role !== 'landlord') redirect('/dashboard');
 
-  redirect(`/dashboard/landlord/properties/${id}`);
+  const listing = await prisma.listing.findUnique({
+    where: { id, ownerId: user.id },
+    include: {
+      images: true,
+      verification: true,
+      units: {
+        select: {
+          id: true,
+          unitNumber: true,
+          type: true,
+          listingType: true,
+          pricePeriod: true,
+          rent: true,
+          cautionDeposit: true,
+          serviceCharge: true,
+          status: true,
+          occupancy: true,
+          isListed: true,
+          bedrooms: true,
+          bathrooms: true,
+          sizeSqm: true,
+        },
+      },
+    },
+  });
+
+  if (!listing) redirect('/dashboard/landlord/properties');
+
+  const initialListing = {
+    id: listing.id,
+    title: listing.title,
+    address: listing.address,
+    area: listing.area,
+    state: listing.state,
+    status: listing.status as string,
+    listingType: listing.listingType as string,
+    propertyType: listing.propertyType as string,
+    price: Number(listing.price),
+    pricePeriod: listing.pricePeriod,
+    allowShortlet: listing.allowShortlet,
+    amenities: (listing.amenities as string[]) || [],
+    description: listing.description || '',
+    viewsCount: listing.viewsCount,
+    createdAt: listing.createdAt.toISOString(),
+    verification: listing.verification
+      ? {
+          id: listing.verification.id,
+          overallStatus: listing.verification.overallStatus as string,
+          currentLayer: listing.verification.currentLayer,
+          l1Status: listing.verification.l1Status as string,
+          l2Status: listing.verification.l2Status as string,
+          l3Status: listing.verification.l3Status as string,
+          l4Status: listing.verification.l4Status as string,
+          l5Status: listing.verification.l5Status as string,
+        }
+      : null,
+    images: listing.images.map((img) => ({
+      id: img.id,
+      url: img.url,
+      isCover: img.isCover,
+    })),
+    units: listing.units.map((unit) => ({
+      id: unit.id,
+      unitNumber: unit.unitNumber,
+      type: unit.type,
+      listingType: unit.listingType,
+      pricePeriod: unit.pricePeriod,
+      rent: Number(unit.rent),
+      cautionDeposit: unit.cautionDeposit ? Number(unit.cautionDeposit) : null,
+      serviceCharge: unit.serviceCharge ? Number(unit.serviceCharge) : null,
+      status: unit.status,
+      occupancy: unit.occupancy,
+      isListed: unit.isListed,
+      bedrooms: unit.bedrooms,
+      bathrooms: unit.bathrooms,
+      sizeSqm: unit.sizeSqm ? Number(unit.sizeSqm) : null,
+    })),
+  };
+
+  return (
+    <DashboardShell
+      navigation={LANDLORD_NAVIGATION}
+      userRole={user.role}
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
+    >
+      <ErrorBoundary>
+        <PropertyEditClient listing={initialListing} userId={user.id} />
+      </ErrorBoundary>
+    </DashboardShell>
+  );
 }

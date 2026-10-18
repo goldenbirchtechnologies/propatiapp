@@ -1,0 +1,1563 @@
+================================================================================
+PROPATI LANDLORD DASHBOARD — SCREEN GENERATION PROMPTS (ALL PAGES + SUBPAGES)
+================================================================================
+Shared visual language for every prompt below:
+
+  Theme     : Next.js 14 App Router + Tailwind CSS + shadcn/ui (dark-mode capable)
+  Brand     : Emerald #10b981 (--accent)
+  Surfaces  : .glass-card | bg-surface-elevated | border border-zinc-200 dark:border-white/[0.08]
+  Fonts     : font-heading (headline-sm / heading-sm) | font-label-sm (uppercase tracking-wider) | font-body-sm
+  Radius    : rounded-xl | rounded-2xl
+  Sidebar   : LANDLORD_NAVIGATION from src/lib/navigation.tsx
+  Shell     : DashboardShell wraps every route (userRole='landlord', userName={user.fullName})
+  Guard     : Landlord role enforced — redirect('/dashboard') if user.role !== 'landlord';
+              redirect('/sign-in') if !user
+  Currency  : NGN via Intl.NumberFormat('en-NG', { style:'currency', currency:'NGN' })
+  Empty     : centered icon (12-16px) + muted text + action button (ghost/outline)
+  Errors    : glass-card border-red-500/30 bg-red-500/5 + Retry button
+  Loading   : Skeleton components OR animate-pulse surfaces
+
+Route index (39 page files + client components):
+
+  /dashboard/landlord/                              [dashboard]
+  /dashboard/landlord/profile                       [profile]
+  /dashboard/landlord/properties                     [properties-list]
+  /dashboard/landlord/properties/new                [property-create]
+  /dashboard/landlord/properties/[id]                 [property-detail]
+  /dashboard/landlord/properties/[id]/edit          [property-edit]
+  /dashboard/landlord/properties/[id]/units/new     [unit-create]
+  /dashboard/landlord/properties/[id]/publish       [publish-listing]
+  /dashboard/landlord/listing/new                   [listing-create]
+  /dashboard/landlord/listing/new/wizard           [listing-wizard]
+  /dashboard/landlord/listing/new/wizard/steps/Step1PropertyStructure  [wizard-step1]
+  /dashboard/landlord/listing/new/wizard/steps/Step2PrivacyType       [wizard-step2]
+  /dashboard/landlord/listing/new/wizard/steps/Step3Location          [wizard-step3]
+  /dashboard/landlord/listing/new/wizard/steps/Step4Capacity         [wizard-step4]
+  /dashboard/landlord/listing/new/wizard/steps/Step5RoomDetails       [wizard-step5]
+  /dashboard/landlord/listing/new/wizard/steps/Step6RulesMaintenance  [wizard-step6]
+  /dashboard/landlord/listing/new/wizard/steps/Step7Amenities         [wizard-step7]
+  /dashboard/landlord/listing/new/wizard/steps/Step8Photos            [wizard-step8]
+  /dashboard/landlord/listing/new/wizard/steps/Step9Title             [wizard-step9]
+  /dashboard/landlord/listing/new/wizard/steps/Step10Highlights       [wizard-step10]
+  /dashboard/landlord/listing/new/wizard/steps/Step12Pricing         [wizard-step11]
+  /dashboard/landlord/listing/new/wizard/steps/Step13Discounts       [wizard-step12]
+  /dashboard/landlord/listing/new/wizard/steps/Step14Safety          [wizard-step13]
+  /dashboard/landlord/listing/[id]                   [listing-detail]
+  /dashboard/landlord/applications                   [applications-list]
+  /dashboard/landlord/applications/[id]              [application-detail]
+  /dashboard/landlord/tenants                        [tenants-list]
+  /dashboard/landlord/tenants/[id]                   [tenant-detail]
+  /dashboard/landlord/leases                         [leases-list]
+  /dashboard/landlord/agreement                      [agreement-detail]
+  /dashboard/landlord/commercial/leases              [commercial-leases-list]
+  /dashboard/landlord/commercial/leases/negotiation  [commercial-negotiation]
+  /dashboard/landlord/commercial/agreements/review    [commercial-agreement-review]
+  /dashboard/landlord/commercial/move-in             [commercial-move-in]
+  /dashboard/landlord/messages                       [messages]
+  /dashboard/landlord/agents                         [agent-management]
+  /dashboard/landlord/screening                      [screening-calls]
+  /dashboard/landlord/vacancies                      [vacancies]
+  /dashboard/landlord/short-let                      [short-let-bookings]
+  /dashboard/landlord/maintenance                    [maintenance]
+  /dashboard/landlord/turnover                       [turnover-tasks]
+  /dashboard/landlord/financials                     [financials-hub]
+  /dashboard/landlord/financials/withdrawals         [withdrawals]
+  /dashboard/landlord/financials/invoices            [invoices]
+  /dashboard/landlord/financials/overdue             [overdue-payments]
+  /dashboard/landlord/financials/reports             [financial-reports]
+  /dashboard/landlord/statements                     [statements]
+  /dashboard/landlord/receipts                       [receipts]
+  /dashboard/landlord/revenue-forecast               [revenue-forecast]
+  /dashboard/landlord/revenue-forecast/report       [forecast-report]
+  /dashboard/landlord/revenue-forecast/scenario-builder [forecast-scenario-builder]
+  /dashboard/landlord/verification                   [verification]
+  /dashboard/landlord/verify                        [verify]
+  /dashboard/landlord/settings                      [settings]
+  /dashboard/landlord/notifications                  [notifications]
+
+================================================================================
+[1] LANDLORD DASHBOARD  —  /dashboard/landlord/
+================================================================================
+Prompt:
+  "Render the Landlord Dashboard (page.tsx server component + LandlordDashboardClient.tsx
+  client component) inside DashboardShell with LANDLORD_NAVIGATION. Auth: getCurrentUser()
+  via server component, redirect('/sign-in') if no user, redirect to getRoleRedirectPath
+  if role !== 'landlord'. Data fetched server-side via Prisma:
+
+  - listingCount = prisma.listing.count({ where: { ownerId: user.id } })
+  - activeListingCount = prisma.listing.count({ where: { ownerId: user.id, status: 'active' } })
+  - pendingApplicationCount = prisma.application.count({ where: { landlordId: user.id, status: 'pending' } })
+  - openMaintenanceCount = prisma.maintenanceTicket.count({ where: { listing: { ownerId: user.id }, status: { in: ['open', 'assigned', 'in_progress'] } } })
+  - totalRevenue = prisma.transaction.aggregate({ where: { payeeId: user.id, status: 'released', createdAt: { gte: startOfMonth } }, _sum: { amount: true } })
+  - recentListings: 12 listings, select { id, title, listingType, status, price, createdAt }
+  - maintenanceTickets: 5 open tickets, select { id, title, listing { title }, priority, status, tenant { fullName } }
+  - recentTenants: 5 tenant agreements with tenant { fullName, avatarUrl }, listing { title }, rentAmount
+
+  Client component (LandlordDashboardClient) receives props: displayName, totalRevenue,
+  listingCount, activeListingCount, occupancyRate, pendingApplicationCount,
+  openMaintenanceCount, recentListings, maintenanceTickets, recentTenants.
+
+  Layout: PageHeader ('Landlord Dashboard' + greeting) with InteractiveHoverButton
+  action (Add Property if empty, Add Listing otherwise).
+
+  Two modes:
+  — Empty state (listingCount === 0): onboarding card with 3-step progress bar
+    (Add Property → Publish Listing → Setup Payout Bank) + grid of linked steps
+    with step numbers, done status based on listingCount > 0 / activeListingCount > 0
+    / totalRevenue > 0.
+  — Full dashboard (listingCount > 0): 4-column StatCard grid (Total Properties,
+    Active Listings, Monthly Revenue, Occupancy Rate), then a 2-column grid:
+    LEFT — Revenue Trend chart (placeholder when no revenue, 'Monthly breakdown
+    arrives with your next billing cycle') with 'View all' link to /financials;
+    RIGHT — Actionable Insights card with conditional quick-action links
+    (maintenance tickets → /maintenance, applications → /applications,
+    no active listings → /listing/new, all-caught-up empty state).
+
+  Below: 3-column grid — Portfolio Health card (Occupancy progress bar only,
+  hard-coded bars removed), Recent Maintenance card (table: ticket title, listing,
+    priority badge, status, raised by, date), Recent Tenancies card (table:
+    tenant avatar + name, listing title, rent amount).
+
+  All cards: glass-card, border-zinc-200 dark:border-[#27272a], bg-white
+  dark:bg-[#F8FAFC] dark:bg-black, p-5, font-semibold text-sm headers.
+  Priority badges: urgent=tag-red, high=tag-red, medium=tag-amber, low=tag-emerald.
+  formatCurrency() for NGN formatting."
+
+================================================================================
+[2] PROFILE  —  /dashboard/landlord/profile
+================================================================================
+Prompt:
+  "Render the Landlord Profile page (profile/page.tsx server component calls
+  getCurrentUserWithProfile, passes user to LandlordProfileClient). Inside
+  DashboardShell with LANDLORD_NAVIGATION.
+
+  LandlordProfileClient (profile/LandlordProfileClient.tsx — client component)
+  receives user prop. Uses useState for activeTab ('overview' | 'kyc' | 'security' | 'billing').
+
+  Layout: max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10. Header: h1 'Profile',
+  description 'Manage your personal and business information'.
+
+  Tab bar (mt-6 border-b): segmented buttons Overview / KYC Verification /
+  Security / Billing — rounded-t-lg, emerald underline when active.
+
+  Overview tab:
+  — Profile card (glass-card): avatar (w-20 h-20 rounded-full, upload button overlay),
+    fullName (display name), role 'Landlord', email. Edit button (outline, top-right).
+  — Personal info grid (2-col): Full Name, Phone, Email, Date of Birth, Gender.
+
+  KYC tab:
+  — KYC status card: verificationTier (unverified / verified / certified),
+    NIN/BVN verification status, document upload area (title deed, survey plan,
+    CAC documents), verification layer badges (Layers 1-5 from VERIFICATION_SYSTEM.md).
+    Each layer: status badge (pending/in_progress/certified/rejected) + label +
+    description. Progress bar showing overall completion %.
+
+  Security tab:
+  — Password change form: current password, new password, confirm password inputs
+    (type='password' with eye toggle) + 'Change Password' button.
+  — Two-factor auth: toggle switch + phone number display.
+
+  Billing tab:
+  — Bank accounts list: account number, bank name, account holder name,
+    'Default' badge, 'Remove' button (outline red).
+  — 'Add Bank Account' button (primary emerald with Plus icon) → opens dialog.
+  — Payout schedule selector (weekly / monthly).
+
+  All inputs: h-11 rounded-lg border focus:ring-emerald-500/30, with error messages
+  in text-xs text-red-500 below field. Save button: bottom-right fixed bar with
+  'Save Changes' (emerald) + 'Cancel'. Validation via inline errors."
+
+================================================================================
+[3] PROPERTIES LIST  —  /dashboard/landlord/properties
+================================================================================
+Prompt:
+  "Render the Landlord Properties list page (properties/page.tsx server component +
+  PropertiesClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord. Pragma fetch: prisma.listing.findMany({ where: {
+  ownerId: user.id }, include: images (isCover), verification, agent, assignments
+  (active), units (with id, unitNumber, buildingName, type, bedrooms, bathrooms,
+  rent, status, occupancy, organizationId, listingType, pricePeriod, isListed) },
+  orderBy: { createdAt: 'desc' }).
+
+  Header: h1 'My Properties' + subtitle 'Manage all your property listings'.
+  Primary button: 'Add Property' (Plus icon) → /dashboard/landlord/properties/new.
+
+  Filter bar (mt-6): search input (Search icon pl-9) + status select dropdown
+  (All, Active, Draft, Published, Suspended) + type select (All, Residential,
+  Commercial) + 'Import Properties' (outline, Upload icon).
+
+  Grid/list toggle: Grid3X3 (active) / List view buttons.
+
+  Properties grid (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6):
+  Each property card (glass-card, rounded-xl, overflow-hidden border):
+  — Cover image (aspect-video, Next.js Image with blur placeholder).
+  — Top-left: status badge (Pending gray / Active emerald / Suspended red).
+  — Top-right: favorite button (Heart icon, outline when unfilled).
+  — Body: title (font-bold), location (MapPin icon + address, line-clamp-2),
+    stats row (Bed/Bath/Size icons + labels, text-sm text-zinc-500).
+  — Price row (right-aligned): rent amount (font-bold) + pricePeriod.
+  — Verification badge: ShieldCheck icon + tier label (Verified / Certified).
+  — Bottom actions: 'View' (Eye icon link → /properties/{id}) + 'Edit'
+    (Pencil icon link → /properties/{id}/edit).
+
+  Empty state: Building2 icon 16w opacity-50 + 'No properties yet' +
+  'Get started by adding your first property.' + Add Property button (primary).
+
+  Loading skeleton: 6 cards animate-pulse (image placeholder h-40, body lines).
+  Error state: glass-card border-red-500/30 + Retry.
+
+  Data normalization: PropertiesClient receives listings + normalized array
+  (with units, isActive, hasAgent, agentName, totalUnits, occupiedUnits,
+  verification status). Computed fields: unitCount = listing.units.length,
+  activeUnits = units with occupancy !== 'VACANT'."
+
+================================================================================
+[4] ADD PROPERTY  —  /dashboard/landlord/properties/new
+================================================================================
+Prompt:
+  "Render the Add Property page (properties/new/page.tsx server component →
+  AddPropertyClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord. Server fetches orgId = user.ownedOrganisations[0]?.id || null.
+
+  AddPropertyClient receives { orgId } prop. Multi-step wizard:
+
+  Step 1 — Property Details:
+  — Property Name / Building Name input (required).
+  — Address textarea (required, full street + city + state + country).
+  — Property Type select (residential / commercial / mixed-use).
+  — Total Units number (min 1, default 1).
+  — Land size (sqm, number).
+  — Year Built (number).
+  — Estimated Monthly Rent per unit (₦, number, optional).
+  — Property Description textarea (optional).
+
+  Step 2 — Units Builder:
+  — Dynamic form list (repeatable via 'Add Unit' button).
+  — Each unit form: Unit Number (required), Type (apartment/house/duplex/land/office/shop/warehouse),
+    Bedrooms (number min 0), Bathrooms (number min 0), Size (sqm, number),
+    Monthly Rent (₦ number required), Status (select, default AVAILABLE).
+  — 'Remove' button on rows beyond the first (Trash2 red ghost).
+
+  Step 3 — Confirmation:
+  — Summary card: property name, address, type, unit count.
+  — Two action buttons: 'View Property' (→ /properties/{listingId}) +
+    'Add Another Property' (resets to Step 1).
+
+  POSTs to POST /api/properties (creates Listing + Unit rows). On success,
+  navigate to /properties/{listingId}.
+
+  Form fields: glass-card border-b header px-6 py-5, body p-6, emerald
+  #10b981 highlights, font-label-sm uppercase labels. Inputs: h-11 rounded-lg
+  border focus:ring-emerald-500/30. Validation errors in text-xs text-red-500 below field.
+  Progress indicator: 3 dots with step bar.
+
+  NoOrgState: if orgId is falsy, show inline 'Create Organization' link
+  → /dashboard/estate-manager/organizations/new."
+
+================================================================================
+[5] LISTING CREATE — /dashboard/landlord/listing/new
+================================================================================
+Prompt:
+  "Render the Listing Create page (listing/new/page.tsx server component →
+  AddListingClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord. Server fetches listings (where ownerId = user.id,
+  select id, title, address, area, state, listingType, propertyType, + vacant units
+  with id, unitNumber, buildingName, type, bedrooms, bathrooms, sizeSqm, rent,
+  cautionDeposit, serviceCharge).
+
+  AddListingClient receives listings prop. Two-step flow:
+
+  Step 1 — Select Property & Unit:
+  — Properties list (searchable select): each option shows property title + address.
+  — When property selected, vacant units for that listing appear below (checkbox list).
+  — Checkbox 'List all vacant units' or individual unit selection.
+  — Continue button (disabled if no unit selected).
+
+  Step 2 — Listing Details:
+  — Title (required, max 80 chars, char counter).
+  — Description (textarea, required, min 50 chars).
+  — Listing Type (select: for_rent / for_sale / short_let, default for_rent).
+  — Property Type (select: residential_villa / fully_detached_duplex / commercial_office,
+    sourced from listing.propertyType).
+  — Price (₦ number, required).
+  — Price Period (select: monthly / yearly / nightly, based on listingType).
+  — Availability Date (calendar picker).
+  — Amenities (multi-select pills: Wifi, Gym, Parking, Generator, AC, Swimming Pool,
+    Security, Elevator, Gym, Covered Parking, Power Backup, etc.).
+  — Cover Image uploader (drag-drop zone, accepts .jpg/.png, max 5MB).
+  — Gallery uploader (multiple, min 3 recommended).
+
+  POSTs to POST /api/listings (creates Listing with images + amenities,
+  status='published'). On success → /dashboard/landlord/listing/{id}.
+  Validation: all required fields, toast on error, toast on success."
+
+================================================================================
+[6] LISTING WIZARD — /dashboard/landlord/listing/new/wizard
+================================================================================
+Prompt:
+  "Render the Listing Wizard (listing/new/wizard/page.tsx → WizardShell.tsx +
+  step components Step1-14). Inside DashboardShell. Auth same as listing/new.
+
+  WizardShell component: persistent container (no unmount across steps) with:
+  — Step indicator: horizontal stepper (14 steps, scrollable on mobile).
+    Each step: circular node (w-8 h-8) + label. Active = emerald fill, completed = green check,
+    pending = gray. Connector line between.
+  — Progress bar: h-2, emerald fill width based on step.
+  — Navigation: Back (outline) + Next/Continue (emerald, disabled until required fields valid).
+
+  Wizard state: stored in useState — { propertyStructure, privacyType, location,
+    capacity, roomDetails, rules, amenities, photos, title, highlights, pricing,
+    discounts, safety }. Passed through steps via shared context or prop drilling.
+
+  Step components (each in wizard/steps/):
+  - Step1PropertyStructure: title (required), description (required), listingType
+    (radio: rent / sale / shortlet), propertyType, address, city, state.
+  - Step2PrivacyType: privacyType radio (public / private / invite_only).
+  - Step3Location: address autocomplete (MapPin icon), map preview, lat/lng coords.
+  - Step4Capacity: totalUnits, bedrooms, bathrooms, sizeSqm, parkingSpaces.
+  - Step5RoomDetails: per-room form builder (type: bedroom/living/dining/kitchen/bathroom,
+    length, width, floor, furnishing, description). Add another room button.
+  - Step6RulesMaintenance: petPolicy radio, smokingPolicy radio, partiesAllowed radio,
+    maintenanceFee percentage, maintenanceContact toggle.
+  - Step7Amenities: multi-select grid (Wifi, Gym, Pool, AC, etc.) with icons + search filter.
+  - Step8Photos: drag-drop upload (Images, Documents, Videos), preview thumbnails,
+    cover image selection, reorder via drag. Max 20 images.
+  - Step9Title: title (required, max 80, char counter), tagline (optional, max 120).
+  - Step10Highlights: tag pills (Pet Friendly, New Listing, Verified, etc.) +
+    custom tag input.
+  - Step12Pricing: basePrice, pricePeriod, currency, securityDeposit,
+    serviceCharge, paymentTerms.
+  - Step13Discounts: earlyBirdDiscount, longStayDiscount (duration),
+    weeklyDiscount, custom discount (name + percent + duration).
+  - Step14Safety: emergencyContact, houseRules (bullets), safetyFeatures (checkbox: Smoke Detector, CO Detector, Fire Extinguisher, First Aid Kit, etc.).
+
+  On final step submit: POST /api/listings with all wizard data. On success →
+  /dashboard/landlord/listing/{id}. Validation per step (toast errors).
+
+  Shared types from wizard/types.ts: PropertyStructure, PrivacyType, Location,
+  Capacity, RoomDetail, Rules, Amenity, Photo, Title, Highlight, Pricing, Discount,
+  Safety — all with validation rules."
+
+================================================================================
+[7] LISTING DETAIL — /dashboard/landlord/listing/[id]
+================================================================================
+Prompt:
+  "Render the Listing Detail page (listing/[id]/page.tsx + PropertyDetailClient.tsx
+  + sub-components: ImageGallery, Amenities, PropertyHeader, BookingCard). Inside
+  DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server component fetches: prisma.listing.findUnique({ where: { id },
+  include: { images: true, verification: true, owner, units: full unit select } }).
+  Passes initialListing to PropertyDetailClient.
+
+  PropertyDetailClient (client component): manages activeImage index, liked state
+  (POST/DELETE /api/favorites), view mode (grid/list).
+
+  Layout: max-w-7xl mx-auto.
+
+  PropertyHeader:
+  — Title (h1, 2xl font-bold) + verification tier badge (ShieldCheck, color:
+    basic=gray / verified=emerald / inspected=blue / certified=gold).
+  — Location (MapPin icon + address).
+  — Price (headline, NGN formatted) + pricePeriod.
+  — Status badge (published/draft/suspended).
+  — Favorite button (Heart, filled when liked) + Share button (Share2).
+
+  ImageGallery:
+  — Main image (aspect-video, Next.js Image, object-cover, rounded-xl).
+  — Thumbnail strip (horizontal scroll, w-24 h-20 each). Click = setActiveImage.
+  — Cover indicator (star badge on cover image).
+
+  Two-column body (lg:grid lg:grid-cols-[2fr_1fr] gap-8):
+  LEFT:
+  — Tabs: Overview | Amenities | Pricing | Units | Reviews. Each tab: content card.
+  — Overview: description, property details grid (type, status, year built, etc.).
+  — Amenities: grid of icons + labels (beds, baths, size, parking, wifi, etc.)
+    from amenities array, using lucide-react icons.
+  — Pricing: rent amount, pricePeriod, serviceCharge, cautionDeposit, payment terms.
+  — Units: table of units (unitNumber, type, bedrooms, bathrooms, rent, status).
+    Each row has 'Edit' link → /properties/{id}/edit.
+  — Reviews: list of review cards (rating stars + reviewer + comment + date).
+
+  RIGHT (sticky):
+  — BookingCard: availability calendar (Calendar icon), check-in/out date pickers,
+    guest count selector (+/- buttons), 'Book Now' button (emerald, full-width).
+    Price summary: base price + service charge + total.
+  — Verification badge: full 5-layer status with icons (file-text, shield, video, map-pin, check).
+
+  Mobile: tabs collapse into a button; booking card moves below main content."
+
+================================================================================
+[8] APPLICATIONS LIST  —  /dashboard/landlord/applications
+================================================================================
+Prompt:
+  "Render the Landlord Applications page (applications/page.tsx server +
+  LandlordApplicationsClient.tsx). Inside DashboardShell. Auth:
+  getCurrentUserWithProfile, redirect if role not landlord AND not admin.
+  Dynamic = force-dynamic. Pragma fetch: prisma.application.findMany({ where:
+  { landlordId: user.id }, orderBy: { createdAt: 'desc' }, include: { listing
+  (select id, title, area, state, price, pricePeriod, coverImage), tenant (select
+  id, fullName, email, phone, avatarUrl, employmentStatus, employerName, jobTitle,
+  yearlyIncome, profileBio, idVerified, ninVerified) } }).
+
+  Header: h1 'Applications' + subtitle 'Review, screen, and manage tenancy
+  applications.' + 'Screening' link to /screening (MessageCircle icon).
+
+  Stat row (4 StatCards): Total | Pending Review (ClipboardList) |
+  Approved (CheckCircle2) | Rejected (XCircle).
+
+  Filter bar: search input (Search pl-9) + status filter dropdown
+  (All, Pending, Approved, Rejected, Archived) + date range picker.
+
+  Applications table (w-full text-sm):
+  — Columns: Applicant (avatar + name + email), Property (listing title + area),
+    Date Applied (calendar), Annual Income (₦), Verification (KYC badges:
+    idVerified ✓ / ninVerified ✓), Status (Badge: pending=magenta, approved=green,
+    rejected=red, archived=gray), Actions (Eye link → /applications/{id},
+    Check/Reject quick buttons if pending).
+
+  — Status actions: Approve button (emerald, Check icon) → POST /api/applications/{id}/status
+    Approve button (emerald, Check icon) → POST /api/applications/{id}/status with {status:'approved'}
+    reject: POST /api/applications/{id}/status with {status:'rejected'}
+
+  Row hover: bg-zinc-50 dark:bg-zinc-800/40. Empty: ClipboardList icon 16w opacity-50
+  + 'No applications yet.' Loading: 5 Skeleton rows. Error: glass-card
+  border-red-500/30 + Retry.
+
+  Each row is clickable (onClick → router.push('/applications/{id}')).
+  Status badges use the statusBadge function (pending=magenta, approved=green,
+  rejected=red, archived=gray, default=slate)."
+
+================================================================================
+[9] APPLICATION DETAIL  —  /dashboard/landlord/applications/[id]
+================================================================================
+Prompt:
+  "Render the Application Detail page (applications/[id]/page.tsx +
+  LandlordApplicationDetailClient.tsx). Inside DashboardShell. Auth:
+  getCurrentUserWithProfile, redirect if not landlord. Dynamic = force-dynamic.
+
+  Server fetches: prisma.application.findUnique({ where: { id }, include: {
+    listing (select full), tenant (select fullName, email, phone, avatarUrl,
+    employmentStatus, employerName, jobTitle, yearlyIncome, profileBio, idVerified,
+    ninVerified, phoneVerified), guarantor: select fullName, phone, email,
+    employmentStatus, address, relationship, ninVerified) } }).
+
+  Client receives { application } prop.
+
+  Layout: max-w-4xl mx-auto py-8 space-y-6.
+
+  Breadcrumb: Home / Applications / [applicant name].
+
+  Header card (glass-card):
+  — Applicant: avatar (w-16 h-16 rounded-full) + name (h2) + email.
+  — Application ID (mono text-sm, gray).
+  — Status badge (pending/approved/rejected).
+  — Action buttons: Approve (emerald Check) / Approve & Message Tenant (emerald) /
+    Reject (red X) / Message (outline). Reject opens a confirmation dialog
+    with rejection reason textarea + 'Reject Application' button.
+  — Approve opens a dialog: 'Approve application?', message template
+    'Your application for [property] has been approved...', send checkbox.
+
+  Two-column grid (lg:grid-cols-2 gap-6):
+  LEFT:
+  — 'Application Details' card: listing title, property address, listingType,
+    monthlyRent (formatted), serviceCharge, cautionDeposit, moveInDate preference.
+  — 'Tenant Information' card: full name, email, phone, DOB, employment status,
+    employer, job title, annual income, profile bio, KYC status (idVerified ✓,
+    ninVerified ✓, phoneVerified ✓ badges).
+  LEFT (cont):
+  — 'Guarantor Information' card (conditional on application.guarantor):
+    full name, phone, email, relationship, employment status, address, ninVerified.
+
+  RIGHT:
+  — 'Documents' card: list of uploaded documents with FileText icon + view button.
+  — 'Verification' card: 5-layer verification status badges.
+  — 'Notes' card: timeline of notes/comments (Author, date, content). Add note
+    textarea + Submit (button disabled until 20 chars).
+  — 'Schedule Screening Call' card: date picker + time picker + 'Schedule Call'
+    button → POST /api/screening-calls. Links to /screening.
+
+  Status badge: status === 'approved' → green, 'rejected' → red, default → magento.
+  KYC badges use the same statusColors pattern as verification page.
+
+  Approval flow: POST /api/applications/{id}/status with PATCH body.
+  On success: toast 'Application {status}' + router.back()."
+
+================================================================================
+[10] TENANTS LIST  —  /dashboard/landlord/tenants
+================================================================================
+Prompt:
+  "Render the Landlord Tenants page (tenants/page.tsx server +
+  LandlordTenantsClient.tsx). Inside DashboardShell. Auth:
+  getCurrentUserWithProfile, redirect if not landlord. Dynamic = force-dynamic.
+
+  Server fetches (Promise.all):
+  — agreements: prisma.agreement.findMany({ where: { landlordId: user.id },
+    include: { tenant (KYC fields), listing (title, area, state) } })
+  — units: prisma.unit.findMany({ where: { listing: { ownerId: user.id },
+    currentTenantId: { not: null } }, select: currentTenantId, buildingName,
+    unitNumber, leaseStartDate, leaseEndDate })
+  — invoices: prisma.invoice.findMany(...)
+
+  LandlordTenantsClient: state for search query, filterTenant (active/all/expiring).
+  Computed: tenantsByUnit (map currentTenantId → unit info), rentStatusByTenant
+  (paid/delinquent from invoices), leaseExpiryByTenant.
+
+  Header: h1 'Tenants' + subtitle 'Directory of tenants, lease terms, rent status,
+  and KYC badges.' + 'Add Tenant' button (Plus icon, outline).
+
+  Filter bar (mt-4): search input (Search pl-9) + filter dropdown
+  (All / Active / Expiring / Delinquent).
+
+  Tenants table (w-full):
+  — Columns: Tenant (avatar + name + KYC badges: shield for verified, ID card for
+    nin, phone for phone), Phone, Unit (buildingName + unitNumber), Property
+    (listing title), Lease (startDate, endDate + daysRemaining), Rent
+    (amount formatted NGN + status badge: paid=green, partial=amber, overdue=red),
+    Actions (Eye link → /tenants/{id}).
+  — KYC badges: idVerified → blue shield, ninVerified → green ID card,
+    phoneVerified → amber phone.
+  — Rent status color: status === 'paid' → emerald, 'partial' → amber,
+    'overdue' → red.
+  — Lease expiry: daysRemaining < 30 → amber badge, < 7 → red, > 30 → green.
+
+  Empty: Users 16w opacity-50 + 'No tenants yet.' + 'Invite a tenant to get started.'
+  Loading: StatCardSkeleton + RowSkeleton.
+  All badges rounded-full px-2.5 py-0.5 text-xs font-medium."
+
+================================================================================
+[11] TENANT PROFILE  —  /dashboard/landlord/tenants/[id]
+================================================================================
+Prompt:
+  "Render the Tenant Profile page (tenants/[id]/page.tsx server +
+  TenantProfileClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord. Dynamic = force-dynamic.
+
+  Server fetches: prisma.user.findUnique({ where: { id: params.id },
+  include: { agreements (status, startDate, endDate, rentAmount, cautionDeposit,
+  serviceCharge, listing title+area+state), units (buildingName, unitNumber,
+  leaseStartDate, leaseEndDate), maintenanceTickets (title, status, priority,
+  category, createdAt, resolutionNote), kyc (status, level, dojahRef, verifiedAt) } }).
+
+  TenantProfileClient receives tenant + interface props.
+
+  Layout: max-w-6xl mx-auto py-10.
+
+  Header:
+  — Avatar (w-24 h-24 rounded-full) + name (h1) + email.
+  — KYC badge row: Shield (verified / not verified) + NIN badge + phone badge.
+  — Action buttons: Message (outline) + Download Agreement (outline, Download icon).
+
+  4-column stat row:
+  — Total Leases (FileText), Active Lease (Key icon), Rent Status (DollarSign),
+    Maintenance Tickets (Wrench).
+
+  Tabbed content (Tabs component):
+  — Leases: table of agreements (listing title, unit, period, rent, status badge).
+  — Payments: table of invoices (due date, amount, status, actions).
+  — Maintenance: list of tickets (title, priority badge, status badge, date).
+  — Documents: uploaded files with FileText icon + download links.
+
+  All cards: glass-card, border-b header px-6 py-5, body p-6.
+  formatNaira for currency. StatusPill: active=green, terminated=red,
+  pending=amber, expired=gray."
+
+================================================================================
+[12] LEASES LIST  —  /dashboard/landlord/leases
+================================================================================
+Prompt:
+  "Render the Landlord Leases page (leases/page.tsx — server component using
+  getCurrentUserWithProfile + prisma). Inside DashboardShell. Auth: redirect if
+  not landlord.
+
+  Pragma fetch: prisma.agreement.findMany({ where: { landlordId: user.id },
+  include: { tenant (fullName), listing (title) } }, orderBy: { createdAt: 'desc' },
+  take: 50 }).
+
+  Computed stats:
+  — total = leases.length
+  — active = leases where status === 'active'
+  — expiringSoon = leases where endDate within 30 days
+  — expired = leases where endDate in past
+
+  statusBadge function: active → 'default' (green), draft → 'secondary' (gray),
+  pending_signature → 'outline' (amber), expired/terminated → 'destructive' (red).
+
+  Header: h1 'Leases & Agreements' + subtitle 'Overview of lease agreements,
+  expiry dates, and tenant details.'
+
+  Stat row (4 StatCards): Total | Active | Expiring Soon | Expired.
+
+  Leases table:
+  — Columns: Property (listing.title), Tenant (tenant.fullName), Status (Badge),
+    Start Date, End Date, Rent (₦ formatted), Actions (Eye link → /leases,
+    ChevronRight).
+  — Status badge: active=green badge, draft=gray, pending_signature=amber outline,
+    expired=red.
+  — Lease expiry warning: if expired → red row tint, if expiringSoon (<30 days)
+    → amber row tint.
+
+  Empty: FileText 16w + 'No leases yet.' Loading: Skeleton table rows.
+  All text: text-sm, thead uppercase font-medium text-zinc-600."
+
+================================================================================
+[13] AGREEMENT DETAIL — /dashboard/landlord/agreement
+================================================================================
+Prompt:
+  "Render the Agreement Detail page (agreement/page.tsx — server component). Inside
+  DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Pragma fetch: prisma.agreement.findMany({ where: { landlordId: user.id },
+  include: { tenant (fullName), listing (title, listingType) } }, orderBy: desc, take: 50).
+
+  statusBadgeVariant: draft=secondary, pending_signature=outline, active=default,
+  expired/terminated=destructive.
+
+  Header: h1 'Agreements' + subtitle 'View and manage lease agreements.'
+
+  Agreements table:
+  — Columns: Title (listing.title + listingType badge), Tenant (tenant.fullName),
+    Status (Badge with variant, status.replace '_' → space), Created Date,
+    Actions (Eye link → agreement, ChevronRight).
+
+  Status badges: active → green Badge default, draft → gray Badge secondary,
+  pending_signature → amber Badge outline, expired/terminated → red Badge destructive.
+
+  Action column: ChevronRight link to individual agreement detail (future route).
+  Empty: FileText 16w + 'No agreements yet.' Header has 'Create Agreement' button
+  (outline, Plus icon) → /agreements/new (stub)."
+
+================================================================================
+[14] COMMERCIAL LEASES  —  /dashboard/landlord/commercial/leases
+================================================================================
+Prompt:
+  "Render the Commercial Leases page (commercial/leases/page.tsx — server). Inside
+  DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Pragma fetch: prisma.agreement.findMany({ where: { landlordId: user.id,
+  listing: { listingType: 'commercial' } }, include: { tenant (fullName),
+  listing (title, address) } }, orderBy: desc, take: 50 }).
+
+  Header: h1 'Commercial Lease Management' + subtitle about commercial portfolio.
+
+  Commercial leases table:
+  — Columns: Property (listing.title + address), Tenant (tenant.fullName),
+    Rent (₦ formatted), Start/End Date, Status (Badge: active/draft/pending_signature/expired/terminated),
+    Actions (Eye + Download icons).
+  — Status badge: active=green, draft=gray, pending_signature=amber, expired/terminated=red.
+
+  Stat summary (4 cards): Total Commercial Leases, Active Leases (green),
+  Expiring Soon (amber, <30 days), Expired (red).
+
+  Empty state: Landmark 16w opacity-50 + 'No commercial leases yet.'
+  Loading: Skeleton rows.
+  All tables use the same Card/CardContent/CardHeader/CardTitle structure
+  as the leases page. Badge from @/components/ui/badge."
+
+================================================================================
+[15] COMMERCIAL NEGOTIATION — /dashboard/landlord/commercial/leases/negotiation
+================================================================================
+Prompt:
+  "Render the Commercial Lease Negotiation page (commercial/leases/negotiation/
+  page.tsx — server component). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  Header: h1 'Commercial Lease Negotiation' + subtitle 'Review and negotiate
+  commercial lease terms with prospective tenants.'
+
+  Negotiation table:
+  — Columns: Property (listing title + address), Tenant (fullName + email),
+    Proposed Rent (₦), Lease Term (months), Submitted Date, Actions.
+  — Status badge: pending_review (amber), negotiation (blue), agreed (green), expired (gray).
+  — Actions: 'Review Terms' button (emerald) → opens slide-out with term editor,
+    'Accept Offer' (emerald check) → POST /api/agreements/{id}/accept,
+    'Counter Offer' (outline) → opens counter-offer dialog with rent suggestion.
+
+  Layout: split-view on desktop. LEFT: negotiation list (sticky). RIGHT:
+  active negotiation detail (term editor, rent input, lease duration,
+  special clauses textarea, 'Send Counter' button).
+
+  Term editor fields: base rent (₦), rent review cycle (annual), service charge (%),
+  caution deposit (months), fit-out allowance (₦), exclusivity clause (checkbox),
+  subletting clause (checkbox), break clause (weeks input).
+
+  Empty: Gavel 16w opacity-50 + 'No negotiations pending.'
+  No setTimeout; all actions POST to real API endpoints."
+
+================================================================================
+[16] COMMERCIAL AGREEMENT REVIEW — /dashboard/landlord/commercial/agreements/review
+================================================================================
+Prompt:
+  "Render the Commercial Agreement Review page (commercial/agreements/review/
+  page.tsx — server component). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  Pragma fetch: prisma.agreement.findMany({ where: { landlordId: user.id,
+  OR: [{ status: 'pending_signature' }, { status: 'review_required' }] },
+  include: { tenant (fullName), listing (title, address) } }, orderBy: desc, take: 20 ).
+
+  Header: h1 'Commercial Lease Agreement Review' + 'Review proposed commercial lease
+  terms before signing.'
+
+  Review table:
+  — Columns: Property, Tenant, Lease Terms (start/end date), Rent (₦), Status, Actions.
+  — 'Sign Agreement' button (emerald) → opens e-signature modal with document preview +
+    signature pad + 'Confirm Sign' button → PATCH /api/agreements/{id}/status {signed:true}.
+  — 'Request Changes' button (outline, red) → opens comment dialog → POST /api/agreements/{id}/comments.
+
+  Signature modal: document preview iframe (or PDF viewer), two checkboxes
+  ('I have read and understood the terms' + 'I agree to the lease terms'),
+  signature canvas (draw signature with mouse/touch), 'Confirm Sign' button.
+
+  Empty: FileCheck2 16w opacity-50 + 'No agreements awaiting review.'
+  All actions POST/PATCH to real API endpoints."
+
+================================================================================
+[17] COMMERCIAL MOVE-IN — /dashboard/landlord/commercial/move-in
+================================================================================
+Prompt:
+  "Render the Commercial Move-In page (commercial/move-in/page.tsx — server).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Pragma fetch: prisma.booking.findMany({ where: { listing: { ownerId: user.id,
+  listingType: 'commercial' } }, include: { guest (fullName), listing (title, address) } },
+  orderBy: desc, take: 10 }).
+
+  Header: h1 'Move-In Coordination — Commercial' + 'Welcoming new tenants for
+  commercial grade-A serviced offices.'
+
+  Layout: max-w-7xl mx-auto py-10 space-y-8.
+
+  — Hero banner card: emerald-500 bg with 'Handover Ready' badge, h2 'Welcome to
+    your new HQ' + property address + 'Schedule Handover' button (outline white).
+  — Booking timeline: vertical stepper of move-in tasks (Contract Signed → Keys
+    Prepared → Handover Scheduled → Active). Each step: icon + label + status.
+  — Property details card: property image, address, size, amenities grid.
+  — Tenant contact card: tenant name + avatar, phone, email, company.
+  — Utility setup checklist: checkbox items (Electricity, Internet, HVAC, Security Access).
+  — 'Mark as Handed Over' button (emerald, full-width, disabled until all checklists done).
+
+  POST /api/bookings/{id}/move-in-status when 'Mark as Handed Over' clicked."
+
+================================================================================
+[18] MESSAGES — /dashboard/landlord/messages
+================================================================================
+Prompt:
+  "Render the Messages page (messages/page.tsx — server component). Inside
+  DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server component: redirect if !user, redirect if role !== 'landlord'.
+  Wraps <SidebarProvider> + <MessagePage> (from @/components/ui/message-page)
+  with props: userId, userName, userRole.
+
+  MessagePage component: full conversation interface with:
+  — Left sidebar: conversation list (search + filter by role).
+  — Center: active conversation thread (messages, attachments, typing indicator).
+  — Right sidebar: conversation info (participants, property context, shared files).
+
+  Messages fetch from GET /api/messages/conversations?userId={userId}.
+  New messages via POST /api/messages with { toUserId, listingId, subject, content }.
+  Real-time via Server-Sent Events or polling interval.
+
+  All message actions POST/PUT to real API endpoints.
+  No setTimeout-based simulated typing or fake replies."
+
+================================================================================
+[19] AGENT MANAGEMENT — /dashboard/landlord/agents
+================================================================================
+Prompt:
+  "Render the Agent Management page (agents/page.tsx server +
+  AgentInviteManagementClient.tsx). Inside DashboardShell. Auth:
+  getCurrentUserWithProfile, redirect if not landlord AND not admin. Dynamic = force-dynamic.
+
+  Server fetches:
+  — listings: prisma.listing.findMany({ where: { ownerId: user.id }, select:
+    { id, title, address, area, state } })
+  — invites: prisma.agentInvite.findMany({ where: { landlordId: user.id },
+    include: { recipient (id, fullName), assignments { listing (id, title) } } })
+  — assignments: prisma.agentAssignment.findMany({ where: { invite: {
+    landlordId: user.id } }, include: { agent (fullName), listing (title) } })
+
+  AgentInviteManagementClient receives { properties, initialInvites, initialAssignments,
+  currentUserRole }. State: inviteType ('agent' | 'property_manager' | 'owner'),
+  email, selectedPropertyId, agentName. Tabs: Existing Agents | Invite New Agent
+  | Invitation History.
+
+  Header: h1 'Agent Management' + subtitle 'Invite agents to manage your listings.
+  Agents can register directly; invites are optional.'
+
+  Tab 1 — Existing Agents: table of agents (avatar, name, email, properties assigned
+    count, last active, status badge, Remove/Revoke button). Empty: Users 16w +
+    'No agents invited yet.'
+
+  Tab 2 — Invite New Agent: form card with email input, property select (from
+    properties), role select (agent / property_manager), message textarea.
+    Send Invite button → POST /api/agent-invites. Validation: email required,
+    property required, role required.
+
+  Tab 3 — Invitation History: table of invites (email, role, property, status badge:
+    pending/accepted/expired/revoked, sent date, actions Resend/Delete).
+
+  Status badges: pending=magenta, accepted=emerald, expired=amber, revoked=red.
+  All actions POST to POST /api/agent-invites or DELETE /api/agent-invites/{id}.
+  No setTimeout or alert — use toast notifications for feedback."
+
+================================================================================
+[20] SCREENING CALLS — /dashboard/landlord/screening
+================================================================================
+Prompt:
+  "Render the Screening Calls page (screening/page.tsx server +
+  LandlordScreeningClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  Server fetches: prisma.screeningCall.findMany({ where: { landlordId: user.id },
+  include: { listing (id, title, address), tenant (id, fullName) } },
+  orderBy: { createdAt: 'desc' }, take: 100 }).
+
+  LandlordScreeningClient receives { initialScreenings }. State: filter
+  (all/upcoming/completed/cancelled), search query. Computed: upcomingScreenings,
+  completedScreenings, cancelledScreenings.
+
+  Header: h1 'Screening Calls' + subtitle 'Manage tenant screening call schedules.'
+
+  3-column stat row: Upcoming (Calendar, emerald), Completed (CheckCircle2, blue),
+  Cancelled (XCircle, gray).
+
+  Filter bar: search input + status filter dropdown.
+
+  Screenings table:
+  — Columns: Tenant (name), Property (listing title + address), Scheduled Date,
+    Status (Badge: scheduled=emerald, completed=blue, cancelled=red),
+    Duration, Actions (Eye link → detail).
+  — Each row clickable → router.push to screening detail.
+
+  Schedule button: 'Schedule Screening Call' (primary, Calendar icon) →
+  opens dialog with tenant select, listing select, date/time pickers,
+  'Schedule Call' button → POST /api/screening-calls.
+
+  Empty: Calendar 16w opacity-50 + 'No screening calls scheduled.'
+  Status badges: scheduled=bg-emerald-500/10 text-emerald-400, completed=bg-blue-500/10
+  text-blue-400, cancelled=bg-red-500/10 text-red-400, border matching color."
+
+================================================================================
+[21] VACANCIES — /dashboard/landlord/vacancies
+================================================================================
+Prompt:
+  "Render the Vacancies page (vacancies/page.tsx server → VacanciesClient.tsx).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  VacanciesClient receives { userId }. State: vacancyData (array), loading boolean.
+  On mount: fetch('/api/landlord/vacancies?userId=' + userId) → set vacancyData.
+
+  Vacancy data shape: { id, listingId, listingTitle, address, area, state,
+  unitNumber, buildingName, sizeSqm, bedrooms, bathrooms, rent, serviceCharge,
+  status, daysVacant, lastTenantEnd, nextTenantStart, isListed, verificationTier }.
+
+  Computed stats: total (vacancyData.length), avgDaysVacant, avgRentLost,
+  totalRentLost.
+
+  Header: h1 'Vacant Units' + subtitle 'Units not currently generating revenue.
+  Track days vacant and potential rent loss.'
+
+  Stat row (4 cards): Total Vacant, Average Days Vacant (CalendarClock),
+  Estimated Monthly Loss (DollarSign), Potential Recovery (PiggyBank).
+
+  Filter bar: search + status filter (All, Listed, Unlisted, Verified) +
+  sort by (Days Vacant, Rent Amount, Property Name).
+
+  Vacancies table:
+  — Columns: Property (title + address + verification badge), Unit
+    (buildingName + unitNumber), Specs (Bed/Bath/Size), Monthly Rent (₦),
+    Days Vacant (CalendarClock + number, color: >30=amber, >90=red),
+    Actions (Eye link → /properties/{listingId}).
+
+  Listed toggle: each row has a List/Unlist toggle switch (boolean, POST to
+  /api/properties/{id}/listings/{unitId}/listing-status).
+
+  Empty: Home 16w opacity-50 + 'No vacant units found.'
+  Loading: Skeleton rows (animate-pulse).
+  All rent values use formatNaira(). Days vacant >30 days shows amber warning."
+
+================================================================================
+[22] SHORT-LET BOOKINGS — /dashboard/landlord/short-let
+================================================================================
+Prompt:
+  "Render the Short-let Bookings page (short-let/page.tsx server +
+  ShortLetClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  Server fetches (Promise.all):
+  — bookings: prisma.booking.findMany({ where: { listing: { ownerId: user.id } },
+    orderBy: { createdAt: 'desc' }, include: { listing (id, title, address),
+    guest (id, fullName, email, phone) } })
+  — listings: prisma.listing.findMany({ where: { ownerId: user.id }, select:
+    { id, title } })
+
+  Normalized booking data: { id, status (confirmed/pending/cancelled/completed/checked_in),
+  paymentStatus (paid/pending/refunded), checkIn (Date), checkOut (Date),
+  nights (number), totalPrice (number), basePrice (number), guestName, guestPhone,
+  guestEmail, guestId, specialRequests, checkedInAt, checkedOutAt, cancelledAt,
+  createdAt, listingId, listingTitle, listingAddress }.
+
+  ShortLetClient receives { initialBookings, listings }. State: activeTab
+  ('all' | 'upcoming' | 'active' | 'completed' | 'cancelled'), search,
+  statusFilter, listingFilter. Computed: upcomingBookings, activeBookings,
+  completedBookings, cancelledBookings, totalRevenue.
+
+  Header: h1 'Short-let Bookings' + subtitle about managing guest reservations.
+  + 'Export Report' button (outline, Download icon).
+
+  Tab bar: All | Upcoming | Active | Completed | Cancelled — pills with count.
+
+  Stats (4 cards): Total Revenue (DollarSign emerald), Active Nights
+  (CalendarDays), Upcoming (Clock), Total Bookings (Receipt).
+
+  Bookings table:
+  — Columns: Guest (avatar + name + email), Property (listingTitle + listingAddress),
+    Check-in / Check-out (dates), Nights (#), Total (₦), Payment Status (Badge:
+    paid=emerald, pending=amber, refunded=gray), Status (Badge:
+    confirmed=emerald, pending=amber, cancelled=red, completed=blue, checked_in=info),
+    Actions (Eye link → booking detail + Message button).
+
+  Each row clickable → router.push('/short-let/bookings/{id}').
+
+  Calendar view toggle: 'Calendar View' button → switches to calendar grid
+  (BookingsCalendar component) showing reservation spans with color-coded status.
+
+  Empty: CalendarDays 16w opacity-50 + 'No bookings found.'
+  Loading: Skeleton rows.
+  All dates formatted with toLocaleDateString('en-NG'). Amounts with formatNaira.
+  POST /api/bookings/{id}/status for status changes."
+
+================================================================================
+[23] MAINTENANCE — /dashboard/landlord/maintenance
+================================================================================
+Prompt:
+  "Render the Maintenance page (maintenance/page.tsx — server component using
+  getCurrentUserWithProfile + prisma). Inside DashboardShell. Auth: redirect if
+  not landlord.
+
+  Pragma fetch: prisma.maintenanceTicket.findMany({ where: { OR: [
+  { raisedBy: user.id }, { listing: { ownerId: user.id } }, { orgId: { not: null } }] },
+  include: { listing (title), raisedByUser (fullName) } }, orderBy: { createdAt:
+  'desc' }, take: 50 }).
+
+  Computed: openCount, inProgressCount, completedCount.
+  priorityBadge: urgent=bg-red-500/15 text-red-400, high=bg-red-500/10 text-red-400,
+  medium=bg-amber-500/15 text-amber-400, low=bg-emerald-500/10 text-emerald-400.
+
+  Header: h1 'Maintenance Requests' + subtitle + 'Create Ticket' button (Plus).
+
+  Stat row (3 StatCards): Open (Wrench red), In Progress (Clock amber),
+  Resolved/Closed (CheckCircle2 green).
+
+  Filter bar: search + status filter (open / assigned / in_progress / resolved /
+  closed) + priority filter (low / medium / high / urgent).
+
+  Tickets table:
+  — Columns: Ticket (title link → /maintenance/{id}), Property (listing.title),
+    Priority (Badge with priorityConfig colors), Status (Badge with statusConfig),
+    Raised By (raisedByUser.fullName), Created (date), SLA (countdown timer),
+    Actions (Eye + Assign icon).
+
+  statusBadge: open=tag-red, assigned=tag-blue, in_progress=tag-amber,
+  resolved=tag-green, closed=tag-gray.
+
+  Empty: Wrench 16w opacity-50 + 'No maintenance tickets.'
+  Loading: Skeleton rows (animate-pulse).
+  All badges: inline-flex items-center rounded-full border px-2.5 py-0.5
+  text-xs font-medium."
+
+================================================================================
+[24] TURNOVER TASKS — /dashboard/landlord/turnover
+================================================================================
+Prompt:
+  "Render the Turnover page (turnover/page.tsx server → TurnoverClient.tsx).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server fetches: prisma.turnoverTask.findMany({ where: { listing: {
+  ownerId: user.id } }, include: { listing (title, address) } }, orderBy:
+  { createdAt: 'desc' }).
+
+  TurnoverClient receives { initialTasks }. State: search, filter
+  (all/pending/in_progress/done), selectedProperty. Tasks shape: { id, title,
+  description, dueDate, status (pending/in_progress/done), listingId, listingTitle,
+  listingAddress, assignedTo (User | null), createdAt }.
+
+  Header: h1 'Turnover Tasks' + subtitle 'Cleaning and maintenance handover tasks.'
+
+  3-column stat row: Pending (Clock amber), In Progress (Loader amber),
+  Completed (CheckCircle2 green).
+
+  Filter bar: search + status dropdown + property dropdown.
+
+  Tasks list:
+  — Each task card (glass-card border-l): left content (h3 title, p description,
+    due date with Calendar icon, property link), right action column.
+  — Status badge: pending=tag-amber, in_progress=tag-blue, done=tag-green.
+  — Action buttons: 'Start' (if pending) → POST /api/turnover-tasks/{id}/status,
+    'Complete' (if in_progress) → POST /api/turnover-tasks/{id}/status,
+    'Reopen' (if done) → POST /api/turnover-tasks/{id}/status.
+
+  Empty: ClipboardList 16w opacity-50 + 'No turnover tasks yet.'
+  Loading: Skeleton task rows.
+  Status badges use same tag classes (rounded-full px-2.5 py-0.5 text-xs font-medium).
+  All actions POST to real API endpoints."
+
+================================================================================
+[25] PROPERTIES DETAIL — /dashboard/landlord/properties/[id]
+================================================================================
+Prompt:
+  "Render the Property Detail page (properties/[id]/page.tsx server →
+  PropertyDetailClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  Server fetches: prisma.listing.findUnique({ where: { id: params.id },
+  include: { images: true, verification: true, owner (fullName, email), units
+  (full select: id, unitNumber, buildingName, type, bedrooms, bathrooms, rent,
+  cautionDeposit, serviceCharge, status, occupancy, isListed, listingType, pricePeriod) } }).
+  If !listing or listing.ownerId !== user.id → redirect('/dashboard/landlord/properties').
+
+  PropertyDetailClient receives { initialListing } prop (normalized data).
+  Manages tabs: Overview (default) | Units | Financials | Verification.
+
+  Layout: max-w-7xl mx-auto py-10.
+
+  Header:
+  — Title (h1) + address (MapPin icon).
+  — Status badge (published/draft/suspended).
+  — Action buttons: Edit (Pencil → /properties/{id}/edit), Publish/Unpublish toggle,
+    Delete (Trash2 red, opens confirmation dialog).
+
+  — Image gallery preview (top): cover image (aspect-video rounded-xl) +
+    thumbnail strip (thumbnail onClick → setActiveImage).
+
+  Two-column grid (lg:grid-cols-[2fr_1fr] gap-8):
+  LEFT:
+  — Tabs container with content cards:
+    Overview: property name, address (full), type, status, verification tier,
+      description, amenities grid, year built, property size, total units.
+    Units: table of units (unitNumber, buildingName, type, bedrooms, bathrooms,
+      size, rent, status, occupancy, isListed). Actions: Edit (→ unit edit),
+      Manage (→ unit drawer). Add Unit button (→ /properties/{id}/units/new).
+    Financials: rent summary (total rent, service charges, estimates),
+      revenue trend chart (placeholder), payout history table.
+    Verification: 5-layer status (doc, identity, video, inspection, certified),
+      progress bar, 'Start Verification' button.
+
+  RIGHT (sticky):
+  — Price Card: rent amount (headline) + pricePeriod, serviceCharge,
+    cautionDeposit, total monthly cost.
+  — 'Publish to Marketplace' toggle (switch) + 'View on Marketplace' button.
+  — Key metrics: 3-col grid (Bed/Down icon, Bath/Water icon, Size/Square icon).
+
+  Mobile: tabs collapse into select.
+  All currency via formatNaira. Badges use statusConfig + verificationTier patterns."
+
+================================================================================
+[26] PROPERTY EDIT — /dashboard/landlord/properties/[id]/edit
+================================================================================
+Prompt:
+  "Render the Property Edit page (properties/[id]/edit/page.tsx — server component).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server fetches listing by id (same as detail [25]), passes to an edit form.
+  Form sections (each with EditIcon label):
+  — Property Details: title, description, address, area, state, city, country.
+  — Property Specs: propertyType, listingType, yearBuilt, propertySize.
+  — Pricing: rent, pricePeriod, serviceCharge, cautionDeposit.
+  — Amenities: multi-select checklist ( Wifi, Gym, Parking, Generator, AC, Pool, etc.).
+  — Images: cover image selector + gallery (reorderable drag-drop, remove button).
+  — Verification: tier selector (basic/verified/inspected/certified).
+
+  Save button: PATCH /api/properties/{id} with all form data. Validation errors
+  shown per field. Cancel button → router.back().
+
+  Form fields use shadcn/ui Input, Select, Textarea with emerald focus ring.
+  Image upload uses drag-drop zone. No setTimeout-based autosave."
+
+================================================================================
+[27] UNITS CREATE — /dashboard/landlord/properties/[id]/units/new
+================================================================================
+Prompt:
+  "Render the Unit Create page (properties/[id]/units/new/page.tsx server →
+  UnitAddClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  UnitAddClient receives { listingId, maxUnits } prop. State: units (array of
+  { unitNumber, buildingName, type, bedrooms, bathrooms, sizeSqm, rent,
+  status, occupancy }), errors (per-field).
+
+  Dynamic unit builder: initial 1 unit form. Fields per unit:
+  — Unit Number (input, required).
+  — Building Name (input, required if unitCount > 1).
+  — Type (select: apartment/house/duplex/land/office/shop/warehouse, required).
+  — Bedrooms (number min 0).
+  — Bathrooms (number min 0).
+  — Size (sqm, number).
+  — Rent (₦, number, required).
+  — Status (select: AVAILABLE default).
+  — occupancy (select: VACANT default).
+
+  'Add another unit' button (Plus icon, outline) appends a form row.
+  'Remove' (Trash2, red ghost) on rows beyond first.
+
+  Submit: POST /api/properties/{id}/units with each unit object (sequential).
+  On success → toast 'N unit(s) added' + router.push('/properties/{id}').
+  Validation errors per field (text-xs text-red-500 below input).
+
+  Form uses glass-card border-b header px-6 py-5, body p-6, emerald highlights.
+  Inputs: h-11 rounded-lg border focus:ring-emerald-500/30."
+
+================================================================================
+[28] PUBLISH LISTING — /dashboard/landlord/properties/[id]/publish
+================================================================================
+Prompt:
+  "Render the Publish Listing page (properties/[id]/publish/page.tsx — server).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server fetches listing + units by id. Passes to a publish form.
+
+  Publish form:
+  — Title input (required).
+  — Description textarea (required, min 50 chars).
+  — Listing Type (radio: For Rent / For Sale / Short-let).
+  — Price (₦ number, required).
+  — Price Period (select: monthly/yearly/nightly).
+  — Availability Date (calendar).
+  — Amenities (multi-select pills).
+  — Cover Image uploader.
+  — Gallery uploader (min 3).
+
+  Submit: PATCH /api/listings/{id}/publish with all data + status='published'.
+  On success → toast 'Listing published' + router.push('/listing/{id}').
+  Validation per field. Preview button → opens listing detail in new tab."
+
+================================================================================
+[29] FINANCIALS HUB — /dashboard/landlord/financials
+================================================================================
+Prompt:
+  "Render the Financials page (financials/page.tsx — 'use client' client component).
+  Wraps RentAndPaymentsHub tabs from @/components/financials/RentAndPaymentsHub.
+  Inside DashboardShell. Auth: getCurrentUserWithProfile server wrapper passes
+  userId to the hub.
+
+  Tabs array: overview | payments | invoices | overdue.
+
+  Tab 1 — Overview:
+  — Stat cards: Total Revenue (Wallet emerald), Total Expenses (TrendingDown red),
+    Net Profit (TrendingUp blue), Profit Margin (Gauge icon).
+  — Revenue breakdown table (Source | Amount emerald | Share%).
+  — Expense breakdown table (Category | Amount red | Share%).
+  — Profit Trend chart: h-64 bar chart (revenue green / expenses red).
+  — No-org fallback: Wallet + 'No organisation linked' + Create/Link buttons.
+
+  Tab 2 — Payments:
+  — Payments table: Date, Reference, Tenant, Property, Amount, Status, Action.
+  — Status badges: paid=tag-green, pending=tag-amber, failed=tag-red.
+  — Filter bar: date range, status filter, search.
+
+  Tab 3 — Invoices:
+  — Invoices table: Due Date, Reference, Tenant, Property, Amount, Days Overdue,
+    Status, Actions (View/Download/Send Reminder).
+
+  Tab 4 — Overdue:
+  — Overdue table: Tenant, Property, Days Overdue, Amount Owed, Last Reminder,
+    Actions (Send Reminder / Initiate Dispute / Write-off).
+
+  Loading: StatCardSkeleton x4 + RowSkeleton tables + chart placeholder.
+  All currency via formatNaira/formatNairaFull."
+
+================================================================================
+[30] WITHDRAWALS — /dashboard/landlord/financials/withdrawals
+================================================================================
+Prompt:
+  "Render the Withdrawals page (financials/withdrawals/page.tsx — server).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server fetches: prisma.transaction.findMany({ where: { payeeId: user.id,
+  type: { in: ['withdrawal', 'payout'] } }, orderBy: { createdAt: 'desc' },
+  take: 20 }).
+
+  Header: h1 'Withdrawals & Fund Management' + subtitle.
+
+  Stat row (3 cards): Available Balance (Wallet2 emerald), Pending Withdrawal
+  (Clock amber), Total Withdrawn (TrendingDown blue).
+
+  Withdrawals table:
+  — Columns: Reference (mono), Date, Type, Amount (₦), Status (Badge:
+    success=tag-green, pending=tag-amber, failed=tag-red).
+  — Status badge: success=bg-emerald-500/10 text-emerald-400, pending=bg-amber-500/10
+    text-amber-400, failed=bg-red-500/10 text-red-400.
+
+  'Request Withdrawal' button (primary emerald, Plus icon) → opens dialog:
+  — Amount input (₦, number, max = available balance).
+  — Bank account select (from user's saved bank accounts).
+  — Reason textarea (optional).
+  — Submit button → POST /api/wallet/withdraw. Validation: amount required,
+    <= available balance, bank account required.
+
+  Empty: Wallet2 16w opacity-50 + 'No withdrawals yet.'
+  Loading: Skeleton rows.
+  All currency via formatNaira."
+
+================================================================================
+[31] INVOICES — /dashboard/landlord/financials/invoices
+================================================================================
+Prompt:
+  "Render the Invoices page (financials/invoices/page.tsx server →
+  LandlordInvoicesClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  LandlordInvoicesClient: state — invoices, loading, statusFilter, dateRange.
+  On mount: fetch('/api/invoices?role=landlord') → invoices array (mapped from
+  prisma schema: id, agreement, tenant, listing, amount, dueDate, status,
+  issueDate, paidDate, reference, description, rentAmount, serviceCharge,
+  totalAmount, lateFee, status enum: draft/pending/sent/paid/overdue/cancelled).
+
+  Computed: totalAmount, pendingAmount, paidAmount, overdueAmount, overdueCount.
+  Status colors: pending=amber, paid=emerald, overdue=red, cancelled=gray,
+  draft=gray, sent=gray.
+
+  Header: h1 'Invoices' + subtitle. 'Generate Invoice' button (primary, Plus).
+
+  Stat row (4 cards): Total Invoices, Pending (₦), Paid (₦), Overdue (₦ + count).
+
+  Filter bar: status dropdown + date range picker + search by tenant/property.
+
+  Invoices table:
+  — Columns: Reference (mono), Tenant (name + listing), Property (listing title),
+    Issue Date, Due Date, Amount (₦), Status (Badge), Actions (Eye + Download).
+  — Status badge: pending=tag-amber, paid=tag-green, overdue=tag-red,
+    cancelled=tag-gray, draft=tag-gray, sent=tag-sky.
+  — Row hover: bg-emerald-500/5.
+
+  Invoice status filter: All / Paid / Pending / Overdue / Cancelled / Draft.
+
+  Empty: FileText 16w + 'No invoices found.' Loading: Skeleton rows.
+  All dates via date.toLocaleDateString('en-NG'). Amounts via formatNaira."
+
+================================================================================
+[32] OVERDUE PAYMENTS — /dashboard/landlord/financials/overdue
+================================================================================
+Prompt:
+  "Render the Overdue Payments page (financials/overdue/page.tsx — server).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server fetches (Promise.all):
+  — overdueRent: prisma.rentSchedule.findMany({ where: { agreement:
+    { landlordId: user.id }, status: 'overdue' }, include: { agreement:
+    { include: { tenant (fullName), listing (title) } } }, orderBy: { dueDate:
+    'asc' }, take: 50 })
+  — overdueInvoices: prisma.invoice.findMany({ where: { agreement:
+    { landlordId: user.id }, status: 'overdue' }, include: { agreement:
+    { include: { tenant (fullName), listing (title) } } }, orderBy: { dueDate:
+    'asc' }, take: 50 })
+
+  Computed rows array: { id, tenant, unit (listing.title), amount (Number),
+  days (Math.floor since dueDate), noticeSent (reminderSent > 0), type, dueDate }.
+
+  Header: h1 'Overdue Payments' + subtitle.
+
+  Tabs: Rent Overdue + Invoice Overdue (ToggleGroup).
+
+  Rows table:
+  — Columns: Tenant, Property (unit), Amount (₦), Days Overdue, Notice Sent,
+    Actions (Send Reminder button, Initiate Dispute, Write-off).
+  — Amount color: overdue red. Days overdue <30 = amber, >=30 = red.
+  — Send Reminder button → POST /api/rent-schedule/{id}/remind.
+
+  Summary card (top): Total Overdue Amount (₦) + count of records.
+
+  Empty: Receipt 16w + 'No overdue payments found.'
+  Loading: Skeleton rows.
+  All currency via formatNaira. Days overdue color-coded (amber <30, red >=30)."
+
+================================================================================
+[33] FINANCIAL REPORTS — /dashboard/landlord/financials/reports
+================================================================================
+Prompt:
+  "Render the Financial Reports page (financials/reports/page.tsx server →
+  FinancialReportsClient.tsx). Inside DashboardShell. Auth: getCurrentUserWithProfile,
+  redirect if not landlord.
+
+  FinancialReportsClient receives { userId }. State: reports, loading, selectedReportType,
+  dateRange. On mount: fetch('/api/reports?type=all') → report data array
+  (id, type, period, generatedAt, status, fileUrl, summary metrics).
+
+  Report types: P&L Statement, Balance Sheet, Cash Flow, Tax Summary,
+  Rent Roll Register, Service Charge Recovery.
+
+  Header: h1 'Financial Reports' + subtitle. 'Generate Report' button (primary, Plus).
+
+  Report type selector (ToggleGroup or Select): P&L | Balance Sheet | Cash Flow
+  | Tax Summary | Rent Roll | Service Charge.
+
+  Date range picker: preset buttons (This Month, Last Month, QTD, YTD, Custom).
+
+  Generate Report button: POST /api/reports/generate with { type, startDate,
+  endDate } → returns loading ID. Poll /api/reports/{id} until status === 'ready'.
+
+  Reports table:
+  — Columns: Report Type, Period, Generated Date, Status (Badge:
+    ready=green Download button, processing=amber Loader2 spin, failed=red
+    Retry button), File (Download icon when ready).
+
+  On report ready: Download button → GET /api/reports/{id}/download.
+
+  Empty: BarChart3 16w + 'No reports generated yet.' Loading: Skeleton rows.
+  Processing reports show animated Loader2 + status text.
+
+  All dates via toLocaleDateString('en-NG'). Format period as 'MMM YYYY'.
+  No setTimeout-based polling — use proper polling with 5s interval."
+
+================================================================================
+[34] STATEMENTS — /dashboard/landlord/statements
+================================================================================
+Prompt:
+  "Render the Statements page (statements/page.tsx — server component). Inside
+  DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Uses AutomatedMonthlyStatementClient (from @/app/dashboard/tenant/payments/
+  statements — shared component). Props: { statements: [], landlordId: user.id }.
+
+  Component renders:
+  — Header: h1 'Statements' + subtitle 'Monthly financial statements.'
+  — Year/Month selector: dropdown of years (current year default) + months.
+  — 'Generate Statement for {month}' button (primary) → POST /api/statements/generate.
+  — Statements table: Period | Generated Date | Status | Amount | Actions.
+  — Status badges: generated (amber), posted (emerald).
+  — Download button (Download icon) on generated/posted statements →
+    GET /api/statements/{id}/pdf.
+  — Empty: FileText 16w + 'No statements for this period.'
+
+  All amounts via formatNaira. Dates via toLocaleDateString('en-NG').
+  Statements fetched from GET /api/statements?role=landlord&year=Y&month=M."
+
+================================================================================
+[35] RECEIPTS — /dashboard/landlord/receipts
+================================================================================
+Prompt:
+  "Render the Receipts page (receipts/page.tsx — server component). Inside
+  DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Uses TenantReceiptsClient (shared component from @/app/dashboard/tenant/receipts)
+  with props { initialReceipts: [] }.
+
+  Component renders:
+  — Header: h1 'Receipts' + subtitle 'Payment receipts for rent and service charges.'
+  — 'Download Receipt' button (outline, Download icon).
+  — Receipts table: Receipt # | Date | Tenant | Property | Amount | Status | Actions.
+  — Status badges: paid=tag-green, failed=tag-red.
+  — Actions: Download (Download icon) → GET /api/receipts/{id}/pdf + Print
+    (Printer icon) → window.print().
+
+  Empty: Receipt 16w + 'No receipts found.'
+  Loading: Skeleton rows.
+  All currency via formatNaira. All actions GET real API endpoints.
+  No setTimeout-based print simulation — use window.print() directly."
+
+================================================================================
+[36] REVENUE FORECAST — /dashboard/landlord/revenue-forecast
+================================================================================
+Prompt:
+  "Render the Revenue Forecast page (revenue-forecast/page.tsx — server).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Server computes (Promise.all):
+  — totalRevenueKobo: prisma.transaction.aggregate({ where: { payeeId: user.id,
+    status: { in: ['released', 'success'] }, createdAt: { gte: yearStart, lte:
+    yearEnd } }, _sum: { amount: true } })
+  — listingCount, activeListingCount, transactionCount
+
+  totalRevenue = parseKoboToNaira(totalRevenueKobo._sum?.amount ?? 0).
+
+  Layout: max-w-7xl mx-auto py-10 space-y-8.
+
+  Header: h1 'Revenue Forecasting' + p 'Predictive financial analysis for
+  {year}-{year+1}'. 'View Full Forecast' link → /revenue-forecast/report.
+
+  4-column stat grid (glass-card):
+  — Total Revenue (DollarSign emerald): formatNaira(totalRevenue).
+  — Active Listings (Building2): activeListingCount.
+  — Transaction Count (Receipt): transactionCount.
+  — Occupancy (TrendingUp): computed from units.
+
+  Forecast chart: h-80 rounded-xl border bg-white dark:bg-zinc-900 p-5.
+  Bar chart of projected monthly revenue (Jan-Dec) with emerald bars +
+    trend line. Current year vs forecast comparison.
+
+  'Generate Forecast' button (primary, TrendingUp icon) →
+  POST /api/revenue-forecast/generate.
+
+  Action buttons: 'View Full Forecast →' link, 'Scenario Builder' link
+  (→ /revenue-forecast/scenario-builder).
+
+  All currency via formatNaira/parseKoboToNaira. Chart uses emerald #10b981
+  primary series, blue for forecasts."
+
+================================================================================
+[37] FORECAST REPORT — /dashboard/landlord/revenue-forecast/report
+================================================================================
+Prompt:
+  "Render the Forecast Report page (revenue-forecast/report/page.tsx — server).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+
+  Full-width detailed forecast table:
+  — Columns: Month | Projected Revenue (₦) | Actual Revenue (₦) | Variance (%) |
+  Confidence (%) | Status (Badge).
+  — Status: on_track=green, at_risk=amber, behind=red.
+  — Variance color: positive=emerald, negative=red.
+
+  Header: h1 'Annual Revenue Forecast Report' + date range selector.
+
+  Chart section: line chart of projected vs actual revenue by month.
+  'Export Report' button (Download icon) → GET /api/reports/revenue-forecast/pdf.
+
+  All currency via formatNaira. Dates via toLocaleDateString('en-NG')."
+
+================================================================================
+[38] SCENARIO BUILDER — /dashboard/landlord/revenue-forecast/scenario-builder
+================================================================================
+Prompt:
+  "Render the Scenario Builder page (revenue-forecast/scenario-builder/page.tsx
+  server → ScenarioBuilderClient.tsx). Inside DashboardShell. Auth:
+  getCurrentUserWithProfile, redirect if not landlord.
+
+  ScenarioBuilderClient: receives { userId }. State: scenarios array,
+  activeScenario, assumptions. On mount: fetch('/api/scenarios?userId=' + userId).
+
+  3 scenario comparison cards (glass-card):
+  — Baseline: 72% occupancy, ₦18.5M income, ₦12.2M expenses (default).
+  — Optimistic: 88%, ₦22M/₦10.8M (emerald accent).
+  — Pessimistic: 55%, ₦14M/₦14.1M (red accent).
+
+  Each card: scenario name badge + occupancy % + income bar + expenses bar.
+
+  Assumptions matrix (editable inputs):
+  — Active Tenancies (number), Defaulted Leases (number),
+  Monthly Income (₦ number), Monthly Expenses breakdown (editable list).
+
+  'Save Scenario' button → POST /api/scenarios with { name, assumptions }.
+  'Apply Scenario' button → updates forecast charts.
+
+  Layout: grid grid-cols-1 lg:grid-cols-3 gap-6. Cards have emerald #10b981
+  primary highlights, font-headline-sm titles.
+
+  POST /api/scenarios for save. No setTimeout-based calculation — use real
+  formula: projectedRevenue = activeUnits * avgRent * occupancyRate."
+
+================================================================================
+[39] VERIFICATION — /dashboard/landlord/verification
+================================================================================
+Prompt:
+  "Render the Verification page (verification/page.tsx — server component).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+  Dynamic = force-dynamic. Pragma fetch: prisma.listing.findMany({ where:
+  { ownerId: user.id }, include: { verification: true } }, orderBy: { createdAt:
+  'desc' }).
+
+  Header: h1 'Property Verification' + 'Complete the verification to get the
+  Certified badge and attract more tenants'. 'Start Verification' button
+  (primary, ShieldCheck icon).
+
+  Verifications list (grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4):
+  Each card:
+  — Property image (coverImage) w-16 h-16 rounded.
+  — Listing title + address (text-sm).
+  — Verification tier badge: basic=gray Shield, verified=emerald ShieldCheck,
+    inspected=blue ShieldCheck, certified=gold Crown.
+  — Layer status: 5 circular badges (file-text, shield, video, map-pin, check)
+    with status color (not_started=gray, in_progress=amber, certified=green,
+    rejected=red, pending=amber, approved=green).
+  — 'Continue Verification' button (outline, ChevronRight).
+
+  Layer colors: not_started=bg-zinc-800 text-zinc-600, in_progress=bg-white
+  text-zinc-900, certified=bg-success/10 text-emerald-400, rejected=bg-red-500/10
+  text-red-500, pending=bg-warning/10 text-warning, approved=bg-success/10
+  text-emerald-400.
+
+  Status badge: verified=green bg-emerald-500/10, pending=amber bg-amber-500/10.
+
+  Empty: Shield 16w opacity-50 + 'No verifications yet' + 'Start a verification'
+  link → properties list.
+
+  All navigation via real <Link> to /verification/{listingId} (future route).
+  POST /api/verification for starting verification. No setTimeout."
+
+================================================================================
+[40] VERIFY (LAYER DETAIL) — /dashboard/landlord/verify
+================================================================================
+Prompt:
+  "Render the Verify page (verify/page.tsx server → LandlordVerifyClient.tsx).
+  Inside DashboardShell. Auth: getCurrentUserWithProfile, redirect if not landlord.
+  Dynamic = force-dynamic. Pragma fetch: prisma.verification.findMany({ where:
+  { listing: { ownerId: user.id } } }, orderBy: createdAt desc, take: 20,
+  include: listing (title, address)).
+
+  LandlordVerifyClient receives { initialVerifications }. Verification type:
+  { id, listingId, listing { title, address }, currentLayer, overallStatus,
+  l1Status, l2Status, l3Status, l4Status, l5Status }.
+
+  layerLabels array (5 items):
+  — Layer 1: Documents (FileText icon + 'Title deed, survey plan, tax receipts,
+    utility bills')
+  — Layer 2: Identity (UserCheck icon + 'NIN/BVN match with document owner')
+  — Layer 3: Live Video (Video icon + 'Record video at property with QR code')
+  — Layer 4: Inspection (MapPin icon + 'Agent physical inspection')
+  — Layer 5: Certified (Crown icon + 'Final approval & badge')
+
+  Header: h1 'Verifications' + 'Track 5-layer property verification and tier status.'
+
+  Verifications table:
+  — Columns: Property (image + title + address), Verification Tier (badge),
+    Layer 1-5 (circular status indicators), Overall Status, Actions.
+  — Each layer: colored dot (not_started=gray, in_progress=amber, certified=green,
+    rejected=red, pending=amber, approved=green).
+  — Overall Status badge: verified=green, pending=amber, certified=gold.
+  — Actions: 'Continue' button (emerald) → opens layer detail modal or navigates
+    to layer form. 'Upload Document' button (outline) for Layer 1.
+
+  Layer actions:
+  — Layer 1: 'Upload Documents' button → file uploader + POST /api/verification/{vid}/layer1.
+  — Layer 2: 'Verify Identity' button → NIN/BVN form + POST /api/verification/{vid}/layer2.
+  — Layer 3: 'Record Video' button → webcam recorder + POST /api/verification/{vid}/layer3.
+  — Layer 4: 'Schedule Inspection' button → date picker + POST for agent scheduling.
+  — Layer 5: 'Claim Certified Badge' button (shows when layers 1-4 complete)
+    → POST /api/verification/{vid}/certify.
+
+  Modal overlay for layer detail: glass-card w-full max-w-3xl. Header with
+  layer label + icon + close (X). Body: form fields + instructions.
+  Footer: Back (outline) + Save/Next (emerald, disabled until valid).
+
+  Empty: Shield 16w opacity-50 + 'No verifications' + 'Start a verification'
+  link.
+
+  statusColors mapping: not_started=amber, in_progress=white, certified=emerald,
+  rejected=red, pending=amber, approved=emerald. Use existing statusColors pattern."
+
+================================================================================
+TECHNICAL NOTES
+================================================================================
+— All pages follow the pattern: server component (page.tsx) → getCurrentUserWithProfile()
+  → role check (redirect('/dashboard') if not 'landlord', redirect('/sign-in') if !user) →
+  DashboardShell(navigation=LANDLORD_NAVIGATION, userRole='landlord', userName) →
+  ErrorBoundary → client component.
+
+— (dashboard)/layout.tsx remains a thin 9-line auth-only server component.
+  Never add UI to layout.tsx — causes double sidebar.
+
+— withAuth(request) used on API routes for role-based authorization.
+  Never derive role from Clerk unsafeMetadata — use publicMetadata only.
+
+— redirect() must NEVER be inside a try block. Resolve target into a variable,
+  then redirect() after try/catch.
+
+— getRoleRedirectPath() in src/lib/auth.ts is the single source of truth.
+
+— formatNaira/parseKoboToNaira from @/lib/utils for all currency.
+— date.toLocaleDateString('en-NG') for all dates.
+— All interactive actions POST/GET/PATCH to real API endpoints — no setTimeout, no alert().
+— Components from @/components/ui (Button, Input, Select, Badge, Card, etc.).
+— Icons from lucide-react.
+— Navigation via <Link> from next/link, router.push/replace from next/navigation.

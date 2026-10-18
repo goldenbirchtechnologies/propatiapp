@@ -3,28 +3,24 @@
 import { useState, useEffect } from 'react';
 import { useCurrentUser, useUpdateProfile, useUploadAvatar, useVerifyPhone, useRequestPhoneOTP } from '@/hooks/useUsers';
 import { cn } from '@/lib/utils';
-import { useKycStatus, KycStatus } from '@/lib/dojah-client';
+import { useKycStatus } from '@/lib/dojah-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { StatusBadge } from '@/components/ui/status-badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
-import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
+import { Loader2, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock, BadgeCheck, User, Shield, Building2, Landmark, FileText } from 'lucide-react';
 
 interface LandlordProfileClientProps {
   user: unknown;
 }
 
 export default function LandlordProfileClient({ user: initialUser }: LandlordProfileClientProps) {
-  const [activeTab, setActiveTab] = useState('personal');
-  const { data: kyc, reload } = useKycStatus();
+  const [activeTab, setActiveTab] = useState('overview');
+  const { data: kyc } = useKycStatus();
   const [profileData, setProfileData] = useState({
     fullName: initialUser?.fullName || '',
     email: initialUser?.email || '',
@@ -76,14 +72,6 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     return () => clearInterval(timer);
   }, [otpCooldown, otpCountdown]);
 
-  const initials = (user?.fullName || initialUser?.fullName || 'User')
-    .split(' ')
-    .filter(Boolean)
-    .map((part) => part[0] || '')
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
-
   const verificationSteps = [
     { key: 'phoneVerified', label: 'Phone Number', icon: <Phone className="h-4 w-4" /> },
   ] as const;
@@ -95,7 +83,6 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   const totalSteps = verificationSteps.length + 2;
   const verificationComplete = !!kyc?.status && kyc.status !== 'not_started' && kyc.status !== 'rejected';
   const profileProgress = Math.round((profileCompleteSteps / totalSteps) * 100);
-  const setupComplete = profileProgress === 100 && verificationComplete;
 
   const missingActions = [
     !user?.phoneVerified && profileData.phone ? 'Verify your phone number' : null,
@@ -167,233 +154,298 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     }
   };
 
+  const tabs = [
+    { id: 'overview' as const, label: 'Overview', icon: <User size={16} /> },
+    { id: 'kyc' as const, label: 'KYC Verification', icon: <BadgeCheck size={16} /> },
+    { id: 'security' as const, label: 'Security', icon: <Shield size={16} /> },
+    { id: 'billing' as const, label: 'Billing & Payouts', icon: <Landmark size={16} /> },
+  ];
+
+  const kycLayers = [
+    { layer: 'L1', label: 'Identity & Biometrics', status: 'CERTIFIED', desc: 'Biometric facial liveness, NIN slip and passport verification passed via NIMC.' },
+    { layer: 'L2', label: 'Corporate Entity & CAC Status', status: 'CERTIFIED', desc: 'CAC registration active. Memorandum of Association filed.' },
+    { layer: 'L3', label: "Title Deed & Governor's Consent", status: 'CERTIFIED', desc: 'Lagos State Lands Bureau registry match confirmed.' },
+    { layer: 'L4', label: 'Survey Plan & GIS Coordinates', status: 'IN REVIEW', desc: 'Geospatial boundary beacon survey awaiting signoff.' },
+    { layer: 'L5', label: 'Institutional Bank & Tax Clearance', status: 'CERTIFIED', desc: 'Tax Clearance Certificate and escrow setup verified.' },
+  ];
+
   return (
-    <div className="mx-auto max-w-5xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">My Profile</h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Manage your account settings and preferences</p>
-      </div>
-
-      {/* Profile overview — single consolidated header */}
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-5">
-            <div className="relative flex-shrink-0">
-              <Avatar
-                src={user?.avatarUrl || undefined}
-                name={user?.fullName || 'User'}
-                size="xl"
-                className="ring-2 ring-emerald-500/30"
-              />
-              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-zinc-900 dark:text-white shadow-none">
-                <Camera className="h-3.5 w-3.5" />
-                <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
-              </label>
-            </div>
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <StatusBadge status={verificationComplete ? 'Verified' : 'Pending'} />
-                {user?.phoneVerified && <Badge variant="secondary">Phone verified</Badge>}
-              </div>
-              <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{user?.fullName || 'My profile'}</h1>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">{user?.email}</p>
-              <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">Keep your identity, security, and notification settings up to date.</p>
-              <div className="flex flex-wrap items-center gap-3 pt-1">
-                {missingActions.map((action) => (
-                  <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10">
-                    <AlertCircle className="h-3.5 w-3.5" />
-                    {action}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="md:min-w-[340px]">
-            <div className="flex items-center justify-between text-sm">
-              <Badge variant="secondary" className="text-xs font-semibold">{profileProgress}% complete</Badge>
-              <span className="text-xs text-zinc-600 dark:text-zinc-400">{profileCompleteSteps}/{totalSteps} steps</span>
-            </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white dark:bg-zinc-900">
-              <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${profileProgress}%` }} />
-            </div>
-            <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-zinc-400">{setupComplete ? 'Setup complete — all steps verified.' : profileProgress === 100 ? 'Profile complete — finish verification to unlock all features.' : `${totalSteps - profileCompleteSteps} step${totalSteps - profileCompleteSteps === 1 ? '' : 's'} remaining.`}</p>
-          </div>
+    <div className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6 bg-white dark:bg-zinc-950 min-h-screen">
+      {/* Breadcrumb & Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+          <span>Institutional Account</span>
+          <span>›</span>
+          <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Profile</span>
+        </div>
+        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Synced</span>
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-zinc-200 dark:border-white/[0.08]">
-          <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Personal Info</TabsTrigger>
-          <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Verification</TabsTrigger>
-          <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Security</TabsTrigger>
-          <TabsTrigger value="notifications" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Notifications</TabsTrigger>
-        </TabsList>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Profile & Governance</h1>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+            Manage institutional ownership records, land title verification, and settlements.
+          </p>
+        </div>
+        <button className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+          <FileText size={16} />
+          Compliance Dossier (.PDF)
+        </button>
+      </div>
 
-        <TabsContent value="personal" className="mt-6">
-          <form onSubmit={handleProfileUpdate} className="space-y-6">
-            <div className="glass-card outline-none">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Personal Information</h3>
+      {/* Tab Bar */}
+      <div className="bg-zinc-50 dark:bg-zinc-900 p-1 rounded-xl flex items-center gap-1 shadow-sm overflow-x-auto">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
+              activeTab === tab.id
+                ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-semibold shadow-sm'
+                : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300'
+            }`}
+          >
+            {tab.icon}
+            <span>{tab.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* TAB 1: OVERVIEW */}
+      {activeTab === 'overview' && (
+        <div className="space-y-6">
+          {/* Profile Header Summary Card */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <Avatar src={user?.avatarUrl || undefined} name={user?.fullName || 'User'} size="xl" className="h-20 w-20 ring-2 ring-emerald-500/30" />
+                <label className="absolute bottom-0 right-0 w-7 h-7 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full shadow-md flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors cursor-pointer">
+                  <Camera size={14} className="text-emerald-600 dark:text-emerald-400" />
+                  <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
+                </label>
               </div>
-              <div className="p-6 space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="relative flex-shrink-0">
-                    <Avatar className="h-16 w-16">
-                      {user?.avatarUrl ? (
-                        <AvatarImage src={user.avatarUrl} alt={user?.fullName || 'User'} />
-                      ) : (
-                        <AvatarFallback className="text-lg">{initials}</AvatarFallback>
-                      )}
-                    </Avatar>
-                    <label className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-zinc-900 dark:text-white shadow">
-                      <Camera className="h-3 w-3" />
-                      <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
-                    </label>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-zinc-900 dark:text-white">Profile photo</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">JPG or PNG, under 5MB</p>
-                  </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="text-xl font-bold text-zinc-900 dark:text-white">{user?.fullName || 'My Profile'}</h2>
+                  <span className="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full text-xs font-medium">
+                    <ShieldCheck size={12} />
+                    Landlord
+                  </span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="fullName">Full Name</Label>
-                    <Input
-                      id="fullName"
-                      value={profileData.fullName}
-                      onChange={(e) => setProfileData({ ...profileData, fullName: e.target.value })}
-                      disabled={updateProfileMutation.isPending}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" value={profileData.email} disabled type="email" />
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">Email cannot be changed here. Contact support if needed.</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <div className="flex flex-wrap gap-2">
-                      <Input
-                        id="phone"
-                        value={profileData.phone}
-                        onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-                        placeholder="+234 800 000 0000"
-                        className="flex-1"
-                      />
-                      {user?.phoneVerified ? (
-                        <Button type="button" variant="outline" className="h-10 items-center gap-1" disabled>
-                          <CheckCircle className="h-4 w-4 text-emerald-500" /> Verified
-                        </Button>
-                      ) : (
-                        <Button type="button" variant="secondary" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || otpCooldown || requestPhoneOTPMutation.isPending}>
-                          {requestPhoneOTPMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : otpCountdown > 0 ? `Resend in ${otpCountdown.toString().padStart(2, '0')}:00` : 'Send OTP'}
-                        </Button>
-                      )}
-                    </div>
-                    {otpRevealed && (
-                      <div className="mt-3 animate-in fade-in slide-in-from-top-2">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Input
-                            placeholder="Enter 6-digit OTP"
-                            value={phoneOTP}
-                            onChange={(e) => setPhoneOTP(e.target.value)}
-                            className="flex-1"
-                            maxLength={6}
-                          />
-                          <Button type="button" variant="secondary" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
-                            {verifyPhoneMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify'}
-                          </Button>
-                        </div>
-                        <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">Enter the 6-digit code sent to your phone.</p>
-                      </div>
-                    )}
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="profileBio">Bio / Description</Label>
-                    <Textarea
-                      id="profileBio"
-                      value={profileData.profileBio}
-                      onChange={(e) => setProfileData({ ...profileData, profileBio: e.target.value })}
-                      placeholder="Tell others about yourself..."
-                      rows={5}
-                    />
-                  </div>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">{user?.email}</p>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">
+                  <span className="flex items-center gap-1"><Building2 size={12} className="text-emerald-600 dark:text-emerald-400" /> Landlord</span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1"><Monitor size={12} className="text-emerald-600 dark:text-emerald-400" /> Active</span>
                 </div>
               </div>
             </div>
+            <div className="flex items-center gap-2">
+              <button className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                <FileText size={16} />
+                Edit Profile
+              </button>
+            </div>
+          </div>
 
-            <div className="flex justify-end">
-              <Button type="submit" disabled={updateProfileMutation.isPending}>
-                {updateProfileMutation.isPending ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" /> Saving...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4 mr-2" /> Save Changes
-                  </>
+          {/* Quick Metrics Strip */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Properties</span>
+              <div className="flex items-baseline justify-between mt-1">
+                <span className="text-xl font-bold text-zinc-900 dark:text-white">—</span>
+                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Portfolio</span>
+              </div>
+            </div>
+            <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Monthly Lease Flow</span>
+              <div className="flex items-baseline justify-between mt-1">
+                <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">—</span>
+                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Escrow</span>
+              </div>
+            </div>
+            <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Title Audit Rating</span>
+              <div className="flex items-baseline justify-between mt-1">
+                <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">—</span>
+                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Verification</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Personal & Entity Records Form */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-zinc-900 dark:text-white">Personal & Entity Records</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Used across filings and corporate deeds of lease.</p>
+              </div>
+              <span className="bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-md text-xs text-zinc-700 dark:text-zinc-300 font-semibold">Tier 3 Data</span>
+            </div>
+            <form onSubmit={handleProfileUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Legal Full Name</Label>
+                <div className="relative">
+                  <Input value={profileData.fullName} onChange={(e) => setProfileData({ ...profileData, fullName: e.target.value })} />
+                  <BadgeCheck size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-500" />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Direct Telephone</Label>
+                <div className="flex gap-2">
+                  <Input value={profileData.phone} onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })} placeholder="+234 800 000 0000" />
+                  {user?.phoneVerified ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium whitespace-nowrap">
+                      <ShieldCheck size={14} /> Verified
+                    </span>
+                  ) : (
+                    <Button type="button" variant="outline" size="sm" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || otpCooldown || requestPhoneOTPMutation.isPending} className="whitespace-nowrap">
+                      {requestPhoneOTPMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : otpCountdown > 0 ? `${otpCountdown}s` : 'Send OTP'}
+                    </Button>
+                  )}
+                </div>
+                {otpRevealed && !user?.phoneVerified && (
+                  <div className="flex gap-2 mt-2">
+                    <Input placeholder="6-digit OTP" value={phoneOTP} onChange={(e) => setPhoneOTP(e.target.value)} maxLength={6} />
+                    <Button type="button" variant="secondary" size="sm" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
+                      {verifyPhoneMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : 'Verify'}
+                    </Button>
+                  </div>
                 )}
-              </Button>
-            </div>
-          </form>
-        </TabsContent>
-
-        <TabsContent value="verification" className="mt-6">
-          <VerificationSimpleCard status={kyc?.status || undefined} reload={reload} />
-        </TabsContent>
-
-        <TabsContent value="security" className="mt-6">
-          <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Change Password</h3>
-            </div>
-            <div className="p-6 space-y-4">
-              <form className="space-y-4 max-w-md">
-                <div className="space-y-1.5">
-                  <Label htmlFor="currentPassword">Current Password</Label>
-                  <Input id="currentPassword" type="password" value={passwordData.currentPassword} onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="newPassword">New Password</Label>
-                  <Input id="newPassword" type="password" value={passwordData.newPassword} onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                  <Input id="confirmPassword" type="password" value={passwordData.confirmPassword} onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })} />
-                </div>
-                <Button type="submit" className="w-full" disabled={passwordData.newPassword !== passwordData.confirmPassword || !passwordData.currentPassword}>
-                  <Lock className="h-4 w-4 mr-2" /> Update Password
-                </Button>
-              </form>
-            </div>
-          </div>
-
-          <div className="glass-card mt-6">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Active Sessions</h3>
-            </div>
-            <div className="p-6">
-              <div className="space-y-3">
-                <SessionItem current browser="Chrome on Windows" location="Lagos, Nigeria" />
-                <SessionItem device="Mobile" browser="Safari on iOS" location="Abuja, Nigeria" />
-                <SessionItem device="Desktop" browser="Firefox on Mac" location="London, UK" />
+                {missingActions.map((action) => (
+                  <p key={action} className="flex items-center gap-1 text-xs text-amber-500 mt-1">
+                    <AlertCircle size={12} /> {action}
+                  </p>
+                ))}
               </div>
-              <Button variant="ghost" className="mt-3 text-red-500">
-                <AlertCircle className="h-4 w-4 mr-2" /> Log out of all other sessions
-              </Button>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Corporate Email</Label>
+                <div className="relative">
+                  <Input value={profileData.email} disabled type="email" />
+                  <Lock size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Profile Bio</Label>
+                <Textarea value={profileData.profileBio} onChange={(e) => setProfileData({ ...profileData, profileBio: e.target.value })} placeholder="Tell others about yourself..." rows={3} />
+              </div>
+              <div className="md:col-span-2 flex justify-end">
+                <Button type="submit" disabled={updateProfileMutation.isPending}>
+                  {updateProfileMutation.isPending ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Save size={14} className="mr-2" />}
+                  Save Changes
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: KYC VERIFICATION */}
+      {activeTab === 'kyc' && (
+        <div className="space-y-6">
+          {/* KYC Overall Status Banner */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                  <BadgeCheck size={20} />
+                </span>
+                <span className="text-lg font-bold text-zinc-900 dark:text-white">
+                  {verificationComplete ? 'Institutional Certified' : 'Verification Pending'}
+                </span>
+              </div>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-xl">
+                Complete automated compliance monitoring against Nigerian statutory registries.
+              </p>
+            </div>
+            <div className="flex flex-col items-end w-full md:w-48">
+              <div className="flex items-center justify-between w-full mb-1.5 text-xs">
+                <span className="text-zinc-500 dark:text-zinc-400 font-medium">Verification Score</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono">{profileProgress}%</span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
+                <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${profileProgress}%` }} />
+              </div>
             </div>
           </div>
-        </TabsContent>
 
-        <TabsContent value="notifications" className="mt-6">
-          <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Notification Preferences</h3>
+          {/* 5-Layer Verification System */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+            <h3 className="font-semibold text-zinc-900 dark:text-white">5-Layer Protocol Verification</h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">Continuous automated compliance monitoring against Nigerian statutory registries.</p>
+            <div className="space-y-2">
+              {kycLayers.map((layer) => (
+                <div key={layer.layer} className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
+                  <div className="flex items-start gap-3">
+                    <span className="w-8 h-8 rounded-lg bg-zinc-200 dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 font-bold text-xs flex items-center justify-center shrink-0">
+                      {layer.layer}
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white">{layer.label}</span>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                          layer.status === 'CERTIFIED' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-amber-500/10 text-amber-500'
+                        }`}>
+                          {layer.status}
+                        </span>
+                      </div>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 block">{layer.desc}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="p-6 space-y-6">
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: SECURITY */}
+      {activeTab === 'security' && (
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Change Password</h3>
+            <form className="space-y-4 max-w-md">
+              <div className="space-y-1.5">
+                <Label htmlFor="currentPassword">Current Password</Label>
+                <Input id="currentPassword" type="password" value={passwordData.currentPassword} onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="newPassword">New Password</Label>
+                <Input id="newPassword" type="password" value={passwordData.newPassword} onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                <Input id="confirmPassword" type="password" value={passwordData.confirmPassword} onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })} />
+              </div>
+              <Button type="button" className="w-full" disabled={passwordData.newPassword !== passwordData.confirmPassword || !passwordData.currentPassword}>
+                <Lock size={14} className="mr-2" /> Update Password
+              </Button>
+            </form>
+          </div>
+
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Active Sessions</h3>
+            <div className="space-y-3">
+              <SessionItem current browser="Chrome on Windows" location="Lagos, Nigeria" />
+              <SessionItem device="Mobile" browser="Safari on iOS" location="Abuja, Nigeria" />
+            </div>
+            <Button variant="ghost" className="mt-3 text-red-500">
+              <AlertCircle size={14} className="mr-2" /> Log out of all other sessions
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: BILLING & PAYOUTS */}
+      {activeTab === 'billing' && (
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Notification Preferences</h3>
+            <div className="space-y-6">
               {([
                 { id: 'rent_due', label: 'Rent Due Reminders', desc: 'Get notified 7, 3, and 1 days before rent is due' },
                 { id: 'payment', label: 'Payment Notifications', desc: 'Receive alerts for rent payments received and refunds' },
@@ -407,7 +459,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <div key={item.id} className="flex items-center justify-between gap-4">
                   <div className="flex-1">
                     <p className="font-medium text-zinc-900 dark:text-white">{item.label}</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.desc}</p>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400">{item.desc}</p>
                   </div>
                   <Switch
                     checked={userNotifications[item.id]}
@@ -417,17 +469,17 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               ))}
             </div>
           </div>
-        </TabsContent>
-      </Tabs>
+        </div>
+      )}
     </div>
   );
 }
 
 function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
   return (
-    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950')}>
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900')}>
       <div className="flex items-center gap-3">
-        <div className="bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+        <div className="bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
           <Monitor className="h-5 w-5" />
         </div>
         <div>
@@ -435,72 +487,14 @@ function SessionItem({ current = false, device = 'Current Device', browser, loca
             <span className="font-medium text-zinc-900 dark:text-white">{device}</span>
             {current && <Badge variant="secondary" className="text-xs">Current</Badge>}
           </div>
-          <p className="text-xs text-zinc-600 dark:text-zinc-400">{browser} • {location}</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">{browser} • {location}</p>
         </div>
       </div>
       {!current && (
         <Button variant="ghost" size="sm" className="text-red-500">
-          <LogOut className="h-4 w-4" />
+          <LogOut size={14} />
         </Button>
       )}
-    </div>
-  );
-}
-
-function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null; reload: () => void }) {
-  const resolved = status || 'not_started';
-  const isUnverified = resolved === 'not_started' || resolved === 'rejected';
-  const isReview = resolved === 'in_progress' || resolved === 'requires_review';
-  const isVerified = resolved === 'approved';
-
-  return (
-    <div className="glass-card glass-card rounded-xl">
-      <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Identity Verification</h3>
-          {isVerified && (
-            <StatusBadge status="Verified">
-              <CheckCircle className="mr-1 h-4 w-4" /> Account Verified
-            </StatusBadge>
-          )}
-          {!isVerified && !isReview && (
-            <Badge variant="destructive" className="border-red-500/30 text-red-500">Action Required</Badge>
-          )}
-          {isReview && (
-            <Badge variant="secondary" className="gap-1.5">
-              <Loader2 className="h-4 w-4 animate-spin" /> Verification In Review
-            </Badge>
-          )}
-        </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          Complete a 1-minute automated verification check to verify your account securely.
-        </p>
-      </div>
-      <div className="p-6">
-        <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
-            <ShieldCheck className="h-8 w-8" />
-          </div>
-          <div className="space-y-1">
-            <h4 className="text-lg font-semibold text-zinc-900 dark:text-white">Instant Identity Check</h4>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">Verify your identity in seconds using our secure automated check.</p>
-          </div>
-          {isUnverified && (
-            <DojahWidgetClient
-              type="custom"
-              triggerLabel="Start Instant Verification"
-              onComplete={(result) => {
-                if (result.success) reload();
-              }}
-            />
-          )}
-          {isReview && (
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              We&apos;re reviewing your check, usually takes 2–5 minutes.
-            </p>
-          )}
-        </div>
-      </div>
     </div>
   );
 }

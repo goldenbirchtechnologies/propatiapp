@@ -48,6 +48,12 @@ import {
   ShieldCheck,
   Upload,
   Film,
+  ArrowRight,
+  ArrowForward,
+  Building2,
+  Trash2,
+  Copy,
+  CheckCircle,
 } from 'lucide-react';
 
 const listingSchema = z.object({
@@ -166,15 +172,7 @@ const RENT_PERIODS = [
 
 function ChevronDownIcon({ className }: { className?: string }) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="6 9 12 15 18 9" />
     </svg>
   );
@@ -191,7 +189,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   const [photos, setPhotos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [videos, setVideos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
-type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string };
+  type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string };
   const [unitPhotos, setUnitPhotos] = useState<Record<string, UploadFile[]>>({});
   const [quickListingType, setQuickListingType] = useState<ListingIntent>('rent');
   const [quickPrice, setQuickPrice] = useState('');
@@ -199,20 +197,13 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
   const [quickMinStay, setQuickMinStay] = useState('');
   const [defaultCaution, setDefaultCaution] = useState('');
   const [defaultService, setDefaultService] = useState('');
-  const [unverifiedNotice, setUnverifiedNotice] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
-  const [postalCodeValidation, setPostalCodeValidation] = useState<{
-    valid: boolean;
-    state?: string;
-    lga?: string;
-    locality?: string;
-    confidence: 'high' | 'medium' | 'low';
-  } | null>(null);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const form = useForm<ListingInput>({
     resolver: zodResolver(listingSchema),
     defaultValues: {
-      title: 'Maple Court Apartments',
+      title: '',
       description: '',
       propertyType: 'apartment',
       address: '',
@@ -236,9 +227,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
         if (!cancelled) setVerificationStatus(null);
       }
     })();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   const watchedState = form.watch('state');
@@ -278,21 +267,6 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
     toast({ title: 'Quick setup applied', description: 'Settings updated for all units.' });
   };
 
-  const applyDefaultFees = () => {
-    const cd = parseFloat(defaultCaution);
-    const sc = parseFloat(defaultService);
-    if ((!isNaN(cd) && cd >= 0) || (!isNaN(sc) && sc >= 0)) {
-      setUnits((cur) =>
-        cur.map((u) => ({
-          ...u,
-          cautionDeposit: !isNaN(cd) ? cd : undefined,
-          serviceCharge: !isNaN(sc) ? sc : undefined,
-        }))
-      );
-      toast({ title: 'Default fees applied', description: 'Caution deposit and service charge updated for all units.' });
-    }
-  };
-
   const updateUnit = (id: string, patch: Partial<typeof UnitDraft>) => {
     setUnits((cur) => cur.map((u) => (u.id === id ? { ...u, ...patch } : u)));
   };
@@ -304,57 +278,6 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
 
   const removeUnit = (id: string) => {
     setUnits((cur) => cur.filter((u) => u.id !== id));
-  };
-
-  const validatePostalCode = async () => {
-    const postalCode = form.getValues('postalCode');
-    const state = form.getValues('state');
-    const address = form.getValues('address');
-
-    if (!postalCode) {
-      toast({ title: 'Postal code required', description: 'Enter a postal code first.', variant: 'default' });
-      return;
-    }
-
-    toast({ title: 'Validating postal code…', description: 'Checking against NIPOST records...' });
-
-    try {
-      const res = await fetch(
-        `/api/nipost/validate?postalCode=${encodeURIComponent(postalCode)}&state=${encodeURIComponent(state || '')}&address=${encodeURIComponent(address || '')}`
-      );
-      const data = await res.json();
-
-      if (!res.ok || !data.valid) {
-        setPostalCodeValidation(null);
-        toast({
-          title: 'Postal code not recognized',
-          description: data.message || 'NIPOST does not recognize this postal code.',
-          variant: 'destructive',
-        });
-        return;
-      }
-
-      setPostalCodeValidation({
-        valid: data.valid,
-        state: data.state,
-        lga: data.lga,
-        locality: data.locality,
-        confidence: data.confidence || 'medium',
-      });
-
-      toast({
-        title: 'Postal code verified',
-        description: `Matched: ${data.state || 'N/A'} • ${data.lga || 'N/A'} • ${data.locality || 'N/A'}`,
-        variant: 'default',
-      });
-    } catch {
-      setPostalCodeValidation(null);
-      toast({
-        title: 'Validation failed',
-        description: 'Could not reach NIPOST. Please try again later.',
-        variant: 'destructive',
-      });
-    }
   };
 
   const onSubmit = async (data: ListingInput) => {
@@ -396,10 +319,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
 
       const listing = await createListing.mutateAsync(basePayload as any);
 
-      toast({
-        title: 'Property saved',
-        description: 'Building created. Units will be linked now.',
-      });
+      toast({ title: 'Property saved', description: 'Building created. Units will be linked now.' });
 
       if (orgId) {
         try {
@@ -443,727 +363,295 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           const failed = results.filter((r) => r.status === 'rejected');
 
           if (created > 0) {
-            toast({
-              title: `${created} unit${created > 1 ? 's' : ''} linked`,
-              description: failed.length > 0 ? `${failed.length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined,
-            });
-          }
-          if (failed.length > 0 && created === 0) {
-            const reason = (failed[0] as any).reason?.message || 'Unexpected error';
-            throw new Error(reason);
+            toast({ title: `${created} unit${created > 1 ? 's' : ''} linked`, description: failed.length > 0 ? `${failed.length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined });
           }
         } catch (unitError) {
           console.error('Unit creation error:', unitError);
-          toast({
-            title: 'Units pending',
-            description: unitError instanceof Error ? unitError.message : 'Property saved, but some units could not be linked. You can add them later.',
-          });
+          toast({ title: 'Units pending', description: unitError instanceof Error ? unitError.message : 'Property saved, but some units could not be linked.' });
         }
       } else {
         try {
-          const orgRes = await fetch('/api/orgs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: `${data.title || 'Property'} Organisation`, planTier: 'starter' }),
-          });
-          if (!orgRes.ok) {
-            const orgData = await orgRes.json().catch(() => ({}));
-            throw new Error(orgData.error || 'Failed to create organisation');
-          }
+          const orgRes = await fetch('/api/orgs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: `${data.title || 'Property'} Organisation`, planTier: 'starter' }) });
+          if (!orgRes.ok) { const orgData = await orgRes.json().catch(() => ({})); throw new Error(orgData.error || 'Failed to create organisation'); }
           const orgJson = await orgRes.json();
           const newOrgId = orgJson?.data?.id;
           if (!newOrgId) throw new Error('Missing organisation id');
 
-          const linkRes = await fetch(`/api/orgs/${encodeURIComponent(newOrgId)}/listings`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ listingId: listing.id }),
-          });
-          if (!linkRes.ok) {
-            const linkData = await linkRes.json().catch(() => ({}));
-            if (linkRes.status !== 409) {
-              throw new Error(linkData.error || 'Failed to link property to organization');
-            }
-          }
+          const linkRes = await fetch(`/api/orgs/${encodeURIComponent(newOrgId)}/listings`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ listingId: listing.id }) });
+          if (!linkRes.ok) { const linkData = await linkRes.json().catch(() => ({})); if (linkRes.status !== 409) throw new Error(linkData.error || 'Failed to link property to organization'); }
 
-          const results = await Promise.allSettled(
-            units.map((u) =>
-              createUnit.mutateAsync({
-                orgId: newOrgId,
-                buildingName: data.title,
-                unitNumber: u.unitNumber,
-                type: data.propertyType || 'apartment',
-                listingType: u.listingType,
-                pricePeriod: u.pricePeriod,
-                minimumStay: u.minimumStay,
-                isListed: u.isListed,
-                bedrooms: u.bedrooms,
-                bathrooms: u.bathrooms,
-                sizeSqm: u.sizeSqm,
-                rent: u.price,
-                cautionDeposit: u.cautionDeposit,
-                serviceCharge: u.serviceCharge,
-                status: 'AVAILABLE',
-                occupancy: 'VACANT',
-                listingId: listing.id,
-              })
-            )
-          );
-
+          const results = await Promise.allSettled(units.map((u) => createUnit.mutateAsync({ orgId: newOrgId, buildingName: data.title, unitNumber: u.unitNumber, type: data.propertyType || 'apartment', listingType: u.listingType, pricePeriod: u.pricePeriod, minimumStay: u.minimumStay, isListed: u.isListed, bedrooms: u.bedrooms, bathrooms: u.bathrooms, sizeSqm: u.sizeSqm, rent: u.price, cautionDeposit: u.cautionDeposit, serviceCharge: u.serviceCharge, status: 'AVAILABLE', occupancy: 'VACANT', listingId: listing.id })));
           const created = results.filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled').length;
           const failed = results.filter((r) => r.status === 'rejected');
-
-          if (created > 0) {
-            toast({
-              title: `${created} unit${created > 1 ? 's' : ''} linked`,
-              description: failed.length > 0 ? `${(failed as any[]).length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined,
-            });
-          }
-          if (failed.length > 0 && created === 0) {
-            const reason = (failed[0] as any).reason?.message || 'Unexpected error';
-            throw new Error(reason);
-          }
+          if (created > 0) toast({ title: `${created} unit${created > 1 ? 's' : ''} linked`, description: failed.length > 0 ? `${(failed as any[]).length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined });
         } catch (orgError) {
           console.error('Auto-org/units error:', orgError);
-          toast({
-            title: 'Units pending',
-            description: orgError instanceof Error ? orgError.message : 'Property saved, but we could not auto-create an organisation to store units. You can add them later from the property page.',
-          });
+          toast({ title: 'Units pending', description: orgError instanceof Error ? orgError.message : 'Property saved, but we could not auto-create units.' });
         }
       }
 
       router.push('/dashboard/landlord/properties');
       router.refresh();
     } catch (error) {
-      toast({
-        title: 'Failed to create property',
-        description: getErrorMessage(error),
-        variant: 'destructive',
-      });
+      toast({ title: 'Failed to create property', description: getErrorMessage(error), variant: 'destructive' });
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="space-y-8 p-6 md:p-8">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => router.back()}
-            className="h-9 w-9"
-            aria-label="Back"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Add property</h1>
-            <p className="text-zinc-600 dark:text-zinc-400 mt-1">Create a new building and its units</p>
+    <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full flex flex-col gap-6 bg-white dark:bg-zinc-950 min-h-screen">
+      {/* Breadcrumb & Status Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <nav className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+          <Link href="/dashboard/landlord" className="hover:text-emerald-600 transition-colors flex items-center gap-1">Home</Link>
+          <span>/</span>
+          <Link href="/dashboard/landlord/properties" className="hover:text-emerald-600 transition-colors">Properties</Link>
+          <span>/</span>
+          <span className="text-zinc-900 dark:text-white font-semibold">Add New Property</span>
+        </nav>
+        <div className="flex items-center gap-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Registry Active
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" className="gap-2">
-            <BadgePercent className="h-4 w-4" />
-            Refer & earn
-          </Button>
-          <div className="flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 px-3 py-1.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-bold">
-              ZX
-            </div>
-            <span className="text-sm font-medium text-zinc-900 dark:text-white">ZX zero</span>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant={verificationStatus === 'certified' ? 'default' : 'destructive'}
-                size="sm"
-                className="gap-1.5"
-              >
-                <ShieldCheck className="h-4 w-4" />
-                {verificationStatus === 'certified' ? 'VERIFIED' : 'UNVERIFIED'}
-                <ChevronDownIcon className="h-3.5 w-3.5 opacity-70" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Account Status</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <Link href="/dashboard/landlord/verify">
-                <DropdownMenuItem>Start Verification</DropdownMenuItem>
-              </Link>
-              <Link href="/dashboard/verification?type=property">
-                <DropdownMenuItem>Verify Property</DropdownMenuItem>
-              </Link>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Basic Details */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
-            <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Basic Details</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">General information about the building.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <FormField
-                control={form.control as unknown}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Property name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Maple Court Apartments" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="description"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Description (optional)</FormLabel>
-                    <FormControl>
-                      <Textarea rows={4} placeholder="Anything tenants should know about the property." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="propertyType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Type</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {PROPERTY_TYPE_OPTIONS.map((opt) => (
-                          <SelectItem key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="floors"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Floors</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={1}
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </section>
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div className="flex flex-col gap-1 max-w-3xl">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">Institutional Asset Intake</span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Add Property</h1>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">Register institutional assets and configure rentable units.</p>
+        </div>
+      </div>
 
-          {/* Address */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
-            <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Address</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">Where is this property located?</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <FormField
-                control={form.control as unknown}
-                name="address"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Street</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., 12 Admiralty Way" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="area"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Area</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Lekki" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>State</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select state" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {NIGERIAN_STATES.map((s) => (
-                          <SelectItem key={s} value={s}>
-                            {s}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      disabled={availableCities.length === 0}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={availableCities.length > 0 ? 'Select city' : 'Pick a state first'} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {availableCities.map((c) => (
-                          <SelectItem key={c} value={c}>
-                            {c}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="postalCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Postal code (optional)</FormLabel>
-                    <FormControl>
-                      <div className="flex gap-2">
-                        <Input placeholder="e.g., 100001" {...field} />
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          onClick={validatePostalCode}
-                          className="whitespace-nowrap"
-                        >
-                          Validate
-                        </Button>
-                      </div>
-                    </FormControl>
-                    {postalCodeValidation && (
-                      <div className="mt-2 flex items-start gap-2 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/40 p-3">
-                        <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                        <div className="text-sm">
-                          <p className="font-medium text-green-800 dark:text-green-300">Verified via NIPOST</p>
-                          <p className="text-green-700 dark:text-green-400 mt-1">
-                            {postalCodeValidation.state} • {postalCodeValidation.lga}{' '}
-                            • {postalCodeValidation.locality}
-                          </p>
-                          <p className="text-green-600 dark:text-green-500">Confidence: {postalCodeValidation.confidence}</p>
-                        </div>
-                      </div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </section>
-
-          {/* Units */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Units ({units.length})</h2>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">Add address and details for each unit in this building.</p>
+      {/* Step Progress Indicator */}
+      <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
+          <div className="hidden md:block absolute top-6 left-12 right-12 h-0.5 bg-zinc-200 dark:bg-zinc-700" />
+          <div className="hidden md:block absolute top-6 left-12 h-0.5 bg-emerald-500 transition-all duration-500" style={{ width: `${((currentStep - 1) / 2) * 100}%`, maxWidth: 'calc(100% - 6rem)' }} />
+          {[
+            { num: 1, label: 'Property Details', sub: 'Title, footprint & specs' },
+            { num: 2, label: 'Units Builder', sub: 'Rent matrix & amenities' },
+            { num: 3, label: 'Confirmation', sub: 'Registry review & publish' },
+          ].map((step) => (
+            <button
+              key={step.num}
+              onClick={() => setCurrentStep(step.num)}
+              className={`group text-left relative z-10 flex items-center md:flex-col md:items-start gap-3 transition-opacity ${currentStep === step.num ? '' : 'opacity-60'}`}
+            >
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-md font-bold text-sm ${
+                currentStep >= step.num ? 'bg-emerald-500 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400'
+              }`}>
+                {currentStep > step.num ? <Check size={16} /> : step.num}
               </div>
-              <div className="flex flex-wrap gap-3">
-                <Button type="button" variant="secondary" onClick={addUnit} className="gap-2">
-                  <Plus className="h-4 w-4" /> Add unit
+              <div className="flex flex-col">
+                <span className={`text-[10px] uppercase tracking-wider font-bold ${currentStep >= step.num ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-500 dark:text-zinc-400'}`}>
+                  Phase 0{step.num}
+                </span>
+                <span className="text-sm font-semibold text-zinc-900 dark:text-white">{step.label}</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:inline">{step.sub}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* MAIN FORM BODY */}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+          {/* STEP 1: PROPERTY DETAILS */}
+          {currentStep === 1 && (
+            <div className="flex flex-col gap-6">
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
+                <div className="px-6 py-4 bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Building2 size={20} className="text-emerald-600 dark:text-emerald-400" />
+                    <span className="font-semibold text-zinc-900 dark:text-white">Asset Identification & Demographics</span>
+                  </div>
+                </div>
+                <div className="p-6 flex flex-col gap-4">
+                  {/* Property Name */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                      Property Name / Building Name <span className="text-red-500">*</span>
+                    </label>
+                    <FormField control={form.control as unknown} name="title" render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="e.g. Sovereign Crest Tower II" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                  </div>
+
+                  {/* Address */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                      Physical Address <span className="text-red-500">*</span>
+                    </label>
+                    <FormField control={form.control as unknown} name="address" render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea rows={3} placeholder="Street, City, State, Country" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                  </div>
+
+                  {/* Grid of Property Metrics */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField control={form.control as unknown} name="propertyType" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Property Type</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl><SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger></FormControl>
+                          <SelectContent>{PROPERTY_TYPE_OPTIONS.map((opt) => <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>)}</SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <FormField control={form.control as unknown} name="floors" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Floors</FormLabel>
+                        <FormControl>
+                          <Input type="number" min={1} placeholder="e.g. 4" {...field} onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                  </div>
+
+                  {/* Description */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Asset Description & Amenities</label>
+                    <FormField control={form.control as unknown} name="description" render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea rows={4} placeholder="Describe the property..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                  </div>
+                </div>
+
+                {/* Footer Actions */}
+                <div className="px-6 py-4 bg-zinc-50 dark:bg-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <Button type="button" variant="outline" className="w-full sm:w-auto">Save as Draft</Button>
+                  <Button type="button" onClick={() => setCurrentStep(2)} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white shadow-md">
+                    Continue to Units Builder <ArrowForward size={16} className="ml-1" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* STEP 2: UNITS BUILDER */}
+          {currentStep === 2 && (
+            <div className="flex flex-col gap-6">
+              {/* Units Summary Ribbon */}
+              <div className="bg-emerald-600 text-white rounded-xl p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                    <Building2 size={24} />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-emerald-100">Unit Matrix Overview</span>
+                    <span className="text-lg font-semibold block">Total {units.length} Units Configured</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-2 bg-white/10 px-4 py-2 rounded-lg">
+                  <span className="text-xs text-emerald-100">Combined Monthly:</span>
+                  <span className="text-xl font-bold tracking-tight">₦ {units.reduce((s, u) => s + (u.price || 0), 0).toLocaleString()}</span>
+                </div>
+              </div>
+
+              {/* Unit Rows */}
+              <div className="flex flex-col gap-4">
+                {units.map((u) => (
+                  <div key={u.id} className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
+                    <div className="px-4 py-3 bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">#{u.unitNumber}</span>
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white">Unit {u.unitNumber}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-semibold">DRAFT</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {units.length > 1 && (
+                          <button onClick={() => removeUnit(u.id)} className="p-1 rounded text-zinc-400 hover:text-red-500 transition-colors">
+                            <Trash2 size={16} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                      <div className="col-span-2 sm:col-span-1 lg:col-span-1">
+                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Unit Name</label>
+                        <Input value={u.unitNumber} onChange={(e) => updateUnit(u.id, { unitNumber: e.target.value })} className="mt-1" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Bedrooms</label>
+                        <Input type="number" min={0} value={u.bedrooms} onChange={(e) => updateUnit(u.id, { bedrooms: parseInt(e.target.value) || 0 })} className="mt-1" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Bathrooms</label>
+                        <Input type="number" min={0} value={u.bathrooms} onChange={(e) => updateUnit(u.id, { bathrooms: parseInt(e.target.value) || 0 })} className="mt-1" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Size (sqm)</label>
+                        <Input type="number" min={0} placeholder="Optional" value={u.sizeSqm ?? ''} onChange={(e) => updateUnit(u.id, { sizeSqm: e.target.value ? parseFloat(e.target.value) : undefined })} className="mt-1" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">Rent (₦/mo)</label>
+                        <Input type="number" min={0} value={u.price || ''} onChange={(e) => updateUnit(u.id, { price: parseFloat(e.target.value) || 0 })} className="mt-1 font-semibold" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Add Unit Button */}
+              <button onClick={addUnit} className="w-full py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors flex items-center justify-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
+                <Plus size={16} />
+                Add Another Unit
+              </button>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between">
+                <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>Back</Button>
+                <Button type="button" onClick={() => setCurrentStep(3)} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+                  Review & Confirm <ArrowForward size={16} className="ml-1" />
                 </Button>
               </div>
             </div>
+          )}
 
-            {/* Quick Setup Toolbar */}
-            <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 space-y-4">
-              <div className="flex items-center gap-2">
-                <Settings2 className="h-4 w-4" />
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Quick setup</h3>
+          {/* STEP 3: CONFIRMATION */}
+          {currentStep === 3 && (
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6 flex flex-col items-center justify-center text-center py-12">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mb-4">
+                <CheckCircle size={32} className="text-emerald-600 dark:text-emerald-400" />
               </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400">Bulk-apply listing intent, price, and period to all units.</p>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Select value={quickListingType} onValueChange={(val) => setQuickListingType(val as ListingIntent)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Listing type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rent">For Rent</SelectItem>
-                    <SelectItem value="short_let">Short-Let</SelectItem>
-                    <SelectItem value="sale">For Sale</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input
-                  type="number"
-                  placeholder="Base price (NGN)"
-                  value={quickPrice}
-                  onChange={(e) => setQuickPrice(e.target.value)}
-                />
-                {quickListingType === 'rent' && (
-                  <Select value={quickPeriod} onValueChange={setQuickPeriod}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {RENT_PERIODS.map((rp) => (
-                        <SelectItem key={rp.value} value={rp.value}>
-                          {rp.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-                {quickListingType === 'short_let' && (
-                  <Input
-                    type="number"
-                    placeholder="Min. stay (nights)"
-                    value={quickMinStay}
-                    onChange={(e) => setQuickMinStay(e.target.value)}
-                  />
-                )}
-              </div>
-              <Button type="button" size="sm" onClick={applyQuickSetup} className="w-full md:w-auto">
-                Apply to all units
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4">
-              {units.map((u) => (
-                <div
-                  key={u.id}
-                  className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 space-y-4"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Unit {u.unitNumber}</h3>
-                    {units.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-red-500"
-                        onClick={() => removeUnit(u.id)}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Unit Name / No</label>
-                      <Input
-                        value={u.unitNumber}
-                        onChange={(e) => updateUnit(u.id, { unitNumber: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Bedrooms</label>
-                      <Input
-                        type="number"
-                        min={0}
-                        value={u.bedrooms}
-                        onChange={(e) => updateUnit(u.id, { bedrooms: parseInt(e.target.value) || 0 })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Bathrooms</label>
-                      <Input
-                        type="number"
-                        min={0}
-                        value={u.bathrooms}
-                        onChange={(e) => updateUnit(u.id, { bathrooms: parseInt(e.target.value) || 0 })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Size (M²)</label>
-                      <Input
-                        type="number"
-                        min={0}
-                        placeholder="Optional"
-                        value={u.sizeSqm ?? ''}
-                        onChange={(e) =>
-                          updateUnit(u.id, {
-                            sizeSqm: e.target.value ? parseFloat(e.target.value) : undefined,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Listing Intent</label>
-                    <div className="flex flex-wrap gap-3 mt-2">
-                      {['For Rent', 'Short-Let', 'For Sale'].map((intent) => {
-                        const value = intent.toLowerCase().replace(' ', '_') as ListingIntent;
-                        const active = u.listingType === value;
-                        return (
-                          <button
-                            key={value}
-                            type="button"
-                            onClick={() =>
-                              updateUnit(u.id, {
-                                listingType: value,
-                                isListed: false,
-                                ...(value === 'short_let' ? { pricePeriod: 'night' } : {}),
-                                ...(value === 'sale' ? { pricePeriod: 'total' } : {}),
-                                ...(value === 'rent' ? { pricePeriod: 'month' } : {}),
-                              })
-                            }
-                            className={[
-                              'inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors',
-                              active
-                                ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white'
-                                : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
-                            ].join(' ')}
-                          >
-                            {active && <Check className="h-4 w-4" />}
-                            {intent}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {true && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
-                          {u.listingType === 'short_let'
-                            ? 'Nightly Rate (NGN)'
-                            : u.listingType === 'sale'
-                              ? 'Outright Price (NGN)'
-                              : 'Rent (NGN)'}
-                        </label>
-                        <Input
-                          type="number"
-                          min={0}
-                          value={u.price || ''}
-                          onChange={(e) => updateUnit(u.id, { price: parseFloat(e.target.value) || 0 })}
-                        />
-                      </div>
-                      {u.listingType === 'rent' && (
-                        <div className="space-y-2">
-                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Period</label>
-                          <Select value={u.pricePeriod} onValueChange={(val) => updateUnit(u.id, { pricePeriod: val })}>
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {RENT_PERIODS.map((rp) => (
-                                <SelectItem key={rp.value} value={rp.value}>
-                                  {rp.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      )}
-                      {u.listingType === 'short_let' && (
-                        <div className="space-y-2">
-                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Min. Stay (nights)</label>
-                          <Input
-                            type="number"
-                            min={1}
-                            value={u.minimumStay ?? ''}
-                            onChange={(e) =>
-                              updateUnit(u.id, {
-                                minimumStay: e.target.value ? parseInt(e.target.value) : undefined,
-                              })
-                            }
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Unit photos</label>
-                    <DroppableArea
-                      accept="image/jpeg,image/png,image/webp,image/heic"
-                      maxSize={10 * 1024 * 1024}
-                      multiple
-                      files={unitPhotos[u.id] || []}
-                      onFilesSelected={(files) =>
-                        setUnitPhotos((cur) => ({
-                          ...cur,
-                          [u.id]: [...(cur[u.id] || []), ...files],
-                        }))
-                      }
-                      onRemoveFile={(idx) =>
-                        setUnitPhotos((cur) => ({
-                          ...cur,
-                          [u.id]: (cur[u.id] || []).filter((_, i) => i !== idx),
-                        }))
-                      }
-                      className="min-h-[120px]"
-                    >
-                      <Upload className="h-5 w-5 mb-2 text-zinc-600 dark:text-zinc-400" />
-                      <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop unit photos here, or click to browse</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-400">These images belong to this unit only.</p>
-                    </DroppableArea>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Default Fees */}
-            <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 space-y-4">
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Default fees (applied when adding a tenant)</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  type="number"
-                  placeholder="Caution deposit (NGN)"
-                  value={defaultCaution}
-                  onChange={(e) => setDefaultCaution(e.target.value)}
-                />
-                <Input
-                  type="number"
-                  placeholder="Service charge (NGN)"
-                  value={defaultService}
-                  onChange={(e) => setDefaultService(e.target.value)}
-                />
-              </div>
-              <Button type="button" size="sm" onClick={applyDefaultFees} className="w-full md:w-auto">
-                Apply to all units
-              </Button>
-            </div>
-          </section>
-
-          {/* Photos & Video */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
-            <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Photos & Video</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                Optional · helps listings stand out
+              <h2 className="text-xl font-bold text-zinc-900 dark:text-white">Ready to Publish</h2>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mt-2">
+                Your property "{form.watch('title') || 'Untitled'}" with {units.length} unit{units.length !== 1 ? 's' : ''} is ready for registry review.
               </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-zinc-900 dark:text-white">Photos</label>
-                <DroppableArea
-                  accept="image/jpeg,image/png,image/webp,image/heic"
-                  maxSize={10 * 1024 * 1024}
-                  multiple
-                  files={photos}
-                  onFilesSelected={(files) => setPhotos((cur) => [...cur, ...files.map((f) => ({ file: f, progress: 0, status: 'pending' }))])}
-                  onRemoveFile={(idx) => setPhotos((cur) => cur.filter((_, i) => i !== idx))}
-                  className="min-h-[180px]"
-                >
-                  <Upload className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-400" />
-                  <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop images here, or click to browse</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">JPEG, PNG, HEIC, or WebP up to 10MB</p>
-                </DroppableArea>
-              </div>
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-zinc-900 dark:text-white">Videos</label>
-                <DroppableArea
-                  accept="video/mp4,video/quicktime,video/webm"
-                  maxSize={50 * 1024 * 1024}
-                  multiple
-                  files={videos}
-                  onFilesSelected={(files) => setVideos((cur) => [...cur, ...files.map((f) => ({ file: f, progress: 0, status: 'pending' }))])}
-                  onRemoveFile={(idx) => setVideos((cur) => cur.filter((_, i) => i !== idx))}
-                  className="min-h-[180px]"
-                >
-                  <Film className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-400" />
-                  <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop videos here, or click to browse</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">MP4, MOV, or WebM up to 50MB</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Short walk-around clips work best.</p>
-                </DroppableArea>
+              <div className="flex items-center gap-3 mt-6">
+                <Button type="button" variant="outline" onClick={() => setCurrentStep(2)}>Back to Units</Button>
+                <Button type="submit" disabled={submitting} className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-md">
+                  {submitting ? <Loader2 size={16} className="mr-2 animate-spin" /> : <Check size={16} className="mr-2" />}
+                  {submitting ? 'Publishing...' : 'Publish Property'}
+                </Button>
               </div>
             </div>
-          </section>
-
-          {/* Amenities */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-5">
-            <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Amenities</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">Toggle features available in this building.</p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {AMENITIES.map((a) => {
-                const active = amenities.includes(a.id);
-                return (
-                  <button
-                    key={a.id}
-                    type="button"
-                    onClick={() => toggleAmenity(a.id)}
-                    className={[
-                      'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-                      active
-                        ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white'
-                        : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
-                    ].join(' ')}
-                  >
-                    {active && <Check className="h-4 w-4" />}
-                    {a.label}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* Footer */}
-          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              onClick={() => router.back()}
-              disabled={submitting}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" size="lg" disabled={submitting || units.length === 0}>
-              {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Create property
-            </Button>
-          </div>
+          )}
         </form>
       </Form>
     </div>

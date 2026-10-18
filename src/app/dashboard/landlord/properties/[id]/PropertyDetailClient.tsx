@@ -1,33 +1,21 @@
 'use client';
 
-import AppIcon from '@/components/icons/app-icon';
-
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Building2,
   CheckCircle2,
   Clock,
   Shield,
-  Edit3,
-  Save,
   X,
   Plus,
-  Trash2,
-  ArrowLeft,
-  Image as ImageIcon,
-  MapPin,
-  DollarSign,
-  FileText,
   Layers,
-  Ruler,
   Wifi,
   Car,
   Dumbbell,
   Waves,
-  Flame,
-  Wind,
   Tv,
   RefrigeratorIcon,
   ShowerHead,
@@ -36,17 +24,16 @@ import {
   Trees,
   Lock,
   Sun,
+  Wind,
   Zap,
   Eye,
-  AlertTriangle,
   ChevronRight,
-  Copy,
   Check,
-  MoreVertical,
-  UserCheck,
-  Video,
+  Heart,
+  Share2,
+  Star,
+  Pencil,
 } from 'lucide-react';
-import { VerificationBadge as SharedVerificationBadge } from '@/components/ui/badges';
 import ManageUnitDrawer from "./ManageUnitDrawer";
 
 type Listing = {
@@ -166,18 +153,18 @@ function formatPropertyType(value?: string) {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     active: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Active' },
-    draft: { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+    draft: { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
     suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
-    deleted: { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
+    deleted: { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: status };
+  const cfg = config[status] || { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
+      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
         Not Started
       </span>
     );
@@ -186,23 +173,14 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
           Not Started
         </span>
       );
     case 'in_progress':
       return (
         <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/[0.08]/20 dark:bg-emerald-500/20 dark:text-white dark:border-white/[0.08]/30">
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12" />
           </svg>
           LAYER {verification.currentLayer}
@@ -218,7 +196,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
           {verification.overallStatus}
         </span>
       );
@@ -226,7 +204,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
 }
 
 export default function PropertyDetailClient({ listing }: { listing: Listing }) {
-  const [activeTab, setActiveTab] = useState<'building' | 'units' | 'shared-amenities' | 'media' | 'verification'>('building');
+  const [activeTab, setActiveTab] = useState<'overview' | 'amenities' | 'pricing' | 'units' | 'reviews'>('overview');
   const [editingManage, setEditingManage] = useState(false);
   const [saving, setSaving] = useState(false);
   const [manageForm, setManageForm] = useState({
@@ -245,6 +223,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   const [amenitiesSaved, setAmenitiesSaved] = useState(false);
   const [manageUnitOpen, setManageUnitOpen] = useState(false);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = useState(true);
 
   const selectedUnit = selectedUnitId
     ? listing.units.find((u) => u.id === selectedUnitId) || null
@@ -326,7 +305,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   ];
 
   const statusColors: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started' },
+    not_started: { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started' },
     in_progress: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'In Review' },
     certified: { class: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', label: 'Verified' },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected' },
@@ -338,705 +317,354 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   const currentLayer = listing.verification?.currentLayer || 1;
 
   const tabs = [
-    { id: 'units' as const, label: `Units (${listing.units.length})`, icon: <Layers className="h-4 w-4" /> },
-    { id: 'building' as const, label: 'Building Details', icon: <Edit3 className="h-4 w-4" /> },
-    { id: 'shared-amenities' as const, label: 'Shared Amenities', icon: <Trees className="h-4 w-4" /> },
-    { id: 'media' as const, label: 'Media', icon: <ImageIcon className="h-4 w-4" /> },
-    { id: 'verification' as const, label: 'Verification', icon: <Shield className="h-4 w-4" /> },
+    { id: 'overview' as const, label: 'Overview' },
+    { id: 'amenities' as const, label: 'Amenities' },
+    { id: 'pricing' as const, label: 'Pricing & Terms' },
+    { id: 'units' as const, label: `Units (${listing.units.length})` },
+    { id: 'reviews' as const, label: 'Reviews' },
   ];
 
+  const occupiedUnits = listing.units.filter((u) => u.occupancy === 'OCCUPIED').length;
+  const availableUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
+
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 bg-white dark:bg-zinc-950 min-h-screen">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" aria-label="Breadcrumb">
-        <Link href="/dashboard/landlord" className="hover:text-zinc-900 dark:text-white hover:underline">
-          Dashboard
-        </Link>
-        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-zinc-600" />
-        <Link href="/dashboard/landlord/properties" className="hover:text-zinc-900 dark:text-white hover:underline">
-          Properties
-        </Link>
-        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-zinc-600" />
-        <span className="font-medium text-zinc-900 dark:text-white truncate" aria-current="page">
-          {capitalizeWords(listing.title)}
-        </span>
+      <nav className="flex items-center gap-1.5 text-sm text-zinc-600 dark:text-zinc-400 mb-4" aria-label="Breadcrumb">
+        <Link href="/dashboard/landlord" className="hover:text-zinc-900 dark:hover:text-white hover:underline">Dashboard</Link>
+        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
+        <Link href="/dashboard/landlord/properties" className="hover:text-zinc-900 dark:hover:text-white hover:underline">Properties</Link>
+        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
+        <span className="font-medium text-zinc-900 dark:text-white truncate">{capitalizeWords(listing.title)}</span>
       </nav>
 
-      {/* Header */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3 min-w-0">
-          <Link
-            href="/dashboard/landlord/properties"
-            className="inline-flex items-center gap-1.5 shrink-0 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-800 hover:text-zinc-900 dark:text-white"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Back to Properties
-          </Link>
-          <div className="min-w-0">
-            <h1 className="font-headline-sm text-zinc-900 dark:text-white font-bold truncate">
-              {capitalizeWords(listing.title)}
-            </h1>
-            <p className="flex items-center gap-1 mt-1 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-              <MapPin className="h-3 w-3 shrink-0" />
-              <span className="truncate">{capitalizeWords(listing.address)}</span>
-            </p>
+      {/* Property Header */}
+      <header className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="flex flex-col gap-2 max-w-3xl">
+          <div className="flex flex-wrap items-center gap-2">
+            <VerificationBadge verification={listing.verification} />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-semibold">{listing.status === 'active' ? 'Active Listing' : capitalizeWords(listing.status)}</span>
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">
+            {capitalizeWords(listing.title)}
+          </h1>
+          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm">
+            <MapPin size={16} className="text-emerald-500 shrink-0" />
+            <span className="truncate">{listing.address}</span>
           </div>
         </div>
-        <div className="shrink-0">
-          <VerificationBadge verification={listing.verification} />
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-2 border-b border-zinc-200 dark:border-white/[0.08]">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === tab.id ? 'border-white text-zinc-900 dark:text-white' : 'border-transparent text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'
-            }`}
-          >
-            {tab.icon}
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab Content */}
-      {activeTab === 'building' && (
-        <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6 shadow-none hover:shadow-none transition-shadow">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white">
-              Building Information
-            </h2>
-            {!editingManage ? (
-              <button onClick={() => setEditingManage(true)} className="flex items-center gap-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white bg-neutral-800/80 hover:bg-neutral-800 border border-neutral-700/80 px-3 py-1.5 rounded-lg transition-colors">
-                <Edit3 className="w-3.5 h-3.5" />
-                Edit
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <button onClick={() => setEditingManage(false)} className="btn btn-ghost btn-sm">
-                  <X className="w-4 h-4 mr-1" />
-                  Cancel
-                </button>
-                <button onClick={handleSaveManage} disabled={saving} className="btn btn-primary btn-sm">
-                  <Save className="w-4 h-4 mr-1" />
-                  {saving ? 'Saving...' : saved ? 'Saved!' : 'Save'}
-                </button>
-              </div>
-            )}
+        {/* Price & Actions */}
+        <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end gap-3">
+          <div className="flex flex-col lg:items-end">
+            <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(listing.price)}</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">/ {listing.pricePeriod || 'year'}</span>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div>
-                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                  Property Title
-                </label>
-                {editingManage ? (
-                  <input
-                    type="text"
-                    value={manageForm.title}
-                    onChange={(e) => updateManageField('title', e.target.value)}
-                    className="inp-field"
-                  />
-                ) : (
-                  <p className="font-medium text-zinc-900 dark:text-white">
-                    {capitalizeWords(listing.title)}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                  Address
-                </label>
-                {editingManage ? (
-                  <input
-                    type="text"
-                    value={manageForm.address}
-                    onChange={(e) => updateManageField('address', e.target.value)}
-                    className="inp-field"
-                  />
-                ) : (
-                  <p className="font-medium text-zinc-900 dark:text-white">
-                    {listing.address}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                  Area
-                </label>
-                {editingManage ? (
-                  <input
-                    type="text"
-                    value={manageForm.area}
-                    onChange={(e) => updateManageField('area', e.target.value)}
-                    className="inp-field"
-                  />
-                ) : (
-                  <p className="font-medium text-zinc-900 dark:text-white">
-                    {capitalizeWords(listing.area)}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                  State
-                </label>
-                {editingManage ? (
-                  <input
-                    type="text"
-                    value={manageForm.state}
-                    onChange={(e) => updateManageField('state', e.target.value)}
-                    className="inp-field"
-                  />
-                ) : (
-                  <p className="font-medium text-zinc-900 dark:text-white">
-                    {capitalizeWords(listing.state)}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                  Property Type
-                </label>
-                {editingManage ? (
-                  <input
-                    type="text"
-                    value={manageForm.propertyType}
-                    onChange={(e) => updateManageField('propertyType', e.target.value)}
-                    className="inp-field"
-                  />
-                ) : (
-                  <p className="font-medium text-zinc-900 dark:text-white">
-                    {formatPropertyType(listing.propertyType)}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                  Total Units
-                </label>
-                <p className="font-medium text-zinc-900 dark:text-white">
-                  {listing.units.length}
-                </p>
-              </div>
-              <div>
-                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                  Verification
-                </label>
-                <VerificationBadge verification={listing.verification} />
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <label className="block text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-              Description
-            </label>
-            {editingManage ? (
-              <textarea
-                value={manageForm.description}
-                onChange={(e) => updateManageField('description', e.target.value)}
-                rows={4}
-                className="inp-field"
-                placeholder="Describe this property…"
-              />
-            ) : listing.description ? (
-              <p className="text-sm leading-relaxed text-zinc-100">
-                {listing.description}
-              </p>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setEditingManage(true)}
-                className="mt-1 inline-flex items-center gap-1.5 rounded-lg border border-dashed border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:border-emerald-500/30 hover:text-emerald-400"
-              >
-                <Plus className="h-3.5 w-3.5" />
-                Add a description
-              </button>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-zinc-200 dark:border-white/[0.08]">
-            <div className="flex items-center gap-2">
-              <ImageIcon className="h-4 w-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" />
-              <div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Images</p>
-                <p className="font-medium text-sm text-zinc-900 dark:text-white">
-                  {listing.images.length}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Layers className="h-4 w-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" />
-              <div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Amenities</p>
-                <p className="font-medium text-sm text-zinc-900 dark:text-white">
-                  {listing.amenities.length}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" />
-              <div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Added</p>
-                <p className="font-medium text-sm text-zinc-900 dark:text-white">
-                  {new Date(listing.createdAt).toLocaleDateString('en-NG')}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" />
-              <div className="min-w-0">
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">ID</p>
-                <p className="flex items-center gap-1.5 font-mono text-sm text-zinc-900 dark:text-white">
-                  <span className="truncate" title={listing.id}>
-                    {listing.id.length > 14 ? `${listing.id.slice(0, 8)}…${listing.id.slice(-4)}` : listing.id}
-                  </span>
-                  <button
-                    type="button"
-                    aria-label="Copy ID"
-                    onClick={async () => {
-                      try { await navigator.clipboard.writeText(listing.id); } catch {}
-                    }}
-                    className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:bg-zinc-800 hover:text-zinc-900 dark:text-white"
-                  >
-                    <Copy className="h-3 w-3" />
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'units' && (
-        <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
-          <div className="flex items-center justify-between p-6 pb-4">
-            <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-              {listing.units.length} {listing.units.length === 1 ? 'unit' : 'units'} in this building
-            </p>
-            <Button asChild>
-              <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add Unit to Building
-              </Link>
-            </Button>
-          </div>
-
-          {listing.units.length === 0 ? (
-            <div className="p-12 text-center">
-              <Layers className="w-12 h-12 mx-auto mb-3 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" />
-              <h3 className="font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white mb-2">No units yet</h3>
-              <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 mb-4">
-                Add your first unit to start listing this property.
-              </p>
-              <Button asChild>
-                <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Unit
-                </Link>
-              </Button>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Unit</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Type</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Listing Intent</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Price</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Occupancy</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Listing Status</th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listing.units.map((unit) => (
-                    <tr key={unit.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-b-0">
-                      <td className="px-4 py-3">
-                        <div>
-                          <p className="font-medium text-zinc-900 dark:text-white">Unit {unit.unitNumber}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                            {unit.bedrooms} Bed • {unit.bathrooms} Bath {unit.sizeSqm ? `• ${unit.sizeSqm} sqm` : ''}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="text-sm text-zinc-900 dark:text-white">{formatPropertyType(unit.type)}</span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="inline-flex items-center rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/[0.08]">
-                          {formatListingType(unit.listingType)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <p className="text-sm font-medium text-zinc-900 dark:text-white">{formatUnitPrice(unit)}</p>
-                        {unit.cautionDeposit ? (
-                          <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Caution: {formatCurrency(Number(unit.cautionDeposit))}</p>
-                        ) : null}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                          unit.occupancy === 'VACANT'
-                            ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'
-                            : unit.occupancy === 'OCCUPIED'
-                              ? 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'
-                              : 'bg-amber-500/15 text-amber-400 border-amber-500/20'
-                        }`}>
-                          {unit.occupancy === 'VACANT' ? 'Vacant' : unit.occupancy === 'OCCUPIED' ? 'Occupied' : unit.occupancy === 'NOTICE_GIVEN' ? 'Notice Given' : unit.occupancy}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                          unit.isListed ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'
-                        }`}>
-                          {unit.isListed ? 'Listed' : 'Unlisted'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setSelectedUnitId(unit.id);
-                              setManageUnitOpen(true);
-                            }}
-                          >
-                            Manage
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      )}
-
-      {activeTab === 'verification' && (
-        <div className="space-y-4">
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="font-headline-sm font-bold text-zinc-900 dark:text-white">
-                Verification Status
-              </h2>
-              <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusColors[verificationStatus]?.class || 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'}`}>
-                {statusColors[verificationStatus]?.label || 'Unknown'}
-              </span>
-            </div>
-            {(() => {
-              const approvedCount = layerLabels.filter((l) => (listing.verification?.[l.key as keyof typeof listing.verification] as string) === 'approved').length;
-              const total = layerLabels.length;
-              const pct = Math.round((approvedCount / total) * 100);
-              return (
-                <div className="mb-4">
-                  <div className="mb-1.5 flex items-center justify-between text-xs">
-                    <span className="font-medium text-zinc-600 dark:text-zinc-400">{approvedCount} of {total} Steps Completed</span>
-                    <span className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">{pct}%</span>
-                  </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white dark:bg-zinc-900">
-                    <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${pct}%` }} />
-                  </div>
-                  {verificationStatus === 'certified' && (
-                    <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400">
-                      <Shield className="h-3.5 w-3.5" /> Certified — this property is fully verified
-                    </p>
-                  )}
-                </div>
-              );
-            })()}
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-              {listing.verification
-                ? `Currently on Layer ${currentLayer} of the verification process.`
-                : 'Verification has not been started for this property.'}
-            </p>
-          </div>
-
-          {layerLabels.map((layer, index) => {
-            const layerStatus = listing.verification?.[layer.key as keyof typeof listing.verification] as string || 'pending';
-            const isApproved = layerStatus === 'approved';
-            const config = statusColors[layerStatus] || statusColors.pending;
-            const Icon = layer.icon;
-
-            return (
-              <div
-                key={layer.key}
-                className="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-4 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400'}`}>
-                    {isApproved ? <CheckCircle2 className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-zinc-900 dark:text-white">
-                      {layer.label}
-                    </p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                      {layer.desc}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex shrink-0 items-center gap-2">
-                  <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${config.class}`}>{config.label}</span>
-                  {!isApproved && (
-                    <Button size="sm" asChild className="shrink-0 rounded-lg bg-emerald-600 text-zinc-900 dark:text-white hover:bg-emerald-500">
-                      <Link href={`/dashboard/landlord/verify?listingId=${listing.id}`}>{layer.cta}</Link>
-                    </Button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-
-          <div className="flex gap-4 pt-2">
-            <Link href="/dashboard/landlord/verify" className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:bg-neutral-800 transition-colors">
-              <Shield className="w-4 h-4 mr-2" />
-              Go to Verifications
-            </Link>
-            {listing.verification && (
-              <Link
-                href={`/dashboard/landlord/verify?listingId=${listing.id}`}
-                className="btn btn-primary"
-              >
-                {verificationStatus === 'not_started' ? 'Start Verification' : 'Continue Verification'}
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'shared-amenities' && (
-        <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6 shadow-none hover:shadow-none transition-shadow">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white">
-              Shared Building Amenities
-            </h2>
-            {saved && (
-              <span className="text-xs text-[#10b981]">
-                Changes saved
-              </span>
-            )}
-          </div>
-
-          <p className="text-sm mb-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-            Manage shared building amenities for {listing.title}. These features will automatically apply to all units housed within this property.
-          </p>
-
-          {listing.verification && listing.verification.overallStatus !== 'certified' && (
-            <div className="flex items-center gap-2 p-3 rounded-lg mb-4 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/[0.08]">
-              <AlertTriangle className="h-4 w-4 text-zinc-900 dark:text-white" />
-              <p className="text-sm text-zinc-900 dark:text-white">
-                Amenity updates will be reviewed during verification.
-              </p>
-            </div>
-          )}
-
-          <div className="flex flex-wrap gap-2 mb-4">
-            {amenities.map((amenity) => (
-              <span
-                key={amenity}
-                className="inline-flex items-center gap-1.5 bg-neutral-800 border border-neutral-700 text-zinc-900 dark:text-white text-xs font-medium px-3 py-1 rounded-full"
-              >
-                {capitalizeWords(amenity)}
-                <button onClick={() => removeAmenity(amenity)} className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors" title={`Remove ${amenity}`}>
-                  <X className="h-3 w-3" />
-                </button>
-              </span>
-            ))}
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                Quick Add
-              </p>
-              <button
-                onClick={handleSaveAmenities}
-                disabled={savingAmenities}
-                className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-neutral-200 hover:bg-neutral-800 transition-colors disabled:opacity-60"
-              >
-                <Save className="w-3.5 h-3.5" />
-                {savingAmenities ? 'Saving...' : amenitiesSaved ? 'Saved' : 'Save Amenities'}
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {SHARED_AMENITY_PRESETS.map((preset) => {
-                const active = amenities.includes(preset);
-                return (
-                  <button
-                    key={preset}
-                    type="button"
-                    onClick={() => {
-                      if (active) {
-                        removeAmenity(preset);
-                      } else {
-                        setAmenities((prev) => (prev.includes(preset) ? prev : [...prev, preset]));
-                        setAmenitiesSaved(false);
-                      }
-                    }}
-                    className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                      active
-                        ? 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]/20 text-zinc-900 dark:text-white'
-                        : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:border-white/40'
-                    }`}
-                  >
-                    {active ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-                    {AMENITY_ICON_MAP[preset]}
-                    {preset}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="flex gap-2 mt-4">
-            <input
-              type="text"
-              placeholder="Add amenity..."
-              value={amenityInput}
-              onChange={(e) => setAmenityInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addAmenity())}
-              className="inp-field border-neutral-800 focus:border-neutral-600 bg-[#090d16]"
-              style={{ maxWidth: '300px' }}
-            />
-            <button onClick={addAmenity} className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-white px-3 py-1.5 text-xs font-medium text-neutral-900 hover:bg-neutral-200 transition-colors">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Custom
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsFavorite(!isFavorite)}
+              className={`p-2 rounded-lg border ${isFavorite ? 'bg-red-50 border-red-200 text-red-500' : 'bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 text-zinc-500'} hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors`}
+            >
+              <Heart size={18} className={isFavorite ? 'fill-red-500' : ''} />
             </button>
+            <button className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors">
+              <Share2 size={18} />
+            </button>
+            <Link
+              href={`/dashboard/landlord/properties/${listing.id}/edit`}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-sm font-medium transition-colors"
+            >
+              <Pencil size={16} />
+              <span>Edit</span>
+            </Link>
           </div>
         </div>
-      )}
+      </header>
 
-      {activeTab === 'media' && (
-        <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6 shadow-none hover:shadow-none transition-shadow">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white">
-              Property Media
-            </h2>
-            <label className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:bg-neutral-800 transition-colors cursor-pointer">
-              <Plus className="w-4 h-4 mr-2" />
-              Upload Photo
-              <input
-                type="file"
-                accept="image/*"
-                className="sr-only"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  const formData = new FormData();
-                  formData.append('file', file);
-                  formData.append('setCover', String(images.length === 0));
-                  try {
-                    const res = await fetch(`/api/listings/${listing.id}/images`, {
-                      method: 'POST',
-                      body: formData,
-                    });
-                    const data = await res.json().catch(() => ({}));
-                    if (!res.ok) throw new Error(data?.error || 'Failed to upload');
-                    setImages((prev) => {
-                      const next = [...prev, data.image].sort((a, b) => {
-                        if (a.isCover !== b.isCover) return a.isCover ? -1 : 1;
-                        return (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
-                      });
-                      return next;
-                    });
-                  } catch (err) {
-                    console.error('Image upload failed:', err);
-                  }
-                  e.target.value = '';
-                }}
-              />
-            </label>
-          </div>
-
-          {images.length === 0 ? (
-            <div className="p-12 text-center">
-              <ImageIcon className="w-12 h-12 mx-auto mb-3 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" />
-              <h3 className="font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white mb-2">No media yet</h3>
-              <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
-                Exterior shots, compound photos, and entrance images will appear here once uploaded.
-              </p>
+      {/* Image Gallery */}
+      {listing.images.length > 0 && (
+        <section className="mt-4 flex flex-col gap-3">
+          <div className="relative w-full aspect-[21/9] sm:aspect-[16/8] rounded-xl overflow-hidden shadow-sm bg-zinc-100 dark:bg-zinc-800">
+            <img src={listing.images[0]?.url} alt={listing.title} className="w-full h-full object-cover" />
+            <div className="absolute top-3 left-3 flex items-center gap-2">
+              <span className="px-2.5 py-1 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md text-xs font-semibold text-zinc-700 dark:text-zinc-300 shadow-sm">
+                Cover Image
+              </span>
+              <span className="px-2.5 py-1 rounded-full bg-zinc-900/80 text-white backdrop-blur-md text-xs font-medium">
+                1 / {listing.images.length} Photos
+              </span>
             </div>
-          ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {images.map((image) => (
-                <div key={image.id} className="relative rounded-lg overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
-                  <img
-                    src={image.url}
-                    alt={listing.title}
-                    className="w-full h-40 object-cover"
-                  />
-                  {image.isCover && (
-                    <span className="absolute top-2 left-2 tag bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20">
-                      Cover
-                    </span>
-                  )}
-                  <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-white dark:bg-black/50 p-2 text-zinc-900 dark:text-white text-xs">
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        try {
-                          const res = await fetch(`/api/listings/${listing.id}/images`, {
-                            method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ imageId: image.id, setCover: true }),
-                          });
-                          const data = await res.json().catch(() => ({}));
-                          if (!res.ok) throw new Error(data?.error || 'Failed to update cover');
-                          setImages((prev) => prev.map((img) => ({ ...img, isCover: img.id === image.id })));
-                        } catch (err) {
-                          console.error('Set cover failed:', err);
-                        }
-                      }}
-                      className={image.isCover ? 'font-medium' : 'opacity-80 hover:opacity-100'}
-                    >
-                      {image.isCover ? 'Cover' : 'Set cover'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        try {
-                          const res = await fetch(`/api/listings/${listing.id}/images`, {
-                            method: 'DELETE',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ imageId: image.id }),
-                          });
-                          const data = await res.json().catch(() => ({}));
-                          if (!res.ok) throw new Error(data?.error || 'Failed to delete');
-                          setImages((prev) => prev.filter((img) => img.id !== image.id));
-                        } catch (err) {
-                          console.error('Delete image failed:', err);
-                        }
-                      }}
-                      className="opacity-80 hover:opacity-100"
-                    >
-                      Remove
-                    </button>
-                  </div>
+          </div>
+          {listing.images.length > 1 && (
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              {listing.images.slice(0, 7).map((img, idx) => (
+                <div key={img.id} className="flex-shrink-0 w-24 h-16 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-700">
+                  <img src={img.url} alt={`${listing.title} ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform cursor-pointer" />
                 </div>
               ))}
             </div>
           )}
-        </div>
+        </section>
       )}
-      
-      {selectedUnit && (
+
+      {/* Two-Column Body */}
+      <div className="lg:grid lg:grid-cols-[2fr_1fr] gap-6 mt-6 items-start">
+        {/* LEFT COLUMN: Tabs */}
+        <div className="flex flex-col gap-4">
+          {/* Tab Bar */}
+          <div className="border-b border-zinc-200 dark:border-zinc-800">
+            <div className="flex items-center gap-1 overflow-x-auto">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-3 py-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+                    activeTab === tab.id
+                      ? 'border-emerald-500 text-zinc-900 dark:text-white'
+                      : 'border-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* TAB 1: OVERVIEW */}
+          {activeTab === 'overview' && (
+            <div className="flex flex-col gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                <h2 className="font-semibold text-zinc-900 dark:text-white flex items-center gap-2 mb-3">
+                  <Building2 size={18} className="text-emerald-600 dark:text-emerald-400" />
+                  Property Overview
+                </h2>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {listing.description || 'No description provided for this property.'}
+                </p>
+              </div>
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3">Technical Specifications</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1"><Building2 size={12} className="text-emerald-500" /> Property Type</span>
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white block mt-1">{formatPropertyType(listing.propertyType)}</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1"><Shield size={12} className="text-emerald-500" /> Status</span>
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white block mt-1">{capitalizeWords(listing.status)}</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1"><Layers size={12} className="text-emerald-500" /> Total Units</span>
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white block mt-1">{listing.units.length} Units</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1"><Eye size={12} className="text-emerald-500" /> Views</span>
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white block mt-1">{listing.viewsCount.toLocaleString()}</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1"><Clock size={12} className="text-emerald-500" /> Listed</span>
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white block mt-1">{new Date(listing.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1"><CheckCircle2 size={12} className="text-emerald-500" /> Verification</span>
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white block mt-1 capitalize">{listing.verification?.overallStatus || 'Not Started'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: AMENITIES */}
+          {activeTab === 'amenities' && (
+            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <h2 className="font-semibold text-zinc-900 dark:text-white flex items-center gap-2 mb-3">
+                <Zap size={18} className="text-emerald-600 dark:text-emerald-400" />
+                Amenities & Features
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {amenities.length === 0 ? (
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">No amenities added yet.</p>
+                ) : (
+                  amenities.map((amenity) => (
+                    <span key={amenity} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium">
+                      {AMENITY_ICON_MAP[amenity] || <Check size={14} />}
+                      {amenity}
+                      <button onClick={() => removeAmenity(amenity)} className="ml-1 hover:text-red-500"><X size={12} /></button>
+                    </span>
+                  ))
+                )}
+              </div>
+              <div className="flex gap-2 mt-4">
+                <Input placeholder="Add amenity..." value={amenityInput} onChange={(e) => setAmenityInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addAmenity())} />
+                <Button type="button" variant="outline" onClick={addAmenity}><Plus size={14} /></Button>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: PRICING */}
+          {activeTab === 'pricing' && (
+            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <h2 className="font-semibold text-zinc-900 dark:text-white flex items-center gap-2 mb-3">
+                <DollarSign size={18} className="text-emerald-600 dark:text-emerald-400" />
+                Pricing & Lease Terms
+              </h2>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                  <div>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400 block">Base Rent</span>
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white">{formatCurrency(listing.price)} / {listing.pricePeriod || 'year'}</span>
+                  </div>
+                </div>
+                {listing.units[0]?.cautionDeposit && (
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <div>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400 block">Caution Deposit</span>
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">{formatCurrency(listing.units[0].cautionDeposit)}</span>
+                    </div>
+                  </div>
+                )}
+                {listing.units[0]?.serviceCharge && (
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50">
+                    <div>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400 block">Service Charge</span>
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">{formatCurrency(listing.units[0].serviceCharge)}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: UNITS */}
+          {activeTab === 'units' && (
+            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+                  <Layers size={18} className="text-emerald-600 dark:text-emerald-400" />
+                  Units ({listing.units.length})
+                </h2>
+                <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`} className="text-xs text-emerald-600 dark:text-emerald-400 font-medium hover:underline flex items-center gap-1">
+                  <Plus size={12} /> Add Unit
+                </Link>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="bg-zinc-50 dark:bg-zinc-800/50 text-zinc-500 dark:text-zinc-400 text-xs uppercase tracking-wider">
+                      <th className="py-2 px-3 rounded-l-lg">Unit</th>
+                      <th className="py-2 px-3">Type</th>
+                      <th className="py-2 px-3">Specs</th>
+                      <th className="py-2 px-3 text-right">Rent</th>
+                      <th className="py-2 px-3">Status</th>
+                      <th className="py-2 px-3 text-right rounded-r-lg">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    {listing.units.map((unit) => (
+                      <tr key={unit.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
+                        <td className="py-2.5 px-3 font-semibold text-zinc-900 dark:text-white">{unit.unitNumber}</td>
+                        <td className="py-2.5 px-3 text-zinc-700 dark:text-zinc-300">{capitalizeWords(unit.type)}</td>
+                        <td className="py-2.5 px-3 text-zinc-500 dark:text-zinc-400 text-xs">{unit.bedrooms} Beds • {unit.bathrooms} Baths</td>
+                        <td className="py-2.5 px-3 text-right font-mono font-semibold text-zinc-900 dark:text-white">{formatCurrency(unit.rent)}</td>
+                        <td className="py-2.5 px-3">
+                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                            unit.occupancy === 'OCCUPIED' ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' :
+                            unit.occupancy === 'VACANT' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' :
+                            'bg-amber-500/10 text-amber-500'
+                          }`}>
+                            {unit.occupancy === 'OCCUPIED' ? 'Leased' : unit.occupancy === 'VACANT' ? 'Available' : 'Maintenance'}
+                          </span>
+                        </td>
+                        <td className="py-2.5 px-3 text-right">
+                          <button onClick={() => { setSelectedUnitId(unit.id); setManageUnitOpen(true); }} className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
+                            Manage
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: REVIEWS */}
+          {activeTab === 'reviews' && (
+            <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <h2 className="font-semibold text-zinc-900 dark:text-white flex items-center gap-2 mb-3">
+                <Star size={18} className="text-amber-500" />
+                Reviews
+              </h2>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">No reviews yet for this property.</p>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT COLUMN: Sticky Booking/Lease Card */}
+        <aside className="flex flex-col gap-4 mt-6 lg:mt-0 lg:sticky lg:top-20">
+          {/* Quick Stats Card */}
+          <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold text-zinc-900 dark:text-white">Property Summary</h3>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Total Units</span>
+                <span className="font-semibold text-zinc-900 dark:text-white">{listing.units.length}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Leased</span>
+                <span className="font-semibold text-zinc-900 dark:text-white">{occupiedUnits}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Available</span>
+                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{availableUnits}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Base Rent</span>
+                <span className="font-semibold text-zinc-900 dark:text-white font-mono">{formatCurrency(listing.price)}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Verification Status Card */}
+          <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold text-zinc-900 dark:text-white text-sm uppercase tracking-wide">Statutory Verification</h3>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                verificationStatus === 'certified' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
+              }`}>
+                {verificationStatus === 'certified' ? 'PASS' : 'PENDING'}
+              </span>
+            </div>
+            <div className="space-y-2">
+              {layerLabels.map((layer, idx) => {
+                const layerStatus = listing.verification?.[layer.key as keyof typeof listing.verification] || 'not_started';
+                const cfg = statusColors[layerStatus] || statusColors.not_started;
+                return (
+                  <div key={layer.key} className="flex items-start gap-2 p-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
+                    <layer.icon size={14} className="text-emerald-500 shrink-0 mt-0.5" />
+                    <div className="flex flex-col leading-tight">
+                      <span className="text-xs font-semibold text-zinc-900 dark:text-white">{layer.label}</span>
+                      <span className="text-[10px] text-zinc-500 dark:text-zinc-400">{layer.desc}</span>
+                    </div>
+                    {layerStatus === 'certified' && <CheckCircle size={14} className="text-emerald-500 ml-auto" />}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      {/* Manage Unit Drawer */}
+      {manageUnitOpen && selectedUnit && (
         <ManageUnitDrawer
-          open={manageUnitOpen}
-          onOpenChange={setManageUnitOpen}
           unit={selectedUnit}
-          listing={{ id: listing.id, title: listing.title }}
+          listingId={listing.id}
+          onClose={() => { setManageUnitOpen(false); setSelectedUnitId(null); }}
         />
       )}
     </div>

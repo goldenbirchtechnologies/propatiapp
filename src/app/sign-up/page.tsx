@@ -1,423 +1,281 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Mail, ArrowLeft, ArrowRight, CheckCircle, Eye, EyeOff } from 'lucide-react';
+import { SignUp } from '@clerk/nextjs';
+import { ArrowLeft, ArrowRight, Building2, Search, Handshake, Home } from 'lucide-react';
 
 const ROLES = [
   {
     id: 'landlord',
     title: 'Landlord',
-    description: 'Manage your properties, tenants, and rental income',
-    icon: '🏠',
+    description: 'List & manage properties, track institutional rent and deeds',
+    tag: 'Deed Holder',
+    icon: <Building2 className="h-5 w-5" />,
   },
   {
     id: 'tenant',
     title: 'Tenant',
-    description: 'Find verified properties and manage your leases',
-    icon: '🔑',
+    description: 'Find verified homes, schedule tours, execute bonded leases',
+    tag: 'Bonded Tenant',
+    icon: <Search className="h-5 w-5" />,
   },
   {
     id: 'agent',
     title: 'Agent',
-    description: 'List properties, manage clients, and close deals',
-    icon: '💼',
+    description: 'LASRERA licensed broker, co-broker deals & earn payouts',
+    tag: 'LASRERA Broker',
+    icon: <Handshake className="h-5 w-5" />,
   },
   {
     id: 'estate_manager',
     title: 'Estate Manager',
-    description: 'Oversee estate operations and coordinate services',
-    icon: '🏢',
+    description: 'Facility operations, service charges & tenant records',
+    tag: 'Facility Ops',
+    icon: <Home className="h-5 w-5" />,
   },
 ];
 
 export default function SignUpPage() {
-  const router = useRouter();
   const [step, setStep] = useState(1);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    agreeToTerms: false,
-  });
-
-  const handleRoleSelect = (roleId: string) => {
-    setSelectedRole(roleId);
-  };
-
-  const handleNext = () => {
-    if (!selectedRole) {
-      setError('Please select a role to continue');
-      return;
-    }
-    setError(null);
-    setStep(2);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      setIsLoading(false);
-      return;
-    }
-
-    if (!formData.agreeToTerms) {
-      setError('Please agree to the terms and conditions');
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/auth/sign-up', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          role: selectedRole,
-        }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.message || 'Registration failed');
-      }
-
-      router.push('/onboarding');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Sign up failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const [agreed, setAgreed] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-[#09090b]">
-      {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-1/3 xl:w-1/4 bg-gradient-to-b from-[#0a1628] to-[#09090b] flex-col justify-between p-8 xl:p-12 border-r border-white/[0.07]">
-        <div>
-          <h1 className="text-2xl font-bold text-white">
-            Propati<span className="text-[#10b981]">Box</span>
-          </h1>
-          <p className="text-zinc-500 text-sm mt-1">Create your account</p>
-        </div>
+    <div className="min-h-screen bg-[#09090b] text-white flex flex-col items-center justify-center p-4 sm:p-8">
+      {/* Ambient Glow */}
+      <div className="fixed -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#10b981]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="space-y-6">
-          {/* Step indicators */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                  step >= 1 ? 'bg-[#10b981] text-white' : 'bg-[#18181b] text-zinc-500'
-                }`}
-              >
-                {step > 1 ? <CheckCircle className="w-4 h-4" /> : '1'}
-              </div>
-              <span className={`text-sm ${step >= 1 ? 'text-white' : 'text-zinc-500'}`}>
-                Role Selection
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                  step >= 2 ? 'bg-[#10b981] text-white' : 'bg-[#18181b] text-zinc-500'
-                }`}
-              >
-                {step > 2 ? <CheckCircle className="w-4 h-4" /> : '2'}
-              </div>
-              <span className={`text-sm ${step >= 2 ? 'text-white' : 'text-zinc-500'}`}>
-                Account Details
-              </span>
-            </div>
-          </div>
-
-          {/* Selected role preview */}
-          {selectedRole && (
-            <div className="p-4 rounded-xl bg-[#18181b] border border-white/[0.07]">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Your role</p>
-              <p className="text-white font-medium">
-                {ROLES.find((r) => r.id === selectedRole)?.icon}{' '}
-                {ROLES.find((r) => r.id === selectedRole)?.title}
-              </p>
-            </div>
-          )}
-        </div>
-
-        <div className="text-zinc-600 text-xs">
-          <p>By creating an account, you agree to our</p>
-          <p>
-            <a href="/terms" className="text-[#10b981] hover:underline">Terms of Service</a> and{' '}
-            <a href="/privacy" className="text-[#10b981] hover:underline">Privacy Policy</a>
-          </p>
+      {/* Stepper */}
+      <div className="w-full max-w-2xl mb-8">
+        <div className="inline-flex items-center gap-2 p-1 rounded-full bg-[#27272a]/20 backdrop-blur-md shadow-sm mx-auto">
+          <button
+            onClick={() => setStep(1)}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              step === 1 ? 'bg-[#10b981] text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'
+            }`}
+          >
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
+              step === 1 ? 'bg-white/20 text-white' : 'bg-[#e4e1e6]/20 text-zinc-500'
+            }`}>1</span>
+            <span>Role Selection</span>
+          </button>
+          <div className="w-6 h-px bg-zinc-600/30" />
+          <button
+            onClick={() => selectedRole && setStep(2)}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              step === 2 ? 'bg-[#10b981] text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'
+            }`}
+          >
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
+              step === 2 ? 'bg-white/20 text-white' : 'bg-[#e4e1e6]/20 text-zinc-500'
+            }`}>2</span>
+            <span>Account Credentials</span>
+          </button>
         </div>
       </div>
 
-      {/* Right Panel - Form Content */}
-      <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 xl:px-24 py-12">
-        <div className="w-full max-w-lg mx-auto">
-          {/* Mobile step indicator */}
-          <div className="lg:hidden flex items-center justify-center gap-4 mb-8">
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                step >= 1 ? 'bg-[#10b981] text-white' : 'bg-[#18181b] text-zinc-500'
-              }`}
-            >
-              {step > 1 ? <CheckCircle className="w-4 h-4" /> : '1'}
+      {/* PHASE 1: Role Selection */}
+      {step === 1 && (
+        <div className="w-full max-w-2xl flex flex-col transition-all duration-300">
+          {/* Branding */}
+          <div className="flex flex-col items-center text-center mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-[#006c49] flex items-center justify-center shadow-lg shadow-[#006c49]/25 transition-transform duration-300 hover:scale-105">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z" />
+                </svg>
+              </div>
+              <span className="text-xl font-bold tracking-tight">PropatiBox</span>
             </div>
-            <div className="w-12 h-px bg-white/[0.07]" />
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                step >= 2 ? 'bg-[#10b981] text-white' : 'bg-[#18181b] text-zinc-500'
-              }`}
-            >
-              2
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#10b981]/15 text-[#6ffbbe] text-[11px] tracking-wide uppercase">
+              <Building2 className="h-3.5 w-3.5" />
+              <span>Join PropatiBox</span>
+            </div>
+            <h1 className="text-3xl font-bold mt-4 tracking-tight">Join as a...</h1>
+            <p className="text-zinc-500 max-w-lg mt-2">
+              Select your operating capacity to get started with tailored cadastral and transaction features.
+            </p>
+          </div>
+
+          {/* Role Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            {ROLES.map((role) => {
+              const isSelected = selectedRole === role.id;
+              return (
+                <button
+                  key={role.id}
+                  type="button"
+                  onClick={() => setSelectedRole(role.id)}
+                  className={`group relative flex flex-col p-4 rounded-xl transition-all duration-200 text-left ${
+                    isSelected
+                      ? 'bg-[#27272a]/25 ring-2 ring-[#10b981]'
+                      : 'bg-[#27272a]/10 hover:bg-[#27272a]/20'
+                  }`}
+                >
+                  {isSelected && (
+                    <div className="absolute top-3 right-3 text-[#6ffbbe]">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                      </svg>
+                    </div>
+                  )}
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-colors duration-200 ${
+                    isSelected ? 'bg-[#006c49] text-white' : 'bg-[#e4e1e6]/20 text-zinc-500'
+                  }`}>
+                    {role.icon}
+                  </div>
+                  <span className="text-sm font-semibold text-white">{role.title}</span>
+                  <p className="text-xs text-zinc-500 mt-2 line-clamp-3 leading-relaxed">
+                    {role.description}
+                  </p>
+                  <span className={`mt-auto pt-2 text-[11px] uppercase tracking-wider ${
+                    isSelected ? 'text-[#6ffbbe]' : 'text-zinc-500'
+                  }`}>
+                    {role.tag}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Terms */}
+          <div className="flex items-start gap-3 px-1 py-3 mb-4">
+            <label className="relative flex items-center cursor-pointer mt-0.5">
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="peer sr-only"
+              />
+              <div className="w-5 h-5 rounded bg-[#27272a]/30 peer-checked:bg-[#10b981] flex items-center justify-center transition-colors">
+                <svg className={`w-4 h-4 text-white transition-opacity ${agreed ? 'opacity-100' : 'opacity-0'}`} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                </svg>
+              </div>
+            </label>
+            <div className="text-xs text-zinc-500 leading-relaxed">
+              I agree to the{' '}
+              <a href="/terms" className="text-[#6ffbbe] hover:underline font-medium">Terms &amp; Conditions</a>,
+              cadastral verification rules, and{' '}
+              <a href="/privacy" className="text-[#6ffbbe] hover:underline font-medium">Cookies Policy</a>.
             </div>
           </div>
 
-          {/* Step 1: Role Selection */}
-          {step === 1 && (
-            <div>
-              <h2 className="text-2xl font-bold text-white mb-2">Choose your role</h2>
-              <p className="text-zinc-500 mb-8">Select the option that best describes you</p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                {ROLES.map((role) => (
-                  <button
-                    key={role.id}
-                    type="button"
-                    onClick={() => handleRoleSelect(role.id)}
-                    className={`p-5 rounded-xl border text-left transition-all ${
-                      selectedRole === role.id
-                        ? 'border-[#10b981] bg-[#10b981]/10 ring-1 ring-[#10b981]/50'
-                        : 'border-white/[0.07] bg-[#18181b] hover:border-white/[0.14] hover:bg-[#27272a]'
-                    }`}
-                  >
-                    <span className="text-2xl mb-3 block">{role.icon}</span>
-                    <h3 className="text-white font-medium mb-1">{role.title}</h3>
-                    <p className="text-zinc-500 text-xs leading-relaxed">{role.description}</p>
-                  </button>
-                ))}
-              </div>
-
-              {error && (
-                <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-                  {error}
-                </div>
-              )}
-
-              <button
-                type="button"
-                onClick={handleNext}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors"
-              >
-                Continue
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-
-          {/* Step 2: Account Credentials */}
-          {step === 2 && (
-            <div>
-              <h2 className="text-2xl font-bold text-white mb-2">Create your account</h2>
-              <p className="text-zinc-500 mb-8">Fill in your details to get started</p>
-
-              {/* Social Login */}
-              <div className="space-y-3 mb-6">
-                <button
-                  type="button"
-                  className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-white/[0.07] bg-[#18181b] text-white hover:bg-[#27272a] transition-colors"
-                >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24">
-                    <path
-                      fill="#4285F4"
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      fill="#EA4335"
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                    />
-                  </svg>
-                  Continue with Google
-                </button>
-              </div>
-
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex-1 h-px bg-white/[0.07]" />
-                <span className="text-zinc-500 text-xs uppercase tracking-wider">or</span>
-                <div className="flex-1 h-px bg-white/[0.07]" />
-              </div>
-
-              {error && (
-                <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-                  {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-zinc-400 mb-2">
-                      First name
-                    </label>
-                    <input
-                      id="firstName"
-                      type="text"
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      placeholder="John"
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-zinc-400 mb-2">
-                      Last name
-                    </label>
-                    <input
-                      id="lastName"
-                      type="text"
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      placeholder="Doe"
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="signup-email" className="block text-sm font-medium text-zinc-400 mb-2">
-                    Email address
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-zinc-500" />
-                    <input
-                      id="signup-email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="you@example.com"
-                      required
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="signup-password" className="block text-sm font-medium text-zinc-400 mb-2">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="signup-password"
-                      type={showPassword ? 'text' : 'password'}
-                      value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      placeholder="Min. 8 characters"
-                      required
-                      minLength={8}
-                      className="w-full pl-4 pr-12 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
-                    >
-                      {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-zinc-400 mb-2">
-                    Confirm password
-                  </label>
-                  <input
-                    id="confirmPassword"
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                    placeholder="Confirm your password"
-                    required
-                    className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                  />
-                </div>
-
-                <label className="flex items-start gap-2.5 cursor-pointer pt-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.agreeToTerms}
-                    onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
-                    className="w-4 h-4 mt-0.5 rounded border-white/[0.07] bg-[#18181b] text-[#10b981] focus:ring-[#10b981]/50"
-                  />
-                  <span className="text-sm text-zinc-400">
-                    I agree to the{' '}
-                    <a href="/terms" className="text-[#10b981] hover:underline">
-                      Terms of Service
-                    </a>{' '}
-                    and{' '}
-                    <a href="/privacy" className="text-[#10b981] hover:underline">
-                      Privacy Policy
-                    </a>
-                  </span>
-                </label>
-
-                <div className="flex gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setStep(1)}
-                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/[0.07] bg-[#18181b] text-white hover:bg-[#27272a] transition-colors"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    Back
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? (
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        Create Account
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+          {/* Continue Button */}
+          <button
+            onClick={() => selectedRole && agreed && setStep(2)}
+            disabled={!selectedRole || !agreed}
+            className="w-full rounded-xl py-4 text-base font-semibold bg-[#006c49] hover:bg-[#005236] text-white transition-all duration-200 shadow-lg shadow-[#006c49]/20 flex items-center justify-center gap-2 active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Continue with {selectedRole ? ROLES.find((r) => r.id === selectedRole)?.title : '...'}
+            <ArrowRight className="h-5 w-5" />
+          </button>
 
           {/* Sign In Link */}
-          <p className="mt-8 text-center text-sm text-zinc-500">
-            Already have an account?{' '}
-            <a href="/sign-in" className="text-[#10b981] hover:text-[#006c49] font-medium transition-colors">
-              Sign in
-            </a>
-          </p>
+          <div className="text-center mt-6">
+            <p className="text-xs text-zinc-500">
+              Already have an account?{' '}
+              <a href="/sign-in" className="text-[#6ffbbe] font-medium hover:underline inline-flex items-center gap-0.5">
+                Sign in
+                <span>→</span>
+              </a>
+            </p>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* PHASE 2: Clerk SignUp — handles social + email + password natively */}
+      {step === 2 && (
+        <div className="w-full max-w-md flex flex-col transition-all duration-300">
+          {/* Back + Role Chip */}
+          <div className="flex items-center justify-between mb-6 px-1">
+            <button
+              onClick={() => setStep(1)}
+              className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-white transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Role Selection
+            </button>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#10b981]/15 text-[#6ffbbe] text-[11px]">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+              </svg>
+              Role: {ROLES.find((r) => r.id === selectedRole)?.title}
+            </div>
+          </div>
+
+          {/* Glass Card with Clerk SignUp */}
+          <div className="w-full p-6 sm:p-8 rounded-2xl bg-[#27272a]/15 backdrop-blur-2xl shadow-2xl flex flex-col">
+            <div className="text-center mb-6">
+              <div className="w-10 h-10 rounded-xl bg-[#006c49] flex items-center justify-center shadow-md mx-auto mb-3">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-semibold tracking-tight">Create your account</h2>
+              <p className="text-xs text-zinc-500 mt-1">
+                Complete enrollment to access your sovereign portal
+              </p>
+            </div>
+
+            <SignUp
+              appearance={{
+                elements: {
+                  rootBox: 'w-full',
+                  card: 'bg-transparent shadow-none border-none p-0',
+                  headerTitle: 'hidden',
+                  headerSubtitle: 'hidden',
+                  socialButtonsBlockButton: 'flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-[#e4e1e6]/20 hover:bg-[#e4e1e6]/30 text-white text-sm font-semibold transition-colors shadow-sm w-full mb-2',
+                  socialButtonsBlockButtonText: 'font-semibold text-sm',
+                  dividerLine: 'bg-zinc-600/20 w-full h-px',
+                  dividerText: 'bg-[#09090b] px-3 text-[11px] uppercase tracking-wider text-zinc-500',
+                  formFieldInput: 'h-10 px-3 rounded-lg bg-[#27272a]/20 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:bg-[#27272a]/30 transition-all w-full',
+                  formFieldLabel: 'text-sm text-white font-medium',
+                  formButtonPrimary: 'w-full mt-2 rounded-xl py-3.5 text-base font-semibold bg-[#10b981] hover:bg-[#006c49] text-white transition-all duration-200 shadow-lg shadow-[#10b981]/20 flex items-center justify-center gap-2 active:scale-[0.99]',
+                  formFieldAction: 'text-[#6ffbbe] text-xs hover:underline',
+                  footer: 'hidden',
+                },
+                variables: {
+                  colorPrimary: '#10b981',
+                  colorTextOnPrimaryBackground: '#ffffff',
+                },
+              }}
+              routing="path"
+              path="/sign-up"
+              signInUrl="/sign-in"
+              fallbackRedirectUrl="/onboarding"
+              forceRedirectUrl="/onboarding"
+            />
+
+            {/* Verification Tip */}
+            <div className="p-3 rounded-lg bg-[#e4e1e6]/15 flex items-start gap-2 mt-4">
+              <svg className="w-4 h-4 text-[#6ffbbe] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+              </svg>
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                Identity verification follows step 2. Have your CAC number or NIN handy for instant cadastral binding.
+              </p>
+            </div>
+          </div>
+
+          {/* Trust Footer */}
+          <div className="mt-4 p-3 rounded-xl bg-[#27272a]/10 flex items-center justify-center gap-4 text-center">
+            <div className="flex items-center gap-1 text-xs text-zinc-500">
+              <svg className="w-3.5 h-3.5 text-[#6ffbbe]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+              </svg>
+              256-Bit SSL
+            </div>
+            <div className="w-1 h-1 rounded-full bg-zinc-600/40" />
+            <div className="flex items-center gap-1 text-xs text-zinc-500">
+              <svg className="w-3.5 h-3.5 text-[#6ffbbe]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+              </svg>
+              LASRERA Bonded Gateway
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

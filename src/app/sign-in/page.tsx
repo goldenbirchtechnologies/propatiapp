@@ -1,274 +1,144 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { SignIn } from '@clerk/nextjs';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Star, Quote } from 'lucide-react';
+import Image from 'next/image';
 
 export default function SignInPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get('redirect_url') || '/dashboard';
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('/api/auth/sign-in', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, rememberMe }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.message || 'Invalid email or password');
-      }
-
-      router.push(redirectUrl);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Sign in failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <div className="min-h-screen flex bg-[#09090b]">
-      {/* Left Panel - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-32 py-12">
-        <div className="w-full max-w-md mx-auto">
-          {/* Logo */}
-          <div className="mb-10">
-            <h1 className="text-2xl font-bold text-white">
-              Propati<span className="text-[#10b981]">Box</span>
-            </h1>
-            <p className="text-zinc-500 text-sm mt-1">Sign in to your account</p>
-          </div>
-
-          {/* Social Buttons */}
-          <div className="space-y-3 mb-8">
-            <button
-              type="button"
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-white/[0.07] bg-[#18181b] text-white hover:bg-[#27272a] transition-colors"
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                />
+    <div className="min-h-screen flex bg-[#09090b] text-white">
+      {/* Left Panel - Clerk SignIn */}
+      <div className="w-full lg:w-[48%] xl:w-[44%] 2xl:w-[40%] flex flex-col justify-between px-6 sm:px-12 md:px-16 py-8 lg:py-12 border-r border-white/[0.07]">
+        {/* Top Brand Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="h-10 w-10 rounded-xl bg-[#10b981] flex items-center justify-center shadow-lg shadow-[#10b981]/20">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z" />
               </svg>
-              Continue with Google
-            </button>
-            <button
-              type="button"
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-white/[0.07] bg-[#18181b] text-white hover:bg-[#27272a] transition-colors"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M16.365 1.43c0 1.14-.46 2.2-1.21 3.02-.79.86-2.08 1.52-3.15 1.44-.13-1.1.42-2.27 1.15-3.07.81-.89 2.16-1.5 3.21-1.39zM20.94 17.1c-.57 1.3-.84 1.88-1.57 3.03-1.02 1.6-2.46 3.6-4.25 3.61-1.59.02-2-.99-4.16-.98-2.16.01-2.61 1-4.2.98-1.79-.02-3.16-1.82-4.18-3.42C.72 17.36.03 13.66.87 11.2c.59-1.73 1.93-2.85 3.39-2.85 1.49 0 2.42.99 3.64.99 1.18 0 1.86-.99 3.62-.99 1.29 0 2.68.71 3.62 1.95-3.19 1.73-2.67 6.27.98 7.8z" />
-              </svg>
-              Continue with Apple
-            </button>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xl font-extrabold tracking-tight">PROPATIBOX</span>
+              <span className="bg-[#006c49]/20 text-[#6ffbbe] border border-[#006c49]/30 text-[11px] px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">NG</span>
+            </div>
           </div>
-
-          {/* Divider */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="flex-1 h-px bg-white/[0.07]" />
-            <span className="text-zinc-500 text-xs uppercase tracking-wider">or continue with email</span>
-            <div className="flex-1 h-px bg-white/[0.07]" />
+          <div className="hidden sm:flex items-center gap-2 text-zinc-400 text-sm">
+            <span className="inline-block h-2 w-2 rounded-full bg-[#10b981]" />
+            <span>Portal Access</span>
           </div>
+        </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-              {error}
-            </div>
-          )}
+        {/* Clerk SignIn — handles social + email + remember me + forgot password */}
+        <div className="max-w-md mx-auto w-full my-auto py-8">
+          <SignIn
+            appearance={{
+              elements: {
+                rootBox: 'w-full',
+                card: 'bg-transparent shadow-none border-none p-0',
+                headerTitle: 'text-3xl font-bold text-white tracking-tight mb-2',
+                headerSubtitle: 'text-zinc-400 text-base mb-8',
+                socialButtonsBlockButton: 'h-12 rounded-xl bg-[#18181b] hover:bg-[#27272a] border border-white/[0.1] text-sm font-medium text-white transition-all duration-200 hover:border-white/20 active:scale-[0.99] mb-3 flex items-center justify-center gap-3 w-full',
+                socialButtonsBlockButtonText: 'font-medium text-sm',
+                dividerLine: 'bg-white/[0.1]',
+                dividerText: 'bg-[#09090b] px-3 text-[11px] uppercase tracking-wider text-zinc-500 font-semibold',
+                formFieldInput: 'h-12 rounded-xl bg-[#18181b]/90 border border-white/[0.12] text-white text-base placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#10b981] focus:border-transparent transition-all w-full px-4',
+                formFieldLabel: 'block text-[11px] uppercase tracking-wider text-zinc-300 mb-2 font-semibold',
+                formButtonPrimary: 'w-full h-12 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white text-sm font-semibold shadow-lg shadow-[#09090b]/40 transition-all duration-200 flex items-center justify-center gap-2 mt-6 active:scale-[0.99] disabled:opacity-50',
+                formFieldAction: 'text-[11px] text-[#10b981] hover:text-[#6ffbbe] hover:underline font-medium',
+                footer: 'text-center text-base text-zinc-400 mt-6',
+                footerActionLink: 'text-[#10b981] font-semibold hover:underline transition-colors',
+                footerActionText: 'text-zinc-400 text-base',
+                formFieldRow: 'flex items-center gap-2.5',
+                formFieldInputShowPasswordButton: 'text-zinc-400 hover:text-white transition-colors',
+                identityPreviewText: 'text-zinc-400',
+                identityPreviewEditButton: 'text-[#10b981]',
+                alert: 'text-red-400 text-sm',
+                formFieldWarningText: 'text-amber-400 text-xs',
+                formFieldErrorText: 'text-red-400 text-xs mt-1',
+              },
+              variables: {
+                colorPrimary: '#10b981',
+                colorTextOnPrimaryBackground: '#ffffff',
+                colorTextSecondary: '#a1a1aa',
+              },
+            }}
+            routing="path"
+            path="/sign-in"
+            signUpUrl="/sign-up"
+            fallbackRedirectUrl="/dashboard"
+            forceRedirectUrl="/dashboard"
+          />
+        </div>
 
-          {/* Email/Password Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-zinc-400 mb-2">
-                Email address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-zinc-500" />
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  required
-                  className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-zinc-400 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-zinc-500" />
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  required
-                  className="w-full pl-11 pr-12 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-white/[0.07] bg-[#18181b] text-[#10b981] focus:ring-[#10b981]/50"
-                />
-                <span className="text-sm text-zinc-400">Remember me</span>
-              </label>
-              <a href="/forgot-password" className="text-sm text-[#10b981] hover:text-[#006c49] transition-colors">
-                Forgot password?
-              </a>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <>
-                  Sign In
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Clerk SignIn as fallback/alternative */}
-          <div className="mt-6">
-            <SignIn
-              appearance={{
-                elements: {
-                  formButtonPrimary: 'bg-[#10b981] hover:bg-[#006c49] text-white rounded-xl',
-                  card: 'bg-transparent shadow-none border-none',
-                  headerTitle: 'hidden',
-                  headerSubtitle: 'hidden',
-                  socialButtonsBlockButton: 'hidden',
-                  dividerLine: 'hidden',
-                  dividerText: 'hidden',
-                  formFieldInput: 'bg-[#18181b] border border-white/[0.07] text-white rounded-xl',
-                  footerActionLink: 'text-[#10b981]',
-                },
-              }}
-              routing="path"
-              path="/sign-in"
-              fallbackRedirectUrl={redirectUrl}
-            />
-          </div>
-
-          {/* Sign Up Link */}
-          <p className="mt-8 text-center text-sm text-zinc-500">
-            Don&apos;t have an account?{' '}
-            <a href="/sign-up" className="text-[#10b981] hover:text-[#006c49] font-medium transition-colors">
-              Create one
-            </a>
-          </p>
+        {/* Footer */}
+        <div className="pt-6 border-t border-white/[0.05] text-xs text-zinc-500 text-center lg:text-left">
+          By submitting, I accept PROPATIBOX&apos;s{' '}
+          <a href="/privacy-policy" className="text-[#10b981] hover:underline">Terms of Use</a>
+          {' '}and{' '}
+          <a href="/privacy-policy" className="text-[#10b981] hover:underline">Privacy Policy</a>.
         </div>
       </div>
 
-      {/* Right Panel - Lagos Skyline */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        {/* Background gradient simulating Lagos skyline */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0d2847] to-[#09090b]" />
-        
-        {/* Skyline silhouette */}
-        <div className="absolute bottom-0 left-0 right-0 h-2/3">
-          <div className="absolute bottom-0 left-[5%] w-16 h-64 bg-[#0f1d31] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[12%] w-12 h-48 bg-[#111f35] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[18%] w-20 h-80 bg-[#0e1c30] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[26%] w-14 h-56 bg-[#122238] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[32%] w-24 h-96 bg-[#0d1a2e] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[42%] w-16 h-72 bg-[#101f36] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[50%] w-12 h-44 bg-[#132440] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[56%] w-20 h-88 bg-[#0e1d33] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[64%] w-14 h-60 bg-[#11203a] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[70%] w-24 h-76 bg-[#0d1b31] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[78%] w-16 h-52 bg-[#122239] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[85%] w-12 h-68 bg-[#0f1e35] rounded-t-sm" />
-          <div className="absolute bottom-0 left-[91%] w-20 h-84 bg-[#0e1c32] rounded-t-sm" />
-          {/* Water reflection */}
-          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#09090b] to-transparent" />
+      {/* Right Panel - Lagos Skyline + Testimonial */}
+      <div className="hidden lg:block lg:flex-1 relative overflow-hidden bg-black">
+        <Image
+          src="https://lh3.googleusercontent.com/aida/AEtjO1VmMLy92cRQcjgJD7XBsJCNiyHj_kR4KM3V4_eEt7rAroioKX4QJ4HrpFTUD-nHW8RgYFs3Ry4ne4d-NVZE_xyx8yjEdgs_MU1426Jt5bV_Q99xXo2g5QEI4RO6wCZ3M1si5KdJ7PajYhMekHnF4rJONcEjVWYgZDjIp0tNcgadSKMooY9Ed9vyOSa7q3oadVBEnc5TIEW2PspJOPJDZBayHzL7eeFfzH3GQR66gGG32n9v3eJ7Iu87wBuc"
+          alt="Lagos Skyline"
+          fill
+          className="absolute inset-0 object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
+          priority
+        />
+        {/* Gradient Scrim */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30" />
+
+        {/* Institutional Badges */}
+        <div className="absolute top-8 right-8 flex items-center gap-3">
+          <div className="flex items-center gap-2 rounded-full border border-white/[0.12] bg-[#18181b]/80 backdrop-blur-md px-4 py-2">
+            <svg className="w-4 h-4 text-[#10b981]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+            </svg>
+            <span className="text-[11px] font-semibold tracking-wider text-zinc-200 uppercase">CAC / RC Verified</span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-white/[0.12] bg-[#18181b]/80 backdrop-blur-md px-4 py-2">
+            <svg className="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+            </svg>
+            <span className="text-[11px] font-semibold tracking-wider text-zinc-200 uppercase">Zero-Omonile Guarantee</span>
+          </div>
         </div>
 
-        {/* Ambient glow */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#10b981]/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-[100px]" />
-
-        {/* Content overlay */}
-        <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 h-full">
-          {/* Quote icon */}
-          <div>
-            <Quote className="w-10 h-10 text-[#10b981]/40 mb-6" />
-            <blockquote className="text-2xl xl:text-3xl font-medium text-white leading-relaxed max-w-lg">
-              &ldquo;PropatiBox transformed how I manage my properties. The verification system gives me peace of mind.&rdquo;
-            </blockquote>
+        {/* Floating Testimonial */}
+        <div className="absolute bottom-12 left-8 right-8 xl:left-12 xl:right-12 flex flex-col gap-4">
+          <div className="flex items-center gap-2.5 rounded-full border border-white/[0.12] bg-[#18181b]/80 backdrop-blur-md px-4 py-2 w-fit">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-200">Over 25,000+ Happy Homeowners</span>
           </div>
 
-          {/* Testimonial Card */}
-          <div className="bg-[#18181b]/80 backdrop-blur-sm border border-white/[0.07] rounded-2xl p-6 max-w-sm">
+          {/* Glassmorphic Card */}
+          <div className="bg-black/80 backdrop-blur-xl rounded-2xl p-6 sm:p-7 border border-white/[0.12] shadow-2xl">
             <div className="flex items-center gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-[#f59e0b] text-[#f59e0b]" />
+                <svg key={i} className="w-5 h-5 text-amber-400 fill-amber-400" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
               ))}
+              <span className="text-xs text-amber-300 ml-1.5 font-bold">5.0 / 5.0</span>
             </div>
-            <p className="text-zinc-300 text-sm leading-relaxed mb-4">
-              The most reliable property platform in Nigeria. Every transaction feels secure and verified.
+            <h2 className="text-2xl font-bold text-white mb-2">Find a place you&apos;ll love living in.</h2>
+            <p className="text-zinc-300 text-base leading-relaxed mb-5">
+              Join over 25,000+ happy homeowners, institutional investors, and diaspora buyers securing verified, zero-omonile properties across Nigeria.
             </p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#10b981] to-[#006c49] flex items-center justify-center text-white font-semibold text-sm">
-                AO
-              </div>
-              <div>
-                <p className="text-white text-sm font-medium">Adeola Ogunlesi</p>
-                <p className="text-zinc-500 text-xs">Property Landlord, Lekki</p>
+            <div className="flex items-center justify-between border-t border-white/[0.1] pt-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-sm font-semibold ring-2 ring-white/10">
+                  AO
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Adewale Osinbajo</p>
+                  <p className="text-xs text-zinc-400">Landmark Sovereign Trust • Lagos Island</p>
+                </div>
               </div>
             </div>
           </div>

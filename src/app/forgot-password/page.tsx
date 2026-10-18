@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Mail, ArrowLeft, CheckCircle, Key } from 'lucide-react';
+import { useSignIn } from '@clerk/nextjs';
+import { ArrowLeft, CheckCircle, Mail } from 'lucide-react';
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
+  const { isLoaded, signIn } = useSignIn();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,115 +13,97 @@ export default function ForgotPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isLoaded || !signIn) return;
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/auth/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      // Use Clerk's native reset via signIn resource
+      const result = await (signIn as any).createPasswordReset?.({ email });
 
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.message || 'Failed to send reset link');
+      if (result?.status === 'missing_address') {
+        setError('Email address is required.');
+      } else if (result?.status === 'not_found') {
+        setError('No account found with that email address.');
+      } else {
+        setIsSuccess(true);
       }
-
-      setIsSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      setError(err instanceof Error ? err.message : 'Failed to send reset link. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#09090b] px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#09090b] text-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-white">
-            Propati<span className="text-[#10b981]">Box</span>
-          </h1>
-          <p className="text-zinc-500 text-sm mt-1">Reset your password</p>
+        {/* Back */}
+        <a
+          href="/sign-in"
+          className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-white transition-colors mb-8"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Sign In
+        </a>
+
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-12 h-12 rounded-xl bg-[#10b981]/15 flex items-center justify-center text-[#10b981]">
+            <Mail className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Reset your password</h1>
+            <p className="text-zinc-400 text-sm mt-1">
+              Enter your email and we&apos;ll send you a reset link.
+            </p>
+          </div>
         </div>
 
         {isSuccess ? (
-          <div className="text-center">
-            <div className="w-16 h-16 rounded-full bg-[#10b981]/20 flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-[#10b981]" />
-            </div>
-            <h2 className="text-xl font-bold text-white mb-2">Check your email</h2>
-            <p className="text-zinc-400 mb-6">
-              If an account exists for <span className="text-white font-medium">{email}</span>, we&apos;ve sent
-              password reset instructions.
+          <div className="rounded-xl bg-[#10b981]/10 border border-[#10b981]/20 p-6 text-center">
+            <CheckCircle className="h-10 w-10 text-[#10b981] mx-auto mb-3" />
+            <h2 className="text-lg font-semibold mb-2">Check your email</h2>
+            <p className="text-zinc-400 text-sm">
+              If an account exists for <strong className="text-white">{email}</strong>, we&apos;ve sent a password reset link.
             </p>
-            <button
-              type="button"
-              onClick={() => router.push('/sign-in')}
-              className="inline-flex items-center gap-2 text-[#10b981] hover:text-[#006c49] font-medium transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to sign in
-            </button>
           </div>
         ) : (
-          <div>
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 rounded-full bg-[#10b981]/20 flex items-center justify-center mx-auto mb-6">
-                <Key className="w-8 h-8 text-[#10b981]" />
-              </div>
-              <h2 className="text-xl font-bold text-white mb-2">Forgot your password?</h2>
-              <p className="text-zinc-400 text-sm">
-                Enter your email and we&apos;ll send you a link to reset your password.
-              </p>
-            </div>
-
+          <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label htmlFor="reset-email" className="block text-sm font-medium text-zinc-400 mb-2">
-                  Email address
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-zinc-500" />
-                  <input
-                    id="reset-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    required
-                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
-                  />
-                </div>
-              </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-zinc-400 mb-2">
+                Email address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
+              />
+            </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isLoading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  'Send Reset Link'
-                )}
-              </button>
-            </form>
-
-            <p className="mt-6 text-center text-sm text-zinc-500">
-              Remember your password?{' '}
-              <a href="/sign-in" className="text-[#10b981] hover:text-[#006c49] font-medium transition-colors">
-                Sign in
-              </a>
-            </p>
-          </div>
+            <button
+              type="submit"
+              disabled={isLoading || !isLoaded}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <>
+                  Send Reset Link
+                </>
+              )}
+            </button>
+          </form>
         )}
       </div>
     </div>

@@ -214,6 +214,7 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Commercial Leases', href: '/dashboard/estate-manager/commercial-leases', icon: <Store className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/estate-manager/messages', icon: <MessageSquare className="h-5 w-5" /> },
   { label: 'Invitations', href: '/dashboard/estate-manager/invite-property-manager', icon: <Mail className="h-5 w-5" /> },
+  { label: 'Verification Center', href: '/dashboard/estate-manager/verification', icon: <ShieldCheck className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/estate-manager/profile', icon: <User className="h-5 w-5" /> },
 ];
 

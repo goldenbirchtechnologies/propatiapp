@@ -4,118 +4,146 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
-import { formatCurrency } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { StatCard } from '@/components/ui/stat-card';
-import Link from 'next/link';
+import LandlordLeasesClient from './LeasesClient';
 
 export const metadata = {
   title: 'Leases – Landlord',
-  description: 'Overview of lease agreements, expiry dates, and tenant details.',
+  description:
+    'Overview of legal covenants, tenure expirations, stamp-duty verifications, and tenant payment liabilities across Lagos asset clusters.',
 };
 
 export default async function LandlordLeasesPage() {
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
 
-  const leases = await prisma.agreement.findMany({
-    where: { landlordId: user.id },
-    include: {
-      tenant: { select: { fullName: true } },
-      listing: { select: { title: true } },
-    },
-    orderBy: { createdAt: 'desc' },
-    take: 50,
-  });
+  const [agreements, units, invoices, stampDuties, transactions] = await Promise.all([
+    prisma.agreement.findMany({
+      where: { landlordId: user.id },
+      include: {
+        tenant: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            phone: true,
+            idVerified: true,
+            ninVerified: true,
+            phoneVerified: true,
+          },
+        },
+        listing: {
+          select: { id: true, title: true, address: true, area: true, state: true, city: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.unit.findMany({
+      where: { listing: { ownerId: user.id } },
+      select: {
+        listingId: true,
+        buildingName: true,
+        unitNumber: true,
+        currentTenantId: true,
+        occupancy: true,
+      },
+    }),
+    prisma.invoice.findMany({
+      where: { landlordId: user.id, agreementId: { not: null } },
+      select: { agreementId: true, status: true },
+      orderBy: { dueDate: 'desc' },
+    }),
+    prisma.stampDuty.findMany({
+      where: { agreement: { landlordId: user.id } },
+      select: { agreementId: true, status: true },
+    }),
+    prisma.transaction.findMany({
+      where: { payeeId: user.id, type: 'caution', status: { in: ['in_escrow', 'pending'] } },
+      select: { amount: true },
+    }),
+  ]);
 
   const now = new Date();
-  const stats = {
-    total: leases.length,
-    active: leases.filter((l) => l.status === 'active').length,
-    expiringSoon: leases.filter((l) => {
-      if (!l.endDate) return false;
-      const daysToExpiry = (new Date(l.endDate).getTime() - now.getTime()) / 86400000;
-      return daysToExpiry <= 30 && daysToExpiry >= 0;
-    }).length,
-    expired: leases.filter((l) => l.endDate ? new Date(l.endDate) < now : false).length,
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  // ---- Stamp duty certification health (footer) ----
+  const certifiedStatuses = ['paid', 'issued', 'processing'];
+  const inProgressStatuses = ['pending', 'payment_pending'];
+  const stampHealth = {
+    certified: stampDuties.filter((s) => certifiedStatuses.includes(s.status)).length,
+    inProgress: stampDuties.filter((s) => inProgressStatuses.includes(s.status)).length,
   };
 
-  const statusBadge = (status: string) => {
-    const v = status === 'active' ? 'default' : status === 'draft' ? 'secondary' : status === 'pending_signature' ? 'outline' : 'destructive';
-    return <Badge variant={v as any}>{status.replace('_', ' ')}</Badge>;
+  // ---- Escrow deposits held (footer) — Transaction.amount is kobo ----
+  const escrowDeposits = transactions.reduce((sum, t) => sum + Number(t.amount) / 100, 0);
+
+  // ---- Occupancy across the landlord's unit clusters ----
+  const occupiedUnits = units.filter((u) => u.currentTenantId !== null || u.occupancy === 'OCCUPIED').length;
+  const occupancy = {
+    totalUnits: units.length,
+    occupiedUnits,
+    rate: units.length > 0 ? Math.round((occupiedUnits / units.length) * 1000) / 10 : 0,
   };
+
+  // ---- Latest invoice per agreement (rent liability) ----
+  const invoiceMap = new Map<string, string>();
+  for (const inv of invoices) {
+    if (inv.agreementId && !invoiceMap.has(inv.agreementId)) {
+      invoiceMap.set(inv.agreementId, inv.status);
+    }
+  }
+
+  // ---- Unit lookup per tenant ----
+  const unitMap = new Map<string, (typeof units)[number]>();
+  for (const u of units) {
+    if (u.currentTenantId && !unitMap.has(u.currentTenantId)) {
+      unitMap.set(u.currentTenantId, u);
+    }
+  }
+
+  const stampByAgreement = new Map(stampDuties.map((s) => [s.agreementId, s.status]));
+
+  const leases = agreements.map((agr) => {
+    const unit = unitMap.get(agr.tenantId) || null;
+    return {
+      id: agr.id,
+      property: agr.listing,
+      tenant: {
+        id: agr.tenant.id,
+        fullName: agr.tenant.fullName,
+        email: agr.tenant.email,
+        phone: agr.tenant.phone,
+        kycVerified: agr.tenant.idVerified || agr.tenant.ninVerified,
+      },
+      unit: unit ? { buildingName: unit.buildingName, unitNumber: unit.unitNumber } : null,
+      status: agr.status,
+      startDate: agr.startDate,
+      endDate: agr.endDate,
+      rentAmount: agr.rentAmount ? Number(agr.rentAmount) : null,
+      rentPeriod: agr.rentPeriod,
+      cautionDeposit: agr.cautionDeposit ? Number(agr.cautionDeposit) : null,
+      noticePeriodDays: agr.noticePeriodDays,
+      createdAt: agr.createdAt,
+      latestInvoice: agr.id ? { status: invoiceMap.get(agr.id) ?? null } : { status: null },
+      stampStatus: stampByAgreement.get(agr.id) ?? null,
+    };
+  });
 
   return (
-    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
-
+    <DashboardShell
+      navigation={LANDLORD_NAVIGATION}
+      userRole="landlord"
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
+    >
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Leases</h1>
-            <p className="text-zinc-600 dark:text-zinc-400 mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
-          </div>
-          <Link
-            href="/dashboard/landlord/agreements/new"
-            className="px-4 py-2 bg-success text-on-success rounded-lg hover:bg-success/90 text-sm font-medium"
-          >
-            + New Lease
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <StatCard label="Active Leases" value={String(stats.active)} trend="Currently signed" trend="up" />
-          <StatCard label="Expiring Soon" value={String(stats.expiringSoon)} trend="Within 30 days" />
-          <StatCard label="Expired / Terminated" value={String(stats.expired)} trend="Needs attention" />
-        </div>
-
-        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 shadow-none">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Property</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Tenant</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Status</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Start Date</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">End Date</th>
-                  <th className="px-4 py-3 text-right text-sm font-medium text-zinc-600 dark:text-zinc-400">Rent</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leases.map((lease) => (
-                  <tr key={lease.id} className="border-b border-zinc-200 dark:border-white/[0.08]">
-                    <td className="px-4 py-3 font-medium">{lease.listing.title}</td>
-                    <td className="px-4 py-3">{lease.tenant.fullName}</td>
-                    <td className="px-4 py-3">{statusBadge(lease.status)}</td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
-                      {lease.startDate ? new Date(lease.startDate).toLocaleDateString('en-NG') : '—'}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
-                      {lease.endDate ? new Date(lease.endDate).toLocaleDateString('en-NG') : '—'}
-                    </td>
-                    <td className="px-4 py-3 text-right font-mono">
-                      {lease.rentAmount ? formatCurrency(Number(lease.rentAmount)) : '—'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {leases.length === 0 && (
-              <div className="p-12 text-center">
-                <p className="text-zinc-600 dark:text-zinc-400">No lease agreements yet.</p>
-                <Link href="/dashboard/landlord/agreements/new" className="text-sm text-zinc-900 dark:text-white mt-2 inline-block hover:underline">
-                  Create your first agreement
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    
+        <LandlordLeasesClient
+          leases={leases}
+          stampHealth={stampHealth}
+          escrowDeposits={escrowDeposits}
+          occupancy={occupancy}
+          monthStart={monthStart.toISOString()}
+        />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

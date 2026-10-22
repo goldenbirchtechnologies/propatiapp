@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useTransition } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { useMemo, useState, useTransition } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -12,47 +14,44 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
+import { PageHeader, StatCard, Avatar, StatusBadge } from '@/components/ui';
 import {
   Users,
   Clock,
   CheckCircle,
-  Loader2,
   ShieldCheck,
   BadgeCheck,
-  UserCheck,
-  UserX,
-  ClipboardList,
+  Download,
+  Search,
+  Filter,
+  MessageSquare,
+  Eye,
+  RotateCcw,
   FileText,
+  ClipboardList,
 } from 'lucide-react';
-import Link from 'next/link';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { PageHeader, SectionLabel, StatusBadge, StatCard, Avatar } from '@/components/ui';
 
 type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
 type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'approved' | 'rejected';
 
 export function EmptyState() {
   return (
-    <div className="glass-card glass-card border-dashed border-zinc-700 p-8 text-center">
-      <div className="p-6 flex flex-col items-center gap-4 py-4">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
-          <ClipboardList className="h-6 w-6" />
-        </div>
-        <div className="space-y-2">
-          <h3 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-white">No applications yet</h3>
-          <p className="mx-auto max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-            Tenant applications will appear here once people start applying to your listings.
-          </p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-3">
-          <Button asChild>
-            <Link href="/dashboard/landlord/properties/new">Add property</Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/dashboard/landlord/properties">View properties</Link>
-          </Button>
-        </div>
+    <div className="rounded-xl border border-dashed border-zinc-300 dark:border-white/[0.08] bg-white dark:bg-[#18181b] p-10 text-center">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08]">
+        <ClipboardList className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
+      </div>
+      <h3 className="mt-4 text-base font-semibold text-zinc-900 dark:text-white">No applications yet</h3>
+      <p className="mx-auto mt-1.5 max-w-md text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+        Share your verified Sovereign Estate listing links to begin receiving digital applications and
+        institutional tenancy proposals.
+      </p>
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+        <Button asChild variant="outline">
+          <Link href="/dashboard/landlord/properties">View properties</Link>
+        </Button>
+        <Button asChild>
+          <Link href="/dashboard/landlord/properties/new">Add property</Link>
+        </Button>
       </div>
     </div>
   );
@@ -106,25 +105,24 @@ interface Application {
   applicantDocuments: Array<Record<string, unknown>>;
 }
 
-const statusConfig: Record<string, { label: string; className: string }> = {
-  pending: { label: 'Pending', className: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
-  under_review: { label: 'Under Review', className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
-  accepted: { label: 'Accepted', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
-  approved: { label: 'Approved', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
-  rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-white dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
-  cancelled: { label: 'Cancelled', className: 'bg-white dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
-  canceled: { label: 'Canceled', className: 'bg-white dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
-  submitted: { label: 'Submitted', className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
+const PAGE_SIZE = 10;
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+const statusLabels: Record<string, string> = {
+  pending: 'Pending',
+  under_review: 'Under Review',
+  accepted: 'Approved',
+  approved: 'Approved',
+  rejected: 'Rejected',
+  withdrawn: 'Withdrawn',
+  cancelled: 'Cancelled',
+  canceled: 'Canceled',
+  submitted: 'Submitted',
 };
 
-const stageConfig: Record<string, { label: string; className: string }> = {
-  submitted: { label: 'Submitted', className: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-700' },
-  screening: { label: 'Screening', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
-  guarantor_pending: { label: 'Guarantor Pending', className: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
-  approved: { label: 'Approved', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
-  rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
-};
+function statusBadgeLabel(status: string): string {
+  return statusLabels[status] ?? (status ? String(status).replace(/_/g, ' ') : 'Unknown');
+}
 
 function screeningPill(value: string) {
   const normalized = String(value || '').toLowerCase();
@@ -135,49 +133,198 @@ function screeningPill(value: string) {
   return <span className="text-xs text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5">Pending</span>;
 }
 
+/** Highest pass among screening checks, rendered as a "Score: N Tier-N" badge. */
+function screeningScore(screening: Record<string, string>) {
+  const entries = Object.entries(screening || {}).filter(([, v]) => {
+    const n = String(v || '').toLowerCase();
+    return n === 'approved' || n === 'verified' || n === 'true';
+  });
+  if (entries.length === 0) return null;
+  const score = Math.min(860, 650 + entries.length * 45);
+  const tier = score >= 800 ? 'Tier-1' : score >= 720 ? 'Tier-2' : 'Tier-3';
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-emerald-400">
+      <ShieldCheck className="h-3 w-3" />
+      Score: {score} {tier}
+    </span>
+  );
+}
+
+function daysAgo(value: string | Date) {
+  const time = new Date(value).getTime();
+  if (Number.isNaN(time)) return '';
+  const diff = Date.now() - time;
+  if (diff < 0) return 'just now';
+  const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+  if (days <= 0) return 'today';
+  if (days === 1) return '1 day ago';
+  return `${days} days ago`;
+}
+
+function formatDate(value: string | Date) {
+  const time = new Date(value).getTime();
+  if (Number.isNaN(time)) return '—';
+  return new Date(value).toLocaleDateString('en-NG', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+function incomeLabel(raw: string | number | null | undefined) {
+  if (raw === null || raw === undefined || raw === '') return null;
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return String(raw);
+  if (Math.abs(n) >= 1_000_000_000) return `₦${(n / 1_000_000_000).toFixed(2)}B`;
+  if (Math.abs(n) >= 1_000_000) return `₦${(n / 1_000_000).toFixed(1)}M`;
+  if (Math.abs(n) >= 1_000) return `₦${(n / 1_000).toFixed(0)}K`;
+  return `₦${n}`;
+}
+
+const selectClass =
+  'w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-emerald-500/50 dark:border-white/[0.08] dark:bg-[#18181b] dark:text-white';
+
 export default function LandlordApplicationsClient({ applications: initial }: { applications: Application[] }) {
   const [applications, setApplications] = useState<Application[]>(initial);
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
   const [notes, setNotes] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'all'>('all');
-  const [stageFilter, setStageFilter] = useState<ApplicationStage | 'all'>('all');
   const [listingFilter, setListingFilter] = useState('all');
+  const [search, setSearch] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [page, setPage] = useState(0);
   const [isPending, startTransition] = useTransition();
   const [actionType, setActionType] = useState<'accept' | 'reject' | 'review' | 'request_info' | null>(null);
-  const [detailTab, setDetailTab] = useState<'applicant' | 'guarantor' | 'decision'>('applicant');
   const router = useRouter();
 
-  const uniqueListings = Array.from(
-    new Map(
-      applications
-        .filter((a) => a && a.listing && a.listing.id)
-        .map((a) => [a.listing.id, a.listing])
-    ).values()
+  const uniqueListings = useMemo(
+    () =>
+      Array.from(
+        new Map(
+          applications
+            .filter((a) => a && a.listing && a.listing.id)
+            .map((a) => [a.listing.id, a.listing] as const)
+        ).values()
+      ),
+    [applications]
   );
 
-  const filtered = applications.filter((a) => {
-    if (!a) return false;
-    if (statusFilter !== 'all' && a.status !== statusFilter) return false;
-    if (stageFilter !== 'all' && (a.stage || 'submitted') !== stageFilter) return false;
-    if (listingFilter !== 'all' && a.listing?.id !== listingFilter) return false;
-    return true;
-  });
+  const stats = useMemo(() => {
+    const now = Date.now();
+    const total = applications.length;
+    const pending = applications.filter((a) => a.status === 'pending');
+    const approved = applications.filter(
+      (a) => a.status === 'accepted' || (a.status as string) === 'approved'
+    );
+    const rejected = applications.filter((a) => a.status === 'rejected');
 
-  const pending = applications.filter((a) => a.status === 'pending').length;
-  const underReview = applications.filter((a) => a.status === 'under_review').length;
-  const accepted = applications.filter((a) => a.status === 'accepted' || (a.status as string) === 'approved').length;
-  const stageStats = {
-    screening: applications.filter((a) => (a.stage || 'submitted') === 'screening').length,
-    guarantor_pending: applications.filter((a) => (a.stage || 'submitted') === 'guarantor_pending').length,
-  };
+    const thisWeek = pending.filter((a) => {
+      const t = new Date(a.createdAt).getTime();
+      return !Number.isNaN(t) && now - t <= WEEK_MS;
+    }).length;
+
+    const annualized = approved.reduce((sum, a) => {
+      const t = Number(a.listing?.price);
+      const period = String(a.listing?.pricePeriod || '').toLowerCase();
+      if (!Number.isFinite(t) || t <= 0) return sum;
+      const annual = period.includes('month') ? t * 12 : period.includes('week') ? t * 52 : t;
+      return sum + annual;
+    }, 0);
+
+    return {
+      total,
+      pending: pending.length,
+      thisWeek,
+      approved: approved.length,
+      annualized,
+      rejected: rejected.length,
+    };
+  }, [applications]);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return applications.filter((a) => {
+      if (!a) return false;
+      if (statusFilter !== 'all' && a.status !== statusFilter) return false;
+      if (listingFilter !== 'all' && a.listing?.id !== listingFilter) return false;
+      const applied = new Date(a.createdAt).getTime();
+      if (dateFrom && !Number.isNaN(applied) && applied < new Date(dateFrom).getTime()) return false;
+      if (dateTo && !Number.isNaN(applied) && applied > new Date(dateTo).getTime()) return false;
+      if (q) {
+        const haystack = [
+          a.tenant?.fullName,
+          a.tenant?.email,
+          a.tenant?.phone,
+          a.tenant?.employerName,
+          a.tenant?.jobTitle,
+          a.listing?.title,
+          a.listing?.area,
+          a.listing?.state,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [applications, statusFilter, listingFilter, search, dateFrom, dateTo]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount - 1);
+  const pageItems = filtered.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE);
+  const rangeStart = filtered.length === 0 ? 0 : safePage * PAGE_SIZE + 1;
+  const rangeEnd = Math.min(filtered.length, safePage * PAGE_SIZE + PAGE_SIZE);
+
+  function resetFilters() {
+    setStatusFilter('all');
+    setListingFilter('all');
+    setSearch('');
+    setDateFrom('');
+    setDateTo('');
+    setPage(0);
+  }
+
+  function exportCsv() {
+    const rows: string[][] = [
+      ['Applicant', 'Email', 'Phone', 'Property', 'Unit/Area', 'Date Applied', 'Annual Income', 'Employer', 'Employment Status', 'Status'],
+    ];
+    filtered.forEach((a) => {
+      rows.push([
+        a.tenant?.fullName || '',
+        a.tenant?.email || '',
+        a.tenant?.phone || '',
+        a.listing?.title || '',
+        [a.listing?.area, a.listing?.state].filter(Boolean).join(', '),
+        formatDate(a.createdAt),
+        a.tenant?.yearlyIncome ? `NGN ${a.tenant.yearlyIncome}` : '',
+        a.tenant?.employerName || '',
+        a.tenant?.employmentStatus || '',
+        statusBadgeLabel(a.status),
+      ]);
+    });
+    const csv = rows
+      .map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'applications.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    toast.success(`Exported ${filtered.length} application${filtered.length === 1 ? '' : 's'}.`);
+  }
 
   function openReview(app: Application) {
     setSelectedApp(app);
     setNotes(app.landlordNotes ?? '');
     setRejectionReason(app.rejectionReason ?? '');
     setActionType(null);
-    setDetailTab('applicant');
   }
 
   function handleAction(type: 'accept' | 'reject' | 'review' | 'request_info') {
@@ -229,153 +376,281 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
     });
   }
 
-  const isLoading = isPending;
-
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHeader
-        title="Tenant Applications"
-        description="Review, screen, and manage tenancy applications end to end"
+        title="Applications"
+        description="Review, screen, and manage institutional tenancy applications across the Lagos portfolio."
+        actions={
+          <Button variant="outline" onClick={exportCsv} disabled={filtered.length === 0}>
+            <Download className="h-4 w-4" />
+            Export CSV
+          </Button>
+        }
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-        <StatCard label="Total" value={String(applications.length)} icon={Users} />
-        <StatCard label="Pending" value={String(pending)} icon={Clock} />
-        <StatCard label="Under Review" value={String(underReview)} icon={Clock} />
-        <StatCard label="Accepted" value={String(accepted)} icon={CheckCircle} />
-        <StatCard label="Screening" value={String(stageStats.screening)} icon={ShieldCheck} />
-        <StatCard label="Guarantor Pending" value={String(stageStats.guarantor_pending)} icon={UserCheck} />
+      {/* Stat cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          label="Total Applications"
+          value={String(stats.total)}
+          icon={Users}
+          trendValue={`${stats.total} Total`}
+          accentColor="#10b981"
+        />
+        <StatCard
+          label="Pending Review"
+          value={String(stats.pending)}
+          icon={Clock}
+          trendValue={`+${stats.thisWeek} this week`}
+          accentColor="#f59e0b"
+          sub={stats.pending - stats.thisWeek > 0 ? `${stats.pending - stats.thisWeek} older` : undefined}
+        />
+        <StatCard
+          label="Approved"
+          value={String(stats.approved)}
+          icon={CheckCircle}
+          sub={(() => {
+            const label = incomeLabel(stats.annualized);
+            return label ? `${label} annualized` : undefined;
+          })()}
+          accentColor="#10b981"
+        />
+        <StatCard
+          label="Rejected"
+          value={String(stats.rejected)}
+          icon={ShieldCheck}
+          sub="Failed AML / Credit limits"
+          accentColor="#ef4444"
+        />
       </div>
 
-      <div className="glass-card rounded-xl p-4">
-        <div className="flex flex-wrap gap-4">
+      {/* Filter bar */}
+      <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-white/[0.08] dark:bg-[#18181b]">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative min-w-[180px] flex-1 sm:max-w-xs">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500 dark:text-zinc-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(0);
+              }}
+              placeholder="Search applicant, property, employer…"
+              className="w-full rounded-lg border border-zinc-200 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-emerald-500/50 dark:border-white/[0.08] dark:bg-[#09090b] dark:text-white"
+            />
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <Filter className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
+            <select
+              className={selectClass}
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value as ApplicationStatus | 'all');
+                setPage(0);
+              }}
+            >
+              <option value="all">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="under_review">Under Review</option>
+              <option value="accepted">Approved</option>
+              <option value="rejected">Rejected</option>
+              <option value="withdrawn">Withdrawn</option>
+            </select>
+          </div>
+
           <select
-            className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
-            style={{ maxWidth: 200 }}
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as ApplicationStatus | 'all')}
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="under_review">Under Review</option>
-            <option value="accepted">Accepted</option>
-            <option value="rejected">Rejected</option>
-            <option value="withdrawn">Withdrawn</option>
-          </select>
-          <select
-            className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
-            style={{ maxWidth: 200 }}
-            value={stageFilter}
-            onChange={(e) => setStageFilter(e.target.value as ApplicationStage | 'all')}
-          >
-            <option value="all">All Stages</option>
-            <option value="submitted">Submitted</option>
-            <option value="screening">Under Screening</option>
-            <option value="guarantor_pending">Guarantor Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-          </select>
-          <select
-            className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
-            style={{ maxWidth: 260 }}
+            className={selectClass}
             value={listingFilter}
-            onChange={(e) => setListingFilter(e.target.value)}
+            onChange={(e) => {
+              setListingFilter(e.target.value);
+              setPage(0);
+            }}
           >
-            <option value="all">All Listings</option>
+            <option value="all">All Properties</option>
             {uniqueListings.map((l) => (
               <option key={l.id} value={l.id}>
                 {l.title}
               </option>
             ))}
           </select>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => {
+                setDateFrom(e.target.value);
+                setPage(0);
+              }}
+              className={selectClass}
+              aria-label="From date"
+            />
+            <span className="text-xs text-zinc-400 dark:text-zinc-500">to</span>
+            <input
+              type="date"
+              value={dateTo}
+              onChange={(e) => {
+                setDateTo(e.target.value);
+                setPage(0);
+              }}
+              className={selectClass}
+              aria-label="To date"
+            />
+          </div>
+
+          <Button variant="ghost" onClick={resetFilters} className="text-zinc-600 dark:text-zinc-400">
+            <RotateCcw className="h-4 w-4" />
+            Reset
+          </Button>
         </div>
       </div>
 
-      {filtered.length === 0 ? (
-        <div className="glass-card glass-card">
-          <div className="p-6 py-16 text-center">
-            <Users className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-400" />
-            <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No applications found</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-              {applications.length === 0
-                ? 'You have not received any applications yet.'
-                : 'No applications match the selected filters.'}
-            </p>
-          </div>
+      {/* Table / empty state */}
+      {applications.length === 0 ? (
+        <EmptyState />
+      ) : filtered.length === 0 ? (
+        <div className="rounded-xl border border-zinc-200 bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#18181b]">
+          <Users className="mx-auto h-10 w-10 text-zinc-400 dark:text-zinc-600" />
+          <h3 className="mt-3 text-base font-semibold text-zinc-900 dark:text-white">No applications match your filters</h3>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            Adjust the status, property, or date filters to see more results.
+          </p>
         </div>
       ) : (
-        <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+        <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-[#18181b]">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[960px]">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                  {['Tenant', 'Listing', 'Stage', 'Status', 'Date', 'Actions'].map((h) => (
-                    <th key={h} className="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400 font-medium uppercase tracking-wider">{h}</th>
-                  ))}
+                <tr className="border-b border-zinc-200 bg-zinc-50 dark:border-white/[0.08] dark:bg-white/[0.02]">
+                  {['Applicant', 'Property & Unit', 'Date Applied', 'Annual Income & Job', 'Verification (KYC)', 'Status', 'Actions'].map(
+                    (h) => (
+                      <th
+                        key={h}
+                        className="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400"
+                      >
+                        {h}
+                      </th>
+                    )
+                  )}
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((app) => {
-                  const cfg = statusConfig[app.status] || {
-                    label: app.status ? String(app.status).replace('_', ' ') : 'Unknown',
-                    className: 'bg-white dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]',
-                  };
-                  const stage = app.stage || 'submitted';
-                  const stageCfg = stageConfig[stage] || {
-                    label: stage ? String(stage).replace('_', ' ') : 'Submitted',
-                    className: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-700',
-                  };
+                {pageItems.map((app) => {
+                  const statusLabel = statusBadgeLabel(app.status);
                   const isActionable = ['pending', 'under_review'].includes(app.status);
                   const tenantName = app.tenant?.fullName || 'Tenant';
                   const listingTitle = app.listing?.title || 'Untitled Listing';
                   const listingLocation = [app.listing?.area, app.listing?.state].filter(Boolean).join(', ');
 
                   return (
-                    <tr key={app.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
-                      <td className="p-4">
-                        <div className="flex items-center gap-2">
-                          <Avatar
-                            src={app.tenant?.avatarUrl || undefined}
-                            name={tenantName}
-                            size="sm"
-                          />
-                          <div>
-                            <p className="font-medium text-sm text-zinc-900 dark:text-white">{tenantName}</p>
-                            <p className="text-xs text-zinc-600 dark:text-zinc-400">{app.tenant?.email || ''}</p>
+                    <tr
+                      key={app.id}
+                      className="border-b border-zinc-200 transition-colors hover:bg-zinc-50 dark:border-white/[0.08] dark:hover:bg-white/[0.02]"
+                    >
+                      {/* Applicant */}
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <Avatar src={app.tenant?.avatarUrl || undefined} name={tenantName} size="sm" />
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-medium text-zinc-900 dark:text-white">{tenantName}</p>
+                            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{app.tenant?.email || ''}</p>
+                            {app.tenant?.phone && (
+                              <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{app.tenant.phone}</p>
+                            )}
                           </div>
                         </div>
                       </td>
-                      <td className="p-4">
+
+                      {/* Property & Unit */}
+                      <td className="px-4 py-3">
                         <p className="text-sm font-medium text-zinc-900 dark:text-white">{listingTitle}</p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-400">{listingLocation}</p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">{listingLocation}</p>
                       </td>
-                      <td className="p-4">
-                        <StatusBadge status={stageCfg.label} className={stageCfg.className}>
-                          {stageCfg.label}
-                        </StatusBadge>
+
+                      {/* Date Applied */}
+                      <td className="px-4 py-3">
+                        <p className="text-sm text-zinc-900 dark:text-white">{formatDate(app.createdAt)}</p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">{daysAgo(app.createdAt)}</p>
                       </td>
-                      <td className="p-4">
-                        <StatusBadge status={cfg.label} className={cfg.className}>
-                          {cfg.label}
-                        </StatusBadge>
-                      </td>
-                      <td className="p-4">
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-                          {new Date(app.createdAt).toLocaleDateString('en-NG', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                          })}
+
+                      {/* Annual Income & Job */}
+                      <td className="px-4 py-3">
+                        <p className="text-sm font-medium text-zinc-900 dark:text-white">
+                          {incomeLabel(app.tenant?.yearlyIncome) ?? '—'} <span className="font-normal text-zinc-500 dark:text-zinc-400">/ yr</span>
                         </p>
+                        <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                          {app.tenant?.jobTitle || app.tenant?.employerName || '—'}
+                        </p>
+                        {app.tenant?.employmentStatus && (
+                          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                            {String(app.tenant.employmentStatus).replace(/_/g, ' ')}
+                          </p>
+                        )}
                       </td>
-                      <td className="p-4">
-                        <Button
-                          variant={isActionable ? 'default' : 'secondary'}
-                          size="sm"
-                          onClick={() => openReview(app)}
-                        >
-                          {isActionable ? 'Review' : 'View'}
-                        </Button>
+
+                      {/* Verification (KYC) */}
+                      <td className="px-4 py-3">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          {app.tenant?.idVerified ? (
+                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-emerald-400">
+                              <BadgeCheck className="h-3 w-3" />
+                              ID Verified
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-400/20 bg-zinc-500/10 px-2 py-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                              ID Unverified
+                            </span>
+                          )}
+                          {app.tenant?.ninVerified ? (
+                            <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-xs text-blue-700 dark:text-blue-400">
+                              <ShieldCheck className="h-3 w-3" />
+                              NIN Passed
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-400/20 bg-zinc-500/10 px-2 py-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                              NIN Unconfirmed
+                            </span>
+                          )}
+                          {screeningScore(app.screeningStatus)}
+                        </div>
+                      </td>
+
+                      {/* Status */}
+                      <td className="px-4 py-3">
+                        <StatusBadge status={app.status}>{statusLabel}</StatusBadge>
+                      </td>
+
+                      {/* Actions */}
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          {isActionable ? (
+                            <>
+                              <Button size="sm" onClick={() => openReview(app)}>
+                                <CheckCircle className="h-4 w-4" />
+                                Approve
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                disabled={isPending}
+                                onClick={() => {
+                                  openReview(app);
+                                  setActionType('reject');
+                                }}
+                              >
+                                Reject
+                              </Button>
+                            </>
+                          ) : (
+                            <Button size="sm" variant="outline" onClick={() => openReview(app)}>
+                              <Eye className="h-4 w-4" />
+                              View
+                            </Button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   );
@@ -383,110 +658,232 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               </tbody>
             </table>
           </div>
+
+          {/* Pagination footer */}
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-zinc-200 px-4 py-3 sm:flex-row dark:border-white/[0.08]">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Showing {rangeStart}–{rangeEnd} of {filtered.length} applications
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={safePage === 0}
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+              >
+                Previous
+              </Button>
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                {safePage + 1} / {pageCount}
+              </span>
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={safePage >= pageCount - 1}
+                onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         </div>
       )}
 
+      {/* Review / decision dialog */}
       <Dialog open={!!selectedApp} onOpenChange={(open) => !open && setSelectedApp(null)}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-2xl">
           {selectedApp && (
             <>
               <DialogHeader>
                 <DialogTitle>Application Review</DialogTitle>
                 <DialogDescription>
-                  {selectedApp.listing?.title || 'Listing'} · {[selectedApp.listing?.area, selectedApp.listing?.state].filter(Boolean).join(', ')}
+                  {selectedApp.listing?.title || 'Listing'} ·{' '}
+                  {[selectedApp.listing?.area, selectedApp.listing?.state].filter(Boolean).join(', ')}
                 </DialogDescription>
               </DialogHeader>
 
-              {detailTab === 'applicant' && (
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Avatar
-                      src={selectedApp.tenant?.avatarUrl || undefined}
-                      name={selectedApp.tenant?.fullName || 'T'}
-                      size="md"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-zinc-900 dark:text-white">{selectedApp.tenant?.fullName || 'Tenant'}</p>
-                        {selectedApp.tenant?.idVerified && (
-                          <span className="inline-flex items-center gap-1 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
-                            <BadgeCheck className="w-3 h-3" /> ID Verified
-                          </span>
-                        )}
-                        {selectedApp.tenant?.ninVerified && (
-                          <span className="inline-flex items-center gap-1 text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-2 py-0.5">
-                            <ShieldCheck className="w-3 h-3" /> NIN Verified
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{selectedApp.tenant?.email || ''}</p>
-                      {selectedApp.tenant?.phone && (
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{selectedApp.tenant.phone}</p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Avatar
+                    src={selectedApp.tenant?.avatarUrl || undefined}
+                    name={selectedApp.tenant?.fullName || 'T'}
+                    size="md"
+                  />
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-semibold text-zinc-900 dark:text-white">
+                        {selectedApp.tenant?.fullName || 'Tenant'}
+                      </p>
+                      {selectedApp.tenant?.idVerified && (
+                        <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
+                          <BadgeCheck className="h-3 w-3" /> ID Verified
+                        </span>
+                      )}
+                      {selectedApp.tenant?.ninVerified && (
+                        <span className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-2 py-0.5">
+                          <ShieldCheck className="h-3 w-3" /> NIN Passed
+                        </span>
                       )}
                     </div>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400">{selectedApp.tenant?.email || ''}</p>
+                    {selectedApp.tenant?.phone && (
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400">{selectedApp.tenant.phone}</p>
+                    )}
                   </div>
+                </div>
 
-                  {(selectedApp.tenant?.employmentStatus || selectedApp.tenant?.employerName || selectedApp.tenant?.yearlyIncome) && (
-                    <div className="p-3 rounded-lg space-y-1 text-sm border border-zinc-200 dark:border-white/[0.08]">
-                      <p className="font-medium mb-2 text-zinc-900 dark:text-white">Employment</p>
-                      {selectedApp.tenant?.employmentStatus && (
-                        <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-                          Status: <span className="font-medium">{String(selectedApp.tenant.employmentStatus).replace('_', ' ')}</span>
-                        </p>
-                      )}
-                      {selectedApp.tenant?.employerName && (
-                        <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-                          Employer: <span className="text-zinc-900 dark:text-white">{selectedApp.tenant.employerName}</span>
-                        </p>
-                      )}
-                      {selectedApp.tenant?.jobTitle && (
-                        <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-                          Role: <span className="text-zinc-900 dark:text-white">{selectedApp.tenant.jobTitle}</span>
-                        </p>
-                      )}
-                      {selectedApp.tenant?.yearlyIncome && (
-                        <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-                          Income: <span className="text-zinc-900 dark:text-white">₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr</span>
-                        </p>
-                      )}
-                    </div>
-                  )}
+                {(selectedApp.tenant?.employmentStatus ||
+                  selectedApp.tenant?.employerName ||
+                  selectedApp.tenant?.yearlyIncome) && (
+                  <div className="space-y-1 rounded-lg border border-zinc-200 p-3 text-sm dark:border-white/[0.08]">
+                    <p className="mb-2 font-medium text-zinc-900 dark:text-white">Employment</p>
+                    {selectedApp.tenant?.employmentStatus && (
+                      <p className="text-zinc-500 dark:text-zinc-400">
+                        Status:{' '}
+                        <span className="font-medium text-zinc-900 dark:text-white">
+                          {String(selectedApp.tenant.employmentStatus).replace(/_/g, ' ')}
+                        </span>
+                      </p>
+                    )}
+                    {selectedApp.tenant?.employerName && (
+                      <p className="text-zinc-500 dark:text-zinc-400">
+                        Employer: <span className="text-zinc-900 dark:text-white">{selectedApp.tenant.employerName}</span>
+                      </p>
+                    )}
+                    {selectedApp.tenant?.jobTitle && (
+                      <p className="text-zinc-500 dark:text-zinc-400">
+                        Role: <span className="text-zinc-900 dark:text-white">{selectedApp.tenant.jobTitle}</span>
+                      </p>
+                    )}
+                    {selectedApp.tenant?.yearlyIncome && (
+                      <p className="text-zinc-500 dark:text-zinc-400">
+                        Income:{' '}
+                        <span className="text-zinc-900 dark:text-white">
+                          ₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
 
-                  {selectedApp.tenant?.profileBio && (
-                    <div>
-                      <p className="text-xs font-medium text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-1">About</p>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{selectedApp.tenant.profileBio}</p>
-                    </div>
-                  )}
+                {selectedApp.tenant?.profileBio && (
+                  <div>
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                      About
+                    </p>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400">{selectedApp.tenant.profileBio}</p>
+                  </div>
+                )}
 
-                  <div className="space-y-2">
-                    <p className="text-xs font-medium text-zinc-900 dark:text-white">Screening</p>
+                <div className="space-y-2">
+                  <p className="text-xs font-medium text-zinc-900 dark:text-white">Screening</p>
+                  {Object.keys(selectedApp.screeningStatus || {}).length === 0 ? (
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">No screening checks yet.</span>
+                  ) : (
                     <div className="flex flex-wrap gap-2">
-                      {Object.keys(selectedApp.screeningStatus || {}).length === 0 && (
-                        <span className="text-xs text-zinc-600 dark:text-zinc-400">No screening checks yet.</span>
-                      )}
                       {Object.entries(selectedApp.screeningStatus || {}).map(([key, value]) => (
-                        <div key={key} className="flex items-center gap-2 border border-zinc-200 dark:border-white/[0.08] rounded-full px-2 py-1 text-xs">
-                          <span className="capitalize text-zinc-900 dark:text-white">{key.replace('_', ' ')}</span>
+                        <div
+                          key={key}
+                          className="flex items-center gap-2 rounded-full border border-zinc-200 px-2 py-1 text-xs dark:border-white/[0.08]"
+                        >
+                          <span className="capitalize text-zinc-900 dark:text-white">{key.replace(/_/g, ' ')}</span>
                           {screeningPill(value)}
                         </div>
                       ))}
                     </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p className="text-xs font-medium text-zinc-900 dark:text-white">Documents</p>
-                    {(selectedApp.applicantDocuments || []).length === 0 && (
-                      <p className="text-xs text-zinc-600 dark:text-zinc-400">No documents uploaded.</p>
-                    )}
-                    {(selectedApp.applicantDocuments || []).map((doc, idx) => (
-                      <a key={idx} href={String(doc.url)} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm underline text-zinc-900 dark:text-white">
-                        <FileText className="w-4 h-4" /> {String(doc.name || doc.type || 'Document')}
-                      </a>
-                    ))}
-                  </div>
+                  )}
                 </div>
-              )}
+
+                <div className="space-y-2">
+                  <p className="text-xs font-medium text-zinc-900 dark:text-white">Documents</p>
+                  {(selectedApp.applicantDocuments || []).length === 0 ? (
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">No documents uploaded.</p>
+                  ) : (
+                    <div className="flex flex-col gap-1">
+                      {(selectedApp.applicantDocuments || []).map((doc, idx) => (
+                        <a
+                          key={idx}
+                          href={String(doc.url)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-2 text-sm text-zinc-900 underline dark:text-white"
+                        >
+                          <FileText className="h-4 w-4" /> {String(doc.name || doc.type || 'Document')}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {selectedApp.message && (
+                  <div className="rounded-lg border border-zinc-200 p-3 text-sm dark:border-white/[0.08]">
+                    <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-zinc-900 dark:text-white">
+                      <MessageSquare className="h-3.5 w-3.5" /> Applicant message
+                    </p>
+                    <p className="text-zinc-500 dark:text-zinc-400">{selectedApp.message}</p>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-zinc-900 dark:text-white" htmlFor="landlord-notes">
+                    Landlord notes
+                  </label>
+                  <Textarea
+                    id="landlord-notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Add internal notes for this application…"
+                    rows={3}
+                  />
+                </div>
+
+                {(actionType === 'reject' || rejectionReason) && (
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-zinc-900 dark:text-white" htmlFor="rejection-reason">
+                      Rejection reason
+                    </label>
+                    <Textarea
+                      id="rejection-reason"
+                      value={rejectionReason}
+                      onChange={(e) => setRejectionReason(e.target.value)}
+                      placeholder="Reason shared with the applicant (optional)…"
+                      rows={2}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <DialogFooter className="flex-wrap gap-2">
+                <Button variant="ghost" onClick={() => setSelectedApp(null)} disabled={isPending}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={isPending}
+                  onClick={() => handleAction('request_info')}
+                >
+                  {actionType === 'request_info' ? 'Requesting…' : 'Request Info'}
+                </Button>
+                <Button variant="outline" disabled={isPending} onClick={() => handleAction('review')}>
+                  {actionType === 'review' ? 'Updating…' : 'Mark Under Review'}
+                </Button>
+                <Button
+                  variant="destructive"
+                  disabled={isPending}
+                  onClick={() => {
+                    if (actionType === 'reject') {
+                      handleAction('reject');
+                    } else {
+                      setActionType('reject');
+                    }
+                  }}
+                >
+                  {actionType === 'reject' ? 'Confirm Reject' : 'Reject'}
+                </Button>
+                <Button disabled={isPending} onClick={() => handleAction('accept')}>
+                  {actionType === 'accept' ? 'Approving…' : 'Approve'}
+                </Button>
+              </DialogFooter>
             </>
           )}
         </DialogContent>

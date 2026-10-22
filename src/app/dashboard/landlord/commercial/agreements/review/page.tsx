@@ -6,10 +6,11 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { FileCheck2 } from 'lucide-react';
 
 export const metadata = {
-  title: 'Commercial Leases Review – Landlord',
-  description: 'Review proposed commercial lease terms.',
+  title: 'Commercial Lease Agreement Review – Landlord',
+  description: 'Review proposed commercial lease terms before signing.',
 };
 
 export default async function CommercialAgreementsReviewPage() {
@@ -31,67 +32,81 @@ export default async function CommercialAgreementsReviewPage() {
 
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
-
       <ErrorBoundary>
+        <div className="space-y-6">
+          <section>
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Commercial Lease Agreement Review</h1>
+            <p className="text-zinc-600 dark:text-zinc-400 mt-1">
+              Review proposed commercial lease terms before signing.
+            </p>
+          </section>
 
-      <div className="space-y-6">
-        <section>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Commercial Lease Agreement Review</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 mt-1">
-            Gold Verified Agent workspace — review proposed commercial terms.
-          </p>
-        </section>
-
-        {agreements.length === 0 ? (
-          <div className="glass-card">
-            <div className="p-6 p-8 text-center">
-              <p className="text-zinc-600 dark:text-zinc-400">No agreements currently pending review.</p>
-            </div>
-          </div>
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {agreements.map((agr) => (
-              <div className="glass-card" key={agr.id}>
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-base font-semibold">
-                    {agr.listing.title} — {agr.listing.address}
-                  </h3>
-                </div>
-                <div className="p-6 space-y-2 text-sm">
-                  <p>
-                    <span className="text-zinc-600 dark:text-zinc-400">Tenant:</span> {agr.tenant.fullName}
-                  </p>
-                  <p>
-                    <span className="text-zinc-600 dark:text-zinc-400">Rent:</span>{' '}
-                    {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : 'Negotiable'}
-                    {agr.rentPeriod ? `/${agr.rentPeriod}` : ''}
-                  </p>
-                  <p>
-                    <span className="text-zinc-600 dark:text-zinc-400">Term:</span>{' '}
-                    {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} →{' '}
-                    {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
-                  </p>
-                  <p>
-                    <span className="text-zinc-600 dark:text-zinc-400">Deposit:</span>{' '}
-                    {agr.cautionDeposit ? `₦${Number(agr.cautionDeposit).toLocaleString()}` : '—'}
-                  </p>
-                  <p>
-                    <span className="text-zinc-600 dark:text-zinc-400">Service Charge:</span>{' '}
-                    {agr.serviceCharge ? `₦${Number(agr.serviceCharge).toLocaleString()}/yr` : '—'}
-                  </p>
-                  <div>
-                    <Badge variant={agr.status === 'draft' ? 'secondary' : 'outline'}>
-                      {agr.status.replace('_', ' ')}
-                    </Badge>
-                  </div>
-                </div>
+          {agreements.length === 0 ? (
+            <div className="glass-card">
+              <div className="p-8 text-center">
+                <FileCheck2 className="mx-auto h-16 w-16 text-zinc-400 opacity-50" />
+                <p className="mt-4 text-zinc-600 dark:text-zinc-400">No agreements awaiting review.</p>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    
+            </div>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>Pending Review</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left uppercase font-medium text-zinc-600 dark:text-zinc-400">
+                        <th className="py-3 pr-4">Property</th>
+                        <th className="py-3 pr-4">Tenant</th>
+                        <th className="py-3 pr-4">Lease Terms</th>
+                        <th className="py-3 pr-4">Rent</th>
+                        <th className="py-3 pr-4">Status</th>
+                        <th className="py-3">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {agreements.map((agr) => (
+                        <tr key={agr.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
+                          <td className="py-3 pr-4">
+                            <div className="font-medium text-zinc-900 dark:text-white">{agr.listing.title}</div>
+                            <div className="text-xs text-zinc-500">{agr.listing.address}</div>
+                          </td>
+                          <td className="py-3 pr-4">{agr.tenant.fullName}</td>
+                          <td className="py-3 pr-4">
+                            {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} →{' '}
+                            {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
+                          </td>
+                          <td className="py-3 pr-4">
+                            {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : 'Negotiable'}
+                            {agr.rentPeriod ? `/${agr.rentPeriod}` : ''}
+                          </td>
+                          <td className="py-3 pr-4">
+                            <Badge variant={agr.status === 'review_required' ? 'outline' : 'secondary'}>
+                              {agr.status.replace('_', ' ')}
+                            </Badge>
+                          </td>
+                          <td className="py-3">
+                            <div className="flex gap-2">
+                              <button className="inline-flex items-center rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700">
+                                Sign Agreement
+                              </button>
+                              <button className="inline-flex items-center rounded-md border border-red-300 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50">
+                                Request Changes
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

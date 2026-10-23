@@ -62,3 +62,6 @@ dev.pid
 smoke.log
 smoke.pid
 tsc.log
+# Stitch temp dumps (local only)
+.claude/tmp_stitch_*.html
+.claude/tmp_stitch_home.html

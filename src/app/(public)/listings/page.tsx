@@ -41,8 +41,8 @@ const CATEGORY_PILLS = [
 ] as const;
 
 const SORT_OPTIONS = [
-  'Most Verified (Cadastral High)',
-  'Newest Audit Listings',
+  'Most Verified',
+  'Newest Listings',
   'Price: Low to High',
   'Price: High to Low',
   'Square Area (sqm)',
@@ -63,10 +63,10 @@ function listingBadge(listingType: string) {
   }
 }
 
-function cadastralBadge(tier: string, listingType: string) {
+function verificationBadge(tier: string, listingType: string) {
   if (tier === 'certified') return 'C of O Verified • Block 14A';
   if (tier === 'inspected') return "Governor's Consent";
-  if (tier === 'verified') return 'LASRERA Escrow Ready';
+  if (tier === 'verified') return 'Bank-Backed Escrow';
   if (listingType === 'short_let') return 'Beacon BI-992-01';
   if (listingType === 'commercial') return 'Gazette Excision Verified';
   return 'C of O Audited';
@@ -155,8 +155,8 @@ export default function ListingsPage() {
     if (sort === 'Price: Low to High') out.sort((a, b) => a.price - b.price);
     else if (sort === 'Price: High to Low') out.sort((a, b) => b.price - a.price);
     else if (sort === 'Square Area (sqm)') out.sort((a, b) => b.sqm - a.sqm);
-    else if (sort === 'Newest Audit Listings') { /* keep fetch order */ }
-    else if (sort === 'Most Verified (Cadastral High)') {
+    else if (sort === 'Newest Listings') { /* keep fetch order */ }
+    else if (sort === 'Most Verified') {
       const rank = (t: string) => ({ certified: 4, inspected: 3, verified: 2, basic: 1 }[t] ?? 0);
       out.sort((a, b) => rank(b.verificationTier) - rank(a.verificationTier));
     }
@@ -181,7 +181,7 @@ export default function ListingsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-black pt-16">
-      {/* Sticky Cadastral Search & Filter Bar */}
+      {/* Sticky Search & Filter Bar */}
       <div className="sticky top-16 z-30 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-zinc-200 dark:border-white/[0.06] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
           {/* Search */}
@@ -190,7 +190,7 @@ export default function ListingsPage() {
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search location or cadastral block (e.g. Lekki, Ikoyi, Victoria Island)..."
+              placeholder="Search location or area (e.g. Lekki, Ikoyi, Victoria Island)..."
               className="w-full h-10 pl-10 pr-24 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white dark:focus:bg-zinc-900"
             />
             <div className="absolute inset-y-0 right-1.5 flex items-center gap-1">
@@ -305,6 +305,7 @@ export default function ListingsPage() {
                   <label className="flex items-center gap-2 cursor-pointer h-8 px-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.06] shadow-sm">
                     <input type="checkbox" checked={legalChecked} onChange={(e) => setLegalChecked(e.target.checked)} className="w-4 h-4 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500" />
                     <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1">Governor&apos;s Consent / C of O <ShieldCheck size={12} className="text-emerald-600" /></span>
+
                   </label>
                 </div>
                 <div className="space-y-1">
@@ -341,7 +342,7 @@ export default function ListingsPage() {
               <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5' : 'flex flex-col gap-4'}>
                 {visible.map((l) => {
                   const badge = listingBadge(l.listingType);
-                  const cadBadge = cadastralBadge(l.verificationTier, l.listingType);
+                  const cadBadge = verificationBadge(l.verificationTier, l.listingType);
                   const isCompared = compareIds.includes(l.id);
                   const isHovered = hoveredId === l.id;
                   const priceText = l.listingType === 'sale' ? formatPrice(l.price) : l.listingType === 'short_let' ? `${formatPrice(l.price)} / night` : `${formatPrice(l.price)} / yr`;
@@ -379,7 +380,7 @@ export default function ListingsPage() {
                         <div>
                           <div className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400 text-xs mb-1"><MapPin size={12} className="text-emerald-600" /> <span className="truncate">{l.address}</span></div>
                           <Link href={`/listings/${l.id}`} className="block"><h2 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors line-clamp-1">{l.title}</h2></Link>
-                          <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mt-1 leading-relaxed">{l.description || 'Premium residential parcel with pristine land title and verified cadastral coordinates.'}</p>
+                          <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mt-1 leading-relaxed">{l.description || 'Premium residential parcel with pristine land title and verified beacon coordinates.'}</p>
                         </div>
                         <div className="grid grid-cols-3 gap-2 py-2 px-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-white/[0.04] text-center">
                           <div><span className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Beds</span><span className="font-mono font-bold text-xs text-zinc-900 dark:text-white">{l.beds || '-'}</span></div>
@@ -478,10 +479,10 @@ export default function ListingsPage() {
               </div>
             </div>
             <label className="flex items-center justify-between p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 cursor-pointer">
-              <span className="text-xs font-bold text-emerald-900 dark:text-emerald-300">NIBSS / LASRERA Escrow Protected</span>
+              <span className="text-xs font-bold text-emerald-900 dark:text-emerald-300">Bank-Backed Escrow Protected</span>
               <input type="checkbox" checked={legalChecked} onChange={(e) => setLegalChecked(e.target.checked)} className="w-5 h-5 rounded border-zinc-300 text-emerald-600" />
             </label>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">Only display institutional deals with verified Central Escrow settlement locks.</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">Only display deals with verified bank-backed escrow.</p>
             <div className="pt-6 mt-auto flex gap-3">
               <button onClick={() => { setSearch(''); setCategory('all'); setLegalChecked(false); setBedFilter('Any'); setPriceMin('₦5,000,000'); setPriceMax('₦450,000,000'); }} className="flex-1 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-semibold">Reset</button>
               <button onClick={() => setFilterOpen(false)} className="flex-1 h-11 rounded-xl bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700">Apply Filters</button>

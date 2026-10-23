@@ -32,7 +32,7 @@ export default function PublicLayout({
                 <PropatiBoxLogo size="sm" />
               </div>
               <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
-                Nigeria&apos;s first verified property marketplace. Find, rent, buy, and manage real estate with confidence.
+                Nigeria&apos;s premier verified property marketplace and PropTech OS. Find, rent, buy, and manage real estate with confidence.
               </p>
               <div className="flex gap-3 mt-5">
                 {['twitter', 'facebook', 'instagram', 'linkedin'].map((sn) => (

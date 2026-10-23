@@ -91,7 +91,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
 
   const [activeImage, setActiveImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'amenities' | 'cadastral' | 'broker'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'amenities' | 'survey' | 'broker'>('overview');
   const [selectedSlot, setSelectedSlot] = useState(1);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
@@ -112,12 +112,12 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
   if (loading) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex items-center justify-center pt-16"><div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" /></div>;
   if (!listing) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex flex-col items-center justify-center pt-16 p-8 text-center"><p className="text-zinc-900 dark:text-white font-semibold">Listing not found</p><Link href="/listings" className="mt-4 text-emerald-600 dark:text-emerald-400 text-sm">Back to listings</Link></div>;
 
-  const cadastralId = `CAD-NG-LA-2024-${String(listing.id).slice(-4).toUpperCase().padStart(4, '8')}`;
+  const referenceId = `PB-REF-LA-2024-${String(listing.id).slice(-4).toUpperCase().padStart(4, '8')}`;
   const beaconRef = listing.area ? `SG/LAG/${listing.area.slice(0, 2).toUpperCase()}-4091/2021` : 'SG/LAG/ET-4091/2021';
   const priceLabel = listing.pricePeriod ? `/${listing.pricePeriod}` : listing.priceUnit || '/ year';
   const typeLabel = listing.listingType || listing.type || 'residential';
   const isRent = typeLabel === 'rent' || typeLabel === 'short_let';
-  const verifiedLabel = listing.verified ? (listing.tier === 'certified' ? 'C of O & LASRERA Ready' : listing.tier === 'inspected' ? 'Governor\'s Consent' : 'Verified') : listing.tier;
+  const verifiedLabel = listing.verified ? (listing.tier === 'certified' ? 'C of O & Bank-Backed Escrow' : listing.tier === 'inspected' ? 'Governor\'s Consent' : 'Verified') : listing.tier;
 
   const handleShare = async () => {
     try { await navigator.clipboard.writeText(window.location.href); } catch {}
@@ -134,7 +134,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
 
   return (
     <div className="bg-[#F8FAFC] dark:bg-black min-h-screen pt-16">
-      {/* ── Sticky breadcrumb / cadastral bar ── */}
+      {/* ── Sticky breadcrumb / reference bar ── */}
       <div className="sticky top-16 z-30 border-b border-zinc-200 dark:border-white/[0.06] bg-white/95 dark:bg-zinc-950/95 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap min-w-0 text-sm">
@@ -150,7 +150,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.07] text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              <BadgeCheck size={14} className="text-emerald-600" /> Cadastral ID: <span className="text-emerald-700 dark:text-emerald-400 font-mono">{cadastralId}</span>
+              <BadgeCheck size={14} className="text-emerald-600" /> Ref: <span className="text-emerald-700 dark:text-emerald-400 font-mono">{referenceId}</span>
             </span>
             {listing.verified && (
               <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wider border border-emerald-200 dark:border-emerald-500/20">
@@ -177,7 +177,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   </span>
                   {listing.verified && (
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
-                      <BadgeCheck size={14} /> 100% C of O & LASRERA Ready
+                      <BadgeCheck size={14} /> 100% C of O & Bank-Backed Escrow
                     </span>
                   )}
                 </div>
@@ -256,7 +256,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 {[
                   { id: 'overview', label: 'Overview' },
                   { id: 'amenities', label: 'Amenities & Features' },
-                  { id: 'cadastral', label: 'Cadastral Audit & Beacons' },
+                  { id: 'survey', label: 'Survey & Title Audit' },
                   { id: 'broker', label: 'Licensed Broker' },
                 ].map((t) => (
                   <button key={t.id} onClick={() => setActiveTab(t.id as any)} className={`px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${activeTab === t.id ? 'bg-white dark:bg-zinc-900 text-emerald-700 dark:text-emerald-400 shadow-sm border border-zinc-200 dark:border-white/[0.06]' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-800'}`}>{t.label}</button>
@@ -281,7 +281,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                         ['Property Typology', 'High-Rise Sky Penthouse'],
                         ['Tenancy Tenure', isRent ? 'Annual Renewable Lease' : 'Outright Assignment'],
                         ['Service Charge', '₦6,500,000 / annum'],
-                        ['Cautionary Bond (LASRERA)', '10% in Escrow'],
+                        ['Cautionary Bond', '10% in Escrow'],
                         ['Legal Drafting & Stamping', '5% FIRS Reg'],
                         ['Year of Commissioning', 'Q4 2023 (Brand New)'],
                       ].map(([k, v]) => (
@@ -291,12 +291,12 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                       ))}
                     </div>
                   </div>
-                  {/* Cadastral audit box */}
+                  {/* Title audit box */}
                   <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0"><BadgeCheck size={20} /></div>
-                        <div><h3 className="text-sm font-bold text-zinc-900 dark:text-white">PROPATI Sovereign Legal Title Audit</h3><span className="text-xs text-zinc-500 dark:text-zinc-400">LASG Lands Bureau Cadastral Registry Cleared</span></div>
+                        <div><h3 className="text-sm font-bold text-zinc-900 dark:text-white">PropatiBox Title Audit</h3><span className="text-xs text-zinc-500 dark:text-zinc-400">Lagos Lands Bureau Registry Cleared</span></div>
                       </div>
                       <span className="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wide border border-emerald-200 dark:border-emerald-500/20 shrink-0">Zero Encumbrance</span>
                     </div>
@@ -305,7 +305,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                         { icon: Gavel, title: 'Certificate of Occupancy', desc: 'Vol 44, Page 44, No. 2018A registered at Lagos State Lands Bureau Alausa.' },
                         { icon: ShieldCheck, title: "Governor's Consent", desc: 'Fully perfected & sealed under Instrument No. 92/92/2021B.' },
                         { icon: Gavel, title: 'Litigation & Lis Pendens Check', desc: 'High Court of Lagos State registry verification: Zero pending suits.' },
-                        { icon: MapPin, title: 'SURCON Beacon Coordinates Audit', desc: 'Surveyor General coordinates aligned with official GIS shapefile: ET-4091.' },
+                        { icon: MapPin, title: 'Survey Beacon Coordinates', desc: 'Surveyor General coordinates aligned with official GIS shapefile: ET-4091.' },
                       ].map((r) => (
                         <div key={r.title} className="flex items-start gap-2.5 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-white/[0.04]">
                           <r.icon size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
@@ -341,9 +341,9 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 </div>
               )}
 
-              {activeTab === 'cadastral' && (
+              {activeTab === 'survey' && (
                 <div className="p-6 sm:p-8 flex flex-col gap-6">
-                  <div><h2 className="text-lg font-bold text-zinc-900 dark:text-white">Cadastral Survey Map & Geo-Coordinates</h2><p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">High-precision cadastral polygon registered under Plan No. LA/VI/4091B at Alausa Land Survey Bureau.</p></div>
+                  <div><h2 className="text-lg font-bold text-zinc-900 dark:text-white">Survey Map & Geo-Coordinates</h2><p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">High-precision survey polygon registered under Plan No. LA/VI/4091B at Alausa Land Survey Bureau.</p></div>
                   <div className="w-full h-80 rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/[0.06] bg-zinc-900 relative flex flex-col justify-between p-4" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=400&fit=crop')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                     <div className="absolute inset-0 bg-black/40" />
                     <div className="relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 backdrop-blur text-zinc-900 dark:text-white text-xs font-semibold shadow-sm w-fit"><Layers size={14} className="text-emerald-600" />Surveyor-General Beacon Grid Verified</div>
@@ -371,11 +371,11 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                     <div className="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">DB</div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2"><h2 className="text-base font-bold text-zinc-900 dark:text-white">Engr. Dapo Balogun, FNIS</h2><BadgeCheck size={18} className="text-emerald-600" /></div>
-                      <div className="text-sm text-zinc-500 dark:text-zinc-400">Lead Cadastral Surveyor & Principal Partner, Musa Realty Ikoyi</div>
+                      <div className="text-sm text-zinc-500 dark:text-zinc-400">Lead Surveyor & Principal Partner, Musa Realty Ikoyi</div>
                       <div className="flex flex-wrap items-center gap-2 mt-1"><span className="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold">SURCON #SUR/2012/894</span><span className="px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[11px] font-bold">LASRERA: BRK-092-2024</span></div>
                     </div>
                   </div>
-                  <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">With 16+ years of cadastral surveying and sovereign property allocations in Victoria Island and Ikoyi, Engr. Balogun provides institutional corporate oversight, verifying deed chains and executing escrow agreements under strict compliance with Nigerian land laws.</p>
+                  <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">With 16+ years of surveying and prime property allocations in Victoria Island and Ikoyi, Engr. Balogun provides institutional oversight, verifying deed chains and executing escrow agreements in strict compliance with Nigerian land laws.</p>
                   <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-white/[0.04] flex items-center justify-between">
                     <div className="flex items-center gap-3"><BadgeCheck size={20} className="text-emerald-600" /><div><div className="text-xs font-bold text-zinc-900 dark:text-white">PROPATI Verified Custodian Guarantee</div><div className="text-xs text-zinc-500 dark:text-zinc-400">Zero hidden agency markups. Regulated fee framework.</div></div></div>
                     <button className="hidden sm:inline-flex px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-xs font-semibold">View Credentials</button>
@@ -410,7 +410,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
               </div>
               <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-start gap-2.5">
                 <ShieldCheck size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                <div className="min-w-0"><div className="text-xs font-bold text-emerald-900 dark:text-emerald-300">PROPATI Protected Escrow™</div><div className="text-xs leading-snug text-zinc-600 dark:text-zinc-400">Deposit safely held in LASRERA institutional escrow. Funds disbursed only after key hand-over and tenant physical signoff.</div></div>
+                <div className="min-w-0"><div className="text-xs font-bold text-emerald-900 dark:text-emerald-300">PropatiBox Protected Escrow™</div><div className="text-xs leading-snug text-zinc-600 dark:text-zinc-400">Deposit safely held in licensed bank escrow. Funds disbursed only after key hand-over and tenant physical signoff.</div></div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-center">
                 {[
@@ -428,7 +428,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 <button onClick={() => router.push(`/listings/${listing.id}#apply`)} className="w-full py-3 px-4 rounded-xl bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-black dark:hover:bg-zinc-100 text-sm font-bold flex items-center justify-center gap-2 transition-colors">
                   <Wallet2 size={18} /> Apply & Lock via Escrow
                 </button>
-                <a href={`https://wa.me/2348000000000?text=Hello%20Engr%20Dapo,%20I%20am%20inquiring%20about%20${encodeURIComponent(listing.title)}%20(Ref:%20${cadastralId})`} target="_blank" rel="noopener noreferrer" className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700 text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
+                <a href={`https://wa.me/2348000000000?text=Hello%20Engr%20Dapo,%20I%20am%20inquiring%20about%20${encodeURIComponent(listing.title)}%20(Ref:%20${referenceId})`} target="_blank" rel="noopener noreferrer" className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700 text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
                   <MessageSquare size={16} className="text-emerald-600" /> Chat with Verified Broker
                 </a>
               </div>

@@ -46,13 +46,13 @@ const pillars = [
     icon: <TrendingUp className="h-6 w-6" />,
     title: 'Market Intelligence',
     desc: 'Real-time sq. metre price velocity tracking across 12 Nigerian urban economic hubs.',
-    tag: 'Cadastral Yield Index',
+    tag: 'Property Yield Index',
   },
   {
     icon: <Lock className="h-6 w-6" />,
-    title: '50,000+ Validated Units',
-    desc: 'Zero tolerance for Omonile harassment or duplicate allocations. Secure Paystack & multi-tier institutional escrow.',
-    tag: 'LASRERA Escrow Protocol',
+    title: '50,000+ Regional Records Mapped',
+    desc: 'Zero tolerance for Omonile harassment or duplicate allocations. Secure Paystack & multi-tier commercial bank escrow.',
+    tag: 'Bank-Backed Escrow',
   },
 ];
 
@@ -60,7 +60,7 @@ const steps = [
   {
     num: '01',
     title: 'Search',
-    desc: 'Explore curated verified listings cross-checked with beacon coordinates.',
+    desc: 'Explore curated verified listings cross-checked with survey beacon coordinates.',
     metric: 'Beacon Mapped',
   },
   {
@@ -78,8 +78,8 @@ const steps = [
   {
     num: '04',
     title: 'Secure Payment',
-    desc: 'Funds held in secure escrow until title conditions and keys are vetted.',
-    metric: 'LASRERA Escrow',
+    desc: 'Funds held in licensed bank escrow until title conditions and keys are vetted.',
+    metric: 'Secure Escrow',
   },
   {
     num: '05',
@@ -197,16 +197,16 @@ export default function HomePage() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 backdrop-blur-md">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
             <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
-              Nigeria&apos;s First Verified Property Marketplace &amp; Cadastral Registry
+              Nigeria&apos;s Premier Verified Property Marketplace
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="mb-4 max-w-4xl text-4xl font-bold leading-tight tracking-tight text-white md:text-[54px] md:leading-[62px]">
-            Find your <span className="text-emerald-400">verified</span> home and sovereign land in Nigeria.
+            Find your <span className="text-emerald-400">verified</span> home and documented land in Nigeria.
           </h1>
           <p className="mb-8 max-w-2xl text-base text-zinc-400 md:text-lg">
-            Every listing cross-referenced with Surveyor-General beacon coordinates. Zero fake agents, zero Omonile risks. Authenticated institutional escrow powered by LASRERA standards.
+            Every listing cross-referenced with Surveyor-General beacon coordinates. Zero fake agents, zero Omonile risks. Bank-backed secure escrow aligned with Lagos State regulatory frameworks.
           </p>
 
           {/* Trust Telemetry Bar */}
@@ -214,7 +214,7 @@ export default function HomePage() {
             <div className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-full border border-white/5 bg-white/5 px-5 py-2 backdrop-blur-sm">
               <span className="flex items-center gap-1.5 text-sm text-zinc-400">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-                <strong className="font-mono text-white">{liveStats[0].value}</strong> Active Listings
+                <strong className="font-mono text-white">{liveStats[0].value}</strong> Curated Live Listings
               </span>
               <span className="text-zinc-600">•</span>
               <span className="flex items-center gap-1.5 text-sm text-zinc-400">
@@ -224,7 +224,7 @@ export default function HomePage() {
               <span className="text-zinc-600">•</span>
               <span className="flex items-center gap-1.5 text-sm text-zinc-400">
                 <Lock className="h-4 w-4 text-emerald-400" />
-                <strong className="font-mono text-white">₦128.4 Billion</strong> In Protected Escrow
+                <strong className="font-mono text-white">₦1.2B+</strong> Active Escrow Pipeline
               </span>
             </div>
           )}
@@ -235,9 +235,9 @@ export default function HomePage() {
             <div className="mb-3 flex items-center gap-1 overflow-x-auto pb-1">
               {[
                 { key: 'rent', label: 'Rent', icon: <Search className="h-4 w-4" /> },
-                { key: 'buy', label: 'Buy Sovereign Asset', icon: <Building2 className="h-4 w-4" /> },
-                { key: 'shortlet', label: 'Shortlet Serviced', icon: <Home className="h-4 w-4" /> },
-                { key: 'commercial', label: 'Commercial Plaza', icon: <Building2 className="h-4 w-4" /> },
+                { key: 'buy', label: 'Buy Property', icon: <Building2 className="h-4 w-4" /> },
+                { key: 'shortlet', label: 'Shortlet', icon: <Home className="h-4 w-4" /> },
+                { key: 'commercial', label: 'Commercial', icon: <Building2 className="h-4 w-4" /> },
               ].map((tab) => (
                 <button
                   key={tab.key}
@@ -275,7 +275,7 @@ export default function HomePage() {
                     <option>Residential Villa & Penthouse</option>
                     <option>Fully Detached Duplex</option>
                     <option>Serviced Commercial Office</option>
-                    <option>SURCON Surveyed Land</option>
+                    <option>Surveyed Land</option>
                   </select>
                 </div>
               </div>
@@ -302,16 +302,16 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Cadastral Filters */}
+            {/* Title Filters */}
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-3 text-sm">
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-zinc-900">Cadastral Filters:</span>
+                <span className="font-semibold text-zinc-900">Title Filters:</span>
                 <span className="inline-flex items-center gap-1 rounded bg-zinc-100 px-2 py-0.5 font-mono text-xs text-zinc-700">C of O ✓</span>
                 <span className="inline-flex items-center gap-1 rounded bg-zinc-100 px-2 py-0.5 font-mono text-xs text-zinc-700">Governor&apos;s Consent ✓</span>
                 <span className="inline-flex items-center gap-1 rounded bg-zinc-100 px-2 py-0.5 font-mono text-xs text-zinc-700">Gazette Excision</span>
               </div>
               <span className="flex items-center gap-1 font-semibold text-emerald-600">
-                Direct Coordinate / Beacon Search <ArrowRight className="h-4 w-4" />
+                Survey Beacon Search <ArrowRight className="h-4 w-4" />
               </span>
             </div>
           </div>
@@ -355,7 +355,7 @@ export default function HomePage() {
             </div>
             <h2 className="text-3xl font-bold text-zinc-900">Renting &amp; Buying Reimagined</h2>
             <p className="mt-2 text-zinc-500">
-              From sovereign land search to key handover — a fully auditable legal protocol tailored for high-trust Nigerian real estate transactions.
+              From title-cleared land search to key handover — a fully auditable legal protocol tailored for high-trust Nigerian real estate transactions.
             </p>
           </div>
           {/* Desktop stepper: 5 circular nodes with connector line */}

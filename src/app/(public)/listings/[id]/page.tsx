@@ -109,8 +109,8 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
     return FALLBACK_GALLERY;
   })();
 
-  if (loading) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex items-center justify-center pt-16"><div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" /></div>;
-  if (!listing) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex flex-col items-center justify-center pt-16 p-8 text-center"><p className="text-zinc-900 dark:text-white font-semibold">Listing not found</p><Link href="/listings" className="mt-4 text-emerald-600 dark:text-emerald-400 text-sm">Back to listings</Link></div>;
+  if (loading) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex items-center justify-center pt-20"><div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" /></div>;
+  if (!listing) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex flex-col items-center justify-center pt-20 p-8 text-center"><p className="text-zinc-900 dark:text-white font-semibold">Listing not found</p><Link href="/listings" className="mt-4 text-emerald-600 dark:text-emerald-400 text-sm">Back to listings</Link></div>;
 
   const referenceId = `PB-REF-LA-2024-${String(listing.id).slice(-4).toUpperCase().padStart(4, '8')}`;
   const beaconRef = listing.area ? `SG/LAG/${listing.area.slice(0, 2).toUpperCase()}-4091/2021` : 'SG/LAG/ET-4091/2021';
@@ -133,9 +133,9 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
   };
 
   return (
-    <div className="bg-[#F8FAFC] dark:bg-black min-h-screen pt-16">
+    <div className="bg-[#F8FAFC] dark:bg-black min-h-screen pt-20">
       {/* ── Sticky breadcrumb / reference bar ── */}
-      <div className="sticky top-16 z-30 border-b border-zinc-200 dark:border-white/[0.06] bg-white/95 dark:bg-zinc-950/95 backdrop-blur">
+      <div className="sticky top-20 z-30 border-b border-zinc-200 dark:border-white/[0.06] bg-white/95 dark:bg-zinc-950/95 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap min-w-0 text-sm">
             <Link href="/listings" className="inline-flex items-center gap-1.5 font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 shrink-0">
@@ -386,7 +386,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
           </div>
 
           {/* ── RIGHT RAIL ── */}
-          <aside className="w-full lg:sticky lg:top-[104px] flex flex-col gap-6">
+          <aside className="w-full lg:sticky lg:top-[120px] flex flex-col gap-6">
             {/* Price card */}
             <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 sm:p-7 shadow-lg border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-5">
               <div className="flex items-start justify-between gap-4">

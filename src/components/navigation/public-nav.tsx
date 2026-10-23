@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { useAuth, useClerk, useUser } from '@clerk/nextjs';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { Sun, Moon } from 'lucide-react';

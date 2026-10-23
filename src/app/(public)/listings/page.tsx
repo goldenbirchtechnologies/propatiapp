@@ -180,9 +180,9 @@ export default function ListingsPage() {
   const activeFilterCount = (legalChecked ? 1 : 0) + (bedFilter !== 'Any' ? 1 : 0) + (category !== 'all' ? 1 : 0) + (priceMin !== '₦5,000,000' || priceMax !== '₦450,000,000' ? 1 : 0);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-black pt-16">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-black pt-20">
       {/* Sticky Search & Filter Bar */}
-      <div className="sticky top-16 z-30 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-zinc-200 dark:border-white/[0.06] shadow-sm">
+      <div className="sticky top-20 z-30 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-zinc-200 dark:border-white/[0.06] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
           {/* Search */}
           <div className="relative flex-1 min-w-[280px] max-w-xl">
@@ -429,7 +429,7 @@ export default function ListingsPage() {
           </div>
 
           {/* RIGHT: Map */}
-          <aside className="hidden lg:block w-[460px] xl:w-[500px] shrink-0 sticky top-[132px] h-[calc(100vh-148px)] rounded-2xl overflow-hidden shadow-lg border border-zinc-200 dark:border-white/[0.06] bg-[#eef2f6] dark:bg-[#070d14] relative">
+          <aside className="hidden lg:block w-[460px] xl:w-[500px] shrink-0 sticky top-[132px] h-[calc(100vh-164px)] rounded-2xl overflow-hidden shadow-lg border border-zinc-200 dark:border-white/[0.06] bg-[#eef2f6] dark:bg-[#070d14] relative">
             <AdvancedSearchMapView
               properties={filtered.map((l) => ({
                 id: l.id,

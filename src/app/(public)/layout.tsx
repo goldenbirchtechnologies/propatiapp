@@ -14,11 +14,11 @@ export default function PublicLayout({
   const { user } = useUser();
 
   return (
-    <div className="flex flex-col h-full bg-black">
+    <div className="flex min-h-screen flex-col bg-white dark:bg-black">
       <PublicNav />
 
       {/* Page Content */}
-      <main className="flex-1">
+      <main className="flex-1 bg-white dark:bg-black">
         {children}
       </main>
 
@@ -32,7 +32,7 @@ export default function PublicLayout({
                 <PropatiBoxLogo size="sm" />
               </div>
               <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
-                Nigeria&apos;s premier verified property marketplace and PropTech OS. Find, rent, buy, and manage real estate with confidence.
+                Nigeria&apos;s premier verified property marketplace. Find, rent, buy, and manage real estate with confidence.
               </p>
               <div className="flex gap-3 mt-5">
                 {['twitter', 'facebook', 'instagram', 'linkedin'].map((sn) => (
@@ -93,12 +93,20 @@ export default function PublicLayout({
             ))}
           </div>
 
-          <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p className="text-xs text-zinc-600">© 2026 PropatiBox Technologies Ltd. All rights reserved.</p>
-            <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span className="text-xs text-zinc-600">All systems operational</span>
+          <div className="border-t border-white/[0.06] pt-6 flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+              <p className="text-xs text-zinc-600">© 2026 PropatiBox Technologies Ltd. All rights reserved.</p>
+              <div className="flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="text-xs text-zinc-600">All systems operational</span>
+              </div>
             </div>
+            <p className="text-[11px] text-zinc-600">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 font-mono text-zinc-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                RC: 1849204 — CAC Registered — Verified Property Marketplace
+              </span>
+            </p>
           </div>
         </div>
       </footer>

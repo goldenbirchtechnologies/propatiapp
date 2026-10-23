@@ -174,9 +174,31 @@ export default function HomePage() {
   const liveStats = usePublicStats();
   const dbFeatured = useFeaturedFromDb();
   const featuredListings = dbFeatured ?? featuredFallback;
+  const [searchTab, setSearchTab] = React.useState('rent');
+  const [locationQuery, setLocationQuery] = React.useState('');
+  const [assetClass, setAssetClass] = React.useState('Residential Villa & Penthouse');
+  const [budgetRange, setBudgetRange] = React.useState('₦5M — ₦25M / year');
+
+  const tabToListingType: Record<string, string> = {
+    rent: 'rent',
+    buy: 'sale',
+    shortlet: 'short_let',
+    commercial: 'commercial',
+  };
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    const lt = tabToListingType[searchTab];
+    if (lt) params.set('listingType', lt);
+    if (locationQuery.trim()) params.set('q', locationQuery.trim());
+    if (assetClass) params.set('assetClass', assetClass);
+    if (budgetRange) params.set('budget', budgetRange);
+    const qs = params.toString();
+    router.push(qs ? `/listings?${qs}` : '/listings');
+  };
 
   return (
-    <div className="min-h-screen bg-[#fbf8fc] text-zinc-900 antialiased selection:bg-emerald-500/20">
+    <div className="min-h-screen bg-[#fbf8fc] dark:bg-black text-zinc-900 dark:text-zinc-100 antialiased selection:bg-emerald-500/20">
       {/* ===================== HERO ===================== */}
       <section className="relative w-full overflow-hidden bg-[#1b1b1e] text-white">
         {/* Background Image */}
@@ -230,22 +252,27 @@ export default function HomePage() {
           )}
 
           {/* Search Terminal */}
-          <div className="w-full max-w-4xl rounded-xl bg-white p-4 text-left shadow-xl md:p-5">
-            {/* Tabs */}
+          <div className="w-full max-w-4xl rounded-xl bg-white dark:bg-zinc-900 border border-transparent dark:border-zinc-800 p-4 text-left shadow-xl md:p-5">
+            {/* Tabs — navigable */}
             <div className="mb-3 flex items-center gap-1 overflow-x-auto pb-1">
               {[
-                { key: 'rent', label: 'Rent', icon: <Search className="h-4 w-4" /> },
-                { key: 'buy', label: 'Buy Property', icon: <Building2 className="h-4 w-4" /> },
-                { key: 'shortlet', label: 'Shortlet', icon: <Home className="h-4 w-4" /> },
-                { key: 'commercial', label: 'Commercial', icon: <Building2 className="h-4 w-4" /> },
+                { key: 'rent', label: 'Rent', icon: <Search className="h-4 w-4" />, href: '/listings?listingType=rent' },
+                { key: 'buy', label: 'Buy Property', icon: <Building2 className="h-4 w-4" />, href: '/listings?listingType=sale' },
+                { key: 'shortlet', label: 'Shortlet', icon: <Home className="h-4 w-4" />, href: '/listings?listingType=short_let' },
+                { key: 'commercial', label: 'Commercial', icon: <Building2 className="h-4 w-4" />, href: '/listings?listingType=commercial' },
               ].map((tab) => (
                 <button
                   key={tab.key}
+                  type="button"
+                  onClick={() => {
+                    setSearchTab(tab.key);
+                    router.push(tab.href);
+                  }}
                   className={cn(
                     'flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition-colors',
-                    tab.key === 'rent'
+                    searchTab === tab.key
                       ? 'bg-emerald-600 text-white'
-                      : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'
+                      : 'text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white'
                   )}
                 >
                   {tab.icon}
@@ -256,44 +283,56 @@ export default function HomePage() {
 
             {/* Search Grid */}
             <div className="grid grid-cols-1 items-center gap-3 sm:grid-cols-2 lg:grid-cols-12">
-              <div className="flex items-center rounded-lg bg-zinc-50 px-3 py-2.5 lg:col-span-4">
-                <MapPin className="mr-2 h-5 w-5 text-emerald-600" />
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <span className="text-[10px] font-semibold uppercase text-zinc-500">Location / Node</span>
+              <label className="flex items-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5 lg:col-span-4 cursor-text">
+                <MapPin className="mr-2 h-5 w-5 shrink-0 text-emerald-600" />
+                <span className="min-w-0 flex-1 flex flex-col">
+                  <span className="text-[10px] font-semibold uppercase text-zinc-500 dark:text-zinc-400">Location</span>
                   <input
-                    className="w-full bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
+                    value={locationQuery}
+                    onChange={(e) => setLocationQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                    className="w-full bg-transparent text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none"
                     placeholder="Lekki Phase 1, Victoria Island, Maitama..."
                     type="text"
                   />
-                </div>
-              </div>
-              <div className="flex items-center rounded-lg bg-zinc-50 px-3 py-2.5 lg:col-span-3">
-                <Building2 className="mr-2 h-5 w-5 text-emerald-600" />
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <span className="text-[10px] font-semibold uppercase text-zinc-500">Asset Class</span>
-                  <select className="w-full cursor-pointer bg-transparent text-sm text-zinc-900 focus:outline-none">
+                </span>
+              </label>
+              <label className="flex items-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5 lg:col-span-3">
+                <Building2 className="mr-2 h-5 w-5 shrink-0 text-emerald-600" />
+                <span className="min-w-0 flex-1 flex flex-col">
+                  <span className="text-[10px] font-semibold uppercase text-zinc-500 dark:text-zinc-400">Asset Class</span>
+                  <select
+                    value={assetClass}
+                    onChange={(e) => setAssetClass(e.target.value)}
+                    className="w-full cursor-pointer bg-transparent text-sm text-zinc-900 dark:text-white focus:outline-none"
+                  >
                     <option>Residential Villa & Penthouse</option>
                     <option>Fully Detached Duplex</option>
                     <option>Serviced Commercial Office</option>
                     <option>Surveyed Land</option>
                   </select>
-                </div>
-              </div>
-              <div className="flex items-center rounded-lg bg-zinc-50 px-3 py-2.5 lg:col-span-3">
-                <TrendingUp className="mr-2 h-5 w-5 text-emerald-600" />
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <span className="text-[10px] font-semibold uppercase text-zinc-500">Budget Range (NGN)</span>
-                  <select className="w-full cursor-pointer bg-transparent font-mono text-sm text-zinc-900 focus:outline-none">
+                </span>
+              </label>
+              <label className="flex items-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5 lg:col-span-3">
+                <TrendingUp className="mr-2 h-5 w-5 shrink-0 text-emerald-600" />
+                <span className="min-w-0 flex-1 flex flex-col">
+                  <span className="text-[10px] font-semibold uppercase text-zinc-500 dark:text-zinc-400">Budget Range (NGN)</span>
+                  <select
+                    value={budgetRange}
+                    onChange={(e) => setBudgetRange(e.target.value)}
+                    className="w-full cursor-pointer bg-transparent font-mono text-sm text-zinc-900 dark:text-white focus:outline-none"
+                  >
                     <option>₦5M — ₦25M / year</option>
                     <option>₦25M — ₦75M / year</option>
                     <option>₦75M — ₦250M (Outright Buy)</option>
                     <option>₦250M — ₦1.5B (Institutional)</option>
                   </select>
-                </div>
-              </div>
+                </span>
+              </label>
               <div className="lg:col-span-2">
                 <button
-                  onClick={() => router.push('/listings')}
+                  type="button"
+                  onClick={handleSearch}
                   className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
                 >
                   <Search className="h-5 w-5" />
@@ -303,39 +342,39 @@ export default function HomePage() {
             </div>
 
             {/* Title Filters */}
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-3 text-sm">
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 dark:border-zinc-800 pt-3 text-sm">
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-zinc-900">Title Filters:</span>
-                <span className="inline-flex items-center gap-1 rounded bg-zinc-100 px-2 py-0.5 font-mono text-xs text-zinc-700">C of O ✓</span>
-                <span className="inline-flex items-center gap-1 rounded bg-zinc-100 px-2 py-0.5 font-mono text-xs text-zinc-700">Governor&apos;s Consent ✓</span>
-                <span className="inline-flex items-center gap-1 rounded bg-zinc-100 px-2 py-0.5 font-mono text-xs text-zinc-700">Gazette Excision</span>
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">Title Filters:</span>
+                <span className="inline-flex items-center gap-1 rounded bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-700 dark:text-zinc-300">C of O ✓</span>
+                <span className="inline-flex items-center gap-1 rounded bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-700 dark:text-zinc-300">Governor&apos;s Consent ✓</span>
+                <span className="inline-flex items-center gap-1 rounded bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-700 dark:text-zinc-300">Gazette Excision</span>
               </div>
-              <span className="flex items-center gap-1 font-semibold text-emerald-600">
+              <Link href="/listings" className="flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
                 Survey Beacon Search <ArrowRight className="h-4 w-4" />
-              </span>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ===================== 4-PILLAR TRUST STRIP ===================== */}
-      <section className="w-full bg-[#f6f2f7] py-8">
-        <div className="mx-auto max-w-6xl">
+      <section className="w-full bg-[#f6f2f7] dark:bg-zinc-950 py-8">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar, i) => (
               <FadeIn key={pillar.title} delay={i * 0.08} y={16}>
-                <div className="flex h-full flex-col justify-between rounded-xl bg-white p-5 shadow-sm">
+                <div className="flex h-full flex-col justify-between rounded-xl bg-white dark:bg-zinc-900 border border-transparent dark:border-zinc-800 p-5 shadow-sm">
                   <div>
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400">
                       {pillar.icon}
                     </div>
                     <div className="mb-1 flex items-center gap-1">
-                      <h2 className="text-base font-bold text-zinc-900">{pillar.title}</h2>
-                      <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                      <h2 className="text-base font-bold text-zinc-900 dark:text-white">{pillar.title}</h2>
+                      <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <p className="text-sm leading-relaxed text-zinc-500">{pillar.desc}</p>
+                    <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{pillar.desc}</p>
                   </div>
-                  <div className="mt-4 flex items-center gap-1 border-t border-zinc-100 pt-2 text-[11px] font-semibold text-emerald-600">
+                  <div className="mt-4 flex items-center gap-1 border-t border-zinc-100 dark:border-zinc-800 pt-2 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                     {pillar.tag}
                     <CheckCircle2 className="h-3.5 w-3.5" />
                   </div>
@@ -347,14 +386,14 @@ export default function HomePage() {
       </section>
 
       {/* ===================== HOW IT WORKS ===================== */}
-      <section className="w-full bg-[#fbf8fc] py-16">
-        <div className="mx-auto max-w-6xl">
+      <section className="w-full bg-[#fbf8fc] dark:bg-black py-16">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto mb-12 max-w-xl text-center">
-            <div className="mb-2 inline-block rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-semibold uppercase text-emerald-700">
+            <div className="mb-2 inline-block rounded-full bg-emerald-100 dark:bg-emerald-500/15 px-3 py-1 text-[11px] font-semibold uppercase text-emerald-700 dark:text-emerald-300">
               Operational Workflow
             </div>
-            <h2 className="text-3xl font-bold text-zinc-900">Renting &amp; Buying Reimagined</h2>
-            <p className="mt-2 text-zinc-500">
+            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Renting &amp; Buying Reimagined</h2>
+            <p className="mt-2 text-zinc-500 dark:text-zinc-400">
               From title-cleared land search to key handover — a fully auditable legal protocol tailored for high-trust Nigerian real estate transactions.
             </p>
           </div>
@@ -364,12 +403,12 @@ export default function HomePage() {
             <div className="grid grid-cols-5 gap-4 relative z-10 text-center">
               {steps.map((step) => (
                 <div key={step.num} className="flex flex-col items-center">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-[#fbf8fc] mb-3 ${step.num === '05' ? 'bg-[#c9952a] text-white' : 'bg-emerald-600 text-white'}`}>
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-[#fbf8fc] dark:ring-zinc-900 mb-3 ${step.num === '05' ? 'bg-[#c9952a] text-white' : 'bg-emerald-600 text-white'}`}>
                     {step.num.replace(/^0/, '')}
                   </div>
-                  <h4 className="font-bold text-zinc-900 text-base mb-1">{step.title}</h4>
-                  <p className="text-xs text-zinc-500 max-w-[170px] leading-relaxed mb-2">{step.desc}</p>
-                  <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-mono ${step.title === 'Secure Payment' ? 'bg-amber-50 text-amber-800 font-semibold border border-amber-200' : step.title === 'Move In' ? 'bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200' : 'bg-zinc-100 text-zinc-600'}`}>{step.metric}</span>
+                  <h4 className="font-bold text-zinc-900 dark:text-white text-base mb-1">{step.title}</h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-[170px] leading-relaxed mb-2">{step.desc}</p>
+                  <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-mono ${step.title === 'Secure Payment' ? 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold border border-amber-200 dark:border-amber-500/20' : step.title === 'Move In' ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-500/20' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'}`}>{step.metric}</span>
                 </div>
               ))}
             </div>
@@ -377,14 +416,14 @@ export default function HomePage() {
           {/* Mobile / tablet vertical cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-5">
             {steps.map((step) => (
-              <div key={step.num} className="bg-white rounded-xl p-6 shadow-sm border border-zinc-200 relative">
-                <span className="font-mono text-4xl font-bold text-zinc-200 absolute top-4 right-4">{step.num}</span>
-                <div className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
+              <div key={step.num} className="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-800 relative">
+                <span className="font-mono text-4xl font-bold text-zinc-200 dark:text-zinc-700 absolute top-4 right-4">{step.num}</span>
+                <div className="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center mb-3">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
-                <h4 className="font-bold text-zinc-900 text-lg mb-1">{step.num.replace(/^0/, '')}. {step.title}</h4>
-                <p className="text-sm text-zinc-600 mb-3">{step.desc}</p>
-                <div className="bg-zinc-50 rounded p-2 text-xs font-mono text-zinc-600">{step.metric}</div>
+                <h4 className="font-bold text-zinc-900 dark:text-white text-lg mb-1">{step.num.replace(/^0/, '')}. {step.title}</h4>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3">{step.desc}</p>
+                <div className="bg-zinc-50 dark:bg-zinc-800 rounded p-2 text-xs font-mono text-zinc-600 dark:text-zinc-400">{step.metric}</div>
               </div>
             ))}
           </div>
@@ -392,27 +431,27 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED OPPORTUNITIES ===================== */}
-      <section className="w-full bg-[#f6f2f7] py-16">
-        <div className="mx-auto max-w-6xl">
+      <section className="w-full bg-[#f6f2f7] dark:bg-zinc-950 py-16">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <div className="mb-2 inline-block rounded-full bg-emerald-600 px-3 py-1 text-[11px] font-semibold uppercase text-white">
                 Curated Assets
               </div>
-              <h2 className="text-3xl font-bold text-zinc-900">Handpicked Opportunities</h2>
-              <p className="mt-2 text-zinc-500">
+              <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Handpicked Opportunities</h2>
+              <p className="mt-2 text-zinc-500 dark:text-zinc-400">
                 Properties verified by our in-house surveyor and legal audit team. Absolutely no fictitious units.
               </p>
             </div>
-            <div className="flex items-center gap-1.5 rounded-lg bg-zinc-100 p-1">
+            <div className="flex items-center gap-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-transparent dark:border-zinc-800 p-1">
               {['All', 'Residential', 'Commercial', 'Shortlet'].map((tab) => (
                 <button
                   key={tab}
                   className={cn(
                     'rounded px-3.5 py-1.5 text-sm font-semibold transition-colors',
                     tab === 'All'
-                      ? 'bg-white text-emerald-600 shadow-sm'
-                      : 'text-zinc-500 hover:text-zinc-900'
+                      ? 'bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 shadow-sm'
+                      : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                   )}
                 >
                   {tab}
@@ -426,9 +465,9 @@ export default function HomePage() {
               <FadeIn key={String(listing.id ?? listing.title ?? i)} delay={i * 0.08} y={16}>
                 <Link
                   href={`/listings/${String(listing.id ?? '').startsWith('feat-') ? listing.title : String(listing.id ?? listing.title)}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md"
+                  className="group flex h-full flex-col overflow-hidden rounded-xl bg-white dark:bg-zinc-900 border border-transparent dark:border-zinc-800 shadow-sm transition-shadow hover:shadow-md"
                 >
-                  <div className="relative h-48 w-full overflow-hidden bg-zinc-100">
+                  <div className="relative h-48 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                     <Image
                       src={listing.img}
                       alt={listing.title}
@@ -450,16 +489,16 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="flex flex-1 flex-col p-4">
-                    <div className="mb-1 flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+                    <div className="mb-1 flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                       <ShieldCheck className="h-3.5 w-3.5" />
                       <span>Gov Consent Validated</span>
                     </div>
-                    <h3 className="mb-1 line-clamp-1 text-base font-bold text-zinc-900">{listing.title}</h3>
-                    <p className="mb-3 flex items-center gap-1 text-sm text-zinc-500">
+                    <h3 className="mb-1 line-clamp-1 text-base font-bold text-zinc-900 dark:text-white">{listing.title}</h3>
+                    <p className="mb-3 flex items-center gap-1 text-sm text-zinc-500 dark:text-zinc-400">
                       <MapPin className="h-3.5 w-3.5" />
                       {listing.location}
                     </p>
-                    <div className="mb-4 flex items-center justify-between rounded bg-zinc-50 px-2 py-2 text-xs text-zinc-500">
+                    <div className="mb-4 flex items-center justify-between rounded bg-zinc-50 dark:bg-zinc-800 px-2 py-2 text-xs text-zinc-500 dark:text-zinc-400">
                       <span className="flex items-center gap-1"><Bed className="h-3.5 w-3.5" /> {listing.specs[0]?.val} Beds</span>
                       <span className="flex items-center gap-1"><Bath className="h-3.5 w-3.5" /> {listing.specs[1]?.val} Baths</span>
                       <span className="flex items-center gap-1 font-mono"><Square className="h-3.5 w-3.5" /> {listing.specs[2]?.val}</span>
@@ -467,7 +506,7 @@ export default function HomePage() {
                     <div className="mt-auto flex items-center gap-2">
                       <Link
                         href={`/listings/${String(listing.id ?? '').startsWith('feat-') ? listing.title : String(listing.id ?? listing.title)}`}
-                        className="flex-1 rounded-lg bg-zinc-100 py-2 text-center text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-200"
+                        className="flex-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 py-2 text-center text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700"
                       >
                         Audit Details
                       </Link>
@@ -497,14 +536,14 @@ export default function HomePage() {
       </section>
 
       {/* ===================== ROLE CARDS ===================== */}
-      <section className="w-full bg-[#fbf8fc] py-16">
-        <div className="mx-auto max-w-6xl">
+      <section className="w-full bg-[#fbf8fc] dark:bg-black py-16">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto mb-12 max-w-xl text-center">
-            <div className="mb-2 inline-block rounded-full bg-zinc-200 px-3 py-1 text-[11px] font-semibold uppercase text-zinc-700">
+            <div className="mb-2 inline-block rounded-full bg-zinc-200 dark:bg-zinc-800 px-3 py-1 text-[11px] font-semibold uppercase text-zinc-700 dark:text-zinc-300">
               Universal Gateway
             </div>
-            <h2 className="text-3xl font-bold text-zinc-900">Built for Every Role in the Ecosystem</h2>
-            <p className="mt-2 text-zinc-500">
+            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Built for Every Role in the Ecosystem</h2>
+            <p className="mt-2 text-zinc-500 dark:text-zinc-400">
               Tailored portal interfaces calibrated for Nigerian tenancy laws, corporate asset registers, and verified broker syndicates.
             </p>
           </div>
@@ -513,16 +552,16 @@ export default function HomePage() {
               <FadeIn key={role.title} delay={i * 0.08} y={16}>
                 <Link
                   href="/signup"
-                  className="group flex h-full flex-col justify-between rounded-xl bg-white p-6 shadow-sm transition-colors hover:bg-zinc-50"
+                  className="group flex h-full flex-col justify-between rounded-xl bg-white dark:bg-zinc-900 border border-transparent dark:border-zinc-800 p-6 shadow-sm transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800"
                 >
                   <div>
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
                       {role.icon}
                     </div>
-                    <h3 className="mb-1 text-base font-bold text-zinc-900 group-hover:text-emerald-600">{role.title}</h3>
-                    <p className="text-sm leading-relaxed text-zinc-500">{role.desc}</p>
+                    <h3 className="mb-1 text-base font-bold text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">{role.title}</h3>
+                    <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{role.desc}</p>
                   </div>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 transition-all group-hover:gap-2">
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 dark:text-emerald-400 transition-all group-hover:gap-2">
                     Get Started <ArrowRight className="h-4 w-4" />
                   </span>
                 </Link>

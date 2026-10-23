@@ -14,6 +14,19 @@ const nextConfig = {
     ],
   },
   output: 'standalone',
+  async redirects() {
+    return [
+      { source: '/properties', destination: '/listings', permanent: false },
+      { source: '/properties/:path*', destination: '/listings/:path*', permanent: false },
+      { source: '/shortlet', destination: '/listings?listingType=short_let', permanent: false },
+      { source: '/shortlet/:path*', destination: '/listings?listingType=short_let', permanent: false },
+      { source: '/investment', destination: '/compare', permanent: false },
+      { source: '/find-my-agent', destination: '/find-agent', permanent: false },
+      { source: '/find-my-agent/:path*', destination: '/find-agent/:path*', permanent: false },
+      { source: '/find-an-agent', destination: '/find-agent', permanent: false },
+      { source: '/find-an-agent/:path*', destination: '/find-agent/:path*', permanent: false },
+    ];
+  },
 };
 
 module.exports = nextConfig;

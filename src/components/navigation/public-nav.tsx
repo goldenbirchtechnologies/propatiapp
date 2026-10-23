@@ -10,11 +10,11 @@ import { Sun, Moon } from 'lucide-react';
 import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 const navLinks = [
-  { href: '/listings', label: 'Properties', match: (p: string) => p === '/' || p.startsWith('/listings') },
+  { href: '/listings', label: 'Properties', match: (p: string) => p === '/listings' || p === '/properties' },
   { href: '/verification', label: 'Verification', match: (p: string) => p.startsWith('/verification') },
-  { href: '/find-my-agent', label: 'Agents & Brokers', match: (p: string) => p.startsWith('/find-my-agent') },
-  { href: '/listings?listingType=short_let', label: 'Shortlet', match: (p: string) => p.startsWith('/listings') },
-  { href: '/compare', label: 'Investment', match: (p: string) => p.startsWith('/compare') },
+  { href: '/find-agent', label: 'Agents & Brokers', match: (p: string) => p.startsWith('/find-agent') || p.startsWith('/find-my-agent') || p.startsWith('/find-an-agent') },
+  { href: '/listings?listingType=short_let', label: 'Shortlet', match: (p: string) => p.includes('short_let') || p.startsWith('/shortlet') },
+  { href: '/compare', label: 'Compare', match: (p: string) => p.startsWith('/compare') },
 ];
 
 export default function PublicNav() {
@@ -62,22 +62,14 @@ export default function PublicNav() {
           scrolled ? 'border-zinc-200 dark:border-white/[0.06]' : 'border-zinc-200/80 dark:border-white/[0.06]'
         )}
       >
-        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-          {/* Left: PropatiBox + RC + subtitle */}
-          <Link href="/" className="flex items-center gap-3 shrink-0 group">
+        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
+          {/* Left: PropatiBox */}
+          <Link href="/" className="flex items-center shrink-0 group">
             <PropatiBoxLogo size="sm" variant="horizontal" />
-            <div className="hidden sm:flex flex-col leading-none">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20 w-fit">
-                RC: 1849204
-              </span>
-              <span className="text-[9px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400 font-semibold mt-0.5">
-                Verified Property Marketplace
-              </span>
-            </div>
           </Link>
 
-          {/* Center: segmented nav */}
-          <div className="hidden lg:flex items-center gap-1 p-1 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.06]">
+          {/* Center: text nav — underline active, CTA reserved for List Property */}
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const active = link.match(pathname);
               return (
@@ -85,10 +77,10 @@ export default function PublicNav() {
                   key={link.label}
                   href={link.href}
                   className={cn(
-                    'px-3.5 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap',
+                    'px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors border-b-2',
                     active
-                      ? 'bg-emerald-600 dark:bg-emerald-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-800'
+                      ? 'text-zinc-900 dark:text-white border-emerald-600'
+                      : 'text-zinc-600 dark:text-zinc-400 border-transparent hover:text-zinc-900 dark:hover:text-white hover:border-zinc-300 dark:hover:border-zinc-600'
                   )}
                 >
                   {link.label}
@@ -104,6 +96,7 @@ export default function PublicNav() {
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+              type="button"
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>

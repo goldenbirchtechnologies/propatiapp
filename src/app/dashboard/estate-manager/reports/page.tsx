@@ -6,7 +6,33 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { useActiveOrganization } from '@/contexts/ActiveOrganizationContext';
 import { NoOrgState } from '@/components/organizations/NoOrgState';
-import { BarChart3, TrendingUp, Download, Loader2, PieChart, FileText } from 'lucide-react';
+import { BarChart3, Download, Loader2, TrendingUp, CheckCircle2, Hourglass, AlertCircle } from 'lucide-react';
+import {
+  BarChart as RechartsBar,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart as RechartsPie,
+  Pie,
+  Cell,
+  LineChart,
+  Line,
+} from 'recharts';
+
+type TxnStatus = 'completed' | 'paid' | 'released' | 'pending' | 'in_escrow' | 'failed' | 'cancelled' | 'refunded';
+
+interface RecentTxn {
+  id: string;
+  description: string;
+  reference: string | null;
+  amount: number;
+  status: TxnStatus;
+  createdAt: string;
+  type: string;
+}
 
 const REPORT_TYPES = [
   { value: 'pl', label: 'Profit & Loss (P&L)' },
@@ -51,16 +77,13 @@ function getPeriodDates(period: string): { from: string; to: string } {
   return { from, to };
 }
 
-const LABEL = 'text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400';
-const MUTED = 'text-sm text-zinc-600 dark:text-zinc-400';
-const CARD = 'rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900';
-
-function ngn(n: number): string {
-  return `₦${Math.round(n).toLocaleString('en-NG')}`;
+const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function monthKey(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 }
 
 export default function EstateManagerReportsPage() {
-  const { organization: activeOrg, loading: orgLoading } = useActiveOrganization();
+  const { activeOrg, loading: orgLoading } = useActiveOrganization();
   const [period, setPeriod] = useState('month');
   const [reportType, setReportType] = useState<string>('pl');
   const [format, setFormat] = useState<string>('csv');
@@ -68,16 +91,55 @@ export default function EstateManagerReportsPage() {
   const [error, setError] = useState<string | null>(null);
   const [pl, setPl] = useState<any>(null);
   const [plLoading, setPlLoading] = useState(false);
+  const [txns, setTxns] = useState<RecentTxn[]>([]);
+  const [txnsLoading, setTxnsLoading] = useState(false);
 
+  const { from, to } = useMemo(() => getPeriodDates(period), [period]);
+  const [dateStart, dateEnd] = useMemo(() => {
+    const d1 = new Date(from);
+    const d2 = new Date(to);
+    d2.setHours(23, 59, 59, 999);
+    return [d1, d2];
+  }, [from, to]);
+
+  // Fetch financials (P&L breakdown from real invoices/transactions)
   useEffect(() => {
     if (!activeOrg) return;
     let cancelled = false;
     setPlLoading(true);
     fetch('/api/dashboard/estate-manager/financials', { cache: 'no-store' })
       .then((r) => r.json())
-      .then((json) => { if (!cancelled) setPl(json.pl || null); })
-      .catch(() => { if (!cancelled) setError('Failed to load financials'); })
+      .then((json) => {
+        if (!cancelled) setPl(json.pl || null);
+      })
+      .catch(() => { if (!cancelled) setError('Failed to load financial summary'); })
       .finally(() => { if (!cancelled) setPlLoading(false); });
+    return () => { cancelled = true; };
+  }, [activeOrg]);
+
+  // Fetch recent wallet transactions for the table
+  useEffect(() => {
+    if (!activeOrg) return;
+    let cancelled = false;
+    setTxnsLoading(true);
+    fetch(`/api/wallet/transactions?orgId=${activeOrg.id}&limit=10`, { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((json) => {
+        if (!cancelled) {
+          const raw = json.items || json.data || [];
+          setTxns(raw.map((t: any) => ({
+            id: t.id,
+            description: t.description || t.reference || 'Transaction',
+            reference: t.reference || null,
+            amount: Number(t.amount || 0),
+            status: t.status as TxnStatus,
+            createdAt: t.createdAt,
+            type: t.type,
+          })));
+        }
+      })
+      .catch(() => { if (!cancelled) setTxns([]); })
+      .finally(() => { if (!cancelled) setTxnsLoading(false); });
     return () => { cancelled = true; };
   }, [activeOrg]);
 
@@ -85,7 +147,6 @@ export default function EstateManagerReportsPage() {
     setLoading(true);
     setError(null);
     try {
-      const { from, to } = getPeriodDates(period);
       const params = new URLSearchParams({ type: reportType, format, from, to });
       const res = await fetch(`/api/reports/export?${params.toString()}`);
       if (!res.ok) {
@@ -107,22 +168,31 @@ export default function EstateManagerReportsPage() {
     } finally {
       setLoading(false);
     }
-  }, [reportType, format, period]);
+  }, [reportType, format, from, to]);
 
-  const revenueTrend = useMemo(() => (pl?.monthlyTrend || []).map((m: any) => ({
-    month: m.month,
-    revenue: m.revenue || 0,
-    expenses: m.expenses || 0,
-    profit: m.profit || 0,
-  })), [pl]);
+  const revenueTrend = useMemo(() => {
+    if (!pl?.monthlyTrend) return [];
+    return pl.monthlyTrend.map((m: any) => ({ month: m.month, revenue: m.revenue, expenses: m.expenses, profit: m.profit }));
+  }, [pl]);
 
-  const maxBar = useMemo(() => Math.max(...revenueTrend.map((m) => m.revenue), 0), [revenueTrend]);
-  const pieData = useMemo(() => (pl?.revenueBreakdown || []).map((r: any) => ({ name: r.label, value: r.amount })), [pl]);
-  const expenseData = useMemo(() => (pl?.expenseBreakdown || []).map((r: any) => ({ label: r.label, amount: r.amount })), [pl]);
+  const pieData = useMemo(() => {
+    if (!pl?.revenueBreakdown) return [];
+    return pl.revenueBreakdown.map((r: { label: string; amount: number }) => ({ name: r.label, value: r.amount }));
+  }, [pl]);
+
   const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];
 
-  if (orgLoading) return <NoOrgState title="Loading organization…" />;
-  if (!activeOrg) return <NoOrgState title="No Organization" description="Select or create an organization to view reports." />;
+  const statusIcon = (s: TxnStatus) => {
+    switch (s) {
+      case 'completed': case 'paid': case 'released': return <CheckCircle2 className="h-4 w-4 text-emerald-500" />;
+      case 'pending': case 'in_escrow': return <Hourglass className="h-4 w-4 text-amber-500" />;
+      case 'failed': case 'cancelled': case 'refunded': return <AlertCircle className="h-4 w-4 text-rose-500" />;
+      default: return <AlertCircle className="h-4 w-4 text-zinc-400" />;
+    }
+  };
+
+  if (orgLoading) return <NoOrgState label="Loading organization…" />;
+  if (!activeOrg) return <NoOrgState label="No organization selected" hint="Select or create an organization to view reports." />;
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager">
@@ -151,134 +221,125 @@ export default function EstateManagerReportsPage() {
             {error && <p className="text-sm text-rose-600 dark:text-rose-400">{error}</p>}
           </div>
 
-          {/* Summary Stats bound to real financials data */}
+          {/* Real Stats (bound to financials endpoint) */}
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            <div className={CARD}>
-              <p className={LABEL}>Total Revenue</p>
-              <p className="mt-1 text-2xl font-bold font-mono text-zinc-900 dark:text-white">{pl ? ngn(pl.totalRevenue) : '—'}</p>
+            <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              {plLoading ? <div className="h-7 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /> :
+                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Portfolio Value</p>}
+              <p className="mt-1 text-2xl font-bold font-mono text-zinc-900 dark:text-white">{pl ? `₦${Math.round(pl.totalRevenue).toLocaleString('en-NG')}` : '—'}</p>
+            </div>
+            <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <p className="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Collections</p>
+              <p className="mt-1 text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">{pl ? `₦${Math.round(pl.totalRevenue).toLocaleString('en-NG')}` : '—'}</p>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{pl ? `${pl.unitCount || 0} units` : '—'}</p>
             </div>
-            <div className={CARD}>
-              <p className="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Net Profit</p>
-              <p className={`mt-1 text-2xl font-bold font-mono ${pl && pl.netProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>{pl ? `${pl.netProfit >= 0 ? '+' : ''}${ngn(pl.netProfit)}` : '—'}</p>
+            <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Net Profit</p>
+              <p className={`mt-1 text-2xl font-bold font-mono ${pl && pl.netProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                {pl ? `${pl.netProfit >= 0 ? '+' : ''}₦${Math.round(pl.netProfit).toLocaleString('en-NG')}` : '—'}
+              </p>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{pl ? `${pl.margin ?? 0}% margin` : '—'}</p>
             </div>
-            <div className={CARD}>
-              <p className={LABEL}>Total Expenses</p>
-              <p className="mt-1 text-2xl font-bold font-mono text-rose-600 dark:text-rose-400">{pl ? ngn(pl.totalExpenses) : '—'}</p>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{pl ? `${pl.occupiedUnits || 0}/${pl.unitCount || 0} units occupied` : '—'}</p>
-            </div>
-            <div className={CARD}>
-              <p className={LABEL}>Growth</p>
+            <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Growth</p>
               <p className="mt-1 text-2xl font-bold font-mono text-zinc-900 dark:text-white">
                 {pl && pl.monthlyTrend && pl.monthlyTrend.length >= 2
-                  ? (() => { const arr = pl.monthlyTrend; const prev = arr[arr.length - 2]?.revenue || 1; const curr = arr[arr.length - 1]?.revenue || 0; return `+${Math.round(((curr - prev) / prev) * 100)}%`; })()
+                  ? (() => { const f = pl.monthlyTrend[0]?.revenue || 1; const l = pl.monthlyTrend[pl.monthlyTrend.length - 1]?.revenue || 0; return `+${Math.round(((l - f) / f) * 100)}%`; })()
                   : '—'}
               </p>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">month over month</p>
             </div>
           </div>
 
-          {/* Charts — CSS-based, no external deps */}
+          {/* Charts bound to real data */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className={CARD}>
+            <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <h2 className="mb-4 flex items-center gap-2 font-heading font-bold text-zinc-900 dark:text-white">
-                <TrendingUp className="h-5 w-5 text-zinc-600 dark:text-zinc-400" /> Rental Revenue Trend
+                <TrendingUp className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+                Revenue Trend (6 months)
               </h2>
-              {plLoading ? (
-                <div className="space-y-3">
-                  {Array.from({ length: 6 }).map((_, i) => (<div key={i} className="h-6 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />))}
-                </div>
-              ) : revenueTrend.length === 0 ? (
-                <div className="py-12 text-center">
-                  <BarChart3 className="mx-auto mb-2 h-10 w-10 text-zinc-300 dark:text-zinc-600" />
-                  <p className={MUTED}>No revenue trend data available for the selected period.</p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {revenueTrend.map((m) => (
-                    <div key={m.month} className="flex items-center gap-3">
-                      <div className="w-16 text-xs font-medium text-zinc-500 dark:text-zinc-400">{m.month}</div>
-                      <div className="relative flex-1 h-8">
-                        <div
-                          className="h-full rounded bg-emerald-500 transition-all duration-300"
-                          style={{ width: `${maxBar ? (m.revenue / maxBar) * 100 : 2}%` }}
-                        />
-                      </div>
-                      <div className="w-20 text-right text-xs font-mono text-zinc-600 dark:text-zinc-400">
-                        {m.revenue ? ngn(m.revenue) : ''}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={revenueTrend}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.1} />
+                    <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'currentColor' }} tickLine={false} />
+                    <YAxis tick={{ fontSize: 10 }} tickLine={false} />
+                    <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }} />
+                    <Line type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
+                    <Line type="monotone" dataKey="expenses" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
+                    <Line type="monotone" dataKey="profit" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-            <div className={CARD}>
+            <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <h2 className="mb-4 flex items-center gap-2 font-heading font-bold text-zinc-900 dark:text-white">
-                <PieChart className="h-5 w-5 text-zinc-600 dark:text-zinc-400" /> Expense Breakdown
+                <PieChart className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+                Revenue Composition
               </h2>
-              {plLoading ? (
-                <div className="space-y-3">
-                  {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="h-5 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />))}
-                </div>
-              ) : expenseData.length === 0 ? (
-                <div className="py-12 text-center">
-                  <PieChart className="mx-auto mb-2 h-10 w-10 text-zinc-300 dark:text-zinc-600" />
-                  <p className={MUTED}>No expense breakdown data available.</p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {expenseData.map((d, i) => (
-                    <div key={d.label} className="flex items-center gap-2.5">
-                      <div className="h-4 w-4 rounded-sm" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                      <div className="flex-1">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-zinc-700 dark:text-zinc-300">{d.label}</span>
-                          <span className="font-mono text-zinc-900 dark:text-white">{ngn(d.amount)}</span>
-                        </div>
-                        <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-                          <div className="h-full rounded-full" style={{ width: `${(d.amount / Math.max(expenseData.reduce((s, p) => s + p.amount, 0), 1)) * 100}%`, backgroundColor: COLORS[i % COLORS.length] }} />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="h-64">
+                {pieData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsPie>
+                      <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={2}>
+                        {pieData.map((_, i) => (<Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />))}
+                      </Pie>
+                      <Tooltip />
+                    </RechartsPie>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex h-full items-center justify-center text-center">
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">No revenue composition data</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Revenue composition table bound to real data */}
+          {/* Recent transactions table bound to real txns */}
           <div className="rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
             <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
               <h3 className="font-heading font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                <FileText className="h-4 w-4 text-zinc-600 dark:text-zinc-400" /> Revenue Composition
+                <BarChart3 className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
+                Recent Transactions
               </h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-zinc-200 dark:border-zinc-800">
-                    <th className="p-4 text-left text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Category</th>
+                    <th className="p-4 text-left text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Transactions</th>
                     <th className="p-4 text-right text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Amount (₦)</th>
-                    <th className="p-4 text-right text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Share</th>
+                    <th className="p-4 text-left text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {plLoading ? (
-                    <tr><td colSpan={3} className="p-8"><div className="h-5 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /></td></tr>
-                  ) : pieData.length === 0 ? (
-                    <tr><td colSpan={3} className="p-8 text-center text-sm text-zinc-600 dark:text-zinc-400">No revenue composition data — appears once rent/service-charge collections are recorded.</td></tr>
+                  {txnsLoading ? (
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <tr key={i} className="border-b border-zinc-200 dark:border-zinc-800">
+                        <td className="p-4"><div className="h-4 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /></td>
+                        <td className="p-4 text-right"><div className="h-4 w-20 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800 ml-auto" /></td>
+                        <td className="p-4"><div className="h-4 w-24 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /></td>
+                      </tr>
+                    ))
+                  ) : txns.length === 0 ? (
+                    <tr><td colSpan={3} className="p-8 text-center text-sm text-zinc-600 dark:text-zinc-400">No recent transactions — transactions appear once collections or disbursements are processed.</td></tr>
                   ) : (
-                    pieData.map((d: any) => {
-                      const total = pieData.reduce((s: number, p: any) => s + p.value, 0);
-                      return (
-                        <tr key={d.name} className="border-b border-zinc-200 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/40">
-                          <td className="p-4 text-sm text-zinc-700 dark:text-zinc-300">{d.name}</td>
-                          <td className="p-4 text-right font-mono text-zinc-900 dark:text-white">{ngn(d.value)}</td>
-                          <td className="p-4 text-right font-mono text-xs text-zinc-600 dark:text-zinc-400">{total > 0 ? `${Math.round((d.value / total) * 100)}%` : ''}</td>
-                        </tr>
-                      );
-                    })
+                    txns.map((r) => (
+                      <tr key={r.id} className="border-b border-zinc-200 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/40">
+                        <td className="p-4 text-sm">
+                          <div className="flex items-center gap-2.5">
+                            <div className="flex-shrink-0">{statusIcon(r.status)}</div>
+                            <div>
+                              <span className="font-medium text-zinc-900 dark:text-white">{r.description}</span>
+                              <div className="text-xs text-zinc-500 dark:text-zinc-400">{r.reference || ''}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4 text-right font-mono text-sm text-zinc-900 dark:text-white">₦{Number(r.amount).toLocaleString('en-NG')}</td>
+                        <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">{new Date(r.createdAt).toLocaleDateString('en-NG', { day: 'numeric', month: 'short' })}</td>
+                      </tr>
+                    ))
                   )}
                 </tbody>
               </table>

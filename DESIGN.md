@@ -1,129 +1,46 @@
-# DESIGN.md – PropatiBox Platform Design System
+# DESIGN.md — PropatiBox Design System
 
----
+Single source of truth for brand, bichrome light/dark tokens, type, icons, layout chrome, and role-dashboard patterns. Matches the shipped codebase, not a concept spec.
 
-## 1. Project Overview
+## 1. Brand
 
-**PropatiBox** is a modern real‑estate marketplace that serves multiple user roles (Admin, Agent, Landlord, Tenant, Support, and executive leadership).  The platform is built with **Next.js**, **Tailwind CSS**, **Prisma** (PostgreSQL) and a **role‑based access control** system that drives both backend APIs and front‑end UI variations.
+- **Name:** PropatiBox — Nigeria's verified property marketplace.
+- **Logo:** `src/components/brand/PropatiBoxLogo.tsx` (`PropatiBoxLogo` + `PropatiBoxIcon`, `variant: horizontal | iconOnly`, `size: sm | md | lg`, optional `TM`, link-wrapped by default). Static vector: `public/brand/propatibox-logo.svg`.
+- **Mark colors:** house blue `#1565C0` (shade `#0E4DA0`), key lime `#8CC63F` (stroke `#7AB334`), wordmark `#8CC63F`.
+- **Primary action color:** emerald `#10B981`, hover `#059669`. Never Zillow blue `#006AFF`; legacy `#2563eb` theme-color is replaced by `#8CC63F` in manifests.
+- **Consumers:** `public-nav` header, `DashboardShell` sidebar (iconOnly when collapsed), `(public)/layout` footer, `signup` / `sign-up` / `sign-in`, `coming-soon`, metadata/OG/manifests.
 
----
+## 2. Bichrome light/dark
 
-## 2. Brand Identity
+- **Mechanism:** `src/components/providers/ThemeProvider.tsx` — `html.dark` class, `localStorage propati-theme`, system fallback, default `light`. Toggle lives in `PublicNav` and `DashboardShell` topbar (Sun/Moon + Light/Dark label).
+- **Tailwind:** `darkMode: ['class']`; shadcn tokens via CSS vars (`tailwind.config.ts` maps `background/foreground/primary/card` to `var(--*)`).
+- **Grounds:** page `bg-[#F8FAFC] dark:bg-black`; header/sidebar `bg-white dark:bg-[#09090b]` with `border-zinc-200 dark:border-white/[0.07]`.
+- **Cards:** `bg-white dark:bg-zinc-900` (alt elevated `dark:bg-zinc-950/50`), `border-zinc-200 dark:border-zinc-800` or `dark:border-white/[0.08]`, `rounded-xl`, `shadow-sm`.
+- **Text:** headings `text-zinc-900 dark:text-white`; body `text-zinc-600 dark:text-zinc-400`; faint `text-zinc-500`; placeholders `placeholder:text-zinc-500`. Never bare `text-white` or `bg-zinc-950/50` without its `dark:` pair.
+- **Nav states:** inactive `text-zinc-600 dark:text-zinc-400`; active `bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400`. Pills (`View All`, filters): `rounded-full`, active `bg-blue-50 border-blue-700 text-blue-700` where cloning Zillow, else emerald active.
+- **Inputs/search:** `bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white`.
+- **Canonical dark vars (`globals.css`):** `--theme-dark-bg #000000`, `--theme-dark-surface #09090b`, `--theme-dark-surface-elevated #121215`, `--theme-dark-border #27272a`, `--theme-dark-accent #10b981`. Status: `--green #10b981`, `--amber #f59e0b`, `--red #ef4444`, `--blue #3b82f6`.
 
-- **Primary Gradient:** `linear-gradient(135deg, #0ea5e9, #a78bfa)` (teal → purple) used for hero sections, buttons, and accent borders.
-- **Secondary Colors:**
-  - `#121212` – Dark surface (background)
-  - `rgba(255,255,255,0.04)` – Card surface (glass‑morphism)
-  - `#22c55e` – Success
-  - `#ef4444` – Error
-- **Typography:**
-  - **Headings:** *Inter* – Weight 800 – 24‑32 px
-  - **Body:** *Roboto* – Weight 400 – 14‑16 px
-- **Iconography:** Feather icons (via `react-icons`) with custom SVG fills matching the primary gradient.
+## 3. Typography, icons, motion
 
----
+- **Type:** Inter via `next/font/local` (`--font-inter`), `--font-heading`/`--font-body` fall back to system. Page title `1.25rem` bold; hero `clamp(2.2rem, 5vw, 3.8rem)` black.
+- **Icons:** Lucide only. `src/components/icons/app-icon.tsx` maps legacy names to Lucide; unknown names fall back to `HelpCircle`, never `?` placeholders.
+- **Motion:** `tailwindcss-animate` + CSS transitions (150–300ms). No GSAP. Respect `prefers-reduced-motion`.
 
-## 3. Layout & Responsiveness
+## 4. Layout chrome
 
-| Breakpoint | Description |
-|------------|-------------|
-| `≥1440px` | Full‑width 12‑column grid, side navigation visible, hero banners at max width.
-| `1024‑1439px` | 10‑column grid, side navigation collapses to icons‑only, cards become 3‑column.
-| `768‑1023px` | Tablet layout – side navigation hidden behind a hamburger, 2‑column cards, charts resize fluidly.
-| `<768px` | Mobile – vertical stack, drawer navigation, touch‑optimized controls.
+- **Routes:** `(public)/` (home, listings, find-agent) with `PublicNav` + footer; `(dashboard)/layout.tsx` stays a thin auth-only server component; `DashboardShell.tsx` owns sidebar + topbar + `GlobalSearch` + `content-area`.
+- **Sidebar:** `bg-white dark:bg-[#09090b]`, collapsible with iconOnly tooltips, padded toggle, section titles `text-zinc-500 dark:text-zinc-400`.
+- **Topbar (56px):** `GlobalSearch` (`bg-white dark:bg-zinc-900`), theme toggle, help/messages/invites icons, `NotificationsBell`, avatar dropdown (Profile, Settings, Sign Out via `/api/auth/sign-out`).
+- **Zillow patterns:** listings 3-col (pills top bar, left scroll `PropertyCard` list on `F8FAFC`, right sticky Mapbox with emerald pins + hover sync); messages `Messages 34px font-black` header + Filters/Inbox popovers + pills outside a full-width card wrapping list/thread/details; find-agent hero (`A great agent makes all the difference`) + agent grid + dark FAQ.
 
-All components use **CSS variables** for spacing (`--space-1` … `--space-8`) and **layered Z‑indexes** (`--z‑modal`, `--z‑tooltip`).
+## 5. Components and badges
 
----
+- **Primitives:** shadcn/ui (`button`, `card`, `badge`, `dialog`, `select`, `input`, `avatar`, `scroll-area`) + `StatCard` (`bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800`) + `PageHeader`.
+- **Badge taxonomy (5 states):** DRAFT/UNLISTED gray, NOT STARTED outline, IN REVIEW amber, VERIFIED green, REJECTED red — `rounded-full`, `flex-shrink-0`, counts sanitized (`All (6)`).
+- **Verification layers 1–5:** Layer 5 is a `0 of 4` progress banner, not a task card; unsubmitted shows `Not Started`, never misleading `PENDING`.
 
-## 4. Navigation System
+## 6. Accessibility and workflow
 
-- **Header (`publicNavLinks`):**  `Search`, `Find Property`, `Compare` – minimal primary actions.
-- **Footer:** Full company link list in the required order (Company → Mortgage Calculator → … → Contact).
-- **Side Nav (Authenticated):** Role‑specific sections, dynamically generated from a `roles` constant defined in `src/app/(public)/how-it-works/page.tsx`.
-- **Mobile Drawer:** Slides from the left, contains the same items as the side nav.
-
----
-
-## 5. UI Components Library (`design-system/`)
-
-| Component | Description | Key Props |
-|-----------|-------------|----------|
-| `Button` | Primary / secondary styles with gradient hover, disabled state. | `variant`, `size`, `loading` |
-| `Card` | Glass‑morphism container, shadow, optional header/footer slots. | `title`, `children` |
-| `KPIChart` | Combines a line chart (via `recharts`) and a bar overlay, accepts `data`, `key`.
-| `DataTable` | Striped rows, sortable columns, sticky header, pagination. | `columns`, `rows`, `onRowClick` |
-| `Toast` | Auto‑dismiss, slide‑in from top‑right, supports `type` (success, error, info). |
-| `Modal` | Focus‑trapped, reusable, animates scale‑in. |
-| `Avatar` | Shows user picture or initials, supports role‑badge overlay. |
-
-All components are **theme‑aware** – they read the CSS custom properties defined in `design-system/tokens.css`.
-
----
-
-## 6. Dashboard Designs per Role
-
-Each role receives a bespoke dashboard page (`/dashboard/[role]`).  The design follows the same layout skeleton but swaps out:
-
-- **KPI cards** – metrics relevant to the role (see `src/app/(public)/how-it-works/page.tsx` for the `roles` array).
-- **Data table columns** – reflect the fields returned by the backend for that role.
-- **Action Center** – quick‑form buttons (e.g., *Add Property* for Landlord, *Create Ticket* for Support).
-- **Recent Activity Timeline** – pulls the last five events via the role‑specific API endpoint.
-
-The design system ensures visual consistency while the **content** is driven entirely by the backend role context (`user?.publicMetadata?.role`).
-
----
-
-## 7. Backend‑Frontend Contract
-
-### Role Determination
-- The frontend reads `user?.publicMetadata?.role` (Supabase auth) and stores it in a React context (`RoleContext`).
-- All API routes (`/api/**`) accept a `role` query param or derive it from the session token and return JSON shaped for that role.
-
-### Example Endpoints
-| Endpoint | Returns | Used By |
-|----------|---------|---------|
-| `/api/dashboard/landlord` | `{ portfolio, tickets, leaseExpiries }` | Landlord dashboard cards & tables |
-| `/api/dashboard/agent` | `{ leads, commissions, schedule }` | Agent KPI cards |
-| `/api/dashboard/admin` | `{ users, systemHealth, pendingApprovals }` | Admin overview |
-
-All responses follow the **PascalCase** naming convention defined in the Prisma schema (`prisma/schema.prisma`).
-
----
-
-## 8. Accessibility (WCAG AA)
-
-- Minimum contrast ratio 4.5:1 for text, 3:1 for UI components.
-- Focus outlines (`outline: 2px solid var(--primary)`), visible on keyboard navigation.
-- ARIA labels for all interactive elements (`aria‑label`, `role="button"`, etc.).
-- Skip‑link at the top of each page.
-
----
-
-## 9. Motion & Micro‑Interactions
-
-- **GSAP** used for panel expansion, toast entrance, and button press ripple.
-- All easing uses `easeOutCubic` with a 300 ms duration.
-- Animations respect the `prefers-reduced-motion` media query – they are disabled for users who opt‑out.
-
----
-
-## 10. Development Workflow
-
-1. **Design → Code**: Run `npm run dev` → open `http://localhost:3000`.  The design system lives in `design-system/` and is imported via absolute imports (`@/design-system/*`).
-2. **Component Storybook** (optional): `npm run storybook` to view isolated component states.
-3. **Testing**: Unit tests with **Vitest** (`tests/`), end‑to‑end with **Playwright** focused on role‑based routing.
-4. **CI/CD**: Vercel deploys on push to `main`; preview URLs are generated for every PR.
-
----
-
-## 11. Future Enhancements
-
-- **Dark‑mode toggle** (currently hard‑coded to dark for premium look).
-- **Dynamic theme generation** per tenant using CSS custom properties.
-- **Role‑driven feature flags** managed via Supabase `features` table.
-- **Exportable dashboards** (PDF/CSV) for executive reporting.
-
----
-
-*This DESIGN.md serves as the single source of truth for UI/UX, branding, component guidelines, and the role‑aware contract between the backend and frontend.*
+- **WCAG 2.1 AA:** 4.5:1 text minimum; visible focus rings; skip-link `#main-content`; icon buttons carry `aria-label`.
+- **Verify a change:** toggle light/dark in both navs and confirm no invisible text; `npx tsc --noEmit --skipLibCheck`, then `npx prisma generate && next build`. Never commit `.env`.

@@ -292,6 +292,12 @@ enum AgentInviteStatus {
   revoked
 }
 
+enum OwnerInviteStatus {
+  pending
+  accepted
+  revoked
+}
+
 enum DisputeType {
   tenancy_non_delivery
   tenancy_habitability
@@ -562,6 +568,8 @@ model User {
   assignedTurnoverTasks TurnoverTask[] @relation("TurnoverTaskAssignee")
   sentAgentInvites      AgentInvite[]  @relation("AgentInviteSender")
   receivedAgentInvites  AgentInvite[]  @relation("AgentInviteRecipient")
+  sentOwnerInvites      OwnerInvite[]  @relation("OwnerInviteSender")
+  receivedOwnerInvites  OwnerInvite[]  @relation("OwnerInvitedRecipient")
   agentAssignments      AgentAssignment[] @relation("AgentAssignments")
   agentConversations    Conversation[] @relation("ConversationAgent")
   sentInvoices          Invoice[]      @relation("InvoiceLandlord")
@@ -714,6 +722,7 @@ model Listing {
   country              Country?       @relation(fields: [countryId], references: [code])
   jurisdiction         Jurisdiction?  @relation(fields: [jurisdictionId], references: [id])
   legalMatters       LegalMatter[]
+  ownerInvites       OwnerInvite[]
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([title], map: "idx_listings_title")
@@ -1067,6 +1076,7 @@ model Organisation {
   units               Unit[]
   serviceCharges      ServiceCharge[]
   country             Country?      @relation(fields: [countryId], references: [code])
+  ownerInvites        OwnerInvite[]
 
   @@map("organisations")
 }
@@ -1088,6 +1098,33 @@ model OrgMember {
 
   @@unique([orgId, userId])
   @@map("org_members")
+}
+
+model OwnerInvite {
+  id              String            @id @default(cuid()) @map("id") // 'owi_' + 12 chars
+  orgId           String?           @map("org_id")
+  listingId       String            @map("listing_id")
+  estateManagerId String            @map("estate_manager_id") // who sent the invite
+  ownerId         String?           @map("owner_id") // set when accepted
+  email           String            @db.Text
+  token           String            @unique @db.Text
+  status          OwnerInviteStatus @default(pending) @map("status")
+  acceptedAt      DateTime?         @map("accepted_at")
+  revokedAt       DateTime?         @map("revoked_at")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  org             Organisation?     @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  listing         Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  estateManager   User              @relation("OwnerInviteSender", fields: [estateManagerId], references: [id])
+  owner           User?             @relation("OwnerInvitedRecipient", fields: [ownerId], references: [id])
+
+  @@index([orgId], map: "idx_owner_invites_org")
+  @@index([listingId], map: "idx_owner_invites_listing")
+  @@index([estateManagerId], map: "idx_owner_invites_sender")
+  @@index([email], map: "idx_owner_invites_email")
+  @@index([status], map: "idx_owner_invites_status")
+  @@map("owner_invites")
 }
 
 model OrgListing {

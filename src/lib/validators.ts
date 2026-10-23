@@ -194,6 +194,7 @@ export const createListingSchema = z.object({
   availableFrom: z.string().datetime().optional(),
   minimumStay: z.number().int().positive().optional(),
   allowShortlet: z.boolean().default(false).optional(),
+  ownerEmail: z.string().email().optional(),
 });
 
 export const updateListingSchema = createListingSchema.partial().extend({

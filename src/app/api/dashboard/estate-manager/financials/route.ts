@@ -60,19 +60,7 @@ export async function GET(request: NextRequest) {
       }),
       prisma.utilityAllocation.findMany({
         where: { unit: { organizationId: orgId } },
-        select: {
-          id: true,
-          unitId: true,
-          type: true,
-          amount: true,
-          currency: true,
-          billingPeriod: true,
-          dueDate: true,
-          status: true,
-          paidAt: true,
-          createdAt: true,
-          updatedAt: true,
-        },
+        select: { amount: true, createdAt: true, type: true, dueDate: true, status: true, billingPeriod: true },
       }),
       prisma.transaction.findMany({
         where: { payeeId: user.id, status: { in: ['released', 'completed', 'paid'] } },
@@ -173,21 +161,23 @@ export async function GET(request: NextRequest) {
         monthlyTrend,
         unitCount,
         occupiedUnits: occupiedUnits.length,
-        utilityAllocations: utilityAllocations.map((ua) => ({
-          id: ua.id,
-          unitId: ua.unitId,
-          type: ua.type,
-          amount: Number(ua.amount),
-          currency: ua.currency,
-          billingPeriod: ua.billingPeriod,
-          dueDate: ua.dueDate ? ua.dueDate.toISOString() : null,
-          status: ua.status,
-          paidAt: ua.paidAt ? ua.paidAt.toISOString() : null,
-          createdAt: ua.createdAt.toISOString(),
-        })),
         pendingPayments,
         pendingPaymentsAmount: Math.round(pendingPaymentsAmount),
         hasData: unitCount > 0,
+        // Raw line items for downstream sub-pages (utility allocations, service charges)
+        utilityAllocations: utilityAllocations.map((ua) => ({
+          amount: Number(ua.amount),
+          type: ua.type,
+          billingPeriod: ua.billingPeriod,
+          dueDate: ua.dueDate,
+          status: ua.status,
+          createdAt: ua.createdAt.toISOString(),
+        })),
+        serviceChargeItems: serviceCharges.map((sc) => ({
+          amount: Number(sc.amount),
+          status: sc.status,
+          createdAt: sc.createdAt.toISOString(),
+        })),
       },
     });
   } catch (error) {

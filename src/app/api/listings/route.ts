@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { randomBytes } from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { listingFilterSchema } from '@/lib/validators';
@@ -243,7 +244,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (listingType === 'short_let') {
-      const shortlet = validated as z.infer<typeof createShortletListingSchema>;
+      const shortlet = validated as z.infer<typeof createShortletListingSchema>
       const prismaData: Record<string, unknown> = {
         title: shortlet.title,
         description: shortlet.description ?? null,
@@ -308,6 +309,24 @@ export async function POST(request: NextRequest) {
           serviceCharge: validated.serviceCharge ?? null,
         },
       });
+    }
+
+    // If ownerEmail provided and user is estate_manager, create an OwnerInvite
+    const ownerEmail = (validated as any).ownerEmail as string | undefined;
+    if (ownerEmail && listing?.id && (auth.user.role === 'estate_manager' || auth.user.role === 'admin')) {
+      try {
+        await prisma.ownerInvite.create({
+          data: {
+            orgId: (validated as any).orgId || null,
+            listingId: listing.id,
+            estateManagerId: userId,
+            email: ownerEmail.toLowerCase(),
+            token: randomBytes(32).toString('hex'),
+          },
+        });
+      } catch (inviteErr) {
+        console.error('Failed to create owner invite:', inviteErr);
+      }
     }
 
     return NextResponse.json(listing, { status: 201 });

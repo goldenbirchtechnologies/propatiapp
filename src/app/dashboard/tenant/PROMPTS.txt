@@ -1,0 +1,814 @@
+================================================================================
+PROPATI TENANT DASHBOARD — PROMPTS FOR STITCH HTML MOCKUPS
+===========================================================
+Role: tenant
+Navigation: TENANT_NAVIGATION — Dashboard, Rent & Payments, My Agreements,
+Applications, Maintenance, Messages, My Profile
+Dashboard shell: src/components/layout/DashboardShell.tsx
+Auth pattern: page.tsx (server) → getCurrentUserWithProfile() → role guard →
+  Prisma fetch → DashboardShell wraps ErrorBoundary + Client component
+Stitch mockups: check Downloads/stitch_tenant_* directories before converting.
+Always verify the route/page already EXISTS before writing prompts.
+
+================================================================================
+1. DASHBOARD — My Home  (/dashboard/tenant/page.tsx)
+================================================================================
+Server component fetches via Prisma:
+  - savedListing.count({ where: { userId } })
+  - agreement.count({ where: { tenantId, status: tenant_signed|fully_signed } })
+  - maintenanceTicket.count({ where: { tenantId, status: open|in_progress } })
+  - agreement.findMany({ take: 3 }) with listing select
+  - transaction.findMany({ take: 5 }) select id/type/status/amount/createdAt
+  - agreement.findFirst (active) with listing select including price, pricePeriod, images
+
+PASS TO CLIENT:
+  - displayName (from user.fullName)
+  - savedCount, activeAgreementCount, openMaintenanceCount
+  - recentAgreements (3 items: id, status, createdAt, listing.title, listing.address)
+  - recentTransactions (5 items: id, type, status, amount, createdAt)
+  - activeAgreement (or null: id, status, listing.title, listing.address,
+    listing.price, listing.pricePeriod, listing.images[{url}])
+
+TENANT DASHBOARD CLIENT PROMPT (TenantDashboardClient.tsx):
+Stitch mockup: Downloads/stitch_tenant_dashboard/My_Home/code.html (if exists)
+
+Render:
+  - PageHeader: title="My Home", description="Welcome back, {displayName}.
+    Here's what's happening with your tenancy."
+  - Action button: "Browse Listings" → /listings (ghost button with Home icon)
+  - KPI grid (4 StatCards, 2-col on mobile, 4-col on lg):
+    1. "Days Until Rent" — value from daysUntilRent (Math.ceil of lease end - now in days)
+       sub="Due {formatDate(endDate)}"
+       ONLY show when activeAgreement exists; else "—"
+    2. "Lease Remaining" — months = Math.ceil((endDate - now) / 30 days)
+       sub="Expires {formatDate(endDate)}"
+       ONLY show when activeAgreement exists; else "—"
+    3. "Open Tickets" — value={openMaintenanceCount} sub="Maintenance"
+    4. "Saved Properties" — value={savedCount} sub="Browse more"
+  - Current Lease card (lg:col-span-2 of 3-col grid):
+    - Title "Current Lease", subtitle = activeAgreement?.listing?.address
+    - 3 metric cols: "Monthly Rent" (formatCurrency), "Lease Start", "Lease End"
+    - Lease progress bar (Progress component) showing % complete
+    - StatusBadge "Active" or "No lease" pill
+  - Next Payment card (lg:col-span-1):
+    IF activeAgreement: show rent amount (formatCurrency), "Due {formatDate(endDate)}",
+    days remaining with Clock icon (amber if ≤7d), "Pay Rent" button → /dashboard/tenant/payments
+    IF no active agreement: "No Payment Due" + "Browse Listings" link (NOT a pay button)
+  - Payment History table (4 items max from recentTransactions):
+    columns: month (format "MMMM YYYY"), amount (formatCurrency), date, StatusBadge
+    "All" link → /dashboard/tenant/payments
+    Empty state: "No payment history yet."
+  - Maintenance Requests (3 hardcoded items as placeholder):
+    each row: colored dot (priority), title, date, StatusBadge
+    "+ New maintenance request" link → /dashboard/tenant/maintenance/new
+    Empty state when no open tickets
+
+CRITICAL: The maintenanceRequests array is currently hardcoded with 3 demo entries.
+This should eventually come from Prisma but for now use the Stitch mockup structure.
+Payment history comes from real recentTransactions prop.
+
+================================================================================
+2. RENT & PAYMENTS  (/dashboard/tenant/payments/page.tsx)
+================================================================================
+Server component fetches: getCurrentUserWithProfile() → user.id → userId
+Passes userId to TenantPaymentsClient.
+
+TENANT PAYMENTS CLIENT PROMPT (TenantPaymentsClient.tsx):
+Stitch mockup: Downloads/stitch_tenant_payments/... (if exists)
+
+Render:
+  - PageHeader: title="Payments"
+  - Summary stat cards (4, grid):
+    1. "Total Paid This Year" — sum of successful payments (formatCurrency)
+    2. "Pending" — count of pending payments
+    3. "Failed" — count of failed payments
+    4. "Avg. Payment" — average of successful payment amounts
+  - Payment table:
+    columns: Property, Date, Type, Method, Amount, Status (StatusBadge)
+    actions: Download receipt (Eye/Download icon) for each row
+    pagination controls (currentPage, totalPages, prev/next)
+    fetches from /api/payments/transactions?userId=X&page=Y&limit=20
+  - Filter tabs: All / Rent / Caution / Failed / Pending
+  - "Pay Now" button → opens payment modal (Paystack)
+
+Data from: real API call to /api/payments/transactions
+Payment type: rent | caution | sale | short_let | subscription
+Status: success | pending | failed | refunded
+
+================================================================================
+3. PAYMENT METHOD   (/dashboard/tenant/payments/methods/new/page.tsx)
+================================================================================
+Server component: reads [id] param if editing, otherwise new.
+Passes initialData and methodId to AddPaymentMethodClient.
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_payment_methods/... (if exists)
+
+Render:
+  - PageHeader: title="Add Payment Method"
+  - Two-column layout:
+    LEFT: Payment method selection cards (Bank Transfer, Card, etc.)
+      - Each card: radio input + icon + label + description
+      - Selected card gets primary border ring
+    RIGHT: Form fields that change based on selected type:
+      - Card: Card number, Expiry, CVV, Cardholder name
+      - Bank Transfer: Bank name, Account number, Account holder name
+      - Mobile Money: Phone number, Provider dropdown
+  - "Save Payment Method" button (primary, full-width)
+  - "Cancel" link back to /dashboard/tenant/payments
+
+Data: POST /api/payments/methods — store encrypted card/bank details
+Validation: required fields per type, account number format for bank transfer
+
+================================================================================
+4. AUTO-PAY CONFIG   (/dashboard/tenant/payments/auto-pay/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Passes userId to AutoPayConfigurationClient.
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_auto_pay/... (if exists)
+
+Render:
+  - PageHeader: title="Auto-Pay Configuration"
+  - Main toggle: "Enable Auto-Pay for Monthly Rent" (Switch component)
+  - IF enabled:
+    - Default payment method dropdown (select from saved methods)
+    - "Pay on" setting: 1st / 3rd / 5th of each month (radio group)
+    - "Amount" setting: "Full rent" or "Custom amount"
+    - "Low balance threshold": notify when wallet < ₦50,000
+    - "Save" button
+  - Schedule preview table: upcoming payment dates + amounts
+  - "Disable Auto-Pay" link (destructive)
+
+Data: GET/POST /api/payments/auto-pay — real toggle + schedule configuration
+
+================================================================================
+5. OVERDUE PAYMENTS  (/dashboard/tenant/payments/overdue/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_overdue/... (if exists)
+
+Render:
+  - PageHeader: title="Overdue Payments"
+  - Summary card: total overdue amount, count of overdue invoices
+  - List of overdue payments:
+    each row: Property, Original amount, Late fees, Total due, Due date
+    StatusBadge "Overdue" (red), days overdue count
+    "Pay Now" button per row → /dashboard/tenant/payments
+  - "Pay All" button (primary, pays all overdue in one transaction)
+  - "Set up Reminder" link (configures email/SMS notifications)
+  - Empty state: "No overdue payments" with green check icon
+
+Data: GET /api/invoices?status=overdue&userId=X — fetch overdue invoices
+Late fee: 1.5% per month of unpaid rent (per Nigerian law)
+
+================================================================================
+6. STATEMENTS   (/dashboard/tenant/payments/statements/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_statements/... (if exists)
+
+Render:
+  - PageHeader: title="Statements & History"
+  - Filter bar: Date range picker (month/year), Property dropdown, Status filter
+  - Statements table:
+    columns: Period, Property, Rent, Service Charge, Utilities, Total, Status, Actions
+    actions: Download PDF (Download icon), View (Eye icon)
+    pagination
+  - "Download All as ZIP" button (exports all PDFs)
+  - Empty state: "No statements yet"
+
+Data: GET /api/invoices?userId=X — real invoice data
+Each statement links to /api/invoices/{id}/pdf for PDF download
+
+================================================================================
+7. PAYMENT SUCCESS   (/dashboard/tenant/payments/success/page.tsx)
+================================================================================
+Client component only (no server data needed).
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_payment_success/... (if exists)
+
+Render:
+  - Breadcrumbs: PAYMENTS > PROPERTY 1 > SUCCESS (font-mono)
+  - Success hero: green circular checkmark (24x24), title "Payment Successful"
+    description: "Your transaction has been processed securely. A confirmation
+    email and receipt have been sent to your registered address."
+  - Transaction summary card (md:col-span-7):
+    - "Total Amount Paid: ₦1,450,000.00" (large)
+    - "Verified" badge (green)
+    - detail rows: Payment Method (Visa ending in 4242), Transaction ID (PRP-TXN-882910442X),
+      Date & Time (Oct 24, 2023 • 14:32 WAT)
+    - Actions: "Download Receipt" (primary), "Return to Dashboard" (outline, link to /dashboard/tenant)
+  - Payment breakdown (md:col-span-5):
+    - "Payment Breakdown" section: Q4 Rent (₦1,200,000), Service Charge (₦200,000), Utilities (₦50,000)
+    - Property image card: "The Lux Apartments, Ikoyi" (16:9 image with overlay)
+  - Quick actions (2 cols): "Download Official Receipt" (FileText icon),
+    "Print Receipt" (Printer icon)
+  - Auto-redirect: countdown timer from 15s → /dashboard/tenant/payments
+  - Trust footer: PCI-DSS Compliant, 256-bit SSL, Central Bank Regulated (3 icons)
+  - Support link: "Contact Support"
+
+NO fake data — amounts and IDs in the Stitch mockup should be replaced with
+real transaction data from the paystack callback params (tx_ref or reference).
+
+================================================================================
+8. AGREEMENTS LIST   (/dashboard/tenant/agreements/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Fetches: prisma.agreement.findMany({ where: { tenantId: user.id } })
+  include: listing { title, address, area, images, price, pricePeriod }
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_agreements/... (if exists)
+
+Render:
+  - PageHeader: title="My Agreements"
+    description="Your active and past tenancy agreements."
+  - Summary stat cards (3):
+    "Active" (status tenant_signed|fully_signed|active), "Pending" (draft|pending_landlord),
+    "Expired" (status expired|terminated)
+  - Search bar + Status filter dropdown (All / Active / Pending / Expired)
+  - Agreements table:
+    columns: Property, Type, Start Date, End Date, Rent, Status (StatusBadge), Actions
+    Actions: "View" (Eye icon → /dashboard/tenant/agreements/{id}),
+             "Download" (Download icon → /api/agreements/{id}/pdf)
+    row click → /dashboard/tenant/agreements/{id}
+  - Empty state: "You don't have any agreements yet."
+
+Data: real from Prisma agreement table
+Agreement status enum: draft | pending_landlord | tenant_signed | fully_signed | active | expired | terminated | revoked
+
+================================================================================
+9. AGREEMENT DETAIL   (/dashboard/tenant/agreements/[id]/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Fetches: prisma.agreement.findUnique({ where: { id, tenantId: user.id } })
+  include: listing { full }, landlord { full }, tenant { full }, agent, signatures, transactions
+
+PASS TO CLIENT: agreement object with nested listing/landlord/tenant/agent data
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_agreement_detail/... (if exists)
+
+Render:
+  - Breadcrumbs: AGREEMENTS > {agreement.id}
+  - Page header: title = listing.title
+    subtitle = listing.address
+  - StatusBadge for agreement status (draft|pending_landlord|tenant_signed|fully_signed|active|expired)
+  - Tab navigation: Overview | Terms | Signatures | Payments | Documents
+  - OVERVIEW tab:
+    - Property image gallery (listing.images)
+    - Property details: address, area, state, price, bedrooms, bathrooms, description
+    - Agreement details grid: type, startDate, endDate, rentAmount, depositAmount
+    - Landlord info: name, avatar, email, phone
+    - Tenant info: name, email, phone
+    - Progress steps: Draft → Landlord → Tenant → Fully Signed
+      (highlight current step, green check for completed)
+  - TERMS tab:
+    - Full specialClauses text
+    - Jurisdiction & governing statute
+  - SIGNATURES tab:
+    - List of signatures with role + signedAt timestamp
+    - "Sign Now" button if status is tenant_signed and tenant hasn't signed
+    - Digital signature pad (signature_pad library)
+  - PAYMENTS tab:
+    - Transactions table: type, amount, status, createdAt
+    - "Pay Now" button if rent is due
+  - DOCUMENTS tab:
+    - "Download PDF" button (fetches from listing.pdfUrl)
+    - "View in Cloudinary" link
+
+Data: real from Prisma — agreement + listing + landlord + tenant + signatures + transactions
+
+================================================================================
+10. AGREEMENT SIGN   (/dashboard/tenant/agreements/[id]/sign/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Fetches: prisma.agreement.findUnique({ where: { id, tenantId: user.id } })
+  include: listing { title, address, price, pricePeriod }
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_agreement_sign/... (if exists)
+
+Render:
+  - PageHeader: title="Sign Agreement"
+  - Two-column layout:
+    LEFT: Agreement summary card:
+      - Property title + address
+      - Rent amount + period
+      - Lease term (startDate → endDate)
+      - Deposit amount
+      - "Verified" badge (from verificationTier)
+    RIGHT: Signature flow:
+      - Consent checkbox: "I have read and agree to the terms..."
+        (link "Read Full Terms" → opens modal with specialClauses)
+      - Digital signature canvas (signature_pad)
+        - "Clear" button
+        - "Sign" button (primary, disabled until consent + signature)
+      - Status steps below form: "Authenticating identity" → "Document hashing"
+        → "Signature recorded" → "Certificate issued" (animated progress)
+  - After signing: redirect to /dashboard/tenant/agreements/{id}
+    with success toast "Agreement signed successfully"
+
+POST: /api/agreements/{id}/sign — records signature to Prisma signature table
+Stamp duty: 0.78% shown as a line item (via /lib/stamp-duty.ts)
+
+================================================================================
+11. APPLICATIONS LIST   (/dashboard/tenant/applications/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Fetches: prisma.application.findMany({ where: { tenantId: user.id } })
+  include: listing { id, title, address, area, state, price, pricePeriod, listingType, images },
+           landlord { id, fullName, email, avatarUrl }
+
+PASS TO CLIENT: serialized applications array (price as toString())
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_applications/... (if exists)
+
+Render:
+  - PageHeader: title="My Applications"
+    description="Track the status of your rental applications."
+  - Summary stat cards (4):
+    "Pending" (yellow), "Under Review" (blue), "Accepted" (green),
+    "Rejected" (red) — each shows count
+  - Status filter tabs (4 buttons): All / Pending / Under Review / Accepted | Rejected
+  - Applications table:
+    columns: Property (listing.title), Landlord, Applied Date, Status (StatusBadge), Actions
+    Status enum: pending | under_review | accepted | rejected | withdrawn
+    statusConfig:
+      pending → yellow badge
+      under_review → muted badge
+      accepted → green badge
+      rejected → red badge "Not Successful"
+      withdrawn → muted badge
+    Actions: "View" (Eye icon → /dashboard/tenant/applications/{id})
+             "Withdraw" (only if status is pending — shows confirmation dialog)
+    Row click → /dashboard/tenant/applications/{id}
+  - Empty state: "No applications yet" + "Browse Listings" button → /listings
+
+Status badges use tailwind classes from the AGENT_NAVIGATION color scheme.
+Withdraw calls POST /api/applications/{id}/withdraw with useTransition.
+
+================================================================================
+12. APPLICATION DETAIL   (/dashboard/tenant/applications/[id]/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Fetches: prisma.application.findUnique({
+  where: { id, tenantId: user.id },
+  include: listing { full }, landlord { full }, agent }
+})
+
+PASS TO CLIENT: full application object with nested listing/landlord/agent
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_application_detail/... (if exists)
+
+Render:
+  - Breadcrumbs: APPLICATIONS > {application.id?.slice(-8)}
+  - Page header:
+    title = listing.title
+    StatusBadge for application status
+    landlord avatar + name + "Landlord" label
+  - Tab navigation: Overview | Documents | Messages | Timeline
+  - OVERVIEW tab:
+    - Property image gallery (listing.images)
+    - Property details: address, area, state, price, bedrooms, bathrooms
+    - Application details grid: moveInDate, leaseTerm, monthlyIncome, pets,
+      numberOfOccupants, employmentStatus, reasonForMoving
+    - Landlord notes (if any) in a quote-style block
+    - Action buttons:
+      "Withdraw Application" (only if status === pending or under_review)
+      "View Property" (link → /listings/{listing.id})
+  - Documents tab:
+    - Uploaded documents list with type + upload date
+    - "Upload Document" button (opens modal: file picker, document type select)
+  - Messages tab:
+    - Message thread between tenant and landlord
+    - Text input at bottom → POST /api/messages
+  - Timeline tab:
+    - Vertical stepper showing all application status changes
+      with timestamps and notes
+    - Submitted → Under Review → Accepted/Rejected → (Signed if accepted)
+
+Data: real from Prisma application + listing + landlord + messages + timeline
+
+================================================================================
+13. MAINTENANCE LIST   (/dashboard/tenant/maintenance/page.tsx)
+================================================================================
+No server component — page.tsx is minimal:
+  - getCurrentUserWithProfile → role guard
+  - DashboardShell + TenantMaintenanceClient (no data props)
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_maintenance/... (if exists)
+
+Render:
+  - PageHeader: title="Maintenance Requests"
+    description="View and track all your maintenance requests."
+  - Summary stat cards (3):
+    "Open" (status open|in_progress), "In Progress", "Resolved"
+  - Status filter tabs: All / Open / In Progress / Resolved / Closed
+  - Maintenance requests table:
+    columns: Title, Category, Priority, Date, Status (StatusBadge), Actions
+    Priority: High (amber), Medium (blue), Low (zinc)
+    Status config:
+      open → yellow
+      in_progress → blue
+      resolved → green
+      closed → muted
+    Actions: "View" (Eye icon → /dashboard/tenant/maintenance/{id})
+    Row click → /dashboard/tenant/maintenance/{id}
+  - "+ New Maintenance Request" button → /dashboard/tenant/maintenance/new
+  - Empty state: "No maintenance requests" + "Submit a Request" button
+
+Status: open | in_progress | resolved | closed
+Priority: low | medium | high | emergency
+
+================================================================================
+14. NEW MAINTENANCE REQUEST   (/dashboard/tenant/maintenance/new/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Passes ticketId (from URL if editing) to TenantMaintenanceRequestClient.
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_maintenance_new/... (if exists)
+
+Render:
+  - Two-column layout (lg:grid lg:grid-cols-12, gap-8):
+    LEFT SIDEBAR (col-span-4):
+      - Glass card with "New Maintenance Request" title
+      - Description: "Provide the details of your issue and we'll connect
+        you with a certified technician from our verified network."
+      - StepIndicator (2 steps): "Issue Details" → "Photos & Timing"
+      - Emergency Protocol card (red border):
+        "For life-threatening emergencies, fire, or severe flooding,
+        please call the local emergency services immediately before filing
+        a report."
+        Button: "Emergency Hotline" (destructive variant, Phone icon)
+    RIGHT SIDE (col-span-8):
+      - Main glass card with form:
+        STEP 1 — Issue Details:
+          - "Issue Category" (select dropdown):
+            Plumbing | Electrical | HVAC (AC/Heating) | General Repair
+          - "Urgency" (radio group or select):
+            Low | Standard | Urgent | Emergency
+          - "Title" (text input)
+          - "Description" (textarea, min 3 rows)
+          - "Property" (select dropdown of tenant's properties)
+          - "Preferred date" (date picker)
+          - "Preferred time" (radio: Morning | Afternoon | Evening)
+          - "Upload Photos" (file input, multiple, image preview thumbnails)
+          - "Submit Request" button (primary, full-width)
+        STEP 2 — Photos & Timing:
+          - Photo upload area (drag-drop or click)
+          - Time slot selection
+          - Review summary
+          - "Submit Request" button
+  - Progress indicator at top: Step 1 of 2
+
+POST: /api/maintenance/tickets — creates maintenance ticket
+Categories: ['Plumbing', 'Electrical', 'HVAC (AC/Heating)', 'General Repair']
+Urgencies: ['Low', 'Standard', 'Urgent', 'Emergency']
+Time slots: ['Morning (8 AM - 12 PM)', 'Afternoon (12 PM - 4 PM)', 'Evening (4 PM - 7 PM)']
+
+================================================================================
+15. MAINTENANCE TRACKING   (/dashboard/tenant/maintenance/[id]/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Fetches: prisma.maintenanceTicket.findUnique({
+  where: { id, tenantId: user.id },
+  include: { listing, photos, messages, history }
+})
+
+PASS TO CLIENT: requestId param + ticket data
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_maintenance_tracking/... (if exists)
+
+Render:
+  - Breadcrumbs: MAINTENANCE > #{requestId.toUpperCase()}
+  - Page header (flex justify-between):
+    title = ticket.title
+    "Urgent" badge (if priority === emergency/urgent)
+    "Submitted Oct 24, 2024" text
+    "Export Report" button (Download icon, outline)
+  - Lifecycle Tracker (vertical stepper, 5 steps):
+    1. "Submitted" (done, green check, time)
+    2. "Assigned" (done, green check, time)
+    3. "Visit Scheduled" (active, teal ring, CalendarDays icon)
+    4. "In Progress" (pending, gray outline)
+    5. "Resolved" (pending, gray outline)
+    Horizontal progress line: 55% filled (emerald), rest gray
+  - Technician Info card:
+    name (Chidi Nwosu), specialty (Plumbing Specialist), rating (4.9 ★)
+    avatar image
+  - Photo gallery (2 images with alt text):
+    "Kitchen sink leak", "Water damage"
+    Each image in a card with overlay — clickable to view full-size
+  - Message thread section:
+    - Past technician messages (avatar + name + text + timestamp)
+    - Textarea for new message + "Send" button
+  - Actions:
+    "Request Update" button (primary)
+    "Cancel Request" button (outline, destructive)
+
+Data: real from Prisma maintenanceTicket + photos + messages + history
+Technician info from assigned technician relation.
+
+================================================================================
+16. MAINTENANCE EMERGENCY   (/dashboard/tenant/maintenance/emergency/page.tsx)
+================================================================================
+No server data needed.
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_emergency/... (if exists)
+
+Render:
+  - Full-page emergency layout (red accent border):
+    - Emergency phone number (large, font-mono): "0800-PROPATI" (configurable)
+    - "Call Now" button (full-width, red bg, Phone icon — tel: link)
+    - "Text Emergency" button (SMS link to property manager)
+    - 24/7 availability badge
+    - Emergency protocol steps:
+      1. "If immediate danger, call 999 (fire/police/ambulance)"
+      2. "Then call the emergency hotline above"
+      3. "File a maintenance report after the situation is safe"
+      4. "Include photos when it's safe to do so"
+    - Link back to /dashboard/tenant/maintenance/new
+
+================================================================================
+17. MAINTENANCE PROTOCOL   (/dashboard/tenant/maintenance/protocol/page.tsx)
+================================================================================
+No server data needed.
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_protocol/... (if exists)
+
+Render:
+  - PageHeader: title="Maintenance Protocol"
+  - Info section:
+    "This page explains how maintenance requests are handled on PropatiBox."
+  - Step-by-step guide (4 steps):
+    1. "Submit Request" — fill out the maintenance form with details
+    2. "Verification" — our team validates the issue (1-2 business hours)
+    3. "Assignment" — a verified technician is assigned (within 24 hours)
+    4. "Resolution" — technician visits and resolves; you confirm completion
+  - Emergency contacts section:
+    - Fire: 999
+    - Ambulance: 999
+    - Police: 999
+    - PropatiBox 24/7 Emergency: 0800-PROPATI
+  - "Submit a Maintenance Request" button → /dashboard/tenant/maintenance/new
+
+================================================================================
+18. MESSAGES   (/dashboard/tenant/messages/page.tsx)
+================================================================================
+Check if shared route exists at /dashboard/[role]/messages
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_messages/... (if exists)
+
+Render:
+  - Two-column chat layout:
+    LEFT (35% min-w-[320px]): Conversation list
+      - Search box: "Search conversations..."
+      - Each conversation row:
+        avatar (landlord/property manager), name,
+        last message preview (truncated), timestamp,
+        unread badge (count if >0)
+      - "New Message" button (bottom of sidebar)
+    RIGHT (flex-1): Active chat window
+      - Header: recipient avatar + name + online status
+      - Messages area:
+        - Incoming messages (gray bubble, left-aligned)
+        - Outgoing messages (primary bubble, right-aligned)
+        - Timestamps under each message group
+        - Date separators ("Today", "Yesterday")
+      - Attachment preview (image/file) if sent
+      - Input area at bottom:
+        - Textarea (auto-resize, 3 rows max)
+        - Attachment button (Paperclip icon)
+        - Send button (primary, disabled until text entered)
+      - Typing indicator when recipient is typing
+
+Data: GET /api/messages?role=tenant — fetches conversations + latest
+POST /api/messages — sends new message via fetch
+Each conversation keyed by property/agreement ID.
+
+================================================================================
+19. PROFILE   (/dashboard/tenant/profile/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user
+PASS TO CLIENT: initialUser (full user profile object)
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_profile/... (if exists)
+
+Render:
+  - Full-width profile page with tabbed navigation (7 tabs):
+    TABS: Personal Details | Documents | Rental Application | Security |
+          Preferences | Verification | Linked Accounts
+
+  TAB 1 — Personal Details:
+    - Avatar upload (circle, click to change, shows current avatar or initials)
+    - Grid (2 cols):
+      Full Name, Email, Phone Number, Date of Birth,
+      Gender (select: Male/Female/Non-binary/Prefer not to say),
+      Bio (textarea), Occupation, Employment Type
+      (select: Employed/Self-Employed/Business Owner/Student/Retired/Unemployed),
+      Employer Name, Emergency Contact
+    - "Save Changes" button (primary) — calls POST /api/users/profile
+    - Success/error toast messages
+
+  TAB 2 — Documents:
+    - "Identity Verification" section:
+      - NIN (National ID Number) — input field
+      - "Upload NIN slip" button (file picker, PDF/image)
+      - StatusBadge: "Not submitted" | "Under review" | "Verified"
+      - "Resubmit" button if rejected
+    - "Guarantor Documents" section:
+      - Guarantor name, relationship, phone, email
+      - "Upload Guarantor ID" button
+      - "Upload Guarantor Income Proof" button
+    - "Lease Documents" section:
+      - List of signed agreements (from agreements table)
+      - Each: download link (PDF), status badge
+
+  TAB 3 — Rental Application:
+    - Employment Status (select)
+    - Monthly Net Income (₦) — currency input
+    - Preferred Move-In (select: Immediate/1 Month/2 Months/3 Months)
+    - Desired Move-In Date — date picker
+    - Number of Co-Dependents — number input
+    - Pets — select (None/Cat/Dog/Bird/Other)
+    - Reason for Moving — textarea
+    - Preferred Lease Term — select (6 months/1 year/2 years)
+    - "Save Rental Preferences" button
+    - Note: these fields feed into the application form auto-fill
+
+  TAB 4 — Security:
+    - "Change Password" section:
+      - Current password input
+      - New password input
+      - Confirm new password input
+      - Password strength meter (weak/medium/strong)
+      - "Update Password" button
+    - "Two-Factor Authentication" section:
+      - Status: "Not enabled" or "Enabled"
+      - If disabled: "Enable 2FA" button → navigates to /dashboard/tenant/security/2fa
+      - If enabled: toggle off, "Recovery codes" download button
+    - "Active Sessions" section:
+      - List of devices with last active timestamp
+      - Current device marked "(This device)"
+      - "Sign out" button per device
+
+  TAB 5 — Preferences:
+    - Notification preferences (checkboxes):
+      ✓ Email: Application updates
+      ✓ Email: Payment receipts
+      ✓ Email: Maintenance status
+      ✓ Email: Marketing & promotions
+      ✓ SMS: Urgent alerts only
+      ✓ Push: All notifications
+    - Language: select (English / Hausa / Yoruba / Igbo)
+    - Theme: select (Light / Dark / System)
+    - Currency display: NGN (₦)
+    - "Save Preferences" button
+
+  TAB 6 — Verification:
+    - KYC status overview (3 layers):
+      1. "Identity" — NIN verified (green check or amber pending)
+      2. "Phone" — phone number verified (green check)
+      3. "Employment" — income verified (amber pending — upload payslip)
+    - "Re-verify" buttons per layer
+    - Verified badge: "Full verification complete" or "Partial verification: 2/3"
+
+  TAB 7 — Linked Accounts:
+    - Connected OAuth providers:
+      Google (connected, email shown) — "Disconnect" button
+      Apple (not connected) — "Connect" button
+      Microsoft (not connected) — "Connect" button
+    - "Connect a new account" button
+
+User has useKycStatus() hook — displays verification progress.
+Form state: fullName, email, phone, bio, occupation, employmentType,
+employerName, emergencyContact, employmentStatus, monthlyIncome,
+preferredMoveIn, reasonForMoving, preferredLeaseTerm, desiredMoveInDate,
+coDependents, pets.
+Save is a local Promise with toast (currently uses setTimeout mock — replace with real fetch to POST /api/users/profile).
+
+================================================================================
+20. RECEIPTS   (/dashboard/tenant/receipts/page.tsx)
+================================================================================
+Server component: getCurrentUserWithProfile → user.id
+Fetches: prisma.transaction.findMany({
+  where: { payerId: user.id, status: 'released' },
+  include: listing { id, title }, agreements { id, type }
+})
+Maps to receipt objects: id, ref, amount, title, date, status, method
+PASS TO CLIENT: initialReceipts array
+
+PROMPT:
+Stitch mockup: Downloads/stitch_tenant_receipts/... (if exists)
+
+Render:
+  - PageHeader: title="Receipts"
+    description="Download rental and transaction receipts"
+  - Summary stat cards (4, grid):
+    "Paid" (count of released), "Pending" (count of pending),
+    "Total" (total receipts), "Total Value" (sum formatted as ₦X.XM)
+  - Filter tabs (buttons): all / released / pending / failed
+  - Receipts table:
+    columns: Reference (font-mono, last 8 chars uppercase),
+             Description, Amount (₦), Status (StatusBadge), Date, Actions
+    Status config:
+      released → green "Paid"
+      pending → warning "Pending"
+      failed → red "Failed"
+    Actions: Download (Download icon — link to /api/payments/transactions/{id}/receipt, opens in new tab)
+    Row hover highlight
+  - Empty state: "No receipts yet" (Receipt icon, opacity 0.5)
+    "Purchase history will appear here."
+
+Data: real from Prisma transaction table
+Method: derived from paystackRef existence ("Paystack" vs "Propati")
+
+================================================================================
+SCREENS NOT YET IMPLEMENTED — EXPECTED STRUCTURE
+================================================================================
+
+The following tenant routes are referenced in the codebase but do NOT have
+page.tsx files yet. Create them following the standard pattern:
+
+A. 2FA ENROLLMENT   (/dashboard/tenant/security/2fa/page.tsx)
+   PROMPT:
+   - PageHeader: title="Two-Factor Authentication"
+   - Status: "Enabled" (green) or "Disabled" (amber)
+   - IF disabled:
+     - "Set up Two-Factor Authentication" card
+     - Step 1: "Enable 2FA" — primary button
+       → calls POST /api/auth/2fa/enable → returns { secret, qrCodeUrl }
+     - Step 2 (after enabling): QR code display
+       - "Scan this QR code with your authenticator app"
+       - QR code from qrCodeUrl (renders as <img src={qrCodeUrl} />)
+       - OR show manual entry key (secret string)
+       - "I have scanned the code" button → shows verification input
+     - Step 3: Verification
+       - Input: 6-digit TOTP code (masked input, auto-focus, auto-submit)
+       - "Verify & Enable" button
+       - Error state if code is wrong: "Invalid code. Please try again."
+     - Success: green check + "2FA is now enabled"
+     - "Download Recovery Codes" button (5 codes, .txt download)
+   - IF enabled:
+     - Green check icon
+     - "2FA is protecting your account"
+     - "Disable 2FA" button (destructive, requires confirmation)
+     - "Show Recovery Codes" button
+   - Recovery codes section:
+     - 8 one-time codes displayed in a secure view
+     - "Copy" button per row
+     - "Regenerate codes" button (warning, destroys old codes)
+   
+   POST: /api/auth/2fa/enable (returns Clerk TOTP secret + QR)
+   POST: /api/auth/2fa/verify (verifies TOTP code, enables 2FA)
+   POST: /api/auth/2fa/disable (disables 2FA for user)
+   POST: /api/auth/2fa/recovery-codes (generates/download recovery codes)
+
+B. PROFILE SECURITY   (/dashboard/tenant/profile/security/page.tsx)
+   Follows same pattern as admin MFA page.
+
+C. SETTINGS   (/dashboard/tenant/settings/page.tsx)
+   PROMPT:
+   - PageHeader: title="Settings"
+   - Sections:
+     "Account Settings" — profile, password, theme, language
+     "Notifications" — email/SMS/push toggles
+     "Privacy" — data export, account deletion
+     "Security" — 2FA toggle, active sessions
+   - "Save All Settings" button (primary)
+
+================================================================================
+NAVIGATION VERIFICATION CHECKLIST
+================================================================================
+All pages must be accessible via TENANT_NAVIGATION in src/lib/navigation.tsx:
+  - /dashboard/tenant → "Dashboard" ✓
+  - /dashboard/tenant/payments → "Rent & Payments" ✓
+  - /dashboard/tenant/agreements → "My Agreements" ✓
+  - /dashboard/tenant/applications → "Applications" ✓
+  - /dashboard/tenant/maintenance → "Maintenance" ✓
+  - /dashboard/tenant/messages → "Messages" ✓
+  - /dashboard/tenant/profile → "My Profile" ✓
+  - /dashboard/tenant/receipts → NOT in nav (accessible from payments) ⚠
+  - /dashboard/tenant/saved → NOT in nav (accessible from dashboard) ⚠
+  - /dashboard/tenant/search → NOT in nav (accessible from listings/public) ⚠
+  - /dashboard/tenant/screening → NOT in nav ⚠
+  - /dashboard/tenant/support → NOT in nav (accessible via messages) ⚠
+
+Pages missing from navigation should be added if they need direct access.

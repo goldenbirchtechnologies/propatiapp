@@ -4,19 +4,10 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import {
   RefreshCw,
-  User,
-  Phone,
-  Mail,
-  CheckCircle2,
-  XCircle,
-  ShieldOff,
-  ClipboardList,
   Calendar,
-  TrendingUp,
   BedDouble,
   MessageSquare,
 } from 'lucide-react';
@@ -117,7 +108,6 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
 
   const occupancyRate = (() => {
     const now = new Date();
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
     const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     let availableDays = 0;
     let bookedDays = 0;

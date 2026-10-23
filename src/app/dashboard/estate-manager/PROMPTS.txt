@@ -1,0 +1,840 @@
+================================================================================
+PROPATI ESTATE MANAGER — SCREEN GENERATION PROMPTS (ALL PAGES + SUBPAGES)
+================================================================================
+Shared visual language for every prompt below:
+
+  Theme       : Next.js 14 App Router + Tailwind CSS + shadcn/ui (dark-mode capable)
+  Brand accent: Emerald #10b981 (--accent)
+  Surfaces    : .glass-card  |  bg-surface-elevated |  border border-zinc-200 dark:border-white/[0.08]
+  Fonts       : font-heading (heading-sm / headline-sm) | font-label-sm (uppercase tracking-wider labels)
+  Radius      : rounded-xl rounded-2xl
+  Sidebar     : ESTATE_MANAGER_NAVIGATION from src/lib/navigation.tsx
+  Shell       : DashboardShell wraps every route
+  Guard       : estate-manager role enforced in layout.tsx
+  Currency    : NGN formatted via Intl.NumberFormat('en-NG', { style:'currency', currency:'NGN' })
+  Empty state : centered icon (12-16px) + muted text + action button (ghost/outline)
+  Errors      : glass-card border-red-500/30 bg-red-500/5 + Retry button
+  Loading     : Skeleton components OR animate-pulse surfaces
+
+Route index (39 page files):
+
+  /dashboard/estate-manager/                                  [dashboard]
+  /dashboard/estate-manager/profile                           [profile]
+  /dashboard/estate-manager/org                               [org]
+  /dashboard/estate-manager/organizations/new                [org-create]
+  /dashboard/estate-manager/portfolio                        [portfolio]
+  /dashboard/estate-manager/portfolio/analytics              [portfolio-analytics]
+  /dashboard/estate-manager/units                          [units-list]
+  /dashboard/estate-manager/units/new (modal)              [unit-create-modal]
+  /dashboard/estate-manager/units/[unitId]                 [unit-detail]
+  /dashboard/estate-manager/tenants                          [tenants-list]
+  /dashboard/estate-manager/maintenance                      [maintenance-list]
+  /dashboard/estate-manager/maintenance/[id]                 [maintenance-detail]
+  /dashboard/estate-manager/agreements                       [agreements-list]
+  /dashboard/estate-manager/commercial-leases                [commercial-leases]
+  /dashboard/estate-manager/move-in                          [move-in]
+  /dashboard/estate-manager/financials                       [financials-overview]
+  /dashboard/estate-manager/financials/scenario-builder      [scenario-builder]
+  /dashboard/estate-manager/financials/scenario              [scenario-view]
+  /dashboard/estate-manager/billing                          [billing]
+  /dashboard/estate-manager/collections                      [collections]
+  /dashboard/estate-manager/disbursements                    [disbursements]
+  /dashboard/estate-manager/receipts                         [receipts]
+  /dashboard/estate-manager/statements                       [statements]
+  /dashboard/estate-manager/invoices                         [invoices]
+  /dashboard/estate-manager/service-charges                  [service-charges]
+  /dashboard/estate-manager/ledger                           [ledger]
+  /dashboard/estate-manager/reports                          [reports]
+  /dashboard/estate-manager/reports/revenue-signature        [revenue-signature]
+  /dashboard/estate-manager/analytics                        [analytics]
+  /dashboard/estate-manager/subscription                     [subscription]
+  /dashboard/estate-manager/team                             [team]
+  /dashboard/estate-manager/invite-property-manager          [invite-pm]
+  /dashboard/estate-manager/lease-negotiation                [lease-negotiation]
+  /dashboard/estate-manager/lease-review                     [lease-review]
+  /dashboard/estate-manager/bulk-import                      [bulk-import]
+  /dashboard/estate-manager/utilities                        [utilities]
+  /dashboard/estate-manager/messages                         [messages]
+  /dashboard/estate-manager/notifications                    [notifications]
+  /dashboard/estate-manager/payments                         [payments]
+  /dashboard/estate-manager/verification                     [verification]
+
+================================================================================
+[1] ESTATE MANAGER DASHBOARD  —  /dashboard/estate-manager/
+================================================================================
+Prompt:
+  "Render the Propati Estate Manager command dashboard inside DashboardShell with
+  ESTATE_MANAGER_NAVIGATION. Use EstateCommandClient (em dash glass-card surfaces,
+  emerald #10b981 accent, --primary text color). Layout: a 4-column KPI row
+  (Total Units, Occupied (green), Vacant, Overdue (red)) using KpiCard with
+  rounded-xl icon wrappers bg-accent/15; a 2-column grid below — left: Escrow Inflow
+  mini-bar chart (collections vs OpEx per month, 180px height, primary/secondary
+  bands, current-month highlight with emerald glow); right: Lease Expiry donut
+  (08 Units expiring, amber tone). Below charts: an Estate Units table with
+  All/Overdue/Maintenance/Vacant tabbed filter pills, Search input (pl-9, magnifier
+  icon absolute), and a paginated table (10 rows) with columns Unit & Resident,
+  Estate & Typology, Service Charge (/cycle), Status pills (Occupied green / Vacant
+  muted / Maintenance amber / Escrow Overdue red), and Actions (view unit icon,
+  maintenance wrench icon when relevant). Breadcrumb Home / Dashboard. No org →
+  NoOrgState component with Create Organization (primary emerald) + Link Organization
+  secondary links. Skeleton loaders for KPIs and table rows. Empty state uses
+  Building2 icon 12w opacity-50."
+
+================================================================================
+[2] PROFILE  —  /dashboard/estate-manager/profile
+================================================================================
+Prompt:
+  "Render the estate-manager profile screen inside DashboardShell. Two-column
+  3-col main layout: LEFT column (span 1) — avatar stack; a 64x64 rounded-xl
+  avatar (or emerald/20 bg with white mono initials) centered, Edit Profile
+  button (outline, small) below it. RIGHT column (span 2) — five stacked
+  glass-card sections with border-b separators and a header icon (lucide
+  Building2/Users/Bell/Shield/Share). Card titles: 'Company Information',
+  'Firm Verification', 'Notifications', 'Account Security', 'Billing & Org'.
+  Fields sourced from Prisma User + Organization: fullName, email, phone,
+  companyName, nin, companyAddress, role 'estate_manager', teamSize,
+  verificationStatus (Verified/Verified badge green), notification prefs
+  (Email toggle / Push toggle / SMS toggle), password change (Change Password
+  outline button). Footer actions: Save Changes (emerald fill) + Cancel.
+  Use var(--text) / var(--muted) / var(--border) / var(--surface) CSS vars.
+  Accessibility: aria-label on status badges, field labels paired with inputs.
+  Empty/unset values render '—'. StatusPill components: Verified = green
+  bg-emerald-500/10, Pending = amber bg-amber-500/10."
+
+================================================================================
+[3] ORG OVERVIEW  —  /dashboard/estate-manager/org
+================================================================================
+Prompt:
+  "Render organization overview page inside DashboardShell. Header: h1 'Organization'
+  + subtitle 'Manage your organization settings'. Below, a 3-column stat grid of
+  glass-cards (Units Managed, Team Members, Active Tenants) with large font-bold
+  values and a matching lucide icon (Building2/Users/Users). On the right side
+  of header: a secondary 'Settings' button with cog icon that opens a slide-out
+  or navigates to org settings. Body: a vertical stack of 3 glass-card sections —
+  'Organization Details' (name, legal name, CAC number, address, billing email,
+  plan tier badge), 'Plan & Billing' (current plan, next billing date, seat
+  usage bar, Upgrade button emerald), 'Danger Zone' (delete org button red).
+  All labels font-label-sm uppercase tracking-wider var(--muted). Values
+  var(--text). Bordered separators between fields."
+
+================================================================================
+[4] ORGANIZATION CREATE  —  /dashboard/estate-manager/organizations/new
+================================================================================
+Prompt:
+  "Reproduce the Create Organization page. Header: left arrow back link to
+  /dashboard/estate-manager + 'Back to Dashboard'; a pulse-dot banner 'Compliance
+  Step 1 of 2'. Editorial title: 'Create Organization', subtitle about setting
+  up estate management org across Lagos, Abuja, nationwide. A side label 'CAC
+  Verification Ready' with ShieldCheck icon emerald. Form card (border-radius
+  2xl) with two sections: 'Organization Details' (legal name input w/ Building2
+  icon, CAC/RC number optional field w/ ShieldCheck icon, office address textarea
+  w/ MapPin icon) and 'Billing & Plan Tier' (billing email input, 3 plan radio
+  cards: Starter /growth / Enterprise with price, perks, Crown 'Most Popular' badge
+  on Growth, green ring on selected). Provisions notice card with Landmark icon,
+  3 bullet points (owner, quotas, no payment at signup). Submit button 'Create
+  Organization' emerald with ArrowRight icon. Inputs: 11px h-11 rounded-lg border
+  focus:ring-emerald-500/30. Validation errors show AlertCircle red text."
+
+================================================================================
+[5] PORTFOLIO  —  /dashboard/estate-manager/portfolio
+================================================================================
+Prompt:
+  "Render portfolio overview inside DashboardShell. Header: h1 'Portfolio',
+  subtitle 'Performance overview of your managed properties'. A stat row of 4
+  glass-cards: Total Value (DollarSign, emerald), Units (Building2), Occupied
+  (Users, green), Vacant (AlertTriangle, amber). Below, a PortfolioAnalyticsClient
+  component with fallback sample data when no active org: occupancy rate 72%,
+  avg rent ₦1,850,000, avg service charge ₦120,000, avg caution deposit ₦450,000,
+  expired leases 4, 9 listings, top maintenance issues table (AC unit warm air,
+  kitchen sink leak, door lock). Charts: occupancy donut, revenue trend line.
+  Glass surfaces, emerald accent highlights, font-label-sm section headers.
+  No org state uses NoOrgState with Create Organization action."
+
+================================================================================
+[6] PORTFOLIO ANALYTICS  —  /dashboard/estate-manager/portfolio/analytics
+================================================================================
+Prompt:
+  "Render portfolio analytics page (server component wrapping PortfolioAnalyticsClient).
+  Auth-gated: redirect to /sign-in when unauthenticated, redirect via
+  getRoleRedirectPath for non-estate-manager roles. Data computed server-side via
+  prisma.unit.findMany filtered by organizationId — totalUnits, occupancyRate (%),
+  unitsByStatus (AVAILABLE/RENTED/MAINTENANCE/UNAVAILABLE counts), billedServiceCharges
+  vs collectedServiceCharges, avgRent, avgServiceCharge, avgCautionDeposit, expiredLeases,
+  listingCount, topMaintenanceIssues (5 tickets ordered by priority desc, createdAt
+  desc). Fallback mock values when no activeOrg. Client receives props with
+  hasRealData boolean and orgName; renders charts with emerald #10b981 series,
+  amber for warnings, red for criticals. Glass-card chart containers with
+  font-headline-sm titles and var(--muted-foreground) subtitles."
+
+================================================================================
+[7] UNITS LIST  —  /dashboard/estate-manager/units
+================================================================================
+Prompt:
+  "Render the estate-manager units list page (units/page.tsx — client component).
+  Uses useActiveOrganization + useActiveOrganizationId hooks; auth via
+  organizationId from context. Layout: mx-auto w-full max-w-[1240px] p-6 lg:p-10.
+  Header: flex-col md:flex-row with left (h1 'Units' + org badge emerald
+  bg-emerald-500/10 text-emerald-600) and right (Import link → /bulk-import with
+  right (Import link → /bulk-import with FileUp icon, Add Unit primary emerald
+  opens 'Add Unit' modal (dialog) — creates a unit stub in-context, then auto-
+  transitions to the invite-property-manager flow for owner attribution.
+  No cross-role navigation breaks; DashboardShell + ESTATE_MANAGER_NAVIGATION
+  stay intact throughout. See prompt [7b].
+
+  4-col KPI grid (2-col on md→md:grid-cols-4): Building2 Total Capacity, PieChart
+  Occupancy Rate (emerald), Wallet Annual Run Rate (compact ngn), BellRing Pending
+  Renewals (amber). Each card: CARD class (rounded-xl border-zinc-200 bg-white
+  dark:dark:bg-zinc-900) with LABEL header uppercase 11px + value text-xl bold.
+
+  Filter bar: SEARCH input (pl-9, Search icon absolute) + 3 native <select>
+  dropdowns (Status, Type, Occupancy) with rounded-lg border emerald focus-ring.
+  Right-aligned 'Showing x of total' badge.
+
+  Table (w-full text-sm): thead (TH uppercase 11px) with columns Unit & Portfolio,
+  Type, Specs (BedDouble + Bath icons), Size (font-mono), Rental Rate (₦ right),
+  Listing Status (STATUS_PILL: AVAILABLE=green, RENTED=sky/blue, MAINTENANCE=amber,
+  UNAVAILABLE=rose/red rounded-full border), Occupancy (OCCUPANCY_PILL: VACANT=gray,
+  OCCUPIED=green, NOTICE_GIVEN=amber), Actions (View ChevronRight link → units/[id]
+  emerald-600). tbody divide-y with hover:bg-zinc-50 dark:hover:bg-zinc-800/40.
+
+  Loading state: animate-pulse Skeleton (h-9 w-48 title, 4 h-24 KPI cards, h-72
+  table). No-org state: NoOrgState (Building2, Create Organization link →
+  /organizations/new). Empty state: Building2 16w + 'No units registered'
+  + Import CSV / Add unit buttons.
+
+  Data fetched from GET /api/orgs/{orgId}/units?{page,limit,status,occupancy,type}.
+  Pagination: Previous/Next buttons + 'page / totalPages' counter. Enum values from
+  prisma/schema.prisma: STATUSES, OCCUPANCIES, TYPES mapped via TYPE_LABELS."
+
+================================================================================
+[7b] ADD PROPERTY + UNITS MODAL  —  /dashboard/estate-manager/units/new (ADD FLOW)
+================================================================================
+Prompt:
+  "Render the 'Add Property & Units' flow as an inline modal (Dialog or Sheet)
+  launched from the Units list [7] header bar — NO cross-role navigation. The flow
+  has THREE steps and stays within DashboardShell + ESTATE_MANAGER_NAVIGATION +
+  the active organization context from useActiveOrganizationId.
+
+  Step 1 — Property Details:
+  A glass-card form modal (max-w-3xl) titled 'Add New Property'. Fields
+  (grid-cols=2): Property/Building Name (input, required), Address (textarea,
+  required — full street + city + state + country), Property Type (select:
+  residential / commercial / mixed-use), Total Units (number, min 1, default 1),
+  Estimated Monthly Rent per unit (₦, number, optional — auto-fills unit step),
+  Owner Email (input, optional — if provided, POST /api/listings is sent with
+  ownerEmail in the body; the backend automatically creates an OwnerInvite row.
+  The listing is created with ownerId = estate_manager, then re-assigned to the
+  landlord when they accept the invite via GET /orgs/{orgId}/owner-invites/accept?token=....
+  If empty, the estate manager remains the listing owner). POSTs to POST /api/listings
+  which creates a Listing row (ownerId = estate manager by default). Then links it
+  to the org via OrgListing junction. The created listing.id becomes the session
+  context for Step 2 and all subsequent units.
+
+  Step 2 — Unit Details (builder):
+  On successful property POST, the modal slides to 'Add Units'. Intro: 'Property
+  {listing.title} created. Now add unit(s) — you can add multiple.' Renders a
+  dynamic unit form builder: initial 1 unit form (duplicated when user clicks
+  'Add another unit'). Each unit form row (glass-card border) has: Unit Number
+  (input required), Type (select: apartment/house/duplex/land/office/shop/
+  warehouse per prisma enum, required), Bedrooms (number min 0), Bathrooms
+  (number min 0), Size sqm (number optional), Monthly Rent (₦ number, required),
+  Status (select: AVAILABLE default), Occupancy (select: VACANT default),
+  Building Name (input — required if >1 unit, used for duplicate uniqueness
+  check). 'Add another unit' button (outline + Plus icon) appends a form row.
+  'Remove' (Trash2 red ghost) on rows beyond the first. On Next: POSTs each
+  unit via POST /api/orgs/{orgId}/units (sequential, with {listingId, unitNumber,
+  type, bedrooms, bathrooms, sizeSqm, rent, buildingName, status=AVAILABLE,
+  occupancy=VACANT}). All created unitIds captured for Step 3.
+
+  Step 3 — Complete (auto-transition):
+  On successful unit creation, the modal slides to a confirmation screen. Intro:
+  '{count} unit(s) created under {listing.title}. The estate manager (you) now
+  manages these units directly.' If an owner email was provided in Step 1, append:
+  '{ownerEmail} has been invited to claim this property — they will become the
+  listing owner upon accepting the invite.' Summary card lists created units
+  (unitNumber + rent). Two action buttons: 'View property' (link to portfolio/[listingId]) +
+  'Add another property' (resets to Step 1). Optional secondary: 'Invite property
+  manager' (navigates to /dashboard/estate-manager/invite-property-manager) and
+  'Invite owner' (navigates to /dashboard/estate-manager/invite-property-manager
+  with the 'Property Owner' toggle pre-selected). No more required steps.
+
+  UX rules:
+  — Modal persists across all 3 steps (no unmount). Step indicator:
+    Property → Units → Complete (progress bar with 3 dots, emerald active
+    dot, gray pending).
+  — If orgId is falsy: block Step 1, show NoOrgState inline with 'Create
+    Organization' link → /organizations/new.
+  — On any step submit failure: toast error, keep current step active.
+  — All forms: glass-card border-b header px-6 py-5, body p-6, var(--accent)
+    emerald highlights, font-label-sm uppercase labels. Unit form rows: border
+    border-zinc-200 dark:border-white/[0.08] rounded-lg p-4 with Trash2
+    remove button top-right.
+  — Keyboard: Escape closes modal; Enter submits active step."
+
+
+================================================================================
+[8] UNIT DETAIL  —  /dashboard/estate-manager/units/[unitId]
+================================================================================
+Prompt:
+  "Render unit detail page (units/[unitId]/page.tsx — client component using
+  useParams + useRouter). Tabs component (react-tabs): Overview (default),
+  Maintenance, Tenants — each with count badge (rounded-full bg-accent/10 +
+  emerald text) when > 0.
+
+  Breadcrumb: Home / Portfolio / Units / '{buildingName} {unitNumber}'
+  (text-sm, / separators, var(--muted) links + var(--text) current).
+
+  Header: h1 '{buildingName — } Unit {unitNumber}' (3xl bold) + MapPin address
+  sub-row. Right: StatusBadge (statusConfig: AVAILABLE=tag-green, RENTED=tag-blue,
+  MAINTENANCE=tag-amber, UNAVAILABLE=tag-red) + OccupancyBadge (occupancyConfig:
+  VACANT=tag-gray, OCCUPIED=tag-green, NOTICE_GIVEN=tag-amber).
+
+  — Overview tab: 2-col grid. LEFT glass-card 'Unit Information' (Building2 header):
+  grid-cols-2 fields (Building, Unit Number, Type, Status Badge) + 3-col metric
+  bar (BedDouble/Bath/Square icons emerald, var(--surface-elevated) padded cells
+    showing bedrooms/bathrooms/size-sqm). RIGHT glass-card 'Financial Details'
+    (DollarSign header): Monthly Rent ₦ big + serviceCharge/cautionDeposit
+    conditional lines. Below: conditional 'Current Tenant' card (Users icon) with
+    Name/Email/Phone 3-col grid + Lease Start/End dates in 2-col grid when
+    leaseStart/end present.
+
+  — Maintenance tab: 'Maintenance History' glass-card (Wrench header + 'Create
+    Ticket' Button asChild Link → /maintenance). Ticket rows: title link →
+    /maintenance/{id}, 'category • date' subtitle, priorityConfig (Low gray /
+    Medium blue / High amber / Urgent red) + status Badge (open=tag-red, resolved/
+    closed=tag-green, else tag-blue) badges. Loading 3 Skeleton h-16 bars; error
+    state with Retry (RefreshCw); empty: Wrench 12w + 'No maintenance history'.
+
+  — Tenants tab: 'Tenant History' glass-card (Users header). Agreement rows:
+    tenant fullName, 'type • status' subtitle, 'startDate — endDate' date range,
+    status tag (fully_signed/active=green, terminated/expired=red, else amber).
+    Loading 3 Skeleton bars; error with Retry; empty: Users 12w + 'No tenant history'.
+
+  All cards: glass-card, border-b (border-zinc-200 dark:border-white/[0.08])
+  header px-6 py-5 with h3 + icon (var(--accent)), body p-6. var(--text)/var(--muted)/
+  var(--border)/var(--surface)/var(--surface-elevated) CSS vars throughout.
+
+  Error/no-unit state: glass-card border-red-500/30 bg-red-500/5 + Building2 icon
+  + 'Unable to load unit details' + Retry (RefreshCw) + 'Back to Portfolio'
+  (ArrowLeft) button. Loading skeleton: 10x avatar + 80-h cards + 64-h card.
+
+  Data: useOrganizations (orgs) → useUnit(orgId, unitId) → useOrganizationTickets
+  (listingId) + useAgreementsByListing (listingId). OnRetry refetches all three."
+
+================================================================================
+[9] TENANTS LIST  —  /dashboard/estate-manager/tenants
+================================================================================
+Prompt:
+  "Render tenants management page inside DashboardShell. Header: h1 'Tenants'
+  + subtitle 'Manage tenant operations and occupancy'. 4-column stat row of
+  glass-cards with Users icons: Total Tenants, Active (emerald #10b981), Pending
+  (amber), Notice Period (amber). Filter bar: Search input (Search icon pl-9) +
+  Status Select dropdown (All Status / Active / Pending / Notice Period). Data
+  table: Name | Unit | Email | Status (Badge: active=green, pending=amber,
+  notice_period=outline gray) | Lease End. Skeleton row loader (5 rows x 5 cols).
+  Empty state: Users 12w opacity-50 + 'No tenants found' + 'No tenants assigned
+  yet.' Loading uses StatCardSkeleton for top row + RowSkeleton for table.
+  Error state: glass-card border-red-500/30 + Retry button. All labels
+  font-label-sm uppercase tracking-wider."
+
+================================================================================
+[10] MAINTENANCE LIST  —  /dashboard/estate-manager/maintenance
+================================================================================
+Prompt:
+  "Render maintenance tickets list page inside DashboardShell (client component
+  using useOrganizations + useOrganizationTickets). Header: h1 'Maintenance' +
+  'Track and triage maintenance requests' subtitle + 'Create Ticket' primary
+  emerald button (has Plus icon). Stat row: 4 glass-cards — Total Tickets
+  (Wrench), Open (red), In Progress (amber), Resolved/Closed (green). Filter
+  bar: search input + status filter (all/open/assigned/in_progress/resolved/
+  closed) + priority filter (low/medium/high/urgent). Table columns: Ticket title
+  (link to /maintenance/[id]), Category, Priority (Badge with priorityConfig:
+  low gray, medium blue, high amber, urgent red), Status (Badge with statusConfig:
+  open red, assigned blue, in_progress amber, resolved green, closed gray),
+  Assigned To (User avatar initials or 'Unassigned'), Created (Calendar icon
+  + toLocaleDateString), SLA countdown. Row hover bg-muted/30. Empty: Wrench
+  12w opacity-50 + 'No maintenance tickets'. Loading: Skeleton h-16 bars."
+
+================================================================================
+[11] MAINTENANCE DETAIL  —  /dashboard/estate-manager/maintenance/[id]
+================================================================================
+Prompt:
+  "Render maintenance ticket detail page inside DashboardShell (client component).
+  Breadcrumb: Home / Maintenance / [ticket.title] (text-xs uppercase
+  tracking-wider). Header: ticket title (h1) + location sub-row (MapPin icon +
+  listing.title/address). Top-right badges: priority pill (priorityConfig colors)
+  + status pill (statusConfig colors). 2-column grid:
+
+  LEFT card 'Details' (MessageSquare icon header): Category, Description,
+  Created (Calendar icon), Resolved (CheckCircle icon, conditional).
+  RIGHT card 'Assignee' (User icon header): assigned user avatar (initials
+  circle bg-accent/20) + fullName + email; or 'Unassigned' with muted User
+  icon.
+
+  Below: 'Progress Timeline' card (Clock icon header) — a vertical stepper
+  mapping statusTimeline [open → assigned → in_progress → resolved → closed]
+  with circular icon nodes (h-10 w-10, white bg when completed else border),
+  connecting h-0.5 line (border color), label + timestamp per step. Current
+  step highlighted with 'Current step — timestamp'; completed steps show
+  'updatedAt' timestamp.
+
+  All cards glass-card w/ border-b header px-6 py-5, body p-6. var(--text)/
+  var(--muted) styling. Loading: Skeleton h-10 avatar + h-8/h-4 bars + 2 Skeleton
+  h-80 cards. Error: glass-card border-red-500/30 + Wrench icon + Retry +
+  'Back to Maintenance' link."
+
+================================================================================
+[12] AGREEMENTS LIST  —  /dashboard/estate-manager/agreements
+================================================================================
+Prompt:
+  "Render agreements management page inside DashboardShell. Header: h1 'Agreements'
+  (var(--primary)) + 'Track and manage portfolio agreements' subtitle + 'Create
+  Agreement' primary emerald button (Plus icon). 4-column stat row of glass-
+  cards: Total (Users), Signed (emerald #10b981), Pending (amber), Draft (gray).
+  Filter pill bar: all/draft/pending_landlord/pending_tenant/fully_signed/
+  terminated/expired capsules with bg-accent/10 active state. Data table:
+  columns Reference (font-mono last 8 chars), Title, Parties (tenant/landlord),
+  Period (startDate — endDate), Rent/Price (₦ + rentAmount + /rentPeriod),
+  Status (span badges: draft gray, pending amber, tenant_signed/landlord_signed
+  green, fully_signed green, terminated/expired red), Actions (Eye + Download
+  icons, Download only when fully_signed). Row hover bg-muted/30. Empty: FileText
+  16w opacity-50 + 'No agreements' + 'Create your first agreement.' table
+  font-label-sm uppercase headers."
+
+================================================================================
+[13] COMMERCIAL LEASES  —  /dashboard/estate-manager/commercial-leases
+================================================================================
+Prompt:
+  "Render commercial lease collection page inside DashboardShell. Header row:
+  h1 'Commercial Lease Collection' + subtitle 'Managing revenue for The Platinum
+  Plaza & Business District...' + Export Report (outline) + Bulk Invoice (primary
+  emerald, Receipt icon). 4-column stat grid: Collection Rate 94.2% (+2.4%, TrendingUp
+  green icon), Total Arrears ₦14.2M (Wrench red icon, '12 Pending notices'),
+  Service Charges ₦8.5M (Receipt, '88% Recovery'), Expiring Leases 08 Units
+  (AlertCircle, tertiary bg fill). Data table: Unit/Tenant (avatar circle w/ unit
+  letter, name + location), Base Rent, Service Charge, Utilities, Status badges
+  (paid=green, overdue=red, partial=amber), Lease Expiry, Actions (Eye + Mail
+  ghost buttons). Pagination footer: 'Showing 3 of 42' + page nav (← 1 2 →).
+  All cards glass-card, headers font-headline-sm, font-label-sm uppercase labels,
+  var(--muted) values. Border-zinc-200 dark:border-white/[0.08]."
+
+================================================================================
+[14] MOVE-IN  —  /dashboard/estate-manager/move-in
+================================================================================
+Prompt:
+  "Render move-in coordination page inside DashboardShell. Header: h1 'Move-in
+  Coordination Hub' + 'Handover and onboarding workflow for commercial tenants.'
+  Hero banner: emerald-500 bg (text-zinc-900) with inline 'Handover Ready' pill
+  (ClipboardList), h2 'Welcome to your new HQ', body text referencing The Pinnacle
+  Plaza Suite 402, + View Digital Key (secondary) + Download Welcome Pack (outline)
+  buttons. 12-col grid: LEFT col-span-4 'Payment Status' card (Inbox icon) with
+  Escrow Clearance ₦12,450,000.00 (CLEARED badge), checklist rows (Security Deposit
+  Verified, Service Charge Settled, progress bar), 'Print Handover Protocol Form'
+  checklist item. RIGHT col-span-8 'Key Handover Schedule' card with property
+  image placeholder (aspect-video), appointment slot (CalendarClock emerald circle +
+  date/time), Preparation Checklist (5 items: Print Protocol [done], Assign IT
+  Rep [done], Final Inventory [pending], Reschedule Appointment button emerald
+  outline). Below: 'Utility & HVAC Onboarding' 3-col cards (Electrical CONNECTED
+  bolt, HVAC TESTING REQUIRED ac_unit, Fibre READY wifi). All glass-card surfaces,
+  emerald #10b981 accents, rounded-xl."
+
+================================================================================
+[15] FINANCIALS OVERVIEW  —  /dashboard/estate-manager/financials
+================================================================================
+Prompt:
+  "Render financials dashboard inside RentAndPaymentsHub tabs (Overview default).
+  Client component, auth via getCurrentUserWithProfile + getRoleRedirectPath
+  redirect. Header: 'Financials' h1 + 'Profit and loss summary' subtitle + period
+  select dropdown (week/month/quarter/year) + Export (Download icon outline).
+  4 KPI glass-cards: Total Revenue (Wallet icon emerald), Total Expenses (TrendingDown
+  red), Net Profit (TrendingUp info/blue), Profit Margin (Filter icon). Revenue
+  breakdown table (Source | Amount emerald | Share%) + Expense breakdown table (Category
+  | Amount red | Share%). Profit Trend chart: h-64 bar chart with revenue (success/80
+  green) + expenses (destructive/80 red) bars per month, legend below. No-org state:
+  Wallet 10h + 'No organisation linked' + Create Organization (blue) + Link
+  Organization (outline). Loading: StatCardSkeleton x4 + RowSkeleton tables + h-300
+  chart placeholder. formatNaira/formatNairaFull helpers format NGN."
+
+================================================================================
+[16] SCENARIO BUILDER  —  /dashboard/estate-manager/financials/scenario-builder
+================================================================================
+Prompt:
+  "Render scenario builder page (ScenarioBuilderClient) inside DashboardShell.
+  Auth-gated server wrapper. Header: h1 'Scenario Builder' + subtitle 'Model revenue
+  outcomes across market conditions'. 3 scenario comparison cards (glass-card)
+  laid out in a row: Baseline (72% occupancy, ₦18.5M income, ₦12.2M expenses),
+  Optimistic (88%, ₦22M/₦10.8M) with emerald accent, Pessimistic (55%, ₦14M/
+  ₦14.1M) with red accent. Each card: scenario name badge, large occupancy %,
+  income/employees bars. Below: assumptions matrix — activeTenancies, defaultedLeases,
+  monthlyIncome calc, monthlyExpenses breakdown. Fallback data when no activeOrg.
+  All cards have emerald #10b981 primary highlights, font-headline-sm titles,
+  var(--muted-foreground) for supporting text."
+
+================================================================================
+[17] SCENARIO VIEW  —  /dashboard/estate-manager/financials/scenario
+================================================================================
+Prompt:
+  "Render scenario detail page (refined revenue forecasting advanced scenario
+  builder owner console) inside DashboardShell. Header: h1 'Refined Revenue
+  Forecasting Advanced Scenario Builder Owner Console' + description line
+  'Propati Finance | Revenue Forecasting ...'. A single glass-card section
+  'Revenue Forecasting' with placeholder text 'Content from refined_revenue_
+  forecasting_advanced_scenario_builder_propati_owner_console.' Below: flex gap
+  buttons — 'Upgrade to Premium' (primary) + 'View Detailed Ledger' (primary).
+  A glass-card bullet list: Revenue Analytics, Predictive financial analysis FY
+  2024-2026, Projected Gross Revenue, Expected Net Yield, Forecasted Occupancy,
+  Risk Adjusted ROI, Resulting Forecast, 'High demand for short-lets in Victoria
+  Island...'. Final card: 'This page was ported from the reference design:
+  refined_revenue_forecasting_advanced_scenario_builder_propati_owner
+  _console.html.' emerald accent, minimal chrome."
+
+================================================================================
+[18] BILLING  —  /dashboard/estate-manager/billing
+================================================================================
+Prompt:
+  "Render estate-manager billing page (EstateManagerBillingClient) inside
+  DashboardShell. Auth-gated server wrapper fetches agreements via prisma with
+  listing + tenant selects, maps to bills (id, title '{type} - {listing.title}',
+  tenant, amount, dueDate, status: fully_signed => paid else pending). Client
+  renders: header 'Billing' + 'Manage invoices and payment schedules' subtitle
+  + 'Generate Invoice' (Plus primary emerald). 3 stat cards: Total Bills,
+  Paid (green), Pending (amber). Filter bar: status/all/paid/pending + date range.
+  Table: Reference | Title | Tenant | Due Date (Calendar icon) | Amount (₦) |
+  Status badges | Actions (Eye view + Send reminder envelope icon). Row hover
+  bg-muted/30. Empty: Receipt 12w opacity-50 + 'No billing records'. Skeleton
+  rows during load."
+
+================================================================================
+[19] COLLECTIONS  —  /dashboard/estate-manager/collections
+================================================================================
+Prompt:
+  "Render managed collections page (client component). Header 'Managed collections'
+  inside glass-card. Fetch GET /api/wallet/managed?status=in_escrow. For each
+  item: listing title or reference, tenant + landlord names/ids, createdAt
+  timestamp, payee amount (formatAmount using en-NG currency NGN no fraction).
+  Row layout: left block with payer/payee line + timestamp, right block with
+  payee amount label + 'Disburse' outline button navigating to
+  /disbursements?landlordId=..&amount=..&reference=.. Loading: 'Loading...' text.
+  Empty: 'No pending managed collections.' All glass-card surfaces, var(--muted)
+  text."
+
+================================================================================
+[20] DISBURSEMENTS  —  /dashboard/estate-manager/disbursements
+================================================================================
+Prompt:
+  "Render disbursements page (client component wrapped in Suspense). A single
+  glass-card form (max-w-xl) 'Disburse to landlord'. Form fields via Field/
+  FieldLabel + Input: Listing reference / Agreement ID (prefilled from URL
+  ?reference), Landlord user ID (prefilled ?landlordId), Amount (₦, number min=100,
+  prefilled ?amount). Submit button 'Disburse' (disabled=processing). POSTs
+  /api/wallet/disburse JSON {transactionId, landlordId, amount, description}.
+  Toast success 'Disbursed to landlord' or error. Glass-card border-b header
+  px-6 py-5, form p-6 space-y-4 inputs."
+
+================================================================================
+[21] RECEIPTS  —  /dashboard/estate-manager/receipts
+================================================================================
+Prompt:
+  "Render estate-manager receipts page — thin server wrapper calling
+  TenantReceiptsClient with empty initialReceipts. Inside DashboardShell.
+  The client renders receipt list with status (paid/failed/pending), date,
+  amount (₦), tenant name, listing reference. Header 'Receipts' + 'Payment
+  receipts for your portfolio' subtitle. Filter by tenant/status/date.
+  Glass-cards, font-label-sm headers, var(--muted) values. Empty state uses
+  Receipt icon + 'No receipts yet'."
+
+================================================================================
+[22] STATEMENTS  —  /dashboard/estate-manager/statements
+================================================================================
+Prompt:
+  "Render estate-manager statements page — thin server wrapper reusing
+  AutomatedMonthlyStatementClient from tenant/payments/statements. Auth-gated.
+  Inside DashboardShell. Client renders monthly automated statement generator:
+  period selector (month/year), summary totals (rent collected, service charges,
+  arrears), tenant-level breakdown table, generate/download PDF button.
+  Glass-card sections, emerald accent on action buttons."
+
+================================================================================
+[23] INVOICES  —  /dashboard/estate-manager/invoices
+================================================================================
+Prompt:
+  "Render estate-manager invoices page — server wrapper that reuses
+  ServiceChargesPage component (re-exports it). Auth-gated. Inside
+  DashboardShell. Renders service charge invoices with status (draft/sent/
+  paid/overdue), unit, amount, due date, tenant. Header 'Invoices' + subtitle.
+  Uses var(--text)/var(--muted)/var(--surface) CSS vars throughout."
+
+================================================================================
+[24] SERVICE CHARGES  —  /dashboard/estate-manager/service-charges
+================================================================================
+[See full file read above — 321 lines. Prompt:]
+
+  "Render service charges management page (client component). Header: h1 'Utility
+  Allocations' + 'View and manage utility allocations for your portfolio' subtitle.
+  4 stat glass-cards: Billed (DollarSign emerald), Collected (CheckCircle green),
+  Outstanding (Clock amber), Delinquent (AlertCircle red) with amounts. Filter bar:
+  status filter (all/draft/sent/paid/overdue) + type filter (all/electricity/
+  water/waste/security/other). 'Generate Invoices' (Plus primary emerald) +
+  'Export' (Download outline) + 'Run Allocation' (Play secondary). Table columns:
+  Unit (# circle bg-accent/20 + unitNumber + buildingName), Type (utilityTypeLabels
+  map), Amount (₦), Billing Period, Due Date (toLocaleDateString), Status badges
+  (invoiceStatusSchema: draft gray, sent primary, paid green, overdue red,
+  cancelled red). Skeleton loader rows (5x) during fetch. Create dialog (Plus
+  trigger) with Unit ID, Type select, Reading optional, Amount, Billing Period,
+  Due Date date picker. Empty: Zap 12w opacity-50 + 'No utility allocations found'.
+  All var(--primary)/var(--accent)/var(--muted) styling."
+
+================================================================================
+[25] LEDGER  —  /dashboard/estate-manager/ledger
+================================================================================
+Prompt:
+  "Render ledger page (client component). Fetches GET /api/wallet/managed?status=in_escrow,
+  lists transactions with walletTransactionId, reference, type (rent/collection/
+  disbursement), amount, status, balanceAfter, createdAt. Header 'Ledger' +
+  'Record of all wallet transactions'. Filter bar: type/status/date range. Stat
+  cards: Total Wallet Balance (₦, blue), Total Inflows (green), Total Outflows
+  (red), Pending Settlements (amber). Transaction table: Timestamp | Type (icon
+  + badge) | Reference (font-mono) | Description | Amount (+/-, emerald/red) |
+  Balance (font-mono badge) | Status. Row clickable → ledger/[id]. Skeleton rows
+  while loading. Empty: Receipt 12w opacity-50 + 'No transactions yet'.
+  All amounts formatAmount en-NG NGN. Glass-card table container."
+
+================================================================================
+[26] REPORTS  —  /dashboard/estate-manager/reports
+================================================================================
+Prompt:
+  "Render reports page inside DashboardShell (server component wrapping
+  ReportsClient). Auth-gated. Data fetched from prisma: organization units,
+  transactions (rent/subscription types), serviceCharges, rentSchedule. Computes:
+  occupancyTrend (12 months), revenueByProperty (listings), leaseExpiryHeatmap
+  (months), outstandingBalancePerTenant, serviceChargeRecovery. Fallback sample
+  data when no activeOrg: 72% avg occupancy, ₦36M billed, ₦27.8M collected, 4
+  expired leases. Client renders: header 'Reports' + subtitle. Stat row (4 cards:
+  Total Revenue, Expenses, Occupancy %, Recovery Rate with TrendingUp icon).
+  Tabs: 'Portfolio Performance' (line chart occupancy trend), 'Revenue by Property'
+  (bar chart, clickable bars), 'Lease Expiry Heatmap' (calendar heatmap),
+  'Tenant Balances' (table w/ outstanding), 'Export' button (CSV/PDF). Date
+  range selector in header. Chart series use emerald #10b981 primary, amber
+  warnings, red criticals. Glass-card chart containers, font-headline-sm."
+
+================================================================================
+[27] REVENUE SIGNATURE  —  /dashboard/estate-manager/reports/revenue-signature
+================================================================================
+Prompt:
+  "Render revenue signature analytics page (RevenueSignatureClient) inside
+  DashboardShell. Auth-gated server component fetches monthly transaction data
+  from prisma org listings + serviceCharges + rentSchedule. Computes MonthSummary[]:
+  month (Jan 2026…Dec 2026), totalRevenue, serviceCharges, rentTransactions,
+  net. Fallback 12-month dataset (~₦28M–₦38M revenue, ₦4.2M–₦5.6M service
+  charges). Client renders: header 'Revenue Signature' + subtitle. KPI row (4 cards:
+  Total Revenue, Total Service Charges, Total Rent, Net). Primary chart: stacked
+  bar (rentTransactions in emerald #10b981 + serviceCharges in amber) per month.
+  Secondary: net margin trend line. Legend emerald=rent, amber=service charges.
+  Table: Month | Rent | Service Charge | Revenue | Net | Net Margin %. 'Export CSV'
+  button. All cards glass-card with font-label-sm uppercase headers."
+
+================================================================================
+[28] ANALYTICS  —  /dashboard/estate-manager/analytics
+================================================================================
+Prompt:
+  "Render analytics dashboard page inside DashboardShell (server component).
+  Auth-gated: redirect /sign-in if no user, getRoleRedirectPath for non-
+  estate_manager. Renders EstateCommandClient with userName. Uses useEstateCommand
+  hook for live data (units w/ occupancy, rent, serviceCharge, leaseEndDate,
+  currentTenant, nextMaintenanceDate; monthly collections + opex; overdueUnitIds;
+  leaseExpiry data). Dashboard layout: KPI cards row (Total Units / Occupied
+  / Vacant / Overdue — using KpiCard with rounded-xl icon wrappers bg-accent/15,
+  emerald text), EscrowInflowChart bar chart (collections vs opex bars 180px
+  height, primary/secondary color bands, current month emerald glow), LeaseExpiryCard
+  donut ('08 Units' expiring). Estate Units table with tab filters (All/Overdue/
+  Maintenance/Vacant), search, 10/page pagination, unit rows with avatar initials
+  (bg-accent/20 when occupied else bg-surface-highlight), Status pills (Occupied
+  success / Vacant muted / Maintenance warn / Escrow Overdue danger), SLA
+  countdown, action buttons (view unit, maintenance). Loading: KpiSkeleton +
+  PanelSkeleton. Error: ErrorState with Retry. Empty: EmptyPanel w/ action.
+  CSS vars: var(--primary), --accent emerald, --text, --muted-foreground,
+  --surface, --border, --surface-elevated."
+
+================================================================================
+[29] SUBSCRIPTION  —  /dashboard/estate-manager/subscription
+================================================================================
+Prompt:
+  "Render subscription & billing page (client component using useQuery TanStack).
+  Fetches /api/dashboard/estate-manager/subscription. Loading: SubscriptionSkeleton
+  (2 h-96 + h-10). No org / no data: Building2 16w + 'No organization found'.
+  Body: h1 'Subscription & Billing' + subtitle. Current Plan card: gradient
+  primary/10→primary/30, org.planTier badge, plan name + ₦price/mo, next billing
+  date, usage stats (Units bar / Team Members bar with emerald fills), 'Manage
+  Billing' outline button (external Paystack link). Available Plans: 3 glass-card
+  columns (Starter / Growth w/ Crown 'Most Popular' / Enterprise w/ 'Full Scale')
+  with perk checkmarks, Upgrade/Downgrade buttons. Billing History table: Date |
+  Plan | Amount (₦) | Status badge | View invoice (external Paystack link). Empty:
+  FileText 12w opacity-50 + 'No billing history yet'. emerald #10b981 accents,
+  glass-card surfaces, font-label-sm headers."
+
+================================================================================
+[30] TEAM  —  /dashboard/estate-manager/team
+================================================================================
+Prompt:
+  "Render team management page (client component). Header: h1 'Team Management' +
+  'Manage team members and their roles'. 'Invite Member' primary emerald button
+  (UserPlus icon) opens Dialog. 3 stat cards (Users icon): Total Members, Active
+  (emerald), Pending (Mail icon gray). Table: Name | Email | Role (Select dropdown
+  for active: manager/accountant/maintenance/owner_view with roleColors badges;
+  pending shows badge) | Status (default/secondary) | Joined (toLocaleDateString)
+  | Actions (Trash2 red ghost for owner !== member). Invite dialog: Email input +
+  Role Select + 'Send Invitation' button. Delete confirmation AlertDialog.
+  Skeleton loaders during fetch. Empty: Users 12w opacity-50 + 'No team members' +
+  'Invite First Member' button. All var(--text)/var(--muted) styling, glass-card
+  table."
+
+================================================================================
+[31] INVITE PROPERTY MANAGER  —  /dashboard/estate-manager/invite-property-manager
+================================================================================
+Prompt:
+  "Render invite property manager page (client component). Back link to /team +
+  h1 'Invite property manager' + 'They'll get an email to accept the invite'.
+  Header badges: 'Verified'/'Unverified' dropdown (ChevronDown) → View profile +
+  Start verification links; 'Refer & earn' secondary button (UserPlus). Form:
+  glass-card 'Email' section with email input (required, placeholder
+  agent@example.com) + help text about account prompt. Permissions card (8 toggles
+  + descriptions: add_tenants, record_payments, renew_leases, upload_agreements,
+  maintenance, view_payments, view_reports, remove_tenants) — checkboxes with
+  CheckCircle2 when selected. Scope card: property select dropdown from
+  useOrganizationListings (default 'All properties'). Footer: Cancel + 'Send
+  invite' emerald primary. Glass-card sections with border-0 ring-1 ring-
+  foreground/5. Permission toggles use emerald-500/5 bg when selected."
+
+================================================================================
+[32] LEASE NEGOTIATION  —  /dashboard/estate-manager/lease-negotiation
+================================================================================
+Prompt:
+  "Render lease negotiation page inside DashboardShell. Header: h1 'Grade A
+  Serviced Office' + amber 'Active Negotiation' badge + address 'Victoria Island,
+  Lagos, Nigeria' (MapPin inline) + Ref ID 'PR-1092-VI'. Action buttons:
+  'Request Docs' (outline, FileText icon) + 'Sign Document' (primary emerald,
+  Gavel icon). Term Sheet Comparison card: table (Term | Original Listing |
+  Proposed Counter) with 4 rows (Annual Rent, Lease Duration, Service Charge,
+  Security Deposit) — proposed column bold highlighted. Negotiation Documents
+  card: 3 downloadable doc rows (Original Offer Letter, Counter Offer Term Sheet,
+  Legal Review Notes) with FileText icon + Download link. All glass-card surfaces,
+  font-label-sm uppercase, var(--muted-foreground) text, border-zinc-200
+  dark:border-white/[0.08]."
+
+================================================================================
+[33] LEASE REVIEW  —  /dashboard/estate-manager/lease-review
+================================================================================
+Prompt:
+  "Render lease agreement review page inside DashboardShell. Header: h1 'Lease
+  Agreement Review' + reference line 'PROP-2024-88492-L · Platinum Plaza, Suite 402'.
+  Action buttons: Reject (red border + XCircle icon), Request Changes (amber
+  border + AlertTriangle), Approve Agreement (green fill + CheckCircle2). 2-col
+  grid: LEFT (col-span-2) 'Document Viewer' card with h2 'Commercial Lease
+  Agreement', reference, and 5 rendered agreement paragraphs (Rent & Payment
+  Terms, Security Deposit, Lease Duration, Maintenance, Termination). RIGHT
+  'Clause Checklist' card with 5 clauses (Rent & Payment Terms, Security Deposit,
+  Lease Duration, Maintenance Responsibilities, Termination Clause) each a
+  pending amber pill. All glass-card surfaces, font-headline-sm titles, var(--muted)
+  labels, border-zinc-200 dark:border-white/[0.08]."
+
+================================================================================
+[34] BULK IMPORT  —  /dashboard/estate-manager/bulk-import
+================================================================================
+Prompt:
+  "Render bulk import page inside DashboardShell (client component). Header: h1
+  'Bulk Import' + 'Upload thousands of properties via CSV or Excel'. 3-col grid:
+  LEFT 2-col file upload card + import status card; RIGHT sidebar (template +
+  rules). Upload area: dashed border, Upload 12w icon, 'Choose File' label,
+  accepts .csv/.xlsx/.xls. After upload shows fileName + rowCount detected.
+  Status card flows: idle → 'No active import' / uploaded → 'File uploaded
+  successfully' + Process Import button / processing → progress bar (10%
+  increments, 'Do not close this page') / done → 'Import completed' + Download
+  Report. Template card: 'Download Template' button (Download icon). Rules card:
+  5 bullets (50MB max, headers match template, DD/MM/YYYY dates, duplicates skipped,
+  unique emails) with green CheckCircle icons. All glass-card surfaces, emerald
+  #10b981 accents, var(--muted-foreground) text."
+
+================================================================================
+[35] UTILITIES  —  /dashboard/estate-manager/utilities
+================================================================================
+Prompt:
+  "Render utility allocations page (client component). Header: h1 'Utility
+  Allocations' + 'View and manage utility allocations for your portfolio' +
+  'Add Utility Allocation' primary emerald (Plus icon) opens Dialog. Filter bar:
+  status filter (all/draft/sent/paid/overdue/cancelled) + type filter (all/
+  electricity/water/waste/security/other). Table: Unit (# circle bg-accent/20 +
+  unitNumber + buildingName), Type (utilityTypeLabels), Amount (₦), Billing
+  Period, Due Date (toLocaleDateString), Status badges (invoiceStatusSchema).
+  Create dialog form: Unit ID, Type select (default electricity), Reading
+  optional, Amount required, Billing Period, Due Date picker, Create button.
+  Loading: 5 Skeleton h-12 rows. Empty: Zap 12w opacity-50 + 'No utility
+  allocations found'. All var(--text)/var(--muted) styling, glass-card table
+  container."
+
+================================================================================
+[36] MESSAGES  —  /dashboard/estate-manager/messages
+================================================================================
+Prompt:
+  "Render estate-manager messages page — server wrapper using getCurrentUserWithProfile,
+  redirect /sign-in if no user, redirect /dashboard if role !== estate_manager.
+  Wraps MessagePage component (from @/components/ui/message-page) in SidebarProvider
+  with userId/userName/userRole props inside DashboardShell. The MessagePage
+  renders a conversation list + thread view with Clerk user avatar, real-time
+  message bubbles, attachment preview, compose box with send button. Glass-panel
+  chat container, emerald #10b981 accent on sent messages and primary buttons.
+  Sidebar shows org contacts (tenants, landlords, team). All var(--text)/
+  var(--muted) styling."
+
+================================================================================
+[37] NOTIFICATIONS  —  /dashboard/estate-manager/notifications
+================================================================================
+Prompt:
+  "Render notifications center page inside DashboardShell. Header: h1
+  'Notifications' + 'Stay updated on all estate operations' subtitle + 'Mark all
+  read' link button. 4 stat cards (Bell icon): All (zinc), Unread (blue), Alerts
+  (amber WarningOctagon), System (gray Info). Timeline list of notifications with:
+  avatar (icon circle, green success / amber warning / blue info / gray muted),
+  sender name bold, action description, timestamp ('2 hours ago' via formatDistance
+  date-fns), unread dot (bg-emerald-500) when unread-blue. Status pills: New/Sending
+  emerald, Failed red, Processing blue. Filter tabs: All/Unread/Alerts/System.
+  Empty: Bell 16w opacity-50 + 'No notifications'. Each notification clickable
+  → linked resource. All glass-card surfaces, font-label-sm uppercase section
+  headers, var(--muted-foreground) timestamps."
+
+================================================================================
+[38] PAYMENTS  —  /dashboard/estate-manager/payments
+================================================================================
+Prompt:
+  "Render estate-manager payments page inside DashboardShell. Header: h1 'Payments'
+  + 'Track rent collections and payment status across your portfolio'. 4 stat
+  cards: Total Collected (Wallet emerald), Pending (Clock amber), Overdue
+  (AlertCircle red), Failed (XCircle). Data table: Tenant | Unit | Property |
+  Amount (₦) | Due Date | Method | Status badges (success green / warning amber /
+  error red / processing blue) | Actions (Eye view receipt). Row hover bg-
+  muted/30. Filter bar: status filter (all/success/pending/overdue/failed) +
+  date range + property select. Payment detail slide-over (when clicking Eye):
+  tenant info, property address, payment breakdown (rent/service charge/maintenance),
+  timeline (Initiated → Processing → Success/Failed with timestamps), download
+  receipt PDF. Empty: Receipt 12w opacity-50 + 'No payments'. Skeleton rows
+  loading. All amounts en-NG NGN format."
+
+================================================================================
+[39] VERIFICATION  —  /dashboard/estate-manager/verification
+================================================================================
+Prompt:
+  "Render verification center page inside DashboardShell. Header: h1 'Verification
+  Center' + subtitle 'Complete your identity and firm verification'. 4 stat cards:
+  Identity Status (ShieldCheck), Firm Registration (Landmark), Tax Compliance (FileText),
+  Bank Verification (Building2). Each card: status badge (Verified green /
+  Pending amber / Not Started gray) + progress bar + 'Verify Now' / 'View' button.
+  Main card 'Identity Verification': steps — Personal ID upload (NIN/BVN/Passport),
+  selfie capture, Liveness check, OCR extraction. Secondary card 'Firm Verification':
+  CAC number input + Verify button (Prembly integration), business address
+  confirmation. Progress stepper with 4 steps (pending gray, active emerald ring,
+  complete green check). All glass-card surfaces, font-label-sm uppercase, var(
+  --muted-foreground) text, emerald #10b981 accent on active/complete states.
+  Breadcrumb Home / Verification."
+
+================================================================================
+END OF PROMPTS
+================================================================================

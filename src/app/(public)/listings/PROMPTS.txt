@@ -1,0 +1,212 @@
+================================================================================
+PROPATI LISTINGS — /listings + /listings/[id] (PUBLIC)
+================================================================================
+Shared visual language:
+
+  Theme    : Next.js 14 App Router + Tailwind CSS + shadcn/ui (dark-mode capable)
+  Brand     : Emerald #10b981 (--accent) on dark surfaces
+  Surfaces  : bg-[#F8FAFC] dark:bg-black | .glass-card | border-zinc-200 dark:border-white/[0.08]
+  Fonts     : font-heading (headline-sm) | font-label-sm (uppercase tracking-wider) | font-body-sm
+  Radius    : rounded-xl | rounded-2xl
+  Icons     : lucide-react (Search, MapPin, Bed, Bath, Square, Heart, Filter, Grid3X3,
+               List, SlidersHorizontal, X, Star, Share2, Home, Building2, ChevronLeft, etc.)
+  Currency  : NGN via Intl.NumberFormat('en-NG', { style:'currency', currency:'NGN' })
+  Layout    : max-w-7xl mx-auto, px-4 sm:px-6, 24px gutters
+  Components: PropertyCard, AdvancedSearchMapView, InteractiveHoverButton, Button,
+               SectionLabel, StarRating, Avatar, Badge, PageHeader
+
+Data sources:
+  - GET /api/listings?limit=50  →  { listings: [...] }  (search page)
+  - GET /api/listings/{id}      →  { listing: {detail} }  (detail page)
+
+================================================================================
+[1] LISTINGS SEARCH PAGE  —  /listings
+================================================================================
+Prompt:
+  "Render the listings search page (src/app/(public)/listings/page.tsx — client
+  component, 'use client'). This is a Zillow-style split layout with a sticky
+  filter bar, desktop sidebar, property grid, and a sticky right-side map.
+
+  Layout: bg-[#F8FAFC] dark:bg-black min-h-screen pt-16.
+  - Sticky top bar (z-30, bg-white/90 dark:bg-black/90 backdrop-blur-md border-b):
+    max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3.
+    Contains: search input, category tabs, sort dropdown, view toggle, filter button.
+  - Main: max-w-7xl mx-auto px-4 sm:px-6 py-8 flex gap-6.
+    Left: flex-1 (property grid). Right: sticky map (hidden lg:block w-[480px] xl:w-[560px]).
+
+  State variables (all useState):
+  - category: 'All' | 'Rent' | 'Shortlet' | 'Commercial' | 'Share' (default 'All')
+  - bedrooms: 'Any' | '1' | '2' | '3' | '4' | '5+' (default 'Any')
+  - viewMode: 'grid' | 'list' (default 'grid')
+  - filterOpen: boolean (mobile drawer, default false)
+  - sort: 'Newest First' | 'Price: Low to High' | 'Price: High to Low' | 'Most Verified'
+  - search: string (from URL ?q= on mount via useSearchParams)
+  - listings: any[] (from GET /api/listings?limit=50)
+  - loading: boolean (true until fetch resolves)
+  - minPrice, maxPrice: string (numeric with comma support)
+  - verifiedOnly: boolean (checkbox filter)
+  - compareIds: string[] (max 3 for comparison)
+  - hoveredId: string | null (map pin sync)
+
+  Data fetching (useEffect on mount):
+  - fetch('/api/listings?limit=50')
+  - Map response to card shape: id, title, address, price (Number), type, beds,
+    baths, sqm, image (coverImage || images[0].url), verified, verificationTier,
+    pricePeriod, listingType, category.
+  - Set loading false in finally block.
+
+  Filtering logic:
+  - Filter listings by: category (listingType match), search (title or address
+    includes), price range (min/max numeric), verifiedOnly (verificationTier !== 'basic').
+
+  Sticky Top Bar (left to right):
+  1. Search input (relative flex-1 max-w-sm): Search icon absolute left-3,
+     placeholder 'Search location or property…', controlled value={search},
+     onChange updates state. On Enter: router.replace('/listings?q=searchterm').
+  2. Category pills (hidden md:flex bg-zinc-100 dark:bg-zinc-950 rounded-full p-1 border):
+     ['All', 'Rent', 'Shortlet', 'Commercial', 'Share'] — emerald-600 when active.
+  3. Sort dropdown (hidden sm:block relative): select with
+     ['Newest First', 'Price: Low to High', 'Price: High to Low', 'Most Verified'].
+     ChevronDown icon absolute right-2.
+  4. View toggle (bg-zinc-950 border rounded-lg p-1): Grid3X3 (active white bg) /
+     List buttons.
+  5. Filter button (flex items-center gap SlidersHorizontal): 'Filters'.
+     onClick → setFilterOpen(true).
+
+  Desktop Sidebar (hidden lg:block w-56 flex-shrink-0 space-y-6):
+  - Price Range: label 'Price Range' + two inputs (Min ₦ / Max ₦) with
+    inputMode='numeric', onChange sanitizes /[^0-9,]/g.
+  - Bedrooms: label 'Bedrooms' + buttons ['Any','1','2','3','4','5+'] —
+    emerald when selected.
+  - Verification: label 'Verification' + checkbox 'Verified only' (styled as
+    toggle button, accent-emerald when checked).
+  - Amenities: label 'Amenities' + checkboxes: Swimming Pool, Gym, 24/7 Security,
+    Generator, Car Park, Smart Home (custom checkbox style: w-4 h-4 rounded bg-zinc-900).
+
+  Main Content Area:
+  - Results header: 'Showing {filtered.length} properties' + category tag.
+  - Active filters bar (conditional): chips for each active filter with × clear button
+    + 'Clear all' link (resets all filters).
+  - Loading skeleton: grid sm:grid-cols-2 xl:grid-cols-3 gap-4, 6 items animate-pulse.
+  - Property grid:
+    grid = viewMode 'grid' ? 'grid sm:grid-cols-2 xl:grid-cols-3 gap-4' : 'space-y-3'.
+    Each listing wrapped in div (hover scale-[1.02] z-10) with onMouseEnter/Leave for map sync.
+    <Link href='/listings/{id}'> inside wraps <PropertyCard>.
+    Card props: id, title, location (address), price (Number), pricePeriod,
+    category, verificationTier, listingType, image, specs {beds, baths, sqm, parking}.
+    Compare checkbox: absolute top-3 left-3, z-10, checkbox max 3, toggles compareIds.
+  - Empty state: col-span-3 py-20 text-center 'No properties match your filters...'
+
+  Compare Bar (sticky bottom, conditional on compareIds.length > 0):
+  - fixed bottom-4 z-20, glass-card p-3 flex justify-between gap-3.
+  - '{N}/3 selected for comparison' + Clear button (outline) + Compare button
+    (router.push('/compare?ids=id1,id2,id3')).
+
+  Load More button (text-center mt-10):
+  - Button variant='outline' size='lg': 'Load more listings'.
+
+  Right Map (sticky, hidden lg:block):
+  - w-[480px] xl:w-[560px] shrink-0.
+  - Container: sticky top-[112px] h-[calc(100vh-112px)] rounded-xl overflow-hidden
+    border shadow-sm.
+  - <AdvancedSearchMapView> with properties mapped from filtered list:
+    { id, title, address, area, price, priceFormatted, listingType, propertyType,
+      bedrooms, bathrooms, coverImage, images }.
+  - onPropertyHover → setHoveredId.
+  - onPropertyClick → router.push('/listings/{id}').
+  - initialCenter: { lat: 6.5244, lng: 3.3792 } (Lagos Island).
+  - initialZoom: 11.
+
+  Mobile Filter Drawer (conditional on filterOpen):
+  - fixed inset-0 z-50 flex. Backdrop: absolute inset-0 bg-black/60 onClick.
+  - Drawer: fixed right-0 w-[320px] h-full bg-zinc-950 border-l flex flex-col.
+  - Header: 'Filters' title + X close button.
+  - Body (overflow-y-auto, space-y-6): Bedrooms buttons + Price Range inputs.
+  - Footer (border-t p-5 flex gap-2): Reset button (text-zinc-400) + Apply Filters
+    (InteractiveHoverButton, emerald-600).
+
+  Category mapping:
+  - categoryMap: Rent → 'rent', Shortlet → 'short_let', Commercial → 'commercial',
+    Share → 'share'. 'All' matches everything.
+
+  All interactive elements must call real handlers (setX, router.push/replace).
+  No setTimeout or alert()."
+
+================================================================================
+[2] LISTING DETAIL PAGE  —  /listings/[id]
+================================================================================
+Prompt:
+  "Render the listing detail page (src/app/(public)/listings/[id]/page.tsx — client
+  component, 'use client'). This is a property detail page with image gallery,
+  tabbed content, and a sticky right-rail with pricing and CTAs.
+
+  Data fetching:
+  - Read id from useParams().
+  - Detect fallback IDs: starts with 'feat-' or contains space or (!starts with 'cm'
+    && length < 20 && !includes('-')). Use mock data for those.
+  - fetch(`/api/listings/${encodeURIComponent(routeId)}`) on mount.
+  - Map response to: id, title, address, type, tier, verified, price (Number),
+    priceUnit, beds, baths, sqft, description, amenities, images.
+  - Show spinner while loading. Show 'Listing not found' if 404.
+
+  Layout: bg-[#F8FAFC] dark:bg-black min-h-screen pt-16.
+
+  Breadcrumb (sticky z-20, bg-white/80 dark:bg-black/80 backdrop-blur border-b):
+  - max-w-7xl mx-auto px-4 sm:px-6 py-3.
+  - <Link href='/listings'>Back to listings</Link> + ChevronLeft icon.
+  - Span '/' + listing.title (line-clamp-1 text-zinc-400).
+
+  Main (lg-grid lg:grid-cols-[1fr_340px] gap-8, py-8, max-w-7xl mx-auto):
+
+  LEFT COLUMN (main):
+  — Image Gallery (mb-6):
+    - Container: relative rounded-2xl overflow-hidden bg-zinc-900 h-80 sm:h-[440px]
+      border border-white/[0.08].
+    - Main image: <img src={galleryImages[activeImage]}> OR <Image> if listing.images
+      exists. className='w-full h-full object-cover'.
+    - Prev/Next buttons: absolute left-3 and right-3, top-1/2 -translate-y-1/2,
+      w-9 h-9 rounded-full bg-black/70 backdrop-blur, text-white hover:bg-black/90.
+      ArrowLeft / ArrowRight icons (size 16).
+    - Thumbnail strip (mt-4 flex gap-2 overflow-x-auto):
+      All gallery images as clickable thumbnails. Active = ring-2 ring-emerald-500.
+      On click: setActiveImage(index).
+  — Tabbed Content (mt-8):
+    - Tabs: ['Overview', 'Amenities', 'Location', 'Agent'] — flex gap-4 border-b.
+      Active = text-emerald-600 border-b-2 border-emerald-600.
+    - Overview tab: description text (text-zinc-500) + key details grid
+      (2-col: property type, year built, tenure, etc.).
+    - Amenities tab: grid of icons + labels using lucide-react icons:
+      Wifi, Car, Dumbbell, Shield, Star, Zap, Wind, TreePine.
+    - Location tab: <AdvancedSearchMapView> in read-only mode showing single property.
+      Container: h-80 rounded-xl overflow-hidden border bg-zinc-900.
+    - Agent tab: agent info card (avatar, name, email, phone) + contact form
+      or WhatsApp link.
+
+  RIGHT COLUMN (340px, sticky top-[112px]):
+  — Price Card (bg-zinc-900 rounded-xl p-6 border border-zinc-800):
+    - Price: h2 text-3xl font-bold text-emerald-600 — formatted with Intl.NumberFormat.
+      + priceUnit (e.g., '/yr', '/night', '' for sale).
+    - Verification badge: Badge component with verificationTier mapped to:
+      basic → gray, verified → emerald, inspected → blue, certified → gold.
+    - Favorite button: absolute top-4 right-4, w-9 h-9 rounded-full bg-black/20
+      backdrop-blur, Heart icon (filled when isFavorite).
+      onClick → toggle isFavorite, POST/DELETE to /api/favorites if authenticated.
+    - Share button: Share2 icon, onClick → navigator.share() or clipboard copy.
+  — Contact CTAs (mt-4 flex gap-2):
+    - 'Contact Agent' (primary, flex-1).
+    - 'Schedule Tour' (outline, flex-1).
+  — Key metrics mini-grid (mt-4 grid grid-cols-3 gap-2):
+    - Bed + number (Bed icon).
+    - Bath + number (Bath icon).
+    - Area + number + 'm²' (Square icon).
+
+  Fallback listing data (for feat- prefixed IDs):
+  { id: routeId, title: decodeURIComponent(routeId), address: 'Featured — curated',
+    type: 'residential', tier: 'basic', verified: true, price: 0, priceUnit: '',
+    beds: 3, baths: 2, sqft: 120 }
+
+  galleryImages array (5 placeholder URLs from Unsplash) as fallback when listing
+  has no images.
+
+  All interactive handlers must call real functions.
+  No setTimeout or alert()."

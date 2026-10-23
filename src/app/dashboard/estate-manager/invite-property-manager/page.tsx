@@ -148,7 +148,7 @@ export default function InvitePropertyManagerPage() {
         setTimeout(() => router.push('/dashboard/estate-manager/team'), 2000);
       }
     } catch {
-      // handled silently
+      // send failed silently
     } finally {
       setSubmitting(false);
     }

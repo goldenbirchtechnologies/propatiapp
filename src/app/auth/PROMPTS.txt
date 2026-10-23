@@ -1,0 +1,360 @@
+================================================================================
+PROPATI AUTHENTICATION — /sign-in + /sign-up + /onboarding + /2fa
+================================================================================
+Shared visual language:
+
+  Theme    : Next.js 14 App Router + Clerk Auth + Tailwind CSS
+  Brand     : Emerald #10b981 for primary actions | PropatiBox green logo
+              (house icon #1565C0 + key #8CC63F)
+  Surfaces  : Auth pages use dark bichrome theme (bg-[#09090b] / bg-black)
+              with glass-morphism overlays (bg-white/5, bg-zinc-900/80)
+  Fonts     : font-heading (3xl/4xl bold) | font-body-sm | font-mono (labels)
+  Radius    : rounded-xl (inputs), rounded-2xl (cards/dialogs)
+  Icons     : lucide-react (ShieldCheck, Search, Building2, Handshake, Users,
+              CheckCircle2, Eye, EyeOff, QrCode, Shield, Sparkles,
+              Calendar, MapPin, User, Phone, Mail, FileText, Check, Loader2)
+  Layout    : Auth pages — split-screen (dark panel left, hero image right)
+              Sign-up role picker — full-screen centered dark card grid
+              Onboarding — full-screen centered card on dark bg
+
+Data sources:
+  - Clerk <SignIn> component with routing="path" path="/sign-in"
+  - Clerk <SignUp> component with routing="path" path="/sign-up"
+  - POST /api/onboarding/role  →  sets user role from self-serviceable roles
+  - SESSION_STORAGE: 'propati_pending_role' stores selected role from sign-up
+  - Clerk publicMetadata.role used for role assignment (never unsafeMetadata)
+  - AUTH_BYPASS=*** → dev bypass returns seeded user directly
+
+================================================================================
+[1] SIGN-IN PAGE  —  /sign-in
+================================================================================
+Prompt:
+  "Render the Sign-In page (sign-in/[[...sign-in]]/page.tsx — 'use client').
+  This is a full-page Clerk <SignIn> with a dark bichrome split-screen layout.
+
+  Outer: <main className='min-h-screen w-full flex flex-col lg:flex-row
+  bg-[#09090b] text-white'>.
+
+  LEFT SECTION (auth form):
+  — <section className='w-full lg:w-[48%] xl:w-[44%] 2xl:w-[40%] flex flex-col
+    justify-between px-6 sm:px-12 md:px-16 ... py-8 lg:py-12 bg-[#09090b]
+    border-r border-white/[0.07] z-10 overflow-y-auto'>
+  — Top: <Link href='/'> with <PropatiBoxLogo size='md' href={null} />
+    (house icon + wordmark, green fill).
+  — Center: max-w-md mx-auto.
+    h1 'Sign in' (text-3xl md:text-4xl font-extrabold text-white tracking-tight).
+    body 'Welcome back to your property journey' (text-zinc-400).
+  — <SignIn> component from @clerk/nextjs with appearance config:
+    — baseTheme: 'dark'
+    — elements: card (transparent, no shadow/border), header (hidden),
+      formButtonPrimary (emerald #10b981 w-full h-12 rounded-xl, hover #059669),
+      socialButtonsBlockButton (zinc-900 border-white/[0.1], hover bg-zinc-800),
+      formFieldInput (h-12 rounded-xl, border-white/[0.12], emerald focus ring,
+      bg-zinc-900/90), otpCodeFieldInput (h-12 emerald focus), etc.
+    — variables: colorPrimary '#10b981', colorBackground 'transparent',
+      colorInputBackground '#18181b', borderRadius '0.75rem'.
+    — routing='path' path='/sign-in' redirectUrl='/dashboard'
+      fallbackRedirectUrl='/dashboard' signUpUrl='/sign-up'.
+
+  RIGHT SECTION (hero image):
+  — <section className='hidden lg:absolute lg:inset-y-0 lg:w-[52%] xl:w-[56%]
+    lg:ml-auto bg-black'>.
+  — Background: <img> (full-cover Next.js Image or plain img) of Lagos V.I.
+    skyline, opacity-90, scale-105 zoom-in on hover (duration-1000).
+  — Gradient scrim: bg-gradient-to-t from-black/90 via-black/40 to-black/30.
+  — Floating testimonial card (absolute bottom-12 left-8 right-8 xl:left-12):
+    bg-black/75 backdrop-blur-xl rounded-2xl p-6, shadow-2xl border-white/[0.12].
+    5-star rating (gold #eab308 svg stars inline).
+    h2 'Find a place you'll love living in.' (text-xl font-bold text-white).
+    body 'Join over 25,000+ happy homeowners...' (text-zinc-300 text-sm).
+  — Trust indicator tag (absolute bottom-12 right): rounded-full
+    border border-white/[0.12] bg-black/75 px-5 py-3.
+    Pulsing green dot (animate-ping + solid) + 'Over 25,000+ Happy Homeowners'
+    (text-xs font-bold uppercase text-zinc-200).
+
+  Footer (left section, below form):
+  — text-xs text-zinc-500, centered lg:text-left.
+  — 'By submitting, I accept PROPATIBOX's Terms of Use and Privacy Policy.'
+  — Links to /terms-of-agreement and /privacy-policy (emerald #10b981
+    hover:underline).
+
+  Clerk <SignIn> handles all form logic: email/password fields, Google/Apple
+  social buttons, 'Forgot password?' link, 'Remember me' checkbox, OTP/SMS
+  code input when 2FA is enabled, and resend code link.
+  No custom form logic needed — appearance prop fully styles Clerk's components.
+  All interactive handlers are Clerk's built-in submit/redirect flow."
+
+================================================================================
+[2] SIGN-UP PAGE  —  /sign-up
+================================================================================
+Prompt:
+  "Render the Sign-Up page (sign-up/[[...sign-up]]/page.tsx — 'use client').
+  This is a two-phase sign-up: Phase 1 = role picker, Phase 2 = Clerk <SignUp>.
+
+  Phase 1 — Role Picker (when showClerk === false):
+  — Outer: <div className='min-h-screen bg-black flex items-center justify-center
+    px-4 py-12'>.
+  — Container: <div className='w-full max-w-2xl'>.
+  — Logo: centered <Link href='/'> with green square (w-8 h-8 rounded-xl
+    bg-[#10b981]) + inline SVG house icon (white, stroke-width 2.5) +
+    'PropatiBox' wordmark (text-white font-bold text-lg).
+  — Header (text-center mb-10):
+    <SectionLabel> with Building2 icon (emerald-400) + 'Join PropatiBox'.
+    h1 'Join as a...' (text-3xl font-bold text-white mt-4).
+    body 'Select your role to get started' (text-zinc-500).
+  — Role Grid (grid-cols-2 md:grid-cols-4 gap-4 mb-8):
+    roles array (4 items): landlord (Building2), tenant (Search), agent (Handshake),
+    estate_manager (Building).
+    Each role button:
+    — className: 'relative flex flex-col items-center gap-3 rounded-2xl border p-5
+      text-center transition-all duration-200 focus:outline-none focus-visible:ring-2
+      focus-visible:ring-emerald-500 ...'
+    — Selected state: 'border-emerald-500 bg-emerald-500/10', CheckCircle2 icon
+      (absolute top-3 right-3, emerald-400).
+    — Icon circle: 'flex h-14 w-14 items-center justify-center rounded-xl',
+      selected = bg-emerald-500 text-white, unselected = bg-zinc-900 text-zinc-500.
+    — Label: 'font-semibold text-sm', selected = text-emerald-400.
+    — Subtitle: 'text-xs text-zinc-500'.
+  — Terms checkbox (mt-6, flex justify-center):
+    Custom checkbox (w-5 h-5 rounded border-2), checked = bg-emerald-500 with
+    CheckCircle2 icon (size 14, white). Label: 'I agree to the Terms & Conditions
+    and Cookies Policy' with links to /terms-of-agreement and /cookies (emerald-400
+    hover:underline, target _blank).
+  — Primary Button (disabled={!selectedRole || !agreedToTerms}):
+    'w-full rounded-xl py-4 text-base font-semibold transition-all duration-200'
+    Enabled: bg-emerald-500 text-white hover:bg-emerald-600.
+    Disabled: bg-zinc-900 text-zinc-600 cursor-not-allowed.
+    Label: 'Continue'.
+    onClick → handleContinue(): sessionStorage.setItem('propati_pending_role',
+    selectedRole) + setShowClerk(true).
+  — Footer: text-sm 'Already have an account? Sign in' with /login link (emerald-400 hover:underline).
+
+  Phase 2 — Clerk <SignUp> (when showClerk === true):
+  — Outer: <div className='min-h-screen bg-black flex items-center justify-center
+    px-4 py-12'>, <div className='w-full max-w-sm'>.
+  — Logo: centered <PropatiBoxLogo size='sm' />.
+  — <div className='glass-card p-8'> wrapping Clerk.
+  — <SignUp> component with appearance:
+    formButtonPrimary: 'bg-[#10b981] hover:bg-[#10b981]/90 text-white font-semibold
+    rounded-lg'.
+    card: 'shadow-none border-0 bg-transparent'.
+    headerTitle: 'font-bold text-xl text-white'.
+    headerSubtitle: 'text-zinc-400'.
+    routing='path' path='/sign-up' redirectUrl='/onboarding'
+    fallbackRedirectUrl='/onboarding' unsafeMetadata={{ role: selectedRole }}.
+    Clerk reads unsafeMetadata.role for role-based onboarding post-signup.
+  — Footer link: 'Already have an account? Sign in' → /login (emerald-400 hover:underline).
+
+  Role types: Type = 'landlord' | 'tenant' | 'agent' | 'estate_manager'.
+  useEffect: if Clerk reports isSignedIn && isLoaded → router.replace('/dashboard').
+
+  The role selected in Phase 1 is passed to Clerk via unsafeMetadata.role and
+  also stored in sessionStorage as 'propati_pending_role' for the onboarding flow.
+
+  IMPORTANT: After Clerk signup completes, redirectUrl='/onboarding' triggers the
+  onboarding flow. The role from sessionStorage/unsafeMetadata must be persisted to
+  Prisma via POST /api/onboarding/role so the user gets the correct dashboard route."
+
+================================================================================
+[3] ONBOARDING PAGE  —  /onboarding
+================================================================================
+Prompt:
+  "Render the Onboarding page (onboarding/page.tsx — server component that passes
+  data to OnboardingClient.tsx). This is a post-signup wizard that completes the
+  user's profile and role setup before they enter the dashboard.
+
+  Server component (onboarding/page.tsx):
+  — Calls getCurrentUserWithProfile(). If !user → redirect('/sign-up').
+  — Reads pendingRole = sessionStorage['propati_pending_role'] (read on server
+    via cookies or passed through Clerk session; fallback to user.role if already set).
+  — If user.role is already set (not 'tenant' default), redirect to
+    getRoleRedirectPath(user.role) to skip onboarding.
+  — Server fetches: prisma.user.findUnique({ where: { id: user.id },
+    select: { fullName, email, phone, avatarUrl, role, isActive } }).
+  — Wraps in DashboardShell is NOT needed — this is a standalone auth-flow page
+    on a dark background (bg-black min-h-screen).
+  — Passes { user, pendingRole } props to OnboardingClient.
+
+  OnboardingClient (onboarding/OnboardingClient.tsx — 'use client'):
+  — State: activeStep (1 | 2 | 3), formData ({ fullName, phone, avatar, bio }),
+    isSubmitting (boolean).
+  — Reads pendingRole from props. Steps are tailored per role.
+
+  Layout: <div className='min-h-screen bg-black flex items-center justify-center
+    px-4 py-12'> with a centered glass-card container (max-w-lg w-full).
+
+  — Progress bar at top: 3 steps with circular nodes + labels.
+    Step 1: 'Welcome' (UserIcon), Step 2: 'Profile' (UserIcon),
+    Step 3: 'Complete' (Sparkles). Active step = emerald fill, completed = green
+    check, pending = gray. Connector line h-0.5 between steps.
+  — Step indicator text: 'Step {activeStep} of 3'.
+
+  Step 1 — Welcome:
+  — h1 'Welcome to PropatiBox' (text-3xl font-bold text-white).
+  — body: 'Let's get you set up. We'll ask a few quick questions to personalize
+    your experience.' (text-zinc-400).
+  — Illustration: PropatiBox house-key SVG icon centered (w-12 h-12, emerald-500).
+  — Role display card (non-editable since chosen at sign-up):
+    glass-card with role label (Landlord/Tenant/Agent/Estate Manager) + icon +
+    description of what this role sees.
+  — 'Continue' button (emerald, full width) → setActiveStep(2).
+
+  Step 2 — Profile:
+  — h2 'Tell us about yourself' (text-xl font-bold text-white).
+  — body 'Complete your profile so we can match you with the right properties.'
+  — Form fields (each with label, input, error message):
+    — Full Name: input type='text' (defaultValue={user.fullName}), required,
+      placeholder 'e.g. Adeola Balogun'.
+    — Phone Number: input type='tel' (defaultValue={user.phone || ''}),
+      required, placeholder '+234 XXX XXX XXXX'.
+    — Bio: textarea (rows 3, placeholder 'Brief description of yourself...'),
+      optional, max 200 chars with character counter.
+    — Avatar upload: drag-drop zone (cursor-pointer, dashed border,
+      rounded-xl) or click to upload. Shows current avatar if user.avatarUrl.
+  — Validation: fullName required (min 3 chars), phone required (Nigerian format
+    regex /^(\+?234|0)[7-9][0-1][0-9]{8}$/).
+  — Error messages: text-xs text-red-400 below each field.
+
+  Step 3 — Complete:
+  — h2 'All set!' (text-2xl font-bold text-white).
+  — body 'Your profile has been configured. Let's take you to your dashboard.'
+  — Loading spinner (Loader2 animate-spin, emerald-500) during submission.
+  — On completion: fade-in success checkmark (CheckCircle2, green, scale-in).
+
+  Navigation:
+  — Back button (outline, ChevronLeft icon) on steps 2 and 3 → setActiveStep(prev-1).
+  — Continue/Next button (emerald, full-width) → validates current step,
+    advances. On step 3: calls handleComplete().
+
+  handleComplete():
+  — Sets isSubmitting true.
+  — PATCH /api/onboarding (or POST /api/profile) with { fullName, phone, bio,
+    avatar } from formData.
+  — Also POST /api/onboarding/role with { role: pendingRole } if user.role is
+    still the default 'tenant' or unset.
+  — On success: router.replace(getRoleRedirectPath(pendingRole || user.role)).
+  — On error: toast error + set isSubmitting false.
+
+  Styling details:
+  — Glass card: 'glass-card p-8 rounded-2xl border border-white/[0.08]'.
+  — Inputs: h-12 rounded-xl, border border-white/[0.12], bg-zinc-900/90,
+    text-white placeholder:text-zinc-500, focus:ring-2 focus:ring-emerald-500.
+  — Labels: text-xs font-medium text-zinc-400 uppercase tracking-wider.
+  — Continue button: 'w-full h-12 rounded-xl bg-emerald-500 hover:bg-emerald-600
+    text-white font-semibold text-base transition-all duration-200'.
+  — Back button: 'px-4 py-2 border border-white/[0.1] rounded-lg text-zinc-300
+    hover:text-white hover:bg-zinc-900' with ChevronLeft icon (w-4 h-4 ml-1).
+
+  All form submission POSTs to real API endpoints (no setTimeout or alert).
+  The role is persisted to Prisma via POST /api/onboarding/role which validates
+  against SELF_SERVICEABLE_ROLES (landlord|tenant|agent|estate_manager)."
+
+================================================================================
+[4] 2FA / MFA VERIFICATION  —  /2fa  (and Clerk TOTP enrollment)
+================================================================================
+Prompt:
+  "Render the 2FA Verification screens. There are two contexts:
+
+  (A) Post-signin 2FA challenge (when Clerk requires a second factor):
+  This is handled by Clerk's built-in <SignIn> component. When the user has 2FA
+  enabled and Clerk detects a step-up requirement, Clerk's <SignIn> renders
+  the OTP code input automatically (otpCodeFieldInput styled in appearance).
+  No custom page is needed — Clerk's routing='path' handles /sign-in/~2fa
+  internally. If a dedicated /2fa route is desired, it should render a
+  <SignIn> with the same appearance config as [1] and force the 'factor'
+  flow via Clerk's <SignIn.Factor1> or <SignIn.Step name='factor1'> sub-component.
+
+  (B) MFA Settings page — /dashboard/admin/settings/mfa (MFA enrollment & management):
+  Referenced from src/app/dashboard/admin/settings/mfa/page.tsx, rendered inside
+  DashboardShell with ADMIN_NAVIGATION. Auth: admin role only.
+
+  MFA Settings page (mfa/page.tsx — 'use client'):
+  — Uses <useUser> from @clerk/nextjs to get user.
+  — Layout: DashboardShell > ErrorBoundary, inside a grid of glass-cards.
+
+  Header:
+  — glass-card p-6: h1 'Security MFA Settings' (font-bold text-zinc-900
+    dark:text-white) + body text 'Security & MFA Settings | Admin Console...'
+    (text-zinc-600 dark:text-zinc-400).
+
+  Main content grid (grid-cols-1 md:grid-cols-2 gap-4):
+  — Security & Privacy card (glass-card):
+    — Header: AppIcon(shield) + h3 'Security & Privacy'.
+    — Body: <ul> with features (from port reference):
+      'Use Google Authenticator or Microsoft Authenticator to generate codes.'
+      'Receive a code via text message to your registered phone number.'
+      'Get backup codes sent to your primary email address.'
+      'Generate a set of one-time codes to access your account if you lose your phone or MFA device.'
+      'Account Health: Fair'
+
+  MFA management cards (each glass-card with header + body):
+  — 'Two-Factor Authentication' card:
+    — Icon: ShieldCheck (or AppIcon 'smartphone').
+    — Title 'Multi-Factor Authentication'.
+    — Subtitle 'Authenticator app enabled' or 'Not enabled'.
+    — Action: if enabled → 'ENABLED' badge (emerald-500/10 border-emerald-400 text-emerald-400);
+      if not → 'Enable' button (emerald, primary).
+    — Description: 'Set up TOTP-based 2FA using an authenticator app like
+      Google Authenticator or Authy. Scan the QR code with your app, then enter
+      the 6-digit code to verify.'
+
+  — 'Recovery Methods' card:
+    — Icon: Key (or AppIcon 'lock').
+    — Title 'Recovery Codes'.
+    — Subtitle '10 codes remaining'.
+    — Action: 'View Codes' button (outline) → opens dialog with 10 single-use
+      recovery codes (mono text, copy button per code). 'Regenerate Codes' button.
+
+  — 'Phone Verification' card:
+    — Icon: Smartphone (or AppIcon 'smartphone').
+    — Title 'SMS Backup'.
+    — Subtitle 'Receive codes via text message'.
+    — Action: toggle switch (enabled/disabled) + phone number display
+      ('+234 812 XXX XXXX' or 'Add phone').
+
+  MFA Enrollment Flow (when user clicks 'Enable' or 'Setup'):
+  Step 1 — QR code display:
+  — Show TOTP QR code (from Clerk's userFactor or Clerk Backend API).
+  — Instructions: 'Scan this QR code with your authenticator app (Google
+    Authenticator, Microsoft Authenticator, Authy).'
+  — 'I can't scan the QR code' link → reveals manual entry key.
+
+  Step 2 — Code verification:
+  — 6-digit OTP input (InputOTP component from @/components/ui/input-otp,
+    6 boxes, auto-focus, auto-tab).
+  — 'Verify' button (emerald, disabled until all 6 digits entered)
+    → POST/verify via Clerk's userFactor.verify().
+  — 'Resend code' link + countdown (60s) using real timer (no fake setTimeout
+  display — use Clerk's challenge resend endpoint).
+
+  Step 3 — Success + backup codes:
+  — CheckCircle2 (green, scale-in animation).
+  — h3 'Two-factor authentication enabled!'.
+  — Download backup codes dialog: 'Save your recovery codes. These let you
+    regain access if you lose your phone.'
+  — 10 recovery codes displayed (mono, copy-all button + copy-per-code).
+  — 'Done' button → router.refresh() or redirect to /dashboard/admin/profile/security.
+
+  Security & Authentication card (from AdminProfileSecurityClient pattern):
+  — Password Management: status 'Last changed 2 days ago', 'Change' button
+    → opens password change dialog (current + new + confirm, Eye toggle on
+    each, emerald submit, validation).
+  — MFA: toggle 'Authenticator app enabled', status shows 'ENABLED' or 'DISABLED'.
+  — Active Sessions: '3 sessions across 2 devices', 'Revoke All' button (red).
+  — Security Audit Log: vertical timeline of events (password changed,
+    2FA verified, new device login, recovery codes viewed) with status dots
+    (emerald/green for secure, secondary for neutral, outline for old).
+
+  MFA Enforcement (GlobalSettingsClient pattern):
+  — Admin can enforce MFA for all admin levels: toggle switch + description
+    'Enforce biometric or TOTP authentication for all Admin levels.'
+  — POST /api/admin/settings/mfa-enforcement to toggle.
+
+  All 2FA state managed via Clerk Backend API:
+  POST /api/admin/mfa/enable  →  initiates TOTP enrollment
+  POST /api/admin/mfa/verify  →  verifies TOTP code
+  POST /api/admin/mfa/disable →  disables 2FA
+  POST /api/admin/mfa/recovery-codes →  generates new recovery codes
+
+  TOTP secret and QR code come from Clerk's userFactor creation on the server.
+  No setTimeout-based countdown timers — use Clerk's native resend mechanism."

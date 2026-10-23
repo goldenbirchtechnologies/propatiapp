@@ -1,0 +1,305 @@
+================================================================================
+PROPATI HOMEPAGE — / (PUBLIC)
+================================================================================
+Shared visual language:
+
+  Theme    : Next.js 14 App Router + Tailwind CSS (dark-mode capable via dark:)
+  Brand     : Emerald #10b981 for existing pages; HOMEPAGE uses gold #c9952a
+             (Warm Sand palette: bg #fff8f3, text #201b13, primary #7c5800)
+  Surfaces  : rounded-xl / rounded-2xl | bg-white dark:bg-zinc-900 | border-zinc-200
+  Fonts     : Bricolage Grotesque (h1/h2/h3) | Outfit (body/labels) | DM Mono (tech)
+  Icons     : lucide-react (ShieldCheck, Search, Home, Users, Building2, Heart,
+             MapPin, Bed, Bath, Square, MessageCircle, ArrowRight, CheckCircle2, Star)
+  Currency  : NGN via Intl.NumberFormat('en-NG', { style:'currency', currency:'NGN' })
+  Layout    : max-w-6xl mx-auto, px-4 sm:px-6, 8px base unit spacing
+  Components: SectionLabel, InteractiveHoverButton, StarRating, ZillowStyleFooter
+
+Data sources:
+  - GET /api/public/stats  →  { listings: { active, verified } }  (usePublicStats)
+  - GET /api/listings?limit=6  →  live featured (useFeaturedFromDb, falls back to featuredFallback)
+
+================================================================================
+[1] HERO SECTION  —  top of page
+================================================================================
+Prompt:
+  "Render the homepage hero section as a full-width section with a dark theme
+  (bg-[#1b1b1e]) and an emerald-to-gold color transition. Background is a high-
+  quality Next.js Image (priority, fill, object-cover) of the Lagos Victoria
+  Island skyline with mix-blend-luminosity opacity-35 saturate-150. Overlay a
+  gradient: from-[#1b1b1e]/85 via-[#1b1b1e]/75 to-[#1b1b1e].
+
+  Left content (max-w-6xl mx-auto flex-col items-center text-center pt-28 pb-20):
+  — Eyebrow pill: inline-flex items-center gap-2 rounded-full border border-white/10
+    bg-white/5 px-3.5 py-1.5 backdrop-blur-md. ShieldCheck icon (emerald-400) +
+    'Nigeria's First Verified Property Marketplace & Cadastral Registry' label
+    (11px uppercase tracking-wide emerald-400).
+  — H1: 'Find your verified home in Nigeria.' — text-4xl md:text-[54px] font-bold
+    text-white. 'verified' spans emerald-400.
+  — Body: 'Every listing cross-referenced with Surveyor-General beacon coordinates.
+    Zero fake agents, zero Omonile risks. Authenticated institutional escrow
+    powered by LASRERA standards.' — text-zinc-400.
+  — Trust Telemetry Bar (conditional on liveStats from /api/public/stats):
+    Rendered when stats.active > 0. Three inline-flex items separated by '•':
+    1. pulsing emerald dot + strong {active} 'Active Listings' (mono font).
+    2. ShieldCheck icon + '100% C of O / Gazette Audited'.
+    3. Lock icon + '₦128.4 Billion In Protected Escrow'.
+    Container: rounded-full border border-white/5 bg-white/5 px-5 py-2 backdrop-blur.
+  — Search Widget: a white rounded-xl (p-4 md:p-5 shadow-xl) with four tabs:
+    Rent (emerald-600 active), Buy Sovereign Asset, Shortlet Serviced,
+    Commercial Plaza (text-zinc-500 hover). Below: a 1x12 grid on lg:
+    [1] Location (MapPin icon + input, placeholder 'Lekki Phase 1, Victoria Island...'),
+    [2] Asset Class (Building2 icon + select: Residential Villa, Fully Detached Duplex,
+        Serviced Commercial Office, SURCON Surveyed Land),
+    [3] Budget Range (TrendingUp icon + select: ₦5M–25M/yr, ₦25M–75M/yr,
+        ₦75M–250M outright, ₦250M–1.5B institutional).
+    [4] Search button (emerald-600, rounded-lg, Search icon + 'Search')
+    onClick → router.push('/listings').
+  — Cadastral Filters bar (border-t): 'Cadastral Filters:' label + 3 inline badges
+    (C of O ✓, Governor's Consent ✓, Gazette Excision). Right: 'Direct Coordinate
+    / Beacon Search' with ArrowRight icon."
+
+================================================================================
+[2] TOP NAVBAR  —  fixed at top (z-50)
+================================================================================
+Prompt:
+  "Render a fixed TopNavBar (h-20) at z-50 with a white bg (bg-surface) and
+  border-b. On scroll > 50px (via window.addEventListener scroll, no setTimeout):
+  add shadow-md + bg-surface/95 + backdrop-blur-md.
+
+  Left: 'PROPATI' logo — Bricolage Grotesque, font-h2, gold (#7c5800).
+  Center (hidden md:flex): nav links — Properties (active: gold border-b-2),
+    Agents, Shortlet, Investment (text-zinc-600 hover:text-primary transition).
+  Right: Switch Role button (outline) + List Property button (gold bg, rounded-xl,
+    font-semibold) + user avatar (w-10 h-10 rounded-full, border).
+
+  Nav links use <Link> from next/link. Logo and auth buttons are click-to-navigate.
+  'List Property' → /sign-up (role picker). 'Switch Role' → /onboarding."
+
+================================================================================
+[3] TRUST STRIP (4-PILLAR)  —  below hero
+================================================================================
+Prompt:
+  "Render a 4-pillar trust strip section (bg-[#f6f2f7] py-8 w-full). Inside
+  max-w-6xl mx-auto: a 1x4 grid on lg (grid-cols-1 md:grid-cols-2 lg:grid-cols-4).
+
+  Four glass-card surfaces (bg-white rounded-xl p-5 shadow-sm) each with:
+  — Icon circle (w-12 h-12 rounded-lg bg-zinc-100, icon text-emerald-600).
+  — Title (font-bold text-zinc-900) + ShieldCheck icon.
+  — Description (text-sm text-zinc-500).
+  — Tag badge (border-t pt-2, text-xs font-semibold emerald-600):
+    'SURCON Survey Clearance', 'Zero Unlicensed Middlemen',
+    'Cadastral Yield Index', 'LASRERA Escrow Protocol'.
+
+  Pillars data (static array):
+  1. Document Verification — 'Every document cross-checked against Lagos Lands
+     Bureau Alausa, Abuja FCDA, and CAC company registry.'
+  2. Instant AI Matching — 'Automated institutional scoring pairs verified buyers
+     and corporate tenants with registered property principals.'
+  3. Market Intelligence — 'Real-time sq. metre price velocity tracking across
+     12 Nigerian urban economic hubs.'
+  4. 50,000+ Validated Units — 'Zero tolerance for Omonile harassment or
+     duplicate allocations. Secure Paystack & multi-tier institutional escrow.'"
+
+================================================================================
+[4] HOW IT WORKS  —  5-step pipeline
+================================================================================
+Prompt:
+  "Render the How It Works section (bg-[#fbf8fc] py-16). Inside max-w-6xl mx-auto:
+  centered intro (max-w-xl) — 'Operational Workflow' label pill (emerald-100,
+  emerald-700 text), h2 'Renting & Buying Reimagined' (3xl font-bold),
+  body 'From sovereign land search to key handover — a fully auditable legal
+  protocol tailored for high-trust Nigerian real estate transactions.'
+
+  Below: a 1x3 grid on md (grid-cols-1 gap-6 md:grid-cols-3). Each step is a
+  glass-card (bg-white rounded-xl p-6 shadow-sm) with:
+  — Step number (font-mono text-4xl font-bold text-zinc-200, absolute top).
+  — Icon circle (w-8 h-8 rounded-full bg-emerald-100, emerald-600, CheckCircle2).
+  — Title (font-bold text-zinc-900).
+  — Description (text-sm text-zinc-500 flex-1).
+  — Key Metric badge (rounded bg-zinc-50 p-2 text-xs text-zinc-500).
+
+  Steps array (5 items):
+  1. Search — 'Explore curated verified listings'
+  2. View — '3D Tours & verified HD photos'
+  3. Schedule — 'Book physical or drone tours'
+  4. Secure Payment — 'Funds held in secure escrow'
+  5. Move In — 'Collect keys & title documents'
+
+  Wait — the Stitch mockup has 5 steps in a horizontal stepper with circular
+  nodes and a connector line. Render a responsive horizontal stepper on desktop:
+  5 circular nodes (w-16 h-16) connected by a horizontal line, icon + label
+  beneath each. On mobile: collapse to vertical cards (the existing grid pattern)."
+
+================================================================================
+[5] FEATURED PROPERTIES  —  grid of curated listings
+================================================================================
+Prompt:
+  "Render the Featured Properties section (bg-[#f6f2f7] py-16). Inside
+  max-w-6xl mx-auto:
+
+  Header (flex flex-col md:flex-row justify-between gap-4):
+  LEFT — 'Curated Listings' badge pill (rounded-full bg-emerald-600 px-3 py-1,
+    white text-xs uppercase), h2 'Handpicked Opportunities' (3xl font-bold),
+    body 'Properties verified by our in-house surveyor and legal audit team.
+    Absolutely no fictitious units.'
+  RIGHT — inline-flex gap-1.5 rounded-lg bg-zinc-100 p-1: tabs 'All' (white bg
+    emerald-600 shadow-sm), 'Residential', 'Commercial', 'Shortlet' (text-zinc-500).
+
+  Grid: grid-cols-1 md:grid-cols-3 gap-6 (3 columns on desktop, bento-style).
+
+  Each featured card (featuredListings from useFeaturedFromDb / featuredFallback):
+  — Relative h-64 w-full, group, bg-white rounded-xl overflow-hidden shadow-sm
+    hover:shadow-md hover:-translate-y-1 transition-transform.
+  — Top-left badges: type badge (rounded bg-emerald-600 white text-xs uppercase)
+    + kind badge (rounded bg-black/80 white/90 backdrop-blur text-xs uppercase).
+  — Image: Next.js Image fill, object-cover, group-hover:scale-105 duration-500.
+  — Top-right: Heart icon button (w-8 h-8 rounded-full bg-white/80 text-zinc-700
+    backdrop-blur hover:bg-white).
+  — Bottom-right price: rounded bg-black/90 px-2.5 py-1 font-mono text-xs emerald-400.
+  — Gov consent badge: flex items-center gap-1 text-xs emerald-600
+    (ShieldCheck + 'Gov Consent Validated').
+  — Title (line-clamp-1 text-base font-bold text-zinc-900).
+  — Location: flex items-center gap-1 text-sm text-zinc-500 (MapPin).
+  — Specs bar: flex justify-between items-center rounded bg-zinc-50 px-2 py-2
+    text-xs text-zinc-500 — Bed + Bath + Size icons + values.
+  — Action: 'Audit Details' button (flex-1 rounded-lg bg-zinc-100 py-2 text-center
+    text-sm font-semibold text-zinc-700) + WhatsApp button (w-9 h-9 rounded-lg
+    bg-emerald-600 text-white MessageCircle icon).
+  — Link: /listings/{id} or /listings/{title} for feat- prefixed IDs.
+
+  Below grid: centered 'View All' button (inline-flex items-center gap-2 rounded-lg
+  bg-emerald-600 px-8 py-3 text-sm font-semibold text-white hover:bg-emerald-700)
+  — shows {liveStats?.[0]?.value ?? '10,840+'} 'Audited Listings' + ArrowRight.
+
+  Card data comes from featuredFallback array (currently 4 items) or live DB fetch.
+  Each fallback card: id (feat-1..4), type, kind, price, title, location, specs
+  (icon+val array), img URL, verified: true."
+
+================================================================================
+[6] TESTIMONIALS  —  community stories
+================================================================================
+Prompt:
+  "Render a Testimonials section (bg-[#fbf8fc] py-16). Inside max-w-6xl mx-auto:
+  centered intro — h2 'Stories from Our Community' (3xl font-bold text-center).
+  3-column grid (grid-cols-1 md:grid-cols-3 gap-6).
+
+  Each testimonial card (bg-white dark:bg-zinc-900 rounded-xl p-8 border
+  border-zinc-200 dark:border-white/[0.08] shadow-sm flex flex-col):
+  — Star rating: <StarRating> component showing 5 stars (gold #eab308).
+  — Quote: italic text-zinc-500, 3-4 lines.
+  — Author row (mt-auto flex items-center gap-4):
+    avatar (w-12 h-12 rounded-full object-cover) + div:
+      name (font-semibold text-zinc-900) + title (text-[12px] text-zinc-500).
+
+  Testimonials array (3 items):
+  1. Chidi Opara — Real Estate Investor — 'Buying property in Lagos used to be
+     a nightmare. PROPATI's verification gave me the peace of mind to invest from
+     the UK without any fear of fraud.'
+  2. Funmi Adebayo — First-time Homeowner — 'The escrow service is a game
+     changer. Knowing my money is safe until the keys are in my hand is the
+     transparency Nigeria needs.'
+  3. Alhaji Musa — Senior Partner, Musa Realty — 'As an agent, PROPATI helps me
+     close deals faster because buyers already trust the platform's verification.
+     High quality leads only.'"
+
+================================================================================
+[7] ROLE CARDS  —  universal gateway
+================================================================================
+Prompt:
+  "Render a Role Cards section (bg-[#fbf8fc] py-16). Inside max-w-6xl mx-auto:
+  centered intro — 'Universal Gateway' label pill (gray rounded-full),
+  h2 'Built for Every Role in the Ecosystem' (3xl font-bold),
+  body 'Tailored portal interfaces calibrated for Nigerian tenancy laws,
+  corporate asset registers, and verified broker syndicates.'
+
+  4-column grid (grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4).
+
+  Each role card (group flex h-full flex-col rounded-xl bg-white p-6 shadow-sm
+  hover:bg-zinc-50 transition-colors) — Link to /signup:
+  — Icon circle (w-12 h-12 rounded-lg bg-emerald-100, icon text-emerald-600).
+  — Title (font-bold text-zinc-900 group-hover:text-emerald-600).
+  — Description (text-sm text-zinc-500).
+  — 'Get Started' link (mt-4 flex items-center gap-1 text-sm font-semibold
+    text-emerald-600 transition-all group-hover:gap-2) + ArrowRight icon.
+
+  Roles array (4 items):
+  1. Landlord & Asset Owner (Home icon) — 'Eliminate default risks. Automate
+     rent remittance, screen prospective tenants, and audit land titles.'
+  2. Tenant & Seeker (Users icon) — 'Find verified homes, pay rent securely
+     via escrow, and track your lease lifecycle end-to-end.'
+  3. Agent & Broker (Building2 icon) — 'Showcase verified listings, schedule
+     viewings, and close deals faster with institutional backing.'
+  4. Estate Manager (ShieldCheck icon) — 'Manage multiple properties, tenants,
+     maintenance, and financial reporting from one dashboard.'
+
+  All cards use the existing roles[] static array with icon + title + desc."
+
+================================================================================
+[8] STATS BAR  —  fixed bottom
+================================================================================
+Prompt:
+  "Render a fixed bottom stats bar (z-[100]) — bg-inverse-surface (deep navy
+  #0a2540) text-primary-fixed (#768dad). Height auto, py-3.
+
+  Inside max-w-6xl mx-auto px-4 sm:px-6 flex justify-around items-center:
+  — '10,000+' (text-h3 font-bold) / small 'Properties' (mono-id, uppercase, opacity-70).
+  — w-px h-6 bg-primary/20 divider (hidden md:block).
+  — '50,000+' / 'Verified Users'.
+  — w-px h-6 divider.
+  — '₦120B+' / 'Secured Deals' (hidden md:flex)."
+
+================================================================================
+[9] FOOTER  —  site-wide footer
+================================================================================
+Prompt:
+  "Render the homepage footer. Currently uses <ZillowStyleFooter /> — replace
+  with a Stitch-style 4-column footer:
+
+  — Outer: bg-inverse-surface (deep navy) pt-24 pb-32 border-t.
+  — Grid: grid-cols-1 md:grid-cols-4 gap-6, max-w-6xl mx-auto px-4 sm:px-6.
+  — Column 1: 'PROPATI' logo (text-h3 font-bold text-primary-fixed) + tagline
+    'Nigeria's most trusted real estate marketplace...' (body-sm text-surface-variant)
+    + social icons flex gap-4 (face_nod, alternate_email, public — text-primary-fixed
+    hover:text-primary-fixed-dim).
+  — Column 2: 'Company' header (font-bold text-white uppercase) + links (About Us,
+    Career, Newsletter Signup) in body-sm text-surface-variant hover:text-primary-fixed-dim.
+  — Column 3: 'Support' header + links (Terms of Service, Privacy Policy,
+    Contact Support).
+  — Column 4: 'Join the Newsletter' header + body 'Stay updated...' + email input
+    (bg-white/10 border-white/20 rounded-xl px-4 py-2 text-white) + Subscribe button
+    (bg-primary text-white font-semibold rounded-xl py-2).
+  — Bottom bar: max-w-6xl mx-auto px-4 sm:px-6 pt-12 border-t border-white/10,
+    text-center body-sm text-surface-variant opacity-80.
+  — '© 2024 PROPATI Marketplace. Built for Nigeria.'"
+
+================================================================================
+PARTNERS ROW  —  insert between Hero and Trust Strip
+================================================================================
+Prompt:
+  "Render a Partners Row section (bg-surface-container py-8 border-y) between
+  the Hero section and the Trust Strip. Inside max-w-6xl mx-auto:
+
+  — Label: 'Trusted By Industry Leaders' (text-center mono-id text-[12px]
+    text-zinc-500 uppercase tracking-widest opacity-60).
+  — Partners: flex flex-wrap justify-center items-center gap-12 md:gap-20,
+    opacity-50 grayscale hover:grayscale-0 transition-all duration-500.
+    Each partner: font-h3 text-h3 — 'TechCabal', 'Nairametrics', 'Guardian',
+    'Paystack', 'Flutterwave'."
+
+================================================================================
+TECHNICAL NOTES
+================================================================================
+— Page keeps 'use client' (uses useState/useEffect for search, tabs, featured fetch).
+— usePublicStats: fetch('/api/public/stats') on mount, setStats from d.listings.
+  Returns null if no /listings.active in response or API fails — telemetry bar only
+  renders when liveStats is truthy.
+— useFeaturedFromDb: fetch('/api/listings?limit=6') on mount, filter out
+  status suspended/deleted, map to card shape, slice 4 items.
+  Falls back to featuredFallback (4 static cards) if API returns empty or errors.
+— featuredFallback cards: feat-1..feat-4 with type (RESIDENTIAL/COMMERCIAL),
+  kind (FOR SALE/FOR RENT/FOR LEASE), price, title, location, specs array,
+  img URL, verified: true.
+— FadeIn component: wraps cards with cn('fade-in-up', className) + animationDelay.
+— cn() from @/lib/utils for all className composition.
+— All internal links use <Link> from next/link.
+— Search button onClick → router.push('/listings') — no setTimeout, no alert.

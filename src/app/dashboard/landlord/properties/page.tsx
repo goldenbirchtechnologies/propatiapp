@@ -24,7 +24,7 @@ export default async function LandlordPropertiesPage() {
   let listingIds: string[] = [];
   let totalUnits = 0;
   let activeListings = 0;
-  let loadError: string | null = null;
+  const loadError: string | null = null;
 
   try {
     listings = await prisma.listing.findMany({

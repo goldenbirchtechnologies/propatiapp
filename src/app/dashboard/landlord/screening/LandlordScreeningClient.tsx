@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Phone, CheckCircle, XCircle, Clock, User, Shield } from 'lucide-react';
+import { Phone, User } from 'lucide-react';
 
 type Screening = {
   id: string;

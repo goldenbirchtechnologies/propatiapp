@@ -1,8 +1,8 @@
 'use client'
 
-import AppIcon from '@/components/icons/app-icon';
 
-import { Shield, FileText, CheckCircle, Clock, ArrowRight as ArrowRightIcon, Building2 as BuildingIcon } from 'lucide-react';
+
+import { Shield, CheckCircle, Clock, ArrowRight as ArrowRightIcon, Building2 as BuildingIcon } from "lucide-react";
 import Link from 'next/link';
 import { DashboardSection } from '@/components/layout/DashboardShell';
 

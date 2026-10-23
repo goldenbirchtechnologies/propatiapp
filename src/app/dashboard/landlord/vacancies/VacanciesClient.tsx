@@ -7,7 +7,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { StatCard } from '@/components/ui/stat-card';
 import {
   Home as HomeIcon,
-  AlertTriangle,
   Clock,
   CheckCircle2,
   Search,
@@ -36,7 +35,7 @@ interface Vacancy {
   tenant?: string;
 }
 
-export default function VacanciesClient({ userId }: { userId: string }) {
+export default function VacanciesClient({ userId: _userId }: { userId: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
@@ -47,76 +46,31 @@ export default function VacanciesClient({ userId }: { userId: string }) {
     setLoading(true);
     setError(null);
     try {
-      // Mock fetch - replace with real API endpoint
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      const data: Vacancy[] = [
-        {
-          id: '1',
-          property: 'Lekki Phase 1 Duplex',
-          propertyId: 'prop-1',
-          type: 'duplex',
-          status: 'open',
-          location: 'Lekki Phase 1, Lagos',
-          rent: '₦3,500,000/yr',
-          listedDate: '2025-05-20',
-          daysListed: 5,
-          views: 124,
-          applicants: 8,
-        },
-        {
-          id: '2',
-          property: 'Victoria Island Apartment',
-          propertyId: 'prop-2',
-          type: 'apartment',
-          status: 'open',
-          location: 'Victoria Island, Lagos',
-          rent: '₦4,200,000/yr',
-          listedDate: '2025-05-18',
-          daysListed: 7,
-          views: 98,
-          applicants: 5,
-        },
-        {
-          id: '3',
-          property: 'Ikeja GRA Flat',
-          propertyId: 'prop-3',
-          type: 'flat',
-          status: 'filled',
-          location: 'Ikeja GRA, Lagos',
-          rent: '₦2,800,000/yr',
-          listedDate: '2025-04-01',
-          daysListed: 52,
-          views: 245,
-          applicants: 12,
-          tenant: 'Chinedu Okafor',
-        },
-        {
-          id: '4',
-          property: 'Banana Island Office',
-          propertyId: 'prop-4',
-          type: 'office',
-          status: 'draft',
-          location: 'Banana Island, Lagos',
-          rent: '₦8,000,000/yr',
-          listedDate: '2025-05-25',
-          daysListed: 0,
-          views: 0,
+      const res = await fetch('/api/dashboard/landlord/vacancies');
+      if (!res.ok) throw new Error('Failed to load vacancies');
+      const json = await res.json();
+const rows = Array.isArray(json?.data) ? json.data : [];
+const data: Vacancy[] = rows.map((l: { id: string; title: string; status: string; propertyType: string; area?: string; state?: string; address?: string; price?: number; pricePeriod?: string; createdAt: string; viewsCount?: number }) => {
+        const listed = new Date(l.createdAt);
+        const daysListed = Math.max(0, Math.floor((Date.now() - listed.getTime()) / 86400000));
+        const status: VacancyStatus =
+          l.status === 'PUBLISHED' ? 'open' :
+          l.status === 'RENTED' ? 'filled' :
+          l.status === 'DRAFT' ? 'draft' : 'closed';
+        return {
+          id: l.id,
+          property: l.title,
+          propertyId: l.id,
+          type: (l.propertyType || 'apartment').toLowerCase(),
+          status,
+          location: [l.area, l.state].filter(Boolean).join(', ') || l.address || '',
+          rent: `₦${Number(l.price || 0).toLocaleString()}/${l.pricePeriod === 'monthly' ? 'mo' : 'yr'}`,
+          listedDate: listed.toISOString().slice(0, 10),
+          daysListed,
+          views: l.viewsCount || 0,
           applicants: 0,
-        },
-        {
-          id: '5',
-          property: 'Ajah Shop Space',
-          propertyId: 'prop-5',
-          type: 'shop',
-          status: 'closed',
-          location: 'Ajah, Lagos',
-          rent: '₦1,500,000/yr',
-          listedDate: '2025-03-10',
-          daysListed: 76,
-          views: 312,
-          applicants: 0,
-        },
-      ];
+        };
+      });
       setVacancies(data);
     } catch (e) {
       setError(e instanceof Error ? e : new Error(String(e)));
@@ -142,7 +96,6 @@ export default function VacanciesClient({ userId }: { userId: string }) {
   const totalVacancies = vacancies.length;
   const openVacancies = vacancies.filter((v) => v.status === 'open').length;
   const filledVacancies = vacancies.filter((v) => v.status === 'filled').length;
-  const activeListings = vacancies.filter((v) => v.status === 'open').length;
   const totalApplicants = vacancies.reduce((sum, v) => sum + v.applicants, 0);
 
   function StatusBadge({ status }: { status: VacancyStatus }) {
@@ -253,13 +206,15 @@ export default function VacanciesClient({ userId }: { userId: string }) {
           label="Filled"
           value={String(filledVacancies)}
           icon={CheckCircle2}
-          trend="Tenant matched" trend="up"
+          trend="Tenant matched"
+          trendDirection="up"
         />
         <StatCard
           label="Total Listings"
           value={String(totalVacancies)}
           icon={Building2}
-          trend="All properties" trend="up"
+          trend="All properties"
+          trendDirection="up"
         />
       </div>
 
@@ -392,8 +347,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
                       </td>
                       <td className="p-4">
                         <span
-                          className="flex items-center gap-1"
-                          className={vacancy.daysListed > 30 ? 'text-red-500' : 'text-zinc-900 dark:text-white'}
+                          className={`flex items-center gap-1 ${vacancy.daysListed > 30 ? 'text-red-500' : 'text-zinc-900 dark:text-white'}`}
                         >
                           <Clock className="h-3 w-3" />
                           {vacancy.daysListed} days

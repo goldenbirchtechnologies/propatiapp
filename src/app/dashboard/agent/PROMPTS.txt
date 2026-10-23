@@ -1,0 +1,1099 @@
+================================================================================
+AGENT DASHBOARD — PROMPTS & BUILD SPECIFICATION
+================================================================================
+Source of truth: AGENT_NAVIGATION in src/lib/navigation.tsx
+Pattern reference: src/app/auth/PROMPTS.txt, src/app/dashboard/tenant/PROMPTS.txt
+All API calls use real endpoints — no setTimeout/alert mocks.
+
+AGENT NAVIGATION GROUPS:
+  1. Main         — Dashboard, Managed Properties, Calendar
+  2. Sales & CRM  — Pipelines (Buy / Sell / All Deals), Listings, Clients
+  3. Market & Leads — Marketplace
+  4. Finance      — Rent & Payments, Statements
+  5. Invitations  — Invitations
+  6. (Shared roles) — Messages, Notifications, Settings (under [role] shared path)
+
+================================================================================
+1. DASHBOARD — /dashboard/agent
+================================================================================
+File: page.tsx + AgentDashboardClient.tsx
+Navigation: AGENT_NAVIGATION — Main > Dashboard
+
+Layout: Full-width dashboard shell with glass-morphism stat cards at top,
+  followed by a two-column grid of activity + pipeline widgets.
+
+Components:
+  - Stat cards (Total Managed Properties, Active Deals, Pending Commissions,
+    This Month Earnings) using formatCurrency util (en-NG, NGN).
+  - Recent Deals table — maps agreements where agentId = user.id, status in
+    ACTIVE_STATUSES. Columns: Property, Client, Status, Value, Last Updated.
+    Links to /dashboard/agent/deals/[id].
+  - Upcoming Appointments card — shows next 3 calendar events from
+    /api/agent/schedule (if implemented) or verification.inspection records
+    where l4AgentId = user.id.
+  - Pipeline Summary — quick stats from buy/sell pipelines.
+  - Quick Actions buttons: "Schedule Inspection", "View Commissions",
+    "New Agreement" → /dashboard/agent/agreements/new.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.agreement.findMany({ where: { agentId: user.id, status: { in: ACTIVE_STATUSES } } })
+  - prisma.verification.findMany({ where: { l4AgentId: user.id }, orderBy: { l4ScheduledAt: 'desc' } })
+  - prisma.walletTransaction.aggregate or findMany for commission totals.
+
+API endpoints used:
+  - GET /api/agent/dashboard (server-side Prisma only, no client fetch)
+
+Interactions:
+  - Clicking a deal row → navigate to /dashboard/agent/deals/[id]
+  - "Schedule Inspection" → navigate to /dashboard/agent/inspections/new
+  - "View Commissions" → navigate to /dashboard/agent/commissions
+
+================================================================================
+2. MANAGED PROPERTIES — /dashboard/agent/properties
+================================================================================
+File: page.tsx + AgentPropertiesClient.tsx
+Navigation: AGENT_NAVIGATION — Main > Managed Properties
+
+Layout: Dashboard shell with hideGlobalSearch flag. Stat summary row,
+  then a table/list hybrid of all properties where the agent is assigned
+  via AgentAssignment (active scope) OR listing.agentId = user.id.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.listing.findMany({
+      where: {
+        OR: [
+          { agentId: user.id },
+          { assignments: { some: { agentId: user.id, status: 'active' } } }
+        ]
+      },
+      include: {
+        owner: { select: { id, fullName, email, avatarUrl } },
+        agent: { select: { id, fullName, email } },
+        images: { where: { isCover: true }, take: 1, select: { id, url } },
+        units: { select: { id, unitNumber, buildingName, type, listingType, rent, status, occupancy, isListed, organizationId, currentTenant } },
+        assignments: { where: { agentId: user.id, status: 'active' }, select: { id, permissions, scope } },
+      }
+    })
+  Normalized output passed to client: id, title, address, area, state,
+    listingType, propertyType, price, pricePeriod, status, verificationTier,
+    viewsCount, createdAt, owner, agent, coverImage, unitCount, vacantUnitCount,
+    listedUnitCount, permissions, units[].
+
+Components:
+  - Stat cards: Total Properties, Vacant Units, Listed Units, Managed Value
+  - Filter bar: search by property name/address, filter by listing type,
+    filter by status, filter by verification tier.
+  - Property card/grid with cover image, verification badge, owner/agent info,
+    unit summary (vacant/occupied), and quick action buttons.
+
+API endpoints used:
+  - None (server-side Prisma fetch only)
+
+Interactions:
+  - Click property card → /dashboard/agent/properties/[id]
+  - "View Units" → expand inline unit list
+  - "Contact Owner" → open messages with pre-filled listing context
+  - "Schedule Inspection" → /dashboard/agent/inspections/new?listingId=[id]
+
+================================================================================
+3. PROPERTY DETAIL — /dashboard/agent/properties/[id]
+================================================================================
+File: page.tsx + AgentPropertyDetailClient.tsx
+Navigation: AGENT_NAVIGATION — Main > Managed Properties (detail)
+
+Layout: Dashboard shell (hideGlobalSearch) with tabbed interface:
+  Overview | Units | Applications | Agreements | Bookings | Maintenance |
+  Conversations | Documents
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.listing.findUnique({
+      where: { id: params.id },
+      include: {
+        owner: { select: { id, fullName, email, phone, avatarUrl } },
+        agent: { select: { id, fullName, email, phone, avatarUrl } },
+        images: { where: { isCover: true }, take: 1, select: { id, url } },
+        units: { orderBy: { unitNumber: 'asc' }, select: { ...all unit fields... } },
+        assignments: { where: { agentId: user.id, status: 'active' }, select: { id, permissions, scope } },
+        applications: { orderBy: { createdAt: 'desc' }, take: 5, select: { id, status, createdAt, applicant: { select: { fullName, email } } } },
+        agreements: { orderBy: { createdAt: 'desc' }, take: 5, select: { id, status, createdAt, partyA, partyB } },
+        bookings: { orderBy: { checkIn: 'desc' }, take: 5, select: { id, status, checkIn, checkOut, totalPrice, tenant } },
+        maintenanceTickets: { orderBy: { createdAt: 'desc' }, take: 5, select: { id, status, priority, title, createdAt } },
+        conversations: { orderBy: { lastMessageAt: 'desc' }, take: 5, select: { id, subject, lastMessage, lastMessageAt, participants } },
+        documents: { orderBy: { createdAt: 'desc' }, take: 5, select: { id, type, name, url, createdAt } },
+      }
+    })
+  Authorization: redirect to getRoleRedirectPath(user.role) if role !== 'agent'.
+
+Components:
+  - Hero section with cover image gallery, property title, address, price.
+  - Verification tier badge (Tier 1 / Tier 2 / Verified).
+  - Stats row: Unit Count, Vacant, Occupied, Listed, Views.
+  - Tab navigation with sticky headers per tab.
+  - Each tab renders its own sub-component/section.
+  - "Edit Property" button → /dashboard/agent/properties/[id]/edit (if permissions include write).
+  - "Schedule Inspection" button → /dashboard/agent/inspections/new?listingId=[id].
+
+API endpoints used:
+  - None (server-side Prisma fetch only)
+
+Interactions:
+  - Click tab → switch view
+  - Click unit row → expand unit detail modal
+  - Click application row → /dashboard/agent/clients (or deal detail)
+  - Click agreement row → /dashboard/agent/deals/[id]
+  - Click "Contact Owner" → /dashboard/agent/messages
+  - Click "Schedule Inspection" → /dashboard/agent/inspections/new?listingId=[id]
+
+================================================================================
+4. PIPELINE — /dashboard/agent/pipeline
+================================================================================
+File: page.tsx + AgentPipelineClient.tsx
+Navigation: AGENT_NAVIGATION — Sales & CRM > Pipelines > All Deals
+
+Layout: Dashboard shell with filterable pipeline kanban/board or table view.
+  Deals are Agreement records where agentId = user.id, grouped by stage:
+  enquiries → viewings → offers → agreements → closed.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.agreement.findMany({
+      where: { agentId: user.id },
+      select: { id, type, status, createdAt, rentAmount, cautionDeposit, startDate, endDate, listing: { select: { title, address } }, landlord: { select: { fullName } }, tenant: { select: { fullName } } },
+      orderBy: { createdAt: 'desc' }, take: 100
+    })
+
+Components:
+  - Kanban board with 5 columns (Enquiries, Viewings, Offers, Agreements, Closed).
+  - Each card shows: property address, client name, deal value, status badge.
+  - Filter bar: by type (rental/sale/short_let), by date range, by agent.
+  - Stats summary: total deals, in-progress count, closed count, total value.
+  - Column headers show count + sum of deal values.
+
+API endpoints used:
+  - GET /api/agent/agreements (server-side Prisma, agentId filter)
+
+Interactions:
+  - Click card → /dashboard/agent/deals/[id]
+  - Drag card between columns (client-side optimistic update via PATCH)
+  - Filter dropdown changes → re-query /api/agent/agreements?status=[stage]
+  - "New Deal" button → /dashboard/agent/agreements/new
+
+================================================================================
+5. BUY PIPELINE — /dashboard/agent/buy
+================================================================================
+File: page.tsx + AgentBuyClient.tsx
+Navigation: AGENT_NAVIGATION — Sales & CRM > Pipelines > Buy
+
+Layout: Dashboard shell with buy-side pipeline stats + table.
+  Shows sale agreements (type='sale') where agentId = user.id.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.agreement.findMany({
+      where: { agentId, type: 'sale' },
+      select: { id, type, status, createdAt, rentAmount, listing: { select: { title, address } }, landlord: { select: { fullName } }, tenant: { select: { fullName } } },
+      orderBy: { createdAt: 'desc' }, take: 50
+    })
+
+Components:
+  - 4 stat cards: Total Deals, Total Value, Active Pending (draft + pending_*),
+    Closed (fully_signed + active).
+  - Table with columns: Property, Type, Status, Value, Created, Details (View link).
+  - Status badges via statusConfig mapping (draft, pending_landlord,
+    pending_tenant, tenant_signed, landlord_signed, fully_signed, active,
+    expired, terminated).
+
+API endpoints used:
+  - GET /api/agent/agreements?type=sale (server-side Prisma)
+
+Interactions:
+  - Click "View" → /dashboard/agent/deals/[id]
+  - Filter by status → query param ?status=[status]
+
+================================================================================
+6. SELL PIPELINE — /dashboard/agent/sell
+================================================================================
+File: page.tsx + AgentSellClient.tsx
+Navigation: AGENT_NAVIGATION — Sales & CRM > Pipelines > Sell
+
+Layout: Same as Buy but for sell-side pipeline. Shows sale agreements where
+  agentId = user.id, displayed from the landlord/seller perspective.
+
+Server data (identical Prisma query to Buy, different client rendering):
+  - prisma.agreement.findMany({ where: { agentId, type: 'sale' }, ... })
+
+Components:
+  - 4 stat cards: Total Deals, Total Value, In Progress (pending_* + signed),
+    Closed (fully_signed + active).
+  - Table with columns: Property, Status, Value, Client (tenant), Created, Details.
+  - Status badges via statusConfig.
+
+API endpoints used:
+  - GET /api/agent/agreements?type=sale (server-side Prisma)
+
+Interactions:
+  - Click "View" → /dashboard/agent/deals/[id]
+  - Filter by status → query param ?status=[status]
+
+================================================================================
+7. LISTINGS — /dashboard/agent/listings
+================================================================================
+File: page.tsx + AgentListingsClient.tsx
+Navigation: AGENT_NAVIGATION — Sales & CRM > Listings
+
+Layout: Dashboard shell with stat cards + filterable table of listings where
+  the agent is assigned (via agentId or AgentAssignment).
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.listing.findMany({
+      where: { OR: [ { agentId: user.id }, { assignments: { some: { agentId: user.id, status: 'active' } } } ] },
+      select: { id, title, listingType, status, price, address, viewsCount, verificationTier, owner: { select: { fullName } } },
+      orderBy: { createdAt: 'desc' }, take: 50
+    })
+
+Components:
+  - Stat cards: Total Listings, Active, Draft, Suspended.
+  - Filter bar: search, by type, by status, by verification tier.
+  - Table columns: Property (title + address), Type, Status badge, Views,
+    Verified badge, Price, Landlord, Details link.
+
+API endpoints used:
+  - GET /api/agent/listings (server-side Prisma)
+
+Interactions:
+  - Click "View" → /dashboard/agent/listings/[id]
+  - Click listing title → same detail page
+  - Filter dropdown → query params
+
+================================================================================
+8. LISTING DETAIL — /dashboard/agent/listings/[id]
+================================================================================
+File: page.tsx + AgentListingDetailClient.tsx
+Navigation: AGENT_NAVIGATION — Sales & CRM > Listings (detail)
+
+Layout: Dashboard shell with detailed property listing view. Tabs or
+  accordion sections: Overview | Documents | Activity | Analytics.
+
+Server data (page.tsx — large file, 10KB+):
+  - prisma.listing.findUnique with full include tree (images, units, agent,
+    owner, assignments, applications, agreements, bookings, maintenanceTickets,
+    conversations, documents).
+  - Authorization check: agent must have active assignment or be the listing
+    agent.
+
+Components:
+  - Property hero with image gallery carousel.
+  - Price + verification tier badge + listing type chip.
+  - Property details grid (bedrooms, bathrooms, toilets, size, furnished, etc.).
+  - Agent/Landlord contact card.
+  - Units table (if multi-unit).
+  - Documents gallery with download links (Cloudinary URLs).
+  - Activity timeline.
+  - Analytics section: views over time, inquiry sources (if chart data exists).
+  - Action buttons: "Schedule Inspection", "Generate Agreement",
+    "Contact Owner", "Share Listing".
+
+API endpoints used:
+  - GET /api/agent/listings/[id] (server-side Prisma)
+  - GET /api/listings/[id]/views (if analytics tab hits this)
+
+Interactions:
+  - Click image thumbnail → expand gallery modal
+  - Click "Schedule Inspection" → /dashboard/agent/inspections/new?listingId=[id]
+  - Click "Generate Agreement" → /dashboard/agent/agreements/new?listingId=[id]
+  - Click "Contact Owner" → /dashboard/agent/messages
+  - Click "Share Listing" → native share API or copy link
+
+================================================================================
+9. CLIENTS — /dashboard/agent/clients
+================================================================================
+File: page.tsx + AgentClientsClient.tsx
+Navigation: AGENT_NAVIGATION — Sales & CRM > Clients
+
+Layout: Dashboard shell with stat cards + searchable, filterable client table.
+  Clients are users (tenants or landlords) found via conversation relationships
+  and accepted AgentInvite/AgentAssignment records.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.conversation.findMany({ where: { OR: [{ landlordId: user.id }, { tenantId: user.id }] } })
+  - prisma.agentInvite.findMany({ where: { agentId: user.id, status: 'accepted' } })
+  - prisma.agentAssignment.findMany({ where: { agentId: user.id } })
+  - prisma.user.findMany({ where: { id: { in: relatedUserIds } } })
+  - prisma.agreement.findMany({ where: { OR: [{ tenantId: { in: ... } }, { landlordId: { in: ... } }], status: { not: 'draft' } } })
+
+Components:
+  - Stat cards: Total Clients, Active Deals, Total Managed Value, Last Contact.
+  - Filter bar: search by name/email, by client type (Buyer/Seller/Landlord/Renter),
+    by deal status.
+  - Table columns: Client (avatar + name + type), Phone, Email, Deals count,
+    Managed Value, Last Contact, Actions.
+
+API endpoints used:
+  - GET /api/agent/clients (server-side Prisma)
+
+Interactions:
+  - Click client row → /dashboard/agent/clients/[id]
+  - Click "Message" → /dashboard/agent/messages
+  - Click "View Deals" → /dashboard/agent/deals?clientId=[id]
+  - Filter dropdown → query params
+
+================================================================================
+10. CLIENT DETAIL — /dashboard/agent/clients/[id]
+================================================================================
+File: page.tsx + AgentClientDetailClient.tsx
+Navigation: AGENT_NAVIGATION — Sales & CRM > Clients (detail)
+
+Layout: Dashboard shell with client profile header + two-column detail grid.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.conversation.findFirst({ where: { OR: [{ landlordId: user.id, tenantId: id }, { tenantId: user.id, landlordId: id }] } })
+  - prisma.user.findUnique({ where: { id }, select: { id, fullName, email, phone, role, profileBio, createdAt } })
+  - prisma.agreement.findMany({ where: { agentId: user.id, OR: [{ tenantId: id }, { landlordId: id }] }, select: { id, status, createdAt, listing: { select: { title, address } } }, orderBy: { createdAt: 'desc' }, take: 10 })
+
+Components:
+  - Back link to /dashboard/agent/clients
+  - Client header: avatar, full name, role (Seller/Buyer), "Client since" date
+    with formatted locale date (en-NG).
+  - Contact Details card: email, phone, notes/bio.
+  - Related Deals card: table of agreements with property, status, date.
+  - Action buttons: "Send Message", "New Agreement", "Add Note".
+
+API endpoints used:
+  - GET /api/agent/clients/[id] (server-side Prisma)
+
+Interactions:
+  - "Send Message" → /dashboard/agent/messages
+  - "New Agreement" → /dashboard/agent/agreements/new?clientId=[id]
+  - Click deal row → /dashboard/agent/deals/[id]
+  - Back arrow → /dashboard/agent/clients
+
+================================================================================
+11. MARKET OVERVIEW — /dashboard/agent/market
+================================================================================
+File: page.tsx + AgentMarketClient.tsx
+Navigation: AGENT_NAVIGATION — Market & Leads > Marketplace
+
+Layout: Dashboard shell with market analytics + listing browser.
+  Shows all active listings across the platform (not just managed ones).
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.listing.findMany({ where: { status: 'active' }, select: { id, title, listingType, status, price, address, owner: { select: { fullName } } }, orderBy: { createdAt: 'desc' }, take: 20 })
+
+Components:
+  - Stat cards: Active Listings, Avg Price, Total Shown, Property Types count.
+  - Listing table: Property (title + address), Type, Price, Status badge,
+    Details link.
+
+API endpoints used:
+  - GET /api/listings?status=active (server-side Prisma)
+
+Interactions:
+  - Click "View" → /dashboard/agent/listings/[id]
+  - Search/filter bar (if implemented client-side)
+
+================================================================================
+12. FINANCE / RENT & PAYMENTS — /dashboard/agent/payments
+================================================================================
+File: page.tsx
+Navigation: AGENT_NAVIGATION — Finance > Rent & Payments
+
+Layout: Dashboard shell using shared RentAndPaymentsHub component with 4 tabs:
+  Overview | Commissions | Invoices | Withdrawals.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.wallet.findUnique({ where: { userId: user.id } })
+  - prisma.walletTransaction.findMany({ where: { walletId: wallet?.id }, orderBy: { createdAt: 'desc' }, take: 20 })
+  - prisma.walletTransaction.count({ where: { walletId: wallet?.id, type: 'deposit' } })
+  - prisma.walletTransaction.count({ where: { walletId: wallet?.id, type: 'withdrawal' } })
+
+Components:
+  - Overview tab: Wallet balance card, deposit/withdrawal count cards,
+    recent transactions list.
+  - Commissions tab: Placeholder (redirects conceptually to /dashboard/agent/commissions).
+  - Invoices tab: Placeholder (redirects conceptually to /dashboard/agent/invoices).
+  - Withdrawals tab: Placeholder (redirects conceptually to /dashboard/agent/withdrawals).
+
+API endpoints used:
+  - GET /api/wallet (server-side Prisma)
+  - GET /api/wallet/transactions?limit=20 (server-side Prisma)
+
+Interactions:
+  - Tab switch → render different content panel
+  - Click transaction → could link to detail (if implemented)
+  - "Withdraw" button → /dashboard/agent/withdrawals
+
+================================================================================
+13. STATEMENTS — /dashboard/agent/statements
+================================================================================
+File: statements/page.tsx
+Navigation: AGENT_NAVIGATION — Finance > Statements (child of Finance)
+
+Layout: Dashboard shell reusing TenantStatementsClient component
+  (shared across roles). Shows automated monthly statement generation.
+
+Components:
+  - Statement generator form: select month/year range.
+  - Preview modal with statement summary: income, expenses, net, tax withheld.
+  - Export buttons: PDF, CSV.
+
+API endpoints used:
+  - GET /api/statements/monthly (shared tenant statements API, agent context)
+
+Interactions:
+  - Select month/year → fetch monthly summary
+  - "Generate Statement" → create statement record
+  - "Download PDF" / "Download CSV" → export
+
+Note: This page reuses the tenant statements client component directly,
+  no agent-specific client exists.
+
+================================================================================
+14. INVOICES — /dashboard/agent/invoices
+================================================================================
+File: invoices/page.tsx
+Navigation: Not in AGENT_NAVIGATION directly, but accessible via Finance tab.
+
+Layout: Dashboard shell reusing TenantInvoicesClient component.
+
+Components:
+  - Invoice list table: invoice number, date, amount, status, actions.
+  - Filter by status, date range.
+
+API endpoints used:
+  - GET /api/invoices (shared)
+
+Interactions:
+  - Click invoice row → view detail
+  - "Pay Now" → Paystack checkout (if unpaid)
+
+Note: Reuses tenant invoices client, no agent-specific client.
+
+================================================================================
+15. COMMISSIONS — /dashboard/agent/commissions
+================================================================================
+File: page.tsx + AgentCommissionsClient.tsx
+Navigation: Not directly in AGENT_NAVIGATION (accessed via Finance > Payments tab)
+
+Layout: Dashboard shell with commission stat cards + filterable list.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.agreement.findMany({
+      where: { agentId: { not: null } },
+      include: { listing: { select: { id, title, address } }, tenant: { select: { fullName } }, transactions: { where: { status: 'released' }, select: { amount, paidAt } } },
+      orderBy: { createdAt: 'desc' }, take: 100
+    })
+  - Commission rate: hardcoded 5% of total paid transaction amounts.
+  - totalEarned, totalPaid, totalPending computed from server data.
+
+Components:
+  - 3 stat cards: Total Earned, Paid Out, Pending (formatted via formatCurrency).
+  - Export CSV button (placeholder link).
+  - Filter bar: All / Paid / Pending / Cancelled with badge counts.
+  - Commission rows: deal name, client, amount @ 5% rate, status badge, date.
+
+API endpoints used:
+  - GET /api/agent/commissions (server-side Prisma)
+
+Interactions:
+  - Filter buttons → client-side filter of initialCommissions
+  - "Export CSV" → placeholder (no agent CSV export API yet)
+  - Click commission row → /dashboard/agent/deals/[id]
+  - "View Deal Pipeline" link (empty state) → /dashboard/agent/pipeline
+
+Error states:
+  - If Prisma query fails → render DashboardShell with error message +
+    "Retry" link to /dashboard/agent/commissions.
+  - If no commissions → EmptyState with link to pipeline.
+
+================================================================================
+16. COMMISSION LEDGER — /dashboard/agent/commission-ledger
+================================================================================
+File: commission-ledger/page.tsx
+Navigation: Not in AGENT_NAVIGATION directly.
+
+Layout: Client component using DashboardShell with inline nav config
+  (not AGENT_NAVIGATION). Fetches wallet adjustment transactions.
+
+Components:
+  - Loading state (text: "Loading...")
+  - Empty state ("No commissions yet.")
+  - List of adjustment transactions with type, description, timestamp,
+    amount, and status badge.
+
+API endpoints used:
+  - GET /api/wallet/transactions?limit=50&types=adjustment (fetch from
+    client component via useEffect)
+
+Interactions:
+  - None (read-only)
+  - Error → toast.error("Failed to load commissions")
+
+Note: Uses inline navigation prop instead of AGENT_NAVIGATION.
+  Uses toast from sonner for error feedback.
+
+================================================================================
+17. REPUTATION — /dashboard/agent/reputation
+================================================================================
+File: page.tsx + AgentReputationClient.tsx
+Navigation: Not directly in AGENT_NAVIGATION.
+
+Layout: Dashboard shell with reputation score + reviews list.
+
+Components:
+  - Score card: average rating (1 decimal), star rating display, review count.
+  - Reviews list: each review shows author, star rating, comment, date.
+  - Empty state: star icon + "No reviews yet" message.
+
+Server data:
+  - initialReviews passed from page.tsx (currently empty array [])
+
+API endpoints used:
+  - None (currently uses mock empty data)
+
+Interactions:
+  - None (read-only display)
+
+Note: No real API integration yet — passes initialReviews={[]} from server.
+
+================================================================================
+18. REJECT — /dashboard/agent/withdrawals
+================================================================================
+File: page.tsx
+Navigation: Not in AGENT_NAVIGATION (accessed via Finance tab in payments page)
+
+Layout: Dashboard shell with withdrawal summary + payout history list.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.wallet.findUnique({ where: { userId: user.id } })
+  - prisma.walletTransaction.findMany({ where: { walletId: wallet?.id, type: 'withdrawal' }, orderBy: { createdAt: 'desc' }, take: 50 })
+  - totalWithdrawn computed from sum of withdrawal amounts.
+
+Components:
+  - "Total Withdrawn" stat card with formatted ₦ amount.
+  - Payouts list: each entry shows description, timestamp, amount (red/negative).
+  - Empty state: "No withdrawals yet."
+
+API endpoints used:
+  - None (server-side Prisma fetch only)
+
+Interactions:
+  - None (read-only display of withdrawal history)
+
+Note: This is a read-only withdrawal history page. The actual withdrawal
+  request form is not implemented here — would need to POST to
+  /api/wallet/disburse or /api/payments/disburse.
+
+================================================================================
+19. VERIFICATIONS — /dashboard/agent/verifications
+================================================================================
+File: page.tsx + AgentVerificationsClient.tsx
+Navigation: Not in AGENT_NAVIGATION — accessible via Profile > "Verification Status" button.
+
+Layout: Dashboard shell with verification progress tracker + modules + recent activity.
+
+Components:
+  - Progress bar: 60% (hardcoded in client).
+  - 5-step visual tracker: Identity, License, Office, Inspection, Clearance.
+  - 3 module cards: Identity & Biometrics (verified), Professional Licensing (pending),
+    Office Verification (not-started).
+  - Next Priority Action card (green accent): "Complete Office Verification" button.
+  - Recent Activity timeline: EAR License Uploaded, Identity Verified, Account Created.
+
+API endpoints used:
+  - None (fully client-side with hardcoded state)
+
+Interactions:
+  - "Check Status" button (License module) → # or /dashboard/agent/verifications/license
+  - "Start Process" button (Office module) → /dashboard/agent/inspections/office
+  - "View Details" link (Identity module) → /dashboard/agent/verifications
+  - "Complete Office Verification" button → /dashboard/agent/inspections/office
+  - "View All Activity" → placeholder
+
+Note: Uses mock data for modules and recentActivity. The progress percentage
+  is hardcoded at 60%. Verification status reflects L4 verification records
+  (prisma.verification model: l4AgentId, l4Status, l4ScheduledAt, l4ReportUrl).
+
+================================================================================
+20. LICENSE VERIFICATION — /dashboard/agent/verifications/license
+================================================================================
+File: page.tsx + AgentVerificationLicenseClient.tsx
+Navigation: AGENT_NAVIGATION — accessible via profile or verifications section.
+
+Layout: Dashboard shell with two-column layout: form + upload on left,
+  guidance + summary on right.
+
+Components:
+  - Status header: "Current Status" = Under Review, "Last Update" = Oct 24, 2023.
+  - License Details form:
+    - License Type dropdown (EAR, NIESV, ESVARBON, LASRERA).
+    - License Number input (placeholder: "e.g. EAR/2023/8892").
+    - Issuing Authority input.
+    - Expiry Date input (date picker).
+  - File Upload dropzone: accepts .pdf/.png/.jpg/.jpeg, max 5MB.
+    - "Save Draft" and "Submit for Verification" buttons.
+  - Guidance card (green accent): verification tips (clear legibility, no expiration,
+    full document).
+  - Process Journey stepper: Upload Document → Authority Review →
+    Certified Badge Issued.
+  - Submission History table: License Type, Submitted, Reference ID, Status badge,
+    Action (View / Fix & Re-upload if rejected).
+
+API endpoints used:
+  - POST /api/verifications (document submission — not yet implemented in this
+    component, buttons are placeholder)
+  - GET /api/verifications (license history — uses hardcoded initialSubmissions)
+
+Interactions:
+  - Select license type → dropdown onChange
+  - Fill form fields → local state
+  - Drag/drop or browse files → file input (placeholder, no upload handler)
+  - "Save Draft" → placeholder
+  - "Submit for Verification" → placeholder
+  - Click submission row "Fix & Re-upload" → form pre-filled with existing data
+  - "Export Log" → placeholder
+
+Note: Uses hardcoded initialSubmissions array (3 mock submissions).
+  No real form submission handler wired up.
+
+================================================================================
+21. INSPECTIONS — /dashboard/agent/inspections
+================================================================================
+File: page.tsx + AgentInspectionsClient.tsx
+Navigation: Accessible via verifications flow or deal detail "Schedule Inspection".
+
+Layout: Dashboard shell with stat cards + filterable table of inspections.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.verification.findMany({
+      where: { l4AgentId: user.id },
+      include: { listing: { select: { id, title, address } } },
+      orderBy: { updatedAt: 'desc' }, take: 100
+    })
+  Normalized: id, listing, scheduledAt (l4ScheduledAt || updatedAt),
+    status (l4Status), reportUrl (l4ReportUrl).
+
+Components:
+  - Stat cards: Total, Scheduled, Completed, Cancelled.
+  - Filter bar: all / scheduled / completed / cancelled.
+  - Table columns: Property, Date, Status badge, Report (Available/Pending).
+  - Empty state: phone icon + "No inspections" message.
+
+API endpoints used:
+  - GET /api/verifications (server-side Prisma, l4AgentId filter)
+
+Interactions:
+  - "Schedule Inspection" button → /dashboard/agent/inspections/new
+  - Filter buttons → client-side filter
+  - Click inspection row → /dashboard/agent/inspections/report (if report exists)
+
+Note: AgentInspectionsClient includes its own DashboardShell wrapper in the
+  client component (double shell — minor issue but acceptable for current scope).
+
+================================================================================
+22. NEW INSPECTION — /dashboard/agent/inspections/new
+================================================================================
+File: inspections/new/page.tsx
+Navigation: Accessed from deal detail or inspections page "Schedule Inspection".
+
+Layout: Dashboard shell with placeholder content. No client component — pure server
+  component rendering a glass card with a message.
+
+Components:
+  - Glass card with title "New Inspection".
+  - Body text: If dealId query param present → "Create an inspection request for
+    deal [id]." Otherwise → "Select a deal and create a new inspection request
+    from the deal detail page."
+
+API endpoints used:
+  - None (placeholder page)
+
+Interactions:
+  - None (no form UI — placeholder only)
+
+Note: This is a minimal stub. The full inspection scheduling UI (calendar,
+  time slots, requirements) is in AgentOfficeInspectionClient.
+
+================================================================================
+23. OFFICE INSPECTION — /dashboard/agent/inspections/office
+================================================================================
+File: inspections/office/AgentOfficeInspectionClient.tsx
+Navigation: Accessed from verifications "Complete Office Verification" button.
+
+Layout: Client component using DashboardShell with two-column layout:
+  calendar + form on left, summary + guidance on right.
+
+Components:
+  - Status tracker bar: Submitted → Scheduled → Visit → Report (45% progress bar).
+  - Calendar grid: October 2024, selectable dates with disabled/active states.
+  - Time slot selector: Morning (09:00–12:00) / Afternoon (14:00–17:00).
+  - Requirements checklist: CAC docs, lease/title, office signage, physical agent.
+  - Inspection Summary card: Date, Time Window, Inspection Address (editable).
+  - "Why verify?" info card (green accent).
+  - Map placeholder (gray box with pulse indicator).
+  - "Confirm Schedule" primary button.
+
+API endpoints used:
+  - None (placeholder — no real schedule API call wired up)
+
+Interactions:
+  - Click calendar date → setSelectedDate
+  - Select time slot → setSelectedSlot
+  - "Change Address" → placeholder
+  - "Confirm Schedule" → placeholder (would POST to /api/verifications/schedule)
+
+Note: Uses mock data for calendar days and requirements. DashboardShell
+  imported directly in client component (no server-side page wrapper).
+
+================================================================================
+24. INSPECTION REPORT — /dashboard/agent/inspections/report
+================================================================================
+File: inspections/report/page.tsx + AgentInspectionReportClient.tsx
+Navigation: Accessed from inspections table or deal detail.
+
+Layout: Client component using DashboardShell with print-ready report view.
+  Two-column on desktop, single column on mobile.
+
+Components:
+  - Header actions: Back button, Share button, Download Report button (window.print).
+  - Report paper container (.print-area):
+    - Green header with "Real Estate Audit Document" badge, property name,
+      reference #, date.
+    - Clearance badge: "CLEARANCE ISSUED" with score (98%).
+    - Clearance summary card: "Master Verification Passed" + Tier 2 / Lagos State Compliant badges.
+    - Compliance Assessment grid (3 cards): Business Registration, Physical Office,
+      Operational Capacity — each with VERIFIED badge and "View Original" link.
+    - Evidence Gallery: 4 image placeholders (OFFICE EXTERIOR, RECEPTION, WORKSTATIONS,
+      MEETING ROOM) with hover overlay.
+    - Inspector's Professional Remarks section.
+    - Footer: inspector signature block (Chidi Anthony Okafor, PR-992),
+      time logged, GPS auth coordinates.
+  - System-generated document footer with verification URL.
+
+API endpoints used:
+  - None (fully static mock report)
+
+Interactions:
+  - "Share" → native share API
+  - "Download Report" → window.print()
+  - "View Original" buttons → placeholder links
+
+Note: Uses hardcoded data throughout (inspector name, address, score=98).
+  GPS coordinates are static: "6.5244° N, 3.3792° E".
+
+================================================================================
+25. INVITATIONS — /dashboard/agent/invites
+================================================================================
+File: page.tsx + AcceptInviteClient.tsx
+Navigation: AGENT_NAVIGATION — Invitations
+
+Layout: Dashboard shell (max-w-3xl, centered) with invitation list.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.agentInvite.findMany({
+      where: { email: user.email, status: 'pending' },
+      include: {
+        sender: { select: { id, fullName, email } },
+        assignments: { include: { listing: { select: { id, title, address } } } },
+      },
+      orderBy: { createdAt: 'desc' }
+    })
+
+Components:
+  - Header: "Invitations" title, subtitle about landlord invitations.
+  - Invitation card list (via AcceptInviteClient):
+    - Sender info (name, email).
+    - Assigned property listings preview.
+    - Action buttons: "Accept" / "Decline".
+
+API endpoints used:
+  - PATCH /api/agent/invites/[id]/accept (accept invitation)
+  - PATCH /api/agent/invites/[id]/decline (decline invitation)
+
+Interactions:
+  - "Accept Invite" → PATCH /api/agent/invites/[id]/accept → reload
+  - "Decline Invite" → PATCH /api/agent/invites/[id]/decline → reload
+  - Click property in invite → /listings/[id]
+
+Note: AcceptInviteClient is a client component that receives invites array
+  and email from server. Accept/decline handlers call PATCH endpoints and
+  refresh the page on success.
+
+================================================================================
+26. AGREEMENTS — /dashboard/agent/agreements/new
+================================================================================
+File: agreements/new/page.tsx + agreements/new/AgentAgreementNewClient.tsx
+Navigation: Accessed from deal detail "Generate Agreement" action or pipeline.
+
+Layout: Dashboard shell with agreement creation wizard.
+
+Components:
+  - Wizard stepper: Details → Parties → Terms → Review & Send.
+  - Form fields: agreement type (rental, sale, short_let), listing selector,
+    tenant/landlord selection, rent amount, deposit amount, start/end dates,
+    terms editor.
+  - "Save Draft" and "Send for Signatures" buttons.
+
+API endpoints used:
+  - POST /api/agreements (create draft)
+  - POST /api/agreements/[id]/send (send for e-signature via Resend)
+
+Interactions:
+  - Stepper navigation (next/prev)
+  - Field validation client-side
+  - "Save Draft" → POST /api/agreements with status=draft
+  - "Send for Signatures" → POST /api/agreements/[id]/send
+
+Note: Referenced in AgentDealDetailClient actions tab as
+  /dashboard/agent/agreements/new?dealId=[id]. Full wizard implementation
+  details to be confirmed by reading the component files.
+
+================================================================================
+27. DEALS LIST — /dashboard/agent/deals
+================================================================================
+File: page.tsx + AgentDealsClient.tsx
+Navigation: Accessible via pipeline or deals link (not a top-level nav item,
+  but referenced extensively via links from buy/sell/pipeline pages).
+
+Layout: Dashboard shell with stat cards + table of all active deals.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.agreement.findMany({
+      where: { agentId, status: { in: ACTIVE_STATUSES } },
+      select: { id, type, status, rentAmount, cautionDeposit, startDate,
+        endDate, createdAt, listing: { select: { title, address } },
+        landlord: { select: { fullName } }, tenant: { select: { fullName } } }
+    })
+  ACTIVE_STATUSES: draft, pending_landlord, pending_tenant, tenant_signed,
+    landlord_signed, fully_signed.
+
+Components:
+  - Stat cards: Total, In Progress (pending_*), Active (signed), Est. Value.
+  - Filter bar: by type, by status, by date range.
+  - Table: Property (address + landlord), Status badge, Tenant, Rent, Deposit,
+    Created, Details link.
+
+API endpoints used:
+  - GET /api/agent/agreements?status=active (server-side Prisma)
+
+Interactions:
+  - Click "View" → /dashboard/agent/deals/[id]
+  - Filter dropdown → query params
+  - Click column headers → sort (client-side)
+
+================================================================================
+28. DEAL DETAIL — /dashboard/agent/deals/[id]
+================================================================================
+File: page.tsx + AgentDealDetailClient.tsx
+Navigation: Accessible from any deals list or pipeline page.
+
+Layout: Dashboard shell with deal header, tabbed interface, and action panel.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.transaction.findUnique({
+      where: { id },
+      include: { listing: { select: { id, title, area } }, payer: { select: { fullName, email } } }
+    })
+  Authorization: deal.agentId must equal user.id, otherwise redirect to
+    /dashboard/agent/deals.
+
+Components:
+  - Deal header: back link to /dashboard/agent/pipeline, title, property address,
+    status badge with colored background.
+  - Deal Actions panel (shown when status = 'in_escrow' or 'commission_held'):
+    - "Mark deal closed" button → POST /api/agent/[dealId]/close
+    - "Release commission" button → POST /api/agent/[dealId]/commission
+    - "Confirm payment sent/received" → POST /api/transactions/[id]/confirm
+    - "Dispute" → POST /api/transactions/[id]/dispute
+  - Tab navigation: Overview | Timeline | Actions | Documents
+    - Overview: Deal Details card (property, client, agent, value, last contact)
+      + Status Overview (5-stage progress bars).
+    - Timeline: Sequential events list with dot markers, event name, date, detail.
+    - Actions: 4 ActionCards — View Listing, Schedule Inspection,
+      Generate Agreement, Contact Client (all Link-based).
+    - Documents: Table of uploaded docs with name, type, size, upload date,
+      download button.
+
+API endpoints used:
+  - GET /api/agent/deals/[id] (server-side Prisma)
+  - POST /api/agent/[dealId]/close (mark deal closed)
+  - POST /api/agent/[dealId]/commission (release commission)
+  - POST /api/transactions/[id]/confirm (confirm payment)
+  - POST /api/transactions/[id]/dispute (file dispute)
+
+Interactions:
+  - Click tab → switch view
+  - Click action button (escrow/commission) → fetch POST → toast notification
+  - Click ActionCard → navigate to linked route
+  - Click document download → open/download file URL
+  - "Share" in report → native share API
+
+Note: Deal data serialized from Transaction model (not Agreement).
+  Type mapping: transaction.type 'sale' → 'buy', else 'rental' → 'rent'.
+  Value: deal.amount / 100 (amount stored in smallest currency unit).
+
+================================================================================
+29. PROFILE — /dashboard/agent/profile
+================================================================================
+File: page.tsx + AgentProfileClient.tsx
+Navigation: Not in AGENT_NAVIGATION — accessible via user menu dropdown.
+
+Layout: Dashboard shell with profile header card + KYC verification card.
+
+Server data (page.tsx fetches via Prisma):
+  - prisma.user.findUnique({
+      where: { clerkId: user.clerkId },
+      select: { id, email, phone, role, fullName, avatarUrl, createdAt,
+        agentTier, agentApproved, profileBio, ninVerified, phoneVerified, idVerified }
+    })
+
+Components:
+  - Profile header: avatar (or gradient placeholder), full name, "Agent since"
+    date, tier badge (premium/standard), "Approved" badge if agentApproved.
+  - Contact Details grid: Email, Phone (masked), Role, Member Since (4 cards).
+  - Bio section (if profileBio present).
+  - Action buttons: "Edit Profile", "Verification Status", "Change Phone".
+  - KYC Verification card (from useKycStatus hook) — Dojah integration.
+
+API endpoints used:
+  - GET /api/agent/profile (server-side Prisma)
+  - GET /api/kyc/status (client hook useKycStatus)
+
+Interactions:
+  - "Edit Profile" → opens profile edit form/modal
+  - "Verification Status" → /dashboard/agent/verifications
+  - "Change Phone" → phone update modal
+  - KYC card "Retry" → re-fetch KYC status via useKycStatus reload
+
+Note: Phone number is masked in UI (shows "••••••" instead of actual number).
+  KYC verification uses Dojah client hook (useKycStatus).
+
+================================================================================
+30. MESSAGES — /dashboard/agent/messages
+================================================================================
+File: page.tsx
+Navigation: Shared [role] path — /dashboard/[agent]/messages.
+
+Layout: Dashboard shell wrapping MessagePage component (from @/components/ui/message-page)
+  inside SidebarProvider.
+
+Components:
+  - Full conversation list with unread indicators.
+  - Conversation thread view with message input.
+  - Search/filter within conversations.
+
+API endpoints used:
+  - GET /api/conversations (via MessagePage component)
+  - POST /api/conversations/[id]/messages (send message)
+
+Interactions:
+  - Click conversation → open thread
+  - Type message → POST /api/conversations/[id]/messages
+  - Search conversations → filter client-side
+  - New message → start new conversation
+
+Note: Uses shared MessagePage component reused across all roles.
+  Wraps in SidebarProvider for mobile layout.
+
+================================================================================
+31. AGENTS — /dashboard/agent/agents/[id]
+================================================================================
+File: agents/[id]/page.tsx
+Navigation: Not in AGENT_NAVIGATION.
+
+Layout: Minimal page — only 1 line of content (221 chars). Appears to be a stub
+  or incomplete page.
+
+Components: None (empty or near-empty server component).
+
+API endpoints used: Unknown (page too small to determine).
+
+Interactions: None.
+
+Note: This page file is essentially empty (221 bytes). Needs full implementation.
+
+--------------------------------------------------------------------------------
+API ENDPOINT INDEX (referenced across agent pages)
+--------------------------------------------------------------------------------
+Server-side (Prisma in page.tsx):
+  - prisma.listing            — findMany, findUnique (properties, listings, market)
+  - prisma.agreement          — findMany (deals, commissions, pipeline, buy/sell)
+  - prisma.user               — findUnique, findMany (profile, clients, client detail)
+  - prisma.conversation       — findMany, findFirst (clients, client detail, messages)
+  - prisma.transaction        — findUnique (deal detail)
+  - prisma.verification       — findMany (inspections, verifications)
+  - prisma.wallet             — findUnique (payments, withdrawals)
+  - prisma.walletTransaction  — findMany (payments, withdrawals, commission-ledger)
+  - prisma.agentInvite        — findMany (invites, clients)
+  - prisma.agentAssignment    — findMany (properties, clients)
+
+Client-side fetch calls:
+  - GET /api/wallet/transactions?limit=50&types=adjustment  (commission-ledger)
+  - GET /api/wallet/transactions?limit=20                     (payments — server-rendered, client could fetch more)
+  - POST /api/agent/[dealId]/close                            (deal detail)
+  - POST /api/agent/[dealId]/commission                     (deal detail)
+  - POST /api/transactions/[id]/confirm                     (deal detail)
+  - POST /api/transactions/[id]/dispute                    (deal detail)
+  - PATCH /api/agent/invites/[id]/accept                   (invites)
+  - PATCH /api/agent/invites/[id]/decline                  (invites)
+  - GET /api/kyc/status                                     (profile — via useKycStatus hook)
+
+Shared components:
+  - DashboardShell            — wraps all pages with AGENT_NAVIGATION
+  - ErrorBoundary             — wraps client components
+  - RentAndPaymentsHub        — shared tab component (payments page)
+  - TenantReceiptsClient      — reused by agent receipts page
+  - TenantInvoicesClient      — reused by agent invoices page
+  - MessagePage               — reused by agent messages page
+  - SidebarProvider           — wraps MessagePage
+
+--------------------------------------------------------------------------------
+NAVIGATION VERIFICATION CHECKLIST
+--------------------------------------------------------------------------------
+AGENT_NAVIGATION sections:
+  1. Main
+     ✓ /dashboard/agent                          (Dashboard)
+     ✓ /dashboard/agent/properties               (Managed Properties)
+     ✓ /dashboard/agent/schedule                 (Calendar)
+  2. Sales & CRM
+     ✓ /dashboard/agent/pipeline                 (Pipelines > All Deals)
+     ✓ /dashboard/agent/buy                      (Pipelines > Buy)
+     ✓ /dashboard/agent/sell                     (Pipelines > Sell)
+     ✓ /dashboard/agent/listings                 (Listings)
+     ✓ /dashboard/agent/listings/[id]            (Listing Detail)
+     ✓ /dashboard/agent/clients                  (Clients)
+     ✓ /dashboard/agent/clients/[id]             (Client Detail)
+  3. Market & Leads
+     ✓ /dashboard/agent/market                   (Marketplace)
+  4. Finance
+     ✓ /dashboard/agent/payments                 (Rent & Payments)
+     ✓ /dashboard/agent/statements               (Statements — child of Finance)
+  5. Invitations
+     ✓ /dashboard/agent/invites                  (Invitations)
+
+NOT in AGENT_NAVIGATION (accessed via links/actions):
+  ⚠ /dashboard/agent/deals                      (All Deals — linked from buy/sell/pipeline)
+  ⚠ /dashboard/agent/deals/[id]                 (Deal Detail — linked from tables)
+  ⚠ /dashboard/agent/commissions                (Commissions — Finance > Payments tab)
+  ⚠ /dashboard/agent/commission-ledger           (Commission Ledger — orphaned nav)
+  ⚠ /dashboard/agent/reputation                  (Reputation — orphaned nav)
+  ⚠ /dashboard/agent/withdrawals                 (Withdrawals — Finance > Payments tab)
+  ⚠ /dashboard/agent/invoices                    (Invoices — Finance > Payments tab)
+  ⚠ /dashboard/agent/receipts                    (Receipts — orphaned)
+  ⚠ /dashboard/agent/verifications                (Verifications — via profile link)
+  ⚠ /dashboard/agent/verifications/license       (License Verification — via verifications)
+  ⚠ /dashboard/agent/inspections                 (Inspections — via verifications)
+  ⚠ /dashboard/agent/inspections/new              (New Inspection — via inspection link)
+  ⚠ /dashboard/agent/inspections/office           (Office Inspection — via verifications)
+  ⚠ /dashboard/agent/inspections/report           (Inspection Report — via inspections)
+  ⚠ /dashboard/agent/agreements/new               (New Agreement — via deal detail)
+  ⚠ /dashboard/agent/messages                     (Messages — shared [role] path)
+  ⚠ /dashboard/agent/profile                      (Profile — user menu dropdown)
+  ⚠ /dashboard/agent/agents/[id]                  (Stub — incomplete)
+
+RECOMMENDED NAV ADDITIONS (pages exist but not in AGENT_NAVIGATION):
+  - Consider adding "Deals" top-level or under Sales & CRM
+  - Consider adding "Commissions" under Finance
+  - Consider adding "Inspections" under Main or Verifications
+  - Consider adding "Verifications" under Main or Account
+
+================================================================================
+END OF AGENT PROMPTS
+================================================================================

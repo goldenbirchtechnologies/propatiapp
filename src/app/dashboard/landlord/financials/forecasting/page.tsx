@@ -24,7 +24,7 @@ export default async function LandlordFinancialForecastingPage() {
 
   let totalRevenue = 0;
   let monthlyData: { month: string; revenue: bigint; count: bigint }[] = [];
-  let loadError: string | null = null;
+  const loadError: string | null = null;
 
   try {
     const [totalRevenueKobo, monthlyDataRaw] = await Promise.all([

@@ -1,0 +1,103 @@
+# Estate Manager Profile Page — Visual Screen Prompt
+
+## Goal
+Generate a single high-fidelity, browser-ready HTML/CSS visual screen (a self-contained
+`.html` file with embedded Tailwind CDN or plain CSS) of the **Estate Manager Profile**
+page inside the PropatiBox dashboard. This is a render artifact only — for visual
+review — not the production React component.
+
+## 1. Brand & theme context
+- Product: **PropatiBox** — Nigeria's verified property marketplace (Next.js 14 + Prisma
+  + Clerk + Supabase + Paystack).
+- Estate Manager is the **blue** role (`#3b82f6`, token `--em`).
+- Global accent / success color: **emerald** `#10b981` (token `--accent` / `--success`).
+- Design system: `docs/06_Design_Tokens.md` — Inter font, `font-display` headings,
+  `font-label-sm` meta labels (uppercase, tracking-wider), glass-card surfaces,
+  `--radius-md` card radius, `--radius-full` avatar.
+- Dark-first dashboard: dark background surfaces, light card panels with subtle borders.
+- See `src/app/dashboard/tenant/profile/TenantProfileClient.tsx` and
+  `src/app/dashboard/estate-manager/profile/page.tsx` for the existing React layout
+  shape; mirror it exactly but as a standalone visual.
+
+## 2. Screen layout (exactly replicate)
+Desktop ≥ 1024px, max-width 1240px, centered.
+
+### Left rail (sidebar) — 64px wide, fixed, dark
+- "P" monogram + "Propati" logo.
+- Vertical nav icons (Home, Payments, Portfolio, Units, Maintenance, Team, Agreements,
+  Messages, Invitations, Profile) — blue-500 highlight + ring on "My Profile".
+
+### Main content — 3-col grid at lg breakpoint
+**Left column (col 1): ProfileHeader**
+- 96px circular avatar (use a placeholder headshot, initials "EM" fallback).
+- Camera-fab button bottom-right of avatar.
+- Name: "Adewale Estate"
+- Subtitle: "Estate Manager · since Jan 2026"
+- Verification badge: blue pill "Firm Pending" with a small Shield icon, amber text.
+
+**Right column (col 2 → spans 2 cols): stacked cards**
+1. **Company Information** (ProfileForm)
+   - Title "Company Information" + description "Update your company and contact details."
+   - 2×2 grid of fields:
+     - Full Name → "Adewale Estate"  (input)
+     - Email → "adewale@estatepro.ng"  (input, greyed read-only style)
+     - Phone → "0803 456 7890"  (input)
+     - Management Company → "EstatePro Mgmt Ltd"  (input)
+   - Right-aligned "Save Changes" button (blue bg, rounded-md).
+
+2. **Firm Verification** (ProfileSecurity)
+   - Title "Verification" + description "Your estate management firm verification status."
+   - Row: Shield icon + "Verification tier" / "tier_2" on left; status pill "pending"
+     (amber) on right.
+   - Row: IdCard icon + "Next step" / "Submit CAC documents to complete verification."
+   - Optional "Verify Phone" outline button (ghost, blue border + blue text).
+
+3. **Notifications** (ProfileNotifications)
+   - Title "Notifications" + description "Manage alerts for your portfolio operations."
+   - List of 4 toggles (rounded switch, blue when on):
+     - ✓ Maintenance tickets — "Get notified when new maintenance tickets are created"
+     - ✓ Service charge reminders — "Get reminded before service charge due dates"
+     - ✗ Utility reports — "Get weekly utility consumption summaries"
+     - ✓ Tenant onboarding — "Get notified when a new tenant requests onboarding"
+
+4. **Password Security** (new section — not yet in original stub)
+   - Title "Password Security" + description "Update your account password."
+   - Two-row layout:
+     - "Change password" primary button (blue) on the left.
+     - Helper text "Passwords are managed through Clerk." on the right (muted).
+
+5. **Identity KYC** (KycVerificationCard)
+   - Small card with dojah-style KYC status.
+   - Title "Identity Verification" + "Verify your personal identity to unlock payments and documents."
+   - Status: "not_started" → grey badge + "Verify now" button (outline).
+
+## 3. Visual spec
+- All cards: `glass-card` style — semi-transparent dark surface (`rgba(15,23,42,.6)`),
+  border `1px solid rgba(255,255,255,.08)`, rounded `--radius-md`, `backdrop-blur`.
+- Spacing: `gap-6` between the two columns, `space-y-6` between stacked cards.
+- Inputs: dark bg, `1px solid rgba(255,255,255,.12)`, rounded `--radius-sm`,
+  white placeholder at 50% opacity.
+- Buttons: blue (`#3b82f6`) for primary, outline `1px solid #3b82f6` + white text +
+  hover `bg-blue-500/10` for secondary.
+- Badge pills: small, `rounded-full`, uppercase `text-xs`.
+- Avatar: `96px`, `rounded-full`, border `2px solid rgba(255,255,255,.12)`.
+- Avatar camera-fab: `28px` circle, bottom-0 / right-0, offset by +4px, dark surface
+  + border, `shadow`.
+
+## 4. Output format
+Return ONE self-contained HTML file with **embedded CSS** (use the Tailwind CDN build
+from `https://cdn.tailwindcss.com` is acceptable, or hand-roll the classes). The file
+must render the full screen at 1440px wide so it can be opened in a browser directly.
+
+## 5. Do NOT do
+- Do not write React components or TypeScript.
+- Do not emit literal `[MEDIA:...]` tags.
+- Do not fabricate API responses or data — use the concrete values given above.
+
+## 6. Verification / acceptance
+- Open the generated file in a browser.
+- Confirm: 3-section profile page layout matches the wire (sidebar + 3-col main,
+  left avatar card, right stacked cards 1–5 in order).
+- Confirm estate-manager role color (blue `#3b82f6`) is used for the active sidebar
+  item and primary buttons.
+- Confirm notification toggles are individually toggleable (visual on/off states).

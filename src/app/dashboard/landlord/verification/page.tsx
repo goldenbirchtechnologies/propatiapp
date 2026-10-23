@@ -1,6 +1,6 @@
 
 
-import AppIcon from '@/components/icons/app-icon';
+
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -8,7 +8,7 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-import { Building2 as BuildingIcon, ShieldCheck as ShieldCheckIcon, Clock as ClockIcon, Plus as PlusIcon, Check as CheckIcon, X as XIcon, Loader as LoaderIcon, ArrowRight as ArrowRightIcon, FileText, UserCheck, Video, MapPin } from 'lucide-react';
+import { Building2 as BuildingIcon, ShieldCheck as ShieldCheckIcon, Clock as ClockIcon, Plus as PlusIcon, Check as CheckIcon, X as XIcon, Loader as LoaderIcon, ArrowRight as ArrowRightIcon, UserCheck, Video, MapPin, FileText } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
 
@@ -130,16 +130,15 @@ function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }
 function VerificationCard({ listing }: { listing: unknown }) {
   const verification = listing.verification;
   const overallStatus = verification?.overallStatus || 'not_started';
-  const currentLayer = verification?.currentLayer || 1;
+  // currentLayer unused
 
   const layerLabels = [
-    { key: 'l1Status', label: 'Layer 1: Documents', desc: 'Title deed, survey plan, tax receipts, utility bills', icon: FileText, cta: 'Upload Documents' },
+    { key: 'l1Status', label: 'Layer 1: Documents', desc: 'Title deed, survey plan, tax receipts, utility bills', icon: FileText, cta: "Upload Documents", },
     { key: 'l2Status', label: 'Layer 2: Identity', desc: 'NIN/BVN match with document owner', icon: UserCheck, cta: 'Verify Identity' },
     { key: 'l3Status', label: 'Layer 3: Live Video', desc: 'Record video at property with QR code', icon: Video, cta: 'Record Video' },
     { key: 'l4Status', label: 'Layer 4: Inspection', desc: 'Agent physical inspection', icon: MapPin, cta: 'Schedule Inspection' },
   ];
 
-  const LAYER_ICONS = { l1Status: FileText, l2Status: UserCheck, l3Status: Video, l4Status: MapPin };
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-transparent text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started', icon: null },
@@ -195,7 +194,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
 
       {/* Layer Status — 4 steps + inline CTAs */}
       <div className="space-y-2">
-        {layerLabels.map((layer, index) => {
+        {layerLabels.map((layer, _index) => {
           const layerStatus = verification?.[layer.key as keyof typeof verification] || 'pending';
           const isApproved = layerStatus === 'approved';
           const config = statusColors[layerStatus] || statusColors.pending;

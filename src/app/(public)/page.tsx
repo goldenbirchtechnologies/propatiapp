@@ -59,21 +59,33 @@ const pillars = [
 const steps = [
   {
     num: '01',
-    title: 'Search & Cadastral Audit',
-    desc: 'Explore authentic property listings with 3D virtual walkthroughs, architectural floor plans, and digital overlays of surveyor beacon coordinates.',
-    metric: 'Instant Title Status Check',
+    title: 'Search',
+    desc: 'Explore curated verified listings cross-checked with beacon coordinates.',
+    metric: 'Beacon Mapped',
   },
   {
     num: '02',
-    title: 'Direct Connect & Audit',
-    desc: 'Liaise straight with CAC-vetted corporate developers and certified LASRERA agents. Book high-resolution physical or live drone surveillance viewings.',
-    metric: 'Zero Ghost Agent markups',
+    title: 'View',
+    desc: '3D Tours & verified HD photos — geo-stamped, unfiltered condition.',
+    metric: 'Geo-Stamped',
   },
   {
     num: '03',
-    title: 'Sign & Escrow Handshake',
-    desc: 'Execute state-recognized tenancy or deed agreements online with automated stamp duty. Escrow disbursement unlocks strictly upon certified physical move-in.',
-    metric: 'Dispute Settlement Guarantee',
+    title: 'Schedule',
+    desc: 'Book physical or drone tours with verified licensed representatives.',
+    metric: 'Direct Agent',
+  },
+  {
+    num: '04',
+    title: 'Secure Payment',
+    desc: 'Funds held in secure escrow until title conditions and keys are vetted.',
+    metric: 'LASRERA Escrow',
+  },
+  {
+    num: '05',
+    title: 'Move In',
+    desc: 'Collect keys, biometric gate passes, and verified land registry deeds.',
+    metric: 'Deed Recorded',
   },
 ];
 
@@ -346,23 +358,34 @@ export default function HomePage() {
               From sovereign land search to key handover — a fully auditable legal protocol tailored for high-trust Nigerian real estate transactions.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {steps.map((step, i) => (
-              <FadeIn key={step.num} delay={i * 0.1} y={20}>
-                <div className="relative flex h-full flex-col rounded-xl bg-white p-6 shadow-sm">
-                  <span className="mb-4 font-mono text-4xl font-bold leading-none text-zinc-200">{step.num}</span>
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                      <CheckCircle2 className="h-4 w-4" />
-                    </span>
-                    <h3 className="text-base font-bold text-zinc-900">{step.title}</h3>
+          {/* Desktop stepper: 5 circular nodes with connector line */}
+          <div className="hidden lg:block relative mb-2">
+            <div className="absolute top-8 left-16 right-16 h-1 bg-gradient-to-r from-emerald-500 via-emerald-400 to-[#c9952a] -z-0" />
+            <div className="grid grid-cols-5 gap-4 relative z-10 text-center">
+              {steps.map((step) => (
+                <div key={step.num} className="flex flex-col items-center">
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-[#fbf8fc] mb-3 ${step.num === '05' ? 'bg-[#c9952a] text-white' : 'bg-emerald-600 text-white'}`}>
+                    {step.num.replace(/^0/, '')}
                   </div>
-                  <p className="flex-1 text-sm leading-relaxed text-zinc-500">{step.desc}</p>
-                  <div className="mt-4 rounded bg-zinc-50 p-2 text-[11px] text-zinc-500">
-                    Key Metric: <strong className="text-zinc-900">{step.metric}</strong>
-                  </div>
+                  <h4 className="font-bold text-zinc-900 text-base mb-1">{step.title}</h4>
+                  <p className="text-xs text-zinc-500 max-w-[170px] leading-relaxed mb-2">{step.desc}</p>
+                  <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-mono ${step.title === 'Secure Payment' ? 'bg-amber-50 text-amber-800 font-semibold border border-amber-200' : step.title === 'Move In' ? 'bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200' : 'bg-zinc-100 text-zinc-600'}`}>{step.metric}</span>
                 </div>
-              </FadeIn>
+              ))}
+            </div>
+          </div>
+          {/* Mobile / tablet vertical cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-5">
+            {steps.map((step) => (
+              <div key={step.num} className="bg-white rounded-xl p-6 shadow-sm border border-zinc-200 relative">
+                <span className="font-mono text-4xl font-bold text-zinc-200 absolute top-4 right-4">{step.num}</span>
+                <div className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
+                  <CheckCircle2 className="w-5 h-5" />
+                </div>
+                <h4 className="font-bold text-zinc-900 text-lg mb-1">{step.num.replace(/^0/, '')}. {step.title}</h4>
+                <p className="text-sm text-zinc-600 mb-3">{step.desc}</p>
+                <div className="bg-zinc-50 rounded p-2 text-xs font-mono text-zinc-600">{step.metric}</div>
+              </div>
             ))}
           </div>
         </div>

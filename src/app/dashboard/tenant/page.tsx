@@ -24,9 +24,10 @@ export default async function TenantDashboardPage() {
   let recentAgreements: any[] = [];
   let recentTransactions: any[] = [];
   let activeAgreement: any = null;
+  let tickets: any[] = [];
 
   try {
-    const [sCount, aAgreementCount, oMaintenanceCount, rAgreements, rTransactions, actAgreement] = await Promise.all([
+    const [sCount, aAgreementCount, oMaintenanceCount, rAgreements, rTransactions, actAgreement, tix] = await Promise.all([
       prisma.savedListing.count({ where: { userId: user.id } }),
       prisma.agreement.count({
         where: {
@@ -62,6 +63,12 @@ export default async function TenantDashboardPage() {
           listing: { select: { title: true, address: true, price: true, pricePeriod: true, images: { take: 1, select: { url: true } } } },
         },
       }),
+      prisma.maintenanceTicket.findMany({
+        where: { tenantId: user.id },
+        take: 3,
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, title: true, status: true, priority: true, category: true, createdAt: true },
+      }),
     ]);
 
     savedCount = sCount;
@@ -86,6 +93,9 @@ export default async function TenantDashboardPage() {
     activeAgreement = actAgreement ? {
       id: actAgreement.id,
       status: actAgreement.status,
+      startDate: (actAgreement as any).startDate?.toISOString() ?? null,
+      endDate: (actAgreement as any).endDate?.toISOString() ?? null,
+      landlordId: (actAgreement as any).landlordId ?? null,
       listing: actAgreement.listing ? {
         title: actAgreement.listing.title,
         address: actAgreement.listing.address,
@@ -94,6 +104,14 @@ export default async function TenantDashboardPage() {
         images: actAgreement.listing.images || [],
       } : null,
     } : null;
+    tickets = tix.map((t: any) => ({
+      id: t.id,
+      title: t.title,
+      status: t.status,
+      priority: t.priority,
+      category: t.category,
+      createdAt: t.createdAt?.toISOString() ?? null,
+    }));
   } catch (error) {
     console.error('Error loading Tenant dashboard data:', error);
   }
@@ -114,6 +132,7 @@ export default async function TenantDashboardPage() {
           recentAgreements={recentAgreements}
           recentTransactions={recentTransactions}
           activeAgreement={activeAgreement}
+          tickets={tickets}
         />
       </ErrorBoundary>
     </DashboardShell>

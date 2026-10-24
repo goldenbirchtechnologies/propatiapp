@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CreditCard, Wrench, Home, Calendar, ArrowRight, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { CreditCard, Wrench, Home, Calendar, ArrowRight, CheckCircle, Clock, Download, Phone } from 'lucide-react';
 import { StatCard, StatusBadge, PageHeader, Progress } from '@/components/ui';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
@@ -25,6 +25,7 @@ interface MaintenanceTicket {
   title: string;
   status: string;
   priority: string;
+  category?: string;
   createdAt: string;
 }
 
@@ -38,8 +39,9 @@ interface ActiveAgreement {
     images?: { url: string }[];
   };
   status: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | null;
+  endDate?: string | null;
+  landlordId?: string | null;
 }
 
 interface Props {
@@ -50,6 +52,7 @@ interface Props {
   recentAgreements: Agreement[];
   recentTransactions: Transaction[];
   activeAgreement: ActiveAgreement | null;
+  tickets?: MaintenanceTicket[];
 }
 
 export default function TenantDashboardClient({
@@ -60,11 +63,11 @@ export default function TenantDashboardClient({
   recentAgreements,
   recentTransactions,
   activeAgreement,
+  tickets = [],
 }: Props) {
   const [loading, setLoading] = useState(true);
   const greeting = displayName;
 
-  // Calculate lease progress if we have an active agreement
   let leaseProgress = 0;
   let daysUntilRent: number | null = null;
   if (activeAgreement?.startDate && activeAgreement?.endDate) {
@@ -74,7 +77,6 @@ export default function TenantDashboardClient({
     const total = end.getTime() - start.getTime();
     const elapsed = now.getTime() - start.getTime();
     leaseProgress = total > 0 ? Math.max(0, Math.min(100, Math.round((elapsed / total) * 100))) : 0;
-    // Next rent due is end of current period; for demo, show days until lease end when no rent schedule exists
     daysUntilRent = Math.max(0, Math.ceil((end.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)));
   }
 
@@ -86,11 +88,11 @@ export default function TenantDashboardClient({
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 w-64 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded animate-pulse" />
-        <div className="h-40 w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded animate-pulse" />
+        <div className="h-10 w-64 bg-zinc-50 dark:bg-zinc-900 rounded animate-pulse" />
+        <div className="h-40 w-full bg-zinc-50 dark:bg-zinc-900 rounded animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-24 w-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded animate-pulse" />
+            <div key={i} className="h-24 w-full bg-zinc-50 dark:bg-zinc-900 rounded animate-pulse" />
           ))}
         </div>
       </div>
@@ -104,12 +106,6 @@ export default function TenantDashboardClient({
     status: tx.status,
   }));
 
-  const maintenanceRequests = [
-    { title: 'AC Not Cooling', status: 'In Progress', date: 'Aug 22', priority: 'High' },
-    { title: 'Leaking Tap — Kitchen', status: 'Resolved', date: 'Aug 10', priority: 'Medium' },
-    { title: 'Light Bulb — Bedroom', status: 'Resolved', date: 'Jul 28', priority: 'Low' },
-  ];
-
   return (
     <div className="p-6 space-y-6">
       <PageHeader
@@ -118,15 +114,13 @@ export default function TenantDashboardClient({
         actions={
           <Link
             href="/listings"
-            className="inline-flex items-center gap-1.5 px-4 py-2 border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 text-sm rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 text-sm rounded-lg hover:text-zinc-900 dark:hover:text-white hover:border-zinc-400 dark:hover:border-white/15 transition-colors"
           >
             <Home size={14} /> Browse Listings
           </Link>
         }
       />
 
-      {/* KPIs — "Days Until Rent" / "Lease Remaining" derive from the real
-          next-due-date + endDate. Before, they were hardcoded. */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Days Until Rent" value={daysUntilRent != null ? `${daysUntilRent}d` : '—'} sub={activeAgreement ? `Due ${formatDate(activeAgreement.endDate!)}` : 'No active lease'} icon={Calendar} />
         <StatCard label="Lease Remaining" value={activeAgreement ? `${Math.max(0, Math.ceil((new Date(activeAgreement.endDate!).getTime() - Date.now()) / (30 * 24 * 60 * 60 * 1000)))} months` : '—'} sub={activeAgreement ? `Expires ${formatDate(activeAgreement.endDate!)}` : 'No active lease'} icon={Home} />
@@ -134,7 +128,6 @@ export default function TenantDashboardClient({
         <StatCard label="Saved Properties" value={String(savedCount)} sub="Browse more" icon={Home} />
       </div>
 
-      {/* Current lease */}
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 glass-card p-6">
           <div className="flex items-start justify-between mb-5">
@@ -142,7 +135,7 @@ export default function TenantDashboardClient({
               <h3 className="text-zinc-900 dark:text-white font-semibold">Current Lease</h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
             </div>
-            {activeAgreement ? <StatusBadge status="Active" /> : <span className="px-2.5 py-1 text-xs font-medium bg-zinc-800 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border border-zinc-700 rounded-full">No lease</span>}
+            {activeAgreement ? <StatusBadge status="Active" /> : <span className="px-2.5 py-1 text-xs font-medium bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-full">No lease</span>}
           </div>
           <div className="grid grid-cols-3 gap-4 mb-5">
             {[
@@ -157,21 +150,34 @@ export default function TenantDashboardClient({
             ))}
           </div>
           {activeAgreement ? (
-            <div>
+            <>
               <div className="flex justify-between text-xs mb-2">
                 <span className="text-zinc-600 dark:text-zinc-400">Lease Progress</span>
                 <span className="text-zinc-900 dark:text-white">{leaseProgress}% complete</span>
               </div>
               <Progress value={leaseProgress} color="#10b981" />
-            </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <a
+                  href={`/api/agreements/${activeAgreement.id}/pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 text-xs font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                >
+                  <Download size={14} /> Download Lease (PDF)
+                </a>
+                <Link
+                  href={activeAgreement.landlordId ? `/dashboard/tenant/messages?to=${activeAgreement.landlordId}` : '/dashboard/tenant/messages'}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors"
+                >
+                  <Phone size={14} /> Contact Manager
+                </Link>
+              </div>
+            </>
           ) : (
             <p className="text-xs text-zinc-600 dark:text-zinc-400">No lease dates to track yet.</p>
           )}
         </div>
 
-        {/* Next payment — gated on a real active agreement; otherwise the
-            empty state replaces the action so tenants are not invited to pay
-            a lease that does not exist. */}
         <div className="glass-card p-5 flex flex-col">
           {activeAgreement ? (
             <>
@@ -181,14 +187,14 @@ export default function TenantDashboardClient({
                   {activeAgreement?.listing?.price ? formatCurrency(activeAgreement.listing.price) : '₦0'}
                 </div>
                 <div className="text-zinc-600 dark:text-zinc-400 text-xs mb-1">Due {formatDate(activeAgreement.endDate!)}</div>
-                <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-600 dark:text-zinc-400'}`}>
+                <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent != null && daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-600 dark:text-zinc-400'}`}>
                   <Clock size={11} />
                   {daysUntilRent} days remaining
                 </div>
               </div>
               <Link
                 href="/dashboard/tenant/payments"
-                className="mt-5 w-full py-2.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+                className="mt-5 w-full py-2.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-center flex items-center justify-center gap-2"
               >
                 <CreditCard size={14} />
                 Pay Rent
@@ -212,7 +218,6 @@ export default function TenantDashboardClient({
         </div>
       </div>
 
-      {/* Payment history + maintenance */}
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
@@ -252,22 +257,29 @@ export default function TenantDashboardClient({
             </Link>
           </div>
           <div className="space-y-2">
-            {maintenanceRequests.map((m, i) => (
-              <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg bg-white dark:bg-zinc-950/60">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                  m.priority === 'High' ? 'bg-amber-400' : m.priority === 'Medium' ? 'bg-blue-400' : 'bg-zinc-600'
-                }`} />
-                <div className="flex-1 min-w-0">
-                  <div className="text-zinc-900 dark:text-white text-xs font-medium">{m.title}</div>
-                  <div className="text-zinc-600 text-xs">{m.date}</div>
-                </div>
-                <StatusBadge status={m.status} />
-              </div>
-            ))}
+            {tickets.length === 0 ? (
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 text-center py-6">No maintenance requests yet.</p>
+            ) : (
+              tickets.map((t) => {
+                const dot =
+                  t.priority === 'urgent' || t.priority === 'high' ? 'bg-amber-400' : t.priority === 'medium' ? 'bg-blue-400' : 'bg-zinc-600';
+                const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short' }) : '';
+                return (
+                  <div key={t.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-white dark:bg-zinc-950/60">
+                    <div className={`w-2 h-2 rounded-full flex-shrink-0 ${dot}`} />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-zinc-900 dark:text-white text-xs font-medium truncate">{t.title}</div>
+                      <div className="text-zinc-600 text-xs">{date}{t.category ? ` • ${t.category}` : ''}</div>
+                    </div>
+                    <StatusBadge status={t.status} />
+                  </div>
+                );
+              })
+            )}
           </div>
           <Link
             href="/dashboard/tenant/maintenance/new"
-            className="mt-3 w-full py-2 text-xs font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border border-dashed border-zinc-200 dark:border-white/[0.08] rounded-lg hover:border-zinc-600 hover:text-zinc-200 transition-colors text-center block"
+            className="mt-3 w-full py-2 text-xs font-medium text-zinc-600 dark:text-zinc-400 border border-dashed border-zinc-200 dark:border-white/[0.08] rounded-lg hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors text-center block"
           >
             + New maintenance request
           </Link>

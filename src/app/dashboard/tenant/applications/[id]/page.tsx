@@ -46,9 +46,6 @@ export default async function TenantApplicationDetailPage({
     dbError = true;
   }
 
-  // redirect() must be called outside any try/catch block — it signals by
-  // throwing NEXT_REDIRECT; a catch swallows it and produces an opaque
-  // Server Components render error in production (see AGENTS.md).
   if (dbError || !application || application.tenantId !== user.id) {
     redirect('/dashboard/tenant/applications');
   }
@@ -56,8 +53,13 @@ export default async function TenantApplicationDetailPage({
   const serialized = {
     id: application.id,
     status: application.status,
+    stage: (application as any).stage ?? 'submitted',
+    screeningStatus: (application as any).screeningStatus ?? {},
+    guarantorData: (application as any).guarantorData ?? {},
+    applicantDocuments: (application as any).applicantDocuments ?? [],
     message: application.message,
     landlordNotes: application.landlordNotes,
+    rejectionReason: (application as any).rejectionReason ?? null,
     reviewedAt: application.reviewedAt?.toISOString() ?? null,
     createdAt: application.createdAt.toISOString(),
     updatedAt: application.updatedAt.toISOString(),
@@ -71,7 +73,7 @@ export default async function TenantApplicationDetailPage({
       pricePeriod: application.listing.pricePeriod,
       listingType: application.listing.listingType,
       description: application.listing.description || '',
-      images: application.listing.images.map((img) => ({
+      images: application.listing.images.map((img: any) => ({
         id: img.id,
         url: img.url,
         isCover: img.isCover,
@@ -92,12 +94,9 @@ export default async function TenantApplicationDetailPage({
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <TenantApplicationDetailClient application={serialized} />
-    
+        <TenantApplicationDetailClient application={serialized} />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

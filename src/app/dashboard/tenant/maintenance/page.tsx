@@ -17,7 +17,8 @@ export default async function TenantMaintenancePage() {
     where: { tenantId: user.id },
     orderBy: { createdAt: 'desc' },
     include: {
-      listing: { select: { id: true, title: true, address: true } },
+      listing: { select: { id: true, title: true, address: true, area: true } },
+      assignedToUser: { select: { id: true, fullName: true } },
     },
   });
 
@@ -25,20 +26,16 @@ export default async function TenantMaintenancePage() {
     id: t.id,
     title: t.title,
     description: t.description ?? '',
-    status: t.status,
-    priority: t.priority,
-    category: t.category,
+    status: t.status as string,
+    priority: t.priority as string,
+    category: t.category as string,
     createdAt: t.createdAt.toISOString(),
     updatedAt: t.updatedAt.toISOString(),
-    resolvedAt: t.resolvedAt ? t.resolvedAt.toISOString() : undefined,
-    property: {
-      id: t.listing?.id ?? '',
-      title: t.listing?.title ?? '',
-      address: t.listing?.address ?? '',
-    },
-    landlord: { fullName: '' },
-    images: t.photoUrls.map((url) => ({ url })),
-    timeline: [],
+    resolvedAt: t.resolvedAt?.toISOString() ?? null,
+    photoUrls: t.photoUrls ?? [],
+    resolutionNote: t.resolutionNote ?? null,
+    assignedTo: t.assignedToUser ? { id: t.assignedToUser.id, fullName: t.assignedToUser.fullName } : null,
+    listing: t.listing ? { id: t.listing.id, title: t.listing.title, address: t.listing.address, area: t.listing.area } : null,
   }));
 
   return (

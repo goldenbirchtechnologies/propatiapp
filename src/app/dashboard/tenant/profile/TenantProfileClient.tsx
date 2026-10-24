@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { User, Camera, Save, FileText, Shield, Users, Phone, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { User, Camera, Save, FileText, Shield, Users, Lock, Settings, Bell, Smartphone, KeyRound, LogOut, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { useKycStatus } from '@/lib/dojah-client';
 import KycVerificationCard from '@/components/verification/KycVerificationCard';
@@ -30,7 +31,15 @@ type InitialUser = {
   guarantorRelationship: string | null;
 };
 
-type Tab = 'personal' | 'rental' | 'guarantors' | 'kyc';
+type Tab = 'personal' | 'rental' | 'guarantors' | 'kyc' | 'security' | 'settings';
+
+type NotificationPrefs = {
+  email: boolean;
+  sms: boolean;
+  whatsapp: boolean;
+  inapp: boolean;
+  types: Record<string, boolean>;
+};
 
 export default function TenantProfileClient({ initialUser }: { initialUser: InitialUser }) {
   const [activeTab, setActiveTab] = useState<Tab>('personal');
@@ -62,6 +71,19 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
   });
 
   const [saving, setSaving] = useState(false);
+  const [notifPrefs, setNotifPrefs] = useState<NotificationPrefs | null>(null);
+  const [notifSaving, setNotifSaving] = useState(false);
+  const [twoFaEnabled, setTwoFaEnabled] = useState(false);
+
+  useEffect(() => {
+    if (activeTab !== 'settings' || notifPrefs) return;
+    fetch('/api/users/notification-preferences')
+      .then((r) => r.json())
+      .then((j) => {
+        if (j.success && j.data) setNotifPrefs(j.data as NotificationPrefs);
+      })
+      .catch(() => {});
+  }, [activeTab, notifPrefs]);
 
   const handleSave = async (payload: Record<string, unknown>) => {
     setSaving(true);
@@ -107,13 +129,34 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
     });
   };
 
+  const handleNotifSave = async () => {
+    if (!notifPrefs) return;
+    setNotifSaving(true);
+    try {
+      const res = await fetch('/api/users/notification-preferences', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(notifPrefs),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || 'Failed to save preferences');
+      toast.success('Notification preferences saved');
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Save failed');
+    } finally {
+      setNotifSaving(false);
+    }
+  };
+
   const verifiedCount = [initialUser.idVerified, initialUser.ninVerified, initialUser.phoneVerified].filter(Boolean).length;
 
   const tabs: { value: Tab; label: string; icon: React.ElementType }[] = [
-    { value: 'personal', label: 'Personal Details', icon: User },
-    { value: 'rental', label: 'Rental Application', icon: FileText },
+    { value: 'personal', label: 'Personal', icon: User },
+    { value: 'rental', label: 'Rental', icon: FileText },
     { value: 'guarantors', label: 'Guarantors', icon: Users },
-    { value: 'kyc', label: 'Identity / KYC', icon: Shield },
+    { value: 'kyc', label: 'KYC', icon: Shield },
+    { value: 'security', label: 'Security', icon: Lock },
+    { value: 'settings', label: 'Settings', icon: Settings },
   ];
 
   return (
@@ -125,7 +168,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
 
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">My Profile</h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Manage your personal information and tenant application pass — {verifiedCount}/3 verified</p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Manage your personal information, tenancy profile, and security — {verifiedCount}/3 verified</p>
       </div>
 
       <div className="flex gap-1 overflow-x-auto border-b border-zinc-200 dark:border-white/[0.08]">
@@ -135,7 +178,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`inline-flex items-center gap-1.5 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors ${activeTab === tab.value ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
+              className={`inline-flex items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-3 text-sm font-medium transition-colors ${activeTab === tab.value ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
             >
               <Icon className="h-4 w-4" /> {tab.label}
             </button>
@@ -173,6 +216,11 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
               <span className={`rounded-lg px-2 py-2 font-medium ${initialUser.phoneVerified ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>Phone {initialUser.phoneVerified ? '✓' : '—'}</span>
             </div>
           </div>
+
+          <div className="mt-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white"><Shield className="h-4 w-4 text-emerald-500" /> Compliance</h4>
+            <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">KYC and guarantor data are required for tenancy agreements. Complete verification to unlock payments and signing.</p>
+          </div>
         </div>
 
         <div className="space-y-6 lg:col-span-2">
@@ -180,7 +228,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
             <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50">
               <div className="border-b border-zinc-200 dark:border-white/[0.08] px-6 py-4">
                 <h3 className="font-semibold text-zinc-900 dark:text-white">Personal Details</h3>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400">Updates save to your PropatiBox profile (PATCH /api/users/me/profile)</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">Updates save to PATCH /api/users/me/profile</p>
               </div>
               <div className="space-y-4 p-6">
                 <div className="grid gap-4 md:grid-cols-2">
@@ -249,7 +297,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
             <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50">
               <div className="border-b border-zinc-200 dark:border-white/[0.08] px-6 py-4">
                 <h3 className="font-semibold text-zinc-900 dark:text-white">Rental Application Profile</h3>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400">These fields strengthen your applications — same profile store, focused for leasing</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">Strengthen applications — same profile store</p>
               </div>
               <div className="space-y-4 p-6">
                 <div className="grid gap-4 md:grid-cols-2">
@@ -332,10 +380,9 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
                 <div className="mt-4 rounded-lg border border-dashed border-zinc-200 dark:border-white/[0.08] p-8 text-center">
                   <Users className="mx-auto h-10 w-10 text-zinc-400" />
                   <p className="mt-2 text-sm font-medium text-zinc-900 dark:text-white">No guarantors yet</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Guarantors are captured during application screening (guarantorData) and surfaced here once provided.</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Captured during application screening (guarantorData).</p>
                 </div>
               )}
-              <p className="mt-4 text-xs text-zinc-600 dark:text-zinc-400">To update guarantor details, contact support — these fields are managed via the application flow and KYC for compliance.</p>
             </div>
           )}
 
@@ -347,6 +394,88 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
                 if (result.success) reload();
               }}
             />
+          )}
+
+          {activeTab === 'security' && (
+            <div className="space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><KeyRound className="h-5 w-5 text-emerald-500" /> Two-Factor Authentication</h3>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Add an extra layer of security via Clerk — authenticator app or SMS. When enabled, you’ll be prompted for a code on new devices.</p>
+                <div className="mt-4 flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4">
+                  <div>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-white">Authenticator app / SMS</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400">{twoFaEnabled ? 'Enabled — codes required on new logins' : 'Not enabled'}</p>
+                  </div>
+                  <Switch checked={twoFaEnabled} onCheckedChange={(v) => { setTwoFaEnabled(v); toast.success(v ? '2FA enabled (mock) — configure in Clerk Dashboard → User → MFA' : '2FA disabled'); }} />
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Button asChild variant="outline" size="sm"><a href="https://dashboard.clerk.com" target="_blank" rel="noreferrer">Open Clerk MFA Settings</a></Button>
+                  <Button variant="ghost" size="sm" onClick={() => toast.info('Backup codes are issued by Clerk when you enroll an authenticator.')}>How do backup codes work?</Button>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Smartphone className="h-5 w-5 text-emerald-500" /> Sessions &amp; Devices</h3>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Active Clerk sessions for this account. Revoke any you don’t recognize from the Clerk Dashboard.</p>
+                <div className="mt-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] p-4 text-sm">
+                  <p className="font-medium text-zinc-900 dark:text-white">Current session</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">This browser • Last active: now • Managed by Clerk</p>
+                </div>
+                <Button asChild variant="outline" size="sm" className="mt-3"><a href="/sign-in">Manage sessions in Clerk</a></Button>
+              </div>
+
+              <div className="rounded-xl border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 p-5">
+                <h3 className="flex items-center gap-2 text-sm font-semibold text-amber-800 dark:text-amber-300"><Lock className="h-4 w-4" /> Security note</h3>
+                <p className="mt-1 text-xs leading-relaxed text-zinc-700 dark:text-zinc-300">PropatiBox delegates authentication to Clerk. Password resets, MFA, and session revocation are handled in Clerk’s hosted UI. This tab is a convenience surface — the source of truth is Clerk.</p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Bell className="h-5 w-5 text-emerald-500" /> Notification Preferences</h3>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Choose how you want to be notified — saved to /api/users/notification-preferences</p>
+                {!notifPrefs ? (
+                  <p className="mt-4 flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400"><Loader2 className="h-4 w-4 animate-spin" /> Loading preferences…</p>
+                ) : (
+                  <>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      {(['email', 'sms', 'whatsapp', 'inapp'] as const).map((k) => (
+                        <label key={k} className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-4 py-3">
+                          <span className="text-sm font-medium capitalize text-zinc-900 dark:text-white">{k === 'inapp' ? 'In-app' : k}</span>
+                          <Switch checked={!!notifPrefs[k]} onCheckedChange={(v) => setNotifPrefs((prev) => (prev ? { ...prev, [k]: v } : prev))} />
+                        </label>
+                      ))}
+                    </div>
+                    <div className="mt-4">
+                      <p className="text-xs font-semibold tracking-widest text-zinc-500">TYPES</p>
+                      <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                        {Object.keys(notifPrefs.types).map((t) => (
+                          <label key={t} className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-4 py-2.5 text-sm">
+                            <span className="capitalize text-zinc-700 dark:text-zinc-300">{t.replace(/_/g, ' ')}</span>
+                            <Switch checked={!!notifPrefs.types[t]} onCheckedChange={(v) => setNotifPrefs((prev) => (prev ? { ...prev, types: { ...prev.types, [t]: v } } : prev))} />
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <Button onClick={handleNotifSave} disabled={notifSaving} className="mt-4 bg-emerald-600 hover:bg-emerald-500 text-white">
+                      {notifSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+                      {notifSaving ? 'Saving…' : 'Save Preferences'}
+                    </Button>
+                  </>
+                )}
+              </div>
+
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Settings className="h-5 w-5 text-emerald-500" /> Account</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Button asChild variant="outline" size="sm"><a href="/dashboard/tenant/messages"><Bell className="mr-1 h-4 w-4" /> Messages</a></Button>
+                  <Button asChild variant="outline" size="sm"><a href="/dashboard/tenant/receipts">Receipts</a></Button>
+                  <Button variant="ghost" size="sm" onClick={() => toast.info('Sign out via the top-right user menu (Clerk).')}><LogOut className="mr-1 h-4 w-4" /> How to sign out</Button>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

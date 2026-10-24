@@ -98,6 +98,7 @@ export default function PropertiesClient({ listings }: Props) {
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortOption, setSortOption] = useState('recent');
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
   const counts = useMemo(() => {
@@ -224,8 +225,24 @@ export default function PropertiesClient({ listings }: Props) {
               <TabsTrigger value="suspended">Suspended</TabsTrigger>
             </TabsList>
           </Tabs>
+          <button className="flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 px-3 py-2 rounded-lg font-label-sm text-label-sm shadow-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+            <ShieldCheckIcon size={14} />
+            <span>Tier 3–5 Verified</span>
+          </button>
         </div>
         <div className="flex items-center justify-between xl:justify-end gap-4 shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:inline">Sort:</span>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="appearance-none bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-label-sm text-label-md px-3 py-2 pr-8 rounded-lg shadow-sm outline-none cursor-pointer"
+            >
+              <option>Recently Added</option>
+              <option>Highest Revenue</option>
+              <option>Occupancy Rate</option>
+            </select>
+          </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:inline">View:</span>
             <div className="flex items-center bg-zinc-200 dark:bg-zinc-800 p-0.5 rounded-lg">

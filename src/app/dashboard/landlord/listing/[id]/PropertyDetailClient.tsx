@@ -4,6 +4,7 @@ import ImageGallery from './ImageGallery';
 import PropertyHeader from './PropertyHeader';
 import Amenities from './Amenities';
 import BookingCard from './BookingCard';
+import InspectionScheduler from './InspectionScheduler';
 
 type ListingData = {
   id: string;
@@ -29,6 +30,7 @@ type ListingData = {
   viewsCount: number;
   images: { url: string }[];
   verification: { overallStatus: string; currentLayer: number } | null;
+  units?: Array<{ id: string; label: string; price: number; available: boolean }>;
 };
 
 export default function PropertyDetailClient({ listing }: { listing: ListingData }) {
@@ -69,8 +71,9 @@ export default function PropertyDetailClient({ listing }: { listing: ListingData
           <hr className="border-zinc-200 dark:border-white/[0.08]" />
           <Amenities amenities={listing.amenities} />
         </section>
-        <aside className="lg:col-span-5 lg:sticky lg:top-24">
+        <aside className="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
           <BookingCard listing={listing} />
+          <InspectionScheduler listing={listing} />
         </aside>
       </div>
     </main>

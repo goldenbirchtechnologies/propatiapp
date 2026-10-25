@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Users, Bed, Bath } from 'lucide-react';
+import { Users, Bed, Bath, Home } from 'lucide-react';
 import type { FloorPlan } from '../types';
 
 export interface Step4Props {
@@ -25,19 +25,19 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   const [beds, setBeds] = useState(value?.beds_count ?? DEFAULTS.beds_count);
   const [bathrooms, setBathrooms] = useState(value?.bathrooms_count ?? DEFAULTS.bathrooms_count);
 
-  const sync = () => {
+  const sync = (patch: Partial<FloorPlan>) => {
     onChange({
-      guests_count: guests,
-      bedrooms_count: bedrooms,
-      beds_count: beds,
-      bathrooms_count: bathrooms,
+      guests_count: patch.guests_count ?? guests,
+      bedrooms_count: patch.bedrooms_count ?? bedrooms,
+      beds_count: patch.beds_count ?? beds,
+      bathrooms_count: patch.bathrooms_count ?? bathrooms,
     });
   };
 
   const Stepper = ({
     label,
-    value,
-    onChange: setValue,
+    value: v,
+    setValue,
     min,
     max,
     step = 1,
@@ -45,39 +45,41 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   }: {
     label: string;
     value: number;
-    onChange: (v: number) => void;
+    setValue: (n: number) => void;
     min: number;
     max: number;
     step?: number;
     icon: React.ReactNode;
   }) => (
-    <div className="flex items-center justify-between py-3 border-b last:border-b-0">
+    <div className="flex items-center justify-between p-4 bg-zinc-50 dark:bg-white/[0.04] rounded-xl">
       <div className="flex items-center gap-3">
-        <div className="text-zinc-600 dark:text-zinc-400">{icon}</div>
-        <Label className="text-sm font-medium">{label}</Label>
+        <div className="text-emerald-600">{icon}</div>
+        <Label className="text-sm font-medium text-zinc-900 dark:text-white">{label}</Label>
       </div>
       <div className="flex items-center gap-2">
         <Button
           type="button"
           variant="outline"
           size="sm"
-          className="size-9 p-0"
+          className="size-9 p-0 border-zinc-200 dark:border-white/[0.08]"
           onClick={() => {
-            setValue(Math.max(min, value - step));
-            sync();
+            const next = Math.max(min, v - step);
+            setValue(next);
+            sync({ [label.toLowerCase().replace(/s$/, '')]: next } as any);
           }}
         >
           -
         </Button>
-        <span className="w-10 text-center text-sm font-medium">{value}</span>
+        <span className="w-12 text-center text-sm font-semibold text-zinc-900 dark:text-white">{v}</span>
         <Button
           type="button"
           variant="outline"
           size="sm"
-          className="size-9 p-0"
+          className="size-9 p-0 border-zinc-200 dark:border-white/[0.08]"
           onClick={() => {
-            setValue(Math.min(max, value + step));
-            sync();
+            const next = Math.min(max, v + step);
+            setValue(next);
+            sync({ [label.toLowerCase().replace(/s$/, '')]: next } as any);
           }}
         >
           +
@@ -87,42 +89,45 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   );
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold">How many guests can your place accommodate?</h2>
-      <div className="glass-card p-4">
-        <Stepper
-          label="Guests"
-          value={guests}
-          onChange={setGuests}
-          min={1}
-          max={50}
-          icon={<Users className="size-5" />}
-        />
-        <Stepper
-          label="Bedrooms"
-          value={bedrooms}
-          onChange={setBedrooms}
-          min={0}
-          max={50}
-          icon={<Bed className="size-5" />}
-        />
-        <Stepper
-          label="Beds"
-          value={beds}
-          onChange={setBeds}
-          min={1}
-          max={100}
-          icon={<Bed className="size-5" />}
-        />
-        <Stepper
-          label="Bathrooms"
-          value={bathrooms}
-          onChange={setBathrooms}
-          min={0.5}
-          max={50}
-          step={0.5}
-          icon={<Bath className="size-5" />}
-        />
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-1">
+        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 04 / Spatial Capacity & Footprint</span>
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Capacity Matrix & Lagos GIS Coordinates</h2>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Input floor dimension ratios, parking allocations, and cadastral spatial metrics.</p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Stepper label="Guests" value={guests} setValue={setGuests} min={1} max={50} icon={<Users className="size-5" />} />
+        <Stepper label="Bedrooms" value={bedrooms} setValue={setBedrooms} min={0} max={50} icon={<Bed className="size-5" />} />
+        <Stepper label="Beds" value={beds} setValue={setBeds} min={1} max={100} icon={<Bed className="size-5" />} />
+        <Stepper label="Bathrooms" value={bathrooms} setValue={setBathrooms} min={0.5} max={50} step={0.5} icon={<Bath className="size-5" />} />
+      </div>
+      <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-semibold text-zinc-900 dark:text-white">Maximum Authorized Occupancy Cap</span>
+          <span className="font-mono text-emerald-600 font-bold">{guests} Persons</span>
+        </div>
+        <input className="w-full accent-emerald-600" type="range" min={1} max={12} value={Math.min(guests, 12)} onChange={(e) => { setGuests(parseInt(e.target.value)); sync({ guests_count: parseInt(e.target.value) }); }} />
+        <div className="flex justify-between text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+          <span>Single Executive (1)</span>
+          <span>Family Standard (4-6)</span>
+          <span>Diplomatic Delegation (10+)</span>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="p-4 bg-zinc-50 dark:bg-white/[0.04] rounded-xl flex items-center justify-between">
+          <div>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400 block">Gross Floor Area</span>
+            <span className="font-semibold text-zinc-900 dark:text-white">480 m²</span>
+          </div>
+          <Home className="size-5 text-zinc-400" />
+        </div>
+        <div className="p-4 bg-zinc-50 dark:bg-white/[0.04] rounded-xl flex items-center justify-between">
+          <div>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400 block">Dedicated Parking</span>
+            <span className="font-semibold text-zinc-900 dark:text-white">3 Dedicated</span>
+          </div>
+          <Home className="size-5 text-zinc-400" />
+        </div>
       </div>
     </div>
   );

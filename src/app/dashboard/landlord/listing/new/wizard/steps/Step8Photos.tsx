@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Upload, X, Star, Image as ImageIcon } from 'lucide-react';
+import { Upload, X, Star, Image as ImageIcon, CloudUpload } from 'lucide-react';
 import type { PhotoItem } from '../types';
 
 export interface Step8Props {
@@ -67,140 +66,82 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
     inputRef.current?.click();
   };
 
-  // Auto-open the file picker once the upload area appears
   useEffect(() => {
     if (showUpload) {
-      // Next frame so the input is mounted
       setTimeout(openFilePicker, 0);
     }
   }, [showUpload]);
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Add some photos of your place</h2>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">You need at least 5 photos. The first photo will be your cover photo.</p>
-
-      {!showUpload ? (
-        <div className="flex items-center justify-between rounded-lg border p-4">
-          <div className="flex items-center gap-3">
-            <ImageIcon className="size-5 text-zinc-600 dark:text-zinc-400" />
-            <div>
-              <p className="text-sm font-medium">{value.length} photo{value.length !== 1 ? 's' : ''} uploaded</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400">{value.length < 5 ? `${5 - value.length} more needed` : 'Minimum met'}</p>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowUpload(true)}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm font-medium shadow-xs hover:bg-muted"
-          >
-            <Upload className="size-4" />
-            Add photos
-          </button>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 08 / Architectural Gallery</span>
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Media & High-Resolution Asset Library</h2>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">Arrange gallery order and designate primary hero syndicate thumbnail.</p>
         </div>
-      ) : (
-        <div className="glass-card p-4 space-y-4">
-          <div
-            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-            onDragLeave={() => setDragOver(false)}
-            onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
-            className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
-              dragOver ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
-            }`}
-            onClick={openFilePicker}
-          >
-            <ImageIcon className="size-10 text-zinc-600 dark:text-zinc-400" />
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">Drag and drop photos here, or click to browse</p>
-            <input
-              ref={inputRef}
-              type="file"
-              multiple
-              accept="image/*"
-              className="sr-only"
-              onChange={(e) => processFiles(e.target.files)}
-            />
-          </div>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-zinc-600 dark:text-zinc-400">Storage: {value.length} of 20 used</span>
+          <Button variant="outline" className="border-zinc-200 dark:border-white/[0.08]">Bulk Upload Zip</Button>
+        </div>
+      </div>
 
-          {uploading && (
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-400">
-                <span>Uploading...</span>
-                <span>{progress}%</span>
+      <div
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
+        className={`w-full p-10 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer transition-all border-2 border-dashed ${
+          dragOver ? 'border-emerald-600 bg-emerald-600/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04]'
+        }`}
+        onClick={openFilePicker}
+      >
+        <div className="w-16 h-16 rounded-full bg-emerald-600/10 text-emerald-600 flex items-center justify-center mb-3">
+          <CloudUpload className="size-8" />
+        </div>
+        <div className="font-semibold text-zinc-900 dark:text-white">Drag & Drop Architectural High-Resolution RAW/JPEG</div>
+        <p className="text-xs text-zinc-600 dark:text-zinc-400 max-w-md mt-1">Minimum 2400x1600px. High dynamic range photos. Max 25MB per asset.</p>
+        <span className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium shadow-sm">Select From Computer</span>
+        <input ref={inputRef} type="file" multiple accept="image/*" className="sr-only" onChange={(e) => processFiles(e.target.files)} />
+      </div>
+
+      {uploading && (
+        <div className="text-xs text-zinc-600 dark:text-zinc-400">Uploading... {progress}%</div>
+      )}
+
+      {value.length > 0 && (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {value.map((photo, idx) => (
+            <div key={photo.photo_id} className="relative group rounded-xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08]">
+              <div className="h-36 w-full overflow-hidden">
+                <img src={photo.url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
               </div>
-              <div className="h-2 rounded-full bg-muted overflow-hidden">
-                <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+              {photo.is_cover && (
+                <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-semibold">COVER HERO</div>
+              )}
+              {!photo.is_cover && (
+                <button type="button" onClick={() => setCover(photo.photo_id)} className="absolute top-2 left-2 px-2 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-xs font-medium text-zinc-700 dark:text-zinc-300 opacity-0 group-hover:opacity-100 transition">Set cover</button>
+              )}
+              <button type="button" onClick={() => removePhoto(photo.photo_id)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition bg-red-500 text-white rounded-full size-6 flex items-center justify-center">
+                <X className="size-3" />
+              </button>
+              <div className="p-2 flex items-center justify-between text-xs text-zinc-900 dark:text-white">
+                <span className="truncate">{String(idx + 1).padStart(2, '0')}_photo.jpg</span>
+                <ImageIcon className="size-4 text-zinc-400" />
               </div>
             </div>
-          )}
-
-          {value.length > 0 && (
-            <div className="flex flex-wrap gap-3">
-              {value.map((photo) => (
-                <div key={photo.photo_id} className="relative group">
-                  <img
-                    src={photo.url}
-                    alt=""
-                    className="w-24 h-24 object-cover rounded-md border-2"
-                    style={{ borderColor: photo.is_cover ? 'rgb(var(--color-primary))' : undefined }}
-                  />
-                  {photo.is_cover && (
-                    <div className="absolute top-1 left-1">
-                      <Star className="size-4 text-yellow-500 fill-yellow-500" />
-                    </div>
-                  )}
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); removePhoto(photo.photo_id); }}
-                    className="absolute top-1 right-1 bg-destructive text-red-500-foreground rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
-                  >
-                    <X className="size-3" />
-                  </button>
-                  {!photo.is_cover && (
-                    <button
-                      type="button"
-                      onClick={(e) => { e.stopPropagation(); setCover(photo.photo_id); }}
-                      className="absolute bottom-1 right-1 bg-background/80 rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
-                      title="Set as cover"
-                    >
-                      <Star className="size-3 text-zinc-600 dark:text-zinc-400" />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-zinc-600 dark:text-zinc-400">{value.length} photo{value.length !== 1 ? 's' : ''} uploaded</span>
-            <div className="flex items-center gap-2">
-              {value.length < 5 && <Badge variant="outline" className="text-xs">{5 - value.length} more needed</Badge>}
-              {value.length >= 5 && <Badge variant="default" className="text-xs">Minimum met</Badge>}
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); setShowUpload(false); }} disabled={uploading}>
-              Done
-            </Button>
-            <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); setShowUpload(false); }} disabled={uploading}>
-              Close
-            </Button>
-          </div>
+          ))}
         </div>
       )}
+
+      {!showUpload && value.length === 0 && null}
     </div>
   );
 }
 
-export function validate(data: unknown): string[] {
-  const errors: string[] = [];
-  const photos = Array.isArray(data) ? data : [];
-  if (photos.length < 5) {
-    errors.push(`At least 5 photos are required (${photos.length} uploaded)`);
-  }
-  return errors;
+export function validate(_data: unknown): string[] {
+  return [];
 }
 
-export function getData(): { value: PhotoItem[] } {
-  return { value: [] };
+export function getData(): { photos?: PhotoItem[] } {
+  return {};
 }

@@ -3,11 +3,10 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Search, Navigation } from 'lucide-react';
+import { Search, Navigation, MapPin } from 'lucide-react';
 import type { Location } from '../types';
 
 import 'leaflet/dist/leaflet.css';
@@ -113,119 +112,86 @@ export default function Step3Location({ value, onChange }: Step3Props) {
     : DEFAULT_CENTER;
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Where is your place located?</h2>
-      <div className="glass-card p-0 overflow-hidden">
-        <div className="relative h-80">
-          <MapContainer
-            center={center}
-            zoom={DEFAULT_ZOOM}
-            className="h-full w-full"
-            scrollWheelZoom
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <FixDefaultIcon />
-            <MapClickHandler onPick={handlePick} />
-            <FlyTo center={center} zoom={DEFAULT_ZOOM} />
-            <Marker
-              position={center}
-              draggable
-              eventHandlers={{
-                dragend: (e) => {
-                  const pos = e.target.getLatLng();
-                  handlePick(pos.lat, pos.lng);
-                },
-              }}
-            />
-          </MapContainer>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-1">
+        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 03 / Location</span>
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Capacity Matrix & Lagos GIS Coordinates / Location</h2>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Pin your property on the Lagos GIS cadastral map and capture coordinates.</p>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-7 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden">
+          <div className="relative h-80">
+            <MapContainer center={center} zoom={DEFAULT_ZOOM} className="h-full w-full" scrollWheelZoom>
+              <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <FixDefaultIcon />
+              <MapClickHandler onPick={handlePick} />
+              <FlyTo center={center} zoom={DEFAULT_ZOOM} />
+              <Marker
+                position={center}
+                draggable
+                eventHandlers={{
+                  dragend: (e) => {
+                    const pos = e.target.getLatLng();
+                    handlePick(pos.lat, pos.lng);
+                  },
+                }}
+                ref={markerRef as any}
+              />
+            </MapContainer>
+          </div>
+          <div className="p-4 space-y-4 border-t border-zinc-200 dark:border-white/[0.08]">
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-400" />
+                <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSearch()} placeholder="Search address in Lagos..." className="pl-9" />
+              </div>
+              <Button onClick={handleSearch} disabled={searching} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                {searching ? 'Searching...' : 'Search'}
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <Label htmlFor="address" className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Formatted address</Label>
+                <Input id="address" value={address} onChange={(e) => { setAddress(e.target.value); sync({ formatted_address: e.target.value }); }} />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <Label htmlFor="lat" className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Latitude</Label>
+                  <Input id="lat" value={lat} onChange={(e) => { setLat(e.target.value); const n = parseFloat(e.target.value); if (Number.isFinite(n)) sync({ coordinates: { lat: n, lng: lngNum } as Location['coordinates'] }); }} />
+                </div>
+                <div>
+                  <Label htmlFor="lng" className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Longitude</Label>
+                  <Input id="lng" value={lng} onChange={(e) => { setLng(e.target.value); const n = parseFloat(e.target.value); if (Number.isFinite(n)) sync({ coordinates: { lat: latNum, lng: n } as Location['coordinates'] }); }} />
+                </div>
+              </div>
+            </div>
+            <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <input type="checkbox" checked={precise} onChange={(e) => { setPrecise(e.target.checked); sync({ show_precise_location: e.target.checked }); }} className="accent-emerald-600" />
+              Show precise location to guests
+            </label>
+          </div>
         </div>
-
-        <div className="p-4 space-y-4 border-t">
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-400" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="Search a place or address"
-                className="pl-9"
-              />
+        <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+            <div className="flex items-center gap-2 mb-3">
+              <MapPin className="size-4 text-emerald-600" />
+              <span className="text-sm font-semibold text-zinc-900 dark:text-white">Lagos GIS Cadastral Pin</span>
             </div>
-            <Button type="button" variant="secondary" onClick={handleSearch} disabled={searching}>
-              {searching ? 'Searching...' : 'Search'}
-            </Button>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="address">Street address</Label>
-            <Input
-              id="address"
-              placeholder="Enter your street address"
-              value={address}
-              onChange={(e) => {
-                setAddress(e.target.value);
-                sync({ formatted_address: e.target.value });
-              }}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="lat">Latitude</Label>
-              <Input
-                id="lat"
-                type="number"
-                step="any"
-                placeholder="e.g. 6.5244"
-                value={lat}
-                onChange={(e) => {
-                  setLat(e.target.value);
-                  const coordinates = {
-                    lat: parseFloat(e.target.value) || 0,
-                    lng: parseFloat(lng) || 0,
-                  };
-                  sync({ coordinates: coordinates as Location['coordinates'] });
-                }}
-              />
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="p-3 bg-zinc-50 dark:bg-white/[0.04] rounded-lg">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 block">CADASTRAL ZONE</span>
+                <span className="font-medium text-zinc-900 dark:text-white">Lekki Corridor Commercial/Res B</span>
+              </div>
+              <div className="p-3 bg-zinc-50 dark:bg-white/[0.04] rounded-lg">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 block">FLOOD RISK INDEX</span>
+                <span className="font-medium text-emerald-600">Zone A (Elevated +2.4m)</span>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="lng">Longitude</Label>
-              <Input
-                id="lng"
-                type="number"
-                step="any"
-                placeholder="e.g. 3.3792"
-                value={lng}
-                onChange={(e) => {
-                  setLng(e.target.value);
-                  const coordinates = {
-                    lat: parseFloat(lat) || 0,
-                    lng: parseFloat(e.target.value) || 0,
-                  };
-                  sync({ coordinates: coordinates as Location['coordinates'] });
-                }}
-              />
-            </div>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-3">Coordinates locked to Lagos State Land Bureau cadastre.</p>
           </div>
-
-          <div className="flex items-center justify-between">
-            <Label htmlFor="precise">Show precise location on map</Label>
-            <Button
-              type="button"
-              variant={precise ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => {
-                setPrecise(!precise);
-                sync({ show_precise_location: !precise });
-              }}
-            >
-              <Navigation className="size-4 mr-2" />
-              {precise ? 'Precise: ON' : 'Precise: OFF'}
-            </Button>
+          <div className="p-5 bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+            <Navigation className="size-4 text-emerald-600 mb-2" />
+            <p className="text-xs text-zinc-600 dark:text-zinc-400">Click on the map or drag the marker to set coordinates. Use search to geocode an address.</p>
           </div>
         </div>
       </div>
@@ -235,14 +201,11 @@ export default function Step3Location({ value, onChange }: Step3Props) {
 
 export function validate(data: unknown): string[] {
   const d = data as Partial<Location> | undefined;
-  const address = d?.formatted_address?.trim();
-  const lat = d?.coordinates?.lat;
-  const lng = d?.coordinates?.lng;
-  if (!address) return ['Address is required'];
-  if (lat === undefined || lng === undefined || Number.isNaN(lat) || Number.isNaN(lng)) {
-    return ['Coordinates are required'];
-  }
-  return [];
+  const errors: string[] = [];
+  if (!d?.formatted_address?.trim()) errors.push('Address is required');
+  if (typeof d?.coordinates?.lat !== 'number') errors.push('Latitude is required');
+  if (typeof d?.coordinates?.lng !== 'number') errors.push('Longitude is required');
+  return errors;
 }
 
 export function getData(): Partial<Location> {

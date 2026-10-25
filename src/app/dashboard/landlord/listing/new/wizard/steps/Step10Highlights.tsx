@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Card } from '@/components/ui/card';
 import { Sparkles, Check } from 'lucide-react';
 
 export interface Step10Props {
@@ -37,42 +36,41 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <h2 className="text-lg font-semibold">What makes your place special?</h2>
-        <Sparkles className="size-5 text-yellow-500" />
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-1">
+        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 10 / Highlights</span>
+        <div className="flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Highlights</h2>
+          <Sparkles className="size-5 text-amber-500" />
+        </div>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Pick up to 2 highlights that best describe your listing.</p>
       </div>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">Pick up to 2 highlights that best describe your listing.</p>
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {OPTIONS.map((opt) => {
           const isActive = selected.includes(opt.value);
           return (
-            <div className="glass-card"
+            <button
               key={opt.value}
-              size="sm"
+              type="button"
               onClick={() => toggle(opt.value)}
-              className={`relative cursor-pointer transition border-2 min-w-[140px] ${
+              className={`relative flex flex-col gap-2 p-5 rounded-xl border transition-all text-left ${
                 isActive
-                  ? 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900'
-                  : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
+                  ? 'bg-white dark:bg-zinc-900 border-emerald-600 dark:border-emerald-500 shadow-md'
+                  : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08] hover:border-zinc-300 dark:hover:border-white/20'
               }`}
             >
               {isActive && (
-                <div className="absolute top-2 right-2 bg-primary text-zinc-900 dark:text-white rounded-full p-1">
+                <div className="absolute top-3 right-3 bg-emerald-600 text-white rounded-full p-1">
                   <Check className="w-3 h-3" />
                 </div>
               )}
-              <div className="p-3 text-center space-y-1">
-                <div className="font-medium text-sm">{opt.label}</div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-400">{opt.description}</div>
-              </div>
-            </div>
+              <div className="font-semibold text-sm text-zinc-900 dark:text-white">{opt.label}</div>
+              <div className="text-xs text-zinc-600 dark:text-zinc-400">{opt.description}</div>
+            </button>
           );
         })}
       </div>
-      <div className="text-sm text-zinc-600 dark:text-zinc-400">
-        {selected.length}/2 selected
-      </div>
+      <div className="text-sm text-zinc-600 dark:text-zinc-400">{selected.length}/2 selected</div>
     </div>
   );
 }

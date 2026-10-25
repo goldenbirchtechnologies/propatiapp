@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import { Info, ExternalLink } from 'lucide-react';
+import { Info, ShieldCheck } from 'lucide-react';
 
 export interface Step6Props {
   house_rules?: string[];
@@ -52,43 +51,39 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
   };
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-1">
+        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 06 / Rules & Maintenance</span>
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Rules & Maintenance</h2>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Select the rules you want to set for your guests and describe the property.</p>
+      </div>
+      <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-4">
         <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">House rules</h2>
-          <Info className="size-4 text-zinc-600 dark:text-zinc-400" />
+          <ShieldCheck className="size-4 text-emerald-600" />
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">House rules</h3>
+          <Info className="size-4 text-zinc-400" />
         </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Select the rules you want to set for your guests.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {HOUSE_RULES.map((rule) => {
             const checked = selected.includes(rule.value);
             return (
               <label
                 key={rule.value}
-                className={`flex items-center justify-between gap-2 rounded-md border p-3 cursor-pointer transition ${
+                className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition ${
                   checked
-                    ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5'
-                    : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
+                    ? 'border-emerald-600 dark:border-emerald-500 bg-emerald-600/5'
+                    : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-white/20'
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    checked={checked}
-                    onCheckedChange={() => toggleRule(rule.value)}
-                  />
-                  <span className="text-sm">{rule.label}</span>
-                </div>
+                <Checkbox checked={checked} onCheckedChange={() => toggleRule(rule.value)} />
+                <span className="text-sm text-zinc-900 dark:text-white">{rule.label}</span>
               </label>
             );
           })}
         </div>
       </div>
-
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <Label htmlFor="description" className="text-sm font-medium">Property description</Label>
-          <Info className="size-4 text-zinc-600 dark:text-zinc-400" />
-        </div>
+      <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-3">
+        <Label htmlFor="description" className="text-sm font-medium text-zinc-900 dark:text-white">Property description / unit description</Label>
         <Textarea
           id="description"
           placeholder="Describe your property, its features, and what makes it special..."
@@ -98,6 +93,7 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
             onChange({ unit_description: e.target.value });
           }}
           rows={5}
+          className="bg-zinc-50 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.08]"
         />
       </div>
     </div>

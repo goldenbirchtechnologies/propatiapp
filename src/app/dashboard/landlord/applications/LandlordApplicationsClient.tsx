@@ -14,7 +14,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { PageHeader, StatCard, Avatar, StatusBadge } from '@/components/ui';
+import { StatCard, Avatar } from '@/components/ui';
 import {
   Users,
   Clock,
@@ -120,8 +120,46 @@ const statusLabels: Record<string, string> = {
   submitted: 'Submitted',
 };
 
-function statusBadgeLabel(status: string): string {
-  return statusLabels[status] ?? (status ? String(status).replace(/_/g, ' ') : 'Unknown');
+function statusPill(status: string) {
+  const s = String(status || '').toLowerCase();
+  if (s === 'accepted' || s === 'approved') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        Approved
+      </span>
+    );
+  }
+  if (s === 'rejected') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-red-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-red-700 dark:text-red-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+        Rejected
+      </span>
+    );
+  }
+  if (s === 'withdrawn' || s === 'cancelled' || s === 'canceled') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
+        {statusBadgeLabel(s)}
+      </span>
+    );
+  }
+  if (s === 'under_review') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+        Under Review
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+      <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+      Pending Review
+    </span>
+  );
 }
 
 function screeningPill(value: string) {
@@ -377,17 +415,29 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Applications"
-        description="Review, screen, and manage institutional tenancy applications across the Lagos portfolio."
-        actions={
-          <Button variant="outline" onClick={exportCsv} disabled={filtered.length === 0}>
-            <Download className="h-4 w-4" />
-            Export CSV
-          </Button>
-        }
-      />
+    <div className="space-y-6 bg-white dark:bg-zinc-950 min-h-screen p-4 sm:p-6">
+      {/* Page header */}
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+          <span>Home</span>
+          <span>/</span>
+          <span>Portfolio</span>
+          <span>/</span>
+          <span className="text-emerald-600 dark:text-emerald-400">Applications</span>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Applications</h1>
+          <span className="text-sm text-zinc-500 dark:text-zinc-400">
+            Review, screen, and manage institutional tenancy applications across the Lagos portfolio.
+          </span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 self-start">
+        <Button variant="outline" onClick={exportCsv} disabled={filtered.length === 0}>
+          <Download className="h-4 w-4" />
+          Export CSV
+        </Button>
+      </div>
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -619,9 +669,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                       </td>
 
                       {/* Status */}
-                      <td className="px-4 py-3">
-                        <StatusBadge status={app.status}>{statusLabel}</StatusBadge>
-                      </td>
+                      <td className="px-4 py-3">{statusPill(app.status)}</td>
 
                       {/* Actions */}
                       <td className="px-4 py-3">

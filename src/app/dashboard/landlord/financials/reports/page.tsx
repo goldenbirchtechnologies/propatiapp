@@ -3,6 +3,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import FinancialReportsClient from './FinancialReportsClient';
 
 export const metadata = {
   title: 'Financial Reports – Landlord',

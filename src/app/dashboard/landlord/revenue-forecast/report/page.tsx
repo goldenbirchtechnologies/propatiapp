@@ -3,97 +3,16 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
-import { prisma } from '@/lib/prisma';
-import { parseKoboToNaira } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-export const metadata = {
-  title: 'Revenue Forecast Reports – Landlord',
-  description: 'Signed and archived financial projections.',
-};
+import ReportClient from './ReportClient';
 
 export default async function LandlordRevenueForecastReportPage() {
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
-
-  const now = new Date();
-  const yearStart = new Date(now.getFullYear(), 0, 1);
-  const yearEnd = new Date(now.getFullYear(), 11, 31);
-
-  const monthlyData = await prisma.$queryRaw<{ month: string; revenue: bigint; count: bigint }[]>`
-    SELECT
-      to_char("created_at", 'YYYY-MM') AS month,
-      SUM("amount")::bigint AS revenue,
-      COUNT(*)::bigint AS count
-    FROM "transactions"
-    WHERE "payee_id" = ${user.id}
-      AND ("status" = 'released' OR "status" = 'success')
-      AND "created_at" >= ${yearStart}
-    GROUP BY to_char("created_at", 'YYYY-MM')
-    ORDER BY month ASC
-  `;
-
-  const totalRevenue = monthlyData.reduce((sum, m) => sum + Number(m.revenue), 0);
-  const totalCount = monthlyData.reduce((sum, m) => sum + Number(m.count), 0);
-
   return (
-    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
-
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Revenue Forecast Reports</h1>
-            <p className="text-zinc-600 dark:text-zinc-400 mt-1">Archived financial projections derived from transaction history.</p>
-          </div>
-          <div className="flex gap-3">
-            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-sm font-medium">
-              Total: ₦{parseKoboToNaira(totalRevenue).toLocaleString()}
-            </span>
-          </div>
-        </div>
-
-        <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Monthly Forecast Summary</h3>
-          </div>
-          <div className="p-6">
-            {monthlyData.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 py-6 text-center">No revenue reports available yet.</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="text-zinc-600 dark:text-zinc-400 border-b">
-                    <tr>
-                      <th className="py-3 font-medium">Month</th>
-                      <th className="py-3 font-medium">Transactions</th>
-                      <th className="py-3 text-right font-medium">Revenue (₦)</th>
-                      <th className="py-3 font-medium">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {monthlyData.map((row) => (
-                      <tr key={row.month} className="border-b last:border-0">
-                        <td className="py-3 font-medium">{row.month}</td>
-                        <td className="py-3">{Number(row.count)}</td>
-                        <td className="py-3 text-right font-mono">₦{parseKoboToNaira(Number(row.revenue)).toLocaleString()}</td>
-                        <td className="py-3">
-                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-success/10 text-[#10b981] border-success/20">
-                            Closed
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    
+        <ReportClient />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

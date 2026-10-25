@@ -45,41 +45,6 @@ interface Props {
   initialDevelopments: Development[];
 }
 
-const DEFAULT_DEVELOPMENTS: Development[] = [
-  {
-    id: 'sovereign-heights',
-    name: 'Sovereign Heights',
-    address: 'Admiralty Way, Lekki Phase 1',
-    unitCount: 3,
-    image: '',
-    units: [
-      { id: 'unit-402', title: 'Ultra-Luxury Waterfront Penthouse with Private Jetty Access', beds: 3, baths: 3.5, size: '280 sqm', floor: 'Floor 4', price: 45000000, pricePeriod: 'year', available: true },
-      { id: 'unit-201', title: 'Executive Corner Suite', beds: 2, baths: 2.5, size: '160 sqm', floor: 'Floor 2', price: 28000000, pricePeriod: 'year', available: true },
-      { id: 'unit-105', title: 'Garden Terrace Apartment', beds: 1, baths: 1, size: '85 sqm', floor: 'Ground Floor', price: 18000000, pricePeriod: 'year', available: true },
-    ],
-  },
-  {
-    id: 'admiralty-waterfront',
-    name: 'Admiralty Waterfront',
-    address: 'Admiralty Way, Lekki Phase 1',
-    unitCount: 2,
-    image: '',
-    units: [
-      { id: 'unit-301', title: 'Waterfront Duplex', beds: 4, baths: 4, size: '320 sqm', floor: 'Floor 3', price: 52000000, pricePeriod: 'year', available: true },
-      { id: 'unit-202', title: 'Sky Lounge Suite', beds: 2, baths: 2, size: '140 sqm', floor: 'Floor 2', price: 24000000, pricePeriod: 'year', available: true },
-    ],
-  },
-  {
-    id: 'victoria-crest',
-    name: 'Victoria Crest',
-    address: 'Adeola Odeku, Victoria Island',
-    unitCount: 1,
-    image: '',
-    units: [
-      { id: 'unit-101', title: 'Corporate Studio', beds: 1, baths: 1, size: '65 sqm', floor: 'Floor 1', price: 15000000, pricePeriod: 'year', available: true },
-    ],
-  },
-];
 
 const LISTING_INTENTS = [
   { value: 'rent', label: 'For Rent (Long-term)' },
@@ -108,7 +73,7 @@ const TARGET_TENANTS = [
 
 export default function ChooseDevelopmentClient({ initialDevelopments }: Props) {
   const router = useRouter();
-  const developments = initialDevelopments.length > 0 ? initialDevelopments : DEFAULT_DEVELOPMENTS;
+  const developments = initialDevelopments;
   const [step, setStep] = useState(1);
   const [search, setSearch] = useState('');
   const [selectedDev, setSelectedDev] = useState<string | null>(null);

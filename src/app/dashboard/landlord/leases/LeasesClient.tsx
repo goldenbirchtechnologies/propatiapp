@@ -691,7 +691,7 @@ export default function LandlordLeasesClient({
               </div>
               <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                 In Yield-bearing Vault — Protected against dilapidations, utility arrears, and diesel maintenance
-                surcharges under custody account 1018841-ZEN.
+                surcharges under the landlord custody account.
               </p>
               <p className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mt-3">
                 Lagos State Tenancy Law Compliant

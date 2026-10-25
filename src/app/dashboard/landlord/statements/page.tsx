@@ -3,7 +3,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
-import AutomatedMonthlyStatementClient from '@/app/dashboard/tenant/payments/statements/AutomatedMonthlyStatementClient';
+import StatementsClient from './StatementsClient';
 
 export default async function LandlordStatementsPage() {
   const user = await getCurrentUserWithProfile();
@@ -13,7 +13,7 @@ export default async function LandlordStatementsPage() {
 
       <ErrorBoundary>
 
-      <AutomatedMonthlyStatementClient />
+      <StatementsClient />
     
       </ErrorBoundary>
 </DashboardShell>

@@ -1,313 +1,239 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import {
-  CreditCard, Lock, Eye, EyeOff, Verified, Shield, HelpCircle
-} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { CreditCard, Lock, Eye, EyeOff, Shield, HelpCircle, Loader2, CheckCircle2, AlertCircle, Building2, Banknote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { toast } from '@/hooks/use-toast';
+import { useKycStatus } from '@/lib/dojah-client';
 
-const months = Array.from({ length: 12 }, (_, i) =>
-  String(i + 1).padStart(2, '0')
-);
-const years = Array.from({ length: 10 }, (_, i) =>
-  String(new Date().getFullYear() + i)
-);
-
-const networkIcons: Record<string, { src: string; alt: string }> = {
-  visa: {
-    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB36dPnrHEkEdaRi4BBqq9VdaSV4R4KBt5OzoCz-xupv8aZWlmZA5WMAJJbog6IY2iaATyTvjZ0rD_RSI4nJaeh-beBSaNctcGInUGwkkrkx0w_qW5GdrLz_fX47y5rmEQ6B_7vO94BJuGE1jkdrbxHRh8cKwqbFKVlIQc8o0J8KmPpRB18V5zEVh2vECF7PHe87as0EUO0NC1Ya9-JoAO7b8dYGu69frYPsW6yBnNgKYGrQYrEO7bN',
-    alt: 'Visa',
-  },
-  mastercard: {
-    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAqO0VwHKHQaS5EHzcFHyFbxfz9SnernfQ2k7aEE9hY1KVilhyZb7pQabFYnkUymeKiaR7T6mHOk1gHyRJeTQw3G2IYbTzZKW4VhanENqI3ggbUNLsIs1vDJaE0Tw9Tz6BGwdLkl9SUoyMWrZmtBjJbrPxDwLIdxqbzUGDr39ZvJNHclJ4b_Tq3So1grJyZtKy2O0W5VBbdpwo94QQ2Zt4BF-IrphXkyjtfZDgchwSrbjzxLCvSYDSY',
-    alt: 'Mastercard',
-  },
-};
-
-const banks = [
-  'Guaranty Trust Bank',
-  'Zenith Bank',
-  'Access Bank',
-  'First Bank of Nigeria',
-];
+type Bank = { name: string; code: string; slug: string };
 
 export default function AddPaymentMethodClient({ methodType }: { methodType: string }) {
-  const [cardNumber, setCardNumber] = useState('');
+  const router = useRouter();
+  const { data: kyc } = useKycStatus();
+
+  const [activeTab, setActiveTab] = useState<'card' | 'bank'>(methodType === 'bank' ? 'bank' : 'card');
   const [cardName, setCardName] = useState('');
-  const [accountNumber, setAccountNumber] = useState('');
-  const [accountName, setAccountName] = useState('Enter account number to fetch name');
-  const [loadingAccount, setLoadingAccount] = useState(false);
-  const [showSecurity, setShowSecurity] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [showCvv, setShowCvv] = useState(false);
   const [saveInfo, setSaveInfo] = useState(true);
+
+  const [banks, setBanks] = useState<Bank[]>([]);
+  const [banksLoading, setBanksLoading] = useState(false);
   const [selectedBank, setSelectedBank] = useState('');
-  const [activeTab, setActiveTab] = useState<'card' | 'bank'>(
-    methodType === 'bank' ? 'bank' : 'card'
-  );
+  const [accountNumber, setAccountNumber] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [resolving, setResolving] = useState(false);
+  const [resolved, setResolved] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const formatCard = (val: string) =>
-    val.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
+  // Bank list from Paystack (real, full NIP list — not a hardcoded 4-bank array)
+  useEffect(() => {
+    let cancelled = false;
+    setBanksLoading(true);
+    fetch('/api/paystack/banks')
+      .then((r) => r.json())
+      .then((d) => {
+        if (cancelled) return;
+        const list = Array.isArray(d?.data) ? d.data : Array.isArray(d?.banks) ? d.banks : [];
+        setBanks(list.map((b: any) => ({ name: b.name, code: String(b.code), slug: b.slug || '' })));
+      })
+      .catch(() => { if (!cancelled) toast({ title: 'Could not load banks', variant: 'destructive' }); })
+      .finally(() => { if (!cancelled) setBanksLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
 
-  const handleAccountNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setAccountNumber(val);
-    if (val.length === 10) {
-      setLoadingAccount(true);
-      setAccountName('Fetching...');
-      setTimeout(() => {
-        setLoadingAccount(false);
-        setAccountName('ADEWALE SULEIMAN BOLAJI');
-      }, 1200);
-    } else {
-      setLoadingAccount(false);
-      setAccountName('Enter account number to fetch name');
+  const resolveAccount = async () => {
+    if (!selectedBank || accountNumber.length !== 10) {
+      toast({ title: 'Select bank and enter 10-digit account number', variant: 'destructive' });
+      return;
+    }
+    setResolving(true);
+    setResolved(false);
+    setAccountName('');
+    try {
+      const res = await fetch(`/api/paystack/resolve-account?accountNumber=${encodeURIComponent(accountNumber)}&bankCode=${encodeURIComponent(selectedBank)}`);
+      const data = await res.json();
+      if (!res.ok || !data?.status) throw new Error(data?.message || 'Unable to resolve account');
+      const name = data?.data?.account_name;
+      if (!name) throw new Error('No account name returned');
+      setAccountName(name);
+      setResolved(true);
+      toast({ title: 'Account verified', description: name });
+    } catch (e) {
+      setResolved(false);
+      toast({ title: 'Verification failed', description: e instanceof Error ? e.message : 'Unknown error', variant: 'destructive' });
+    } finally {
+      setResolving(false);
     }
   };
 
+  const submitBank = async () => {
+    if (!selectedBank || !resolved || !accountName) {
+      toast({ title: 'Verify account first', variant: 'destructive' });
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/user/bank', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accountNumber, bankCode: selectedBank }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.success) throw new Error(data?.error || 'Failed to save bank account');
+      toast({ title: 'Bank account saved', description: `${accountName}` });
+      router.push('/dashboard/tenant/payments');
+      router.refresh();
+    } catch (e) {
+      toast({ title: 'Save failed', description: e instanceof Error ? e.message : 'Unknown error', variant: 'destructive' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const formatCard = (val: string) => val.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
+
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl space-y-6">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors">
-          PAYMENTS
-        </Link>
-        <svg className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-        <Link href="/dashboard/tenant/payments" className="font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors">
-          SAVED METHODS
-        </Link>
-        <svg className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-        <span className="font-mono text-zinc-900 dark:text-white font-semibold">ADD PAYMENT METHOD</span>
+      <nav className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-500">
+        <Link href="/dashboard/tenant/payments" className="hover:text-zinc-900 dark:hover:text-white">PAYMENTS</Link>
+        <span className="text-zinc-300 dark:text-zinc-700">›</span>
+        <Link href="/dashboard/tenant/payments" className="hover:text-zinc-900 dark:hover:text-white">SAVED METHODS</Link>
+        <span className="text-zinc-300 dark:text-zinc-700">›</span>
+        <span className="font-semibold text-zinc-900 dark:text-white">ADD PAYMENT METHOD</span>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Form */}
+      <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="glass-card">
-            <div className="p-6 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-full bg-emerald-500 text-zinc-900 dark:text-white flex items-center justify-center">
-                  <CreditCard className="w-5 h-5" />
-                </div>
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50">
+            <div className="border-b border-zinc-200 dark:border-white/[0.08] px-6 py-4">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white"><CreditCard className="h-5 w-5" /></span>
                 <div>
-                  <h1 className="font-heading text-xl font-bold text-zinc-900 dark:text-white">Add Payment Method</h1>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Securely link your card or bank details.</p>
+                  <h1 className="font-semibold text-zinc-900 dark:text-white">Add Payment Method</h1>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Securely link your card or bank details for rent &amp; escrow payments.</p>
                 </div>
               </div>
-
-              <Tabs
-                value={activeTab}
-                onValueChange={(v) => setActiveTab(v as 'card' | 'bank')}
-                className="space-y-6"
-              >
-                <TabsList className="w-full">
-                  <TabsTrigger value="card" className="flex-1">
-                    Debit/Credit Card
-                  </TabsTrigger>
-                  <TabsTrigger value="bank" className="flex-1">
-                    Bank Account
-                  </TabsTrigger>
+            </div>
+            <div className="space-y-5 p-6">
+              <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'card' | 'bank')} className="space-y-5">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="card">Debit / Credit Card</TabsTrigger>
+                  <TabsTrigger value="bank">Bank Account</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="card" className="space-y-5">
-                  <div className="space-y-2">
-                    <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-400">
-                      Cardholder Name
-                    </Label>
-                    <Input
-                      value={cardName}
-                      onChange={(e) => setCardName(e.target.value)}
-                      className="h-11"
-                      placeholder="John Doe"
-                    />
+                <TabsContent value="card" className="space-y-4">
+                  <div className="rounded-lg border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 p-4 text-sm">
+                    <p className="flex items-center gap-2 font-semibold text-amber-800 dark:text-amber-300"><AlertCircle className="h-4 w-4" /> Card tokenization coming soon</p>
+                    <p className="mt-1 text-xs text-zinc-700 dark:text-zinc-300">PropatiBox currently stores payout bank accounts via Paystack. Card saving will be enabled once Paystack card authorization is wired. Use the Bank Account tab to add a payout method now.</p>
                   </div>
-
-                  <div className="space-y-2">
-                    <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-400">
-                      Card Number
-                    </Label>
-                    <div className="relative">
-                      <Input
-                        type="text"
-                        placeholder="0000 0000 0000 0000"
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(formatCard(e.target.value))}
-                        className="font-mono tracking-widest pr-28"
-                      />
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                        <img
-                          alt="Visa"
-                          className="h-4"
-                          style={{ filter: 'grayscale(1) opacity(0.5)' }}
-                          src={networkIcons.visa.src}
-                        />
-                        <img
-                          alt="Mastercard"
-                          className="h-4"
-                          style={{ filter: 'grayscale(1) opacity(0.5)' }}
-                          src={networkIcons.mastercard.src}
-                        />
-                        <div className="h-4 px-1 bg-emerald-500 text-[8px] font-bold text-zinc-900 dark:text-white rounded flex items-center justify-center">
-                          VERVE
+                  <div className="grid gap-4 opacity-50 pointer-events-none">
+                    <div className="space-y-1.5">
+                      <Label>Cardholder Name</Label>
+                      <Input value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder="Name on card" disabled />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>Card Number</Label>
+                      <Input value={cardNumber} onChange={(e) => setCardNumber(formatCard(e.target.value))} placeholder="0000 0000 0000 0000" disabled />
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label>Expiry (MM/YY)</Label>
+                        <Input value={expiry} onChange={(e) => setExpiry(e.target.value)} placeholder="MM/YY" disabled />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label>CVV</Label>
+                        <div className="relative">
+                          <Input type={showCvv ? 'text' : 'password'} value={cvv} onChange={(e) => setCvv(e.target.value)} placeholder="***" disabled />
+                          <button type="button" onClick={() => setShowCvv(!showCvv)} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500"><Eye className="h-4 w-4" /></button>
                         </div>
                       </div>
                     </div>
                   </div>
+                </TabsContent>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-400">
-                        Expiry Date
-                      </Label>
-                      <div className="grid grid-cols-2 gap-3">
-                        <select className="h-11 px-3 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 appearance-none text-sm">
-                          <option value="">MM</option>
-                          {months.map((m) => (
-                            <option key={m} value={m}>
-                              {m}
-                            </option>
-                          ))}
-                        </select>
-                        <select className="h-11 px-3 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 appearance-none text-sm">
-                          <option value="">YY</option>
-                          {years.map((y) => (
-                            <option key={y} value={y}>
-                              {y}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                <TabsContent value="bank" className="space-y-4">
+                  <div className="space-y-1.5">
+                    <Label>Select Bank</Label>
+                    <Select value={selectedBank} onValueChange={(v) => { setSelectedBank(v); setResolved(false); setAccountName(''); }}>
+                      <SelectTrigger><SelectValue placeholder={banksLoading ? 'Loading banks…' : 'Choose your bank'} /></SelectTrigger>
+                      <SelectContent>
+                        {banks.map((b) => (
+                          <SelectItem key={b.code} value={b.code}>{b.name}</SelectItem>
+                        ))}
+                        {!banksLoading && banks.length === 0 && <SelectItem value="__none" disabled>No banks loaded — check PAYSTACK_SECRET_KEY</SelectItem>}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label>Account Number</Label>
+                    <div className="relative">
+                      <Input type="text" value={accountNumber} onChange={(e) => { setAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 10)); setResolved(false); setAccountName(''); }} placeholder="0123456789" className="pr-10" />
+                      {resolving && <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-zinc-500" />}
                     </div>
-                    <div className="space-y-2">
-                      <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-400 flex items-center gap-xs">
-                        CVV
-                        <HelpCircle className="text-[16px] text-zinc-600 dark:text-zinc-400 cursor-help" title="3-digit security code on the back of your card" />
-                      </Label>
-                      <div className="relative">
-                        <Input
-                          type={showSecurity ? 'text' : 'password'}
-                          maxLength={4}
-                          placeholder="***"
-                          className="font-mono"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowSecurity(!showSecurity)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400"
-                        >
-                          {showSecurity ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                        </button>
-                      </div>
+                    <p className="text-xs text-zinc-500">10-digit NUBAN. Paystack resolves the account name.</p>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label>Account Name</Label>
+                    <div className={`flex h-11 items-center gap-2 rounded-lg border px-4 text-sm ${resolved ? 'border-emerald-500/40 bg-emerald-500/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-950'}`}>
+                      <span className={resolved ? 'font-semibold text-emerald-700 dark:text-emerald-300' : 'text-zinc-500'}>{accountName || 'Verify account to fetch name'}</span>
+                      {resolved && <CheckCircle2 className="h-4 w-4 text-emerald-500" />}
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <Checkbox
-                      id="save"
-                      checked={saveInfo}
-                      onCheckedChange={(c) => setSaveInfo(c === true)}
-                    />
-                    <Label htmlFor="save" className="text-sm text-zinc-900 dark:text-white leading-relaxed">
-                      Save Card for Future Payments
-                    </Label>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="bank" className="space-y-5">
-                  <div className="space-y-2">
-                    <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-400">
-                      Select Bank
-                    </Label>
-                    <select
-                      value={selectedBank}
-                      onChange={(e) => setSelectedBank(e.target.value)}
-                      className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 appearance-none text-sm"
-                    >
-                      <option value="">Choose your bank</option>
-                      {banks.map((b) => (
-                        <option key={b} value={b}>
-                          {b}
-                        </option>
-                      ))}
-                    </select>
+                    <Checkbox id="save" checked={saveInfo} onCheckedChange={(c) => setSaveInfo(c === true)} />
+                    <Label htmlFor="save" className="text-sm leading-relaxed">Save this account for future payments</Label>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-400">
-                      Account Number
-                    </Label>
-                    <div className="relative">
-                      <Input
-                        type="text"
-                        value={accountNumber}
-                        onChange={handleAccountNumberChange}
-                        placeholder="0123456789"
-                        className="pr-10"
-                      />
-                      <div className={`absolute right-3 top-1/2 -translate-y-1/2 ${loadingAccount ? '' : 'hidden'}`}>
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-zinc-200 dark:border-white/[0.08] border-t-transparent"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-400">
-                      Account Name
-                    </Label>
-                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-sm">
-                      <span className={accountName.includes('Fetching') ? 'text-zinc-600 dark:text-zinc-400' : 'text-zinc-900 dark:text-white font-semibold'}>
-                        {accountName}
-                      </span>
-                      {accountName === 'ADEWALE SULEIMAN BOLAJI' && (
-                        <Verified className="w-4 h-4 text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }} />
-                      )}
-                    </div>
+                  <div className="flex gap-3 pt-2">
+                    <Button variant="outline" onClick={() => router.push('/dashboard/tenant/payments')}>Cancel</Button>
+                    <Button onClick={resolveAccount} variant="outline" disabled={resolving || accountNumber.length !== 10 || !selectedBank}>
+                      {resolving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Shield className="mr-2 h-4 w-4" />}
+                      {resolving ? 'Verifying…' : 'Verify Account'}
+                    </Button>
+                    <Button onClick={submitBank} disabled={submitting || !resolved} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+                      {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Lock className="mr-2 h-4 w-4" />}
+                      {submitting ? 'Saving…' : 'Securely Add'}
+                    </Button>
                   </div>
                 </TabsContent>
               </Tabs>
-
-              <div className="flex justify-end gap-3 mt-6">
-                <Link href="/dashboard/tenant/payments">
-                  <Button variant="ghost">Cancel</Button>
-                </Link>
-                <Link href="/dashboard/tenant/payments/auto-pay">
-                  <Button disabled={!agreeTerms} className="flex items-center gap-2">
-                    <Lock className="w-4 h-4" /> Securely Add
-                  </Button>
-                </Link>
-              </div>
             </div>
           </div>
         </div>
 
-        {/* Right: Security bento */}
-        <div className="space-y-5">
-          <div className="glass-card bg-surface-variant border-zinc-200 dark:border-white/[0.08]">
-            <div className="p-6 p-6 flex flex-col items-center text-center">
-              <div className="w-14 h-14 rounded-2xl bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex items-center justify-center mb-4">
-                <Lock className="w-7 h-7 text-zinc-900 dark:text-white" />
+        <div className="space-y-4">
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5 text-center">
+            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-white/[0.06]"><Lock className="h-7 w-7 text-zinc-700 dark:text-zinc-300" /></span>
+            <h4 className="mt-3 font-semibold text-zinc-900 dark:text-white">Trust Shield</h4>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Financial data secured by 256-bit SSL encryption and Paystack PCI-DSS.</p>
+          </div>
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-white/[0.06]"><Shield className="h-5 w-5 text-zinc-700 dark:text-zinc-300" /></span>
+              <div>
+                <p className="text-sm font-bold text-zinc-900 dark:text-white">PCI-DSS Compliant</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">Paystack handles all card/bank data; PropatiBox never stores raw PAN.</p>
               </div>
-              <h4 className="font-heading text-base font-semibold text-zinc-900 dark:text-white mb-2">Trust Shield</h4>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Your financial data is secured by 256-bit SSL encryption.</p>
             </div>
           </div>
-          <div className="glass-card bg-zinc-50 dark:bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08] flex items-center gap-4 p-5">
-            <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex items-center justify-center overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
-              <Shield className="w-5 h-5 text-zinc-900 dark:text-white" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-zinc-900 dark:text-white">PCI-DSS Compliant</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400">Routers-Atlas applies for all transfers.</p>
-            </div>
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5 text-sm">
+            <h4 className="font-semibold text-zinc-900 dark:text-white">Saved Methods</h4>
+            <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Your saved payout account appears on the Rent &amp; Payments page. No card is stored — Paystack tokenizes on demand.</p>
           </div>
         </div>
       </div>

@@ -47,12 +47,12 @@ const statusBadgeVariants = cva(
         New: "border-transparent bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 dark:border-blue-500/40",
         "Offer Made": "border-transparent bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 dark:border-blue-500/40",
         "Due Diligence": "border-transparent bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 dark:border-blue-500/40",
-        "Viewing Scheduled": "border-transparent bg-neutral-800 text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:border-neutral-600",
+        "Viewing Scheduled": "border-transparent bg-zinc-100 text-zinc-700 dark:bg-neutral-700 dark:text-neutral-300 dark:border-neutral-600",
         // Default / neutral
-        Vacant: "border-neutral-700 bg-neutral-800 text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:border-neutral-600",
+        Vacant: "border-zinc-200 bg-zinc-100 text-zinc-700 dark:bg-neutral-700 dark:text-neutral-300 dark:border-neutral-600",
         // Specialty
-        Featured: "border-transparent bg-amber-500/10 text-amber-400 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40",
-        Premium: "border-transparent bg-blue-500/10 text-blue-400 dark:bg-blue-500/20 dark:text-blue-300 dark:border-blue-500/40",
+        Featured: "border-transparent bg-amber-500/10 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40",
+        Premium: "border-transparent bg-blue-500/10 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300 dark:border-blue-500/40",
       },
     },
     defaultVariants: {

@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SkeletonNavItem, SidebarOverlay } from '@/components/layout/sidebar';
-import { HelpCircle, ChevronDown, Settings, Plus, MessageSquare, Mail, Shield, Sun, Moon } from 'lucide-react';
+import { HelpCircle, ChevronDown, Settings, Plus, MessageSquare, Mail, Shield, Sun, Moon, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDashboardPageTitle } from '@/lib/dashboard-titles';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
@@ -622,12 +622,20 @@ export function DashboardShell({
         `}</style>
         <div className="sb-inner">
           <div className="sb-header-bar">
-            <PropatiBoxLogo
-              href="/dashboard"
-              size="sm"
-              variant={sidebarCollapsed ? 'iconOnly' : 'horizontal'}
-              className="overflow-hidden"
-            />
+            <div className="flex flex-col gap-1 min-w-0">
+              <PropatiBoxLogo
+                href="/dashboard"
+                size="sm"
+                variant={sidebarCollapsed ? 'iconOnly' : 'horizontal'}
+                className="overflow-hidden"
+              />
+              {!sidebarCollapsed && (
+                <div className="bg-surface-container-low px-2 py-0.5 rounded flex items-center justify-between gap-1">
+                  <span className="text-[10px] font-semibold tracking-wider text-on-surface-variant uppercase">CAC Reg: RC-1849204</span>
+                  <ShieldCheck className="h-3 w-3 text-primary" />
+                </div>
+              )}
+            </div>
             <button
               className="hidden md:flex p-2 rounded-lg bg-surface-elevated text-foreground"
               onClick={toggleSidebar}
@@ -742,6 +750,17 @@ export function DashboardShell({
               })}
             </ul>
           </nav>
+          {!sidebarCollapsed && (
+            <div className="px-1 pb-2">
+              <div className="bg-surface-container-low p-3 rounded-lg flex items-center gap-3">
+                <span className="text-secondary text-lg">🎧</span>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-xs font-semibold text-on-surface">Estate Desk</span>
+                  <span className="text-[10px] text-on-surface-variant">24/7 Facility Response</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </aside>
 
@@ -761,6 +780,14 @@ export function DashboardShell({
           {!hideGlobalSearch && <GlobalSearch userRole={userRole} />}
 
           <div className="flex items-center gap-2 sm:gap-3 ml-auto">
+            <div className="hidden md:flex items-center gap-1.5 bg-surface-container-low px-2 py-1 rounded font-mono text-xs font-semibold text-on-surface">
+              <span className="text-secondary font-bold">₦</span>
+              <span>NGN</span>
+            </div>
+            <div className="hidden md:flex items-center gap-1 px-2 py-1 bg-secondary-container/30 text-on-secondary-container rounded text-[10px] font-semibold">
+              <span className="material-symbols-outlined text-[14px]">support_agent</span>
+              <span>Support Active</span>
+            </div>
             <button
               onClick={toggleTheme}
               className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/10 text-sm font-medium transition-colors"

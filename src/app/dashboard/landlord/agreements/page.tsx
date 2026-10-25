@@ -44,7 +44,7 @@ export default async function LandlordAgreementsPage() {
             <h1 className="font-heading font-bold">
               Agreements
             </h1>
-            <p className="text-zinc-600 dark:text-zinc-400">
+            <p className="text-on-surface-variant dark:text-surface-variant">
               Manage rental and sale agreements, track signatures, and download documents
             </p>
           </div>
@@ -79,7 +79,7 @@ export default async function LandlordAgreementsPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-4">
+        <div className="bg-surface-container-lowest dark:bg-zinc-950/50 rounded-xl border border-surface-variant dark:border-on-surface/10 p-4">
           <div className="flex flex-wrap gap-4">
             <select className="inp-field flex-1 min-w-[180px]" style={{ maxWidth: '200px' }}>
               <option value="all">All Status</option>
@@ -104,12 +104,12 @@ export default async function LandlordAgreementsPage() {
 
         {/* Agreements Table */}
         <section>
-          <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+          <div className="bg-surface-container-lowest dark:bg-zinc-950/50 rounded-xl border border-surface-variant dark:border-on-surface/10 overflow-hidden">
             {agreements.length === 0 ? (
-              <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08]-body text-center py-16">
+              <div className="bg-surface-container-lowest dark:bg-zinc-950/50 rounded-xl border border-surface-variant dark:border-on-surface/10-body text-center py-16">
                 <FileIcon className="w-5 h-5" />
-                <h3 className="text-zinc-900 dark:text-white">No agreements yet</h3>
-                <p className="text-zinc-600 dark:text-zinc-400">Create your first agreement from a verified property listing.</p>
+                <h3 className="text-on-surface dark:text-white">No agreements yet</h3>
+                <p className="text-on-surface-variant dark:text-surface-variant">Create your first agreement from a verified property listing.</p>
                 <Link href="/dashboard/landlord/agreements/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Create Agreement
                 </Link>
@@ -118,23 +118,23 @@ export default async function LandlordAgreementsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-zinc-200 dark:border-white/[0.08]">
-                      <th className="text-zinc-600 dark:text-zinc-400">Agreement</th>
-                      <th className="text-zinc-600 dark:text-zinc-400">Property</th>
-                      <th className="text-zinc-600 dark:text-zinc-400">Tenant</th>
-                      <th className="text-zinc-600 dark:text-zinc-400">Type</th>
-                      <th className="text-zinc-600 dark:text-zinc-400">Rent/Price</th>
-                      <th className="text-zinc-600 dark:text-zinc-400">Status</th>
-                      <th className="text-zinc-600 dark:text-zinc-400">Signatures</th>
-                      <th className="text-zinc-600 dark:text-zinc-400">Actions</th>
+                    <tr className="border-surface-variant dark:border-on-surface/10">
+                      <th className="text-on-surface-variant dark:text-surface-variant">Agreement</th>
+                      <th className="text-on-surface-variant dark:text-surface-variant">Property</th>
+                      <th className="text-on-surface-variant dark:text-surface-variant">Tenant</th>
+                      <th className="text-on-surface-variant dark:text-surface-variant">Type</th>
+                      <th className="text-on-surface-variant dark:text-surface-variant">Rent/Price</th>
+                      <th className="text-on-surface-variant dark:text-surface-variant">Status</th>
+                      <th className="text-on-surface-variant dark:text-surface-variant">Signatures</th>
+                      <th className="text-on-surface-variant dark:text-surface-variant">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {agreements.map((agreement) => (
-                      <tr key={agreement.id} className="border-zinc-200 dark:border-white/[0.08]">
+                      <tr key={agreement.id} className="border-surface-variant dark:border-on-surface/10">
                         <td className="p-4">
-                          <p className="text-zinc-900 dark:text-white">{agreement.id.slice(-8).toUpperCase()}</p>
-                          <p className="text-zinc-600 dark:text-zinc-400">
+                          <p className="text-on-surface dark:text-white">{agreement.id.slice(-8).toUpperCase()}</p>
+                          <p className="text-on-surface-variant dark:text-surface-variant">
                             {new Date(agreement.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </p>
                         </td>
@@ -143,13 +143,13 @@ export default async function LandlordAgreementsPage() {
                             {agreement.listing?.images[0] ? (
                               <img src={agreement.listing.images[0].url} alt="" className="w-12 h-12 rounded-lg object-cover" />
                             ) : (
-                              <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                              <div className="bg-surface-container-lowest dark:bg-zinc-900 text-on-surface dark:text-white">
                                 <BuildingIcon className="w-5 h-5" />
                               </div>
                             )}
                             <div>
-                              <p className="text-zinc-900 dark:text-white">{agreement.listing?.title || 'N/A'}</p>
-                              <p className="text-zinc-600 dark:text-zinc-400">{agreement.listing?.area}</p>
+                              <p className="text-on-surface dark:text-white">{agreement.listing?.title || 'N/A'}</p>
+                              <p className="text-on-surface-variant dark:text-surface-variant">{agreement.listing?.area}</p>
                             </div>
                           </div>
                         </td>
@@ -157,23 +157,23 @@ export default async function LandlordAgreementsPage() {
                           {agreement.tenant ? (
                             <div className="flex items-center gap-2">
                               <div
-                                className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm"
+                                className="w-8 h-8 rounded-full bg-surface-container-low dark:bg-zinc-900 text-on-surface dark:text-white flex items-center justify-center font-bold text-sm"
                               >
                                 {agreement.tenant.fullName.charAt(0)}
                               </div>
                               <div>
-                                <p className="text-zinc-900 dark:text-white">{agreement.tenant.fullName}</p>
-                                <p className="text-zinc-600 dark:text-zinc-400">{agreement.tenant.email}</p>
+                                <p className="text-on-surface dark:text-white">{agreement.tenant.fullName}</p>
+                                <p className="text-on-surface-variant dark:text-surface-variant">{agreement.tenant.email}</p>
                               </div>
                             </div>
                           ) : (
-                            <span className="text-zinc-600 dark:text-zinc-400">Not assigned</span>
+                            <span className="text-on-surface-variant dark:text-surface-variant">Not assigned</span>
                           )}
                         </td>
                         <td className="p-4">
-                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">{agreement.type}</span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container-low dark:bg-surface-container-lowest dark:bg-zinc-900 text-on-surface-variant dark:text-surface-variant border border-surface-variant dark:border-on-surface/10">{agreement.type}</span>
                         </td>
-                        <td className="text-zinc-900 dark:text-white">
+                        <td className="text-on-surface dark:text-white">
                           {agreement.rentAmount ? `₦${Number(agreement.rentAmount).toLocaleString()}` : '—'}
                           {agreement.rentPeriod && agreement.rentAmount && `/${agreement.rentPeriod}`}
                         </td>
@@ -187,7 +187,7 @@ export default async function LandlordAgreementsPage() {
                               return (
                                 <div
                                   key={role}
-                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${sig ? 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'}`}
+                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${sig ? 'bg-[#10b981]/10 text-primary-container border-[#10b981]/20' : 'bg-surface-container-lowest dark:bg-zinc-900 text-on-surface-variant dark:text-surface-variant border-surface-variant dark:border-on-surface/10'}`}
                                   title={role === 'landlord' ? 'Landlord' : 'Tenant'}
                                 >
                                   {sig ? <CheckIcon className="w-4 h-4" /> : role.charAt(0).toUpperCase()}
@@ -244,14 +244,14 @@ export default async function LandlordAgreementsPage() {
 function AgreementStatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
-    pending_landlord: { class: 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20', label: 'Pending Landlord' },
-    pending_tenant: { class: 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20', label: 'Pending Tenant' },
-    tenant_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Tenant Signed' },
-    landlord_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Landlord Signed' },
-    fully_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Fully Signed ✓' },
-    terminated: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Terminated' },
-    expired: { class: 'bg-white dark:bg-zinc-900/30 text-zinc-600 dark:text-zinc-400 border-muted/50', label: 'Expired' },
+    pending_landlord: { class: 'bg-surface-container-lowest dark:bg-zinc-900 text-on-surface dark:text-white border-surface-variant dark:border-on-surface/10/20', label: 'Pending Landlord' },
+    pending_tenant: { class: 'bg-surface-container-lowest dark:bg-zinc-900 text-on-surface dark:text-white border-surface-variant dark:border-on-surface/10/20', label: 'Pending Tenant' },
+    tenant_signed: { class: 'bg-success/10 text-primary-container border-success/20', label: 'Tenant Signed' },
+    landlord_signed: { class: 'bg-success/10 text-primary-container border-success/20', label: 'Landlord Signed' },
+    fully_signed: { class: 'bg-success/10 text-primary-container border-success/20', label: 'Fully Signed ✓' },
+    terminated: { class: 'bg-red-500/10 text-error border-red-500/20', label: 'Terminated' },
+    expired: { class: 'bg-surface-container-lowest dark:bg-zinc-900/30 text-on-surface-variant dark:text-surface-variant border-muted/50', label: 'Expired' },
   };
-  const cfg = config[status] || { class: 'bg-white dark:bg-zinc-900/30 text-zinc-600 dark:text-zinc-400 border-muted/50', label: status };
+  const cfg = config[status] || { class: 'bg-surface-container-lowest dark:bg-zinc-900/30 text-on-surface-variant dark:text-surface-variant border-muted/50', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }

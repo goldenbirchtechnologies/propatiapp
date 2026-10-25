@@ -36,12 +36,12 @@ type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'appro
 
 export function EmptyState() {
   return (
-    <div className="rounded-xl border border-dashed border-zinc-300 dark:border-white/[0.08] bg-white dark:bg-[#18181b] p-10 text-center">
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08]">
-        <ClipboardList className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
+    <div className="rounded-xl border border-dashed border-outline dark:border-on-surface/10 bg-surface-container-lowest dark:bg-[#18181b] p-10 text-center">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-surface-container dark:bg-surface-container-lowest/[0.04] border border-surface-variant dark:border-on-surface/10">
+        <ClipboardList className="h-6 w-6 text-surface-variant dark:text-surface-variant" />
       </div>
-      <h3 className="mt-4 text-base font-semibold text-zinc-900 dark:text-white">No applications yet</h3>
-      <p className="mx-auto mt-1.5 max-w-md text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+      <h3 className="mt-4 text-base font-semibold text-on-surface dark:text-white">No applications yet</h3>
+      <p className="mx-auto mt-1.5 max-w-md text-sm leading-6 text-surface-variant dark:text-surface-variant">
         Share your verified Sovereign Estate listing links to begin receiving digital applications and
         institutional tenancy proposals.
       </p>
@@ -129,7 +129,7 @@ function screeningPill(value: string) {
   if (!normalized || normalized === 'not_started' || normalized === 'none' || normalized === 'false')
     return <span className="text-xs text-red-400 border border-red-500/20 rounded-full px-2 py-0.5">Not Verified</span>;
   if (normalized === 'approved' || normalized === 'verified' || normalized === 'true')
-    return <span className="text-xs text-emerald-400 border border-emerald-500/20 rounded-full px-2 py-0.5">Verified</span>;
+    return <span className="text-xs text-primary border border-emerald-500/20 rounded-full px-2 py-0.5">Verified</span>;
   return <span className="text-xs text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5">Pending</span>;
 }
 
@@ -143,7 +143,7 @@ function screeningScore(screening: Record<string, string>) {
   const score = Math.min(860, 650 + entries.length * 45);
   const tier = score >= 800 ? 'Tier-1' : score >= 720 ? 'Tier-2' : 'Tier-3';
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-emerald-400">
+    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-primary">
       <ShieldCheck className="h-3 w-3" />
       Score: {score} {tier}
     </span>
@@ -182,7 +182,7 @@ function incomeLabel(raw: string | number | null | undefined) {
 }
 
 const selectClass =
-  'w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-emerald-500/50 dark:border-white/[0.08] dark:bg-[#18181b] dark:text-white';
+  'w-full rounded-lg border border-surface-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none transition-colors focus:border-emerald-500/50 dark:border-on-surface/10 dark:bg-[#18181b] dark:text-white';
 
 export default function LandlordApplicationsClient({ applications: initial }: { applications: Application[] }) {
   const [applications, setApplications] = useState<Application[]>(initial);
@@ -426,10 +426,10 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       </div>
 
       {/* Filter bar */}
-      <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-white/[0.08] dark:bg-[#18181b]">
+      <div className="rounded-xl border border-surface-variant bg-surface-container-lowest p-4 dark:border-on-surface/10 dark:bg-[#18181b]">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative min-w-[180px] flex-1 sm:max-w-xs">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500 dark:text-zinc-400" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-surface-variant dark:text-surface-variant" />
             <input
               type="text"
               value={search}
@@ -438,12 +438,12 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 setPage(0);
               }}
               placeholder="Search applicant, property, employer…"
-              className="w-full rounded-lg border border-zinc-200 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-emerald-500/50 dark:border-white/[0.08] dark:bg-[#09090b] dark:text-white"
+              className="w-full rounded-lg border border-surface-variant bg-surface-container-lowest py-2 pl-9 pr-3 text-sm text-on-surface outline-none transition-colors placeholder:text-surface-variant focus:border-emerald-500/50 dark:border-on-surface/10 dark:bg-[#09090b] dark:text-white"
             />
           </div>
 
           <div className="flex items-center gap-1.5">
-            <Filter className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
+            <Filter className="h-4 w-4 text-surface-variant dark:text-surface-variant" />
             <select
               className={selectClass}
               value={statusFilter}
@@ -488,7 +488,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               className={selectClass}
               aria-label="From date"
             />
-            <span className="text-xs text-zinc-400 dark:text-zinc-500">to</span>
+            <span className="text-xs text-surface-variant dark:text-surface-variant">to</span>
             <input
               type="date"
               value={dateTo}
@@ -501,7 +501,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             />
           </div>
 
-          <Button variant="ghost" onClick={resetFilters} className="text-zinc-600 dark:text-zinc-400">
+          <Button variant="ghost" onClick={resetFilters} className="text-on-surface-variant dark:text-surface-variant">
             <RotateCcw className="h-4 w-4" />
             Reset
           </Button>
@@ -512,24 +512,24 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       {applications.length === 0 ? (
         <EmptyState />
       ) : filtered.length === 0 ? (
-        <div className="rounded-xl border border-zinc-200 bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#18181b]">
-          <Users className="mx-auto h-10 w-10 text-zinc-400 dark:text-zinc-600" />
-          <h3 className="mt-3 text-base font-semibold text-zinc-900 dark:text-white">No applications match your filters</h3>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="rounded-xl border border-surface-variant bg-surface-container-lowest p-10 text-center dark:border-on-surface/10 dark:bg-[#18181b]">
+          <Users className="mx-auto h-10 w-10 text-surface-variant dark:text-on-surface-variant" />
+          <h3 className="mt-3 text-base font-semibold text-on-surface dark:text-white">No applications match your filters</h3>
+          <p className="mt-1 text-sm text-surface-variant dark:text-surface-variant">
             Adjust the status, property, or date filters to see more results.
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-[#18181b]">
+        <div className="overflow-hidden rounded-xl border border-surface-variant bg-surface-container-lowest dark:border-on-surface/10 dark:bg-[#18181b]">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[960px]">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 dark:border-white/[0.08] dark:bg-white/[0.02]">
+                <tr className="border-b border-surface-variant bg-surface-container-low dark:border-on-surface/10 dark:bg-surface-container-lowest/[0.02]">
                   {['Applicant', 'Property & Unit', 'Date Applied', 'Annual Income & Job', 'Verification (KYC)', 'Status', 'Actions'].map(
                     (h) => (
                       <th
                         key={h}
-                        className="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400"
+                        className="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-surface-variant dark:text-surface-variant"
                       >
                         {h}
                       </th>
@@ -548,17 +548,17 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   return (
                     <tr
                       key={app.id}
-                      className="border-b border-zinc-200 transition-colors hover:bg-zinc-50 dark:border-white/[0.08] dark:hover:bg-white/[0.02]"
+                      className="border-b border-surface-variant transition-colors hover:bg-surface-container-low dark:border-on-surface/10 dark:hover:bg-surface-container-lowest/[0.02]"
                     >
                       {/* Applicant */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <Avatar src={app.tenant?.avatarUrl || undefined} name={tenantName} size="sm" />
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-medium text-zinc-900 dark:text-white">{tenantName}</p>
-                            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{app.tenant?.email || ''}</p>
+                            <p className="truncate text-sm font-medium text-on-surface dark:text-white">{tenantName}</p>
+                            <p className="truncate text-xs text-surface-variant dark:text-surface-variant">{app.tenant?.email || ''}</p>
                             {app.tenant?.phone && (
-                              <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{app.tenant.phone}</p>
+                              <p className="truncate text-xs text-surface-variant dark:text-surface-variant">{app.tenant.phone}</p>
                             )}
                           </div>
                         </div>
@@ -566,26 +566,26 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                       {/* Property & Unit */}
                       <td className="px-4 py-3">
-                        <p className="text-sm font-medium text-zinc-900 dark:text-white">{listingTitle}</p>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400">{listingLocation}</p>
+                        <p className="text-sm font-medium text-on-surface dark:text-white">{listingTitle}</p>
+                        <p className="text-xs text-surface-variant dark:text-surface-variant">{listingLocation}</p>
                       </td>
 
                       {/* Date Applied */}
                       <td className="px-4 py-3">
-                        <p className="text-sm text-zinc-900 dark:text-white">{formatDate(app.createdAt)}</p>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400">{daysAgo(app.createdAt)}</p>
+                        <p className="text-sm text-on-surface dark:text-white">{formatDate(app.createdAt)}</p>
+                        <p className="text-xs text-surface-variant dark:text-surface-variant">{daysAgo(app.createdAt)}</p>
                       </td>
 
                       {/* Annual Income & Job */}
                       <td className="px-4 py-3">
-                        <p className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {incomeLabel(app.tenant?.yearlyIncome) ?? '—'} <span className="font-normal text-zinc-500 dark:text-zinc-400">/ yr</span>
+                        <p className="text-sm font-medium text-on-surface dark:text-white">
+                          {incomeLabel(app.tenant?.yearlyIncome) ?? '—'} <span className="font-normal text-surface-variant dark:text-surface-variant">/ yr</span>
                         </p>
-                        <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                        <p className="truncate text-xs text-surface-variant dark:text-surface-variant">
                           {app.tenant?.jobTitle || app.tenant?.employerName || '—'}
                         </p>
                         {app.tenant?.employmentStatus && (
-                          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                          <p className="text-xs text-surface-variant dark:text-surface-variant">
                             {String(app.tenant.employmentStatus).replace(/_/g, ' ')}
                           </p>
                         )}
@@ -595,12 +595,12 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                       <td className="px-4 py-3">
                         <div className="flex flex-wrap items-center gap-1.5">
                           {app.tenant?.idVerified ? (
-                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-emerald-400">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-primary">
                               <BadgeCheck className="h-3 w-3" />
                               ID Verified
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-400/20 bg-zinc-500/10 px-2 py-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-400/20 bg-surface-container-low0/10 px-2 py-0.5 text-xs text-on-surface-variant dark:text-surface-variant">
                               ID Unverified
                             </span>
                           )}
@@ -610,7 +610,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                               NIN Passed
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-400/20 bg-zinc-500/10 px-2 py-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-400/20 bg-surface-container-low0/10 px-2 py-0.5 text-xs text-on-surface-variant dark:text-surface-variant">
                               NIN Unconfirmed
                             </span>
                           )}
@@ -660,8 +660,8 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
           </div>
 
           {/* Pagination footer */}
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-zinc-200 px-4 py-3 sm:flex-row dark:border-white/[0.08]">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-surface-variant px-4 py-3 sm:flex-row dark:border-on-surface/10">
+            <p className="text-xs text-surface-variant dark:text-surface-variant">
               Showing {rangeStart}–{rangeEnd} of {filtered.length} applications
             </p>
             <div className="flex items-center gap-2">
@@ -673,7 +673,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               >
                 Previous
               </Button>
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-surface-variant dark:text-surface-variant">
                 {safePage + 1} / {pageCount}
               </span>
               <Button
@@ -711,11 +711,11 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   />
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="font-semibold text-zinc-900 dark:text-white">
+                      <p className="font-semibold text-on-surface dark:text-white">
                         {selectedApp.tenant?.fullName || 'Tenant'}
                       </p>
                       {selectedApp.tenant?.idVerified && (
-                        <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
+                        <span className="inline-flex items-center gap-1 text-xs text-on-primary-fixed dark:text-primary bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
                           <BadgeCheck className="h-3 w-3" /> ID Verified
                         </span>
                       )}
@@ -725,9 +725,9 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">{selectedApp.tenant?.email || ''}</p>
+                    <p className="text-sm text-surface-variant dark:text-surface-variant">{selectedApp.tenant?.email || ''}</p>
                     {selectedApp.tenant?.phone && (
-                      <p className="text-sm text-zinc-500 dark:text-zinc-400">{selectedApp.tenant.phone}</p>
+                      <p className="text-sm text-surface-variant dark:text-surface-variant">{selectedApp.tenant.phone}</p>
                     )}
                   </div>
                 </div>
@@ -735,30 +735,30 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 {(selectedApp.tenant?.employmentStatus ||
                   selectedApp.tenant?.employerName ||
                   selectedApp.tenant?.yearlyIncome) && (
-                  <div className="space-y-1 rounded-lg border border-zinc-200 p-3 text-sm dark:border-white/[0.08]">
-                    <p className="mb-2 font-medium text-zinc-900 dark:text-white">Employment</p>
+                  <div className="space-y-1 rounded-lg border border-surface-variant p-3 text-sm dark:border-on-surface/10">
+                    <p className="mb-2 font-medium text-on-surface dark:text-white">Employment</p>
                     {selectedApp.tenant?.employmentStatus && (
-                      <p className="text-zinc-500 dark:text-zinc-400">
+                      <p className="text-surface-variant dark:text-surface-variant">
                         Status:{' '}
-                        <span className="font-medium text-zinc-900 dark:text-white">
+                        <span className="font-medium text-on-surface dark:text-white">
                           {String(selectedApp.tenant.employmentStatus).replace(/_/g, ' ')}
                         </span>
                       </p>
                     )}
                     {selectedApp.tenant?.employerName && (
-                      <p className="text-zinc-500 dark:text-zinc-400">
-                        Employer: <span className="text-zinc-900 dark:text-white">{selectedApp.tenant.employerName}</span>
+                      <p className="text-surface-variant dark:text-surface-variant">
+                        Employer: <span className="text-on-surface dark:text-white">{selectedApp.tenant.employerName}</span>
                       </p>
                     )}
                     {selectedApp.tenant?.jobTitle && (
-                      <p className="text-zinc-500 dark:text-zinc-400">
-                        Role: <span className="text-zinc-900 dark:text-white">{selectedApp.tenant.jobTitle}</span>
+                      <p className="text-surface-variant dark:text-surface-variant">
+                        Role: <span className="text-on-surface dark:text-white">{selectedApp.tenant.jobTitle}</span>
                       </p>
                     )}
                     {selectedApp.tenant?.yearlyIncome && (
-                      <p className="text-zinc-500 dark:text-zinc-400">
+                      <p className="text-surface-variant dark:text-surface-variant">
                         Income:{' '}
-                        <span className="text-zinc-900 dark:text-white">
+                        <span className="text-on-surface dark:text-white">
                           ₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr
                         </span>
                       </p>
@@ -768,25 +768,25 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                 {selectedApp.tenant?.profileBio && (
                   <div>
-                    <p className="mb-1 text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wider text-surface-variant dark:text-surface-variant">
                       About
                     </p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">{selectedApp.tenant.profileBio}</p>
+                    <p className="text-sm text-surface-variant dark:text-surface-variant">{selectedApp.tenant.profileBio}</p>
                   </div>
                 )}
 
                 <div className="space-y-2">
-                  <p className="text-xs font-medium text-zinc-900 dark:text-white">Screening</p>
+                  <p className="text-xs font-medium text-on-surface dark:text-white">Screening</p>
                   {Object.keys(selectedApp.screeningStatus || {}).length === 0 ? (
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">No screening checks yet.</span>
+                    <span className="text-xs text-surface-variant dark:text-surface-variant">No screening checks yet.</span>
                   ) : (
                     <div className="flex flex-wrap gap-2">
                       {Object.entries(selectedApp.screeningStatus || {}).map(([key, value]) => (
                         <div
                           key={key}
-                          className="flex items-center gap-2 rounded-full border border-zinc-200 px-2 py-1 text-xs dark:border-white/[0.08]"
+                          className="flex items-center gap-2 rounded-full border border-surface-variant px-2 py-1 text-xs dark:border-on-surface/10"
                         >
-                          <span className="capitalize text-zinc-900 dark:text-white">{key.replace(/_/g, ' ')}</span>
+                          <span className="capitalize text-on-surface dark:text-white">{key.replace(/_/g, ' ')}</span>
                           {screeningPill(value)}
                         </div>
                       ))}
@@ -795,9 +795,9 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-xs font-medium text-zinc-900 dark:text-white">Documents</p>
+                  <p className="text-xs font-medium text-on-surface dark:text-white">Documents</p>
                   {(selectedApp.applicantDocuments || []).length === 0 ? (
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">No documents uploaded.</p>
+                    <p className="text-xs text-surface-variant dark:text-surface-variant">No documents uploaded.</p>
                   ) : (
                     <div className="flex flex-col gap-1">
                       {(selectedApp.applicantDocuments || []).map((doc, idx) => (
@@ -806,7 +806,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                           href={String(doc.url)}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center gap-2 text-sm text-zinc-900 underline dark:text-white"
+                          className="flex items-center gap-2 text-sm text-on-surface underline dark:text-white"
                         >
                           <FileText className="h-4 w-4" /> {String(doc.name || doc.type || 'Document')}
                         </a>
@@ -816,16 +816,16 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 </div>
 
                 {selectedApp.message && (
-                  <div className="rounded-lg border border-zinc-200 p-3 text-sm dark:border-white/[0.08]">
-                    <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-zinc-900 dark:text-white">
+                  <div className="rounded-lg border border-surface-variant p-3 text-sm dark:border-on-surface/10">
+                    <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-on-surface dark:text-white">
                       <MessageSquare className="h-3.5 w-3.5" /> Applicant message
                     </p>
-                    <p className="text-zinc-500 dark:text-zinc-400">{selectedApp.message}</p>
+                    <p className="text-surface-variant dark:text-surface-variant">{selectedApp.message}</p>
                   </div>
                 )}
 
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-zinc-900 dark:text-white" htmlFor="landlord-notes">
+                  <label className="text-xs font-medium text-on-surface dark:text-white" htmlFor="landlord-notes">
                     Landlord notes
                   </label>
                   <Textarea
@@ -839,7 +839,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                 {(actionType === 'reject' || rejectionReason) && (
                   <div className="space-y-2">
-                    <label className="text-xs font-medium text-zinc-900 dark:text-white" htmlFor="rejection-reason">
+                    <label className="text-xs font-medium text-on-surface dark:text-white" htmlFor="rejection-reason">
                       Rejection reason
                     </label>
                     <Textarea

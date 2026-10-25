@@ -203,9 +203,9 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-600 dark:text-zinc-400">Operations</p>
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Short-let Bookings</h2>
-          <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-on-surface-variant dark:text-surface-variant">Operations</p>
+          <h2 className="text-3xl font-bold tracking-tight text-on-surface dark:text-white">Short-let Bookings</h2>
+          <p className="max-w-2xl text-sm leading-6 text-on-surface-variant dark:text-surface-variant">
             Manage guest reservations, review booking requests, and track short-stay earnings.
           </p>
         </div>
@@ -217,35 +217,35 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Pending Approvals</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{pendingApprovals}</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Booking requests awaiting host confirmation</p>
+        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Pending Approvals</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{pendingApprovals}</p>
+          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Booking requests awaiting host confirmation</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Upcoming Check-ins</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{upcomingCheckIns}</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Stays starting within the next 7 days</p>
+        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Upcoming Check-ins</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{upcomingCheckIns}</p>
+          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Stays starting within the next 7 days</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Monthly Revenue</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatCurrency(monthlyRevenue)}</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Confirmed/completed payouts this month</p>
+        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Monthly Revenue</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{formatCurrency(monthlyRevenue)}</p>
+          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Confirmed/completed payouts this month</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Occupancy Rate</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{occupancyRate}%</p>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Available days booked this month</p>
+        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Occupancy Rate</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{occupancyRate}%</p>
+          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Available days booked this month</p>
         </div>
       </div>
 
-      <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black space-y-5 p-4">
+      <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black space-y-5 p-4">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="text-sm font-medium text-zinc-900 dark:text-white">Property</label>
+              <label className="text-sm font-medium text-on-surface dark:text-white">Property</label>
               <select
-                className="mt-1 w-full rounded-lg border border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] p-2.5 text-sm text-zinc-600 dark:text-zinc-400 focus:border-emerald-500/30 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
+                className="mt-1 w-full rounded-lg border border-surface-variant dark:border-inverse-surface bg-surface-container-low dark:bg-[#18181b] p-2.5 text-sm text-on-surface-variant dark:text-surface-variant focus:border-emerald-500/30 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
                 value={selectedListingId}
                 onChange={(e) => setSelectedListingId(e.target.value)}
               >
@@ -259,11 +259,11 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
                 )}
               </select>
               {sanitizedListings.length === 0 && (
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">No properties available</p>
+                <p className="text-xs text-on-surface-variant dark:text-surface-variant mt-1">No properties available</p>
               )}
             </div>
             <div className="flex items-end">
-              <p className="text-sm font-medium text-zinc-900 dark:text-white">Guest Reservations</p>
+              <p className="text-sm font-medium text-on-surface dark:text-white">Guest Reservations</p>
             </div>
           </div>
         </div>
@@ -284,19 +284,19 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
         </div>
 
         <div className="space-y-4">
-          {loading && !actionIds.length && <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">Loading bookings…</p>}
+          {loading && !actionIds.length && <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Loading bookings…</p>}
           {!loading && filtered.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] p-10 text-center">
-              <div className="w-14 h-14 rounded-xl bg-[#27272a] border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-7 h-7 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400" />
+            <div className="rounded-2xl border border-dashed border-surface-variant dark:border-inverse-surface bg-surface-container-low dark:bg-[#18181b] p-10 text-center">
+              <div className="w-14 h-14 rounded-xl bg-[#27272a] border border-surface-variant dark:border-surface-variant dark:border-white/[0.06] flex items-center justify-center mx-auto mb-4">
+                <Calendar className="w-7 h-7 text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant" />
               </div>
-              <p className="font-semibold text-zinc-900 dark:text-white mb-1">No bookings yet</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 max-w-md mx-auto">Direct guest reservation requests will appear here once booked.</p>
+              <p className="font-semibold text-on-surface dark:text-white mb-1">No bookings yet</p>
+              <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant max-w-md mx-auto">Direct guest reservation requests will appear here once booked.</p>
               <div className="mt-5 flex items-center justify-center gap-2">
-                <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white" onClick={() => (window.location.href = '/dashboard/landlord/properties/new')}>
+                <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-on-surface dark:text-white" onClick={() => (window.location.href = '/dashboard/landlord/properties/new')}>
                   Add Property
                 </Button>
-                <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:bg-[#18181b]" onClick={refresh}>
+                <Button size="sm" variant="outline" className="gap-2 border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:bg-[#18181b]" onClick={refresh}>
                   <RefreshCw className="h-4 w-4" /> Refresh
                 </Button>
               </div>
@@ -305,7 +305,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+                <tr className="border-b border-surface-variant dark:border-on-surface/10 text-xs uppercase tracking-wider text-on-surface-variant dark:text-surface-variant">
                   <th className="py-2 pr-4">Guest</th>
                   <th className="py-2 pr-4">Property / Unit</th>
                   <th className="py-2 pr-4">Dates</th>
@@ -317,20 +317,20 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
               </thead>
               <tbody>
                 {filtered.map((req) => (
-                  <tr key={req.id} className="border-b border-zinc-200 dark:border-white/[0.08]/60">
+                  <tr key={req.id} className="border-b border-surface-variant dark:border-on-surface/10/60">
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
-                        <span className="font-medium text-zinc-900 dark:text-white">{req.guestName}</span>
-                        <span className="text-xs text-zinc-600 dark:text-zinc-400">{req.guestEmail || req.guestPhone || '—'}</span>
+                        <span className="font-medium text-on-surface dark:text-white">{req.guestName}</span>
+                        <span className="text-xs text-on-surface-variant dark:text-surface-variant">{req.guestEmail || req.guestPhone || '—'}</span>
                       </div>
                     </td>
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
-                        <span className="font-medium text-zinc-900 dark:text-white">{req.listingTitle}</span>
-                        <span className="text-xs text-zinc-600 dark:text-zinc-400">{req.listingAddress || '—'}</span>
+                        <span className="font-medium text-on-surface dark:text-white">{req.listingTitle}</span>
+                        <span className="text-xs text-on-surface-variant dark:text-surface-variant">{req.listingAddress || '—'}</span>
                       </div>
                     </td>
-                    <td className="py-3 pr-4 text-xs text-zinc-600 dark:text-zinc-400">
+                    <td className="py-3 pr-4 text-xs text-on-surface-variant dark:text-surface-variant">
                       {formatDateRange(req.checkIn, req.checkOut, req.nights)}
                     </td>
                     <td className="py-3 pr-4">
@@ -338,8 +338,8 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
                     </td>
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
-                        <span className="font-medium text-zinc-900 dark:text-white">{formatCurrency(req.totalPrice)}</span>
-                        <span className={`text-xs ${req.paymentStatus === 'paid' ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-400'}`}>
+                        <span className="font-medium text-on-surface dark:text-white">{formatCurrency(req.totalPrice)}</span>
+                        <span className={`text-xs ${req.paymentStatus === 'paid' ? 'text-primary-container' : 'text-on-surface-variant dark:text-surface-variant'}`}>
                           {req.paymentStatus === 'paid' ? 'Paid' : 'Pending Payout'}
                         </span>
                       </div>

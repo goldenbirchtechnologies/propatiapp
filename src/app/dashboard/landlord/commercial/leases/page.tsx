@@ -37,25 +37,25 @@ export default async function CommercialLeasesPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Commercial Lease Management</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 mt-1">
+          <h1 className="text-2xl font-bold text-on-surface dark:text-white">Commercial Lease Management</h1>
+          <p className="text-on-surface-variant dark:text-surface-variant mt-1">
             Verified Enterprise — Manage revenue, billing, and legal records for commercial properties.
           </p>
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Commercial Leases</h3>
+          <div className="px-6 py-5 border-b border-surface-variant dark:border-on-surface/10">
+            <h3 className="text-lg font-semibold text-on-surface dark:text-white">Commercial Leases</h3>
           </div>
           <div className="p-6">
             {agreements.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 py-6 text-center">
+              <p className="text-sm text-on-surface-variant dark:text-surface-variant py-6 text-center">
                 No commercial lease agreements yet.
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-zinc-600 dark:text-zinc-400 border-b">
+                  <thead className="text-on-surface-variant dark:text-surface-variant border-b">
                     <tr>
                       <th className="py-3 font-medium">Property</th>
                       <th className="py-3 font-medium">Tenant</th>
@@ -72,7 +72,7 @@ export default async function CommercialLeasesPage() {
                         <td className="py-3 font-mono">
                           {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : '—'}
                         </td>
-                        <td className="py-3 text-zinc-600 dark:text-zinc-400">
+                        <td className="py-3 text-on-surface-variant dark:text-surface-variant">
                           {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} →{' '}
                           {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
                         </td>

@@ -53,8 +53,8 @@ export default async function LandlordAgentsPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
           <div className="flex items-end justify-between">
             <div>
-              <h3 className="font-heading text-headline-lg text-zinc-900 dark:text-white">Agent Management</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Invite agents to manage your listings. Agents can register directly; invites are optional.</p>
+              <h3 className="font-heading text-headline-lg text-on-surface dark:text-white">Agent Management</h3>
+              <p className="text-sm text-on-surface-variant dark:text-surface-variant">Invite agents to manage your listings. Agents can register directly; invites are optional.</p>
             </div>
           </div>
           <AgentInviteManagementClient properties={listings} initialInvites={invites} initialAssignments={assignments} currentUserRole={user.role} />

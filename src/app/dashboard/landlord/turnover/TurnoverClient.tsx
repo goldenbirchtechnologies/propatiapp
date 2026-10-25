@@ -63,7 +63,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Turnover Tasks</h1>
-          <p className="text-zinc-600 dark:text-zinc-400">Cleaning and maintenance for your properties</p>
+          <p className="text-on-surface-variant dark:text-surface-variant">Cleaning and maintenance for your properties</p>
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-[180px]">
@@ -83,11 +83,11 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
       <div className="glass-card">
         <div className="p-6 p-0">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-12 text-zinc-600 dark:text-zinc-400">
+            <div className="flex flex-col items-center justify-center py-12 text-on-surface-variant dark:text-surface-variant">
               <Skeleton className="h-10 w-full" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-zinc-600 dark:text-zinc-400">
+            <div className="flex flex-col items-center justify-center py-12 text-on-surface-variant dark:text-surface-variant">
               <Wrench className="h-8 w-8 mb-2" />
               <p className="text-sm">No turnover tasks found</p>
             </div>
@@ -99,14 +99,14 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
                   className="flex items-center justify-between gap-4 p-4 hover:bg-muted/50"
                 >
                   <div className="flex items-center gap-4 min-w-0">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white shrink-0">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-low dark:bg-zinc-900 text-on-surface dark:text-white shrink-0">
                       <Wrench className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-medium truncate">
                         {task.listing?.title || 'Unassigned property'}
                       </p>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+                      <div className="flex items-center gap-3 mt-1 text-xs text-on-surface-variant dark:text-surface-variant">
                         {task.listing && (
                           <span className="flex items-center gap-1">
                             <Building2 className="h-3 w-3" />

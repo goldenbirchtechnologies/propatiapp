@@ -30,21 +30,21 @@ export default async function LandlordPortfolioPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Portfolio Analytics</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">Overview of your owned properties and asset performance.</p>
+          <h1 className="text-3xl font-bold text-on-surface dark:text-white">Portfolio Analytics</h1>
+          <p className="text-on-surface-variant dark:text-surface-variant dark:text-surface-variant mt-1">Overview of your owned properties and asset performance.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Total Portfolio Value</p>
+          <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 p-5 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+            <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant">Total Portfolio Value</p>
             <p className="text-2xl font-bold mt-2">₦{(totalValue / 1e6).toFixed(1)}M</p>
           </div>
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Active Listings</p>
+          <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 p-5 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+            <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant">Active Listings</p>
             <p className="text-2xl font-bold mt-2">{listings.length}</p>
           </div>
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Avg. Listing Value</p>
+          <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 p-5 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+            <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant">Avg. Listing Value</p>
             <p className="text-2xl font-bold mt-2">
               {listings.length > 0 ? `₦${((totalValue / listings.length) / 1e6).toFixed(1)}M` : '—'}
             </p>
@@ -52,28 +52,28 @@ export default async function LandlordPortfolioPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Properties</h3>
+          <div className="px-6 py-5 border-b border-surface-variant dark:border-on-surface/10">
+            <h3 className="text-lg font-semibold text-on-surface dark:text-white">Properties</h3>
           </div>
           <div className="p-6">
             {listings.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 py-6 text-center">No active listings yet.</p>
+              <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant py-6 text-center">No active listings yet.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <thead className="bg-zinc-800 border-b border-surface-variant dark:border-on-surface/10">
                     <tr>
-                      <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Property</th>
-                      <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Type</th>
-                      <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Location</th>
-                      <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Value</th>
+                      <th className="px-5 py-4 text-sm font-medium text-on-surface-variant dark:text-surface-variant dark:text-surface-variant">Property</th>
+                      <th className="px-5 py-4 text-sm font-medium text-on-surface-variant dark:text-surface-variant dark:text-surface-variant">Type</th>
+                      <th className="px-5 py-4 text-sm font-medium text-on-surface-variant dark:text-surface-variant dark:text-surface-variant">Location</th>
+                      <th className="px-5 py-4 text-sm font-medium text-on-surface-variant dark:text-surface-variant dark:text-surface-variant">Value</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#262626]">
                     {listings.map((l) => (
-                      <tr key={l.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
+                      <tr key={l.id} className="hover:bg-surface-container-lowest dark:bg-zinc-900 transition-colors">
                         <td className="px-5 py-4 font-medium">{l.title}</td>
-                        <td className="px-5 py-4 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 capitalize">{l.listingType.replace('_', ' ')}</td>
+                        <td className="px-5 py-4 text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant capitalize">{l.listingType.replace('_', ' ')}</td>
                         <td className="px-5 py-4 text-sm">{l.area}</td>
                         <td className="px-5 py-4 text-sm font-medium">₦{new Intl.NumberFormat('en-NG').format(Number(l.price))}</td>
                       </tr>

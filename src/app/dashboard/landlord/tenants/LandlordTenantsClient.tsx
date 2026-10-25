@@ -48,16 +48,16 @@ function formatDate(date: Date | null) {
 
 function rentBadge(tenant: Tenant) {
   const s = tenant.latestInvoice?.status;
-  if (!s) return <Badge variant="outline" className="bg-muted/30 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">No Record</Badge>;
+  if (!s) return <Badge variant="outline" className="bg-muted/30 text-on-surface-variant dark:text-surface-variant border border-surface-variant dark:border-on-surface/10">No Record</Badge>;
   switch (s) {
     case 'paid':
-      return <Badge variant="default" className="bg-success/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]">Paid</Badge>;
+      return <Badge variant="default" className="bg-success/10 text-primary-container border border-surface-variant dark:border-on-surface/10">Paid</Badge>;
     case 'overdue':
-      return <Badge variant="destructive" className="bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]">Overdue</Badge>;
+      return <Badge variant="destructive" className="bg-red-500/10 text-error border border-surface-variant dark:border-on-surface/10">Overdue</Badge>;
     case 'sent':
-      return <Badge variant="secondary" className="bg-warning/10 text-warning border border-zinc-200 dark:border-white/[0.08]">Pending</Badge>;
+      return <Badge variant="secondary" className="bg-warning/10 text-warning border border-surface-variant dark:border-on-surface/10">Pending</Badge>;
     default:
-      return <Badge variant="outline" className="bg-muted/30 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">{s.replace('_', ' ')}</Badge>;
+      return <Badge variant="outline" className="bg-muted/30 text-on-surface-variant dark:text-surface-variant border border-surface-variant dark:border-on-surface/10">{s.replace('_', ' ')}</Badge>;
   }
 }
 
@@ -118,39 +118,39 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Tenants</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 mt-1">Manage tenant operations and occupancy</p>
+          <h1 className="text-3xl font-bold text-on-surface dark:text-white">Tenants</h1>
+          <p className="text-on-surface-variant dark:text-surface-variant mt-1">Manage tenant operations and occupancy</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium uppercase tracking-wider">Total</p>
-          <p className="text-2xl font-bold mt-1 text-zinc-900 dark:text-white">{stats.total}</p>
+        <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 bg-surface-container-lowest dark:bg-zinc-950/50 p-5 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          <p className="text-xs text-on-surface-variant dark:text-surface-variant font-medium uppercase tracking-wider">Total</p>
+          <p className="text-2xl font-bold mt-1 text-on-surface dark:text-white">{stats.total}</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium uppercase tracking-wider">Active</p>
-          <p className="text-2xl font-bold mt-1 text-[#10b981]">{stats.active}</p>
+        <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 bg-surface-container-lowest dark:bg-zinc-950/50 p-5 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          <p className="text-xs text-on-surface-variant dark:text-surface-variant font-medium uppercase tracking-wider">Active</p>
+          <p className="text-2xl font-bold mt-1 text-primary-container">{stats.active}</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium uppercase tracking-wider">Pending</p>
+        <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 bg-surface-container-lowest dark:bg-zinc-950/50 p-5 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          <p className="text-xs text-on-surface-variant dark:text-surface-variant font-medium uppercase tracking-wider">Pending</p>
           <p className="text-2xl font-bold mt-1 text-warning">{stats.pending}</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium uppercase tracking-wider">Moved Out</p>
-          <p className="text-2xl font-bold mt-1 text-red-500">{stats.expired}</p>
+        <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 bg-surface-container-lowest dark:bg-zinc-950/50 p-5 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          <p className="text-xs text-on-surface-variant dark:text-surface-variant font-medium uppercase tracking-wider">Moved Out</p>
+          <p className="text-2xl font-bold mt-1 text-error">{stats.expired}</p>
         </div>
       </div>
 
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-4 shadow-none">
+      <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 bg-surface-container-lowest dark:bg-zinc-950/50 p-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 dark:text-zinc-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant dark:text-surface-variant" />
             <Input placeholder="Search by name, email, phone, or unit..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-full sm:w-48">
-              <Filter className="w-4 h-4 mr-2 text-zinc-600 dark:text-zinc-400" />
+              <Filter className="w-4 h-4 mr-2 text-on-surface-variant dark:text-surface-variant" />
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -161,7 +161,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
           </Select>
           <Select value={propertyFilter} onValueChange={setPropertyFilter}>
             <SelectTrigger className="w-full sm:w-64">
-              <Filter className="w-4 h-4 mr-2 text-zinc-600 dark:text-zinc-400" />
+              <Filter className="w-4 h-4 mr-2 text-on-surface-variant dark:text-surface-variant" />
               <SelectValue placeholder="Property" />
             </SelectTrigger>
             <SelectContent>
@@ -174,18 +174,18 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
         </div>
       </div>
 
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 shadow-none">
+      <div className="rounded-xl border border-surface-variant dark:border-on-surface/10 bg-surface-container-lowest dark:bg-zinc-950/50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
         {tenants.length === 0 ? (
           <div className="p-12 text-center">
-            <Users className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-400 opacity-60" />
-            <p className="font-medium text-zinc-900 dark:text-white">No tenants found</p>
-            <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Add tenants by creating an agreement.</p>
+            <Users className="h-12 w-12 mx-auto mb-4 text-on-surface-variant dark:text-surface-variant opacity-60" />
+            <p className="font-medium text-on-surface dark:text-white">No tenants found</p>
+            <p className="text-sm mt-1 text-on-surface-variant dark:text-surface-variant">Add tenants by creating an agreement.</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-12 text-center">
-            <Users className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-400 opacity-60" />
-            <p className="font-medium text-zinc-900 dark:text-white">No tenants match filters</p>
-            <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Try adjusting your filters.</p>
+            <Users className="h-12 w-12 mx-auto mb-4 text-on-surface-variant dark:text-surface-variant opacity-60" />
+            <p className="font-medium text-on-surface dark:text-white">No tenants match filters</p>
+            <p className="text-sm mt-1 text-on-surface-variant dark:text-surface-variant">Try adjusting your filters.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -212,30 +212,30 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
                     <TableRow key={tenant.id}>
                       <TableCell className="font-medium">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm">
+                          <div className="w-8 h-8 rounded-full bg-surface-container-low dark:bg-zinc-900 text-on-surface dark:text-white flex items-center justify-center font-bold text-sm">
                             {tenant.fullName.charAt(0)}
                           </div>
                           <div>
-                            <p className="text-zinc-900 dark:text-white text-sm">{tenant.fullName}</p>
-                            <p className="text-xs text-zinc-600 dark:text-zinc-400">{tenant.email}</p>
+                            <p className="text-on-surface dark:text-white text-sm">{tenant.fullName}</p>
+                            <p className="text-xs text-on-surface-variant dark:text-surface-variant">{tenant.email}</p>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div>
-                          <p className="text-zinc-900 dark:text-white text-sm">{tenant.property?.title || 'Unlinked'}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                          <p className="text-on-surface dark:text-white text-sm">{tenant.property?.title || 'Unlinked'}</p>
+                          <p className="text-xs text-on-surface-variant dark:text-surface-variant">
                             {tenant.property?.area}{tenant.property?.state ? `, ${tenant.property.state}` : ''} · {unitLabel}
                           </p>
                         </div>
                       </TableCell>
-                      <TableCell className="text-sm text-zinc-600 dark:text-zinc-400">{leaseLabel}</TableCell>
+                      <TableCell className="text-sm text-on-surface-variant dark:text-surface-variant">{leaseLabel}</TableCell>
                       <TableCell>{rentBadge(tenant)}</TableCell>
                       <TableCell>
                         {tenant.idVerified || tenant.ninVerified ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-success/10 text-[#10b981] border-success/20">Verified</span>
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-success/10 text-primary-container border-success/20">Verified</span>
                         ) : (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-muted/30 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]">Unverified</span>
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-muted/30 text-on-surface-variant dark:text-surface-variant border-surface-variant dark:border-on-surface/10">Unverified</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">

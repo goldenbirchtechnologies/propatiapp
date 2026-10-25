@@ -400,18 +400,18 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   };
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full flex flex-col gap-6 bg-white dark:bg-zinc-950 min-h-screen">
+    <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full flex flex-col gap-6 bg-surface-container-lowest dark:bg-zinc-950 min-h-screen">
       {/* Breadcrumb & Status Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <nav className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-          <Link href="/dashboard/landlord" className="hover:text-emerald-600 transition-colors flex items-center gap-1">Home</Link>
+        <nav className="flex items-center gap-2 text-xs text-surface-variant dark:text-surface-variant">
+          <Link href="/dashboard/landlord" className="hover:text-on-primary-fixed transition-colors flex items-center gap-1">Home</Link>
           <span>/</span>
-          <Link href="/dashboard/landlord/properties" className="hover:text-emerald-600 transition-colors">Properties</Link>
+          <Link href="/dashboard/landlord/properties" className="hover:text-on-primary-fixed transition-colors">Properties</Link>
           <span>/</span>
-          <span className="text-zinc-900 dark:text-white font-semibold">Add New Property</span>
+          <span className="text-on-surface dark:text-white font-semibold">Add New Property</span>
         </nav>
         <div className="flex items-center gap-2">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Registry Active
           </div>
@@ -422,17 +422,17 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div className="flex flex-col gap-1 max-w-3xl">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">Institutional Asset Intake</span>
+            <span className="text-[10px] uppercase tracking-wider text-on-primary-fixed dark:text-primary font-bold">Institutional Asset Intake</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Add Property</h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">Register institutional assets and configure rentable units.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-on-surface dark:text-white">Add Property</h1>
+          <p className="text-sm text-surface-variant dark:text-surface-variant">Register institutional assets and configure rentable units.</p>
         </div>
       </div>
 
       {/* Step Progress Indicator */}
-      <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 shadow-sm">
+      <div className="bg-surface-container-low dark:bg-zinc-900 rounded-xl p-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
-          <div className="hidden md:block absolute top-6 left-12 right-12 h-0.5 bg-zinc-200 dark:bg-zinc-700" />
+          <div className="hidden md:block absolute top-6 left-12 right-12 h-0.5 bg-surface-container-high dark:bg-zinc-700" />
           <div className="hidden md:block absolute top-6 left-12 h-0.5 bg-emerald-500 transition-all duration-500" style={{ width: `${((currentStep - 1) / 2) * 100}%`, maxWidth: 'calc(100% - 6rem)' }} />
           {[
             { num: 1, label: 'Property Details', sub: 'Title, footprint & specs' },
@@ -445,16 +445,16 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               className={`group text-left relative z-10 flex items-center md:flex-col md:items-start gap-3 transition-opacity ${currentStep === step.num ? '' : 'opacity-60'}`}
             >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-md font-bold text-sm ${
-                currentStep >= step.num ? 'bg-emerald-500 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400'
+                currentStep >= step.num ? 'bg-emerald-500 text-white' : 'bg-surface-container-high dark:bg-zinc-700 text-surface-variant dark:text-surface-variant'
               }`}>
                 {currentStep > step.num ? <Check size={16} /> : step.num}
               </div>
               <div className="flex flex-col">
-                <span className={`text-[10px] uppercase tracking-wider font-bold ${currentStep >= step.num ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-500 dark:text-zinc-400'}`}>
+                <span className={`text-[10px] uppercase tracking-wider font-bold ${currentStep >= step.num ? 'text-on-primary-fixed dark:text-primary' : 'text-surface-variant dark:text-surface-variant'}`}>
                   Phase 0{step.num}
                 </span>
-                <span className="text-sm font-semibold text-zinc-900 dark:text-white">{step.label}</span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:inline">{step.sub}</span>
+                <span className="text-sm font-semibold text-on-surface dark:text-white">{step.label}</span>
+                <span className="text-xs text-surface-variant dark:text-surface-variant hidden sm:inline">{step.sub}</span>
               </div>
             </button>
           ))}
@@ -467,18 +467,18 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
           {/* STEP 1: PROPERTY DETAILS */}
           {currentStep === 1 && (
             <div className="flex flex-col gap-6">
-              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
-                <div className="px-6 py-4 bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-between">
+              <div className="bg-surface-container-lowest dark:bg-zinc-900 rounded-xl border border-surface-variant dark:border-inverse-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)] overflow-hidden">
+                <div className="px-6 py-4 bg-surface-container-low dark:bg-zinc-800/50 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Building2 size={20} className="text-emerald-600 dark:text-emerald-400" />
-                    <span className="font-semibold text-zinc-900 dark:text-white">Asset Identification & Demographics</span>
+                    <Building2 size={20} className="text-on-primary-fixed dark:text-primary" />
+                    <span className="font-semibold text-on-surface dark:text-white">Asset Identification & Demographics</span>
                   </div>
                 </div>
                 <div className="p-6 flex flex-col gap-4">
                   {/* Property Name */}
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                      Property Name / Building Name <span className="text-red-500">*</span>
+                    <label className="text-xs font-medium uppercase tracking-wider text-surface-variant dark:text-surface-variant">
+                      Property Name / Building Name <span className="text-error">*</span>
                     </label>
                     <FormField control={form.control as unknown} name="title" render={({ field }) => (
                       <FormItem>
@@ -492,8 +492,8 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
                   {/* Address */}
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                      Physical Address <span className="text-red-500">*</span>
+                    <label className="text-xs font-medium uppercase tracking-wider text-surface-variant dark:text-surface-variant">
+                      Physical Address <span className="text-error">*</span>
                     </label>
                     <FormField control={form.control as unknown} name="address" render={({ field }) => (
                       <FormItem>
@@ -509,7 +509,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <FormField control={form.control as unknown} name="propertyType" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Property Type</FormLabel>
+                        <FormLabel className="text-xs font-medium uppercase tracking-wider text-surface-variant dark:text-surface-variant">Property Type</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl><SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger></FormControl>
                           <SelectContent>{PROPERTY_TYPE_OPTIONS.map((opt) => <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>)}</SelectContent>
@@ -519,7 +519,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                     )} />
                     <FormField control={form.control as unknown} name="floors" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Floors</FormLabel>
+                        <FormLabel className="text-xs font-medium uppercase tracking-wider text-surface-variant dark:text-surface-variant">Floors</FormLabel>
                         <FormControl>
                           <Input type="number" min={1} placeholder="e.g. 4" {...field} onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)} />
                         </FormControl>
@@ -530,7 +530,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
                   {/* Description */}
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Asset Description & Amenities</label>
+                    <label className="text-xs font-medium uppercase tracking-wider text-surface-variant dark:text-surface-variant">Asset Description & Amenities</label>
                     <FormField control={form.control as unknown} name="description" render={({ field }) => (
                       <FormItem>
                         <FormControl>
@@ -543,7 +543,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                 </div>
 
                 {/* Footer Actions */}
-                <div className="px-6 py-4 bg-zinc-50 dark:bg-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="px-6 py-4 bg-surface-container-low dark:bg-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <Button type="button" variant="outline" className="w-full sm:w-auto">Save as Draft</Button>
                   <Button type="button" onClick={() => setCurrentStep(2)} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white shadow-md">
                     Continue to Units Builder <ArrowForward size={16} className="ml-1" />
@@ -559,7 +559,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               {/* Units Summary Ribbon */}
               <div className="bg-emerald-600 text-white rounded-xl p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-surface-container-lowest/10 flex items-center justify-center">
                     <Building2 size={24} />
                   </div>
                   <div>
@@ -567,7 +567,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                     <span className="text-lg font-semibold block">Total {units.length} Units Configured</span>
                   </div>
                 </div>
-                <div className="flex items-baseline gap-2 bg-white/10 px-4 py-2 rounded-lg">
+                <div className="flex items-baseline gap-2 bg-surface-container-lowest/10 px-4 py-2 rounded-lg">
                   <span className="text-xs text-emerald-100">Combined Monthly:</span>
                   <span className="text-xl font-bold tracking-tight">₦ {units.reduce((s, u) => s + (u.price || 0), 0).toLocaleString()}</span>
                 </div>
@@ -576,16 +576,16 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               {/* Unit Rows */}
               <div className="flex flex-col gap-4">
                 {units.map((u) => (
-                  <div key={u.id} className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
-                    <div className="px-4 py-3 bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-between">
+                  <div key={u.id} className="bg-surface-container-lowest dark:bg-zinc-900 rounded-xl border border-surface-variant dark:border-inverse-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)] overflow-hidden">
+                    <div className="px-4 py-3 bg-surface-container-low dark:bg-zinc-800/50 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">#{u.unitNumber}</span>
-                        <span className="text-sm font-semibold text-zinc-900 dark:text-white">Unit {u.unitNumber}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-semibold">DRAFT</span>
+                        <span className="font-mono font-bold text-on-primary-fixed dark:text-primary">#{u.unitNumber}</span>
+                        <span className="text-sm font-semibold text-on-surface dark:text-white">Unit {u.unitNumber}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-on-primary-fixed dark:text-primary text-[10px] font-semibold">DRAFT</span>
                       </div>
                       <div className="flex items-center gap-1">
                         {units.length > 1 && (
-                          <button onClick={() => removeUnit(u.id)} className="p-1 rounded text-zinc-400 hover:text-red-500 transition-colors">
+                          <button onClick={() => removeUnit(u.id)} className="p-1 rounded text-surface-variant hover:text-error transition-colors">
                             <Trash2 size={16} />
                           </button>
                         )}
@@ -593,23 +593,23 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                     </div>
                     <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                       <div className="col-span-2 sm:col-span-1 lg:col-span-1">
-                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Unit Name</label>
+                        <label className="text-[10px] font-medium text-surface-variant dark:text-surface-variant">Unit Name</label>
                         <Input value={u.unitNumber} onChange={(e) => updateUnit(u.id, { unitNumber: e.target.value })} className="mt-1" />
                       </div>
                       <div>
-                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Bedrooms</label>
+                        <label className="text-[10px] font-medium text-surface-variant dark:text-surface-variant">Bedrooms</label>
                         <Input type="number" min={0} value={u.bedrooms} onChange={(e) => updateUnit(u.id, { bedrooms: parseInt(e.target.value) || 0 })} className="mt-1" />
                       </div>
                       <div>
-                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Bathrooms</label>
+                        <label className="text-[10px] font-medium text-surface-variant dark:text-surface-variant">Bathrooms</label>
                         <Input type="number" min={0} value={u.bathrooms} onChange={(e) => updateUnit(u.id, { bathrooms: parseInt(e.target.value) || 0 })} className="mt-1" />
                       </div>
                       <div>
-                        <label className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">Size (sqm)</label>
+                        <label className="text-[10px] font-medium text-surface-variant dark:text-surface-variant">Size (sqm)</label>
                         <Input type="number" min={0} placeholder="Optional" value={u.sizeSqm ?? ''} onChange={(e) => updateUnit(u.id, { sizeSqm: e.target.value ? parseFloat(e.target.value) : undefined })} className="mt-1" />
                       </div>
                       <div>
-                        <label className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">Rent (₦/mo)</label>
+                        <label className="text-[10px] font-medium text-on-primary-fixed dark:text-primary">Rent (₦/mo)</label>
                         <Input type="number" min={0} value={u.price || ''} onChange={(e) => updateUnit(u.id, { price: parseFloat(e.target.value) || 0 })} className="mt-1 font-semibold" />
                       </div>
                     </div>
@@ -618,7 +618,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               </div>
 
               {/* Add Unit Button */}
-              <button onClick={addUnit} className="w-full py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors flex items-center justify-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
+              <button onClick={addUnit} className="w-full py-3 rounded-xl bg-surface-container dark:bg-zinc-800 hover:bg-surface-container-high dark:hover:bg-zinc-700 transition-colors flex items-center justify-center gap-2 text-on-primary-fixed dark:text-primary font-semibold text-sm">
                 <Plus size={16} />
                 Add Another Unit
               </button>
@@ -635,12 +635,12 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
           {/* STEP 3: CONFIRMATION */}
           {currentStep === 3 && (
-            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6 flex flex-col items-center justify-center text-center py-12">
+            <div className="bg-surface-container-lowest dark:bg-zinc-900 rounded-xl border border-surface-variant dark:border-inverse-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)] p-6 flex flex-col items-center justify-center text-center py-12">
               <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mb-4">
-                <CheckCircle size={32} className="text-emerald-600 dark:text-emerald-400" />
+                <CheckCircle size={32} className="text-on-primary-fixed dark:text-primary" />
               </div>
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-white">Ready to Publish</h2>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mt-2">
+              <h2 className="text-xl font-bold text-on-surface dark:text-white">Ready to Publish</h2>
+              <p className="text-sm text-surface-variant dark:text-surface-variant max-w-md mt-2">
                 Your property "{form.watch('title') || 'Untitled'}" with {units.length} unit{units.length !== 1 ? 's' : ''} is ready for registry review.
               </p>
               <div className="flex items-center gap-3 mt-6">

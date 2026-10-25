@@ -296,7 +296,7 @@ export default function WizardShell({ onComplete }: Props) {
         <main className="flex-1 overflow-y-auto px-6 pt-4 pb-28">
           <div className="glass-card p-6 sm:p-8 max-w-3xl mx-auto">
             <div className="mb-6">
-              <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 mb-2">
+              <div className="flex items-center gap-2 text-sm text-on-surface-variant dark:text-surface-variant mb-2">
                 Step {currentStep + 1} of {STEPS.length}
                 <Separator orientation="vertical" className="h-3" />
                 {STEPS[currentStep].title}
@@ -306,7 +306,7 @@ export default function WizardShell({ onComplete }: Props) {
 
             {errors.length > 0 && (
               <div className="mb-4 p-3 rounded-md bg-red-500/10 border border-red-500/20">
-                <ul className="text-sm text-red-500 space-y-1">
+                <ul className="text-sm text-error space-y-1">
                   {errors.map((err, idx) => (
                     <li key={idx}>{err}</li>
                   ))}

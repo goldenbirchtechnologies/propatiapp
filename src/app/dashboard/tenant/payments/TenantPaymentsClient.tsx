@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
-  AccountBalanceWallet, Analytics, ArrowUpward, CalendarToday, CheckCircle, CreditCard, Download, Event, FileDownload, Notifications, PendingActions, PinDrop, Search, Visibility, Verified,
+  Wallet, BarChart3, ArrowUp, Calendar, CheckCircle, CreditCard, Download, Bell, MapPin, Search, Eye, BadgeCheck, Clock,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -103,7 +103,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
             <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Institutional Financial Management</span>
             <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600" />
             <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
-              <Verified className="w-3 h-3 text-emerald-600" /> FIRS &amp; CAC Audited
+              <BadgeCheck className="w-3 h-3 text-emerald-600" /> FIRS &amp; CAC Audited
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Payments &amp; Ledger</h1>
@@ -113,10 +113,10 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <Button variant="outline" size="sm" className="gap-2">
-            <FileDownload className="w-4 h-4" /> Export Ledger
+            <Download className="w-4 h-4" /> Export Ledger
           </Button>
           <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
-            <Verified className="w-4 h-4" /> + Pay Now
+            <BadgeCheck className="w-4 h-4" /> + Pay Now
           </Button>
         </div>
       </div>
@@ -130,11 +130,11 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
               <span className="text-xl font-bold text-zinc-900 dark:text-white mt-1 font-mono">₦ {metrics.totalPaid.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
             </div>
             <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
-              <AccountBalanceWallet className="w-5 h-5" />
+              <Wallet className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
-            <span className="text-xs text-emerald-600 flex items-center gap-1 font-semibold"><ArrowUpward className="w-3 h-3" /> on schedule</span>
+            <span className="text-xs text-emerald-600 flex items-center gap-1 font-semibold"><ArrowUp className="w-3 h-3" /> on schedule</span>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">lifetime</span>
           </div>
         </div>
@@ -147,7 +147,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
               </div>
             </div>
             <div className="w-9 h-9 rounded-lg bg-amber-50 dark:bg-amber-500/15 flex items-center justify-center text-amber-700 dark:text-amber-400">
-              <PendingActions className="w-5 h-5" />
+              <Clock className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
@@ -165,7 +165,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
               </div>
             </div>
             <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
-              <Verified className="w-5 h-5" />
+              <BadgeCheck className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
@@ -180,7 +180,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
               <span className="text-xl font-bold text-zinc-900 dark:text-white mt-1 font-mono">₦ {metrics.avgSettlement.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
             </div>
             <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-zinc-500 dark:text-zinc-400">
-              <Analytics className="w-5 h-5" />
+              <BarChart3 className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
@@ -196,7 +196,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
-                <Notifications className="w-6 h-6" />
+                <Bell className="w-6 h-6" />
               </div>
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
@@ -218,7 +218,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                     <>
                       <span className="text-zinc-300 dark:text-zinc-600">•</span>
                       <div className="flex items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
-                        <Event className="w-4 h-4 text-zinc-400" />
+                        <Calendar className="w-4 h-4 text-zinc-400" />
                         <span>Final Settlement Due: <strong className="text-zinc-900 dark:text-white">{new Date(alertInvoice.dueDate).toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}</strong></span>
                       </div>
                     </>
@@ -228,7 +228,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
             </div>
             <div className="flex flex-col sm:flex-row items-stretch lg:items-center gap-2 shrink-0">
               <Link href="/dashboard/tenant/payments/auto-pay" className="h-10 px-4 rounded-lg bg-zinc-50 dark:bg-white/[0.04] text-zinc-900 dark:text-white text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors flex items-center justify-center gap-1.5 border border-zinc-200 dark:border-white/[0.08]">
-                <Verified className="w-4 h-4 text-emerald-600" /> Auto-Debit
+                <BadgeCheck className="w-4 h-4 text-emerald-600" /> Auto-Debit
               </Link>
               <Button size="sm" className="h-10 px-5 gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
                 <CreditCard className="w-4 h-4" /> Pay via Paystack
@@ -263,7 +263,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
               <Input value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} placeholder="Search invoice, property..." className="h-9 pl-9 text-sm" />
             </div>
             <div className="flex items-center gap-1.5 bg-zinc-50 dark:bg-white/[0.04] px-3 py-1.5 rounded-lg shrink-0 border border-zinc-200 dark:border-white/[0.08]">
-              <CalendarToday className="w-4 h-4 text-zinc-400" />
+              <Calendar className="w-4 h-4 text-zinc-400" />
               <span className="text-sm font-medium text-zinc-900 dark:text-white">FY 2025</span>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                       <div className="flex flex-col">
                         <span className="font-semibold text-zinc-900 dark:text-white">{listingTitle}</span>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 mt-0.5 font-mono">
-                          <PinDrop className="w-3 h-3 text-emerald-600" /> #{row.reference}
+                          <MapPin className="w-3 h-3 text-emerald-600" /> #{row.reference}
                         </span>
                       </div>
                     </td>
@@ -325,7 +325,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                     <td className="py-3 px-4 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-1">
                         <Link href={`/api/payments/transactions/${row.id}/receipt`} className="p-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08] hover:text-zinc-900 dark:hover:text-white transition-colors" title="View E-Receipt">
-                          <Visibility className="w-4 h-4" />
+                          <Eye className="w-4 h-4" />
                         </Link>
                         <a href={`/api/payments/transactions/${row.id}/receipt`} download className="p-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08] hover:text-zinc-900 dark:hover:text-white transition-colors" title="Download">
                           <Download className="w-4 h-4" />

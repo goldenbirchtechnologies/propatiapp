@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
-  CheckCircle2, ChevronRight, ContentCopy, CreditCard, Download, FileText, Printer, Schedule, Tag,
+  CheckCircle2, ChevronRight, Copy, CreditCard, Download, FileText, Printer, Clock, Tag,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -116,7 +116,7 @@ export default function PaymentSuccessClient() {
                 <span className="text-zinc-500 dark:text-zinc-400">Reference</span>
                 <span className="font-mono text-zinc-900 dark:text-white flex items-center gap-2">
                   {reference}
-                  <button onClick={copyRef} className="text-zinc-400 hover:text-emerald-600"><ContentCopy className="w-3.5 h-3.5" /></button>
+                  <button onClick={copyRef} className="text-zinc-400 hover:text-emerald-600"><Copy className="w-3.5 h-3.5" /></button>
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -155,7 +155,7 @@ export default function PaymentSuccessClient() {
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-3">
                 <div className={`w-6 h-6 rounded-full flex items-center justify-center ${s.done ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-400'}`}>
-                  {s.done ? <CheckCircle2 className="w-4 h-4" /> : <Schedule className="w-4 h-4" />}
+                  {s.done ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                 </div>
                 <span className={`text-sm ${s.done ? 'text-zinc-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400'}`}>{s.label}</span>
               </div>

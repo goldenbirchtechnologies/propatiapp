@@ -49,7 +49,6 @@ import {
   Upload,
   Film,
   ArrowRight,
-  ArrowForward,
   Building2,
   Trash2,
   Copy,
@@ -546,7 +545,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                 <div className="px-6 py-4 bg-surface-container-low dark:bg-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <Button type="button" variant="outline" className="w-full sm:w-auto">Save as Draft</Button>
                   <Button type="button" onClick={() => setCurrentStep(2)} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white shadow-md">
-                    Continue to Units Builder <ArrowForward size={16} className="ml-1" />
+                    Continue to Units Builder <ArrowRight size={16} className="ml-1" />
                   </Button>
                 </div>
               </div>
@@ -627,7 +626,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               <div className="flex items-center justify-between">
                 <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>Back</Button>
                 <Button type="button" onClick={() => setCurrentStep(3)} className="bg-emerald-600 hover:bg-emerald-500 text-white">
-                  Review & Confirm <ArrowForward size={16} className="ml-1" />
+                  Review & Confirm <ArrowRight size={16} className="ml-1" />
                 </Button>
               </div>
             </div>

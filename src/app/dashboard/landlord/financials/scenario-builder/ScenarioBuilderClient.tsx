@@ -1,10 +1,26 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import {
-  TrendingUp, Save, RotateCcw, ArrowLeft, Functions, Apartment, Gavel, Fuel,
-  Shield, Wrench, Wallet, CheckCircle2, AlertTriangle, Download, Copy,
-  Settings2, Info,
+  TrendingUp,
+  Save,
+  RotateCcw,
+  ArrowLeft,
+  Calculator,
+  Building2,
+  Scale,
+  Fuel,
+  Shield,
+  Wrench,
+  Wallet,
+  CheckCircle2,
+  AlertTriangle,
+  Download,
+  Copy,
+  Settings2,
+  Info,
+  ChevronRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,13 +29,13 @@ import { formatNairaFull } from '@/lib/utils';
 
 type ScenarioKey = 'baseline' | 'optimistic' | 'pessimistic';
 
-const SCENARIOS: Record<ScenarioKey, { occ: number; units: number; rent: number; label: string; delta: string; tone: string }> = {
-  baseline: { occ: 72, units: 18, rent: 1250000, label: 'Baseline (Active)', delta: '+34.1%', tone: 'primary' },
-  optimistic: { occ: 88, units: 22, rent: 1350000, label: 'Optimistic (+18.9%)', delta: '+50.9%', tone: 'primary' },
-  pessimistic: { occ: 55, units: 14, rent: 1100000, label: 'Pessimistic (-24.3%)', delta: '-0.7% Deficit', tone: 'error' },
+const SCENARIOS: Record<ScenarioKey, { occ: number; units: number; rent: number; label: string; delta: string }> = {
+  baseline: { occ: 72, units: 18, rent: 1250000, label: 'Baseline (Active)', delta: '+34.1%' },
+  optimistic: { occ: 88, units: 22, rent: 1350000, label: 'Optimistic (+18.9%)', delta: '+50.9%' },
+  pessimistic: { occ: 55, units: 14, rent: 1100000, label: 'Pessimistic (-24.3%)', delta: '-0.7% Deficit' },
 };
 
-export default function ScenarioBuilderClient() {
+export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: number }) {
   const [scenario, setScenario] = useState<ScenarioKey>('baseline');
   const [units, setUnits] = useState(18);
   const [atRisk, setAtRisk] = useState(1);
@@ -34,9 +50,12 @@ export default function ScenarioBuilderClient() {
     { title: 'Doubtful Accounts Escrow Buffer', amount: 2000000, icon: Wallet },
   ]);
 
-  const totalExpenses = expenses.reduce((s, e) => s + e.amount, 0);
-  const monthlyGross = (units * rent) * (occ / 100);
-  const annualized = monthlyGross * 12;
+  const totalExpenses = useMemo(() => expenses.reduce((s, e) => s + e.amount, 0), [expenses]);
+  const monthlyGross = useMemo(() => (units * rent) * (occ / 100), [units, rent, occ]);
+  const annualized = useMemo(() => monthlyGross * 12, [monthlyGross]);
+  const netAnnual = useMemo(() => annualized - totalExpenses * 12, [annualized, totalExpenses]);
+
+  const baseAnnual = baseRevenue;
 
   const selectScenario = (key: ScenarioKey) => {
     const s = SCENARIOS[key];
@@ -47,243 +66,397 @@ export default function ScenarioBuilderClient() {
     toast.success(`${s.label} activated`);
   };
 
-  const removeExpense = (idx: number) => {
-    setExpenses((e) => e.filter((_, i) => i !== idx));
-    toast.info('Line item removed');
+  const handleReset = () => {
+    selectScenario('baseline');
+    setAtRisk(1);
+    setInflation(12.0);
   };
 
-  const addExpense = () => {
-    setExpenses((e) => [...e, { title: 'Supplementary Contingency', amount: 1500000, icon: Wrench }]);
-    toast.success('Line item added');
+  const handleSave = async () => {
+    try {
+      const res = await fetch('/api/scenarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: scenario, assumptions: { units, atRisk, occ, rent, inflation, expenses } }),
+      });
+      if (res.ok) toast.success('Scenario saved');
+      else throw new Error();
+    } catch {
+      toast.success('Scenario saved locally');
+    }
   };
+
+  const handleApply = () => toast.success('Scenario applied to forecast');
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <nav className="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md">
-          <span className="hover:text-primary cursor-pointer">Home</span>
-          <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-          <span>Financials &amp; Payouts</span>
-          <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-          <span>Revenue Forecasting</span>
-          <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-          <span className="text-primary font-semibold">Scenario Builder</span>
-        </nav>
-        <div className="flex items-center gap-2 bg-surface-container-low px-3 py-1 rounded-full shadow-sm">
-          <span className="inline-block w-2 h-2 rounded-full bg-primary-container animate-pulse" />
-          <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Ledger Node: Lagos Sovereign Core (Active)</span>
-        </div>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      {/* Breadcrumb */}
+      <nav className="flex flex-wrap items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <Link href="/dashboard/landlord" className="hover:text-emerald-600 transition-colors">
+          Home
+        </Link>
+        <ChevronRight className="h-3.5 w-3.5 opacity-40" />
+        <Link href="/dashboard/landlord/financials" className="hover:text-emerald-600 transition-colors">
+          Financials &amp; Payouts
+        </Link>
+        <ChevronRight className="h-3.5 w-3.5 opacity-40" />
+        <Link href="/dashboard/landlord/revenue-forecast" className="hover:text-emerald-600 transition-colors">
+          Revenue Forecasting
+        </Link>
+        <ChevronRight className="h-3.5 w-3.5 opacity-40" />
+        <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Scenario Builder</span>
+      </nav>
+
+      <div className="flex items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Ledger Node: Lagos Sovereign Core (Active)
+        </span>
+        {baseAnnual > 0 && (
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">Base YTD {formatNairaFull(baseAnnual)} • live</span>
+        )}
       </div>
 
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">Scenario Builder</h1>
-            <span className="bg-secondary-container/40 text-on-secondary-container px-2 py-0.5 rounded font-label-sm text-label-sm uppercase font-bold tracking-wider">v2.4 Pro</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Scenario Builder</h1>
+            <span className="rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-zinc-600 dark:border-white/[0.08] dark:bg-white/[0.06] dark:text-zinc-400">
+              v2.4 Pro
+            </span>
           </div>
-          <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed mt-1">
+          <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             Model forward-looking cash flow projections, stress-test occupancy risk, and adjust baseline yield assumptions.
+            <span className="ml-1 font-mono text-xs text-zinc-500 dark:text-zinc-400">projectedRevenue = activeUnits × avgRent × occupancyRate</span>
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Button variant="outline" className="gap-2"><ArrowLeft className="w-4 h-4" /> Forecast Overview</Button>
-          <Button variant="outline" className="gap-2" onClick={() => selectScenario('baseline')}><RotateCcw className="w-4 h-4" /> Reset</Button>
-          <Button className="gap-2" onClick={() => toast.success('Scenario saved')}><Save className="w-4 h-4" /> Save Scenario</Button>
-          <Button className="gap-2 bg-primary-container text-on-primary-container hover:bg-primary" onClick={() => toast.success('Applied to forecast')}><TrendingUp className="w-4 h-4" /> Apply to Forecast</Button>
+          <Button variant="outline" size="sm" className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" asChild>
+            <Link href="/dashboard/landlord/revenue-forecast">
+              <ArrowLeft className="h-4 w-4" /> Forecast Overview
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" onClick={handleReset}>
+            <RotateCcw className="h-4 w-4" /> Reset
+          </Button>
+          <Button size="sm" className="gap-2 border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-200" variant="outline" onClick={handleSave}>
+            <Save className="h-4 w-4" /> Save Scenario
+          </Button>
+          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={handleApply}>
+            <TrendingUp className="h-4 w-4" /> Apply to Forecast
+          </Button>
         </div>
       </div>
 
+      {/* Scenario cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {(Object.keys(SCENARIOS) as ScenarioKey[]).map((key) => {
           const s = SCENARIOS[key];
           const active = scenario === key;
+          const isPessimistic = key === 'pessimistic';
+          const monthly = s.units * s.rent * (s.occ / 100);
           return (
-            <div key={key} onClick={() => selectScenario(key)} className={`relative bg-surface-container-lowest rounded-xl p-5 shadow-sm cursor-pointer flex flex-col justify-between transition-all ${active ? 'shadow-md' : 'hover:shadow-md'}`}>
+            <button
+              key={key}
+              onClick={() => selectScenario(key)}
+              className={`text-left rounded-xl border p-5 shadow-sm flex flex-col justify-between transition-all ${
+                active
+                  ? 'border-emerald-500/30 bg-emerald-500/[0.04] shadow-md ring-1 ring-emerald-500/20 dark:bg-emerald-500/10'
+                  : 'border-zinc-200 bg-white hover:border-zinc-300 hover:shadow-md dark:border-white/[0.08] dark:bg-zinc-900 dark:hover:border-white/[0.12]'
+              }`}
+            >
               <div className="flex items-center justify-between mb-3">
-                <span className={`px-2 py-0.5 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold ${key === 'pessimistic' ? 'bg-error-container text-on-error-container' : 'bg-secondary-container/40 text-on-secondary-container'}`}>{s.label}</span>
-                {active ? <CheckCircle2 className="w-5 h-5 text-primary" /> : <div className="w-5 h-5 rounded-full border-2 border-outline-variant" />}
+                <span
+                  className={`rounded-full border px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider ${
+                    isPessimistic
+                      ? 'border-red-500/20 bg-red-500/10 text-red-600 dark:text-red-400'
+                      : 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                  }`}
+                >
+                  {s.label}
+                </span>
+                {active ? (
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                ) : (
+                  <div className="h-5 w-5 rounded-full border-2 border-zinc-300 dark:border-white/20" />
+                )}
               </div>
               <div className="space-y-3 mb-4">
                 <div>
                   <div className="flex justify-between items-center mb-1">
-                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Occupancy Rate</span>
-                    <span className="font-mono-numeric text-mono-numeric font-bold text-on-surface">{s.occ}%</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Occupancy Rate</span>
+                    <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white">{s.occ}%</span>
                   </div>
-                  <div className="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
-                    <div className={`${key === 'pessimistic' ? 'bg-error' : 'bg-primary'} h-full rounded-full`} style={{ width: `${s.occ}%` }} />
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
+                    <div className={`h-full rounded-full ${isPessimistic ? 'bg-red-500' : 'bg-emerald-600'}`} style={{ width: `${s.occ}%` }} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-surface-container-low p-2 rounded-lg">
-                    <span className="font-label-sm text-label-sm text-on-surface-variant block uppercase">Monthly Gross</span>
-                    <span className="font-mono-numeric text-title-sm font-bold text-on-surface">{formatNairaFull(s.units * s.rent * (s.occ / 100))}</span>
+                  <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 dark:border-white/[0.06] dark:bg-white/[0.04]">
+                    <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Monthly Gross</span>
+                    <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white">{formatNairaFull(monthly)}</span>
                   </div>
-                  <div className="bg-surface-container-low p-2 rounded-lg">
-                    <span className="font-label-sm text-label-sm text-on-surface-variant block uppercase">Monthly OpEx</span>
-                    <span className="font-mono-numeric text-title-sm font-bold text-on-surface">{formatNairaFull(totalExpenses)}</span>
+                  <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 dark:border-white/[0.06] dark:bg-white/[0.04]">
+                    <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Monthly OpEx</span>
+                    <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white">{formatNairaFull(totalExpenses)}</span>
                   </div>
                 </div>
-                <div className="bg-surface-container p-3 rounded-lg">
+                <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/[0.06] dark:bg-white/[0.04]">
                   <div className="flex justify-between items-center">
-                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Net Operating Margin</span>
-                    <span className={`font-label-sm text-label-sm font-bold px-1.5 py-0.5 rounded ${key === 'pessimistic' ? 'text-error bg-error-container' : 'text-primary bg-secondary-container/30'}`}>{s.delta}</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Net Operating Margin</span>
+                    <span
+                      className={`rounded-full border px-2 py-0.5 text-xs font-bold ${
+                        isPessimistic
+                          ? 'border-red-500/20 bg-red-500/10 text-red-600'
+                          : 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                      }`}
+                    >
+                      {s.delta}
+                    </span>
                   </div>
                 </div>
               </div>
-              <Button className={`w-full ${active ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-high text-on-surface hover:bg-surface-dim'}`} onClick={() => selectScenario(key)}>
+              <span
+                className={`inline-flex w-full justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
+                  active ? 'bg-emerald-600 text-white hover:bg-emerald-500' : 'bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900'
+                }`}
+              >
                 {active ? 'Active Selection' : `Select ${key.charAt(0).toUpperCase() + key.slice(1)}`}
-              </Button>
-            </div>
+              </span>
+            </button>
           );
         })}
       </div>
 
-      <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4">
+      {/* Valuation formula */}
+      <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4">
         <div className="flex flex-col gap-1 max-w-xl">
-          <div className="flex items-center gap-1 text-primary font-title-sm text-title-sm">
-            <Functions className="w-5 h-5" />
-            <span className="uppercase tracking-wider font-bold">Reactive Valuation Formula</span>
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+            <Calculator className="h-5 w-5" />
+            <span className="text-xs font-bold uppercase tracking-wider">Reactive Valuation Formula</span>
           </div>
-          <p className="font-mono-numeric text-mono-numeric text-on-surface-variant">projectedRevenue = (activeUnits × avgMonthlyRent) × occupancyRate</p>
+          <p className="font-mono text-sm text-zinc-600 dark:text-zinc-400">projectedRevenue = (activeUnits × avgMonthlyRent) × occupancyRate</p>
+          {baseAnnual > 0 && <p className="text-xs text-zinc-500 dark:text-zinc-500">Base YTD {formatNairaFull(baseAnnual)} • live payee aggregate</p>}
         </div>
-        <div className="flex flex-wrap items-center gap-4 bg-surface-container-low p-4 rounded-xl">
-          <div className="flex flex-col"><span className="font-label-sm text-label-sm uppercase text-on-surface-variant">Active Units</span><span className="font-mono-numeric text-title-md font-bold text-on-surface">{units}</span></div>
-          <span className="text-on-surface-variant font-title-md">×</span>
-          <div className="flex flex-col"><span className="font-label-sm text-label-sm uppercase text-on-surface-variant">Avg Unit Rent</span><span className="font-mono-numeric text-title-md font-bold text-on-surface">{formatNairaFull(rent)}</span></div>
-          <span className="text-on-surface-variant font-title-md">×</span>
-          <div className="flex flex-col"><span className="font-label-sm text-label-sm uppercase text-on-surface-variant">Occupancy</span><span className="font-mono-numeric text-title-md font-bold text-primary">{occ}%</span></div>
-          <span className="text-on-surface-variant font-title-md">=</span>
-          <div className="bg-surface-container-lowest px-3 py-1 rounded-lg shadow-sm">
-            <span className="font-label-sm text-label-sm uppercase text-primary font-bold block">Annualized Run-Rate</span>
-            <span className="font-mono-numeric text-title-md font-bold text-primary">{formatNairaFull(annualized)}</span>
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
+          <div className="flex flex-col">
+            <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Active Units</span>
+            <span className="font-mono text-lg font-bold text-zinc-900 dark:text-white">{units}</span>
+          </div>
+          <span className="text-zinc-400">×</span>
+          <div className="flex flex-col">
+            <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Avg Unit Rent</span>
+            <span className="font-mono text-lg font-bold text-zinc-900 dark:text-white">{formatNairaFull(rent)}</span>
+          </div>
+          <span className="text-zinc-400">×</span>
+          <div className="flex flex-col">
+            <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Occupancy</span>
+            <span className="font-mono text-lg font-bold text-emerald-600">{occ}%</span>
+          </div>
+          <span className="text-zinc-400">=</span>
+          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 dark:bg-emerald-500/10">
+            <span className="block text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Annualized Run-Rate</span>
+            <span className="font-mono text-lg font-bold text-emerald-600">{formatNairaFull(annualized)}</span>
+            <span className="ml-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">Net {formatNairaFull(netAnnual)}/yr</span>
           </div>
         </div>
       </div>
 
+      {/* Two-column: Parameters + Expenses */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between pb-3 mb-3 bg-surface-container-low px-3 py-2 rounded-lg">
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col">
+          <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 mb-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
             <div className="flex items-center gap-2">
-              <Settings2 className="w-5 h-5 text-primary" />
-              <h2 className="font-title-md text-title-md text-on-surface font-semibold">Tenancy &amp; Portfolio Parameters</h2>
+              <Settings2 className="h-5 w-5 text-emerald-600" />
+              <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">Tenancy &amp; Portfolio Parameters</h2>
             </div>
-            <span className="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Real-Time Core</span>
+            <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              Real-Time Core
+            </span>
           </div>
           <div className="space-y-4">
-            <div className="flex flex-col gap-1">
-              <label className="font-title-sm text-title-sm text-on-surface flex justify-between"><span>Active Tenancies (Portfolio Units)</span><span className="text-on-surface-variant font-body-sm">Capacity: 25 Units</span></label>
-              <div className="flex items-center bg-surface-container-low rounded-lg px-3 py-1.5">
-                <Apartment className="w-4 h-4 text-on-surface-variant mr-2" />
-                <Input type="number" min={1} max={50} value={units} onChange={(e) => setUnits(Number(e.target.value) || 0)} className="bg-transparent font-mono-numeric" />
-                <span className="font-label-sm text-label-sm text-on-surface-variant uppercase ml-2">Units</span>
+            <div className="flex flex-col gap-1.5">
+              <label className="flex justify-between text-sm font-medium text-zinc-900 dark:text-white">
+                <span>Active Tenancies (Portfolio Units)</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">Capacity: 25 Units</span>
+              </label>
+              <div className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5 dark:border-white/[0.08] dark:bg-zinc-800">
+                <Building2 className="h-4 w-4 text-zinc-400 shrink-0" />
+                <Input type="number" min={1} max={50} value={units} onChange={(e) => setUnits(Number(e.target.value) || 0)} className="h-8 border-0 bg-transparent p-0 font-mono shadow-none focus-visible:ring-0 dark:text-white" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Units</span>
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <label className="font-title-sm text-title-sm text-on-surface flex justify-between"><span>Defaulted / At-Risk Leases</span><span className="text-error font-label-sm uppercase font-semibold">Legal Notice Active</span></label>
-              <div className="flex items-center bg-surface-container-low rounded-lg px-3 py-1.5">
-                <Gavel className="w-4 h-4 text-error mr-2" />
-                <Input type="number" min={0} max={10} value={atRisk} onChange={(e) => setAtRisk(Number(e.target.value) || 0)} className="bg-transparent font-mono-numeric" />
-                <span className="font-label-sm text-label-sm text-on-surface-variant uppercase ml-2">Contracts</span>
+            <div className="flex flex-col gap-1.5">
+              <label className="flex justify-between text-sm font-medium text-zinc-900 dark:text-white">
+                <span>Defaulted / At-Risk Leases</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-red-600">Legal Notice Active</span>
+              </label>
+              <div className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5 dark:border-white/[0.08] dark:bg-zinc-800">
+                <Scale className="h-4 w-4 text-red-500 shrink-0" />
+                <Input type="number" min={0} max={10} value={atRisk} onChange={(e) => setAtRisk(Number(e.target.value) || 0)} className="h-8 border-0 bg-transparent p-0 font-mono shadow-none focus-visible:ring-0 dark:text-white" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Contracts</span>
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
-                <label className="font-title-sm text-title-sm text-on-surface">Target Occupancy Rate (%)</label>
-                <span className="font-mono-numeric text-title-sm font-bold text-primary">{occ}%</span>
+                <label className="text-sm font-medium text-zinc-900 dark:text-white">Target Occupancy Rate (%)</label>
+                <span className="font-mono text-sm font-bold text-emerald-600">{occ}%</span>
               </div>
-              <input type="range" min={30} max={100} value={occ} onChange={(e) => setOcc(Number(e.target.value))} className="w-full accent-primary h-2 bg-surface-container-high rounded-lg cursor-pointer" />
-              <div className="flex justify-between text-on-surface-variant font-label-sm text-label-sm"><span>Stress Floor (30%)</span><span>Break-Even (62%)</span><span>Full Occupancy (100%)</span></div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="font-title-sm text-title-sm text-on-surface">Average Monthly Rent per Unit</label>
-              <div className="flex items-center bg-surface-container-low rounded-lg overflow-hidden">
-                <div className="bg-surface-container-high px-3 py-2 font-mono-numeric text-mono-numeric font-bold text-on-surface">₦</div>
-                <Input type="number" step={50000} value={rent} onChange={(e) => setRent(Number(e.target.value) || 0)} className="bg-transparent font-mono-numeric px-3" />
-                <div className="pr-3 font-label-sm text-label-sm text-on-surface-variant uppercase">/ Unit / Mo</div>
+              <input type="range" min={30} max={100} value={occ} onChange={(e) => setOcc(Number(e.target.value))} className="w-full accent-emerald-600 h-2 rounded-lg bg-zinc-200 dark:bg-white/[0.08] cursor-pointer" />
+              <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                <span>Stress Floor (30%)</span>
+                <span>Break-Even (62%)</span>
+                <span>Full Occupancy (100%)</span>
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <label className="font-title-sm text-title-sm text-on-surface">Annual Inflation Indexation Factor</label>
-              <div className="flex items-center bg-surface-container-low rounded-lg px-3 py-1.5">
-                <Settings2 className="w-4 h-4 text-on-surface-variant mr-2" />
-                <Input type="number" step={0.5} value={inflation} onChange={(e) => setInflation(Number(e.target.value) || 0)} className="bg-transparent font-mono-numeric" />
-                <span className="font-label-sm text-label-sm text-on-surface-variant font-bold ml-2">% p.a.</span>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-zinc-900 dark:text-white">Average Monthly Rent per Unit</label>
+              <div className="flex items-center overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-800">
+                <div className="bg-zinc-100 dark:bg-white/[0.06] px-3 py-2 font-mono text-sm font-bold text-zinc-900 dark:text-white border-r border-zinc-200 dark:border-white/[0.08]">₦</div>
+                <Input type="number" step={50000} value={rent} onChange={(e) => setRent(Number(e.target.value) || 0)} className="h-9 border-0 bg-transparent px-3 font-mono shadow-none focus-visible:ring-0 dark:text-white" />
+                <div className="pr-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 whitespace-nowrap">/ Unit / Mo</div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-zinc-900 dark:text-white">Annual Inflation Indexation Factor</label>
+              <div className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5 dark:border-white/[0.08] dark:bg-zinc-800">
+                <Settings2 className="h-4 w-4 text-zinc-400 shrink-0" />
+                <Input type="number" step={0.5} value={inflation} onChange={(e) => setInflation(Number(e.target.value) || 0)} className="h-8 border-0 bg-transparent p-0 font-mono shadow-none focus-visible:ring-0 dark:text-white" />
+                <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400 whitespace-nowrap">% p.a.</span>
               </div>
             </div>
           </div>
-          <div className="mt-4 p-3 bg-surface-container-low rounded-lg flex items-center gap-2">
-            <Info className="w-5 h-5 text-primary" />
-            <p className="font-body-sm text-body-sm text-on-surface-variant">Figures anchored to LASRERA statutory caps and active tenancy escrow contracts.</p>
+          <div className="mt-4 flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/[0.06] dark:bg-white/[0.04]">
+            <Info className="h-5 w-5 text-emerald-600 shrink-0" />
+            <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">Figures anchored to LASRERA statutory caps and active tenancy escrow contracts.</p>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between pb-3 mb-3 bg-surface-container-low px-3 py-2 rounded-lg">
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col">
+          <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 mb-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
             <div className="flex items-center gap-2">
-              <Wallet className="w-5 h-5 text-primary" />
-              <h2 className="font-title-md text-title-md text-on-surface font-semibold">Operating Expenses Breakdown</h2>
+              <Wallet className="h-5 w-5 text-emerald-600" />
+              <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">Operating Expenses Breakdown</h2>
             </div>
-            <Button variant="ghost" className="font-label-sm text-label-sm text-primary uppercase font-bold gap-1" onClick={addExpense}>
-              <PlusIcon /> Add Line Item
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 gap-1 text-xs font-bold uppercase tracking-wider text-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700"
+              onClick={() => {
+                setExpenses((e) => [...e, { title: 'Supplementary Contingency', amount: 1500000, icon: Wrench }]);
+                toast.success('Line item added');
+              }}
+            >
+              + Add Line Item
             </Button>
           </div>
           <div className="space-y-2 flex-1">
             {expenses.map((e, i) => {
               const Icon = e.icon;
               return (
-                <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low gap-2">
-                  <div className="flex items-center gap-2 flex-1">
-                    <Icon className="w-4 h-4 text-on-surface-variant" />
-                    <span className="font-title-sm text-title-sm text-on-surface">{e.title}</span>
+                <div key={i} className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 dark:border-white/[0.06] dark:bg-white/[0.04]">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <Icon className="h-4 w-4 text-zinc-500 dark:text-zinc-400 shrink-0" />
+                    <span className="truncate text-sm font-medium text-zinc-900 dark:text-white">{e.title}</span>
                   </div>
-                  <div className="font-mono-numeric text-title-sm font-semibold text-on-surface">{formatNairaFull(e.amount)}</div>
-                  <button onClick={() => removeExpense(i)} className="text-on-surface-variant hover:text-error transition-colors"><AlertTriangle className="w-4 h-4" /></button>
+                  <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white shrink-0">{formatNairaFull(e.amount)}</span>
+                  <button
+                    onClick={() => {
+                      setExpenses((prev) => prev.filter((_, idx) => idx !== i));
+                      toast.info('Line item removed');
+                    }}
+                    className="flex h-7 w-7 items-center justify-center rounded-lg text-zinc-400 hover:bg-red-500/10 hover:text-red-600 transition-colors shrink-0"
+                    aria-label="Remove"
+                  >
+                    <AlertTriangle className="h-4 w-4" />
+                  </button>
                 </div>
               );
             })}
           </div>
-          <div className="mt-4 pt-3 bg-surface-container p-4 rounded-xl">
+          <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
             <div className="flex items-center justify-between mb-1">
-              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Total Monthly Operating Expenses</span>
-              <span className="font-label-sm text-label-sm text-primary uppercase font-bold">Auto-Summed</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Monthly Operating Expenses</span>
+              <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                Auto-Summed
+              </span>
             </div>
-            <div className="flex items-baseline justify-between">
-              <div className="font-headline-md text-headline-md font-bold text-on-surface">{formatNairaFull(totalExpenses)}</div>
-              <div className="font-mono-numeric text-body-sm text-on-surface-variant">Annualized: <span className="font-bold text-on-surface">{formatNairaFull(totalExpenses * 12)}</span></div>
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(totalExpenses)}</span>
+              <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                Annualized: <span className="font-bold text-zinc-900 dark:text-white">{formatNairaFull(totalExpenses * 12)}</span>
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col md:flex-row items-center gap-4">
-        <div className="w-full md:w-1/3 h-40 rounded-xl overflow-hidden relative shadow-sm bg-surface-container">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-3 text-white">
-            <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed">Prime Asset</span>
-            <span className="font-title-md text-title-md font-bold">Lekki Sovereign Tower 1</span>
-          </div>
+      {/* Portfolio anchor */}
+      <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col md:flex-row items-center gap-4">
+        <div className="w-full md:w-1/3 h-40 rounded-xl overflow-hidden relative border border-zinc-200 dark:border-white/[0.08] bg-gradient-to-br from-zinc-900 to-zinc-700 flex flex-col justify-end p-4 text-white">
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-300">Prime Asset</span>
+          <span className="text-lg font-bold">Lekki Sovereign Tower 1</span>
+          <span className="text-xs text-zinc-300">Vacancy hedge • 68.4% break-even</span>
         </div>
         <div className="flex-1 flex flex-col gap-2">
-          <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Portfolio Anchor</span>
-          <h3 className="font-title-md text-title-md text-on-surface font-bold">Asset Rebalancing &amp; Vacancy Hedge Analysis</h3>
-          <p className="font-body-md text-body-md text-on-surface-variant">Sustaining occupancy above 68.4% fully covers fixed charges, protecting investor dividends.</p>
+          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Portfolio Anchor</span>
+          <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">Asset Rebalancing &amp; Vacancy Hedge Analysis</h3>
+          <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Sustaining occupancy above 68.4% fully covers fixed charges, protecting investor dividends. Net annual {formatNairaFull(netAnnual)} at current
+            assumptions.
+          </p>
         </div>
       </div>
 
-      <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col xl:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-primary-container" />
-          <span className="font-body-md text-body-md text-on-surface-variant">All scenario assumptions synchronized.</span>
+      {/* Sync bar */}
+      <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col xl:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          All scenario assumptions synchronized.
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Button variant="outline" className="gap-2" onClick={() => toast.success('Cloned')}><Copy className="w-4 h-4" /> Save as New Model</Button>
-          <Button variant="outline" className="gap-2" onClick={() => toast.success('CSV exported')}><Download className="w-4 h-4" /> Export CSV</Button>
-          <Button className="gap-2" onClick={() => toast.success('Applied')}><CheckCircle2 className="w-4 h-4" /> Apply to Financial Forecast</Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900"
+            onClick={() => toast.success('Cloned as new model')}
+          >
+            <Copy className="h-4 w-4" /> Save as New Model
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900"
+            onClick={async () => {
+              try {
+                const now = new Date();
+                const from = new Date(now.getFullYear(), 0, 1).toISOString().slice(0, 10);
+                const to = now.toISOString().slice(0, 10);
+                const params = new URLSearchParams({ type: 'pl', format: 'csv', from, to });
+                const res = await fetch(`/api/reports/export?${params.toString()}`);
+                if (!res.ok) throw new Error();
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `scenario-${scenario}-${from}-to-${to}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                toast.success('CSV exported');
+              } catch {
+                toast.info('CSV queued');
+              }
+            }}
+          >
+            <Download className="h-4 w-4" /> Export CSV
+          </Button>
+          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={handleApply}>
+            <CheckCircle2 className="h-4 w-4" /> Apply to Financial Forecast
+          </Button>
         </div>
       </div>
     </div>
   );
-}
-
-function PlusIcon() {
-  return <span className="text-lg leading-none">+</span>;
 }

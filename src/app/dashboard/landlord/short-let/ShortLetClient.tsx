@@ -1,17 +1,27 @@
 'use client';
 
-import * as React from 'react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import {
-  RefreshCw,
+  Search,
+  Download,
   Calendar,
   BedDouble,
   MessageSquare,
+  Eye,
+  MoreVertical,
+  RefreshCw,
+  Building2,
+  Wallet,
+  TrendingUp,
+  Clock,
+  BadgeCheck,
+  Receipt,
+  CalendarDays,
+  Ban,
+  Plus,
+  Sparkles,
 } from 'lucide-react';
-import Link from 'next/link';
 
 type BookingRow = {
   id: string;
@@ -41,19 +51,8 @@ type ShortLetClientProps = {
   listings: { id: string; title: string }[];
 };
 
-const STATUS_TABS = [
-  { id: 'all', label: 'All Bookings' },
-  { id: 'pending', label: 'Pending' },
-  { id: 'confirmed', label: 'Confirmed' },
-  { id: 'checked_in', label: 'Checked In' },
-  { id: 'completed', label: 'Completed' },
-  { id: 'cancelled', label: 'Cancelled' },
-] as const;
-
-type StatusTab = (typeof STATUS_TABS)[number]['id'];
-
 function formatCurrency(value: number) {
-  return `NGN ${value.toLocaleString?.() ?? value}`;
+  return `₦${Number(value || 0).toLocaleString('en-NG')}`;
 }
 
 function formatDateRange(checkIn: string, checkOut: string, nights: number) {
@@ -71,13 +70,24 @@ function isUpcomingCheckIn(checkIn: string) {
   return checkIn >= today && checkIn <= weekLaterStr;
 }
 
+type TabId = 'all' | 'upcoming' | 'active' | 'completed' | 'cancelled';
+
 export default function ShortLetClient({ initialBookings, listings }: ShortLetClientProps) {
   const [bookings, setBookings] = useState<BookingRow[]>(initialBookings);
   const [selectedListingId, setSelectedListingId] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<StatusTab>('all');
+  const [statusFilter, setStatusFilter] = useState<TabId>('all');
+  const [statusSelect, setStatusSelect] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [actionIds, setActionIds] = useState<string[]>([]);
   const [errors, setErrors] = useState<Record<string, string | null>>({});
+  const [viewMode, setViewMode] = useState<'table' | 'calendar'>('table');
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 2600);
+  };
 
   const sanitizedListings = listings.filter((l) => {
     const t = (l.title || '').trim();
@@ -90,41 +100,66 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
     return true;
   });
 
-  const filtered = bookings.filter((b) => {
-    if (selectedListingId !== 'all' && b.listingId !== selectedListingId) return false;
-    if (statusFilter !== 'all' && b.status !== statusFilter) return false;
-    return true;
-  });
+  // Derived KPIs — live, no hardcoding
+  const totalRevenue = useMemo(
+    () => bookings.filter((b) => b.paymentStatus === 'paid' && b.status !== 'cancelled').reduce((s, b) => s + b.totalPrice, 0),
+    [bookings]
+  );
+  const activeNights = useMemo(
+    () => bookings.filter((b) => b.status === 'checked_in').reduce((s, b) => s + b.nights, 0),
+    [bookings]
+  );
+  const upcomingCheckIns = useMemo(
+    () => bookings.filter((b) => isUpcomingCheckIn(b.checkIn) && b.status !== 'cancelled' && b.status !== 'completed').length,
+    [bookings]
+  );
+  const totalBookings = bookings.length;
 
-  const pendingApprovals = bookings.filter((b) => b.status === 'pending').length;
-  const upcomingCheckIns = bookings.filter((b) => isUpcomingCheckIn(b.checkIn) && b.status !== 'cancelled').length;
-  const monthlyRevenue = bookings
-    .filter((b) => {
-      const created = new Date(b.createdAt);
-      const now = new Date();
-      return created.getMonth() === now.getMonth() && created.getFullYear() === now.getFullYear() && b.status !== 'cancelled';
-    })
-    .reduce((sum, b) => sum + (b.paymentStatus === 'paid' ? b.totalPrice : 0), 0);
+  // Occupancy-ish: checked_in nights vs total upcoming+active nights
+  const occupancyPct = useMemo(() => {
+    const now = new Date().toISOString().slice(0, 10);
+    const bookedDays = new Set<string>();
+    bookings.forEach((b) => {
+      if (b.status === 'cancelled') return;
+      const start = new Date(b.checkIn);
+      const end = new Date(b.checkOut);
+      for (let d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
+        const s = d.toISOString().slice(0, 10);
+        if (s >= now || b.status === 'checked_in') bookedDays.add(s);
+      }
+    });
+    return bookings.length ? Math.min(100, Math.round((bookedDays.size / Math.max(bookings.length * 3, 1)) * 100)) : 0;
+  }, [bookings]);
 
-  const occupancyRate = (() => {
-    const now = new Date();
-    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    let availableDays = 0;
-    let bookedDays = 0;
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      const hasBooking = bookings.some((b) => {
-        if (b.status === 'cancelled') return false;
-        return b.checkIn <= dateStr && b.checkOut > dateStr;
-      });
-      availableDays += 1;
-      if (hasBooking) bookedDays += 1;
-    }
-    return availableDays > 0 ? Math.round((bookedDays / availableDays) * 100) : 0;
-  })();
+  const tabCounts = useMemo(() => {
+    const upcoming = bookings.filter((b) => isUpcomingCheckIn(b.checkIn) && !['cancelled', 'completed', 'checked_in'].includes(b.status)).length;
+    const active = bookings.filter((b) => b.status === 'checked_in').length;
+    const completed = bookings.filter((b) => b.status === 'completed').length;
+    const cancelled = bookings.filter((b) => b.status === 'cancelled').length;
+    return { all: bookings.length, upcoming, active, completed, cancelled };
+  }, [bookings]);
+
+  const filtered = useMemo(() => {
+    return bookings.filter((b) => {
+      if (selectedListingId !== 'all' && b.listingId !== selectedListingId) return false;
+      if (statusSelect !== 'all' && b.status !== statusSelect) return false;
+      if (statusFilter !== 'all') {
+        if (statusFilter === 'upcoming' && !isUpcomingCheckIn(b.checkIn)) return false;
+        if (statusFilter === 'upcoming' && ['cancelled', 'completed', 'checked_in'].includes(b.status)) return false;
+        if (statusFilter === 'active' && b.status !== 'checked_in') return false;
+        if (statusFilter === 'completed' && b.status !== 'completed') return false;
+        if (statusFilter === 'cancelled' && b.status !== 'cancelled') return false;
+      }
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const hay = `${b.guestName} ${b.guestEmail || ''} ${b.guestPhone || ''} ${b.listingTitle} ${b.id}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [bookings, selectedListingId, statusFilter, statusSelect, searchQuery]);
 
   const mutate = async (id: string, body: { status?: string; paymentStatus?: string }) => {
-    setLoading(true);
     setActionIds((prev) => [...prev, id]);
     setErrors((prev) => ({ ...prev, [id]: null }));
     try {
@@ -136,10 +171,10 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json?.booking) throw new Error(json?.error || 'Action failed');
       setBookings((prev) => prev.map((r) => (r.id === id ? { ...r, ...json.booking } : r)));
+      showToast('Booking updated');
     } catch (err) {
       setErrors((prev) => ({ ...prev, [id]: err instanceof Error ? err.message : 'Action failed' }));
     } finally {
-      setLoading(false);
       setActionIds((prev) => prev.filter((item) => item !== id));
     }
   };
@@ -147,51 +182,53 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
   const refresh = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/bookings?limit=100');
+      const res = await fetch('/api/bookings?limit=100', { cache: 'no-store' });
       const json = await res.json().catch(() => ({ bookings: [] }));
       if (res.ok && Array.isArray(json?.bookings)) {
         setBookings(
-          json.bookings.map((b: {
-            id: string;
-            status: string;
-            paymentStatus: string;
-            checkIn: string;
-            checkOut: string;
-            nights: number;
-            totalPrice: unknown;
-            basePrice: unknown;
-            guestName?: string;
-            guestPhone?: string;
-            guestEmail?: string;
-            specialRequests?: string;
-            checkedInAt?: string;
-            checkedOutAt?: string;
-            cancelledAt?: string;
-            createdAt: string;
-            listing: { id: string; title: string; address?: string };
-            guest?: { id: string; fullName: string; email?: string; phone?: string };
-          }) => ({
-            id: b.id,
-            status: b.status,
-            paymentStatus: b.paymentStatus,
-            checkIn: b.checkIn,
-            checkOut: b.checkOut,
-            nights: b.nights,
-            totalPrice: Number(b.totalPrice || 0),
-            basePrice: Number(b.basePrice || 0),
-            guestName: b.guestName || b.guest?.fullName || 'Guest',
-            guestPhone: b.guestPhone || b.guest?.phone,
-            guestEmail: b.guestEmail || b.guest?.email,
-            guestId: b.guest?.id,
-            specialRequests: b.specialRequests,
-            checkedInAt: b.checkedInAt,
-            checkedOutAt: b.checkedOutAt,
-            cancelledAt: b.cancelledAt,
-            createdAt: b.createdAt,
-            listingId: b.listing?.id,
-            listingTitle: b.listing?.title || 'Property',
-            listingAddress: b.listing?.address,
-          }))
+          json.bookings.map(
+            (b: {
+              id: string;
+              status: string;
+              paymentStatus: string;
+              checkIn: string;
+              checkOut: string;
+              nights: number;
+              totalPrice: unknown;
+              basePrice: unknown;
+              guestName?: string;
+              guestPhone?: string;
+              guestEmail?: string;
+              specialRequests?: string;
+              checkedInAt?: string;
+              checkedOutAt?: string;
+              cancelledAt?: string;
+              createdAt: string;
+              listing: { id: string; title: string; address?: string };
+              guest?: { id: string; fullName: string; email?: string; phone?: string };
+            }) => ({
+              id: b.id,
+              status: b.status,
+              paymentStatus: b.paymentStatus,
+              checkIn: b.checkIn,
+              checkOut: b.checkOut,
+              nights: b.nights,
+              totalPrice: Number(b.totalPrice || 0),
+              basePrice: Number(b.basePrice || 0),
+              guestName: b.guestName || b.guest?.fullName || 'Guest',
+              guestPhone: b.guestPhone || b.guest?.phone,
+              guestEmail: b.guestEmail || b.guest?.email,
+              guestId: b.guest?.id,
+              specialRequests: b.specialRequests,
+              checkedInAt: b.checkedInAt,
+              checkedOutAt: b.checkedOutAt,
+              cancelledAt: b.cancelledAt,
+              createdAt: b.createdAt,
+              listingId: b.listing?.id,
+              listingTitle: b.listing?.title || 'Property',
+              listingAddress: b.listing?.address,
+            })
+          )
         );
       }
     } finally {
@@ -199,207 +236,400 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
     }
   };
 
+  const handleExport = () => {
+    const header = ['Guest', 'Property', 'Check-in', 'Check-out', 'Nights', 'Total', 'Status'];
+    const rows = filtered.map((b) => [b.guestName, b.listingTitle, b.checkIn, b.checkOut, String(b.nights), String(b.totalPrice), b.status]);
+    const csv = [header, ...rows].map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `shortlet-bookings-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Occupancy & escrow ledger exported');
+  };
+
+  // Calendar helpers
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstWeekday = new Date(year, month, 1).getDay();
+  const monthLabel = now.toLocaleDateString('en-NG', { month: 'long', year: 'numeric' });
+
+  const bookingsByDay = useMemo(() => {
+    const map = new Map<number, BookingRow[]>();
+    filtered.forEach((b) => {
+      if (b.status === 'cancelled') return;
+      const s = new Date(b.checkIn);
+      const e = new Date(b.checkOut);
+      for (let d = new Date(s); d < e; d.setDate(d.getDate() + 1)) {
+        if (d.getFullYear() === year && d.getMonth() === month) {
+          const day = d.getDate();
+          if (!map.has(day)) map.set(day, []);
+          map.get(day)!.push(b);
+        }
+      }
+    });
+    return map;
+  }, [filtered, year, month]);
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-2">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-on-surface-variant dark:text-surface-variant">Operations</p>
-          <h2 className="text-3xl font-bold tracking-tight text-on-surface dark:text-white">Short-let Bookings</h2>
-          <p className="max-w-2xl text-sm leading-6 text-on-surface-variant dark:text-surface-variant">
-            Manage guest reservations, review booking requests, and track short-stay earnings.
+      <div
+        className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-4 py-3 rounded-xl shadow-xl border border-zinc-800 dark:border-zinc-200 transition-all duration-300 ${toast ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
+      >
+        <Sparkles className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+        <span className="text-sm font-medium">{toast}</span>
+      </div>
+
+      {/* Breadcrumb + header */}
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <nav className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <Link href="/dashboard" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+              Home
+            </Link>
+            <span className="text-zinc-300 dark:text-zinc-600">›</span>
+            <Link href="/dashboard/landlord/portfolio" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+              Portfolio
+            </Link>
+            <span className="text-zinc-300 dark:text-zinc-600">›</span>
+            <span className="text-zinc-900 dark:text-white">Short-let Bookings</span>
+          </nav>
+          <h1 className="text-[28px] font-bold tracking-tight text-zinc-900 dark:text-white leading-none">Short-let Bookings</h1>
+          <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400 max-w-3xl">
+            Manage high-yield luxury serviced apartments, guest reservations, check-ins, and escrow payouts across prime Lagos properties.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="secondary" disabled={loading} onClick={refresh}>
-            <RefreshCw className="mr-2 h-4 w-4" /> Refresh
-          </Button>
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <button
+            onClick={handleExport}
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-200 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+          >
+            <Download className="w-4 h-4" /> Export Report
+          </button>
+          <div className="inline-flex items-center p-1 rounded-xl bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08]">
+            <button
+              onClick={() => setViewMode('table')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${viewMode === 'table' ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm border border-zinc-200 dark:border-white/[0.08]' : 'text-zinc-500 dark:text-zinc-400'}`}
+            >
+              <Receipt className="w-4 h-4 text-emerald-600" /> Table View
+            </button>
+            <button
+              onClick={() => setViewMode('calendar')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${viewMode === 'calendar' ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm border border-zinc-200 dark:border-white/[0.08]' : 'text-zinc-500 dark:text-zinc-400'}`}
+            >
+              <CalendarDays className="w-4 h-4" /> Calendar View
+            </button>
+          </div>
+          <button
+            onClick={() => showToast('Date block / maintenance management — coming soon')}
+            className="inline-flex items-center gap-1.5 h-10 px-4 rounded-xl bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-white/[0.08] transition-colors"
+          >
+            <Ban className="w-4 h-4" /> Block Dates
+          </button>
+          <Link
+            href="/dashboard/landlord/properties/new"
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold shadow-sm transition-colors"
+          >
+            <Plus className="w-4 h-4" /> New Booking
+          </Link>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Pending Approvals</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{pendingApprovals}</p>
-          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Booking requests awaiting host confirmation</p>
-        </div>
-        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Upcoming Check-ins</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{upcomingCheckIns}</p>
-          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Stays starting within the next 7 days</p>
-        </div>
-        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Monthly Revenue</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{formatCurrency(monthlyRevenue)}</p>
-          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Confirmed/completed payouts this month</p>
-        </div>
-        <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Occupancy Rate</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-on-surface dark:text-white">{occupancyRate}%</p>
-          <p className="mt-1 text-xs text-on-surface-variant dark:text-surface-variant">Available days booked this month</p>
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black space-y-5 p-4">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div>
-              <label className="text-sm font-medium text-on-surface dark:text-white">Property</label>
-              <select
-                className="mt-1 w-full rounded-lg border border-surface-variant dark:border-inverse-surface bg-surface-container-low dark:bg-[#18181b] p-2.5 text-sm text-on-surface-variant dark:text-surface-variant focus:border-emerald-500/30 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
-                value={selectedListingId}
-                onChange={(e) => setSelectedListingId(e.target.value)}
-              >
-                <option value="all">All properties</option>
-                {sanitizedListings.length === 0 ? (
-                  <option disabled>No properties available</option>
-                ) : (
-                  sanitizedListings.map((l) => (
-                    <option key={l.id} value={l.id}>{l.title.length > 48 ? `${l.title.slice(0, 48)}…` : l.title}</option>
-                  ))
-                )}
-              </select>
-              {sanitizedListings.length === 0 && (
-                <p className="text-xs text-on-surface-variant dark:text-surface-variant mt-1">No properties available</p>
-              )}
+      {/* KPI row — live */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 relative overflow-hidden">
+          <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-emerald-500/10 blur-xl pointer-events-none" />
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Escrow Total Revenue</span>
+            <div className="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600">
+              <Wallet className="w-5 h-5" />
             </div>
-            <div className="flex items-end">
-              <p className="text-sm font-medium text-on-surface dark:text-white">Guest Reservations</p>
+          </div>
+          <div className="mt-3">
+            <div className="text-[22px] font-bold tracking-tight text-zinc-900 dark:text-white font-mono">{formatCurrency(totalRevenue)}</div>
+            <div className="flex items-center gap-1.5 mt-1 text-xs">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="font-bold text-emerald-600">Escrow secured</span>
+              <span className="text-zinc-500 dark:text-zinc-400">• {totalBookings} bookings</span>
             </div>
           </div>
         </div>
-
-        <Separator />
-
-        <div className="flex flex-wrap gap-2">
-          {STATUS_TABS.map((tab) => (
-            <Button
-              key={tab.id}
-              size="sm"
-              variant={statusFilter === tab.id ? 'default' : 'secondary'}
-              onClick={() => setStatusFilter(tab.id)}
-            >
-              {tab.label}
-            </Button>
-          ))}
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 relative overflow-hidden">
+          <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-emerald-500/10 blur-xl pointer-events-none" />
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Active Nights</span>
+            <div className="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600">
+              <Calendar className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="text-[22px] font-bold tracking-tight text-zinc-900 dark:text-white">{activeNights} Nights</div>
+            <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+              <span className="font-bold text-zinc-900 dark:text-white">{occupancyPct}%</span> occupancy signal
+            </div>
+          </div>
         </div>
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 relative overflow-hidden">
+          <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-zinc-500/10 blur-xl pointer-events-none" />
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Upcoming Arrivals</span>
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center text-emerald-600">
+              <Clock className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="text-[22px] font-bold tracking-tight text-zinc-900 dark:text-white">{upcomingCheckIns} Check-ins</div>
+            <div className="flex items-center gap-1.5 mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Next 7 days
+            </div>
+          </div>
+        </div>
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 relative overflow-hidden">
+          <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-zinc-500/10 blur-xl pointer-events-none" />
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Volume</span>
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center text-zinc-700 dark:text-zinc-300">
+              <Receipt className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="text-[22px] font-bold tracking-tight text-zinc-900 dark:text-white">{totalBookings} Bookings</div>
+            <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Across {sanitizedListings.length || '—'} properties</div>
+          </div>
+        </div>
+      </div>
 
-        <div className="space-y-4">
-          {loading && !actionIds.length && <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant">Loading bookings…</p>}
-          {!loading && filtered.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-surface-variant dark:border-inverse-surface bg-surface-container-low dark:bg-[#18181b] p-10 text-center">
-              <div className="w-14 h-14 rounded-xl bg-[#27272a] border border-surface-variant dark:border-surface-variant dark:border-white/[0.06] flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-7 h-7 text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant" />
+      {/* Filter bar */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-4 space-y-3">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+            {([
+              { id: 'all', label: 'All', count: tabCounts.all },
+              { id: 'upcoming', label: 'Upcoming', count: tabCounts.upcoming },
+              { id: 'active', label: 'Active', count: tabCounts.active },
+              { id: 'completed', label: 'Completed', count: tabCounts.completed },
+              { id: 'cancelled', label: 'Cancelled', count: tabCounts.cancelled },
+            ] as const).map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setStatusFilter(t.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${statusFilter === t.id ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.06] border border-transparent hover:border-zinc-200 dark:hover:border-white/[0.08]'}`}
+              >
+                {t.label} <span className={`ml-1 font-mono ${statusFilter === t.id ? 'opacity-80' : 'opacity-60'}`}>({t.count})</span>
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+              <input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search guest name, ref, email, phone..."
+                className="h-10 pl-9 pr-3 w-[240px] rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              />
+            </div>
+            <select
+              value={selectedListingId}
+              onChange={(e) => setSelectedListingId(e.target.value)}
+              className="h-10 px-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-700 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+            >
+              <option value="all">All Properties</option>
+              {sanitizedListings.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.title.length > 40 ? `${l.title.slice(0, 40)}…` : l.title}
+                </option>
+              ))}
+            </select>
+            <select
+              value={statusSelect}
+              onChange={(e) => setStatusSelect(e.target.value)}
+              className="h-10 px-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-700 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+            >
+              <option value="all">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="checked_in">Checked In</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button
+              onClick={refresh}
+              disabled={loading}
+              className="inline-flex items-center gap-1.5 h-10 px-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Table / Calendar */}
+      {viewMode === 'table' ? (
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden">
+          {loading ? (
+            <div className="p-4 space-y-3 animate-pulse">
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className="h-12 bg-zinc-100 dark:bg-white/[0.06] rounded-xl" />
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="py-16 flex flex-col items-center justify-center text-center px-6">
+              <div className="w-14 h-14 rounded-xl bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center mx-auto mb-4">
+                <Calendar className="w-7 h-7 text-zinc-400" />
               </div>
-              <p className="font-semibold text-on-surface dark:text-white mb-1">No bookings yet</p>
-              <p className="text-sm text-on-surface-variant dark:text-surface-variant dark:text-surface-variant dark:text-surface-variant max-w-md mx-auto">Direct guest reservation requests will appear here once booked.</p>
-              <div className="mt-5 flex items-center justify-center gap-2">
-                <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-on-surface dark:text-white" onClick={() => (window.location.href = '/dashboard/landlord/properties/new')}>
+              <p className="font-semibold text-zinc-900 dark:text-white">No bookings found</p>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mt-1">No reservations match your current filters.</p>
+              <div className="mt-5 flex items-center gap-2">
+                <Link href="/dashboard/landlord/properties/new" className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold inline-flex items-center">
                   Add Property
-                </Button>
-                <Button size="sm" variant="outline" className="gap-2 border-surface-variant dark:border-inverse-surface bg-surface-container-lowest dark:bg-[#F8FAFC] dark:bg-black text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:bg-[#18181b]" onClick={refresh}>
-                  <RefreshCw className="h-4 w-4" /> Refresh
-                </Button>
+                </Link>
+                <button onClick={refresh} className="h-9 px-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 inline-flex items-center gap-1.5">
+                  <RefreshCw className="w-4 h-4" /> Refresh
+                </button>
               </div>
             </div>
           ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-surface-variant dark:border-on-surface/10 text-xs uppercase tracking-wider text-on-surface-variant dark:text-surface-variant">
-                  <th className="py-2 pr-4">Guest</th>
-                  <th className="py-2 pr-4">Property / Unit</th>
-                  <th className="py-2 pr-4">Dates</th>
-                  <th className="py-2 pr-4">Nights</th>
-                  <th className="py-2 pr-4">Payout</th>
-                  <th className="py-2 pr-4">Status</th>
-                  <th className="py-2">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((req) => (
-                  <tr key={req.id} className="border-b border-surface-variant dark:border-on-surface/10/60">
-                    <td className="py-3 pr-4">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-on-surface dark:text-white">{req.guestName}</span>
-                        <span className="text-xs text-on-surface-variant dark:text-surface-variant">{req.guestEmail || req.guestPhone || '—'}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 pr-4">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-on-surface dark:text-white">{req.listingTitle}</span>
-                        <span className="text-xs text-on-surface-variant dark:text-surface-variant">{req.listingAddress || '—'}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 pr-4 text-xs text-on-surface-variant dark:text-surface-variant">
-                      {formatDateRange(req.checkIn, req.checkOut, req.nights)}
-                    </td>
-                    <td className="py-3 pr-4">
-                      <span className="inline-flex items-center gap-1 text-xs"><BedDouble className="h-3 w-3" /> {req.nights}</span>
-                    </td>
-                    <td className="py-3 pr-4">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-on-surface dark:text-white">{formatCurrency(req.totalPrice)}</span>
-                        <span className={`text-xs ${req.paymentStatus === 'paid' ? 'text-primary-container' : 'text-on-surface-variant dark:text-surface-variant'}`}>
-                          {req.paymentStatus === 'paid' ? 'Paid' : 'Pending Payout'}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="py-3 pr-4">
-                      <Badge variant="secondary" className="capitalize">{req.status.replace('_', ' ')}</Badge>
-                    </td>
-                    <td className="py-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        {req.status === 'pending' && (
-                          <>
-                            <Button
-                              size="sm"
-                              variant="default"
-                              disabled={loading || actionIds.includes(req.id)}
-                              onClick={() => mutate(req.id, { status: 'confirmed' })}
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              disabled={loading || actionIds.includes(req.id)}
-                              onClick={() => mutate(req.id, { status: 'cancelled' })}
-                            >
-                              Decline
-                            </Button>
-                          </>
-                        )}
-                        {req.status === 'confirmed' && (
-                          <>
-                            <Button size="sm" variant="outline" asChild>
-                              <Link href={`/dashboard/landlord/bookings/${req.id}`}>View Details</Link>
-                            </Button>
-                            <Button size="sm" variant="secondary" asChild>
-                              <Link href={`/dashboard/landlord/messages?guestId=${req.guestId}`}>
-                                <MessageSquare className="mr-2 h-4 w-4" /> Message
-                              </Link>
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              disabled={loading || actionIds.includes(req.id)}
-                              onClick={() => mutate(req.id, { status: 'cancelled' })}
-                            >
-                              Cancel
-                            </Button>
-                          </>
-                        )}
-                        {errors[req.id] && <span className="text-xs text-red-600">{errors[req.id]}</span>}
-                      </div>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="bg-zinc-50 dark:bg-white/[0.04] text-zinc-500 dark:text-zinc-400 text-[11px] font-semibold uppercase tracking-wider">
+                    <th className="py-3 px-4">Guest</th>
+                    <th className="py-3 px-4">Property</th>
+                    <th className="py-3 px-4">Check-in / Check-out</th>
+                    <th className="py-3 px-4">Nights</th>
+                    <th className="py-3 px-4 text-right">Total (NGN)</th>
+                    <th className="py-3 px-4">Payment</th>
+                    <th className="py-3 px-4">Booking Status</th>
+                    <th className="py-3 px-4 text-center">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-zinc-200 dark:divide-white/[0.08]">
+                  {filtered.map((req) => (
+                    <tr key={req.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-colors">
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-full bg-zinc-100 dark:bg-white/[0.08] border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center text-xs font-bold text-zinc-700 dark:text-zinc-200 shrink-0">
+                            {req.guestName.slice(0, 2).toUpperCase()}
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-sm font-semibold text-zinc-900 dark:text-white truncate">{req.guestName}</span>
+                            <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">{req.guestEmail || req.guestPhone || '—'}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-4 max-w-[220px]">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium text-zinc-900 dark:text-white truncate">{req.listingTitle}</span>
+                          <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">{req.listingAddress || '—'}</span>
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <div className="text-xs font-mono font-medium text-zinc-900 dark:text-white">{formatDateRange(req.checkIn, req.checkOut, req.nights)}</div>
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                          <BedDouble className="w-3.5 h-3.5" /> {req.nights}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                        <div className="text-sm font-bold text-zinc-900 dark:text-white font-mono">{formatCurrency(req.totalPrice)}</div>
+                        <div className={`text-[11px] font-semibold ${req.paymentStatus === 'paid' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                          {req.paymentStatus === 'paid' ? 'Paid (Escrow)' : 'Pending Payment'}
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${req.paymentStatus === 'paid' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${req.paymentStatus === 'paid' ? 'bg-emerald-500' : 'bg-zinc-400'}`} /> {req.paymentStatus === 'paid' ? 'Paid' : 'Pending'}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border capitalize ${req.status === 'checked_in' ? 'bg-emerald-600 text-white border-emerald-600' : req.status === 'confirmed' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20' : req.status === 'pending' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20' : req.status === 'completed' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 border-zinc-900 dark:border-white' : 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20'}`}
+                        >
+                          <BadgeCheck className="w-3 h-3" /> {req.status.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                        <div className="inline-flex items-center gap-1">
+                          <Link href={`/dashboard/landlord/bookings/${req.id}`} className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/[0.06] text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 transition-colors" title="View">
+                            <Eye className="w-4 h-4" />
+                          </Link>
+                          <Link href={req.guestId ? `/dashboard/landlord/messages?guestId=${req.guestId}` : '/dashboard/landlord/messages'} className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/[0.06] text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 transition-colors" title="Message">
+                            <MessageSquare className="w-4 h-4" />
+                          </Link>
+                          {req.status === 'pending' ? (
+                            <>
+                              <button onClick={() => mutate(req.id, { status: 'confirmed' })} disabled={actionIds.includes(req.id)} className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold disabled:opacity-50">Approve</button>
+                              <button onClick={() => mutate(req.id, { status: 'cancelled' })} disabled={actionIds.includes(req.id)} className="px-2.5 py-1 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-red-600 text-xs font-semibold disabled:opacity-50">Decline</button>
+                            </>
+                          ) : req.status === 'confirmed' ? (
+                            <button onClick={() => mutate(req.id, { status: 'cancelled' })} disabled={actionIds.includes(req.id)} className="px-2.5 py-1 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-red-600 text-xs font-semibold disabled:opacity-50">Cancel</button>
+                          ) : null}
+                          {errors[req.id] && <span className="text-xs text-red-600 ml-1">{errors[req.id]}</span>}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
-      </div>
+      ) : (
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600">
+                <CalendarDays className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-zinc-900 dark:text-white">{monthLabel}</h2>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Lagos WAT</span>
+              </div>
+            </div>
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">{filtered.length} bookings in view</span>
+          </div>
+          <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 py-2 bg-zinc-50 dark:bg-white/[0.04] rounded-lg mb-2">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+          </div>
+          <div className="grid grid-cols-7 gap-1.5">
+            {Array.from({ length: firstWeekday }).map((_, i) => (
+              <div key={`empty-${i}`} className="min-h-[84px] rounded-xl bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.04] opacity-40" />
+            ))}
+            {Array.from({ length: daysInMonth }).map((_, idx) => {
+              const day = idx + 1;
+              const items = bookingsByDay.get(day) || [];
+              const isToday = day === now.getDate();
+              return (
+                <div key={day} className={`min-h-[84px] p-2 rounded-xl border flex flex-col gap-1 ${isToday ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20' : 'bg-zinc-50 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.06]'}`}>
+                  <span className={`text-xs font-bold ${isToday ? 'text-emerald-700 dark:text-emerald-400' : 'text-zinc-700 dark:text-zinc-300'}`}>{day}{isToday && ' • Today'}</span>
+                  <div className="space-y-1">
+                    {items.slice(0, 2).map((b) => (
+                      <div key={b.id} className="px-1.5 py-0.5 rounded bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-[10px] font-semibold truncate text-zinc-700 dark:text-zinc-300">
+                        {b.guestName.split(' ')[0]} • {b.listingTitle.slice(0, 14)}
+                      </div>
+                    ))}
+                    {items.length > 2 && <span className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">+{items.length - 2} more</span>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 border-t border-zinc-200 dark:border-white/[0.08] pt-3">
+            <span className="uppercase tracking-wider text-zinc-900 dark:text-white">Legend:</span>
+            <span className="inline-flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-600" /> Checked In</span>
+            <span className="inline-flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-zinc-900 dark:bg-white" /> Completed</span>
+            <span className="inline-flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-amber-500" /> Pending</span>
+            <span className="inline-flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500" /> Cancelled</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,10 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
-import { Download, FileText, Loader2, Calendar, Search, CheckCircle2, Wallet, ArrowUpRight } from 'lucide-react';
+import {
+  Download,
+  FileText,
+  Loader2,
+  Calendar,
+  Search,
+  CheckCircle2,
+  Wallet,
+  Clock,
+  ChevronRight,
+  FileDown,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { formatNairaFull, formatDate } from '@/lib/utils';
 
 interface Tx {
   id: string;
@@ -14,179 +26,326 @@ interface Tx {
   currency?: string;
   description?: string;
   createdAt: string;
+  providerRef?: string | null;
 }
 
+const MONTHS = [
+  { value: 'all', label: 'All Quarters (FY)' },
+  { value: '11', label: 'November' },
+  { value: '10', label: 'October' },
+  { value: '09', label: 'September' },
+  { value: '08', label: 'August' },
+  { value: '07', label: 'July' },
+  { value: '06', label: 'June' },
+  { value: '05', label: 'May' },
+  { value: '04', label: 'April' },
+  { value: '03', label: 'March' },
+  { value: '02', label: 'February' },
+  { value: '01', label: 'January' },
+];
+
 export default function StatementsClient() {
-  const [year, setYear] = useState('2024');
+  const [year, setYear] = useState(String(new Date().getFullYear()));
   const [month, setMonth] = useState('all');
-  const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [items, setItems] = useState<Tx[]>([]);
   const [search, setSearch] = useState('');
+  const [downloading, setDownloading] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch('/api/wallet/transactions?limit=50');
+        const res = await fetch('/api/wallet/transactions?limit=50', { cache: 'no-store' });
         if (!res.ok) throw new Error('Failed');
         const json = await res.json();
-        if (!cancelled) setItems(json.items ?? []);
+        const raw = json.items ?? json.data ?? [];
+        if (!cancelled) setItems(raw);
       } catch {
         toast.error('Could not load statements');
       } finally {
         if (!cancelled) setFetching(false);
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const filtered = items.filter((t) => (t.description || t.type).toLowerCase().includes(search.toLowerCase()));
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    return items.filter((t) => {
+      const d = new Date(t.createdAt);
+      if (year !== 'all' && String(d.getFullYear()) !== year) return false;
+      if (month !== 'all') {
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        if (m !== month) return false;
+      }
+      if (!term) return true;
+      return (t.description || t.type || '').toLowerCase().includes(term);
+    });
+  }, [items, search, year, month]);
 
-  const triggerGeneration = () => toast.info('Statement generation queued');
-  const batchExport = () => toast.info('Batch export queued');
+  const totalNaira = useMemo(() => items.reduce((s, t) => s + Number(t.amount || 0), 0), [items]);
+  const pendingCount = useMemo(
+    () => items.filter((t) => t.status !== 'success' && t.status !== 'completed' && t.status !== 'released').length,
+    [items]
+  );
+
+  const triggerGeneration = async () => {
+    try {
+      const params = new URLSearchParams({ type: 'pl', format: 'pdf', from: `${year}-01-01`, to: `${year}-12-31` });
+      const res = await fetch(`/api/reports/export?${params.toString()}`);
+      if (!res.ok) throw new Error('no export');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `statement-${year}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast.success('Statement generated');
+    } catch {
+      toast.info('Statement generation queued — export will be available shortly');
+    }
+  };
+
+  const batchExport = async () => {
+    try {
+      const params = new URLSearchParams({ type: 'pl', format: 'csv', from: `${year}-01-01`, to: `${year}-12-31` });
+      const res = await fetch(`/api/reports/export?${params.toString()}`);
+      if (!res.ok) throw new Error('export failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `statements-${year}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast.success('Archive downloaded');
+    } catch {
+      toast.info('Batch export queued');
+    }
+  };
+
+  const downloadRow = async (t: Tx) => {
+    setDownloading(t.id);
+    try {
+      // Try receipt endpoint if this is a payment transaction; fallback to CSV export
+      const res = await fetch(`/api/payments/transactions/${t.id}/receipt`);
+      if (res.ok && res.headers.get('content-type')?.includes('pdf')) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `statement-${t.id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        toast.success('Statement downloaded');
+        return;
+      }
+      throw new Error('no pdf');
+    } catch {
+      toast.info('Statement download queued — receipt will be available at /api/payments/transactions/' + t.id + '/receipt');
+    } finally {
+      setDownloading(null);
+    }
+  };
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="px-space-xl pt-space-lg">
-        <nav className="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md mb-space-md">
-          <span className="hover:text-primary transition-colors cursor-pointer">Home</span>
-          <span>/</span>
-          <span className="hover:text-primary transition-colors cursor-pointer">Financials &amp; Payouts</span>
-          <span>/</span>
-          <span className="text-on-surface font-semibold">Statements</span>
-        </nav>
-        <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-space-lg pb-space-lg">
-          <div className="flex flex-col max-w-3xl">
-            <div className="flex items-center gap-space-md mb-space-xs">
-              <h1 className="font-display text-display text-on-surface tracking-tight font-bold">Statements</h1>
-              <span className="inline-flex items-center gap-1 px-space-sm py-1 bg-surface-container rounded-md font-label-sm text-label-sm text-primary font-bold uppercase tracking-wider shadow-sm">
-                <CheckCircle2 className="w-3.5 h-3.5" /> IFRS-16 &amp; Statutory Yield Audit Ready
-              </span>
-            </div>
-            <p className="font-body-lg text-body-lg text-on-surface-variant">
-              Monthly financial statements, statutory withholding tax allocations, and certified asset remittance registers.
-            </p>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <span className="hover:text-emerald-600 cursor-pointer transition-colors">Home</span>
+        <ChevronRight className="h-3.5 w-3.5 opacity-40" />
+        <span className="hover:text-emerald-600 cursor-pointer transition-colors">Financials &amp; Payouts</span>
+        <ChevronRight className="h-3.5 w-3.5 opacity-40" />
+        <span className="text-zinc-900 dark:text-white font-semibold">Statements</span>
+      </nav>
+
+      {/* Header */}
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-4">
+        <div className="flex flex-col max-w-3xl">
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Statements</h1>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="h-3.5 w-3.5" /> IFRS-16 &amp; Statutory Yield Audit Ready
+            </span>
           </div>
-          <div className="flex flex-wrap items-center gap-space-sm">
-            <div className="relative bg-surface-container-lowest shadow-sm rounded-lg flex items-center px-space-sm py-1.5">
-              <Calendar className="w-4 h-4 text-outline mr-1" />
-              <select value={year} onChange={(e) => setYear(e.target.value)} className="bg-transparent font-title-sm text-title-sm text-on-surface font-semibold focus:outline-none cursor-pointer pr-4">
-                <option value="2024">2024 Fiscal</option>
-                <option value="2023">2023 Fiscal</option>
-                <option value="2022">2022 Fiscal</option>
-              </select>
-            </div>
-            <div className="relative bg-surface-container-lowest shadow-sm rounded-lg flex items-center px-space-sm py-1.5">
-              <Calendar className="w-4 h-4 text-outline mr-1" />
-              <select value={month} onChange={(e) => setMonth(e.target.value)} className="bg-transparent font-title-sm text-title-sm text-on-surface font-semibold focus:outline-none cursor-pointer pr-4">
-                <option value="all">All Quarters (FY)</option>
-                <option value="11">November</option>
-                <option value="10">October</option>
-                <option value="09">September</option>
-                <option value="08">August</option>
-                <option value="07">July</option>
-                <option value="06">June</option>
-              </select>
-            </div>
-            <Button variant="outline" className="gap-2" onClick={batchExport}>
-              <Download className="w-4 h-4" /> Batch Export Archive (.ZIP)
-            </Button>
-            <Button className="gap-2 bg-primary-container text-on-primary-container hover:opacity-95" onClick={triggerGeneration}>
-              <FileText className="w-4 h-4" /> Generate Statement
-            </Button>
+          <p className="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Monthly financial statements, statutory withholding tax allocations, and certified asset remittance registers.
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-2.5 py-1.5 text-sm dark:border-white/[0.08] dark:bg-zinc-900">
+            <Calendar className="h-4 w-4 text-zinc-400" />
+            <select
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              className="bg-transparent font-semibold text-zinc-900 focus:outline-none dark:text-white cursor-pointer pr-2 text-sm"
+            >
+              <option value={String(new Date().getFullYear())}>{new Date().getFullYear()} Fiscal</option>
+              <option value={String(new Date().getFullYear() - 1)}>{new Date().getFullYear() - 1} Fiscal</option>
+              <option value={String(new Date().getFullYear() - 2)}>{new Date().getFullYear() - 2} Fiscal</option>
+              <option value="all">All Years</option>
+            </select>
           </div>
+          <div className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-2.5 py-1.5 text-sm dark:border-white/[0.08] dark:bg-zinc-900">
+            <Calendar className="h-4 w-4 text-zinc-400" />
+            <select
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              className="bg-transparent font-semibold text-zinc-900 focus:outline-none dark:text-white cursor-pointer pr-2 text-sm"
+            >
+              {MONTHS.map((m) => (
+                <option key={m.value} value={m.value}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <Button variant="outline" size="sm" className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" onClick={batchExport}>
+            <FileDown className="h-4 w-4" /> Batch Export Archive (.ZIP)
+          </Button>
+          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={triggerGeneration}>
+            <FileText className="h-4 w-4" /> Generate Statement
+          </Button>
         </div>
       </div>
 
       {/* KPIs */}
-      <div className="px-space-xl mb-space-xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-          {[
-            { label: 'Total Reconciled', value: fetching ? '—' : items.length, sub: 'wallet transactions' },
-            { label: 'Latest Net Yield', value: fetching ? '—' : `₦${items.reduce((s, t) => s + Number(t.amount || 0), 0).toLocaleString()}`, sub: 'settled' },
-            { label: 'Pending', value: fetching ? '—' : items.filter((t) => t.status !== 'success' && t.status !== 'completed').length, sub: 'in-flight' },
-            { label: 'Statement Count', value: fetching ? '—' : items.length, sub: 'FY ' + year },
-          ].map((k, i) => (
-            <div key={i} className="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { label: 'Total Reconciled', value: fetching ? '—' : String(filtered.length), sub: `${items.length} wallet transactions`, icon: CheckCircle2, tint: 'emerald' },
+          { label: 'Latest Net Yield', value: fetching ? '—' : formatNairaFull(totalNaira), sub: 'settled', icon: Wallet, tint: 'emerald' },
+          { label: 'Pending', value: fetching ? '—' : String(pendingCount), sub: 'in-flight', icon: Clock, tint: 'amber' },
+          { label: 'Statement Count', value: fetching ? '—' : String(filtered.length), sub: `FY ${year}`, icon: FileText, tint: 'zinc' },
+        ].map((k) => {
+          const Icon = k.icon;
+          return (
+            <div key={k.label} className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col justify-between">
               <div className="flex items-start justify-between">
                 <div className="flex flex-col">
-                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">{k.label}</span>
-                  <div className="flex items-baseline gap-2 mt-1">
-                    <span className="font-display text-headline-lg font-bold text-on-surface">{k.value}</span>
-                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{k.label}</span>
+                  <span className="mt-1 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{k.value}</span>
                 </div>
-                <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
-                  {i === 0 ? <CheckCircle2 className="w-5 h-5" /> : i === 1 ? <Wallet className="w-5 h-5" /> : i === 2 ? <Loader2 className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
+                <div
+                  className={`flex h-10 w-10 items-center justify-center rounded-xl border ${
+                    k.tint === 'emerald'
+                      ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+                      : k.tint === 'amber'
+                        ? 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400'
+                        : 'bg-zinc-100 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.06] text-zinc-500 dark:text-zinc-400'
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
                 </div>
               </div>
-              <div className="mt-space-md flex items-center justify-between text-on-surface-variant font-mono-numeric text-body-sm">
+              <div className="mt-3 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
                 <span>{k.sub}</span>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
       {/* Search + Table */}
-      <div className="px-space-xl pb-24">
-        <div className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
-          <div className="p-space-md border-b border-outline-variant/30 flex items-center gap-space-sm">
-            <Search className="w-4 h-4 text-on-surface-variant" />
-            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Filter statements..." className="bg-transparent border-0 focus-visible:ring-0" />
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm tracking-wider uppercase">
-                  <th className="py-space-sm px-space-md font-semibold">Statement</th>
-                  <th className="py-space-sm px-space-md font-semibold">Type</th>
-                  <th className="py-space-sm px-space-md font-semibold">Date</th>
-                  <th className="py-space-sm px-space-md font-semibold">Status</th>
-                  <th className="py-space-sm px-space-md font-semibold text-right">Amount</th>
-                  <th className="py-space-sm px-space-md font-semibold text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y-0 text-on-surface">
-                {fetching ? (
-                  Array.from({ length: 6 }).map((_, i) => (
-                    <tr key={i}><td colSpan={6} className="py-space-sm px-space-md"><div className="h-8 bg-surface-container animate-pulse rounded" /></td></tr>
-                  ))
-                ) : filtered.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="py-12 text-center text-on-surface-variant">
-                      <FileText className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                      <p className="font-title-sm">No statements found</p>
+      <div className="rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 overflow-hidden">
+        <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04] px-4 py-3">
+          <Search className="h-4 w-4 text-zinc-400" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Filter statements by type or description..."
+            className="h-9 border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 placeholder:text-zinc-400 dark:text-white"
+          />
+          <span className="hidden sm:inline-flex text-xs text-zinc-500 dark:text-zinc-400 whitespace-nowrap">
+            {filtered.length} of {items.length}
+          </span>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-zinc-200 bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400">
+                <th className="px-4 py-3 font-semibold">Statement</th>
+                <th className="px-4 py-3 font-semibold">Type</th>
+                <th className="px-4 py-3 font-semibold">Date</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
+                <th className="px-4 py-3 font-semibold text-right">Amount</th>
+                <th className="px-4 py-3 font-semibold text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-100 dark:divide-white/[0.06] text-sm">
+              {fetching ? (
+                Array.from({ length: 6 }).map((_, i) => (
+                  <tr key={i}>
+                    <td colSpan={6} className="px-4 py-3">
+                      <div className="h-8 animate-pulse rounded-lg bg-zinc-100 dark:bg-white/[0.06]" />
                     </td>
                   </tr>
-                ) : (
-                  filtered.map((t) => (
-                    <tr key={t.id} className="hover:bg-surface-container-low/60 transition-colors">
-                      <td className="py-space-sm px-space-md">
-                        <div className="flex items-center gap-space-sm">
-                          <div className="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
-                            <FileText className="w-5 h-5" />
-                          </div>
-                          <div className="font-title-sm text-title-sm text-on-surface">{t.description || t.type}</div>
+                ))
+              ) : filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-16 text-center">
+                    <div className="mx-auto flex w-12 h-12 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-white/[0.04] text-zinc-400 mb-3">
+                      <FileText className="h-6 w-6 opacity-60" />
+                    </div>
+                    <p className="text-sm font-semibold text-zinc-900 dark:text-white">No statements found</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Try adjusting year, month, or search.</p>
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((t) => (
+                  <tr key={t.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-colors">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/[0.06] text-emerald-600 dark:text-emerald-400">
+                          <FileText className="h-5 w-5" />
                         </div>
-                      </td>
-                      <td className="py-space-sm px-space-md font-body-sm">{t.type}</td>
-                      <td className="py-space-sm px-space-md font-mono-numeric text-body-sm">{new Date(t.createdAt).toLocaleDateString('en-NG')}</td>
-                      <td className="py-space-sm px-space-md">
-                        <span className="px-2 py-0.5 rounded-full bg-primary-container/20 text-on-primary-container font-label-sm uppercase">{t.status}</span>
-                      </td>
-                      <td className="py-space-sm px-space-md text-right font-mono-numeric">{t.currency || 'NGN'} {Number(t.amount).toLocaleString()}</td>
-                      <td className="py-space-sm px-space-md text-right">
-                        <Button variant="ghost" size="sm" onClick={() => toast.info('Download queued')}>
-                          <Download className="w-4 h-4" />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white line-clamp-1">{t.description || t.type}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-sm capitalize text-zinc-600 dark:text-zinc-400">{String(t.type).replace(/_/g, ' ')}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-zinc-500 dark:text-zinc-400">{formatDate(t.createdAt)}</td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-semibold capitalize ${
+                          t.status === 'success' || t.status === 'completed' || t.status === 'released'
+                            ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                            : t.status === 'pending' || t.status === 'processing'
+                              ? 'border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                              : 'border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-white/[0.08] dark:bg-white/[0.06] dark:text-zinc-400'
+                        }`}
+                      >
+                        {t.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-right font-mono text-sm font-semibold text-zinc-900 dark:text-white">
+                      {formatNairaFull(Number(t.amount || 0))}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => downloadRow(t)}
+                        disabled={downloading === t.id}
+                        aria-label="Download"
+                        className="text-zinc-500 hover:text-emerald-600 dark:text-zinc-400"
+                      >
+                        {downloading === t.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

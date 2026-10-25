@@ -20,10 +20,8 @@ import {
 } from 'lucide-react';
 import { apiEndpoints } from '@/lib/api';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-// amounts are already in naira (not kobo), so format directly
 
 interface Invoice {
   id: string;
@@ -39,22 +37,17 @@ interface Invoice {
 }
 
 const statusConfig: Record<string, { label: string; cls: string }> = {
-  paid: { label: 'Paid & Escrowed', cls: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
+  paid: { label: 'Paid & Escrowed', cls: 'bg-emerald-600 text-white border-emerald-600' },
   overdue: { label: 'Overdue', cls: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' },
   pending: { label: 'Pending', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
-  sent: { label: 'Sent / Delivered', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
-  draft: { label: 'Draft', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-500 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
-  cancelled: { label: 'Cancelled', cls: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' },
+  sent: { label: 'Sent', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
+  draft: { label: 'Draft', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
+  cancelled: { label: 'Cancelled', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
 };
 
 function initials(name?: string) {
   if (!name) return 'NA';
-  return name
-    .split(' ')
-    .map((p) => p[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
+  return name.split(' ').map((p) => p[0]).join('').slice(0, 2).toUpperCase();
 }
 
 export default function LandlordInvoicesClient() {
@@ -135,8 +128,35 @@ export default function LandlordInvoicesClient() {
   };
 
   const downloadPdf = (id: string) => {
-    // endpoint not yet available; stub with toast
-    toast({ title: 'PDF download not yet available', description: `Receipt endpoint: /api/invoices/${id}/receipt`, variant: 'destructive' });
+    window.open(`/api/invoices/${id}/receipt`, '_blank');
+  };
+
+  const exportCsv = () => {
+    if (filtered.length === 0) {
+      toast({ title: 'No invoices to export', variant: 'destructive' });
+      return;
+    }
+    const headers = ['Invoice Ref', 'Tenant', 'Property', 'Issue Date', 'Due Date', 'Amount', 'Status'];
+    const rows = filtered.map((inv) => [
+      inv.invoiceNumber || inv.id.slice(0, 8),
+      inv.tenant?.fullName || '',
+      inv.listing?.title || '',
+      inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('en-NG') : '',
+      inv.dueDate ? new Date(inv.dueDate).toLocaleDateString('en-NG') : '',
+      String(inv.totalAmount ?? inv.amount ?? 0),
+      inv.status || 'draft',
+    ]);
+    const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `invoices-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast({ title: 'CSV exported' });
   };
 
   if (loading) {
@@ -181,10 +201,10 @@ export default function LandlordInvoicesClient() {
             <Receipt className="w-4 h-4 text-emerald-600" />
             Escrow Node: Active
           </div>
-          <Button variant="outline" size="sm" onClick={() => toast({ title: 'Export not yet wired' })}>
+          <Button variant="outline" size="sm" onClick={exportCsv}>
             <Download className="w-4 h-4 mr-1" /> Export CSV
           </Button>
-          <Button size="sm" onClick={() => toast({ title: 'Generate Invoice', description: 'Use create endpoint; modal not yet wired' })}>
+          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => toast({ title: 'Generate Invoice', description: 'Invoice builder coming soon — use POST /api/invoices' })}>
             <Plus className="w-4 h-4 mr-1" /> Generate Invoice
           </Button>
         </div>
@@ -215,7 +235,7 @@ export default function LandlordInvoicesClient() {
         <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Settled to Escrow</span>
-            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-emerald-600/10 flex items-center justify-center text-emerald-600">
               <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
@@ -265,7 +285,7 @@ export default function LandlordInvoicesClient() {
             </div>
             <div className="flex items-center gap-1 bg-zinc-50 dark:bg-white/[0.04] rounded-lg px-3 py-1.5 border border-zinc-200 dark:border-white/[0.08]">
               <Calendar className="w-4 h-4 text-zinc-400" />
-              <select className="bg-transparent text-sm text-zinc-900 dark:text-white focus:outline-none cursor-pointer">
+              <select className="bg-transparent text-sm text-zinc-900 dark:text-white focus:outline-none cursor-pointer" onChange={() => toast({ title: 'Date filter — coming soon' })}>
                 <option value="q4">Last 90 Days</option>
                 <option value="m30">Past 30 Days</option>
                 <option value="ytd">Year-to-date</option>
@@ -310,7 +330,7 @@ export default function LandlordInvoicesClient() {
             <Button variant="outline" size="sm" onClick={() => { setQuery(''); setStatusFilter('all'); }}>
               Reset Filters
             </Button>
-            <Button size="sm" onClick={() => toast({ title: 'Generate Invoice', description: 'Modal not yet wired' })}>
+            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => toast({ title: 'Generate Invoice', description: 'Modal not yet wired' })}>
               <Plus className="w-4 h-4 mr-1" /> Generate New Invoice
             </Button>
           </div>
@@ -344,11 +364,11 @@ export default function LandlordInvoicesClient() {
                 {filtered.map((inv) => {
                   const cfg = statusConfig[inv.status || 'draft'] || statusConfig.draft;
                   return (
-                    <tr key={inv.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-colors">
+                    <tr key={inv.id} className="hover:bg-emerald-600/[0.04] transition-colors">
                       <td className="py-3 px-6 font-mono text-sm font-bold text-emerald-600">
                         <Link href="#" className="hover:underline flex items-center gap-1">
                           {inv.invoiceNumber || inv.id.slice(0, 8)}
-                          <FileText className="w-3 h-3 opacity-0 group-hover:opacity-100" />
+                          <FileText className="w-3 h-3 opacity-60" />
                         </Link>
                       </td>
                       <td className="py-3 px-4">

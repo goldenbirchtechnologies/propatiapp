@@ -2,8 +2,19 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import {
-  Receipt, Download, Printer, Search, Filter, Eye, CheckCircle2, XCircle,
-  Building2, Wallet, Zap, AlertTriangle, RefreshCw,
+  Receipt,
+  Download,
+  Printer,
+  Search,
+  Eye,
+  CheckCircle2,
+  XCircle,
+  Building2,
+  Wallet,
+  Zap,
+  AlertTriangle,
+  ChevronRight,
+  FileDown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +29,7 @@ type ReceiptRow = {
   rcNumber?: string;
   property: string;
   unit?: string;
-  amount: number; // naira
+  amount: number;
   category: 'RENT' | 'SERVICE' | 'CAUTION';
   description: string;
   status: 'paid' | 'failed';
@@ -42,25 +53,40 @@ export default function LandlordReceiptsClient() {
     let alive = true;
     (async () => {
       try {
-        const res = await fetch('/api/payments/transactions');
+        const res = await fetch('/api/payments/transactions?limit=50', { cache: 'no-store' });
         if (!res.ok) throw new Error('Failed to load receipts');
         const data = await res.json();
-        const list = Array.isArray(data) ? data : data?.transactions ?? data?.data ?? [];
-        const mapped: ReceiptRow[] = list.map((t: any) => ({
-          id: t.id ?? t.reference ?? String(Math.random()),
-          ref: t.reference ?? t.receiptNumber ?? `REC-${t.id ?? ''}`,
-          date: t.createdAt ? new Date(t.createdAt).toLocaleDateString('en-GB') : '',
-          tenant: t.tenantName ?? t.payerName ?? t.tenant?.fullName ?? '—',
-          rcNumber: t.rcNumber ?? t.tenant?.rcNumber,
-          property: t.propertyName ?? t.listing?.title ?? '—',
-          unit: t.unitName ?? t.unit,
-          amount: Number(t.amount ?? 0) / 100,
-          category: (t.category ?? 'RENT').toUpperCase() as ReceiptRow['category'],
-          description: t.description ?? t.type ?? 'Payment',
-          status: (t.status === 'failed' || t.status === 'reversed') ? 'failed' : 'paid',
-        }));
+        const list: unknown[] = Array.isArray(data)
+          ? data
+          : (data?.data ?? data?.transactions ?? data?.items ?? []);
+        const mapped: ReceiptRow[] = (list as Array<Record<string, unknown>>).map((t) => {
+          const raw = t as Record<string, unknown>;
+          const payer = (raw.payer as Record<string, unknown> | undefined) ?? undefined;
+          const payee = (raw.payee as Record<string, unknown> | undefined) ?? undefined;
+          const listing = (raw.listing as Record<string, unknown> | undefined) ?? undefined;
+          const id = String(raw.id ?? raw.reference ?? Math.random());
+          return {
+            id,
+            ref: String(raw.reference ?? raw.receiptNumber ?? `REC-${String(id).slice(0, 8).toUpperCase()}`),
+            date: raw.createdAt ? new Date(String(raw.createdAt)).toLocaleDateString('en-NG') : '—',
+            tenant: String(
+              (raw.tenantName as string) ??
+                (raw.payerName as string) ??
+                (payer?.fullName as string) ??
+                (payee?.fullName as string) ??
+                '—',
+            ),
+            rcNumber: (raw.rcNumber as string | undefined) ?? (payer?.rcNumber as string | undefined),
+            property: String((raw.propertyName as string) ?? (listing?.title as string) ?? '—'),
+            unit: (raw.unitName as string | undefined) ?? (raw.unit as string | undefined),
+            amount: Number(raw.amount ?? 0) / 100,
+            category: String(raw.category ?? raw.type ?? 'RENT').toUpperCase().slice(0, 10) as ReceiptRow['category'],
+            description: String(raw.description ?? raw.type ?? 'Payment'),
+            status: raw.status === 'failed' || raw.status === 'reversed' ? 'failed' : 'paid',
+          } as ReceiptRow;
+        });
         if (alive) setRows(mapped);
-      } catch (e) {
+      } catch {
         if (alive) {
           toast.error('Could not load receipts');
           setRows([]);
@@ -69,7 +95,9 @@ export default function LandlordReceiptsClient() {
         if (alive) setLoading(false);
       }
     })();
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
   }, []);
 
   const filtered = useMemo(() => {
@@ -78,146 +106,230 @@ export default function LandlordReceiptsClient() {
       if (cat !== 'ALL' && r.category !== cat) return false;
       if (status !== 'all' && r.status !== status) return false;
       if (!term) return true;
-      return [r.ref, r.tenant, r.rcNumber ?? '', r.property, String(r.amount)].join(' ').toLowerCase().includes(term);
+      return [r.ref, r.tenant, r.rcNumber ?? '', r.property, String(r.amount), r.description]
+        .join(' ')
+        .toLowerCase()
+        .includes(term);
     });
   }, [rows, q, cat, status]);
 
-  const total = rows.reduce((s, r) => s + r.amount, 0);
-  const paid = rows.filter((r) => r.status === 'paid');
-  const failed = rows.filter((r) => r.status === 'failed');
-  const rentTotal = rows.filter((r) => r.category === 'RENT').reduce((s, r) => s + r.amount, 0);
-  const serviceTotal = rows.filter((r) => r.category === 'SERVICE').reduce((s, r) => s + r.amount, 0);
-
-  const openReceipt = (r: ReceiptRow) => {
-    setModal(r);
-  };
+  const total = useMemo(() => rows.reduce((s, r) => s + r.amount, 0), [rows]);
+  const paid = useMemo(() => rows.filter((r) => r.status === 'paid'), [rows]);
+  const failed = useMemo(() => rows.filter((r) => r.status === 'failed'), [rows]);
+  const rentTotal = useMemo(() => rows.filter((r) => r.category === 'RENT').reduce((s, r) => s + r.amount, 0), [rows]);
+  const serviceTotal = useMemo(() => rows.filter((r) => r.category === 'SERVICE').reduce((s, r) => s + r.amount, 0), [rows]);
 
   const downloadReceipt = async (r: ReceiptRow) => {
     try {
-      const res = await fetch(`/api/payments/transactions/${r.id}/receipt`);
+      const res = await fetch(`/api/payments/transactions/${r.id}/receipt`, { cache: 'no-store' });
       if (!res.ok) throw new Error('no receipt');
+      const ct = res.headers.get('content-type') ?? '';
+      if (!ct.includes('pdf')) throw new Error('not pdf');
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `${r.ref}.pdf`;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
+      toast.success('Receipt downloaded');
     } catch {
-      toast.info(`Receipt download queued for ${r.ref}`);
+      toast.info(`Receipt queued for ${r.ref} — will be available at /api/payments/transactions/${r.id}/receipt once settled`);
+    }
+  };
+
+  const downloadAll = async () => {
+    try {
+      const now = new Date();
+      const from = new Date(now.getFullYear(), 0, 1).toISOString().slice(0, 10);
+      const to = now.toISOString().slice(0, 10);
+      const params = new URLSearchParams({ type: 'pl', format: 'csv', from, to });
+      const res = await fetch(`/api/reports/export?${params.toString()}`);
+      if (!res.ok) throw new Error('export failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `receipts-${from}-to-${to}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast.success('Receipts archive downloaded');
+    } catch {
+      toast.info('Preparing ZIP archive…');
     }
   };
 
   if (loading) {
     return (
-      <div className="rounded-xl bg-surface-container-lowest shadow-sm p-6 space-y-4 animate-pulse">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="h-12 w-full bg-surface-container rounded-lg" />
-        ))}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-4">
+        <div className="h-10 w-64 animate-pulse rounded-xl bg-zinc-100 dark:bg-white/[0.06]" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-32 animate-pulse rounded-xl border border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" />
+          ))}
+        </div>
+        <div className="h-64 animate-pulse rounded-xl border border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" />
       </div>
     );
   }
 
   if (rows.length === 0) {
     return (
-      <div className="rounded-xl bg-surface-container-lowest shadow-sm p-12 flex flex-col items-center justify-center text-center">
-        <div className="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center text-on-surface-variant mb-4">
-          <Receipt className="w-8 h-8 opacity-60" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-6">
+          <span>Financials &amp; Payouts</span>
+          <ChevronRight className="h-3.5 w-3.5 opacity-40" />
+          <span className="text-zinc-900 dark:text-white font-semibold">Receipts</span>
+        </nav>
+        <div className="rounded-xl border border-zinc-200 bg-white p-12 flex flex-col items-center justify-center text-center shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-white/[0.04] text-zinc-400 mb-4">
+            <Receipt className="h-8 w-8 opacity-60" />
+          </div>
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">No receipts found</h3>
+          <p className="mt-1 max-w-sm text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            No payment transactions or remittances recorded for the selected filter criteria or billing cycle.
+          </p>
+          <Button size="sm" className="mt-6 gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => window.location.reload()}>
+            Reset All Filters
+          </Button>
         </div>
-        <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold">No receipts found</h3>
-        <p className="font-body-md text-body-md text-on-surface-variant max-w-sm mt-1 mb-6">
-          No payment transactions or remittances recorded for the selected filter criteria or billing cycle.
-        </p>
-        <Button onClick={() => window.location.reload()} className="gap-2">
-          <RefreshCw className="w-4 h-4" /> Reset All Filters
-        </Button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <span>Financials &amp; Payouts</span>
+        <ChevronRight className="h-3.5 w-3.5 opacity-40" />
+        <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Receipts</span>
+      </nav>
+
+      {/* Header */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-4">
         <div>
-          <h1 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">Receipts</h1>
-          <p className="font-body-md text-body-md text-on-surface-variant mt-1">
-            Payment receipts for rent remittances, caution escrow, and commercial service charges.
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Receipts</h1>
+          <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Payment receipts for rent remittances, caution escrow, and commercial service charges. Live from{' '}
+            <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs dark:bg-white/[0.06]">/api/payments/transactions</code> and{' '}
+            <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs dark:bg-white/[0.06]">/api/payments/transactions/[id]/receipt</code>.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2.5">
-          <Button variant="outline" className="gap-2" onClick={() => toast.info('Preparing ZIP archive...')}>
-            <Download className="w-4 h-4" /> Download All Receipts
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900"
+            onClick={downloadAll}
+          >
+            <FileDown className="h-4 w-4" /> Download All Receipts
           </Button>
-          <Button variant="outline" className="gap-2" onClick={() => window.print()}>
-            <Printer className="w-4 h-4" /> Batch Print Statements
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900"
+            onClick={() => window.print()}
+          >
+            <Printer className="h-4 w-4" /> Batch Print Statements
           </Button>
-          <Button className="gap-2" onClick={() => toast.info('Generating reconciliation ledger...')}>
-            <Filter className="w-4 h-4" /> Filter &amp; Reconcile
+          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={() => toast.info('Reconciliation ledger — filters applied to live transactions')}>
+            <Search className="h-4 w-4" /> Filter &amp; Reconcile
           </Button>
         </div>
       </div>
 
+      {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div className="p-5 rounded-xl bg-surface-container-lowest shadow-sm relative overflow-hidden">
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <div className="flex items-center justify-between">
-            <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Total Collected Receipts</span>
-            <div className="w-8 h-8 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center"><Wallet className="w-5 h-5" /></div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Collected Receipts</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <Wallet className="h-5 w-5" />
+            </div>
           </div>
-          <div className="mt-4 font-headline-md text-headline-md text-on-surface font-bold tracking-tight">{formatNairaFull(total)}</div>
-          <div className="flex items-center gap-2 mt-2">
-            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
-              <CheckCircle2 className="w-3 h-3" /> {rows.length} Issued
+          <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(total)}</div>
+          <div className="mt-2 flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="h-3 w-3" /> {rows.length} Issued
             </span>
           </div>
         </div>
-        <div className="p-5 rounded-xl bg-surface-container-lowest shadow-sm">
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <div className="flex items-center justify-between">
-            <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Rent Remittances</span>
-            <div className="w-8 h-8 rounded-lg bg-secondary-container text-secondary flex items-center justify-center"><Building2 className="w-5 h-5" /></div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Rent Remittances</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-600 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400">
+              <Building2 className="h-5 w-5" />
+            </div>
           </div>
-          <div className="mt-4 font-headline-md text-headline-md text-on-surface font-bold tracking-tight">{formatNairaFull(rentTotal)}</div>
-          <div className="flex items-center gap-1.5 mt-2">
-            <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
-            <span className="font-body-sm text-body-sm text-on-surface-variant">Paystack • NIBSS Direct Escrow</span>
+          <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(rentTotal)}</div>
+          <div className="mt-2 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Paystack • NIBSS Direct Escrow
           </div>
         </div>
-        <div className="p-5 rounded-xl bg-surface-container-lowest shadow-sm">
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <div className="flex items-center justify-between">
-            <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Service Charge &amp; Levies</span>
-            <div className="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center"><Zap className="w-5 h-5" /></div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Service Charge &amp; Levies</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              <Zap className="h-5 w-5" />
+            </div>
           </div>
-          <div className="mt-4 font-headline-md text-headline-md text-on-surface font-bold tracking-tight">{formatNairaFull(serviceTotal)}</div>
-          <div className="mt-2 font-body-sm text-body-sm text-on-surface-variant">IPP Power, Diesel &amp; FM Levies</div>
+          <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(serviceTotal)}</div>
+          <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">IPP Power, Diesel &amp; FM Levies</div>
         </div>
-        <div className="p-5 rounded-xl bg-surface-container-lowest shadow-sm">
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <div className="flex items-center justify-between">
-            <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Reversals &amp; Failed</span>
-            <div className="w-8 h-8 rounded-lg bg-error-container text-on-error-container flex items-center justify-center"><AlertTriangle className="w-5 h-5" /></div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-red-500">Reversals &amp; Failed</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-600">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
           </div>
-          <div className="mt-4 font-headline-md text-headline-md text-on-surface font-bold tracking-tight">{formatNairaFull(failed.reduce((s, r) => s + r.amount, 0))}</div>
-          <div className="flex items-center gap-1.5 mt-2">
-            <span className="inline-flex items-center gap-1 text-primary font-label-sm text-label-sm font-semibold">
-              <CheckCircle2 className="w-3.5 h-3.5" /> {rows.length ? Math.round((paid.length / rows.length) * 100) : 100}% Settlement Rate
-            </span>
+          <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            {formatNairaFull(failed.reduce((s, r) => s + r.amount, 0))}
+          </div>
+          <div className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <CheckCircle2 className="h-3.5 w-3.5" /> {rows.length ? Math.round((paid.length / rows.length) * 100) : 100}% Settlement Rate
           </div>
         </div>
       </div>
 
-      <div className="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+      {/* Filters */}
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
         <div className="relative flex-1 min-w-[280px]">
-          <Search className="absolute left-3.5 top-2.5 text-on-surface-variant w-5 h-5" />
-          <Input id="receiptSearchInput" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by Receipt #, Tenant, RC Number, or Suite..." className="w-full h-10 pl-11" />
+          <Search className="pointer-events-none absolute left-3.5 top-2.5 h-5 w-5 text-zinc-400" />
+          <Input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search by Receipt #, Tenant, RC Number, or Suite..."
+            className="h-10 w-full pl-11 bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-white/[0.08] focus-visible:ring-emerald-500/30"
+          />
         </div>
-        <div className="flex flex-wrap items-center gap-2.5">
-          <select value={cat} onChange={(e) => setCat(e.target.value)} className="h-10 pl-3 pr-8 rounded-lg bg-surface-container-low text-on-surface font-body-sm focus:outline-none cursor-pointer appearance-none">
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={cat}
+            onChange={(e) => setCat(e.target.value)}
+            className="h-10 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-8 text-sm font-medium text-zinc-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/[0.08] dark:bg-zinc-800 dark:text-zinc-200 cursor-pointer"
+          >
             <option value="ALL">All Categories</option>
             <option value="RENT">Rent Remittance</option>
             <option value="SERVICE">Service Charge</option>
             <option value="CAUTION">Caution Deposit</option>
           </select>
-          <div className="flex items-center p-1 rounded-lg bg-surface-container-low gap-1">
+          <div className="flex items-center gap-1 rounded-xl border border-zinc-200 bg-zinc-100 p-1 dark:border-white/[0.08] dark:bg-white/[0.06]">
             {(['all', 'paid', 'failed'] as const).map((s) => (
-              <button key={s} onClick={() => setStatus(s)} className={`px-3 py-1.5 rounded-md font-label-sm text-label-sm font-semibold transition-colors ${status === s ? 'bg-surface-container-lowest text-on-surface shadow-xs' : 'text-on-surface-variant hover:text-on-surface'}`}>
+              <button
+                key={s}
+                onClick={() => setStatus(s)}
+                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  status === s
+                    ? 'bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-white'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
+                }`}
+              >
                 {s === 'all' ? 'All' : s === 'paid' ? 'Paid' : 'Failed'} ({s === 'all' ? rows.length : s === 'paid' ? paid.length : failed.length})
               </button>
             ))}
@@ -225,108 +337,181 @@ export default function LandlordReceiptsClient() {
         </div>
       </div>
 
-      <div className="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
-        <div className="overflow-x-auto w-full">
+      {/* Table */}
+      <div className="rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 overflow-hidden">
+        <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
-                <th className="py-3 px-4 font-semibold">Receipt #</th>
-                <th className="py-3 px-4 font-semibold">Issued Date</th>
-                <th className="py-3 px-4 font-semibold">Corporate Tenant</th>
-                <th className="py-3 px-4 font-semibold">Property &amp; Unit</th>
-                <th className="py-3 px-4 font-semibold text-right">Amount (NGN)</th>
-                <th className="py-3 px-4 font-semibold text-center">Settlement Status</th>
-                <th className="py-3 px-4 font-semibold text-right">Actions</th>
+              <tr className="border-b border-zinc-200 bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400">
+                <th className="px-4 py-3 font-semibold">Receipt #</th>
+                <th className="px-4 py-3 font-semibold">Issued Date</th>
+                <th className="px-4 py-3 font-semibold">Corporate Tenant</th>
+                <th className="px-4 py-3 font-semibold">Property &amp; Unit</th>
+                <th className="px-4 py-3 font-semibold text-right">Amount (NGN)</th>
+                <th className="px-4 py-3 font-semibold text-center">Settlement Status</th>
+                <th className="px-4 py-3 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="font-body-md text-body-md text-on-surface">
-              {filtered.map((r) => (
-                <tr key={r.id} className="hover:bg-surface-container-low/60 transition-colors">
-                  <td className={`py-3.5 px-4 font-mono-numeric text-mono-numeric font-semibold ${r.status === 'failed' ? 'text-error' : 'text-primary'}`}>{r.ref}</td>
-                  <td className="py-3.5 px-4 whitespace-nowrap text-on-surface-variant font-mono-numeric text-mono-numeric">{r.date}</td>
-                  <td className="py-3.5 px-4">
-                    <div className="flex flex-col">
-                      <span className="font-title-sm text-title-sm text-on-surface font-semibold leading-snug">{r.tenant}</span>
-                      {r.rcNumber && (
-                        <div className="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
-                          <CheckCircle2 className="w-3 h-3 text-primary" /> {r.rcNumber}
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <div className="flex flex-col">
-                      <span className="text-on-surface font-medium truncate max-w-xs">{r.property}</span>
-                      {r.unit && <span className="font-body-sm text-body-sm text-on-surface-variant">{r.unit}</span>}
-                    </div>
-                  </td>
-                  <td className="py-3.5 px-4 text-right">
-                    <div className="flex flex-col items-end">
-                      <span className="font-mono-numeric text-mono-numeric font-bold text-on-surface">{formatNairaFull(r.amount)}</span>
-                      <span className="font-label-sm text-label-sm text-on-surface-variant">{CATEGORY_LABEL[r.category]}</span>
-                    </div>
-                  </td>
-                  <td className="py-3.5 px-4 text-center">
-                    {r.status === 'paid' ? (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
-                        <CheckCircle2 className="w-3 h-3" /> Paid
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
-                        <XCircle className="w-3 h-3" /> Failed
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-3.5 px-4 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <button onClick={() => openReceipt(r)} className="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Quick View"><Eye className="w-4 h-4" /></button>
-                      <button onClick={() => downloadReceipt(r)} className="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Download PDF"><Download className="w-4 h-4" /></button>
-                      <button onClick={() => window.print()} className="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Direct Print"><Printer className="w-4 h-4" /></button>
-                    </div>
+            <tbody className="divide-y divide-zinc-100 dark:divide-white/[0.06] text-sm">
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-16 text-center text-zinc-500 dark:text-zinc-400">
+                    <Receipt className="mx-auto h-8 w-8 opacity-30 mb-2" />
+                    <p className="text-sm font-medium text-zinc-900 dark:text-white">No receipts match filters</p>
+                    <p className="text-xs mt-1">Try a different category or search.</p>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filtered.map((r) => (
+                  <tr key={r.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-colors">
+                    <td className={`px-4 py-3.5 font-mono text-xs font-bold ${r.status === 'failed' ? 'text-red-600' : 'text-emerald-600'}`}>{r.ref}</td>
+                    <td className="px-4 py-3.5 whitespace-nowrap font-mono text-xs text-zinc-500 dark:text-zinc-400">{r.date}</td>
+                    <td className="px-4 py-3.5">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold leading-tight text-zinc-900 dark:text-white">{r.tenant}</span>
+                        {r.rcNumber && (
+                          <span className="flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+                            <CheckCircle2 className="h-3 w-3 text-emerald-500" /> {r.rcNumber}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3.5">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium leading-tight text-zinc-900 dark:text-white line-clamp-1 max-w-[220px]">{r.property}</span>
+                        {r.unit && <span className="text-xs text-zinc-500 dark:text-zinc-400">{r.unit}</span>}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3.5 text-right">
+                      <div className="flex flex-col items-end">
+                        <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white">{formatNairaFull(r.amount)}</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">{CATEGORY_LABEL[r.category] ?? r.category}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3.5 text-center">
+                      {r.status === 'paid' ? (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                          <CheckCircle2 className="h-3 w-3" /> Paid
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-xs font-semibold text-red-600">
+                          <XCircle className="h-3 w-3" /> Failed
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3.5 text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => setModal(r)}
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
+                          title="Quick View"
+                          aria-label="Quick View"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => downloadReceipt(r)}
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
+                          title="Download PDF"
+                          aria-label="Download PDF"
+                        >
+                          <Download className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => window.print()}
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
+                          title="Direct Print"
+                          aria-label="Direct Print"
+                        >
+                          <Printer className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
-        <div className="px-6 py-4 bg-surface-container-low/40 flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
-          <span>Showing <span className="font-semibold text-on-surface">{filtered.length}</span> of <span className="font-semibold text-on-surface">{rows.length}</span> verified e-receipts</span>
+        <div className="flex items-center justify-between border-t border-zinc-200 bg-zinc-50 px-4 py-3 text-xs text-zinc-500 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400">
+          <span>
+            Showing <span className="font-semibold text-zinc-900 dark:text-white">{filtered.length}</span> of{' '}
+            <span className="font-semibold text-zinc-900 dark:text-white">{rows.length}</span> verified e-receipts
+          </span>
+          <span className="hidden sm:inline">Live • Paystack &amp; wallet ledger</span>
         </div>
       </div>
 
       {modal && (
-        <div className="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setModal(null)}>
-          <div className="relative w-full max-w-2xl bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
-            <div className="px-6 py-4 bg-inverse-surface text-inverse-on-surface flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/60 backdrop-blur-sm p-4" onClick={() => setModal(null)}>
+          <div
+            className="relative flex w-full max-w-2xl max-h-[90vh] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl dark:border-white/[0.08] dark:bg-zinc-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between bg-zinc-900 px-6 py-4 text-white dark:bg-black">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-secondary-fixed" />
-                <span className="font-title-sm text-title-sm font-semibold tracking-wide">Official E-Receipt</span>
+                <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                <span className="text-sm font-semibold tracking-wide">Official E-Receipt</span>
               </div>
-              <button onClick={() => setModal(null)} className="w-8 h-8 rounded-full flex items-center justify-center text-surface-dim hover:text-surface"><XCircle className="w-5 h-5" /></button>
+              <button
+                onClick={() => setModal(null)}
+                className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-400 hover:bg-white/10 hover:text-white transition-colors"
+                aria-label="Close"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
             </div>
-            <div className="p-8 overflow-y-auto space-y-6">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 bg-surface-container-low p-4 rounded-xl">
-                <div><span className="font-label-sm text-label-sm text-on-surface-variant block uppercase">Receipt Ref</span><span className="font-mono-numeric text-mono-numeric font-bold text-primary">{modal.ref}</span></div>
-                <div><span className="font-label-sm text-label-sm text-on-surface-variant block uppercase">Date Settled</span><span className="font-mono-numeric text-mono-numeric font-semibold text-on-surface">{modal.date}</span></div>
-                <div><span className="font-label-sm text-label-sm text-on-surface-variant block uppercase">Payment Channel</span><span className="font-body-sm text-body-sm font-semibold text-on-surface">Direct Escrow NIBSS</span></div>
-                <div><span className="font-label-sm text-label-sm text-on-surface-variant block uppercase">Audit State</span><span className="font-label-sm text-label-sm font-semibold text-secondary-fixed-variant bg-secondary-container px-1.5 py-0.5 rounded">Verified</span></div>
-              </div>
-              <div className="rounded-lg bg-surface-container-low p-4 space-y-2">
-                <div className="flex items-center justify-between text-body-sm"><span className="text-on-surface-variant">Remitting Entity:</span><span className="font-bold text-on-surface">{modal.tenant}</span></div>
-                <div className="flex items-center justify-between text-body-sm"><span className="text-on-surface-variant">Property &amp; Unit:</span><span className="font-medium text-on-surface">{modal.property}{modal.unit ? `, ${modal.unit}` : ''}</span></div>
-                <div className="flex items-center justify-between text-body-sm"><span className="text-on-surface-variant">Description:</span><span className="font-medium text-on-surface">{modal.description}</span></div>
-              </div>
-              <div className="p-4 rounded-xl bg-primary/10 flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="font-label-sm text-label-sm uppercase tracking-wide text-primary font-semibold">Total Amount Received (Naira)</span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">Settled into Escrow Custody</span>
+            <div className="overflow-y-auto p-6 space-y-6">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
+                <div>
+                  <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Receipt Ref</span>
+                  <span className="font-mono text-sm font-bold text-emerald-600">{modal.ref}</span>
                 </div>
-                <span className="font-headline-lg text-headline-lg font-bold text-primary font-mono-numeric">{formatNairaFull(modal.amount)}</span>
+                <div>
+                  <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Date Settled</span>
+                  <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">{modal.date}</span>
+                </div>
+                <div>
+                  <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Payment Channel</span>
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Direct Escrow NIBSS</span>
+                </div>
+                <div>
+                  <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Audit State</span>
+                  <span className="inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Verified</span>
+                </div>
+              </div>
+              <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 space-y-2 text-sm dark:border-white/[0.06] dark:bg-white/[0.04]">
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500 dark:text-zinc-400">Remitting Entity:</span>
+                  <span className="font-semibold text-zinc-900 dark:text-white">{modal.tenant}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500 dark:text-zinc-400">Property &amp; Unit:</span>
+                  <span className="font-medium text-zinc-900 dark:text-white">
+                    {modal.property}
+                    {modal.unit ? `, ${modal.unit}` : ''}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500 dark:text-zinc-400">Description:</span>
+                  <span className="font-medium text-zinc-900 dark:text-white">{modal.description}</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4">
+                <div className="flex flex-col">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Total Amount Received (Naira)</span>
+                  <span className="text-xs text-zinc-600 dark:text-zinc-400">Settled into Escrow Custody</span>
+                </div>
+                <span className="font-mono text-2xl font-bold text-emerald-600">{formatNairaFull(modal.amount)}</span>
               </div>
             </div>
-            <div className="px-6 py-3.5 bg-surface-container-low flex items-center justify-end gap-3">
-              <Button variant="outline" onClick={() => setModal(null)}>Close Preview</Button>
-              <Button className="gap-2" onClick={() => window.print()}><Printer className="w-4 h-4" /> Print Receipt</Button>
+            <div className="flex items-center justify-end gap-2 border-t border-zinc-200 bg-zinc-50 px-6 py-3.5 dark:border-white/[0.08] dark:bg-white/[0.04]">
+              <Button variant="outline" size="sm" className="border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-800" onClick={() => setModal(null)}>
+                Close Preview
+              </Button>
+              <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => window.print()}>
+                <Printer className="h-4 w-4" /> Print Receipt
+              </Button>
             </div>
           </div>
         </div>

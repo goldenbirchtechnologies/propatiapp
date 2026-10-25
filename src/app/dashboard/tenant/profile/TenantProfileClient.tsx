@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { User, Camera, Save, FileText, Shield, Users, Lock, Settings, Bell, Smartphone, KeyRound, LogOut, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { User, Camera, Save, FileText, Shield, Users, Lock, Settings, Bell, Smartphone, KeyRound, LogOut, Loader2, CheckCircle2, AlertCircle, Home, Link2 as Link } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -31,7 +31,7 @@ type InitialUser = {
   guarantorRelationship: string | null;
 };
 
-type Tab = 'personal' | 'rental' | 'guarantors' | 'kyc' | 'security' | 'settings';
+type Tab = 'personal' | 'documents' | 'rental' | 'security' | 'preferences' | 'kyc' | 'linked';
 
 type NotificationPrefs = {
   email: boolean;
@@ -76,7 +76,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
   const [twoFaEnabled, setTwoFaEnabled] = useState(false);
 
   useEffect(() => {
-    if (activeTab !== 'settings' || notifPrefs) return;
+    if (activeTab !== 'preferences' || notifPrefs) return;
     fetch('/api/users/notification-preferences')
       .then((r) => r.json())
       .then((j) => {
@@ -151,19 +151,26 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
   const verifiedCount = [initialUser.idVerified, initialUser.ninVerified, initialUser.phoneVerified].filter(Boolean).length;
 
   const tabs: { value: Tab; label: string; icon: React.ElementType }[] = [
-    { value: 'personal', label: 'Personal', icon: User },
-    { value: 'rental', label: 'Rental', icon: FileText },
-    { value: 'guarantors', label: 'Guarantors', icon: Users },
-    { value: 'kyc', label: 'KYC', icon: Shield },
-    { value: 'security', label: 'Security', icon: Lock },
-    { value: 'settings', label: 'Settings', icon: Settings },
+    { value: 'personal', label: 'Personal Details', icon: User },
+    { value: 'documents', label: 'Documents & Proofs', icon: FileText },
+    { value: 'rental', label: 'Rental Application', icon: Home },
+    { value: 'security', label: 'Security & 2FA', icon: Lock },
+    { value: 'preferences', label: 'Preferences', icon: Settings },
+    { value: 'kyc', label: 'Verification (KYC)', icon: Shield },
+    { value: 'linked', label: 'Linked Accounts', icon: Link },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-widest text-zinc-500">
-        <span>Dashboard</span><span className="text-zinc-300 dark:text-zinc-700">›</span>
-        <span className="text-zinc-900 dark:text-white">My Profile</span>
+        <span>DASHBOARD</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
+        <span>ACCOUNT &amp; SETTINGS</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
+        <span className="text-emerald-600 dark:text-emerald-400">TENANT PROFILE</span>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300"><Shield className="h-3 w-3" /> NDPR CERTIFIED DATA VAULT</span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300"><CheckCircle2 className="h-3 w-3 text-emerald-500" /> LASRERA REGISTERED</span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-zinc-500"><Lock className="h-3 w-3" /> 256-BIT IDENTITY ENCRYPTED</span>
       </div>
 
       <div className="flex flex-col gap-1">
@@ -293,6 +300,23 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
             </div>
           )}
 
+          {activeTab === 'documents' && (
+            <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
+              <h3 className="font-semibold text-zinc-900 dark:text-white">Documents &amp; Proofs</h3>
+              <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Upload statutory documents — NIN slip, utility bill, employment letter.</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {['NIN Slip', 'Utility Bill', 'Employment Letter'].map((d) => (
+                  <div key={d} className="rounded-lg border border-dashed border-zinc-200 dark:border-white/[0.08] p-6 text-center">
+                    <FileText className="mx-auto h-8 w-8 text-zinc-400" />
+                    <p className="mt-2 text-sm font-medium text-zinc-900 dark:text-white">{d}</p>
+                    <p className="text-xs text-zinc-500">Not uploaded</p>
+                    <Button variant="outline" size="sm" className="mt-3" onClick={() => toast.info('Upload dialog coming soon')}>Upload</Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {activeTab === 'rental' && (
             <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50">
               <div className="border-b border-zinc-200 dark:border-white/[0.08] px-6 py-4">
@@ -367,7 +391,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
             </div>
           )}
 
-          {activeTab === 'guarantors' && (
+          {activeTab === 'linked' && (
             <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
               <h3 className="font-semibold text-zinc-900 dark:text-white">Guarantors</h3>
               {initialUser.guarantorName || initialUser.guarantorPhone ? (
@@ -431,7 +455,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
             </div>
           )}
 
-          {activeTab === 'settings' && (
+          {activeTab === 'preferences' && (
             <div className="space-y-4">
               <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
                 <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Bell className="h-5 w-5 text-emerald-500" /> Notification Preferences</h3>

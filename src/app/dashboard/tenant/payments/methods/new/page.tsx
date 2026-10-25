@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { CreditCard, Lock, Shield, Wallet, Smartphone, ArrowLeft, Loader2, CheckCircle2, Check, AlertCircle, Building2, Info } from 'lucide-react';
+import { CreditCard, Lock, Shield, Wallet, Smartphone, ArrowLeft, Loader2, CheckCircle2, Check, AlertCircle, Building2, Info, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

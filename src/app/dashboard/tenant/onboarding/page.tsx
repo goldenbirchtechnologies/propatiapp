@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import {
@@ -135,7 +135,7 @@ export default function TenantOnboardingPage() {
   const progress = Math.round((clearedCount / steps.length) * 100);
 
   return (
-    <DashboardShell navigation={TENANT_NAVIGATION} userRole="tenant" userName={userName}>
+    <TenantRailShell navigation={TENANT_NAVIGATION} userRole="tenant" userName={userName}>
       <ErrorBoundary>
         <div className="min-h-screen bg-[#fbf8fc] p-4 md:p-6 lg:p-8">
           {/* Header */}
@@ -348,6 +348,6 @@ export default function TenantOnboardingPage() {
           </div>
         </div>
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

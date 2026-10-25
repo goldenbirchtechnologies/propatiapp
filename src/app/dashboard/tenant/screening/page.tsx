@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
@@ -33,7 +33,7 @@ export default async function TenantScreeningPage() {
   }));
 
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole={user.role}
       userName={user.fullName}
@@ -42,6 +42,6 @@ export default async function TenantScreeningPage() {
       <ErrorBoundary>
         <TenantScreeningClient initialScreenings={initialScreenings} />
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

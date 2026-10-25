@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantProfileClient from './TenantProfileClient';
@@ -35,7 +35,7 @@ export default async function TenantProfilePage() {
   };
 
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole={user.role}
       userName={user.fullName}
@@ -44,6 +44,6 @@ export default async function TenantProfilePage() {
       <ErrorBoundary>
         <TenantProfileClient initialUser={initialUser} />
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

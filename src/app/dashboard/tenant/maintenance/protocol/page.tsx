@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ export default async function TenantMaintenanceProtocolPage() {
   if (!user || user.role !== 'tenant') redirect('/dashboard');
 
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole={user.role}
       userName={user.fullName}
@@ -461,6 +461,6 @@ export default async function TenantMaintenanceProtocolPage() {
           <p className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400"><Clock className="h-3.5 w-3.5" /> Protocol version 4.2 — ISO 41001</p>
         </div>
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

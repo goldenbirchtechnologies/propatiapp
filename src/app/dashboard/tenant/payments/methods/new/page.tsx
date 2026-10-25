@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { useUser } from '@clerk/nextjs';
@@ -173,7 +173,7 @@ export default function AddPaymentMethodNewPage() {
   };
 
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole="tenant"
       userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Tenant'}
@@ -505,6 +505,6 @@ export default function AddPaymentMethodNewPage() {
           </div>
         </div>
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

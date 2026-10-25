@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import AddPaymentMethodClient from '@/app/dashboard/tenant/payments/methods/[id]/AddPaymentMethodClient';
@@ -16,7 +16,7 @@ export default async function AddPaymentMethodPage({ params }: Props) {
 
   // In real implementation, id refers to 'card' or 'bank'; validated server-side
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole={user.role}
       userName={user.fullName}
@@ -25,6 +25,6 @@ export default async function AddPaymentMethodPage({ params }: Props) {
       <ErrorBoundary>
         <AddPaymentMethodClient methodType={id} />
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

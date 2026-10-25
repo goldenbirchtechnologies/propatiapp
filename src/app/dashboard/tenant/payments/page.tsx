@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
@@ -95,10 +95,10 @@ export default async function TenantPaymentsPage() {
   }
 
   return (
-    <DashboardShell navigation={TENANT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+    <TenantRailShell navigation={TENANT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
         <TenantPaymentsClient userId={user.id} metrics={metrics} ledger={ledger} alertInvoice={alertInvoice} />
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

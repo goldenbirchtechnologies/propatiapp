@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ export default async function TenantMaintenanceEmergencyPage() {
   if (!user || user.role !== 'tenant') redirect('/dashboard');
 
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole={user.role}
       userName={user.fullName}
@@ -340,6 +340,6 @@ export default async function TenantMaintenanceEmergencyPage() {
           {/* Emergency contacts sidebar content appended as section? Actually Stitch has contacts in protocol page. For emergency page, contacts are in hero. Done. */}
         </div>
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

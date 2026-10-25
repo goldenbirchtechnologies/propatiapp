@@ -1,7 +1,7 @@
 import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import { formatCurrency } from '@/lib/utils';
@@ -117,7 +117,7 @@ export default async function TenantDashboardPage() {
   }
 
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole="tenant"
       userName={displayName}
@@ -135,6 +135,6 @@ export default async function TenantDashboardPage() {
           tickets={tickets}
         />
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

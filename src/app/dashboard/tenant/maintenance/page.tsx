@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout/TenantRailShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
@@ -39,7 +39,7 @@ export default async function TenantMaintenancePage() {
   }));
 
   return (
-    <DashboardShell
+    <TenantRailShell
       navigation={TENANT_NAVIGATION}
       userRole={user.role}
       userName={user.fullName}
@@ -48,6 +48,6 @@ export default async function TenantMaintenancePage() {
       <ErrorBoundary>
         <TenantMaintenanceClient tickets={mapped} />
       </ErrorBoundary>
-    </DashboardShell>
+    </TenantRailShell>
   );
 }

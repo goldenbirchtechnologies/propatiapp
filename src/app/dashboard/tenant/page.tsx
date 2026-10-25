@@ -1,7 +1,7 @@
 import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
-import { DashboardShell } from '@/components/layout/TenantRailShell';
+import TenantRailShell from '@/components/layout/TenantRailShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import { formatCurrency } from '@/lib/utils';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DashboardShell } from '@/components/layout/TenantRailShell';
+import TenantRailShell from '@/components/layout/TenantRailShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import {

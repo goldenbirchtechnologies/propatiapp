@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { PageHeader, StatCard, StatusBadge } from '@/components/ui';
 import { formatNairaFull, formatDateLong } from '@/lib/utils';
+import { useAgreements } from '@/hooks/useAgreements';
 
 type AgreementRow = {
   id: string;
@@ -57,7 +58,9 @@ const STATUS_LABEL: Record<string, string> = {
   expired: 'Expired',
 };
 
-export default function TenantAgreementsClient({ agreements }: { agreements: AgreementRow[] }) {
+export default function TenantAgreementsClient() {
+  const { data, isLoading } = useAgreements();
+  const agreements = ((data as any)?.data ?? (Array.isArray(data) ? data : [])) as AgreementRow[];
   const [q, setQ] = useState('');
   const [tab, setTab] = useState<'all' | 'active' | 'pending' | 'past'>('all');
 

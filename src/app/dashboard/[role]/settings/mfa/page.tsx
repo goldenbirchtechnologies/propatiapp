@@ -169,7 +169,7 @@ export default function MFASettingsPage() {
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {/* TOTP Status */}
-          <Card>
+          <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-3">
                 <div
@@ -196,7 +196,7 @@ export default function MFASettingsPage() {
           </Card>
 
           {/* Recovery Codes */}
-          <Card>
+          <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center">
@@ -213,7 +213,7 @@ export default function MFASettingsPage() {
           </Card>
 
           {/* SMS Backup */}
-          <Card>
+          <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-3">
                 <div
@@ -236,7 +236,7 @@ export default function MFASettingsPage() {
           </Card>
 
           {/* Enforcement */}
-          <Card>
+          <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-3">
                 <div
@@ -262,7 +262,7 @@ export default function MFASettingsPage() {
         </div>
 
         {/* TOTP Enrollment Section */}
-        <Card className="mb-8">
+        <Card className="mb-8 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-zinc-900 dark:text-white">
               <QrCode className="w-5 h-5" />
@@ -427,7 +427,7 @@ export default function MFASettingsPage() {
         </Card>
 
         {/* Recovery Codes Section */}
-        <Card>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-zinc-900 dark:text-white">
               <Key className="w-5 h-5" />

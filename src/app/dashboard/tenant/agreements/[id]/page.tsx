@@ -94,7 +94,7 @@ export default async function TenantAgreementDetailPage({ params }: { params: Pr
   return (
     <DashboardShell navigation={TENANT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
-        <TenantAgreementDetailClient agreement={serialized} />
+        <TenantAgreementDetailClient />
       </ErrorBoundary>
     </DashboardShell>
   );

@@ -154,8 +154,8 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                     {cover ? <img src={cover.url} alt={initial.listing.title} className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center text-zinc-400"><Building2 className="h-10 w-10" /></div>}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
                     <div className="absolute left-4 top-4 flex gap-2 text-[11px] font-semibold">
-                      <span className="rounded bg-emerald-600 px-2.5 py-1 text-white">Penthouse Wing Tier-A</span>
-                      <span className="rounded bg-white/20 px-2.5 py-1 text-white backdrop-blur">Ikoyi Waterfront Corridor</span>
+                      <span className="rounded bg-emerald-600 px-2.5 py-1 text-white capitalize">{initial.listing.listingType.replace(/_/g, ' ')}</span>
+                      <span className="rounded bg-white/20 px-2.5 py-1 text-white backdrop-blur">{initial.listing.area}, {initial.listing.state}</span>
                     </div>
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <h2 className="text-lg font-bold drop-shadow-sm">{initial.listing.title}</h2>

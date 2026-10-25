@@ -1,13 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useAgreement } from '@/hooks/useAgreements';
 import { FileText, Home, User, ShieldCheck, Scale, Download, Printer, Gavel, Building2, BedDouble, Bath, Ruler, Car, Zap, Droplets, Wrench, ScrollText, Fingerprint, Lock, Receipt, Folder, Phone, Mail, CheckCircle2, Clock, Pen, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { toast } from '@/hooks/use-toast';
+import { apiEndpoints } from '@/lib/api';
 import { formatNairaFull, formatDateLong } from '@/lib/utils';
 
 type Agreement = {
@@ -53,8 +56,15 @@ function initials(name: string | null | undefined) { return (name ?? '—').spli
 
 const STATUS_LABEL: Record<string,string> = { draft:'Draft', pending_landlord:'Pending Landlord', pending_tenant:'Pending Your Signature', tenant_signed:'Tenant Signed', landlord_signed:'Landlord Signed', fully_signed:'Active & Enforceable', terminated:'Terminated', expired:'Expired' };
 
-export default function TenantAgreementDetailClient({ agreement }: { agreement: Agreement }) {
+export default function TenantAgreementDetailClient() {
+  const params = useParams();
+  const id = (params?.id as string) ?? '';
+  const { data, isLoading } = useAgreement(id);
+  const agreement = ((data as any)?.data ?? data) as any;
   const [signing, setSigning] = useState(false);
+  if (isLoading || !agreement) {
+    return <div className="p-6 text-sm text-zinc-600 dark:text-zinc-400">Loading agreement...</div>;
+  }
   const cover = agreement.listing?.images.find(i=>i.isCover) ?? agreement.listing?.images[0];
   const hasTenantSigned = agreement.signatures.some(s=>s.role==='tenant');
   const hasLandlordSigned = agreement.signatures.some(s=>s.role==='landlord');
@@ -64,8 +74,7 @@ export default function TenantAgreementDetailClient({ agreement }: { agreement: 
   const handleSign = async () => {
     setSigning(true);
     try {
-      const res = await fetch(`/api/agreements/${agreement.id}/sign`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ consentText: 'I agree to the terms of this agreement.' }) });
-      if (!res.ok) { const t = await res.text(); throw new Error(t || 'Failed to sign'); }
+      await apiEndpoints.agreements.sign(agreement.id, { consentText: 'I agree to the terms of this agreement.' });
       toast({ title: 'Signed', description: 'Agreement signed successfully' });
       window.location.reload();
     } catch (e) { toast({ title:'Signing failed', description: e instanceof Error ? e.message : 'Unexpected error', variant:'destructive' }); } finally { setSigning(false); }

@@ -25,7 +25,7 @@ type Ticket = {
   listing: { id: string; title: string; address: string; area: string | null } | null;
 };
 
-function shortId(id: string) { return `MNT-${id.slice(-8).toUpperCase()}`; }
+function shortId(id: string) { return `MNT-${id.slice(0,8).toUpperCase()}`; }
 function initials(name: string | null | undefined) { return (name ?? '—').split(' ').filter(Boolean).slice(0,2).map(s=>s[0]?.toUpperCase()).join('') || '—'; }
 
 const CATEGORY_META: Record<string, { label: string; icon: React.ElementType; color: string }> = {

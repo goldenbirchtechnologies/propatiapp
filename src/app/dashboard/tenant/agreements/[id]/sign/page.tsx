@@ -66,7 +66,7 @@ export default async function TenantAgreementSignPage({ params }: { params: Prom
   return (
     <DashboardShell navigation={TENANT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
-        <TenantAgreementSignClient agreement={serialized} tenantName={user.fullName} />
+        <TenantAgreementSignClient />
       </ErrorBoundary>
     </DashboardShell>
   );

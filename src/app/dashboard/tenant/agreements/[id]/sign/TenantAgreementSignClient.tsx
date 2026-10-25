@@ -1,7 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useAgreement, useSignAgreement } from '@/hooks/useAgreements';
+import { useQueryClient } from '@tanstack/react-query';
+import { agreementsKeys } from '@/hooks/useAgreements';
 import { ShieldCheck, Gavel, FileText, Fingerprint, Pen, RefreshCw, Check, AlertTriangle, Download, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,7 +49,17 @@ type Props = {
 
 function deedRef(id: string) { return `AGR-${id.slice(-8).toUpperCase()}`; }
 
-export default function TenantAgreementSignClient({ agreement, tenantName }: Props) {
+export default function TenantAgreementSignClient() {
+  const params = useParams();
+  const id = (params?.id as string) ?? '';
+  const { data, isLoading } = useAgreement(id);
+  const agreement = ((data as any)?.data ?? data) as any;
+  const signMutation = useSignAgreement();
+  const queryClient = useQueryClient();
+  if (isLoading || !agreement) {
+    return <div className="p-6 text-sm text-zinc-600 dark:text-zinc-400">Loading agreement...</div>;
+  }
+  const tenantName = agreement.tenant?.fullName ?? 'You';
   const hasSigned = agreement.signatures.some(s => s.role === 'tenant');
   const [consent, setConsent] = useState(false);
   const [mode, setMode] = useState<'draw'|'type'|'cert'>('draw');
@@ -124,12 +138,8 @@ export default function TenantAgreementSignClient({ agreement, tenantName }: Pro
     if (!canExecute) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/agreements/${agreement.id}/sign`, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({ consentText: 'I agree to the terms of this agreement.' }),
-      });
-      if (!res.ok) { const t = await res.text(); throw new Error(t || 'Failed to sign'); }
+      await signMutation.mutateAsync({ id: agreement.id, data: { consentText: 'I agree to the terms of this agreement.' } });
+      queryClient.invalidateQueries({ queryKey: agreementsKeys.detail(agreement.id) });
       setSuccessOpen(true);
       toast({ title: 'Agreement perfected & executed', description: 'Cryptographic seal applied. Registered with LASRERA.' });
       setTimeout(()=> { window.location.href = `/dashboard/tenant/agreements/${agreement.id}`; }, 1200);

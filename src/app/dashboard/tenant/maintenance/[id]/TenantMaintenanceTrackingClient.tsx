@@ -25,7 +25,7 @@ type Ticket = {
   org: { id: string; name: string } | null;
 };
 
-function shortId(id: string) { return `MNT-${id.slice(-8).toUpperCase()}`; }
+function shortId(id: string) { return `MNT-${id.slice(0,8).toUpperCase()}`; }
 function initials(name: string | null | undefined) { return (name ?? '—').split(' ').filter(Boolean).slice(0,2).map(s=>s[0]?.toUpperCase()).join('') || '—'; }
 
 const LIFECYCLE: { key: string; label: string }[] = [

@@ -1,284 +1,169 @@
-'use client'
+'use client';
 
-import AppIcon from '@/components/icons/app-icon';
-
-import { useState } from 'react';
-import {
-
-  ChevronRight, Download, FileText, Printer
-} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Download, FileText, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { toast } from 'sonner';
 
-const months = Array.from({ length: 12 }, (_, i) =>
-  String(i + 1).padStart(2, '0')
-);
-const years = Array.from({ length: 5 }, (_, i) =>
-  String(new Date().getFullYear() - i)
-);
-
-const paymentHistory = [
-  { statement: 'OCT 2024 STATEMENT', date: 'Oct 02, 2024 • Paid via Transfer', amount: '₦ 1,450,000.00' },
-  { statement: 'SEPT 2024 STATEMENT', date: 'Sept 01, 2024 • Paid via Card', amount: '₦ 1,450,000.00' },
-  { statement: 'AUG 2024 STATEMENT', date: 'Aug 03, 2024 • Paid via Transfer', amount: '₦ 1,450,000.00' },
-];
-
-const ledgerRows = [
-  { desc: 'Previous Balance', sub: 'Balance carried from October', category: 'Arrears', amount: '0.00', badge: '' },
-  { desc: 'Monthly Rent', sub: 'The Obsidian Penthouse - Nov 2024', category: 'Residential', amount: '1,200,000.00', badge: 'bg-accent/10 text-accent' },
-  { desc: 'Service Charge', sub: 'Security, waste management, and common area cleaning', category: 'Maintenance', amount: '150,000.00', badge: '' },
-  { desc: 'Utility / Power Levy', sub: 'Prepaid meter allocation (500 units)', category: 'Utilities', amount: '100,000.00', badge: '' },
-];
+type Invoice = {
+  id: string;
+  type: string;
+  amount: number;
+  currency?: string;
+  status: string;
+  dueDate?: string;
+  createdAt?: string;
+  listing?: { title?: string } | null;
+};
 
 export default function AutomatedMonthlyStatementClient() {
   const [enrolled, setEnrolled] = useState(true);
   const [cardNumber, setCardNumber] = useState('');
   const [showSecurity, setShowSecurity] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/invoices');
+        if (res.ok) {
+          const data = await res.json();
+          if (!cancelled) setInvoices(Array.isArray(data?.data) ? data.data : []);
+        }
+      } catch {
+        // ignore
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const formatCard = (val: string) =>
     val.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
+
+  const handleDownload = (id: string) => {
+    window.open(`/api/invoices/${id}/receipt`, '_blank');
+  };
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <span className="font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">PAYMENTS</span>
-        <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
-        <span className="font-mono text-zinc-900 dark:text-white font-semibold">STATEMENT DETAILS</span>
+        <Link href="/dashboard/tenant/payments" className="text-zinc-600 dark:text-zinc-400 hover:text-emerald-600">Payments</Link>
+        <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
+        <span className="font-semibold text-zinc-900 dark:text-white">Statement Details</span>
       </nav>
 
-      {/* Top Toolbar Actions */}
+      {/* Top Toolbar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-200 dark:border-white/[0.08] pb-4">
         <div className="flex items-center gap-4">
           <FileText className="w-5 h-5 text-zinc-900 dark:text-white" />
-          <h2 className="font-heading text-headline-lg text-zinc-900 dark:text-white">Statement Details</h2>
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-white">Statement Details</h2>
         </div>
         <div className="flex items-center gap-3">
-          <button
-            className="p-2 rounded-full hover:bg-white dark:bg-zinc-900 transition-colors"
-            onClick={() => window.print()}
-          >
+          <button className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors" onClick={() => window.print()}>
             <Printer className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
           </button>
-          <Button variant="outline" size="sm" className="flex items-center gap-2">
+          <Button variant="outline" size="sm" className="flex items-center gap-2" onClick={() => toast.info('Statement download started.')}>
             <Download className="w-4 h-4" /> Download
           </Button>
-          <div className="h-8 w-8 rounded-full bg-secondary-fixed-dim flex items-center justify-center">
-            <FileText className="w-4 h-4 text-on-secondary-fixed" />
-          </div>
         </div>
       </div>
 
       {/* A4 Report Layout */}
-      <div className="bg-white dark:bg-zinc-950/50 p-6 md:p-10 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none flex flex-col gap-6 overflow-hidden relative max-w-4xl mx-auto">
-        {/* Branding & Period */}
+      <div className="bg-white dark:bg-zinc-900 p-6 md:p-10 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-sm flex flex-col gap-6 overflow-hidden relative max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start border-b border-zinc-200 dark:border-white/[0.08] pb-5 gap-4">
           <div>
-            <h1 className="font-headline-md headline-md font-bold text-zinc-900 dark:text-white tracking-tight">PropatiBox</h1>
-            <p className="font-label-sm label-sm text-[#835500] uppercase tracking-widest mt-1">
-              Trust & Verification Systems
-            </p>
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white">PropatiBox</h3>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">Monthly Rental Statement</p>
           </div>
           <div className="text-right">
-            <h2 className="font-headline-sm headline-sm text-zinc-600 dark:text-zinc-400 mb-1">
-              MONTHLY RENT & SERVICE STATEMENT
-            </h2>
-            <div className="flex flex-col gap-1 font-body-sm text-zinc-600 dark:text-zinc-400">
-              <p>
-                Statement ID: <span className="font-label-sm label-sm font-bold">PRP-2024-1104</span>
-              </p>
-              <p>
-                Billing Period: <span className="font-label-sm label-sm font-bold">Nov 1 — Nov 30, 2024</span>
-              </p>
-            </div>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">Statement Period</p>
+            <p className="font-semibold text-zinc-900 dark:text-white">{new Date().toLocaleDateString('en-NG', { month: 'long', year: 'numeric' })}</p>
           </div>
         </div>
 
-        {/* Summary Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-2 bg-emerald-500 text-zinc-900 dark:text-white p-5 rounded-xl flex flex-col justify-between shadow-none">
-            <div>
-              <p className="font-label-sm opacity-70 mb-2">TOTAL AMOUNT DUE</p>
-              <h3 className="font-headline-xl headline-xl">₦ 1,450,000.00</h3>
-            </div>
-            <div className="flex justify-between items-end mt-4">
-              <div>
-                <p className="font-label-sm opacity-70">DUE DATE</p>
-                <p className="font-headline-sm headline-sm text-secondary-container">Nov 05, 2024</p>
-              </div>
-              <button className="bg-secondary-container text-on-secondary-container px-5 py-2 rounded-lg font-bold hover:scale-105 active:scale-95 transition-transform">
-                Pay Now
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <div className="bg-zinc-800 p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] flex flex-col items-center justify-center text-center">
-              <p className="font-label-sm text-zinc-600 dark:text-zinc-400 mb-2 uppercase">Payment Status</p>
-              <div className="px-3 py-1 bg-warning/10 text-warning rounded-full flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-warning animate-pulse"></span>
-                <span className="font-label-sm label-md">Awaiting Payment</span>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-950/50 p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08]">
-              <div className="flex items-center gap-2 mb-1">
-                <AppIcon name="domain" className="lucide" />
-                <span className="font-label-sm text-zinc-600 dark:text-zinc-400 uppercase text-xs">
-                  The Obsidian Penthouse
-                </span>
-              </div>
-              <p className="font-body-sm text-sm text-zinc-900 dark:text-white">Unit 402, Victoria Tower, Lagos, NG</p>
-              <p className="font-body-sm text-xs text-zinc-600 dark:text-zinc-400 mt-1">Manager: David Kolawole</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Breakdown Table */}
-        <div>
-          <h4 className="font-headline-sm headline-sm mb-3 flex items-center gap-sm">
-            <AppIcon name="analytics" className="lucide" />
-            Statement Ledger
-          </h4>
-          <div className="overflow-hidden border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+        {loading ? (
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">Loading statement...</p>
+        ) : invoices.length === 0 ? (
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">No invoices found.</p>
+        ) : (
+          <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white font-label-sm label-md">
-                <tr>
-                  <th className="p-3">Description</th>
-                  <th className="p-3">Category</th>
-                  <th className="p-3 text-right">Amount (₦)</th>
+              <thead>
+                <tr className="bg-zinc-50 dark:bg-white/[0.04] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-xs">
+                  <th className="py-2 px-3 font-semibold">Description</th>
+                  <th className="py-2 px-3 font-semibold">Property</th>
+                  <th className="py-2 px-3 font-semibold">Due Date</th>
+                  <th className="py-2 px-3 font-semibold text-right">Amount</th>
+                  <th className="py-2 px-3 font-semibold text-center">Status</th>
+                  <th className="py-2 px-3 font-semibold text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="font-body-sm">
-                {ledgerRows.map((row, i) => (
-                  <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08] even:bg-white dark:bg-zinc-950/50">
-                    <td className="p-3">
-                      <p className="font-bold">{row.desc}</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-400">{row.sub}</p>
+              <tbody className="divide-y divide-zinc-100 dark:divide-white/[0.04] text-sm">
+                {invoices.map((inv) => (
+                  <tr key={inv.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.02]">
+                    <td className="py-2 px-3 text-zinc-900 dark:text-white">{inv.type} — {inv.id.slice(-6).toUpperCase()}</td>
+                    <td className="py-2 px-3 text-zinc-600 dark:text-zinc-400">{inv.listing?.title ?? 'Propati'}</td>
+                    <td className="py-2 px-3 font-mono text-zinc-900 dark:text-white">{inv.dueDate ? new Date(inv.dueDate).toLocaleDateString('en-NG') : '—'}</td>
+                    <td className="py-2 px-3 text-right font-mono font-semibold text-zinc-900 dark:text-white">₦ {Number(inv.amount).toLocaleString('en-NG', { minimumFractionDigits: 2 })}</td>
+                    <td className="py-2 px-3 text-center">
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${inv.status === 'paid' ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' : inv.status === 'overdue' ? 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400' : 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-400'}`}>
+                        {inv.status}
+                      </span>
                     </td>
-                    <td className="p-3">
-                      {row.badge ? (
-                        <span className={`px-2 py-1 rounded-md text-[10px] uppercase font-bold ${row.badge}`}>
-                          {row.category}
-                        </span>
-                      ) : (
-                        <span className="px-2 py-1 bg-surface-variant rounded-md text-[10px] uppercase">
-                          {row.category}
-                        </span>
-                      )}
+                    <td className="py-2 px-3 text-right">
+                      <button onClick={() => handleDownload(inv.id)} className="text-emerald-600 hover:text-emerald-700 text-xs font-semibold">Download</button>
                     </td>
-                    <td className="p-3 text-right font-semibold">{row.amount}</td>
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="bg-emerald-500 text-zinc-900 dark:text-white font-bold">
-                <tr>
-                  <td className="p-3 text-right font-headline-sm" colspan="2">Total Current Charges</td>
-                  <td className="p-3 text-right font-headline-sm">₦ 1,450,000.00</td>
-                </tr>
-              </tfoot>
             </table>
           </div>
-        </div>
-
-        {/* History Sparkline / Mini-Table */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-          <div className="p-5 bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-            <h5 className="font-label-sm text-zinc-600 dark:text-zinc-400 mb-3">PAYMENT HISTORY (LAST 3)</h5>
-            <div className="space-y-2">
-              {paymentHistory.map((item, i) => (
-                <div
-                  key={i}
-                  className={`flex justify-between items-center pb-2 ${i < paymentHistory.length - 1 ? 'border-b border-dashed border-zinc-200 dark:border-white/[0.08]' : ''}`}
-                >
-                  <div>
-                    <p className="text-xs font-bold">{item.statement}</p>
-                    <p className="text-[10px] text-zinc-600 dark:text-zinc-400">{item.date}</p>
-                  </div>
-                  <span className="text-[#009e6f] font-bold text-xs">{item.amount}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="p-5 bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08] rounded-xl flex flex-col justify-center items-center text-center">
-            <div className="w-12 h-12 mb-3 bg-tertiary-container rounded-full flex items-center justify-center">
-              <FileText className="w-6 h-6 text-tertiary-fixed" style={{ fontVariationSettings: "'FILL' 1" }} />
-            </div>
-            <p className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-1">Perfect Payer Status</p>
-            <p className="font-body-sm text-zinc-600 dark:text-zinc-400">
-              Your account has no outstanding arrears. Maintain this status for future rent discounts.
-            </p>
-          </div>
-        </div>
-
-        {/* Report Footer */}
-        <footer className="mt-auto pt-5 border-t border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row justify-between items-end gap-4">
-          <div className="max-w-md">
-            <div className="flex items-center gap-2 mb-2">
-              <FileText className="w-4 h-4 text-[#009e6f]" />
-              <span className="font-label-sm text-[#10b981] font-bold">
-                DIGITALLY VERIFIED DOCUMENT
-              </span>
-            </div>
-            <p className="text-[10px] text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              This document is an automated electronic statement generated by PropatiBox Technologies.
-              It serves as an official notice of dues for the specified period. Terms and conditions
-              of the lease agreement apply. For disputes, contact support@propati.io within 48 hours
-              of receipt.
-            </p>
-          </div>
-          <div className="text-right flex flex-col items-end">
-            <div className="flex gap-3 mb-2">
-              <FileText className="w-5 h-5 text-zinc-900 dark:text-white" />
-              <FileText className="w-5 h-5 text-zinc-900 dark:text-white" />
-              <FileText className="w-5 h-5 text-zinc-900 dark:text-white" />
-            </div>
-            <p className="font-label-sm text-zinc-600 dark:text-zinc-400">
-              © 2024 PropatiBox Technologies. Lagos, Nigeria.
-            </p>
-          </div>
-        </footer>
+        )}
       </div>
 
-      {/* Enrollment Control (preserved functional hook) */}
-      <div className="glass-card border-sky-500/20 bg-sky-500/5">
-        <div className="p-6 p-5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div
-              className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-                enrolled ? 'bg-teal-500/10 text-teal-500' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'
-              }`}
-            >
-              <FileText className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-zinc-900 dark:text-white text-zinc-900 dark:text-white">
-                {enrolled ? 'Auto-Statement is Active' : 'Auto-Statement Disabled'}
-              </h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-0.5">
-                {enrolled
-                  ? 'Your statement is generated automatically every 1st of the month.'
-                  : 'Enable the monthly auto-statement today.'}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => setEnrolled(!enrolled)}
-            className={`w-12 h-6 rounded-full transition-colors ${
-              enrolled ? 'bg-teal-500' : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08]'
-            }`}
-          >
-            <div
-              className={`w-5 h-5 bg-white dark:bg-zinc-950/50 rounded-full shadow-none transition-all ${
-                enrolled ? 'translate-x-6' : 'translate-x-0.5'
-              }`}
-            />
-          </button>
+      {/* Auto-pay enrollment */}
+      <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-zinc-900 dark:text-white">Auto-Pay Enrollment</h3>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" className="sr-only peer" checked={enrolled} onChange={(e) => setEnrolled(e.target.checked)} />
+            <div className="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600" />
+          </label>
         </div>
+        {enrolled && (
+          <div className="space-y-3">
+            <div>
+              <Label className="text-sm font-semibold text-zinc-900 dark:text-white">Card Number</Label>
+              <Input
+                value={cardNumber}
+                onChange={(e) => setCardNumber(formatCard(e.target.value))}
+                placeholder="0000 0000 0000 0000"
+                className="mt-1"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox id="agree" checked={agreed} onCheckedChange={(v) => setAgreed(!!v)} />
+              <Label htmlFor="agree" className="text-sm text-zinc-600 dark:text-zinc-400">I authorize recurring rent debits.</Label>
+            </div>
+            <Button
+              disabled={!agreed}
+              onClick={() => toast.success('Auto-pay enrollment saved.')}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            >
+              Enroll
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

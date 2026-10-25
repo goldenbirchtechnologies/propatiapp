@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { apiEndpoints } from '@/lib/api';
 
 type ListingOpt = { id: string; title: string; address: string };
 
@@ -53,22 +54,16 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
     }
     setSubmitting(true);
     try {
-      const res = await fetch('/api/maintenance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: title.trim(),
-          description: `${description.trim()}\n\n[Scope: ${roomScope}] [Slot: ${preferredSlot}] [Date: ${preferredDate || 'not set'}]`,
-          category,
-          priority,
-          listingId: listingId || undefined,
-          photoUrls: photoUrls.filter(Boolean),
-        }),
+      const json: any = await apiEndpoints.maintenance.create({
+        title: title.trim(),
+        description: `${description.trim()}\n\n[Scope: ${roomScope}] [Slot: ${preferredSlot}] [Date: ${preferredDate || 'not set'}]`,
+        category: category as any,
+        priority: priority as any,
+        listingId: listingId || undefined,
+        photoUrls: photoUrls.filter(Boolean),
       });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        const msg = json.error || json.details ? JSON.stringify(json.details) : 'Failed to submit request';
-        throw new Error(msg);
+      if (json?.success === false || json?.error) {
+        throw new Error(json?.error || 'Failed to submit request');
       }
       toast.success('Maintenance request submitted — dispatch will confirm shortly.');
       router.push('/dashboard/tenant/maintenance');

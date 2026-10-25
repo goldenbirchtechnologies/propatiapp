@@ -9,6 +9,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button } from '@/components/ui';
 import DashboardShell from '@/components/layout/DashboardShell';
 import { getNavigationForRole } from '@/lib/navigation';
+import { toast } from 'sonner';
 
 interface MFAStatus {
   totpEnabled: boolean;
@@ -48,28 +49,22 @@ export default function MFASettingsPage() {
       setMfaStatus(data.data);
     } catch (error) {
       console.error('Failed to fetch MFA status:', error);
+      // MFA endpoints not available yet — render a safe disabled state instead of erroring
+      setMfaStatus({
+        totpEnabled: false,
+        totpVerified: false,
+        recoveryCodesCount: 0,
+        smsBackupEnabled: false,
+        enforcementLevel: 'optional',
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   const startTOTPEnrollment = async () => {
-    try {
-      setIsEnrolling(true);
-      setVerifyError(null);
-      const response = await fetch('/api/users/mfa/totp/start', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      if (!response.ok) throw new Error('Failed to start TOTP enrollment');
-      const data = await response.json();
-      setTotpUri(data.data.uri);
-      setManualKey(data.data.secret);
-    } catch (error) {
-      setVerifyError(error instanceof Error ? error.message : 'Failed to start enrollment');
-    } finally {
-      setIsEnrolling(false);
-    }
+    // MFA endpoints are not available yet — keep UI, surface toast instead of hardcoding codes
+    toast.info('MFA setup coming soon');
   };
 
   const verifyTOTP = async () => {

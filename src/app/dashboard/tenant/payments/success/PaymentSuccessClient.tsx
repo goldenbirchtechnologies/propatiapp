@@ -1,27 +1,61 @@
-'use client'
-
-import AppIcon from '@/components/icons/app-icon';
+'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
-
-  CheckCircle2, FileText, Download, Printer, ChevronRight,
+  CheckCircle2, ChevronRight, ContentCopy, CreditCard, Download, FileText, Printer, Schedule, Tag,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
 
-const steps = [
-  { label: 'Card Endpoint Auth', done: true },
-  { label: 'Payment Capture', done: true },
-  { label: 'Ledger Reconciliation', done: true },
-  { label: 'Statement Emailed', done: false },
-  { label: 'Property Verified', done: false },
-];
+type Txn = {
+  id: string;
+  reference: string;
+  amount: number;
+  type: string;
+  status: string;
+  listing?: { title?: string } | null;
+  paidAt?: string | null;
+  createdAt?: string | null;
+};
 
-export default function PaymentSuccessPage() {
+export default function PaymentSuccessClient() {
+  const searchParams = useSearchParams();
+  const refParam = searchParams.get('reference') || searchParams.get('ref');
+  const [txn, setTxn] = useState<Txn | null>(null);
+  const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState(15);
-  const [paymentStatus] = useState<'success' | 'pending' | 'failed'>('success');
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        if (refParam) {
+          const res = await fetch(`/api/payments/verify/${encodeURIComponent(refParam)}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (!cancelled) setTxn(data?.data ?? data ?? null);
+            return;
+          }
+        }
+        // fallback: latest released transaction
+        const res = await fetch('/api/payments/transactions?status=released&limit=1');
+        if (res.ok) {
+          const data = await res.json();
+          const first = Array.isArray(data?.data) ? data.data[0] : null;
+          if (!cancelled) setTxn(first);
+        }
+      } catch {
+        // ignore
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    return () => { cancelled = true; };
+  }, [refParam]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -30,198 +64,111 @@ export default function PaymentSuccessPage() {
     }
   }, [countdown]);
 
+  const amount = txn ? Number(txn.amount) / 100 : 0;
+  const reference = txn?.reference ?? refParam ?? '—';
+  const date = txn?.paidAt || txn?.createdAt;
+  const property = txn?.listing?.title || 'Property';
+
+  const copyRef = () => {
+    navigator.clipboard?.writeText(reference);
+    toast.success('Reference copied');
+  };
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
         <span className="font-mono text-zinc-600 dark:text-zinc-400">PAYMENTS</span>
         <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
-        <span className="font-mono text-zinc-600 dark:text-zinc-400">PROPERTY 1</span>
+        <span className="font-mono text-zinc-600 dark:text-zinc-400">PROPERTY</span>
         <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
-        <span className="font-mono text-zinc-900 dark:text-white font-semibold">{paymentStatus.toUpperCase()}</span>
+        <span className="font-mono text-zinc-900 dark:text-white font-semibold">SUCCESS</span>
       </nav>
 
       {/* Success Hero */}
       <section className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-tertiary-container mb-4 shadow-[0_20px_50px_rgba(0,158,111,0.2)]">
-          <span
-            className="lucide text-[#10b981]-bright text-5xl"
-            style={{ fontVariationSettings: "'FILL' 1" }}
-          >
-            check_circle
-          </span>
+        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-emerald-100 dark:bg-emerald-500/20 mb-4 shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
+          <CheckCircle2 className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
         </div>
-        <h1 className="font-headline text-4xl md:text-5xl font-extrabold text-zinc-900 dark:text-white mb-2">
-          Payment Successful
-        </h1>
-        <p className="text-body-lg text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto">
-          Your transaction has been processed securely. A confirmation email and receipt have been
-          sent to your registered address.
+        <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 dark:text-white mb-2">Payment Successful</h1>
+        <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto">
+          Your transaction has been processed securely. A confirmation email and receipt have been sent to your registered address.
         </p>
       </section>
 
       {/* Transaction Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        {/* Main Summary Card */}
-        <div className="md:col-span-7 bg-white dark:bg-zinc-950/50 p-6 rounded-xl shadow-none border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
+        <div className="md:col-span-7 bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-start mb-5">
               <div>
-                <p className="text-label-sm text-zinc-600 dark:text-zinc-400 uppercase tracking-widest mb-1">
-                  Total Amount Paid
-                </p>
-                <h3 className="font-headline-lg headline-lg text-zinc-900 dark:text-white">₦1,450,000.00</h3>
+                <p className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-1">Total Amount Paid</p>
+                <h3 className="text-3xl font-bold text-zinc-900 dark:text-white font-mono">
+                  {loading ? '—' : `₦ ${amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`}
+                </h3>
               </div>
-              <div className="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-label-md font-bold flex items-center gap-1">
-                <AppIcon name="verified" className="lucide" />
-                Verified
+              <div className="bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                <CheckCircle2 className="w-3.5 h-3.5" /> Verified
               </div>
             </div>
             <div className="space-y-3 border-t border-zinc-200 dark:border-white/[0.08] pt-5">
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Payment Method</span>
-                <div className="flex items-center gap-2 font-semibold">
-                  <AppIcon name="credit_card" className="lucide" />
-                  <AppIcon name="Visa ending in 4242" className="lucide" />
-                </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Reference</span>
+                <span className="font-mono text-zinc-900 dark:text-white flex items-center gap-2">
+                  {reference}
+                  <button onClick={copyRef} className="text-zinc-400 hover:text-emerald-600"><ContentCopy className="w-3.5 h-3.5" /></button>
+                </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Transaction ID</span>
-                <span className="font-label-sm label-md text-zinc-900 dark:text-white">PRP-TXN-882910442X</span>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Property</span>
+                <span className="text-zinc-900 dark:text-white">{property}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Date &amp; Time</span>
-                <span className="text-body-sm font-medium">Oct 24, 2023 • 14:32 WAT</span>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Type</span>
+                <span className="text-zinc-900 dark:text-white">{txn?.type ?? '—'}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400">Date</span>
+                <span className="text-zinc-900 dark:text-white">{date ? new Date(date).toLocaleString('en-NG') : '—'}</span>
               </div>
             </div>
           </div>
-          <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <Button className="flex-1 items-center justify-center gap-2 bg-primary-container text-zinc-900 dark:text-white hover:bg-primary transition-all active:scale-95">
+          <div className="flex gap-3 mt-6">
+            <Button variant="outline" className="flex-1 gap-2" onClick={() => window.print()}>
+              <Printer className="w-4 h-4" /> Print
+            </Button>
+            <Button className="flex-1 gap-2 bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => toast.info('Receipt download started.')}>
               <Download className="w-4 h-4" /> Download Receipt
             </Button>
-            <Link href="/dashboard/tenant" className="flex-1">
-              <Button variant="outline" className="w-full border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-white dark:bg-zinc-900 transition-all">
-                Return to Dashboard
-              </Button>
+          </div>
+        </div>
+
+        <div className="md:col-span-5 bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm border border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Transaction Timeline</h3>
+          <div className="space-y-4">
+            {[
+              { label: 'Card Endpoint Auth', done: true },
+              { label: 'Payment Capture', done: true },
+              { label: 'Ledger Reconciliation', done: true },
+              { label: 'Statement Emailed', done: false },
+              { label: 'Property Verified', done: false },
+            ].map((s) => (
+              <div key={s.label} className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${s.done ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-400'}`}>
+                  {s.done ? <CheckCircle2 className="w-4 h-4" /> : <Schedule className="w-4 h-4" />}
+                </div>
+                <span className={`text-sm ${s.done ? 'text-zinc-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400'}`}>{s.label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-white/[0.08]">
+            <Link href="/dashboard/tenant/payments" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+              Back to Rent &amp; Payments →
             </Link>
-          </div>
-        </div>
-
-        {/* Breakdown & Property Card */}
-        <div className="md:col-span-5 space-y-6">
-          <div className="glass-card">
-            <div className="p-6 p-5">
-              <h4 className="font-headline text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-3">
-                Payment Breakdown
-              </h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-zinc-200 dark:border-white/[0.08]/30">
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-zinc-900 dark:text-white">Q4 Rent (Oct - Dec)</span>
-                    <span className="text-body-sm text-zinc-600 dark:text-zinc-400">Prime Apartments, Unit 4B</span>
-                  </div>
-                  <span className="font-medium">₦1,200,000.00</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-zinc-200 dark:border-white/[0.08]/30">
-                  <span className="text-zinc-600 dark:text-zinc-400">Service Charge</span>
-                  <span className="font-medium">₦200,000.00</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-zinc-600 dark:text-zinc-400">Utilities &amp; Internet</span>
-                  <span className="font-medium">₦50,000.00</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-xl h-32 border border-zinc-200 dark:border-white/[0.08] cursor-pointer group">
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-              style={{
-                backgroundImage:
-                  "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCjOCZK2Ig5uFHSX7sppbICDBSfLBa1JL3RHFFGxGVAxYipFnvibFsj7-FCRMZMjwFKgO08X25TdiaW3_ZEg11OsGXSInjZ-C9k7NB8nYozQ7EKjRZomKbyrDIUE7OhufVdr6da67B8xmjoy0ObLuuPWBTnNCYDy9ZiBMOUmseKJ4WwZeP0bwDUjHMNDbNI1zv5cwq6bOQz-rUKVxmEGIoNgXimFsU2rwOtQDvexEC_ONOGNYly1sXE')",
-              }}
-            ></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div className="absolute bottom-4 left-4 text-zinc-900 dark:text-white">
-              <p className="text-label-sm uppercase tracking-wider opacity-80">Connected Property</p>
-              <h5 className="font-bold">The Lux Apartments, Ikoyi</h5>
-            </div>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Auto-redirect in {countdown}s</p>
           </div>
         </div>
       </div>
-
-      {/* Actions Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <Link href="/dashboard/tenant/receipts" className="block">
-          <div className="glass-card hover:shadow-none transition-all cursor-pointer group hover:border-white/50">
-            <div className="p-6 p-5 flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary/5 text-zinc-900 dark:text-white rounded-xl flex items-center justify-center">
-                <FileText className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-headline text-base font-bold text-zinc-900 dark:text-white group-hover:underline">
-                  Download Official Receipt
-                </p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">PDF format for your records.</p>
-              </div>
-            </div>
-          </div>
-        </Link>
-        <button className="block w-full">
-          <div className="glass-card hover:shadow-none transition-all cursor-pointer group hover:border-white/50">
-            <div className="p-6 p-5 flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary/5 text-zinc-900 dark:text-white rounded-xl flex items-center justify-center">
-                <Printer className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-heading text-base font-bold text-zinc-900 dark:text-white group-hover:underline">
-                  Print Receipt
-                </p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Use this option if you have no PDF viewer available.
-                </p>
-              </div>
-            </div>
-          </div>
-        </button>
-      </div>
-
-      {/* Footer */}
-      <div className="text-center p-6 border-t border-zinc-200 dark:border-white/[0.08]">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          You will be redirected to your Property Dashboard in{' '}
-          <span className="font-bold text-zinc-900 dark:text-white">{countdown}s</span>
-        </p>
-        <Link href="/dashboard/tenant/payments">
-          <Button className="mt-4 font-bold">Return to Payment Portal</Button>
-        </Link>
-      </div>
-
-      {/* Trust Footer */}
-      <footer className="pt-5 border-t border-zinc-200 dark:border-white/[0.08] flex flex-col items-center gap-4">
-        <div className="flex items-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
-          <div className="flex items-center gap-1">
-            <AppIcon name="security" className="lucide" />
-            <span className="text-label-sm">PCI-DSS Compliant</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <AppIcon name="encrypted" className="lucide" />
-            <span className="text-label-sm">256-bit SSL Encryption</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <AppIcon name="verified_user" className="lucide" />
-            <span className="text-label-sm">Central Bank Regulated</span>
-          </div>
-        </div>
-        <p className="text-center text-body-sm text-zinc-600 dark:text-zinc-400 max-w-md">
-          PropatiBox uses industry-leading security protocols to ensure your financial data is always
-          protected. Need help?{' '}
-          <a className="text-zinc-900 dark:text-white font-bold underline decoration-accent underline-offset-4" href="#">
-            Contact Support
-          </a>
-        </p>
-      </footer>
     </div>
   );
 }

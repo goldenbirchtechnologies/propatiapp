@@ -537,9 +537,9 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                                   </span>
                                 </span>
                                 <a href={m.attachmentUrl || '#'} target="_blank" rel="noopener noreferrer" className="shrink-0 p-2 text-emerald-600 dark:text-emerald-400 hover:text-zinc-900 dark:hover:text-white"><Download className="h-5 w-5" /></a>
-                              </span>
+                              </div>
                               {m.content && <span className="self-end rounded-2xl rounded-tr-sm bg-emerald-600 px-4 py-3 text-sm leading-relaxed text-white shadow-sm">{m.content}</span>}
-                              <span className="self-end pr-1 text-[11px] text-zinc-500">{formatTime(m.createdAt)} • <span className="inline-flex items-center gap-0.5 font-medium text-emerald-600 dark:text-emer NextJS"><CheckCheck className="h-3 w-3" /> Read</span></span>
+                              <span className="self-end pr-1 text-[11px] text-zinc-500">{formatTime(m.createdAt)} • <span className="inline-flex items-center gap-0.5 font-medium text-emerald-600 dark:text-emerald-400"><CheckCheck className="h-3 w-3" /> Read</span></span>
                             </div>
                           );
                         }

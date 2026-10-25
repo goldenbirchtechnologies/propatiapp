@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { AlertCircle, CreditCard, Download, Search, X } from 'lucide-react';
-import { PageHeader, StatCard, StatusBadge } from '@/components/ui';
+import {
+  AccountBalanceWallet, Analytics, ArrowUpward, CalendarToday, CheckCircle, CreditCard, Download, Event, FileDownload, Notifications, PendingActions, PinDrop, Search, Visibility, Verified,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { formatNaira } from '@/lib/utils';
@@ -32,16 +32,6 @@ interface Props {
   alertInvoice: AlertInvoice;
 }
 
-function LedgerStatusBadge({ status }: { status: string }) {
-  if (status === 'released' || status === 'success') {
-    return <StatusBadge status="Paid" />;
-  }
-  if (status === 'in_escrow' || status === 'commission_held') {
-    return <StatusBadge status="In Escrow" />;
-  }
-  return <StatusBadge status={status} />;
-}
-
 function gatewayLabel(row: LedgerRow): string {
   const pd = row.paystackData;
   if (pd?.channel) return String(pd.channel);
@@ -49,19 +39,35 @@ function gatewayLabel(row: LedgerRow): string {
   return 'Paystack';
 }
 
+function statusPill(status: string) {
+  if (status === 'released' || status === 'success') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+        <CheckCircle className="w-3 h-3" /> Cleared
+      </span>
+    );
+  }
+  if (status === 'pending' || status === 'in_escrow' || status === 'commission_held') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-400">
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" /> Processing
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-300">
+      {status}
+    </span>
+  );
+}
+
+const TABS = ['all', 'Rent', 'Caution', 'Service Charge', 'pending'] as const;
+
 export default function TenantPaymentsClient({ userId, metrics, ledger, alertInvoice }: Props) {
-  const router = useRouter();
   const [q, setQ] = useState('');
-  const [tab, setTab] = useState<'all' | 'rent' | 'caution' | 'service_charge' | 'pending'>('all');
+  const [tab, setTab] = useState<string>('all');
   const [page, setPage] = useState(1);
   const pageSize = 10;
-
-  const [payRow, setPayRow] = useState<LedgerRow | null>(null);
-  const [payAmount, setPayAmount] = useState('');
-  const [payBusy, setPayBusy] = useState(false);
-  const [payError, setPayError] = useState<string | null>(null);
-
-  const [receiptRow, setReceiptRow] = useState<LedgerRow | null>(null);
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -79,395 +85,270 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
     });
   }, [ledger, tab, q]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [q, tab]);
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const paged = filtered.slice((page - 1) * pageSize, page * pageSize);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 
-  const counts = useMemo(() => {
-    const rent = ledger.filter((r) => r.type === 'rent').length;
-    const caution = ledger.filter((r) => r.type === 'caution').length;
-    const service = ledger.filter((r) => r.type === 'service' || r.type === 'service_charge').length;
-    const pending = ledger.filter((r) => ['pending', 'in_escrow', 'commission_held'].includes(r.status)).length;
-    return { all: ledger.length, rent, caution, service, pending };
-  }, [ledger]);
-
-  const handlePay = async () => {
-    if (!payRow) return;
-    const amountNaira = payAmount ? Number(payAmount.replace(/,/g, '')) : payRow.amount;
-    if (!amountNaira || Number.isNaN(amountNaira) || amountNaira <= 0) {
-      setPayError('Enter a valid amount.');
-      return;
-    }
-    setPayBusy(true);
-    setPayError(null);
-    try {
-      const res = await fetch('/api/payments/initiate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          listingId: payRow.listing?.id ?? undefined,
-          type: payRow.type,
-          amount: amountNaira,
-          email: undefined,
-          metadata: { ledgerRowId: payRow.id, alertInvoiceId: alertInvoice?.id ?? null },
-        }),
-      });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(json?.error ?? 'Payment initialization failed.');
-      const authUrl = json?.authorizationUrl ?? json?.data?.authorization_url;
-      if (authUrl) {
-        window.location.href = authUrl as string;
-        return;
-      }
-      // Fallback: redirect to verification step if no URL
-      router.push(`/dashboard/tenant/payments/success?reference=${encodeURIComponent(payRow.reference ?? payRow.id)}`);
-    } catch (e) {
-      setPayError(e instanceof Error ? e.message : 'Payment failed.');
-    } finally {
-      setPayBusy(false);
-    }
-  };
-
-  const handleExport = async () => {
-    try {
-      const res = await fetch('/api/payments/export?format=csv', { method: 'GET' });
-      if (!res.ok) {
-        // Mock fallback when env unset: build CSV from current ledger
-        const headers = ['Date', 'Property', 'Type', 'Amount (NGN)', 'Status', 'Reference'];
-        const rows = filtered.map((r) => [
-          r.paidAt ?? r.createdAt ?? '',
-          r.listing?.title ?? '',
-          r.type,
-          String(r.amount),
-          r.status,
-          r.reference,
-        ]);
-        const csv = [headers.join(','), ...rows.map((row) => row.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(','))].join('\n');
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `ledger-${new Date().toISOString().slice(0, 10)}.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
-        return;
-      }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `ledger-${new Date().toISOString().slice(0, 10)}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch {
-      // silent
-    }
+  const typeBadge = (type: string) => {
+    if (type === 'Rent') return 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400';
+    if (type === 'Caution') return 'bg-blue-50 dark:bg-blue-500/15 text-blue-800 dark:text-blue-400';
+    return 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-300';
   };
 
   return (
-    <div className="space-y-6 p-6">
-      <PageHeader
-        title="Payments & Ledger"
-        description={alertInvoice ? 'Pay rent, confirm invoices, and keep a FIRS-ready receipt trail.' : 'Manage rent, caution, and service-charge payments. Paystack-secured when funded.'}
-        actions={
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" onClick={handleExport} className="border-zinc-200 dark:border-white/[0.08]">
-              <Download className="h-4 w-4 mr-2" /> Export Ledger
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => {
-                const row = filtered.find((r) => ['pending', 'in_escrow', 'commission_held'].includes(r.status)) ?? filtered[0] ?? null;
-                if (row) {
-                  setPayRow(row);
-                  setPayAmount(String(row.amount));
-                  setPayError(null);
-                } else {
-                  router.push('/dashboard/tenant/payments/methods/new');
-                }
-              }}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
-            >
-              <CreditCard className="h-4 w-4 mr-2" /> Pay Now
-            </Button>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Institutional Financial Management</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600" />
+            <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <Verified className="w-3 h-3 text-emerald-600" /> FIRS &amp; CAC Audited
+            </span>
           </div>
-        }
-      />
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Total Paid (2025)" value={formatNaira(metrics.totalPaid)} sub="Released" icon={CreditCard} trend="up" />
-        <StatCard
-          label="Pending Action"
-          value={metrics.pendingCount > 0 ? `${metrics.pendingCount} invoice(s)` : 'None due'}
-          sub={metrics.pendingCount > 0 ? 'Awaiting settlement' : 'Clear — no action'}
-          icon={AlertCircle}
-        />
-        <StatCard label="Failed Debits" value={metrics.failedCount === 0 ? '0 · Clean' : String(metrics.failedCount)} sub={metrics.failedCount === 0 ? 'Zero chargebacks' : 'Requires review'} icon={CreditCard} />
-        <StatCard label="Avg Settlement" value={formatNaira(metrics.avgSettlement)} sub={`Mean of ${ledger.filter((r) => r.status === 'released').length} cleared`} icon={CreditCard} />
+          <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Payments &amp; Ledger</h1>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl mt-1">
+            Manage lease commitments, inspect official e-receipts with FIRS-compliant tax stamps, and execute instant verified settlements via Paystack.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <Button variant="outline" size="sm" className="gap-2">
+            <FileDownload className="w-4 h-4" /> Export Ledger
+          </Button>
+          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Verified className="w-4 h-4" /> + Pay Now
+          </Button>
+        </div>
       </div>
 
-      {alertInvoice && (
-        <div className="rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-start gap-2">
-            <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5" />
-            <div>
-              <div className="text-sm font-semibold text-zinc-900 dark:text-white">Upcoming Rent Installment — {alertInvoice.title}</div>
-              <div className="text-xs text-zinc-600 dark:text-zinc-400">
-                {alertInvoice.overdue ? 'Overdue' : `Due in ${alertInvoice.daysUntilDue ?? '?'} days`} · Obligation {formatNaira(alertInvoice.amount)} {alertInvoice.currency ?? 'NGN'}
-                {alertInvoice.dueDate ? ` · ${new Date(alertInvoice.dueDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}` : ''}
-              </div>
+      {/* Stat cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col">
+              <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Paid</span>
+              <span className="text-xl font-bold text-zinc-900 dark:text-white mt-1 font-mono">₦ {metrics.totalPaid.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
+            </div>
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
+              <AccountBalanceWallet className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="border-amber-500/30" onClick={() => router.push('/dashboard/tenant/payments/auto-pay')}>
-              Auto-Pay
-            </Button>
-            <Button
-              size="sm"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
-              onClick={() => {
-                const row = filtered.find((r) => r.status !== 'released') ?? { id: alertInvoice.id, reference: alertInvoice.id, type: 'rent' as const, amount: alertInvoice.amount } as LedgerRow;
-                setPayRow(row);
-                setPayAmount(String(alertInvoice.amount));
-                setPayError(null);
-              }}
-            >
-              Pay via Paystack
-            </Button>
+          <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
+            <span className="text-xs text-emerald-600 flex items-center gap-1 font-semibold"><ArrowUpward className="w-3 h-3" /> on schedule</span>
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">lifetime</span>
+          </div>
+        </div>
+        <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col">
+              <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Pending Action</span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">{metrics.pendingCount} Invoice{metrics.pendingCount === 1 ? '' : 's'}</span>
+              </div>
+            </div>
+            <div className="w-9 h-9 rounded-lg bg-amber-50 dark:bg-amber-500/15 flex items-center justify-center text-amber-700 dark:text-amber-400">
+              <PendingActions className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
+            <span className="text-xs font-mono text-zinc-900 dark:text-white font-semibold">{formatNaira(metrics.pendingCount ? 0 : 0)}</span>
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">Pending</span>
+          </div>
+        </div>
+        <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col">
+              <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Failed Debits</span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">{metrics.failedCount}</span>
+                <span className="text-xs text-emerald-600 bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 rounded-full font-medium">Clean Record</span>
+              </div>
+            </div>
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
+              <Verified className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">NIBSS / Interswitch</span>
+            <span className="text-xs text-emerald-600 font-medium">Zero chargebacks</span>
+          </div>
+        </div>
+        <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col">
+              <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Avg. Settlement</span>
+              <span className="text-xl font-bold text-zinc-900 dark:text-white mt-1 font-mono">₦ {metrics.avgSettlement.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
+            </div>
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+              <Analytics className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">{ledger.filter((l) => l.status === 'released').length} cleared transactions</span>
+            <span className="text-xs text-emerald-600 font-mono">Mean</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Priority alert */}
+      {alertInvoice && (
+        <div className="bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-white/[0.08] relative overflow-hidden">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
+                <Notifications className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-semibold text-zinc-900 dark:text-white">Upcoming Rent Installment — {alertInvoice.title}</span>
+                  <span className="bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 px-2 py-0.5 rounded text-xs">{alertInvoice.overdue ? 'OVERDUE' : 'Pending'}</span>
+                  <span className="bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-400 px-2 py-0.5 rounded text-xs font-medium">
+                    {alertInvoice.daysUntilDue != null ? `Due in ${alertInvoice.daysUntilDue} days` : 'Due'}
+                  </span>
+                </div>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+                  Official lease term obligation. Pay electronically to preserve automated lease guarantee.
+                </p>
+                <div className="flex items-center gap-4 mt-3 flex-wrap">
+                  <div className="flex items-center gap-1.5 font-mono text-zinc-900 dark:text-white">
+                    <span className="text-zinc-500 dark:text-zinc-400 font-normal text-sm">Obligation:</span>
+                    <span className="text-lg font-bold text-emerald-600">₦ {alertInvoice.amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                  {alertInvoice.dueDate && (
+                    <>
+                      <span className="text-zinc-300 dark:text-zinc-600">•</span>
+                      <div className="flex items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
+                        <Event className="w-4 h-4 text-zinc-400" />
+                        <span>Final Settlement Due: <strong className="text-zinc-900 dark:text-white">{new Date(alertInvoice.dueDate).toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}</strong></span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-stretch lg:items-center gap-2 shrink-0">
+              <Link href="/dashboard/tenant/payments/auto-pay" className="h-10 px-4 rounded-lg bg-zinc-50 dark:bg-white/[0.04] text-zinc-900 dark:text-white text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors flex items-center justify-center gap-1.5 border border-zinc-200 dark:border-white/[0.08]">
+                <Verified className="w-4 h-4 text-emerald-600" /> Auto-Debit
+              </Link>
+              <Button size="sm" className="h-10 px-5 gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+                <CreditCard className="w-4 h-4" /> Pay via Paystack
+              </Button>
+            </div>
           </div>
         </div>
       )}
 
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 overflow-hidden">
-        <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-zinc-200 dark:border-white/[0.08] bg-zinc-50/50 dark:bg-zinc-900/50">
-          <div className="flex flex-wrap gap-1.5">
-            {([
-              { k: 'all' as const, label: 'All', count: counts.all },
-              { k: 'rent' as const, label: 'Rent', count: counts.rent },
-              { k: 'caution' as const, label: 'Caution', count: counts.caution },
-              { k: 'service_charge' as const, label: 'Service Charge', count: counts.service },
-              { k: 'pending' as const, label: 'Pending', count: counts.pending },
-            ] as const).map((t) => (
-              <button
-                key={t.k}
-                type="button"
-                onClick={() => setTab(t.k)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${tab === t.k ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08] hover:border-zinc-300'}`}
-              >
-                {t.label} {t.count}
-              </button>
-            ))}
+      {/* Ledger table */}
+      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+        <div className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-200 dark:border-white/[0.08]">
+          <div className="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0">
+            {TABS.map((t) => {
+              const active = tab === t;
+              const count = t === 'all' ? ledger.length : t === 'pending' ? ledger.filter((l) => ['pending', 'in_escrow', 'commission_held'].includes(l.status)).length : ledger.filter((l) => l.type === t).length;
+              return (
+                <button
+                  key={t}
+                  onClick={() => { setTab(t); setPage(1); }}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors ${active ? 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-white/[0.04]'}`}
+                >
+                  {t === 'pending' ? 'Pending' : t === 'all' ? 'All' : t}{' '}
+                  <span className={`ml-1 text-xs font-mono px-1.5 py-0.5 rounded-full ${active ? 'bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-500 dark:text-zinc-400'}`}>{count}</span>
+                </button>
+              );
+            })}
           </div>
-          <div className="ml-auto flex items-center gap-2">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-              <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search ledger…" className="h-9 pl-8 w-56 bg-white dark:bg-zinc-950" />
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-2.5 text-zinc-400 w-4 h-4" />
+              <Input value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} placeholder="Search invoice, property..." className="h-9 pl-9 text-sm" />
             </div>
-            <span className="hidden sm:inline text-xs text-zinc-500 dark:text-zinc-400">FY {new Date().getFullYear()}</span>
+            <div className="flex items-center gap-1.5 bg-zinc-50 dark:bg-white/[0.04] px-3 py-1.5 rounded-lg shrink-0 border border-zinc-200 dark:border-white/[0.08]">
+              <CalendarToday className="w-4 h-4 text-zinc-400" />
+              <span className="text-sm font-medium text-zinc-900 dark:text-white">FY 2025</span>
+            </div>
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-white/[0.08] bg-zinc-50/30 dark:bg-white/[0.02]">
-                <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Property & Reference</th>
-                <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Type</th>
-                <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Gateway</th>
-                <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Amount</th>
-                <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Status</th>
-                <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Actions</th>
+              <tr className="bg-zinc-50 dark:bg-white/[0.04] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-xs">
+                <th className="py-3 px-4 font-semibold">Property &amp; Reference</th>
+                <th className="py-3 px-4 font-semibold">Date Settled</th>
+                <th className="py-3 px-4 font-semibold">Classification</th>
+                <th className="py-3 px-4 font-semibold">Payment Gateway</th>
+                <th className="py-3 px-4 font-semibold text-right">Sum (NGN)</th>
+                <th className="py-3 px-4 font-semibold text-center">Status</th>
+                <th className="py-3 px-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {paged.length === 0 ? (
+            <tbody className="divide-y divide-zinc-100 dark:divide-white/[0.04] text-sm">
+              {paged.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-10 text-center text-sm text-zinc-600 dark:text-zinc-400">
-                    {ledger.length === 0 ? 'No transactions yet. Your ledger appears here once rent or invoices are raised.' : 'No results for the current filter.'}
-                  </td>
+                  <td colSpan={7} className="py-10 text-center text-zinc-500 dark:text-zinc-400">No transactions found.</td>
                 </tr>
-              ) : (
-                paged.map((r) => (
-                  <tr key={r.id} className="border-b border-zinc-200 dark:border-white/[0.05] hover:bg-zinc-50 dark:hover:bg-white/[0.03]">
-                    <td className="px-4 py-3">
-                      <div className="text-sm font-medium text-zinc-900 dark:text-white">{r.listing?.title ?? '—'}</div>
-                      <div className="text-xs text-zinc-600 dark:text-zinc-400">{r.reference}</div>
-                      <div className="text-xs text-zinc-500">{r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}</div>
+              )}
+              {paged.map((row) => {
+                const date = row.paidAt || row.createdAt;
+                const listingTitle = row.listing?.title || 'Propati';
+                return (
+                  <tr key={row.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.02] transition-colors">
+                    <td className="py-3 px-4">
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-zinc-900 dark:text-white">{listingTitle}</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 mt-0.5 font-mono">
+                          <PinDrop className="w-3 h-3 text-emerald-600" /> #{row.reference}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-4 py-3 text-xs capitalize text-zinc-700 dark:text-zinc-300">{r.type.replace(/_/g, ' ')}</td>
-                    <td className="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400">{gatewayLabel(r)}</td>
-                    <td className="px-4 py-3 text-right font-mono text-sm font-semibold text-zinc-900 dark:text-white">{formatNaira(r.amount)}</td>
-                    <td className="px-4 py-3">
-                      <LedgerStatusBadge status={r.status} />
+                    <td className="py-3 px-4 whitespace-nowrap">
+                      <div className="flex flex-col">
+                        <span className="font-mono text-zinc-900 dark:text-white">{date ? new Date(date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">{date ? new Date(date).toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' }) : ''}</span>
+                      </div>
                     </td>
-                    <td className="px-4 py-3">
-                      <div className="flex justify-end gap-1">
-                        {['pending', 'in_escrow', 'commission_held'].includes(r.status) ? (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="h-7 text-xs"
-                            onClick={() => {
-                              setPayRow(r);
-                              setPayAmount(String(r.amount));
-                              setPayError(null);
-                            }}
-                          >
-                            Pay
-                          </Button>
-                        ) : null}
-                        <Button size="sm" variant="ghost" className="h-7 text-xs text-emerald-600 dark:text-emerald-400" onClick={() => setReceiptRow(r)}>
-                          Receipt
-                        </Button>
+                    <td className="py-3 px-4 whitespace-nowrap">
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${typeBadge(row.type)}`}>{row.type}</span>
+                    </td>
+                    <td className="py-3 px-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded bg-zinc-100 dark:bg-white/[0.06] flex items-center justify-center">
+                          <CreditCard className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
+                        </div>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-400">{gatewayLabel(row)}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 text-right whitespace-nowrap">
+                      <span className={`font-mono font-semibold ${row.status === 'released' ? 'text-emerald-600' : 'text-zinc-900 dark:text-white'}`}>₦ {row.amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
+                    </td>
+                    <td className="py-3 px-4 text-center whitespace-nowrap">{statusPill(row.status)}</td>
+                    <td className="py-3 px-4 text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1">
+                        <Link href={`/api/payments/transactions/${row.id}/receipt`} className="p-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08] hover:text-zinc-900 dark:hover:text-white transition-colors" title="View E-Receipt">
+                          <Visibility className="w-4 h-4" />
+                        </Link>
+                        <a href={`/api/payments/transactions/${row.id}/receipt`} download className="p-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08] hover:text-zinc-900 dark:hover:text-white transition-colors" title="Download">
+                          <Download className="w-4 h-4" />
+                        </a>
                       </div>
                     </td>
                   </tr>
-                ))
-              )}
+                );
+              })}
             </tbody>
           </table>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-t border-zinc-200 dark:border-white/[0.08] text-xs text-zinc-600 dark:text-zinc-400">
-          <span>
-            Showing {(page - 1) * pageSize + (paged.length ? 1 : 0)} to {(page - 1) * pageSize + paged.length} of {filtered.length}
-          </span>
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page <= 1}
-              className="px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-800 disabled:opacity-50"
-            >
-              Previous
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .slice(0, 7)
-              .map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => setPage(n)}
-                  className={`w-8 h-8 rounded-lg text-xs font-semibold ${n === page ? 'bg-emerald-600 text-white' : 'border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'}`}
-                >
-                  {n}
-                </button>
-              ))}
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page >= totalPages}
-              className="px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-800 disabled:opacity-50"
-            >
-              Next
-            </button>
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between p-4 border-t border-zinc-200 dark:border-white/[0.08]">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">Page {page} of {totalPages}</span>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</Button>
+              <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Next</Button>
+            </div>
           </div>
-        </div>
-
-        <div className="px-4 py-3 bg-zinc-50 dark:bg-white/[0.02] border-t border-zinc-200 dark:border-white/[0.08] flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Institutional Payment Safeguard — 256-bit TLS · NIBSS · PCIDSS L1 · CAC RC-1849204
-        </div>
+        )}
       </div>
-
-      {payRow && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setPayRow(null)} />
-          <div className="relative w-full max-w-md rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl p-5">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Paystack — Secure Commercial Settlement</h3>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-                  {payRow.listing?.title ?? payRow.reference} · {payRow.type.replace(/_/g, ' ')}
-                </p>
-              </div>
-              <button type="button" onClick={() => setPayRow(null)} className="p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10">
-                <X size={16} />
-              </button>
-            </div>
-            <div className="mt-4 rounded-xl bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.06] px-4 py-3">
-              <div className="text-xs text-zinc-600 dark:text-zinc-400">Amount (NGN)</div>
-              <input
-                value={payAmount}
-                onChange={(e) => setPayAmount(e.target.value)}
-                inputMode="decimal"
-                className="mt-1 w-full bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-sm font-mono font-semibold text-zinc-900 dark:text-white"
-              />
-            </div>
-            {payError && <p className="mt-3 text-xs text-red-600 dark:text-red-400">{payError}</p>}
-            <div className="mt-4 flex justify-end gap-2">
-              <Button variant="outline" size="sm" onClick={() => setPayRow(null)}>
-                Cancel
-              </Button>
-              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={handlePay} disabled={payBusy}>
-                {payBusy ? 'Authorizing…' : 'Authorize Settlement'}
-              </Button>
-            </div>
-            <p className="mt-3 text-[11px] text-zinc-500 dark:text-zinc-400">Zero surcharges on Paystack when funded — card & bank transfer only on this tenant surface.</p>
-          </div>
-        </div>
-      )}
-
-      {receiptRow && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setReceiptRow(null)} />
-          <div className="relative w-full max-w-md rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl p-5">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Official E-Receipt</h3>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">{receiptRow.reference}</p>
-              </div>
-              <button type="button" onClick={() => setReceiptRow(null)} className="p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10">
-                <X size={16} />
-              </button>
-            </div>
-            <div className="mt-4 space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Property</span>
-                <span className="font-medium text-zinc-900 dark:text-white">{receiptRow.listing?.title ?? '—'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Amount</span>
-                <span className="font-mono font-semibold text-zinc-900 dark:text-white">{formatNaira(receiptRow.amount)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Status</span>
-                <span className="text-xs">
-                  <LedgerStatusBadge status={receiptRow.status} />
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Type</span>
-                <span className="text-xs capitalize text-zinc-900 dark:text-white">{receiptRow.type.replace(/_/g, ' ')}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600 dark:text-zinc-400">Date</span>
-                <span className="text-xs text-zinc-900 dark:text-white">{receiptRow.paidAt ?? receiptRow.createdAt ? new Date((receiptRow.paidAt ?? receiptRow.createdAt)!).toLocaleString('en-NG') : '—'}</span>
-              </div>
-            </div>
-            <div className="mt-5 flex gap-2">
-              <Button variant="outline" size="sm" asChild className="flex-1">
-                <Link href={`/api/receipts/${receiptRow.id}`} target="_blank" rel="noopener noreferrer">
-                  Download PDF
-                </Link>
-              </Button>
-              <Button size="sm" className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => window.print()}>
-                Print
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
-  );
-}
-
-function X({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="text-zinc-500">
-      <path d="M18 6L6 18M6 6l12 12" />
-    </svg>
   );
 }

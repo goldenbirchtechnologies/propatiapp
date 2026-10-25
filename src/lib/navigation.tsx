@@ -4,7 +4,8 @@ import {
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
-  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2, BookOpen, BarChart3
+  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2, BookOpen, BarChart3,
+  Heart, LifeBuoy, Bookmark
 } from 'lucide-react';
 
 export interface NavItem {
@@ -97,7 +98,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
   },
 ];
 
-export const TENANT_NAVIGATION: NavItem[] = [
+export const TENANT_NAVIGATION: Array<NavItem | NavSection> = [
   { label: 'Dashboard', href: '/dashboard/tenant', icon: <Home className="h-5 w-5" /> },
   { label: 'Rent & Payments', href: '/dashboard/tenant/payments', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'My Agreements', href: '/dashboard/tenant/agreements', icon: <FileText className="h-5 w-5" /> },
@@ -105,6 +106,16 @@ export const TENANT_NAVIGATION: NavItem[] = [
   { label: 'Maintenance', href: '/dashboard/tenant/maintenance', icon: <Wrench className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/tenant/messages', icon: <MessageSquare className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
+  {
+    title: 'Discover & Help',
+    items: [
+      { label: 'Receipts', href: '/dashboard/tenant/receipts', icon: <Receipt className="h-5 w-5" /> },
+      { label: 'Saved', href: '/dashboard/tenant/saved', icon: <Heart className="h-5 w-5" /> },
+      { label: 'Search', href: '/dashboard/tenant/search', icon: <Search className="h-5 w-5" /> },
+      { label: 'Screening', href: '/dashboard/tenant/screening', icon: <ShieldCheck className="h-5 w-5" /> },
+      { label: 'Support', href: '/dashboard/tenant/support', icon: <LifeBuoy className="h-5 w-5" /> },
+    ],
+  },
 ];
 
 export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [

@@ -162,22 +162,30 @@ export default function TenantRailShell({
         </nav>
 
         <div className="mt-2 flex flex-col items-center gap-1 border-t border-zinc-200 pt-3 dark:border-white/[0.07]">
-          <Link
-            href="/dashboard/tenant/settings"
-            aria-label="Settings"
-            title="Settings"
-            className={cn(
-              'group relative flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
-              pathname.startsWith('/dashboard/tenant/settings')
-                ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
-                : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
-            )}
-          >
-            <Settings className="h-5 w-5" />
-            <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 dark:bg-zinc-800">
-              Settings
-            </span>
-          </Link>
+          {(() => {
+            const settingsHref = userRole ? `/dashboard/${userRole}/settings` : '/dashboard/tenant/settings';
+            const profileFallback = userRole ? `/dashboard/${userRole}/profile` : '/dashboard/tenant/settings';
+            const href = userRole === 'tenant' ? settingsHref : profileFallback;
+            const active = pathname.startsWith(href);
+            return (
+              <Link
+                href={href}
+                aria-label="Settings"
+                title="Settings"
+                className={cn(
+                  'group relative flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
+                  active
+                    ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+                    : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
+                )}
+              >
+                <Settings className="h-5 w-5" />
+                <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 dark:bg-zinc-800">
+                  Settings
+                </span>
+              </Link>
+            );
+          })()}
         </div>
       </aside>
 
@@ -274,7 +282,9 @@ export default function TenantRailShell({
           </button>
           <div className="hidden min-w-0 flex-col leading-tight lg:flex">
             <span className="truncate text-sm font-semibold text-zinc-900 dark:text-white">{shortTitle}</span>
-            <span className="text-[11px] capitalize text-zinc-500 dark:text-zinc-400">Tenant workspace</span>
+            <span className="text-[11px] capitalize text-zinc-500 dark:text-zinc-400">
+              {userRole ? `${userRole.replace(/_/g, ' ')} workspace` : 'Workspace'}
+            </span>
           </div>
           {!hideGlobalSearch && <GlobalSearch userRole={userRole} />}
 
@@ -311,12 +321,12 @@ export default function TenantRailShell({
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/tenant/profile" className="cursor-pointer">
+                  <Link href={userRole ? `/dashboard/${userRole}/profile` : '/dashboard/tenant/profile'} className="cursor-pointer">
                     My Profile
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/tenant/settings" className="cursor-pointer">
+                  <Link href={userRole ? `/dashboard/${userRole}/settings` : '/dashboard/tenant/settings'} className="cursor-pointer">
                     Settings
                   </Link>
                 </DropdownMenuItem>

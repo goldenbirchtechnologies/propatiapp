@@ -152,7 +152,7 @@ export default function AutoPayConfigurationClient() {
                     type="text"
                     value={maxLimit}
                     onChange={(e) => setMaxLimit(e.target.value)}
-                    className="pl-10 pr-4 py-3 bg-zinc-50 dark:bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] font-label-sm text-zinc-900 dark:text-white"
+                    className="pl-10 pr-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] font-label-sm text-zinc-900 dark:text-white"
                   />
                 </div>
               </div>

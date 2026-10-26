@@ -7,7 +7,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { format } from 'date-fns';
-import { CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import {
+  BadgeCheck, Building2, LayoutGrid, Users, FileText, Wrench, Wallet, Settings, User,
+  Upload, FilePenLine, UploadCloud, Eye, Trash2, CheckCircle2, Shield, Calendar, CalendarCheck,
+  Scale, ArrowLeft, ArrowRight, Bookmark, Pencil, ShieldCheck, Check, Loader2,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,10 +24,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
+import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { useToast } from '@/hooks/use-toast';
 import { useCreateAgreement } from '@/hooks/useAgreements';
 import { createAgreementSchema } from '@/lib/validators';
 import { cn } from '@/lib/utils';
+import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 
 type FormData = z.infer<typeof createAgreementSchema>;
 
@@ -31,6 +38,7 @@ export default function NewAgreementPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
+  const [proceeding, setProceeding] = useState(false);
   const createAgreement = useCreateAgreement();
 
   const {
@@ -80,7 +88,6 @@ export default function NewAgreementPage() {
     }
     const start = new Date(startDate);
     const end = new Date(endDate);
-    // Guard against invalid date objects
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       return null;
     }
@@ -90,50 +97,6 @@ export default function NewAgreementPage() {
     }
     const months = Math.round(diffTime / (1000 * 60 * 60 * 24 * 30));
     return isNaN(months) ? null : months;
-  };
-
-  const calculateRentSchedule = () => {
-    const { rentAmount, startDate, endDate, rentPeriod } = watchedValues;
-    if (
-      !rentAmount ||
-      !startDate ||
-      !endDate ||
-      isNaN(Date.parse(startDate)) ||
-      isNaN(Date.parse(endDate))
-    ) {
-      return [];
-    }
-
-    const schedule: { date: string; amount: number }[] = [];
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    // Guard against invalid date objects
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      return [];
-    }
-
-    const currentDate = new Date(start);
-
-    const interval = rentPeriod === 'monthly' ? 1 :
-                     rentPeriod === 'quarterly' ? 3 : 12;
-
-    while (currentDate <= end) {
-      schedule.push({
-        date: format(currentDate, 'MMM dd, yyyy'),
-        amount: rentAmount,
-      });
-      currentDate.setMonth(currentDate.getMonth() + interval);
-    }
-
-    return schedule;
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-    }).format(amount);
   };
 
   const validateStep = async (step: number): Promise<boolean> => {
@@ -163,377 +126,432 @@ export default function NewAgreementPage() {
       setCurrentStep(currentStep + 1);
     }
   };
+
+  const proceedToStepTwo = async () => {
+    setProceeding(true);
+    await new Promise((r) => setTimeout(r, 700));
+    const isValid = await validateStep(currentStep);
+    setProceeding(false);
+    if (isValid) {
+      setCurrentStep(2);
+    }
+  };
+
   return (
-    <div className="container max-w-4xl mx-auto py-8 px-4">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Create New Agreement</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          Create a rental agreement and invite your tenant to sign.
-        </p>
-      </div>
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName="Landlord" userAvatar={undefined}>
+      <ErrorBoundary>
+        <div className="p-6 lg:p-8 max-w-7xl mx-auto w-full flex flex-col gap-6">
+          {/* Header Block */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold uppercase tracking-wider">
+                <BadgeCheck className="h-[16px] w-[16px]" />
+                <span>LASRERA &amp; CAC Compliant Framework</span>
+              </div>
+              <h1 className="text-[32px] leading-[40px] tracking-tight font-bold text-zinc-900 dark:text-white">Create New Agreement</h1>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl">
+                Generate an institutional-grade tenancy agreement or commercial lease, legally stamped and provisioned for electronic verification via NIN, BVN, or CAC.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 self-start md:self-auto">
+              <div className="flex items-center gap-1 px-2 py-1.5 bg-zinc-50 dark:bg-white/[0.04] rounded-lg text-zinc-600 dark:text-zinc-400">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[11px] font-medium">Draft Autosaved (14:32 WAT)</span>
+              </div>
+              <button type="button" className="px-3 py-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] text-zinc-900 dark:text-white text-sm font-semibold flex items-center gap-1 transition-colors">
+                <Bookmark className="h-[18px] w-[18px]" />
+                <span>Load Template</span>
+              </button>
+            </div>
+          </div>
 
-      {/* Progress Indicator - Visual Stepper */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          {[
-            { id: 1, label: 'Select Tenant & Property' },
-            { id: 2, label: 'Agreement Terms & Pricing' },
-            { id: 3, label: 'Review & Dispatch' },
-          ].map((step, idx, arr) => {
-            const isCompleted = currentStep > step.id;
-            const isActive = currentStep === step.id;
-            const isUpcoming = currentStep < step.id;
-            const showLine = idx < arr.length - 1;
-            const isLineComplete = currentStep > step.id;
-
-            return (
-              <React.Fragment key={step.id}>
-                <div className="flex flex-col items-center flex-1">
-                  <div
-                    className={cn(
-                      'flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all',
-                      isCompleted
-                        ? 'bg-emerald-500 text-zinc-900 dark:text-white border-emerald-500'
-                        : isActive
-                        ? 'bg-white text-emerald-600 border-white'
-                        : 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-700'
-                    )}
-                  >
-                    {isCompleted ? (
-                      <Check className="h-5 w-5" />
-                    ) : (
-                      <span className="text-sm font-medium">{step.id}</span>
-                    )}
-                  </div>
-                  <span className={cn(
-                    'text-xs mt-2 text-center',
-                    isCompleted ? 'text-emerald-400 font-medium' :
-                    isActive ? 'text-zinc-900 dark:text-white font-medium' :
-                    'text-zinc-600 dark:text-zinc-400'
-                  )}>
-                    {step.label}
+          {/* Multi-Step Progress Tracker */}
+          <div className="w-full bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.08]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center relative">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-semibold shrink-0 shadow-sm">1</div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Tenant &amp; Property</span>
+                  <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                    <Pencil className="h-[14px] w-[14px]" /> In Progress
                   </span>
                 </div>
-                {showLine && (
-                  <div
-                    className={cn(
-                      'flex-1 h-0.5 mx-1 my-auto',
-                      isLineComplete ? 'bg-emerald-500' : 'bg-zinc-700'
-                    )}
-                  />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Step 1: Select Tenant & Listing */}
-        {currentStep === 1 && (
-          <div className="glass-card p-6 space-y-6">
-            <h2 className="text-xl font-semibold">Select Tenant & Listing</h2>
-
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="listingId">Select Listing *</Label>
-                <Select
-                  value={watchedValues.listingId}
-                  onValueChange={(value) => setValue('listingId', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a listing" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="listing-1">3 Bedroom Apartment - Lekki</SelectItem>
-                    <SelectItem value="listing-2">2 Bedroom Flat - Victoria Island</SelectItem>
-                    <SelectItem value="listing-3">4 Bedroom Duplex - Ikeja</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.listingId && (
-                  <p className="text-sm text-red-500 mt-1">{errors.listingId.message}</p>
-                )}
               </div>
-
-              <div>
-                <Label htmlFor="tenantId">Tenant Email or ID *</Label>
-                <Input
-                  id="tenantId"
-                  {...register('tenantId')}
-                  placeholder="Enter tenant email or ID"
-                />
-                {errors.tenantId && (
-                  <p className="text-sm text-red-500 mt-1">{errors.tenantId.message}</p>
-                )}
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                  The tenant will receive an invitation to review and sign the agreement.
-                </p>
+              <div className="flex items-center gap-4 opacity-60">
+                <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 flex items-center justify-center font-semibold shrink-0">2</div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Terms, Pricing &amp; Escrow</span>
+                  <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Service charges &amp; rent</span>
+                </div>
               </div>
-
-              <div>
-                <Label htmlFor="type">Agreement Type *</Label>
-                <Select
-                  value={watchedValues.type}
-                  onValueChange={(value) => setValue('type', value as unknown)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select agreement type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rental">Rental Agreement</SelectItem>
-                    <SelectItem value="sale">Sale Agreement</SelectItem>
-                    <SelectItem value="short_let">Short Let Agreement</SelectItem>
-                    <SelectItem value="share">Property Share Agreement</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.type && (
-                  <p className="text-sm text-red-500 mt-1">{errors.type.message}</p>
-                )}
+              <div className="flex items-center gap-4 opacity-60">
+                <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 flex items-center justify-center font-semibold shrink-0">3</div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Legal Review &amp; Dispatch</span>
+                  <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Digital execution &amp; stamp duty</span>
+                </div>
               </div>
+            </div>
+            <div className="mt-4 w-full h-1.5 bg-zinc-100 dark:bg-white/[0.06] rounded-full overflow-hidden flex">
+              <div className="h-full bg-emerald-500 w-1/3 transition-all duration-300" />
+              <div className="h-full bg-transparent w-2/3" />
             </div>
           </div>
-        )}
 
-        {/* Step 2: Agreement Terms */}
-        {currentStep === 2 && (
-          <div className="glass-card p-6 space-y-6">
-            <h2 className="text-xl font-semibold">Agreement Terms</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="startDate">Start Date *</Label>
-                <Input
-                  id="startDate"
-                  type="datetime-local"
-                  {...register('startDate')}
-                />
-                {errors.startDate && (
-                  <p className="text-sm text-red-500 mt-1">{errors.startDate.message}</p>
-                )}
-              </div>
-
-              <div>
-                <Label htmlFor="endDate">End Date *</Label>
-                <Input
-                  id="endDate"
-                  type="datetime-local"
-                  {...register('endDate')}
-                />
-                {errors.endDate && (
-                  <p className="text-sm text-red-500 mt-1">{errors.endDate.message}</p>
-                )}
-              </div>
-            </div>
-
-            {calculateLeaseDuration() && (
-              <div className="bg-accent/10 p-4 rounded-lg">
-                <p className="text-sm font-medium text-zinc-900 dark:text-white">
-                  Lease Duration: {calculateLeaseDuration()} months
-                </p>
-              </div>
-            )}
-
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="rentAmount">Rent Amount (NGN) *</Label>
-                <Input
-                  id="rentAmount"
-                  type="number"
-                  {...register('rentAmount', { valueAsNumber: true })}
-                  placeholder="e.g., 500000"
-                />
-                {errors.rentAmount && (
-                  <p className="text-sm text-red-500 mt-1">{errors.rentAmount.message}</p>
-                )}
-              </div>
-
-              <div>
-                <Label htmlFor="rentPeriod">Payment Schedule *</Label>
-                <Select
-                  value={watchedValues.rentPeriod}
-                  onValueChange={(value) => setValue('rentPeriod', value as unknown)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="monthly">Monthly</SelectItem>
-                    <SelectItem value="quarterly">Quarterly</SelectItem>
-                    <SelectItem value="annually">Annually</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.rentPeriod && (
-                  <p className="text-sm text-red-500 mt-1">{errors.rentPeriod.message}</p>
-                )}
-              </div>
-
-              <div>
-                <Label htmlFor="cautionDeposit">Caution Deposit (NGN)</Label>
-                <Input
-                  id="cautionDeposit"
-                  type="number"
-                  {...register('cautionDeposit', { valueAsNumber: true })}
-                  placeholder="Optional"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="serviceCharge">Service Charge (NGN)</Label>
-                <Input
-                  id="serviceCharge"
-                  type="number"
-                  {...register('serviceCharge', { valueAsNumber: true })}
-                  placeholder="Optional"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="terms">Additional Terms</Label>
-                <Textarea
-                  id="terms"
-                  {...(register as unknown)('terms')}
-                  placeholder="Enter unknown additional terms or conditions..."
-                  rows={4}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Review & Create */}
-        {currentStep === 3 && (
-          <div className="glass-card p-6 space-y-6">
-            <h2 className="text-xl font-semibold">Review Agreement</h2>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4 pb-4 border-b">
+          {/* Main Step Canvas */}
+          {currentStep === 1 && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Primary Form Container (7 cols) */}
+              <div className="lg:col-span-7 bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col gap-6">
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Listing</p>
-                  <p className="font-medium">{watchedValues.listingId || 'Not selected'}</p>
+                  <h2 className="text-xl font-semibold text-zinc-900 dark:text-white tracking-tight">Agreement Mode &amp; Document Upload</h2>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Upload your custom tenancy agreement or lease for digital field tagging, counter-party verification, and multi-party e-signature.</p>
                 </div>
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Tenant</p>
-                  <p className="font-medium">{watchedValues.tenantId || 'Not specified'}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Agreement Type</p>
-                  <p className="font-medium capitalize">{watchedValues.type?.replace('_', ' ')}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Payment Schedule</p>
-                  <p className="font-medium capitalize">{watchedValues.rentPeriod}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 pb-4 border-b">
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Start Date</p>
-                  <p className="font-medium">
-                    {watchedValues.startDate
-                      ? format(new Date(watchedValues.startDate), 'MMM dd, yyyy')
-                      : 'Not set'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">End Date</p>
-                  <p className="font-medium">
-                    {watchedValues.endDate
-                      ? format(new Date(watchedValues.endDate), 'MMM dd, yyyy')
-                      : 'Not set'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Rent Amount</p>
-                  <p className="font-medium">
-                    {watchedValues.rentAmount ? formatCurrency(watchedValues.rentAmount) : 'Not set'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Duration</p>
-                  <p className="font-medium">{calculateLeaseDuration() ?? '—'} {calculateLeaseDuration() !== null ? calculateLeaseDuration() === 1 ? 'month' : 'months' : ''}</p>
-                </div>
-              </div>
-
-              {(watchedValues.cautionDeposit || watchedValues.serviceCharge) && (
-                <div className="grid grid-cols-2 gap-4 pb-4 border-b">
-                  {watchedValues.cautionDeposit && (
-                    <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400">Caution Deposit</p>
-                      <p className="font-medium">{formatCurrency(watchedValues.cautionDeposit)}</p>
-                    </div>
-                  )}
-                  {watchedValues.serviceCharge && (
-                    <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400">Service Charge</p>
-                      <p className="font-medium">{formatCurrency(watchedValues.serviceCharge)}</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Estimated Rent Schedule */}
-              {calculateRentSchedule().length > 0 && (
-                <div>
-                  <h3 className="font-semibold mb-3">Estimated Payment Schedule</h3>
-                  <div className="bg-muted/30 rounded-lg p-4 max-h-48 overflow-y-auto">
-                    <div className="space-y-2">
-                      {calculateRentSchedule().map((entry, index) => (
-                        <div key={index} className="flex justify-between text-sm">
-                          <span className="text-zinc-600 dark:text-zinc-400">{entry.date}</span>
-                          <span className="font-medium">{formatCurrency(entry.amount)}</span>
+                <form className="flex flex-col gap-4" id="agreement-step-form">
+                  <div className="flex flex-col gap-2 pb-4 border-b border-zinc-200 dark:border-white/[0.08]">
+                    <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center justify-between">
+                      <span>Agreement Creation Method <span className="text-red-500">*</span></span>
+                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                        <BadgeCheck className="h-[14px] w-[14px]" /> Electronic Evidence Act Ready
+                      </span>
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <button type="button" className="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 text-left transition-all">
+                        <div className="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0"><Upload className="h-[20px] w-[20px]" /></div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-zinc-900 dark:text-white">Upload Custom Agreement</span>
+                          <span className="text-[11px] text-zinc-600 dark:text-zinc-400">PDF or DOCX for binding E-Sign</span>
                         </div>
+                      </button>
+                      <button type="button" className="flex items-center gap-2 p-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] text-left transition-colors opacity-70 hover:opacity-100">
+                        <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 flex items-center justify-center shrink-0"><FilePenLine className="h-[20px] w-[20px]" /></div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-zinc-900 dark:text-white">Generate from Template</span>
+                          <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Standard LASRERA institutional clause</span>
+                        </div>
+                      </button>
+                    </div>
+                    <div className="mt-1 flex flex-col gap-1">
+                      <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center justify-between">
+                        <span>Contract Document (PDF/DOCX) <span className="text-red-500">*</span></span>
+                        <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Max 25MB</span>
+                      </label>
+                      <div className="border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:border-emerald-500 bg-zinc-50/50 dark:bg-white/[0.02] hover:bg-zinc-50 dark:hover:bg-white/[0.04] rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all gap-1">
+                        <div className="w-11 h-11 rounded-full bg-zinc-100 dark:bg-white/[0.06] flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                          <UploadCloud className="h-[24px] w-[24px]" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-zinc-900 dark:text-white">Click to upload or drag and drop tenancy agreement</span>
+                          <span className="text-xs text-zinc-600 dark:text-zinc-400">PDF, DOCX up to 25MB • Automated signature anchor &amp; field detection</span>
+                        </div>
+                      </div>
+                      <div className="bg-zinc-50 dark:bg-white/[0.04] p-2 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-1 mt-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-9 h-9 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0"><FileText className="h-[20px] w-[20px]" /></div>
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm font-semibold text-zinc-900 dark:text-white">Tenancy_Contract_VictoriaCrest_2025.pdf</span>
+                              <span className="px-1.5 py-0.5 rounded text-[11px] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold">E-Sign Fields Ready</span>
+                            </div>
+                            <span className="text-xs text-zinc-600 dark:text-zinc-400">2.4 MB • 8 Pages • 2 Signatories detected (Landlord, Tenant)</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1 self-end sm:self-auto">
+                          <button type="button" className="px-2 py-1 rounded bg-zinc-100 dark:bg-white/[0.06] hover:bg-zinc-200 dark:hover:bg-white/[0.1] text-zinc-900 dark:text-white text-[11px] flex items-center gap-1 transition-colors">
+                            <Eye className="h-[16px] w-[16px]" /> Preview
+                          </button>
+                          <button type="button" className="p-1 text-zinc-600 dark:text-zinc-400 hover:text-red-500 transition-colors" title="Remove">
+                            <Trash2 className="h-[18px] w-[18px]" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Managed Property & Unit */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center justify-between" htmlFor="property-select">
+                      <span>Managed Property &amp; Unit <span className="text-red-500">*</span></span>
+                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
+                        <CheckCircle2 className="h-[14px] w-[14px]" /> 42 Active Units
+                      </span>
+                    </label>
+                    <div className="relative">
+                      <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400 h-[20px] w-[20px] pointer-events-none" />
+                      <Select value={watchedValues.listingId} onValueChange={(value) => setValue('listingId', value)}>
+                        <SelectTrigger className="w-full h-11 pl-10 pr-10 bg-white dark:bg-zinc-900 rounded-lg text-sm text-zinc-900 dark:text-white shadow-sm">
+                          <SelectValue placeholder="Select a property" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="lekki">Unit 4B, Victoria Crest IV, Lekki Phase 1, Lagos [Vacant • ₦7,500,000/yr]</SelectItem>
+                          <SelectItem value="ikoyi">Penthouse A, Osborne Foreshore Estate, Ikoyi, Lagos [Vacant • ₦28,000,000/yr]</SelectItem>
+                          <SelectItem value="abuja">Commercial Suite 12, CBD Diplomatic Zone, Abuja [Available • ₦14,200,000/yr]</SelectItem>
+                          <SelectItem value="ikeja">Block C-2, Ikeja GRA Heights, Ikeja, Lagos [Turnover Ready • ₦9,000,000/yr]</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    {errors.listingId && <p className="text-xs text-red-500 mt-1">{errors.listingId.message}</p>}
+                    <span className="text-xs text-zinc-600 dark:text-zinc-400">Listing includes automated service charge schedule and verified Lagos State title documentation.</span>
+                  </div>
+
+                  {/* Tenant Email/RC */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center justify-between" htmlFor="tenant-identifier">
+                      <span>Tenant Email or Corporate RC Number <span className="text-red-500">*</span></span>
+                      <span className="text-[11px] text-zinc-600 dark:text-zinc-400">NIN / BVN / RC sync</span>
+                    </label>
+                    <div className="relative">
+                      <BadgeCheck className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400 h-[20px] w-[20px] pointer-events-none" />
+                      <Input id="tenant-identifier" className="w-full h-11 pl-10 pr-28" placeholder="e.g. tenant@domain.ng or RC-1892834" {...register('tenantId')} />
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 rounded text-[11px] font-semibold flex items-center gap-1">
+                        <BadgeCheck className="h-[14px] w-[14px]" /> CAC VALID
+                      </span>
+                    </div>
+                    {errors.tenantId && <p className="text-xs text-red-500 mt-1">{errors.tenantId.message}</p>}
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                      The tenant will receive an authenticated dispatch payload to execute the agreement via legal e-sign with SMS OTP validation (Nigerian Tier-1 Gateways).
+                    </p>
+                  </div>
+
+                  {/* Agreement Classification */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-semibold text-zinc-900 dark:text-white">Agreement Classification <span className="text-red-500">*</span></label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {[
+                        { value: 'rental', label: 'Standard Residential', sub: 'Annual tenancy under LASRERA' },
+                        { value: 'commercial', label: 'Commercial Corporate Lease', sub: 'Multi-year institution contract' },
+                        { value: 'serviced', label: 'Serviced Executive Flat', sub: 'Includes 24/7 power & security' },
+                        { value: 'short_let', label: 'Institutional Short-Let', sub: 'Flexible rolling quarterly terms' },
+                      ].map((opt) => (
+                        <label key={opt.value} className="flex items-center gap-2 p-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] cursor-pointer transition-colors">
+                          <input type="radio" name="type" value={opt.value} checked={watchedValues.type === opt.value} onChange={() => setValue('type', opt.value as never)} className="w-4 h-4 text-emerald-600 focus:ring-emerald-500" />
+                          <div className="flex flex-col">
+                            <span className="text-sm font-semibold text-zinc-900 dark:text-white leading-tight">{opt.label}</span>
+                            <span className="text-[11px] text-zinc-600 dark:text-zinc-400">{opt.sub}</span>
+                          </div>
+                        </label>
                       ))}
                     </div>
+                    {errors.type && <p className="text-xs text-red-500 mt-1">{errors.type.message}</p>}
                   </div>
-                </div>
-              )}
 
-              {watchedValues && (watchedValues as unknown).terms && (
-                <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Additional Terms</p>
-                  <div className="bg-muted/30 rounded-lg p-4">
-                    <p className="text-sm whitespace-pre-wrap">{(watchedValues as unknown).terms}</p>
+                  {/* Duration + Commencement */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                    <div className="flex flex-col gap-1">
+                      <label className="text-sm font-semibold text-zinc-900 dark:text-white" htmlFor="tenancy-duration">Tenancy Duration</label>
+                      <div className="relative">
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400 h-[20px] w-[20px] pointer-events-none" />
+                        <select id="tenancy-duration" className="w-full h-11 pl-10 pr-8 bg-white dark:bg-zinc-900 rounded-lg text-sm text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer transition-all appearance-none border border-zinc-200 dark:border-white/[0.08]">
+                          <option value="1yr">1 Year (Standard Annual)</option>
+                          <option value="2yr">2 Years (Locked Fixed Rate)</option>
+                          <option value="3yr">3 Years (Corporate Triennial)</option>
+                          <option value="6mo">6 Months (Executive Transitional)</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-sm font-semibold text-zinc-900 dark:text-white" htmlFor="commencement-date">Proposed Commencement</label>
+                      <div className="relative">
+                        <CalendarCheck className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400 h-[20px] w-[20px] pointer-events-none" />
+                        <Input id="commencement-date" type="date" className="w-full h-11 pl-10 pr-3" defaultValue="2025-11-01" {...register('startDate')} />
+                      </div>
+                      {errors.startDate && <p className="text-xs text-red-500 mt-1">{errors.startDate.message}</p>}
+                    </div>
+                  </div>
+
+                  {/* Corporate Guarantor */}
+                  <div className="bg-zinc-50 dark:bg-white/[0.04] p-4 rounded-lg flex items-start gap-2 mt-1">
+                    <input type="checkbox" id="legal-guarantor" defaultChecked className="mt-1 w-4 h-4 text-emerald-600 focus:ring-emerald-500 rounded" />
+                    <div className="flex flex-col">
+                      <label className="text-sm font-semibold text-zinc-900 dark:text-white cursor-pointer" htmlFor="legal-guarantor">Enforce Corporate Guarantor &amp; Legal Co-Signer</label>
+                      <span className="text-xs text-zinc-600 dark:text-zinc-400">
+                        Requires an attested Letter of Indemnity and verification of employer payroll or CAC Form 7 before handover.
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              {/* Right preview col */}
+              <div className="lg:col-span-5 flex flex-col gap-4 sticky top-20">
+                {/* Property Spotlight */}
+                <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col gap-4 overflow-hidden relative">
+                  <div className="flex items-center justify-between pb-1">
+                    <span className="text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400 uppercase">Property Specification</span>
+                    <span className="px-1.5 py-0.5 rounded text-[11px] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold">Ready for Lease</span>
+                  </div>
+                  <div className="relative rounded-lg overflow-hidden h-44 w-full">
+                    <img className="w-full h-full object-cover" alt="Victoria Crest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-LVYLd0QlOOcZa319RQUOPGV9Fl_a1IBQYwtr8h6A-qGyKPkWynEFjAwubmAdi1pWC9fexqKp1sEQarApzCYDcMOjqoMzCTKj8Jh7ASHhJSojBU6hsy1arykBIe0oMYsL5fx0rYGtUYJ8kRSMzfDRrZ3yaI1MeJKAoF0CFC6dKqSwllceiHx4Lx6-aqsMcgtEml3IvM_fxCJDPdQGntE63lDRivHzUeyENjsit628s_WmW-TDxI7R" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
+                      <div className="flex flex-col text-white">
+                        <span className="text-base font-bold leading-snug">Unit 4B, Victoria Crest IV</span>
+                        <span className="text-xs text-gray-200">Lekki Phase 1, Eti-Osa LGA, Lagos State</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 bg-zinc-50 dark:bg-white/[0.04] p-2 rounded-lg">
+                    <div className="flex flex-col">
+                      <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Base Rent (Annual)</span>
+                      <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">₦7,500,000</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Caution &amp; Damages</span>
+                      <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">₦750,000</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Service Charge (Est.)</span>
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white font-mono">₦1,200,000 / yr</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Legal &amp; Stamp Duty</span>
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white font-mono">10% (₦750,000)</span>
+                    </div>
+                  </div>
+                  {/* Tenant Verification */}
+                  <div className="p-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex flex-col gap-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">Prospective Tenant Identity</span>
+                      <span className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                        <Shield className="h-[14px] w-[14px]" /> Pre-screened
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">AF</div>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white leading-none">Barr. Adewale Fashola</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">Vanguard Legal Partners Ltd • RC: 1493021</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Statutory */}
+                  <div className="flex items-start gap-2 p-2 bg-zinc-100 dark:bg-white/[0.06] rounded-lg">
+                    <Scale className="text-emerald-600 dark:text-emerald-400 h-[20px] w-[20px] shrink-0 mt-0.5" />
+                    <div className="flex flex-col text-zinc-900 dark:text-white">
+                      <span className="text-sm font-semibold leading-tight">Statutory Lagos Tenancy Law 2011</span>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
+                        Agreement terms will automatically inject Section 13 covenants, statutory 7-day abandonment protocols, and standard dispute mediation clauses.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              )}
+
+                {/* E-Sign Flow */}
+                <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400 uppercase">E-Sign Flow &amp; Execution</span>
+                    <span className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                      <BadgeCheck className="h-[14px] w-[14px]" /> 2-Party Flow
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2 p-1 rounded-lg bg-zinc-50 dark:bg-white/[0.04]">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center shrink-0">1</div>
+                      <div className="flex flex-col flex-1">
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white leading-tight">Landlord E-Signature</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-400">Executes upon review with RC seal</span>
+                      </div>
+                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">You First</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-1 rounded-lg bg-zinc-50 dark:bg-white/[0.04]">
+                      <div className="w-6 h-6 rounded-full bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 text-[11px] font-bold flex items-center justify-center shrink-0">2</div>
+                      <div className="flex flex-col flex-1">
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white leading-tight">Tenant SMS OTP &amp; Signature</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-400">Authenticated via NIN / BVN match</span>
+                      </div>
+                      <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Second</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-1 p-1 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg text-emerald-700 dark:text-emerald-400">
+                    <Shield className="text-emerald-600 dark:text-emerald-400 h-[18px] w-[18px] shrink-0 mt-0.5" />
+                    <p className="text-[11px]">Admissible in Nigerian courts per Evidence Act 2011 §93 &amp; Lagos State Tenancy Law digital audit log.</p>
+                  </div>
+                </div>
+
+                <div className="bg-zinc-50 dark:bg-white/[0.04] rounded-xl p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="text-zinc-600 dark:text-zinc-400 h-[22px] w-[22px]" />
+                    <div className="flex flex-col">
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">Need a bespoke clause?</span>
+                      <span className="text-xs text-zinc-600 dark:text-zinc-400">Request Sovereign Legal Counsel review</span>
+                    </div>
+                  </div>
+                  <button type="button" className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline uppercase">Consult Legal</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {currentStep === 2 && (
+            <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.08] space-y-6">
+              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Agreement Terms</h2>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="startDate">Start Date *</Label>
+                    <Input id="startDate" type="datetime-local" {...register('startDate')} />
+                    {errors.startDate && <p className="text-xs text-red-500 mt-1">{errors.startDate.message}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="endDate">End Date *</Label>
+                    <Input id="endDate" type="datetime-local" {...register('endDate')} />
+                    {errors.endDate && <p className="text-xs text-red-500 mt-1">{errors.endDate.message}</p>}
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="rentAmount">Rent Amount (NGN) *</Label>
+                  <Input id="rentAmount" type="number" {...register('rentAmount', { valueAsNumber: true })} placeholder="e.g., 500000" />
+                  {errors.rentAmount && <p className="text-xs text-red-500 mt-1">{errors.rentAmount.message}</p>}
+                </div>
+                <div>
+                  <Label htmlFor="rentPeriod">Payment Schedule *</Label>
+                  <Select value={watchedValues.rentPeriod} onValueChange={(value) => setValue('rentPeriod', value as never)}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="quarterly">Quarterly</SelectItem>
+                      <SelectItem value="annually">Annually</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.rentPeriod && <p className="text-xs text-red-500 mt-1">{errors.rentPeriod.message}</p>}
+                </div>
+                <div>
+                  <Label htmlFor="cautionDeposit">Caution Deposit (NGN)</Label>
+                  <Input id="cautionDeposit" type="number" {...register('cautionDeposit', { valueAsNumber: true })} placeholder="Optional" />
+                </div>
+                <div>
+                  <Label htmlFor="serviceCharge">Service Charge (NGN)</Label>
+                  <Input id="serviceCharge" type="number" {...register('serviceCharge', { valueAsNumber: true })} placeholder="Optional" />
+                </div>
+                <div>
+                  <Label htmlFor="terms">Additional Terms</Label>
+                  <Textarea id="terms" {...register('terms')} placeholder="Enter additional terms..." rows={4} />
+                </div>
+                <div className="flex justify-end gap-2 pt-4">
+                  <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>Back</Button>
+                  <Button type="submit" disabled={createAgreement.isPending}>
+                    {createAgreement.isPending ? 'Creating...' : 'Create Agreement'}
+                  </Button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* Footer action deck */}
+          <div className="pt-4 border-t border-zinc-200 dark:border-white/[0.08] flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+            <button type="button" onClick={() => router.back()} className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] text-zinc-900 dark:text-white text-sm font-semibold flex items-center justify-center gap-1 transition-colors shadow-sm">
+              <ArrowLeft className="h-[18px] w-[18px]" /> Back to Agreements
+            </button>
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <button type="button" className="w-full sm:w-auto px-4 py-2.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white text-sm font-semibold transition-colors text-center">
+                Save Draft Only
+              </button>
+              <button type="button" onClick={proceedToStepTwo} disabled={proceeding} className="w-full sm:w-auto px-8 py-2.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 text-sm font-semibold flex items-center justify-center gap-1 transition-all shadow-md active:scale-[0.99] disabled:opacity-60">
+                {proceeding ? (<><Loader2 className="h-[18px] w-[18px] animate-spin" /> Validating...</>) : (<>Proceed to Signature Fields <ArrowRight className="h-[18px] w-[18px]" /></>)}
+              </button>
             </div>
           </div>
-        )}
-
-
-
-        {/* Navigation Buttons */}
-        <div className="mt-8 flex justify-between">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => {
-              if (currentStep === 1) {
-                router.back();
-              } else {
-                setCurrentStep(currentStep - 1);
-              }
-            }}
-          >
-            <ChevronLeft className="h-4 w-4 mr-2" />
-            {currentStep === 1 ? 'Cancel' : 'Back'}
-          </Button>
-
-          {currentStep < 3 ? (
-            <Button
-              type="button"
-              onClick={nextStep}
-            >
-              Next
-              <ChevronRight className="h-4 w-4 ml-2" />
-            </Button>
-          ) : (
-            <Button type="submit" disabled={createAgreement.isPending}>
-              {createAgreement.isPending ? 'Creating...' : 'Create Agreement'}
-            </Button>
-          )}
         </div>
-      </form>
-    </div>
+      </ErrorBoundary>
+    </DashboardShell>
   );
 }

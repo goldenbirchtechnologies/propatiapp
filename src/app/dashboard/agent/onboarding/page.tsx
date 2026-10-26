@@ -322,10 +322,10 @@ export default function AgentOnboardingPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="h-14 w-14 rounded-full bg-zinc-100 shrink-0 flex items-center justify-center ring-2 ring-[#10b981]/30">
-                    <span className="text-lg font-bold text-zinc-400">BO</span>
+                    <ShieldCheck className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-zinc-900">ESV Babatunde Odukoya (FNIVS)</h4>
+                    <h4 className="text-sm font-semibold text-zinc-900">Regulatory Compliance Desk</h4>
                     <p className="text-xs text-zinc-500">Senior Regulatory Compliance Officer</p>
                     <p className="text-[11px] text-[#006c49]">LASRERA Secretariat • Lands Bureau</p>
                   </div>

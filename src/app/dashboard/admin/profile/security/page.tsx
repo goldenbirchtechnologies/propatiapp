@@ -26,7 +26,7 @@ export default async function AdminProfileSecurityPage() {
 
       <ErrorBoundary>
 
-      <AdminProfileSecurityClient />
+      <AdminProfileSecurityClient displayName={displayName} />
     
       </ErrorBoundary>
 </DashboardShell>

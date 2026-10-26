@@ -71,7 +71,7 @@ export default function VerificationQueueDetailObsidianClient() {
               <span className="rounded bg-on-tertiary-container/10 px-2 py-0.5 text-xs font-label-sm text-[#10b981]">MATCHED 98%</span>
             </div>
             <div className="flex items-center gap-4">
-              <img alt="Owner avatar" className="h-12 w-12 rounded-full border border-zinc-200 dark:border-white/[0.08] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRtVkTaJtRyCVW7YClt5jsc2v2_klnwX2OEojt3Ht0JZoh9tP55l32XVouzrCafjRxTqn0gXWoLQlMwZ7dUOMRQqvfPbBGwj5C9ADSl4K9W5PO0CLYKtPZOeCjg0c64x6OB0Z-1n8t1vVKyUqFNBoA9xJ7bu9kOue7rsijLpShIHReVxnkQXuLs4vtzyIYUV2t9Bd33yaqmh69JV0dYYiD1Y__xfrysY3JM1pZ8SSp_PFIT4oEmtJcJNE1tuX5MadK9GpxIFq6ABM" />
+              <span className="h-12 w-12 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"><AppIcon name="person" className="lucide" /></span>
               <div>
                 <p className="font-headline-sm text-zinc-900 dark:text-white">Emeka Adeyemi</p>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">Verified BVN: 221****092</p>
@@ -94,13 +94,13 @@ export default function VerificationQueueDetailObsidianClient() {
             <h4 className="font-headline-sm text-zinc-900 dark:text-white">Legal Documentation</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="overflow-hidden rounded-lg border border-zinc-200 dark:border-white/[0.08] hover:border-white transition-colors">
-                <img alt="Certificate of Occupancy" className="h-32 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2i7-TPT6FqJ_RiV4eMfNuF9ortAX6OZ2jDO1CZj-3mgTagvRVFJa5dnl6DgdqVwfV6g85o5Ja0QjZlCGqTiGBs0wnK3RoT6HXqI9MO2cvPCNIFaNPidAz8NVbE-wRJlv51MLq8rgl4VswCKYCr3VzcNWMssvduxSd4ItCOMdKLgNZhh6A1kXW6O4oMB15KN2EIbZk_0bG1Rfa63HKwqXaqOlVJmmP2DzjoteKfWSL62-KIXsg00EdLMBCOWZ0VNghsDnZC4U77tU" />
+                <div className="flex h-32 w-full items-center justify-center bg-zinc-100 dark:bg-white/[0.04] text-zinc-400"><AppIcon name="description" className="lucide" /></div>
                 <div className="bg-white dark:bg-black/60 p-2">
                   <p className="truncate text-[10px] font-label-sm text-zinc-900 dark:text-white">C_of_O_Lagos_Registry.pdf</p>
                 </div>
               </div>
               <div className="overflow-hidden rounded-lg border border-zinc-200 dark:border-white/[0.08] hover:border-white transition-colors">
-                <img alt="Survey Plan" className="h-32 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6xom281FrtHq7CQel9qaXaL3rxRmhejvNH51omrtIEpOSeJp2Qu6GbNFu3V573-auJ7OLCa4PZzasgoIqy7arAGtLTd7snGOKcn-CbJWd8iXX7oVHNKdAuhtfcE0sxV7swHw0Tn9ZSZIUbTCCvFgm_1SMKou77ylnIhFrmUp_1zEAefUkh7XGW7VmFyXYtx30tThwSfCfgcLJhazTU40kUbhZakgK0csCXcr4W--2zdB9dvaQ35s36V--emGQUzXqnAtryOE8W6s" />
+                <div className="flex h-32 w-full items-center justify-center bg-zinc-100 dark:bg-white/[0.04] text-zinc-400"><AppIcon name="description" className="lucide" /></div>
                 <div className="bg-white dark:bg-black/60 p-2">
                   <p className="truncate text-[10px] font-label-sm text-zinc-900 dark:text-white">Survey_Plan_2023.pdf</p>
                 </div>

@@ -26,7 +26,7 @@ export default async function AuditEventDetailPage() {
 
       <ErrorBoundary>
 
-      <AuditEventDetailClient />
+      <AuditEventDetailClient displayName={displayName} />
     
       </ErrorBoundary>
 </DashboardShell>

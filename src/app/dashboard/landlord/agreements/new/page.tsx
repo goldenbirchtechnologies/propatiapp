@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -39,6 +39,41 @@ export default function NewAgreementPage() {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [proceeding, setProceeding] = useState(false);
+  const [listings, setListings] = useState<
+    { id: string; title: string; address: string; area: string; state: string; price: number; pricePeriod: string | null; coverImage: string | null }[]
+  >([]);
+  const [listingsLoading, setListingsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/listings?ownerId=me&limit=50', { cache: 'no-store' });
+        const json = await res.json();
+        const rows = Array.isArray(json?.data) ? json.data : [];
+        if (!cancelled) {
+          setListings(
+            rows.map((l: Record<string, unknown>) => ({
+              id: String(l.id),
+              title: String(l.title ?? 'Untitled property'),
+              address: String(l.address ?? ''),
+              area: String(l.area ?? ''),
+              state: String(l.state ?? ''),
+              price: Number(l.price ?? 0),
+              pricePeriod: (l.pricePeriod as string | null) ?? null,
+              coverImage: Array.isArray(l.images) ? ((l.images[0] as { url?: string })?.url ?? null) : null,
+            }))
+          );
+        }
+      } catch {
+        if (!cancelled) setListings([]);
+      } finally {
+        if (!cancelled) setListingsLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   const createAgreement = useCreateAgreement();
 
   const {
@@ -58,6 +93,10 @@ export default function NewAgreementPage() {
   } as unknown);
 
   const watchedValues = watch();
+  const selectedListing = useMemo(
+    () => listings.find((l) => l.id === watchedValues.listingId) ?? null,
+    [listings, watchedValues.listingId]
+  );
 
   const onSubmit = async (data: unknown) => {
     try {
@@ -283,10 +322,17 @@ export default function NewAgreementPage() {
                           <SelectValue placeholder="Select a property" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="lekki">Unit 4B, Victoria Crest IV, Lekki Phase 1, Lagos [Vacant • ₦7,500,000/yr]</SelectItem>
-                          <SelectItem value="ikoyi">Penthouse A, Osborne Foreshore Estate, Ikoyi, Lagos [Vacant • ₦28,000,000/yr]</SelectItem>
-                          <SelectItem value="abuja">Commercial Suite 12, CBD Diplomatic Zone, Abuja [Available • ₦14,200,000/yr]</SelectItem>
-                          <SelectItem value="ikeja">Block C-2, Ikeja GRA Heights, Ikeja, Lagos [Turnover Ready • ₦9,000,000/yr]</SelectItem>
+                          {listingsLoading ? (
+                            <SelectItem value="__loading" disabled>Loading properties…</SelectItem>
+                          ) : listings.length === 0 ? (
+                            <SelectItem value="__empty" disabled>No properties yet — add one first</SelectItem>
+                          ) : (
+                            listings.map((l) => (
+                              <SelectItem key={l.id} value={l.id}>
+                                {l.title} — {[l.area, l.state].filter(Boolean).join(', ') || l.address} [₦{l.price.toLocaleString()}/{l.pricePeriod ?? 'yr'}]
+                              </SelectItem>
+                            ))
+                          )}
                         </SelectContent>
                       </Select>
                     </div>
@@ -380,19 +426,33 @@ export default function NewAgreementPage() {
                     <span className="text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400 uppercase">Property Specification</span>
                     <span className="px-1.5 py-0.5 rounded text-[11px] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold">Ready for Lease</span>
                   </div>
-                  <div className="relative rounded-lg overflow-hidden h-44 w-full">
-                    <img className="w-full h-full object-cover" alt="Victoria Crest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-LVYLd0QlOOcZa319RQUOPGV9Fl_a1IBQYwtr8h6A-qGyKPkWynEFjAwubmAdi1pWC9fexqKp1sEQarApzCYDcMOjqoMzCTKj8Jh7ASHhJSojBU6hsy1arykBIe0oMYsL5fx0rYGtUYJ8kRSMzfDRrZ3yaI1MeJKAoF0CFC6dKqSwllceiHx4Lx6-aqsMcgtEml3IvM_fxCJDPdQGntE63lDRivHzUeyENjsit628s_WmW-TDxI7R" />
+                  <div className="relative rounded-lg overflow-hidden h-44 w-full bg-zinc-100 dark:bg-white/[0.04]">
+                    {selectedListing?.coverImage ? (
+                      <img className="w-full h-full object-cover" alt={selectedListing.title} src={selectedListing.coverImage} />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-zinc-400">
+                        <Building2 className="h-10 w-10" />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
                       <div className="flex flex-col text-white">
-                        <span className="text-base font-bold leading-snug">Unit 4B, Victoria Crest IV</span>
-                        <span className="text-xs text-gray-200">Lekki Phase 1, Eti-Osa LGA, Lagos State</span>
+                        <span className="text-base font-bold leading-snug">
+                          {selectedListing ? selectedListing.title : 'No property selected'}
+                        </span>
+                        <span className="text-xs text-gray-200">
+                          {selectedListing
+                            ? [selectedListing.address, selectedListing.area, selectedListing.state].filter(Boolean).join(', ')
+                            : 'Choose a managed property to preview it here'}
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-2 bg-zinc-50 dark:bg-white/[0.04] p-2 rounded-lg">
                     <div className="flex flex-col">
                       <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Base Rent (Annual)</span>
-                      <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">₦7,500,000</span>
+                      <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                        {selectedListing ? `₦${selectedListing.price.toLocaleString()}` : '—'}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Caution &amp; Damages</span>
@@ -416,10 +476,18 @@ export default function NewAgreementPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
-                      <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">AF</div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-zinc-900 dark:text-white leading-none">Barr. Adewale Fashola</span>
-                        <span className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">Vanguard Legal Partners Ltd • RC: 1493021</span>
+                      <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">
+                        {(watchedValues.tenantId || '?').toString().slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="flex min-w-0 flex-col">
+                        <span className="truncate text-sm font-semibold leading-none text-zinc-900 dark:text-white">
+                          {watchedValues.tenantId ? String(watchedValues.tenantId) : 'No tenant identified yet'}
+                        </span>
+                        <span className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                          {watchedValues.tenantId
+                            ? 'Identity is verified at dispatch'
+                            : 'Enter the tenant email or RC number to continue'}
+                        </span>
                       </div>
                     </div>
                   </div>

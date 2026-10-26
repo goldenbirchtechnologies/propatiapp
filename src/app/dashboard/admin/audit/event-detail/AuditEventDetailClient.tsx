@@ -2,7 +2,7 @@
 
 import AppIcon from '@/components/icons/app-icon';
 
-export default function AuditEventDetailClient() {
+export default function AuditEventDetailClient({ displayName = 'Administrator' }: { displayName?: string }) {
   return (
     <>
       {/* Ported from audit_event_detail_permission_update_propati_admin.html */}
@@ -45,12 +45,8 @@ export default function AuditEventDetailClient() {
         <div className="flex flex-col gap-xs">
           <span className="text-label-sm text-zinc-600 dark:text-zinc-400">Administrator</span>
           <div className="flex items-center gap-sm mt-xs">
-            <img
-              className="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container-high"
-              data-alt="A professional portrait of a West African male administrator in a clean-cut corporate attire, set against a blurred modern office background with high-key lighting. The style is professional and trustworthy, reflecting a high-security fintech environment."
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC70xn2f3s3ytMUkkwMiesnbYx9CktoNe1hoctJ-VjdX55c9j5cf3UdyUbkT7UfujPVJOkVUHO3idHG44TJyAcLTXw-F0rCBT52MZqgPGRRo6KcvufW7sXk6mskfR0I-yhmaZFJCIOxxBpLj3DRx3E-aCEe-Xohuppfft_3QjeE8y51FJH4WQthENaD21JN0n02X6ctoi_pTMckcE_DvHy8suRKCMpXykOERTJzV_g6PHlXYqbE-e451-sbg-FrGB6ZX_uXRSSSOzA"
-            />
-            <span className="font-body-md font-bold">Ade Ben-G.</span>
+            <span className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold"><AppIcon name="verified_user" className="lucide" /></span>
+            <span className="font-body-md font-bold">{displayName}</span>
           </div>
         </div>
         <div className="flex flex-col gap-xs">
@@ -129,7 +125,7 @@ export default function AuditEventDetailClient() {
           <div className="bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08] p-lg rounded-xl shadow-none h-full">
             <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-lg">Related Activity</h3>
             <p className="text-body-sm text-zinc-600 dark:text-zinc-400 mb-xl">
-              Activity within 1-hour window for Admin <span className="font-bold">Ade Ben-G.</span>
+              Activity within 1-hour window for Admin <span className="font-bold">{displayName}</span>
             </p>
             <div className="relative space-y-xl pl-6 border-l-2 border-zinc-200 dark:border-white/[0.08]/30">
               {/* Timeline Item 1 */}

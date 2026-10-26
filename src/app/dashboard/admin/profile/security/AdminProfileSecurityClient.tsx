@@ -2,7 +2,7 @@
 
 import AppIcon from '@/components/icons/app-icon';
 
-export default function AdminProfileSecurityClient() {
+export default function AdminProfileSecurityClient({ displayName = 'Administrator' }: { displayName?: string }) {
   return (
     <div className="p-margin-desktop space-y-gutter max-w-7xl mx-auto">
       {/* Section 1: Profile Overview (Bento Style) */}
@@ -13,11 +13,7 @@ export default function AdminProfileSecurityClient() {
           <div className="absolute -right-16 -top-16 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
           <div className="relative group">
             <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-white shadow-none">
-              <img
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                data-alt="Professional studio portrait of an administrative executive, Ade Ben-G., featuring confident posture and soft, professional lighting."
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzJdCgsEd4j5tDEETrQKsocY3MM4zLUViPHSRUcTC1IUaeWjw8Mm_YbIJDsxI1ZFAEaoQMqHGVr-cWWge0xIvK31upjouaqv5FnH41z7wJdmBmJiwL5FqDeLU3Y211YD7w4XUccHMf9cPmuD6oygHKup0SpKDCsMPJe19wrH0dHrQz0GTv0YwK_Ohg3lJ_aDzAuBCcjDldSud1hC1kLuBCQycV8bSdEIXQcoSBwzXx-6g6SvLwLDhAvCkaj_-WJjhiBLz7BdzDi90"
-              />
+              <span className="w-full h-full flex items-center justify-center bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><AppIcon name="person" className="lucide" /></span>
             </div>
             <button className="absolute -bottom-2 -right-2 bg-emerald-500 text-zinc-900 dark:text-white w-10 h-10 rounded-full border-4 border-white flex items-center justify-center shadow-none hover:bg-primary-container transition-colors">
               <AppIcon name="photo_camera" className="lucide" />
@@ -25,7 +21,7 @@ export default function AdminProfileSecurityClient() {
           </div>
           <div className="flex-1 space-y-4 text-center md:text-left">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <h3 className="font-headline-lg text-headline-lg text-zinc-900 dark:text-white">Ade Ben-G.</h3>
+              <h3 className="font-headline-lg text-headline-lg text-zinc-900 dark:text-white">{displayName}</h3>
               <span className="px-3 py-1 rounded-full bg-emerald-600 text-on-success font-label-sm text-[10px] flex items-center gap-1">
                 <span className="lucide text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                 Verified
@@ -94,7 +90,7 @@ export default function AdminProfileSecurityClient() {
                 <input
                   className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="text"
-                  defaultValue="Ade Ben-G."
+                  defaultValue={displayName}
                 />
               </div>
               <div className="col-span-2 md:col-span-1">

@@ -26,7 +26,22 @@ type Transaction = {
   agreements?: { tenant?: { fullName: string } }[];
 };
 
-export default function LandlordRentClient({ userId }: { userId: string }) {
+export type UpcomingRentRow = {
+  id: string;
+  property: string;
+  tenant: string;
+  amount: number;
+  dueDate: string;
+  status: string;
+};
+
+export default function LandlordRentClient({
+  userId,
+  upcomingRent = [],
+}: {
+  userId: string;
+  upcomingRent?: UpcomingRentRow[];
+}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -251,27 +266,31 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
               </tr>
             </thead>
             <tbody>
-              {[
-                { property: 'Sunrise Apartments Block A', tenant: 'John Doe', amount: 1500000, dueDate: '2026-07-01', status: 'upcoming' },
-                { property: 'Greenview Estate Unit 3', tenant: 'Jane Smith', amount: 2200000, dueDate: '2026-07-05', status: 'upcoming' },
-                { property: 'Lekki Heights Penthouse', tenant: 'Mike Johnson', amount: 5000000, dueDate: '2026-06-30', status: 'overdue' },
-              ].map((item, i) => (
-                <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08]">
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">{item.property}</td>
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">{item.tenant}</td>
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">₦{item.amount.toLocaleString()}</td>
-                  <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
-                    {new Date(item.dueDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
-                  </td>
-                  <td className="p-4">
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                      item.status === 'overdue' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                    }`}>
-                      {item.status === 'overdue' ? 'Overdue' : 'Due Soon'}
-                    </span>
+              {upcomingRent.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="p-10 text-center text-sm text-zinc-600 dark:text-zinc-400">
+                    No upcoming rent schedules. Schedules appear once a tenancy agreement is executed.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                upcomingRent.map((item) => (
+                  <tr key={item.id} className="border-b border-zinc-200 dark:border-white/[0.08]">
+                    <td className="p-4 text-sm text-zinc-900 dark:text-white">{item.property}</td>
+                    <td className="p-4 text-sm text-zinc-900 dark:text-white">{item.tenant}</td>
+                    <td className="p-4 text-sm text-zinc-900 dark:text-white">₦{item.amount.toLocaleString()}</td>
+                    <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
+                      {new Date(item.dueDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
+                    </td>
+                    <td className="p-4">
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                        item.status === 'overdue' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                      }`}>
+                        {item.status === 'overdue' ? 'Overdue' : 'Due Soon'}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

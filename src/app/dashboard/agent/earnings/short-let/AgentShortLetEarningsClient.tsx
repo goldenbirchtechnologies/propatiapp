@@ -21,7 +21,7 @@ import {
 
 } from 'lucide-react';
 
-type Stay = {
+export type ShortLetStay = {
   id: string;
   property: string;
   guest: string;
@@ -30,44 +30,9 @@ type Stay = {
   gross: number;
   serviceFee: number;
   net: number;
-  status: 'Settled' | 'Processing';
+  status: string;
 };
 
-const initialStays: Stay[] = [
-  {
-    id: '1',
-    property: 'Skyline Penthouse VI',
-    guest: 'Amara Okafor',
-    dates: 'May 12 - May 15',
-    nights: 3,
-    gross: 450000,
-    serviceFee: 36000,
-    net: 414000,
-    status: 'Settled',
-  },
-  {
-    id: '2',
-    property: 'Lekki Scandi Studio',
-    guest: 'Tunde Balogun',
-    dates: 'May 08 - May 10',
-    nights: 2,
-    gross: 180000,
-    serviceFee: 14400,
-    net: 165600,
-    status: 'Settled',
-  },
-  {
-    id: '3',
-    property: 'Maitama Terrace House',
-    guest: 'Chidi Benson',
-    dates: 'May 01 - May 07',
-    nights: 6,
-    gross: 1200000,
-    serviceFee: 96000,
-    net: 1104000,
-    status: 'Processing',
-  },
-];
 
 const calendarDays = [
   { date: 29, disabled: true },
@@ -86,19 +51,27 @@ const calendarDays = [
   { date: 12, revenue: 210000, peak: true },
 ];
 
-export default function AgentShortLetEarningsClient() {
+export default function AgentShortLetEarningsClient({ stays }: { stays?: ShortLetStay[] }) {
+  const initialStays: ShortLetStay[] = stays ?? [];
   const [loading] = useState(false);
 
   const totalRevenue = initialStays.reduce((sum, s) => sum + s.net, 0);
-  const occupancy = 84.2;
-  const nextPayout = 'May 24';
-  const nextPayoutAmount = 2105400;
+  const grossTotal = initialStays.reduce((sum, s) => sum + s.gross, 0);
+  const feeTotal = initialStays.reduce((sum, s) => sum + s.serviceFee, 0);
+  const settledStays = initialStays.filter((s) => s.status === 'Settled');
+  const occupancy = initialStays.length
+    ? Math.round((settledStays.length / initialStays.length) * 100)
+    : 0;
+  const nextPayoutAmount = initialStays
+    .filter((s) => s.status !== 'Settled')
+    .reduce((sum, s) => sum + s.net, 0);
+  const nextPayout = nextPayoutAmount > 0 ? 'Pending settlement' : 'None scheduled';
 
+
+  const naira = (n: number) => `₦${Math.round(n).toLocaleString('en-NG')}`;
   const breakdown = [
-    { label: 'Gross Booking', value: '₦15,240,000', pct: 100 },
-    { label: 'PropatiBox Service Fee (8%)', value: '-₦1,219,200', pct: 8 },
-    { label: 'Maintenance & Cleaning', value: '-₦840,000', pct: 5 },
-    { label: 'VAT & Local Levies', value: '-₦730,800', pct: 4 },
+    { label: 'Gross Booking', value: naira(grossTotal), pct: 100 },
+    { label: 'PropatiBox Service Fee (8%)', value: `-${naira(feeTotal)}`, pct: grossTotal ? Math.round((feeTotal / grossTotal) * 100) : 0 },
   ];
 
   return (
@@ -113,7 +86,7 @@ export default function AgentShortLetEarningsClient() {
         <div className="glass-card md:col-span-2 bg-[#10b981] text-zinc-900 dark:text-white relative overflow-hidden">
           <div className="p-6 p-6 relative z-10">
             <p className="text-xs font-label-sm uppercase tracking-wider opacity-80">Available Revenue</p>
-            <h2 className="text-zinc-900 dark:text-white font-bold mt-2">₦12,450,000.00</h2>
+            <h2 className="text-zinc-900 dark:text-white font-bold mt-2">{naira(totalRevenue)}</h2>
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <Button className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
@@ -134,7 +107,7 @@ export default function AgentShortLetEarningsClient() {
             </div>
             <h3 className="text-zinc-900 dark:text-white font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
-            <p className="text-xs font-label-sm uppercase tracking-wider mt-2 text-zinc-600 dark:text-zinc-400">Average across 14 properties</p>
+            <p className="text-xs font-label-sm uppercase tracking-wider mt-2 text-zinc-600 dark:text-zinc-400">Share of bookings settled</p>
           </div>
         </div>
 
@@ -239,7 +212,7 @@ export default function AgentShortLetEarningsClient() {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Net Revenue</p>
-                  <p className="text-zinc-900 dark:text-white font-bold text-[#10b981]">₦12,450,000</p>
+                  <p className="text-zinc-900 dark:text-white font-bold text-[#10b981]">{naira(totalRevenue)}</p>
                 </div>
                 <div className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-xs font-bold border border-zinc-200 dark:border-white/[0.08]">
                   VERIFIED

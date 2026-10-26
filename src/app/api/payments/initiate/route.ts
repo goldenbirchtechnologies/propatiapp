@@ -202,6 +202,19 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Payment initiation error:', error);
-    return NextResponse.json({ error: 'Payment initiation failed' }, { status: 400 });
+
+    // A missing or invalid Paystack key is an operator problem, not a user
+    // error — surface it as unavailable rather than a generic 400.
+    if (error instanceof Error && error.message.startsWith('Paystack is not configured')) {
+      return NextResponse.json(
+        { error: 'PAYMENTS_UNAVAILABLE', message: error.message },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Payment initiation failed', message: error instanceof Error ? error.message : undefined },
+      { status: 400 }
+    );
   }
 }

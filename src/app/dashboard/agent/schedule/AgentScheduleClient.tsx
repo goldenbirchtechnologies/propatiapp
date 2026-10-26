@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CalendarDays, MapPin, Clock, Plus, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -15,12 +15,7 @@ type ScheduleItem = {
   address: string;
 };
 
-const mockSchedule: ScheduleItem[] = [
-  { id: '1', title: 'Property Inspection — 4BR Duplex', listing: '4BR Duplex - Lekki Phase 1', date: '2026-06-28', time: '10:00 AM', type: 'inspection', status: 'upcoming', address: 'Lekki Phase 1, Lagos' },
-  { id: '2', title: 'Client Meeting — Mr. Adebayo', listing: '3BR Apartment - Victoria Island', date: '2026-06-29', time: '02:00 PM', type: 'meeting', status: 'upcoming', address: 'Victoria Island, Lagos' },
-  { id: '3', title: 'Property Inspection — 5BR Estate Home', listing: '5BR Estate Home - Ikoyi', date: '2026-06-30', time: '11:00 AM', type: 'inspection', status: 'upcoming', address: 'Ikoyi, Lagos' },
-  { id: '4', title: 'Property Inspection — Commercial Plot', listing: 'Commercial Plot - Abuja CBD', date: '2026-07-01', time: '09:30 AM', type: 'inspection', status: 'upcoming', address: 'Abuja CBD, Abuja' },
-];
+
 
 const statusConfig: Record<string, { class: string; label: string }> = {
   upcoming: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]', label: 'Upcoming' },
@@ -55,29 +50,35 @@ export default function AgentScheduleClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [filter, setFilter] = useState<'all' | 'inspection' | 'meeting'>('all');
+  const [items, setItems] = useState<ScheduleItem[]>([]);
 
-  const load = () => {
+  const load = useCallback(async () => {
     setLoading(true);
     setError(null);
-    setTimeout(() => {
-      setError(null);
+    try {
+      const res = await fetch('/api/dashboard/agent/schedule', { cache: 'no-store' });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.error || 'Failed to load schedule');
+      setItems(Array.isArray(json.data) ? json.data : []);
+    } catch (e) {
+      setError(e instanceof Error ? e : new Error('Failed to load schedule'));
+    } finally {
       setLoading(false);
-    }, 700);
-  };
+    }
+  }, []);
 
-  useState(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  });
+  useEffect(() => {
+    void load();
+  }, [load]);
 
   const schedule = useMemo(() => {
-    if (filter === 'all') return mockSchedule;
-    return mockSchedule.filter((s) => s.type === filter);
-  }, [filter]);
+    if (filter === 'all') return items;
+    return items.filter((s) => s.type === filter);
+  }, [items, filter]);
 
-  const upcomingCount = mockSchedule.filter((s) => s.status === 'upcoming').length;
-  const completedCount = mockSchedule.filter((s) => s.status === 'completed').length;
-  const cancelledCount = mockSchedule.filter((s) => s.status === 'cancelled').length;
+  const upcomingCount = schedule.filter((s) => s.status === 'upcoming').length;
+  const completedCount = schedule.filter((s) => s.status === 'completed').length;
+  const cancelledCount = schedule.filter((s) => s.status === 'cancelled').length;
 
   if (error) {
     return (
@@ -146,7 +147,7 @@ export default function AgentScheduleClient() {
         ) : (
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Total Events</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{mockSchedule.length}</p></div>
+              <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Total Events</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{schedule.length}</p></div>
               <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Upcoming</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{upcomingCount}</p></div>
               <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Completed</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{completedCount}</p></div>
               <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Cancelled</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{cancelledCount}</p></div>

@@ -7,6 +7,12 @@ import { createHmac } from 'crypto';
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 const PAYSTACK_BASE_URL = 'https://api.paystack.co';
 
+// Values shipped in .env.example — treated as "not configured" rather than a
+// working key, so a copied template never looks like a live integration.
+const PLACEHOLDER_KEYS = new Set(['sk_test_your_key', 'sk_live_your_key', 'your_api_key_here', 'sk_test_xxx']);
+const isPlaceholder = (key: string | undefined): boolean =>
+  !key || key.trim().length === 0 || PLACEHOLDER_KEYS.has(key.trim());
+
 export interface InitializePaymentParams {
   email: string;
   amount: number;
@@ -157,11 +163,19 @@ export interface DedicatedAccountResponse {
 class PaystackClient {
   private client: AxiosInstance;
   private secretKey: string;
+  private allowMock: boolean;
 
   constructor() {
-    this.secretKey = PAYSTACK_SECRET_KEY || '';
+    this.secretKey = isPlaceholder(PAYSTACK_SECRET_KEY) ? '' : (PAYSTACK_SECRET_KEY as string).trim();
+    // Mock responses are a local-development convenience only. In production a
+    // missing key must fail loudly — silently returning a fake "success" would
+    // mark unpaid rent as settled.
+    this.allowMock = process.env.NODE_ENV !== 'production';
     if (!this.secretKey && process.env.NODE_ENV !== 'test') {
-      console.warn('[Paystack] PAYSTACK_SECRET_KEY not configured.');
+      const msg =
+        '[Paystack] PAYSTACK_SECRET_KEY is not configured. ' +
+        (this.allowMock ? 'Falling back to MOCK responses (development only).' : 'Payments will fail.');
+      console.warn(msg);
     }
     this.client = axios.create({
       baseURL: PAYSTACK_BASE_URL,
@@ -173,11 +187,25 @@ class PaystackClient {
   }
 
   isConfigured(): boolean {
-    return !!this.secretKey && this.secretKey.length > 0;
+    return this.secretKey.length > 0;
+  }
+
+  /** True when the client will return synthetic responses instead of calling Paystack. */
+  isMockMode(): boolean {
+    return !this.isConfigured() && this.allowMock;
+  }
+
+  private unavailable(operation: string): never {
+    throw new Error(
+      `Paystack is not configured: cannot ${operation}. Set PAYSTACK_SECRET_KEY to a live or test secret key.`
+    );
   }
 
   async initializePayment(params: InitializePaymentParams): Promise<InitializePaymentResponse> {
-    if (!this.isConfigured()) return this.mockInitializePayment(params);
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('initialize payment');
+      return this.mockInitializePayment(params);
+    }
     try {
       const response = await this.client.post('/transaction/initialize', {
         email: params.email,
@@ -195,7 +223,10 @@ class PaystackClient {
   }
 
   async verifyPayment(reference: string): Promise<VerifyPaymentResponse> {
-    if (!this.isConfigured()) return this.mockVerifyPayment(reference);
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('verify payment');
+      return this.mockVerifyPayment(reference);
+    }
     try {
       const response = await this.client.get(`/transaction/verify/${reference}`);
       return response.data;
@@ -206,7 +237,10 @@ class PaystackClient {
   }
 
   async createCustomer(params: CreateCustomerParams): Promise<CreateCustomerResponse> {
-    if (!this.isConfigured()) return this.mockCreateCustomer(params);
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('create a customer');
+      return this.mockCreateCustomer(params);
+    }
     try {
       const response = await this.client.post('/customer', params);
       return response.data;
@@ -217,7 +251,10 @@ class PaystackClient {
   }
 
   async createDedicatedAccount(customerCode: string): Promise<DedicatedAccountResponse> {
-    if (!this.isConfigured()) return this.mockDedicatedAccount(customerCode);
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('call Paystack');
+      return this.mockDedicatedAccount(customerCode);
+    }
     try {
       const response = await this.client.post('/dedicated_account', { customer: customerCode, currency: 'NGN' });
       return response.data;
@@ -228,12 +265,16 @@ class PaystackClient {
   }
 
   async fetchDedicatedAccount(customerCode: string): Promise<DedicatedAccountResponse> {
-    if (!this.isConfigured()) return this.mockDedicatedAccount(customerCode);
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('call Paystack');
+      return this.mockDedicatedAccount(customerCode);
+    }
     try {
       const response = await this.client.get(`/dedicated_account/${encodeURIComponent(customerCode)}`);
       return response.data;
     } catch (error) {
       console.error('[Paystack] Fetch dedicated account error:', error);
+      if (!this.allowMock) throw error;
       return this.mockDedicatedAccount(customerCode);
     }
   }
@@ -279,7 +320,10 @@ class PaystackClient {
   }
 
   async createTransferRecipient(params: TransferRecipientParams): Promise<TransferRecipientResponse> {
-    if (!this.isConfigured()) return this.mockCreateTransferRecipient(params);
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('create a transfer recipient');
+      return this.mockCreateTransferRecipient(params);
+    }
     try {
       const response = await this.client.post('/transferrecipient', {
         type: params.type || 'nuban',
@@ -296,7 +340,10 @@ class PaystackClient {
   }
 
   async initiateTransfer(params: InitiateTransferParams): Promise<InitiateTransferResponse> {
-    if (!this.isConfigured()) return this.mockInitiateTransfer(params);
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('initiate a transfer');
+      return this.mockInitiateTransfer(params);
+    }
     try {
       const response = await this.client.post('/transfer', {
         source: params.source || 'balance',

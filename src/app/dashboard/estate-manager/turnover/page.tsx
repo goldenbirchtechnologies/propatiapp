@@ -1,120 +1,156 @@
-'use client';
-
-import { useState } from 'react';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
-import { Button } from '@/components/ui/button';
-import { StatusBadge } from '@/components/ui';
-import { Progress } from '@/components/ui/progress';
+import { prisma } from '@/lib/prisma';
 import { cn } from '@/lib/utils';
-import { AlertTriangle, Wrench } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 
-type Ticket = {
-  id: string;
-  title: string;
-  status: string;
-  priority: string;
-  unit: string;
-  category: string;
-};
+export const dynamic = 'force-dynamic';
 
-export default function EstateManagerTurnoverPage() {
-  const [queue] = useState<Ticket[]>([
-    { id: '1', title: 'Unit A-101: Paint Touch-ups', status: 'open', priority: 'low', unit: 'A-101', category: 'Cosmetics' },
-    { id: '2', title: 'Unit B-204: HVAC Filter Replacement', status: 'open', priority: 'medium', unit: 'B-204', category: 'HVAC' },
-    { id: '3', title: 'Unit C-301: Plumbing Leak', status: 'in_progress', priority: 'high', unit: 'C-301', category: 'Plumbing' },
-  ]);
+const CHECKLIST_TOTAL = 8;
 
-  const inspections = [
-    { id: '1', unit: 'A-101', result: 'Passed', score: 92, date: '2024-08-10' },
-    { id: '2', unit: 'B-204', result: 'Conditional', score: 78, date: '2024-08-09' },
-  ];
+function checklistScore(checklist: unknown): number {
+  if (!Array.isArray(checklist) || checklist.length === 0) return 0;
+  const done = checklist.filter((item) => {
+    if (!item || typeof item !== 'object') return false;
+    return Boolean((item as { done?: boolean; complete?: boolean; checked?: boolean }).done
+      ?? (item as { complete?: boolean }).complete
+      ?? (item as { checked?: boolean }).checked);
+  }).length;
+  return Math.round((done / Math.max(checklist.length, CHECKLIST_TOTAL)) * 100);
+}
+
+export default async function EstateManagerTurnoverPage() {
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'estate_manager') redirect('/dashboard');
+
+  const orgMemberships = await prisma.orgMember.findMany({
+    where: { userId: user.id, status: 'active' },
+    select: { orgId: true },
+  });
+  const orgIds = orgMemberships.map((m) => m.orgId);
+
+  const tasks = orgIds.length
+    ? await prisma.turnoverTask.findMany({
+        where: { listing: { orgListings: { some: { orgId: { in: orgIds } } } } },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+        select: {
+          id: true,
+          status: true,
+          priority: true,
+          notes: true,
+          checklist: true,
+          scheduledStart: true,
+          listing: { select: { title: true } },
+          assignedToUser: { select: { fullName: true } },
+        },
+      })
+    : [];
+
+  const openTasks = tasks.filter((t) => t.status !== 'completed');
+  const completed = tasks.filter((t) => t.status === 'completed');
+  const scores = completed.map((t) => checklistScore(t.checklist)).filter((n) => n > 0);
+  const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+  const highPriority = openTasks.filter((t) => t.priority === 'high' || t.priority === 'urgent').length;
 
   return (
-    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
-
+    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
+        <div className="space-y-6">
+          <div>
+            <h1 className="font-bold text-zinc-900 dark:text-white">Turnover</h1>
+            <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mt-1">Vacate / handover checklist and inspection tracking</p>
+          </div>
 
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Turnover</h1>
-          <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400', marginTop: 'mt-1' }}>Vacate / handover checklist and inspection tracking</p>
-        </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="glass-card p-4">
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Pending Handovers</p>
+              <p className="text-2xl font-bold text-zinc-900 dark:text-white">{openTasks.length}</p>
+            </div>
+            <div className="glass-card p-4">
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Completed</p>
+              <p className="text-2xl font-bold text-zinc-900 dark:text-white">{completed.length}</p>
+            </div>
+            <div className="glass-card p-4">
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Avg Checklist</p>
+              <p className="text-2xl font-bold text-emerald-500">{avgScore}%</p>
+            </div>
+            <div className="glass-card p-4">
+              <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">High Priority</p>
+              <p className="text-2xl font-bold text-red-500">{highPriority}</p>
+            </div>
+          </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>Pending Handovers</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{queue.length}</p>
-          </div>
-          <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>Inspections</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{inspections.length}</p>
-          </div>
-          <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>Avg Score</p>
-            <p className="text-2xl font-bold text-[#10b981]">{inspections.length > 0 ? Math.round(inspections.reduce((sum, i) => sum + i.score, 0) / inspections.length) : 0}%</p>
-          </div>
-          <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>Open Issues</p>
-            <p className="text-2xl font-bold text-red-500">{queue.filter((t) => t.priority === 'high').length}</p>
-          </div>
-        </div>
-
-        <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white font-bold" className="text-zinc-900 dark:text-white">Inspection Queue</h3>
-          </div>
-          <div className="p-6">
-            {queue.length === 0 ? (
-              <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>No inspections in queue.</p>
-            ) : (
-              <div className="space-y-3">
-                {queue.map((t) => (
-                  <div key={t.id} className="glass-card p-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-medium text-sm text-zinc-900 dark:text-white">{t.title}</p>
-                      <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>{t.unit} · {t.category}</p>
-                    </div>
-                    <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' : t.priority === 'medium' ? 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]')}>{t.priority}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white font-bold" className="text-zinc-900 dark:text-white">Recent Inspections</h3>
-          </div>
-          <div className="p-6">
-            {inspections.length === 0 ? (
-              <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>No inspections yet.</p>
-            ) : (
-              <div className="space-y-3">
-                {inspections.map((ins) => (
-                  <div key={ins.id} className="glass-card p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-sm text-zinc-900 dark:text-white">Unit {ins.unit}</p>
-                        <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Turnover Queue</h3>
+            </div>
+            <div className="p-6">
+              {openTasks.length === 0 ? (
+                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">No turnover tasks in queue.</p>
+              ) : (
+                <div className="space-y-3">
+                  {openTasks.map((t) => (
+                    <div key={t.id} className="glass-card p-4 flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-medium text-sm text-zinc-900 dark:text-white truncate">
+                          {t.listing?.title ?? 'Unassigned unit'}
+                        </p>
+                        <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+                          {t.status.replace(/_/g, ' ')}
+                          {t.assignedToUser?.fullName ? ` · ${t.assignedToUser.fullName}` : ''}
+                        </p>
                       </div>
-                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]' : 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]')}>{ins.result}</span>
+                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border capitalize', t.priority === 'high' || t.priority === 'urgent' ? 'bg-red-500/10 text-red-500 border-red-500/20' : t.priority === 'medium' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]')}>
+                        {t.priority}
+                      </span>
                     </div>
-                    <div className="mt-3">
-                      <Progress value={ins.score} className="h-2" />
-                      <p className="text-xs text-xs uppercase tracking-wider mt-1 text-right" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>{ins.score}%</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Recent Handovers</h3>
+            </div>
+            <div className="p-6">
+              {completed.length === 0 ? (
+                <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">No completed turnovers yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {completed.slice(0, 10).map((t) => {
+                    const score = checklistScore(t.checklist);
+                    return (
+                      <div key={t.id} className="glass-card p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-sm text-zinc-900 dark:text-white">{t.listing?.title ?? 'Unit'}</p>
+                            <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+                              {t.scheduledStart ? new Date(t.scheduledStart).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' }) : 'No date'}
+                            </p>
+                          </div>
+                          <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', score >= 80 ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-amber-500/10 text-amber-500 border-amber-500/20')}>
+                            {score >= 80 ? 'Passed' : 'Conditional'}
+                          </span>
+                        </div>
+                        <div className="mt-3">
+                          <Progress value={score} className="h-2" />
+                          <p className="text-xs uppercase tracking-wider mt-1 text-right text-zinc-600 dark:text-zinc-400">{score}%</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

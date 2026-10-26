@@ -347,12 +347,12 @@ export default function LandlordOnboardingPage() {
                 <div className="flex items-center gap-3 mt-3">
                   <div className="relative">
                     <div className="h-14 w-14 rounded-full bg-zinc-100 shrink-0 flex items-center justify-center">
-                      <span className="text-lg font-bold text-zinc-400">FD</span>
+                      <Gavel className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                     </div>
                     <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full bg-[#006c49] ring-2 ring-white" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-zinc-900">Barrister Folake Danjuma</h4>
+                    <h4 className="text-sm font-semibold text-zinc-900">Legal Conveyancing Desk</h4>
                     <span className="text-xs text-zinc-500">Head of Legal Conveyancing & Lands Liaison</span>
                     <span className="flex items-center gap-1 text-[11px] text-[#006c49] font-medium mt-0.5">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#006c49] animate-pulse" /> Online • Alausa Lands Bureau Office

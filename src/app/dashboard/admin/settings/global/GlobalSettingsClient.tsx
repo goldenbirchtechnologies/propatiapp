@@ -362,11 +362,7 @@ export default function GlobalSettingsClient() {
                 </button>
               </div>
               <div className="w-full h-64 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-lg overflow-hidden relative">
-                <img
-                  className="w-full h-full object-cover grayscale opacity-60"
-                  data-location="Lagos, Nigeria"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJA_bc_EeapztB2A5CPUWfmWaE6vTnSiwVA1wpS4Nvsivsb1U2Kx5qdD861gYTtqo3_euD5j5aZgaTjKNdP7PYWFVmPVw1mUtoK4i_klWeWnXDPGeXf71GkPHWo_8_W3r52HyWNDz0U5qsEfFJrRJnB9GiPOqfZM2w9E4WuK_H72yoaXb4M6KS6Z8AO2bpwsr65yHmsJ6y-wD7GIGYucSpAmuk3sAHfOxX318qqKP4VVtEj_3xQ-NAmClMNhu8OrnRTWQwdl51K2I"
-                />
+                <div className="w-full h-full bg-gradient-to-br from-emerald-500/10 via-zinc-100 to-zinc-200 dark:from-emerald-500/10 dark:via-zinc-900 dark:to-zinc-800" />
                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 to-transparent"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                   <div className="w-4 h-4 bg-secondary-container rounded-full animate-ping absolute"></div>

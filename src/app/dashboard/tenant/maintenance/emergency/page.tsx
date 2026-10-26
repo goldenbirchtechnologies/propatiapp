@@ -96,7 +96,7 @@ export default async function TenantMaintenanceEmergencyPage() {
                   <a href="tel:+2348007767284" className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-red-500/25 transition-transform active:scale-95 hover:bg-red-700">
                     <Phone className="h-5 w-5" /> Call Now (0800-PROPATI)
                   </a>
-                  <a href="https://wa.me/2348007767284?text=EMERGENCY%20INCIDENT%20REPORT:%20Tenant%20Babatunde%20Adeleke%20-%20Immediate%20Dispatch%20Required" target="_blank" rel="noopener noreferrer" className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-red-500/30 bg-white dark:bg-zinc-900 px-4 py-3 text-sm font-semibold text-red-600 dark:text-red-400 shadow-sm transition-colors hover:bg-red-50 dark:hover:bg-red-500/10">
+                  <a href="https://wa.me/2348007767284?text=EMERGENCY%20INCIDENT%20REPORT%20-%20Immediate%20Dispatch%20Required" target="_blank" rel="noopener noreferrer" className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-red-500/30 bg-white dark:bg-zinc-900 px-4 py-3 text-sm font-semibold text-red-600 dark:text-red-400 shadow-sm transition-colors hover:bg-red-50 dark:hover:bg-red-500/10">
                     <MessageCircle className="h-5 w-5 text-emerald-500" /> WhatsApp Emergency Desk
                   </a>
                 </div>
@@ -269,7 +269,7 @@ export default async function TenantMaintenanceEmergencyPage() {
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4">
                 <div className="flex items-center gap-3">
-                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDReOU77Cn_fauBCBzpZ3YTpHnvQhQwjM-hZOVxWieQR4Di9PpD8hTO-GSjeNCke4F8suYA5wGVMRLnpjioYnxOENRLmMhFnQAprW845w5gI2KoeAvZpzaEodaRh1fuyTSye6WIVkiIONAc5ULImIGhJb7eiGFoYOc5GmYKi4EyeIF4jlA9VupR_MLyOo2eRpL7_HLoyzOrR_9Alo-na1l-gTtkmSoyrnLb4Q8yn463vGr0BGuDHFJuLw" alt="Evacuation map" className="h-16 w-16 shrink-0 rounded-lg object-cover shadow-sm" />
+                  <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><MapPin className="h-7 w-7" /></span>
                   <div>
                     <h5 className="text-sm font-semibold text-zinc-900 dark:text-white">Unit 4B Digital Evacuation &amp; Utility Map</h5>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">Includes master water riser isolation, gas cylinder locker, and breaker panel locators.</p>

@@ -17,22 +17,9 @@ type Row = {
   conf: number;
 };
 
-const MONTHS: Row[] = [
-  { month: 'January 2024', sector: 'Victoria Crest Towers', proj: 21500000, act: 22400000, var: '+4.19%', status: 'ON_TRACK', conf: 98.4 },
-  { month: 'February 2024', sector: 'Capital Towers VI', proj: 23000000, act: 23800000, var: '+3.48%', status: 'ON_TRACK', conf: 97.2 },
-  { month: 'March 2024', sector: 'Lekki Hub Zone (Phase 1)', proj: 22800000, act: 24100000, var: '+5.70%', status: 'ON_TRACK', conf: 96.5 },
-  { month: 'April 2024', sector: 'Capital Towers VI', proj: 25000000, act: 26200000, var: '+4.80%', status: 'ON_TRACK', conf: 95.8 },
-  { month: 'May 2024', sector: 'Victoria Crest Chambers', proj: 24500000, act: 25900000, var: '+5.71%', status: 'ON_TRACK', conf: 95.1 },
-  { month: 'June 2024', sector: 'Lekki Hub Zone (Phase 2)', proj: 27200000, act: 28400000, var: '+4.41%', status: 'ON_TRACK', conf: 96.0 },
-  { month: 'July 2024', sector: 'Ikoyi Reserve Sector', proj: 28000000, act: 29100000, var: '+3.93%', status: 'ON_TRACK', conf: 94.7 },
-  { month: 'August 2024', sector: 'Victoria Crest Towers', proj: 26500000, act: 28000000, var: '+5.66%', status: 'ON_TRACK', conf: 93.9 },
-  { month: 'September 2024', sector: 'Capital Towers VI', proj: 27500000, act: 29200000, var: '+6.18%', status: 'ON_TRACK', conf: 96.1 },
-  { month: 'October 2024', sector: 'Lekki Hub Zone (Phase 1)', proj: 29000000, act: 28800000, var: '-0.69%', status: 'AT_RISK', conf: 91.0 },
-  { month: 'November 2024', sector: 'Victoria Crest Towers', proj: 31000000, act: 31850000, var: '+2.74%', status: 'ON_TRACK', conf: 89.5 },
-  { month: 'December 2024', sector: 'Capital Towers VI', proj: 33900000, act: 34200000, var: '+0.88%', status: 'ON_TRACK', conf: 88.0 },
-];
 
-export default function ReportClient() {
+export default function ReportClient({ rows }: { rows?: Row[] }) {
+  const reportRows: Row[] = rows ?? [];
   const [filter, setFilter] = useState<'ALL' | 'ON_TRACK' | 'AT_RISK'>('ALL');
   const [view, setView] = useState<'current' | 'projected' | 'h1' | 'h2'>('current');
   const [liveTotal, setLiveTotal] = useState<number | null>(null);
@@ -60,11 +47,11 @@ export default function ReportClient() {
   }, []);
 
   const filtered = useMemo(() => {
-    let rows = MONTHS.filter((m) => filter === 'ALL' || m.status === filter);
-    if (view === 'h1') rows = rows.slice(0, 6);
-    if (view === 'h2') rows = rows.slice(6, 12);
-    return rows;
-  }, [filter, view]);
+    let list = reportRows.filter((m) => filter === 'ALL' || m.status === filter);
+    if (view === 'h1') list = list.slice(0, 6);
+    if (view === 'h2') list = list.slice(6, 12);
+    return list;
+  }, [reportRows, filter, view]);
 
   const totals = useMemo(() => {
     const proj = filtered.reduce((s, m) => s + m.proj, 0);

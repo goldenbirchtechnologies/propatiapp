@@ -9,7 +9,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
-export default function AutoPayConfigurationClient() {
+export type AutoPayMandate = {
+  title: string;
+  address: string;
+  reference: string;
+  rentAmount: number;
+  rentPeriod: string | null;
+};
+
+export default function AutoPayConfigurationClient({ mandate }: { mandate?: AutoPayMandate | null }) {
   const [enabled, setEnabled] = useState(true);
   const [execDate, setExecDate] = useState<'1st' | '3rd' | '5th'>('1st');
   const [amountStrategy, setAmountStrategy] = useState<'full' | 'partial'>('full');
@@ -239,8 +247,14 @@ export default function AutoPayConfigurationClient() {
             </div>
             <div className="flex flex-col">
               <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Allocated Asset</span>
-              <span className="text-sm font-semibold text-zinc-900 dark:text-white">Unit B4, Sovereign Victoria Crest Estates</span>
-              <span className="text-xs text-zinc-600 dark:text-zinc-400">Lekki Phase 1, Lagos State • Registered Commercial Tenancy Lease #LEK-2024-918</span>
+              <span className="text-sm font-semibold text-zinc-900 dark:text-white">
+                {mandate ? mandate.title : 'No active tenancy'}
+              </span>
+              <span className="text-xs text-zinc-600 dark:text-zinc-400">
+                {mandate
+                  ? `${mandate.address || 'Address not recorded'} • Lease ${mandate.reference.slice(0, 12).toUpperCase()}`
+                  : 'An executed tenancy agreement is required before auto-pay can be configured.'}
+              </span>
             </div>
           </div>
         </div>

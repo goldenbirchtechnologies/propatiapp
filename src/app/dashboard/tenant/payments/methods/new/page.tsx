@@ -26,10 +26,10 @@ export default function AddPaymentMethodNewPage() {
   const [channel, setChannel] = useState<Channel>('card');
 
   // Card (coming-soon placeholder — no real tokenization yet, per no-PaymentMethod model)
-  const [cardName, setCardName] = useState('Dr. Babatunde Adeleke');
-  const [cardNumber, setCardNumber] = useState('5399 2810 4910 4019');
-  const [cardExpiry, setCardExpiry] = useState('08/28');
-  const [cardCvv, setCardCvv] = useState('842');
+  const [cardName, setCardName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
+  const [cardCvv, setCardCvv] = useState('');
   const [cardSaving, setCardSaving] = useState(false);
 
   // Bank (live wiring)
@@ -43,7 +43,7 @@ export default function AddPaymentMethodNewPage() {
   const [bankSaving, setBankSaving] = useState(false);
 
   // Mobile + Escrow (live escrow fetch)
-  const [mobile, setMobile] = useState('803 910 2940');
+  const [mobile, setMobile] = useState('');
   const [mobileSending, setMobileSending] = useState(false);
   const [escrow, setEscrow] = useState<{ bankName: string | null; accountNumber: string | null; accountName: string | null } | null>(null);
   const [escrowLoading, setEscrowLoading] = useState(false);

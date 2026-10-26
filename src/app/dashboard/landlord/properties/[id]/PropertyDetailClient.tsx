@@ -47,7 +47,6 @@ import {
   Droplets,
   ArrowUpDown,
   DoorOpen,
-  Bathtub,
   Expand,
   Landmark,
   AlertTriangle,

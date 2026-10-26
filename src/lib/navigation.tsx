@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Home, Building2, DollarSign, Plus, Phone, FileText, MessageSquare,
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
-  Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
+  Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase, AlertTriangle,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
   Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2, BookOpen, BarChart3,
   Heart, LifeBuoy, Bookmark

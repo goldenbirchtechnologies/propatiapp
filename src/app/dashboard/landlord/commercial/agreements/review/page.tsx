@@ -12,7 +12,7 @@ import {
   Eye,
   FileCheck2,
   PenLine,
-  RateReview,
+  Star,
 } from 'lucide-react';
 
 export const metadata = {
@@ -104,7 +104,7 @@ export default async function CommercialAgreementsReviewPage() {
             <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-sm flex items-center justify-between border border-zinc-200 dark:border-zinc-800">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-lg bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 flex items-center justify-center">
-                  <RateReview className="w-5 h-5" />
+                  <Star className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -273,7 +273,7 @@ export default async function CommercialAgreementsReviewPage() {
                                 </button>
                               ) : (
                                 <button className="flex items-center gap-1 px-3 py-1.5 bg-purple-700 hover:bg-purple-800 text-white text-sm font-medium rounded-lg shadow-sm transition-colors">
-                                  <RateReview className="w-4 h-4" />
+                                  <Star className="w-4 h-4" />
                                   Review Redline
                                 </button>
                               )}

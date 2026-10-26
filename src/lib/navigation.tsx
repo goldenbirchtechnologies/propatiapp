@@ -29,6 +29,8 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
     items: [
       { label: 'Dashboard', href: '/dashboard/landlord', icon: <Home className="h-5 w-5" /> },
       { label: 'My Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
+      { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
+      { label: 'Vacancies', href: '/dashboard/landlord/vacancies', icon: <Eye className="h-5 w-5" /> },
       { label: 'Marketplace', href: '/dashboard/landlord/listing/new', icon: <Store className="h-5 w-5" /> },
     ],
   },
@@ -37,6 +39,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
     items: [
       { label: 'Applications', href: '/dashboard/landlord/applications', icon: <ClipboardList className="h-5 w-5" /> },
       { label: 'Tenants', href: '/dashboard/landlord/tenants', icon: <Users className="h-5 w-5" /> },
+      { label: 'Screening', href: '/dashboard/landlord/screening', icon: <ShieldCheck className="h-5 w-5" /> },
       {
         label: 'Leases & Agreements',
         href: '/dashboard/landlord/leases',
@@ -63,6 +66,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
         ],
       },
       { label: 'Short-let Calendar', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },
+      { label: 'Verification', href: '/dashboard/landlord/verification', icon: <Shield className="h-5 w-5" /> },
     ],
   },
   {
@@ -74,7 +78,10 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
         icon: <DollarSign className="h-5 w-5" />,
         children: [
           { label: 'Withdrawals', href: '/dashboard/landlord/financials/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
+          { label: 'Invoices', href: '/dashboard/landlord/financials/invoices', icon: <Receipt className="h-5 w-5" /> },
+          { label: 'Overdue', href: '/dashboard/landlord/financials/overdue', icon: <AlertTriangle className="h-5 w-5" /> },
           { label: 'Statements', href: '/dashboard/landlord/statements', icon: <FileText className="h-5 w-5" /> },
+          { label: 'Receipts', href: '/dashboard/landlord/receipts', icon: <FileCheck2 className="h-5 w-5" /> },
         ],
       },
       {
@@ -85,6 +92,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
           { label: 'Forecasting', href: '/dashboard/landlord/financials/forecasting', icon: <TrendingUp className="h-5 w-5" /> },
           { label: 'Scenario Builder', href: '/dashboard/landlord/financials/scenario-builder', icon: <Sliders className="h-5 w-5" /> },
           { label: 'Revenue Forecast', href: '/dashboard/landlord/revenue-forecast', icon: <TrendingUp className="h-5 w-5" /> },
+          { label: 'Reports', href: '/dashboard/landlord/financials/reports', icon: <BarChart3 className="h-5 w-5" /> },
         ],
       },
     ],
@@ -93,7 +101,8 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
     title: 'Account',
     items: [
       { label: 'Profile', href: '/dashboard/landlord/profile', icon: <User className="h-5 w-5" /> },
-      { label: 'Settings', href: '/dashboard/landlord/settings', icon: <Cog className="h-5 w-5" /> },
+      { label: 'Notifications', href: '/dashboard/landlord/notifications', icon: <Bell className="h-5 w-5" /> },
+      { label: 'Onboarding', href: '/dashboard/landlord/onboarding', icon: <BookOpen className="h-5 w-5" /> },
     ],
   },
 ];

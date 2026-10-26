@@ -398,6 +398,33 @@ enum StampDutyStatus {
   failed
 }
 
+/// Which instrument is being stamped. Drives the rate and the duty basis.
+enum StampDutyInstrument {
+  residential_tenancy
+  commercial_lease
+  short_let
+  sale_conveyance
+}
+
+/// What the duty is computed on.
+enum StampDutyBasis {
+  annual_rent
+  total_term_consideration
+}
+
+/// Who collects the duty for this instrument's jurisdiction.
+enum RemittingAuthority {
+  FIRS
+  LIRS
+  SIRS
+}
+
+/// Whether the payer is a natural person or a registered company.
+enum PayerEntityType {
+  individual
+  corporate
+}
+
 enum ScreeningCallStatus {
   scheduled
   completed
@@ -1365,28 +1392,46 @@ model Application {
 // ===========================================================================
 
 model StampDuty {
-  id                String          @id @default(cuid())
-  agreementId       String          @unique @map("agreement_id")
-  amount            Decimal         @db.Decimal(15, 2)
-  remitaRrr         String?         @map("remita_rrr")
-  transactionId     String?         @map("transaction_id")
-  certificateNumber String?         @map("certificate_number")
-  certificateUrl    String?         @map("certificate_url")
-  status            StampDutyStatus @default(pending)
-  paidAt            DateTime?       @map("paid_at")
-  issuedAt          DateTime?       @map("issued_at")
-  createdAt         DateTime        @default(now()) @map("created_at")
-  updatedAt         DateTime        @updatedAt @map("updated_at")
+  id                String             @id @default(cuid())
+  agreementId       String             @unique @map("agreement_id")
+  amount            Decimal            @db.Decimal(15, 2)
+  remitaRrr         String?            @map("remita_rrr")
+  transactionId     String?            @map("transaction_id")
+  certificateNumber String?            @map("certificate_number")
+  certificateUrl    String?            @map("certificate_url")
+  status            StampDutyStatus    @default(pending)
+  paidAt            DateTime?          @map("paid_at")
+  issuedAt          DateTime?          @map("issued_at")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+
+  // ── Assessment basis (what was stamped, on what, at what rate) ──────────
+  instrument        StampDutyInstrument? @map("instrument")
+  basis             StampDutyBasis?      @map("basis")
+  /// The amount the duty was computed on (annual rent or total term rent).
+  taxableAmount     Decimal?           @db.Decimal(15, 2) @map("taxable_amount")
+  /// Applied ad valorem rate, e.g. 0.0078.
+  rate              Decimal?           @db.Decimal(8, 6) @map("rate")
+  leaseTermMonths   Int?               @map("lease_term_months")
+
+  // ── Remitting authority & payer identity ────────────────────────────────
+  authority         RemittingAuthority? @map("authority")
+  authorityState    String?            @map("authority_state")
+  payerType         PayerEntityType?   @map("payer_type")
+  payerName         String?            @map("payer_name")
+  /// CAC RC number, required when the payer is a registered company.
+  payerRcNumber     String?            @map("payer_rc_number")
 
   // Legal integrity linkage
-  agreementPdfHash  String?         @map("agreement_pdf_hash")
-  certificateHash   String?         @map("certificate_hash")
-  linkageHash       String?         @map("linkage_hash")
+  agreementPdfHash  String?            @map("agreement_pdf_hash")
+  certificateHash   String?            @map("certificate_hash")
+  linkageHash       String?            @map("linkage_hash")
 
-  agreement         Agreement       @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  agreement         Agreement          @relation(fields: [agreementId], references: [id], onDelete: Cascade)
 
   @@index([status])
   @@index([remitaRrr])
+  @@index([authority])
   @@map("stamp_duty")
 }
 

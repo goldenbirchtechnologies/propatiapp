@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
-import { calculateStampDuty, initiateStampDutyPayment } from '@/lib/stamp-duty';
+import { initiateStampDutyPayment, getStampDutyRule } from '@/lib/stamp-duty';
+import { loadStampDutyContext } from '@/lib/stamp-duty-assessment';
 
+/**
+ * POST /api/stamp-duty/initiate  { agreementId, payer?: 'tenant' | 'landlord' }
+ *
+ * Generates a Remita RRR for the duty assessed on the agreement, routed to the
+ * authority that collects it for the agreement's jurisdiction. The assessment
+ * (instrument, basis, rate, taxable amount, authority, payer identity) is
+ * persisted alongside the RRR so the certificate can later be tied back to it.
+ */
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
@@ -10,98 +19,93 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { agreementId } = body as { agreementId: string };
+    const { agreementId, payer: payerSide } = body as {
+      agreementId?: string;
+      payer?: 'tenant' | 'landlord';
+    };
 
     if (!agreementId) {
       return NextResponse.json({ error: 'agreementId is required' }, { status: 400 });
     }
 
-    const agreement = await prisma.agreement.findUnique({
-      where: { id: agreementId },
-      include: {
-        landlord: { select: { id: true, fullName: true, email: true, phone: true } },
-        tenant: { select: { id: true, fullName: true, email: true, phone: true } },
-        listing: { select: { address: true, area: true, state: true } },
-        stampDuty: true,
-      },
-    });
-
-    if (!agreement) {
-      return NextResponse.json({ error: 'Agreement not found' }, { status: 404 });
-    }
+    const ctx = await loadStampDutyContext(agreementId);
+    if (!ctx) return NextResponse.json({ error: 'Agreement not found' }, { status: 404 });
 
     const isParticipant =
-      agreement.landlordId === user.id ||
-      agreement.tenantId === user.id ||
+      ctx.agreement.landlordId === user.id ||
+      ctx.agreement.tenantId === user.id ||
       user.role === 'admin';
+    if (!isParticipant) return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
 
-    if (!isParticipant) {
-      return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
-    }
-
-    if (agreement.status !== 'fully_signed') {
+    if (ctx.agreement.status !== 'fully_signed') {
       return NextResponse.json(
-        { error: 'Agreement must be fully signed before initiating stamp duty' },
+        { error: 'Agreement must be fully signed before stamp duty can be remitted' },
         { status: 400 }
       );
     }
 
-    if (
-      agreement.stampDuty?.status === 'paid' ||
-      agreement.stampDuty?.status === 'processing'
-    ) {
+    if (ctx.alreadyStamped) {
       return NextResponse.json(
-        { error: 'Stamp duty has already been paid for this agreement' },
+        { error: 'Stamp duty has already been settled for this agreement', status: ctx.existingStatus },
+        { status: 409 }
+      );
+    }
+
+    if (ctx.assessment.amount === 0) {
+      const rule = getStampDutyRule(ctx.assessment.instrument);
+      return NextResponse.json(
+        {
+          error: 'NO_DUTY_PAYABLE',
+          message: `No duty is payable: the taxable amount (₦${ctx.assessment.taxableAmount.toLocaleString()}) is at or below the ₦${rule.threshold.toLocaleString()} threshold.`,
+          data: { taxableAmount: ctx.assessment.taxableAmount, threshold: rule.threshold },
+        },
         { status: 400 }
       );
     }
 
-    const annualRent = Number(agreement.rentAmount ?? 0);
-    const amount = calculateStampDuty(annualRent);
-
-    if (amount === 0) {
-      return NextResponse.json(
-        { error: 'Stamp duty is not applicable for this agreement (rent below ₦10,000)' },
-        { status: 400 }
-      );
-    }
-
-    const payer =
-      user.id === agreement.tenantId ? agreement.tenant : agreement.landlord;
-
-    const propertyAddress = [
-      agreement.listing.address,
-      agreement.listing.area,
-      agreement.listing.state,
-    ]
-      .filter(Boolean)
-      .join(', ');
+    // Either party may settle the duty; default to the assessed payer.
+    const side = payerSide === 'landlord' ? 'landlord' : 'tenant';
+    const payer = ctx.payers[side];
 
     const result = await initiateStampDutyPayment({
       agreementId,
-      amount,
-      payerName: payer.fullName,
+      amount: ctx.assessment.amount,
+      payerName: payer.name,
       payerEmail: payer.email,
-      payerPhone: payer.phone ?? '',
-      propertyAddress,
-      tenantName: agreement.tenant.fullName,
-      landlordName: agreement.landlord.fullName,
-      annualRent,
+      payerPhone: payer.phone,
+      propertyAddress: ctx.propertyAddress,
+      tenantName: ctx.agreement.tenant.fullName,
+      landlordName: ctx.agreement.landlord.fullName,
+      annualRent: ctx.assessment.annualRent,
+      serviceTypeId: ctx.authority.serviceTypeId,
+      authority: ctx.authority.authority,
+      instrument: ctx.assessment.instrument,
+      payerType: payer.type,
+      payerRcNumber: payer.rcNumber,
+      taxableAmount: ctx.assessment.taxableAmount,
+      leaseTermMonths: ctx.assessment.leaseTermMonths,
     });
+
+    const record = {
+      amount: ctx.assessment.amount,
+      remitaRrr: result.rrr,
+      status: 'pending' as const,
+      instrument: ctx.assessment.instrument,
+      basis: ctx.assessment.basis,
+      taxableAmount: ctx.assessment.taxableAmount,
+      rate: ctx.assessment.rate,
+      leaseTermMonths: ctx.assessment.leaseTermMonths,
+      authority: ctx.authority.authority,
+      authorityState: ctx.agreement.jurisdictionState,
+      payerType: payer.type,
+      payerName: payer.name,
+      payerRcNumber: payer.rcNumber,
+    };
 
     await prisma.stampDuty.upsert({
       where: { agreementId },
-      create: {
-        agreementId,
-        amount,
-        remitaRrr: result.rrr,
-        status: 'pending',
-      },
-      update: {
-        amount,
-        remitaRrr: result.rrr,
-        status: 'pending',
-      },
+      create: { agreementId, ...record },
+      update: record,
     });
 
     return NextResponse.json({
@@ -110,10 +114,30 @@ export async function POST(request: NextRequest) {
         rrr: result.rrr,
         paymentUrl: result.paymentUrl,
         amount: result.amount,
+        mock: result.mock,
+        authority: ctx.authority.authority,
+        authorityLabel: ctx.authority.label,
+        instrument: ctx.assessment.instrument,
+        basis: ctx.assessment.basis,
+        taxableAmount: ctx.assessment.taxableAmount,
+        payerType: payer.type,
+        payerName: payer.name,
+        payerRcNumber: payer.rcNumber,
       },
     });
   } catch (error) {
     console.error('[StampDuty] Initiate error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+
+    if (error instanceof Error && error.message.startsWith('Remita is not configured')) {
+      return NextResponse.json(
+        { error: 'STAMP_DUTY_UNAVAILABLE', message: error.message },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Internal server error', message: error instanceof Error ? error.message : undefined },
+      { status: 500 }
+    );
   }
 }

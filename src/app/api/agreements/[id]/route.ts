@@ -23,6 +23,28 @@ export async function GET(
         signatures: { select: { id: true, role: true, ipAddress: true, signedAt: true, consentText: true } },
         transactions: { select: { id: true, type: true, amount: true, status: true, createdAt: true } },
         rentSchedule: true,
+        stampDuty: {
+          select: {
+            status: true,
+            amount: true,
+            remitaRrr: true,
+            certificateNumber: true,
+            certificateUrl: true,
+            paidAt: true,
+            issuedAt: true,
+            authority: true,
+            authorityState: true,
+            instrument: true,
+            basis: true,
+            taxableAmount: true,
+            rate: true,
+            leaseTermMonths: true,
+            payerType: true,
+            payerName: true,
+            payerRcNumber: true,
+            linkageHash: true,
+          },
+        },
       },
     });
 

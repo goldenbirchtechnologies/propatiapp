@@ -1,55 +1,40 @@
-'use client';
-import { useEffect, useState } from 'react';
-import DashboardShell from '@/components/layout/DashboardShell';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
+import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
+import { AGENT_NAVIGATION } from '@/lib/navigation';
+import {
+  getAgentFinanceSummary,
+  getAgentWalletTransactions,
+} from '@/lib/agent-finance-data';
+import AgentCommissionLedgerClient from './AgentCommissionLedgerClient';
 
-export default function CommissionLedgerPage() {
-  const [items, setItems] = useState<Array<Record<string, unknown>>>([]);
-  const [loading, setLoading] = useState(true);
-  async function load() {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/wallet/transactions?limit=50&types=adjustment', { cache: 'no-store' });
-      const data = await res.json();
-      setItems(data?.items ?? []);
-    } catch { toast.error('Failed to load commissions'); }
-    finally { setLoading(false); }
-  }
-  useEffect(() => { load(); }, []);
-  const formatAmount = (v: number | string | bigint) => new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(Number(v));
+export const dynamic = 'force-dynamic';
+
+export default async function AgentCommissionLedgerPage() {
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'agent') redirect('/dashboard');
+
+  const [summary, walletTxns] = await Promise.all([
+    getAgentFinanceSummary(user.id),
+    getAgentWalletTransactions(user.id),
+  ]);
+
+  // The commission ledger focuses on escrow releases, adjustments and payouts.
+  const adjustments = walletTxns.filter((t) =>
+    ['adjustment', 'escrow_credit', 'deposit', 'withdrawal', 'transfer', 'refund'].includes(t.type),
+  );
+
   return (
-    <DashboardShell navigation={[{label:'Dashboard',href:'/dashboard/agent'},{label:'Commissions',href:'/dashboard/agent/commissions'},{label:'Commission Ledger',href:'/dashboard/agent/commission-ledger'}]} userRole="agent" userName="Agent">
-
+    <DashboardShell
+      navigation={AGENT_NAVIGATION}
+      userRole={user.role}
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
+    >
       <ErrorBoundary>
-
-      <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Commission ledger</h3></div>
-        <div className="p-6">
-          {loading && <p className="text-sm text-zinc-600 dark:text-zinc-400">Loading...</p>}
-          {!loading && items.length === 0 && <p className="text-sm text-zinc-600 dark:text-zinc-400">No commissions yet.</p>}
-          <div className="space-y-4">
-            {items.map((tx) => (
-              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-zinc-200 dark:border-white/[0.08]/60 bg-background p-3">
-                <div>
-                  <p className="text-sm font-semibold">{String(tx.type ?? 'adjustment').toUpperCase()}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">{String(tx.description ?? '')}</p>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">{new Date(String(tx.createdAt)).toLocaleString()}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold">{formatAmount(tx.amount)}</p>
-                  <Badge variant="secondary" className="mt-1">{String(tx.status)}</Badge>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    
+        <AgentCommissionLedgerClient summary={summary} adjustments={adjustments} />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

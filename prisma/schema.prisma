@@ -572,6 +572,9 @@ model User {
   receivedOwnerInvites  OwnerInvite[]  @relation("OwnerInvitedRecipient")
   agentAssignments      AgentAssignment[] @relation("AgentAssignments")
   agentConversations    Conversation[] @relation("ConversationAgent")
+  licenses              AgentLicense[]  @relation("AgentLicenseHolder")
+  reviewsReceived       AgentReview[]   @relation("AgentReviewAgent")
+  reviewsWritten        AgentReview[]   @relation("AgentReviewReviewer")
   sentInvoices          Invoice[]      @relation("InvoiceLandlord")
   receivedInvoices      Invoice[]      @relation("InvoiceTenant")
   wallet                Wallet?
@@ -723,6 +726,7 @@ model Listing {
   jurisdiction         Jurisdiction?  @relation(fields: [jurisdictionId], references: [id])
   legalMatters       LegalMatter[]
   ownerInvites       OwnerInvite[]
+  agentReviews       AgentReview[]
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([title], map: "idx_listings_title")
@@ -937,6 +941,7 @@ model Agreement {
   country             Country?      @relation(fields: [countryId], references: [code])
   jurisdiction        Jurisdiction?  @relation(fields: [jurisdictionId], references: [id])
   legalMatters      LegalMatter[]
+  agentReviews      AgentReview[]
   @@map("agreements")
 }
 
@@ -2306,4 +2311,90 @@ model DocumentTemplate {
   @@index([jurisdictionId], map: "idx_doc_templates_jurisdiction")
   @@index([propertyType], map: "idx_doc_templates_property")
   @@map("document_templates")
+}
+
+// ─── AGENT STANDING — statutory credentials & client reputation ──────────────
+
+enum AgentLicenseBoard {
+  LASRERA
+  ESVARBON
+  NIESV
+  EAR
+}
+
+enum AgentLicenseStatus {
+  draft
+  under_review
+  approved
+  rejected
+}
+
+enum AgentReviewStatus {
+  pending
+  verified
+  rejected
+}
+
+model AgentLicense {
+  id               String             @id @default(cuid()) @map("id") // 'lic_' + 12 chars
+  agentId          String             @map("agent_id")
+  board            AgentLicenseBoard  @map("board")
+  licenseType      String             @map("license_type")
+  registrationNo   String             @map("registration_no")
+  issuingBody      String             @map("issuing_body")
+  validUntil       DateTime?          @map("valid_until")
+  status           AgentLicenseStatus @default(draft) @map("status")
+
+  // Stable docket reference shown in the UI (VER-LIC-XXXX-XXXX)
+  referenceId      String?            @map("reference_id")
+
+  // Supporting evidence
+  documentUrl      String?            @db.Text @map("document_url")
+  documentName     String?            @map("document_name")
+  documentBytes    Int?               @map("document_bytes")
+
+  channel          String?            @map("channel")
+  entityName       String?            @map("entity_name")
+  entityRcNumber   String?            @map("entity_rc_number")
+  reviewerNotes    String?            @db.Text @map("reviewer_notes")
+
+  submittedAt      DateTime           @default(now()) @map("submitted_at")
+  reviewedAt       DateTime?          @map("reviewed_at")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  agent            User               @relation("AgentLicenseHolder", fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId], map: "idx_agent_licenses_agent")
+  @@index([status], map: "idx_agent_licenses_status")
+  @@index([board], map: "idx_agent_licenses_board")
+  @@map("agent_licenses")
+}
+
+model AgentReview {
+  id           String            @id @default(cuid()) @map("id") // 'rev_' + 12 chars
+  agentId      String            @map("agent_id")
+  reviewerId   String            @map("reviewer_id")
+  rating       Int               // 1..5 stars
+  status       AgentReviewStatus @default(pending) @map("status")
+  comment      String?           @db.Text
+
+  // What the review is anchored to, when known
+  agreementId  String?           @map("agreement_id")
+  listingId    String?           @map("listing_id")
+
+  verifiedAt   DateTime?         @map("verified_at")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  agent        User              @relation("AgentReviewAgent", fields: [agentId], references: [id], onDelete: Cascade)
+  reviewer     User              @relation("AgentReviewReviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  agreement    Agreement?        @relation(fields: [agreementId], references: [id], onDelete: SetNull)
+  listing      Listing?          @relation(fields: [listingId], references: [id], onDelete: SetNull)
+
+  @@index([agentId], map: "idx_agent_reviews_agent")
+  @@index([reviewerId], map: "idx_agent_reviews_reviewer")
+  @@index([status], map: "idx_agent_reviews_status")
+  @@unique([agreementId, reviewerId], map: "uq_agent_reviews_agreement_reviewer")
+  @@map("agent_reviews")
 }

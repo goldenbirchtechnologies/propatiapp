@@ -7,7 +7,7 @@ import { AGENT_NAVIGATION } from '@/lib/navigation';
 import {
   ShieldCheck, Check, Lock, Building2,
   FileText, Landmark, Phone, MessageCircle,
-  AlertCircle, RefreshCw, BadgeCheck, Gavel, ClipboardList, User
+  AlertCircle, RefreshCw, BadgeCheck, Gavel, ClipboardList, User, ChevronRight
 } from 'lucide-react';
 
 // ─── Types ───

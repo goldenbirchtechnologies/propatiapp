@@ -5,57 +5,98 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import AgentPipelineClient from './AgentPipelineClient';
+import {
+  ACTIVE_AGREEMENT_STATUSES,
+  daysSince,
+  estimateCommission,
+  stageForStatus,
+} from '../_lib/agent-deal-format';
+import type { DealRecord, DealStats, PropertyRef } from '../_lib/agent-deal-types';
 
-type Deal = {
-  id: string;
-  title: string;
-  property: string;
-  value: number;
-  client: string;
-  clientPhone?: string | null;
-  clientEmail?: string | null;
-  assignedAgent: string;
-  assignedAgentPhone?: string | null;
-  lastContact: string;
-  createdAt: Date;
-  type: string;
-};
-
-type Stage = {
-  id: string;
-  title: string;
-  deals: Deal[];
+const toNumber = (v: unknown): number => {
+  if (typeof v === 'number') return v;
+  if (typeof v === 'string') return Number(v) || 0;
+  if (v && typeof v === 'object' && 'toNumber' in (v as object)) {
+    return (v as { toNumber: () => number }).toNumber();
+  }
+  return 0;
 };
 
 export default async function AgentPipelinePage() {
   const user = await getCurrentUserWithProfile();
-
-  if (!user || user.role !== 'agent') {
-    redirect('/dashboard');
-  }
+  if (!user || user.role !== 'agent') redirect('/dashboard');
 
   const agentId = user.id;
 
-  const [
-    enquiries,
-    viewings,
-    offers,
-    agreements,
-    closed,
-  ] = await Promise.all([
+  const [agreements, draftListings, viewings, listingImages] = await Promise.all([
+    prisma.agreement.findMany({
+      where: { agentId, status: { in: ACTIVE_AGREEMENT_STATUSES } },
+      select: {
+        id: true,
+        type: true,
+        status: true,
+        rentAmount: true,
+        rentPeriod: true,
+        cautionDeposit: true,
+        serviceCharge: true,
+        startDate: true,
+        endDate: true,
+        noticePeriodDays: true,
+        specialClauses: true,
+        jurisdictionState: true,
+        governingStatute: true,
+        riskTier: true,
+        headTenantVerified: true,
+        landlordSignedAt: true,
+        tenantSignedAt: true,
+        finalizedAt: true,
+        lockStatus: true,
+        pdfUrl: true,
+        createdAt: true,
+        updatedAt: true,
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            address: true,
+            area: true,
+            city: true,
+            state: true,
+            listingType: true,
+            propertyType: true,
+            price: true,
+            verificationTier: true,
+          },
+        },
+        landlord: { select: { id: true, fullName: true, email: true, phone: true } },
+        tenant: { select: { id: true, fullName: true, email: true, phone: true } },
+        agent: { select: { id: true, fullName: true, email: true, phone: true } },
+        stampDuty: {
+          select: { amount: true, status: true, certificateUrl: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
     prisma.listing.findMany({
       where: { agentId, status: 'draft' },
       select: {
         id: true,
         title: true,
         address: true,
+        area: true,
+        city: true,
+        state: true,
+        listingType: true,
+        propertyType: true,
         price: true,
         createdAt: true,
-        agent: { select: { fullName: true, phone: true, email: true } },
-        owner: { select: { fullName: true, phone: true, email: true } },
+        updatedAt: true,
+        verificationTier: true,
+        owner: { select: { id: true, fullName: true, email: true, phone: true } },
+        agent: { select: { id: true, fullName: true, email: true, phone: true } },
       },
       orderBy: { createdAt: 'desc' },
-      take: 20,
+      take: 30,
     }),
     prisma.screeningCall.findMany({
       where: { listing: { agentId } },
@@ -64,178 +105,230 @@ export default async function AgentPipelinePage() {
         scheduledAt: true,
         status: true,
         createdAt: true,
-        listing: { select: { title: true, address: true, price: true } },
-        tenant: { select: { fullName: true, phone: true, email: true } },
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            address: true,
+            area: true,
+            city: true,
+            state: true,
+            listingType: true,
+            propertyType: true,
+            price: true,
+            verificationTier: true,
+          },
+        },
+        tenant: { select: { id: true, fullName: true, email: true, phone: true } },
       },
       orderBy: { scheduledAt: 'asc' },
-      take: 20,
+      take: 30,
     }),
-    prisma.agreement.findMany({
-      where: { agentId, status: { in: ['draft', 'pending_landlord', 'pending_tenant'] } },
-      select: {
-        id: true,
-        type: true,
-        status: true,
-        createdAt: true,
-        listing: { select: { title: true, address: true, price: true } },
-        tenant: { select: { fullName: true, phone: true, email: true } },
-        agent: { select: { fullName: true, phone: true, email: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 20,
-    }),
-    prisma.agreement.findMany({
-      where: { agentId, status: { in: ['tenant_signed', 'landlord_signed'] } },
-      select: {
-        id: true,
-        type: true,
-        status: true,
-        createdAt: true,
-        listing: { select: { title: true, address: true, price: true } },
-        tenant: { select: { fullName: true, phone: true, email: true } },
-        agent: { select: { fullName: true, phone: true, email: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 20,
-    }),
-    prisma.agreement.findMany({
-      where: { agentId, status: 'fully_signed' },
-      select: {
-        id: true,
-        type: true,
-        status: true,
-        createdAt: true,
-        listing: { select: { title: true, address: true, price: true } },
-        tenant: { select: { fullName: true, phone: true, email: true } },
-        agent: { select: { fullName: true, phone: true, email: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 20,
+    prisma.listingImage.findMany({
+      where: { listing: { agentId } },
+      select: { listingId: true, url: true, isCover: true },
+      orderBy: { isCover: 'desc' },
     }),
   ]);
 
-  const toNumber = (val: unknown) => {
-    if (typeof val === 'number') return val;
-    if (typeof val === 'string') return Number(val) || 0;
-    if (val && typeof val === 'object' && 'toNumber' in val) return (val as any).toNumber();
-    return 0;
+  const coverByListing = new Map<string, string>();
+  for (const img of listingImages) {
+    if (img.isCover && !coverByListing.has(img.listingId)) {
+      coverByListing.set(img.listingId, img.url);
+    }
+  }
+  if (!coverByListing.size) {
+    for (const img of listingImages) {
+      if (!coverByListing.has(img.listingId)) coverByListing.set(img.listingId, img.url);
+    }
+  }
+
+  const toProperty = (
+    p: {
+      id: string;
+      title: string;
+      address: string;
+      area: string | null;
+      city: string | null;
+      state: string | null;
+      listingType: string;
+      propertyType: string | null;
+      price: unknown;
+      verificationTier: string | null;
+    } | null,
+    imageUrl: string | null = null
+  ): PropertyRef | null => {
+    if (!p) return null;
+    return {
+      id: p.id,
+      title: p.title,
+      address: p.address,
+      area: p.area,
+      city: p.city,
+      state: p.state,
+      listingType: p.listingType,
+      propertyType: p.propertyType,
+      price: toNumber(p.price),
+      imageUrl,
+      verificationTier: p.verificationTier,
+    };
   };
 
-  const formatDate = (date: Date) =>
-    new Date(date).toLocaleString('en-NG', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const agreementDeals: DealRecord[] = agreements.map((a) => {
+    const property = toProperty(a.listing, a.listing ? coverByListing.get(a.listing.id) ?? null : null);
+    const rentAmount = toNumber(a.rentAmount);
+    return {
+      id: a.id,
+      reference: a.id.toUpperCase(),
+      type: a.type,
+      status: a.status,
+      stage: stageForStatus(a.status),
+      property,
+      landlord: a.landlord,
+      tenant: a.tenant,
+      agent: a.agent,
+      rentAmount,
+      rentPeriod: a.rentPeriod,
+      cautionDeposit: toNumber(a.cautionDeposit),
+      serviceCharge: toNumber(a.serviceCharge),
+      startDate: a.startDate?.toISOString() ?? null,
+      endDate: a.endDate?.toISOString() ?? null,
+      noticePeriodDays: a.noticePeriodDays,
+      specialClauses: a.specialClauses,
+      jurisdictionState: a.jurisdictionState,
+      governingStatute: a.governingStatute,
+      riskTier: a.riskTier,
+      headTenantVerified: a.headTenantVerified,
+      landlordSignedAt: a.landlordSignedAt?.toISOString() ?? null,
+      tenantSignedAt: a.tenantSignedAt?.toISOString() ?? null,
+      finalizedAt: a.finalizedAt?.toISOString() ?? null,
+      lockStatus: a.lockStatus,
+      pdfUrl: a.pdfUrl,
+      stampDutyAmount: a.stampDuty ? toNumber(a.stampDuty.amount) : null,
+      stampDutyStatus: a.stampDuty?.status ?? null,
+      stampDutyCertificateUrl: a.stampDuty?.certificateUrl ?? null,
+      createdAt: a.createdAt.toISOString(),
+      updatedAt: a.updatedAt.toISOString(),
+      // Consideration for the pipeline: sale price, else annualised rent.
+      consideration:
+        property && property.listingType === 'sale'
+          ? property.price
+          : rentAmount,
+    } as DealRecord & { consideration: number };
+  });
 
-  const stages = [
-    {
-      id: 'enquiries',
-      title: 'Enquiries',
-      deals: enquiries.map((l) => ({
-        id: l.id,
-        title: l.title,
-        property: l.address,
-        value: toNumber(l.price),
-        client: l.owner.fullName,
-        clientPhone: l.owner.phone,
-        clientEmail: l.owner.email,
-        assignedAgent: l.agent?.fullName || user.fullName,
-        assignedAgentPhone: l.agent?.phone || undefined,
-        lastContact: formatDate(l.createdAt),
-        createdAt: l.createdAt,
-        type: 'enquiry',
-      })),
-    },
-    {
-      id: 'viewings',
-      title: 'Viewings',
-      deals: viewings.map((v) => ({
-        id: v.id,
-        title: `Inspection - ${v.listing.title}`,
-        property: v.listing.address,
-        value: toNumber(v.listing.price),
-        client: v.tenant.fullName,
-        clientPhone: v.tenant.phone,
-        clientEmail: v.tenant.email,
-        assignedAgent: user.fullName,
-        assignedAgentPhone: undefined,
-        lastContact: formatDate(v.scheduledAt),
-        createdAt: v.createdAt,
-        type: 'viewing',
-      })),
-    },
-    {
-      id: 'offers',
-      title: 'Offers',
-      deals: offers.map((a) => ({
-        id: a.id,
-        title: `${a.type} - ${a.listing.title}`,
-        property: a.listing.address,
-        value: toNumber(a.listing.price),
-        client: a.tenant.fullName,
-        clientPhone: a.tenant.phone,
-        clientEmail: a.tenant.email,
-        assignedAgent: a.agent?.fullName || user.fullName,
-        assignedAgentPhone: a.agent?.phone || undefined,
-        lastContact: formatDate(a.createdAt),
-        createdAt: a.createdAt,
-        type: 'offer',
-      })),
-    },
-    {
-      id: 'agreements',
-      title: 'Agreements',
-      deals: agreements.map((a) => ({
-        id: a.id,
-        title: `${a.type} - ${a.listing.title}`,
-        property: a.listing.address,
-        value: toNumber(a.listing.price),
-        client: a.tenant.fullName,
-        clientPhone: a.tenant.phone,
-        clientEmail: a.tenant.email,
-        assignedAgent: a.agent?.fullName || user.fullName,
-        assignedAgentPhone: a.agent?.phone || undefined,
-        lastContact: formatDate(a.createdAt),
-        createdAt: a.createdAt,
-        type: 'agreement',
-      })),
-    },
-    {
-      id: 'closed',
-      title: 'Closed',
-      deals: closed.map((a) => ({
-        id: a.id,
-        title: `${a.type} - ${a.listing.title}`,
-        property: a.listing.address,
-        value: toNumber(a.listing.price),
-        client: a.tenant.fullName,
-        clientPhone: a.tenant.phone,
-        clientEmail: a.tenant.email,
-        assignedAgent: a.agent?.fullName || user.fullName,
-        assignedAgentPhone: a.agent?.phone || undefined,
-        lastContact: formatDate(a.createdAt),
-        createdAt: a.createdAt,
-        type: 'closed',
-      })),
-    },
-  ];
+  // Draft listings are live enquiries — they have not become agreements yet.
+  const enquiryDeals = draftListings.map(
+    (l): DealRecord & { consideration: number } => ({
+      id: l.id,
+      reference: l.id.toUpperCase(),
+      type: 'rental',
+      status: 'draft',
+      stage: 'enquiries',
+      property: toProperty(l, coverByListing.get(l.id) ?? null),
+      landlord: l.owner,
+      tenant: null,
+      agent: l.agent,
+      rentAmount: 0,
+      rentPeriod: l.listing.pricePeriod,
+      cautionDeposit: 0,
+      serviceCharge: 0,
+      startDate: null,
+      endDate: null,
+      noticePeriodDays: null,
+      specialClauses: null,
+      jurisdictionState: l.state,
+      governingStatute: null,
+      riskTier: null,
+      headTenantVerified: false,
+      landlordSignedAt: null,
+      tenantSignedAt: null,
+      finalizedAt: null,
+      lockStatus: 'mutable',
+      pdfUrl: null,
+      stampDutyAmount: null,
+      stampDutyStatus: null,
+      stampDutyCertificateUrl: null,
+      createdAt: l.createdAt.toISOString(),
+      updatedAt: l.updatedAt.toISOString(),
+      consideration: toNumber(l.price),
+    })
+  );
 
-  const totalValue = stages.reduce((sum, s) => sum + s.deals.reduce((s2, d) => s2 + d.value, 0), 0);
-  const allDeals = stages.flatMap((s) => s.deals);
-  const now = Date.now();
-  const newDealsThisWeek = allDeals.filter((d) => now - d.createdAt.getTime() < 7 * 24 * 60 * 60 * 1000).length;
-  const newDealsLastWeek = allDeals.filter((d) => {
-    const diff = now - d.createdAt.getTime();
-    return diff >= 7 * 24 * 60 * 60 * 1000 && diff < 14 * 24 * 60 * 60 * 1000;
-  }).length;
+  // Scheduled viewings / inspections.
+  const viewingDeals = viewings.map(
+    (v): DealRecord & { consideration: number } => ({
+      id: v.id,
+      reference: v.id.toUpperCase(),
+      type: v.listing?.listingType ?? 'rental',
+      status: 'draft',
+      stage: 'viewings',
+      property: toProperty(v.listing, v.listing ? coverByListing.get(v.listing.id) ?? null : null),
+      landlord: null,
+      tenant: v.tenant,
+      agent: { id: agentId, fullName: user.fullName, email: user.email, phone: user.phone },
+      rentAmount: 0,
+      rentPeriod: v.listing?.listingType ? null : null,
+      cautionDeposit: 0,
+      serviceCharge: 0,
+      startDate: v.scheduledAt?.toISOString() ?? null,
+      endDate: null,
+      noticePeriodDays: null,
+      specialClauses: null,
+      jurisdictionState: v.listing?.state ?? null,
+      governingStatute: null,
+      riskTier: null,
+      headTenantVerified: false,
+      landlordSignedAt: null,
+      tenantSignedAt: null,
+      finalizedAt: null,
+      lockStatus: 'mutable',
+      pdfUrl: null,
+      stampDutyAmount: null,
+      stampDutyStatus: null,
+      stampDutyCertificateUrl: null,
+      createdAt: v.createdAt.toISOString(),
+      updatedAt: v.createdAt.toISOString(),
+      consideration: toNumber(v.listing?.price ?? 0),
+    })
+  );
 
-  let trendLabel: string | null = null;
-  let trendPositive = true;
-  if (newDealsLastWeek > 0) {
-    const pct = Math.round(((newDealsThisWeek - newDealsLastWeek) / newDealsLastWeek) * 100);
-    trendLabel = `${pct >= 0 ? '+' : ''}${pct}% deals this week`;
-    trendPositive = pct >= 0;
-  } else if (newDealsThisWeek > 0) {
-    trendLabel = `${newDealsThisWeek} new deal${newDealsThisWeek === 1 ? '' : 's'} this week`;
-    trendPositive = true;
-  }
+  const allDeals = [...agreementDeals, ...enquiryDeals, ...viewingDeals];
+
+  const considerationOf = (d: DealRecord) =>
+    (d as DealRecord & { consideration?: number }).consideration ?? d.rentAmount ?? 0;
+
+  const grossValue = allDeals.reduce((sum, d) => sum + considerationOf(d), 0);
+  const escrowValue = allDeals
+    .filter((d) => ['tenant_signed', 'landlord_signed', 'fully_signed'].includes(d.status))
+    .reduce((sum, d) => sum + considerationOf(d), 0);
+  const commissionValue = allDeals
+    .filter((d) => d.status === 'fully_signed')
+    .reduce((sum, d) => sum + estimateCommission(considerationOf(d)), 0);
+
+  const stageDays = allDeals
+    .map((d) => daysSince(d.createdAt))
+    .filter((n): n is number => n !== null);
+  const averageStageDays = stageDays.length
+    ? Math.round(stageDays.reduce((a, b) => a + b, 0) / stageDays.length)
+    : null;
+
+  const stats: DealStats = {
+    total: allDeals.length,
+    active: allDeals.filter((d) =>
+      ['draft', 'pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(
+        d.status
+      )
+    ).length,
+    pending: allDeals.filter((d) =>
+      ['draft', 'pending_landlord', 'pending_tenant'].includes(d.status)
+    ).length,
+    closed: allDeals.filter((d) => d.status === 'fully_signed').length,
+    grossValue,
+    escrowValue,
+    commissionValue,
+    averageStageDays,
+  };
 
   return (
     <DashboardShell
@@ -247,16 +340,9 @@ export default async function AgentPipelinePage() {
       <ErrorBoundary>
         <AgentPipelineClient
           initialData={{
-            stages,
-            stats: {
-              totalValue,
-              enquiries: stages.find((s) => s.id === 'enquiries')?.deals.length || 0,
-              viewings: stages.find((s) => s.id === 'viewings')?.deals.length || 0,
-              offers: stages.find((s) => s.id === 'offers')?.deals.length || 0,
-              closed: stages.find((s) => s.id === 'closed')?.deals.length || 0,
-            },
-            trend: trendLabel,
-            trendPositive,
+            deals: allDeals,
+            stats,
+            agentRef: agentId,
           }}
         />
       </ErrorBoundary>

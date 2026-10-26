@@ -134,6 +134,17 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
       { label: 'Dashboard', href: '/dashboard/agent', icon: <Home className="h-5 w-5" /> },
       { label: 'Managed Properties', href: '/dashboard/agent/properties', icon: <Building2 className="h-5 w-5" /> },
       { label: 'Calendar', href: '/dashboard/agent/schedule', icon: <CalendarDays className="h-5 w-5" /> },
+      {
+        label: 'Property Management',
+        href: '/dashboard/agent/properties',
+        icon: <Building2 className="h-5 w-5" />,
+        children: [
+          { label: 'Properties Overview', href: '/dashboard/agent/properties', icon: <Building2 className="h-5 w-5" /> },
+          { label: 'Rent Collection', href: '/dashboard/agent/collections', icon: <DollarSign className="h-5 w-5" /> },
+          { label: 'Payment Records', href: '/dashboard/agent/payments', icon: <Receipt className="h-5 w-5" /> },
+          { label: 'Agreements', href: '/dashboard/agent/agreements', icon: <FileText className="h-5 w-5" /> },
+        ],
+      },
     ],
   },
   {
@@ -146,11 +157,12 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
         children: [
           { label: 'Buy', href: '/dashboard/agent/buy', icon: <BarChart2 className="h-5 w-5" /> },
           { label: 'Sell', href: '/dashboard/agent/sell', icon: <BarChart2 className="h-5 w-5" /> },
-          { label: 'All Deals', href: '/dashboard/agent/pipeline', icon: <BarChart2 className="h-5 w-5" /> },
+          { label: 'All Deals', href: '/dashboard/agent/deals', icon: <BarChart2 className="h-5 w-5" /> },
         ],
       },
       { label: 'Listings', href: '/dashboard/agent/listings', icon: <Building2 className="h-5 w-5" /> },
       { label: 'Clients', href: '/dashboard/agent/clients', icon: <Users className="h-5 w-5" /> },
+      { label: 'Deals', href: '/dashboard/agent/deals', icon: <Gavel className="h-5 w-5" /> },
     ],
   },
   {
@@ -172,9 +184,28 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
         icon: <DollarSign className="h-5 w-5" />,
         children: [
           { label: 'Rent & Payments', href: '/dashboard/agent/payments', icon: <DollarSign className="h-5 w-5" /> },
+          { label: 'Commissions', href: '/dashboard/agent/commissions', icon: <Wallet className="h-5 w-5" /> },
+          { label: 'Commission Ledger', href: '/dashboard/agent/commission-ledger', icon: <BookOpen className="h-5 w-5" /> },
+          { label: 'Withdrawals', href: '/dashboard/agent/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
+          { label: 'Invoices', href: '/dashboard/agent/invoices', icon: <Receipt className="h-5 w-5" /> },
           { label: 'Statements', href: '/dashboard/agent/statements', icon: <FileText className="h-5 w-5" /> },
         ],
       },
+    ],
+  },
+  {
+    title: 'Operations',
+    items: [
+      { label: 'Messages', href: '/dashboard/agent/messages', icon: <MessageSquare className="h-5 w-5" /> },
+      { label: 'Maintenance', href: '/dashboard/agent/maintenance', icon: <Wrench className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Account',
+    items: [
+      { label: 'Profile', href: '/dashboard/agent/profile', icon: <User className="h-5 w-5" /> },
+      { label: 'Verifications', href: '/dashboard/agent/verifications', icon: <Shield className="h-5 w-5" /> },
+      { label: 'Reputation', href: '/dashboard/agent/reputation', icon: <Star className="h-5 w-5" /> },
     ],
   },
   {

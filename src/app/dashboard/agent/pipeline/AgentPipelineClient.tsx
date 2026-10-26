@@ -1,351 +1,732 @@
-'use client'
+'use client';
 
-import AppIcon from '@/components/icons/app-icon'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Search, Filter, Plus, Eye, Mail, Phone, MapPin, Edit, CheckCircle, GripVertical, MoreVertical, ArrowRight, Kanban, DollarSign } from 'lucide-react'
-import { StatCard } from '@/components/ui/stat-card'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { cn } from '@/lib/utils'
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import {
+  LayoutDashboard,
+  Table2,
+  Download,
+  Plus,
+  Building2,
+  Wallet,
+  Timer,
+  BadgeCheck,
+  TrendingUp,
+  Eye,
+  Mail,
+  FileText,
+  MoreVertical,
+  ChevronRight,
+  Calendar,
+  Receipt,
+  ShieldCheck,
+  Handshake,
+  GripVertical,
+  MapPin,
+  Inbox,
+} from 'lucide-react';
+import {
+  AgentBreadcrumb,
+  AgentCard,
+  AgentCardHeader,
+  AgentEmptyState,
+  AgentStatCard,
+  AgentTableWrap,
+  AgentTd,
+  AgentTh,
+  FilterPill,
+  PrimaryAction,
+  SecondaryAction,
+  SegmentedControl,
+  ToneBadge,
+  ToolbarSearch,
+  ToolbarSelect,
+} from '../_lib/agent-ui';
+import {
+  PIPELINE_STAGES,
+  daysSince,
+  formatDate,
+  formatNairaCompact,
+  formatNairaValue,
+  formatRelative,
+  humanise,
+  initials,
+  stageMeta,
+  statusMeta,
+  statusPillClass,
+  typeMeta,
+  type StageId,
+} from '../_lib/agent-deal-format';
+import type { DealRecord, PipelinePayload } from '../_lib/agent-deal-types';
 
-type Deal = {
-  id: string
-  title: string
-  property: string
-  value: number
-  client: string
-  clientPhone?: string | null
-  clientEmail?: string | null
-  assignedAgent: string
-  assignedAgentPhone?: string | null
-  lastContact: string
-  createdAt: string
-  type: string
-}
+type View = 'kanban' | 'ledger';
 
-type Stage = {
-  id: string
-  title: string
-  deals: Deal[]
-}
+const considerationOf = (d: DealRecord) =>
+  (d as DealRecord & { consideration?: number }).consideration ?? d.rentAmount ?? 0;
 
-const STAGE_COLORS: Record<string, string> = {
-  enquiries: '#3b82f6',
-  viewings: '#f59e0b',
-  offers: '#10b981',
-  agreements: '#6366f1',
-  closed: '#10b981',
-}
+export default function AgentPipelineClient({ initialData }: { initialData: PipelinePayload }) {
+  const [view, setView] = useState<View>('kanban');
+  const [search, setSearch] = useState('');
+  const [stageFilter, setStageFilter] = useState<StageId | 'all'>('all');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [sort, setSort] = useState('value_desc');
 
-const STAGE_ORDER = ['enquiries', 'viewings', 'offers', 'agreements', 'closed']
+  const deals = initialData.deals;
 
-function NairaIcon({ size = 16, className, style }: { size?: number; className?: string; style?: React.CSSProperties }) {
-  return (
-    <span
-      className={cn('inline-flex items-center justify-center rounded-md font-bold', className)}
-      style={{ background: 'rgba(16,185,129,0.12)', color: '#10b981', width: size, height: size, fontSize: size * 0.85, ...style }}
-      aria-hidden="true"
-    >
-      ₦
-    </span>
-  )
-}
+  const typeOptions = useMemo(() => {
+    const set = new Map<string, string>();
+    deals.forEach((d) => set.set(d.type, typeMeta(d.type).label));
+    return [{ value: 'all', label: 'All Deal Types' }, ...Array.from(set).map(([value, label]) => ({ value, label }))];
+  }, [deals]);
 
-export default function AgentPipelineClient({ initialData }: { initialData: { stages: Stage[]; stats: { totalValue: number; enquiries: number; viewings: number; offers: number; closed: number }; trend?: string | null; trendPositive?: boolean } }) {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [stageFilter, setStageFilter] = useState<string>('all')
-  const [dateRange, setDateRange] = useState<string>('all')
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    let rows = deals.filter((d) => {
+      if (stageFilter !== 'all' && d.stage !== stageFilter) return false;
+      if (typeFilter !== 'all' && d.type !== typeFilter) return false;
+      if (!q) return true;
+      return (
+        (d.property?.title ?? '').toLowerCase().includes(q) ||
+        (d.property?.address ?? '').toLowerCase().includes(q) ||
+        (d.tenant?.fullName ?? '').toLowerCase().includes(q) ||
+        (d.landlord?.fullName ?? '').toLowerCase().includes(q) ||
+        d.reference.toLowerCase().includes(q)
+      );
+    });
 
-  const allDeals = (initialData.stages || []).flatMap((s) => s.deals || [])
+    rows = [...rows].sort((a, b) => {
+      if (sort === 'value_desc') return considerationOf(b) - considerationOf(a);
+      if (sort === 'value_asc') return considerationOf(a) - considerationOf(b);
+      if (sort === 'newest') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (sort === 'oldest') return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      return 0;
+    });
 
-  const getDealsForStage = (stageId: string) => {
-    const stage = initialData.stages.find((s) => s.id === stageId)
-    if (!stage) return []
-    let deals = stage.deals
-    if (searchQuery) {
-      deals = deals.filter((d) =>
-        d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        d.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        d.property.toLowerCase().includes(searchQuery.toLowerCase())
+    return rows;
+  }, [deals, search, stageFilter, typeFilter, sort]);
+
+  const byStage = useMemo(() => {
+    const map = new Map<StageId, DealRecord[]>();
+    PIPELINE_STAGES.forEach((s) => map.set(s.id, []));
+    filtered.forEach((d) => map.get(d.stage)?.push(d));
+    return map;
+  }, [filtered]);
+
+  const stageTotals = useMemo(() => {
+    const map = new Map<StageId, number>();
+    PIPELINE_STAGES.forEach((s) =>
+      map.set(
+        s.id,
+        (byStage.get(s.id) ?? []).reduce((sum, d) => sum + considerationOf(d), 0)
       )
-    }
-    if (dateRange !== 'all') {
-      const now = Date.now()
-      deals = deals.filter((d) => {
-        const diff = now - new Date(d.createdAt).getTime()
-        if (dateRange === 'week') return diff < 7 * 24 * 60 * 60 * 1000
-        if (dateRange === 'month') return diff < 30 * 24 * 60 * 60 * 1000
-        return true
-      })
-    }
-    return deals
-  }
+    );
+    return map;
+  }, [byStage]);
 
-  const visibleStages = stageFilter === 'all' ? initialData.stages : initialData.stages.filter((s) => s.id === stageFilter)
+  const exportCsv = () => {
+    const header = ['Reference', 'Property', 'Address', 'Client', 'Landlord', 'Type', 'Status', 'Stage', 'Consideration', 'Caution Deposit', 'Created'];
+    const rows = filtered.map((d) => [
+      d.reference,
+      d.property?.title ?? '—',
+      d.property?.address ?? '—',
+      d.tenant?.fullName ?? '—',
+      d.landlord?.fullName ?? '—',
+      typeMeta(d.type).label,
+      statusMeta(d.status).label,
+      stageMeta(d.stage).title,
+      String(considerationOf(d)),
+      String(d.cautionDeposit),
+      formatDate(d.createdAt),
+    ]);
+    const csv = [header, ...rows]
+      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `propati-agent-pipeline-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
-  const handleMoveStage = (dealId: string, fromStageId: string) => {
-    const fromIndex = STAGE_ORDER.indexOf(fromStageId)
-    if (fromIndex < 0 || fromIndex >= STAGE_ORDER.length - 1) return
-    const toStageId = STAGE_ORDER[fromIndex + 1]
-    const toStage = initialData.stages.find((s) => s.id === toStageId)
-    alert(`Move deal ${dealId} to ${toStage?.title || toStageId}`)
-  }
-
-  const isFiltered = stageFilter !== 'all'
+  const stats = initialData.stats;
 
   return (
-    <div className="w-full max-w-full overflow-x-hidden">
-      {/* Header */}
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-black/40 p-5">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="rounded-lg bg-emerald-500/10 p-2">
-              <Kanban className="h-5 w-5 text-emerald-400" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-zinc-900 dark:text-white">Deal Pipeline</h1>
-              <p className="text-xs text-gray-400 tracking-wider mt-0.5">TRACK DEALS ACROSS ENQUIRIES, VIEWINGS, OFFERS, AGREEMENTS, AND CLOSED</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="default">
-              <Plus className="w-4 h-4 mr-2" /> New Deal
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Unified Toolbar */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 dark:text-zinc-400" />
-          <input
-            type="text"
-            placeholder="Search deals..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="inp-field pl-10 w-full"
+    <div className="space-y-6">
+      {/* ── Breadcrumb + header ─────────────────────────────────────────── */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-2">
+          <AgentBreadcrumb
+            items={[
+              { label: 'Sales & CRM', href: '/dashboard/agent' },
+              { label: 'Mandated Conveyancing & Leasing' },
+              { label: 'All Deals Pipeline', current: true },
+            ]}
           />
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
+              Deals &amp; Conveyancing Pipeline
+            </h1>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/10 px-3 py-1 text-[13px] font-semibold text-emerald-700 dark:text-emerald-400">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+              {stats.total} In-Flight Transactions
+            </span>
+          </div>
+          <p className="max-w-3xl text-sm text-zinc-600 dark:text-zinc-400">
+            Real-time deal progression ledger mapping Prisma Agreement records, escrow
+            conditions, title conveyance, and statutory compliance.
+          </p>
         </div>
-        <Select value={stageFilter} onValueChange={setStageFilter}>
-          <SelectTrigger className="w-full sm:w-40">
-            <SelectValue placeholder="All Stages" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Stages</SelectItem>
-            {initialData.stages.map((s) => (
-              <SelectItem key={s.id} value={s.id}>{s.title}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={dateRange} onValueChange={setDateRange}>
-          <SelectTrigger className="w-full sm:w-40">
-            <SelectValue placeholder="All Time" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Time</SelectItem>
-            <SelectItem value="week">This Week</SelectItem>
-            <SelectItem value="month">This Month</SelectItem>
-          </SelectContent>
-        </Select>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <SegmentedControl<View>
+            value={view}
+            onChange={setView}
+            options={[
+              { value: 'kanban', label: 'Kanban', icon: <LayoutDashboard className="h-4 w-4" /> },
+              { value: 'ledger', label: 'Ledger', icon: <Table2 className="h-4 w-4" /> },
+            ]}
+          />
+          <SecondaryAction icon={<Download className="h-4 w-4" />} onClick={exportCsv}>
+            Export CSV
+          </SecondaryAction>
+          <Link
+            href="/dashboard/agent/agreements/new"
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-[0.98] dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+          >
+            <Plus className="h-4 w-4" />
+            <span>+ New Deal Agreement</span>
+          </Link>
+        </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <StatCard
-          label="Total Value"
-          value={initialData.stats.totalValue > 0 ? `₦${(initialData.stats.totalValue / 1_000_000).toFixed(1)}M` : 'Value unassigned'}
-          icon={NairaIcon}
-          trend={initialData.trend ? 'up' : 'flat'}
-          trendValue={initialData.trend || null}
+      {/* ── KPI row ──────────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <AgentStatCard
+          label="Total Mandated Deals"
+          value={`${stats.total} Deals`}
+          icon={<Building2 className="h-5 w-5" />}
+          sublabel={
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="font-medium text-zinc-900 dark:text-white">
+                  {stats.active} Active
+                </span>
+              </span>
+              <span className="rounded bg-emerald-600/10 px-1.5 py-0.5 font-mono-numeric text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                {stats.closed} Closed
+              </span>
+            </div>
+          }
         />
-        <button type="button" onClick={() => setStageFilter(stageFilter === 'enquiries' ? 'all' : 'enquiries')} className="text-left">
-          <StatCard
-            label="Enquiries"
-            value={String(initialData.stats.enquiries)}
-            icon={Mail}
-            accentColor={isFiltered && stageFilter === 'enquiries' ? '#3b82f6' : undefined}
-            className={isFiltered && stageFilter === 'enquiries' ? 'ring-1 ring-blue-500/60' : ''}
-          />
-        </button>
-        <button type="button" onClick={() => setStageFilter(stageFilter === 'viewings' ? 'all' : 'viewings')} className="text-left">
-          <StatCard
-            label="Viewings"
-            value={String(initialData.stats.viewings)}
-            icon={Eye}
-            accentColor={isFiltered && stageFilter === 'viewings' ? '#f59e0b' : undefined}
-            className={isFiltered && stageFilter === 'viewings' ? 'ring-1 ring-amber-500/60' : ''}
-          />
-        </button>
-        <button type="button" onClick={() => setStageFilter(stageFilter === 'offers' ? 'all' : 'offers')} className="text-left">
-          <StatCard
-            label="Offers"
-            value={String(initialData.stats.offers)}
-            icon={DollarSign}
-            accentColor={isFiltered && stageFilter === 'offers' ? '#10b981' : undefined}
-            className={isFiltered && stageFilter === 'offers' ? 'ring-1 ring-emerald-500/60' : ''}
-          />
-        </button>
-        <button type="button" onClick={() => setStageFilter(stageFilter === 'closed' ? 'all' : 'closed')} className="text-left">
-          <StatCard
-            label="Closed"
-            value={String(initialData.stats.closed)}
-            icon={CheckCircle}
-            accentColor={isFiltered && stageFilter === 'closed' ? '#10b981' : undefined}
-            className={isFiltered && stageFilter === 'closed' ? 'ring-1 ring-emerald-500/60' : ''}
-          />
-        </button>
+        <AgentStatCard
+          label="Active Pipeline Gross"
+          value={formatNairaCompact(stats.grossValue)}
+          icon={<Wallet className="h-5 w-5" />}
+          accent="neutral"
+          sublabel={
+            <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
+              <TrendingUp className="h-3.5 w-3.5" />
+              Gross mandate value
+            </span>
+          }
+        />
+        <AgentStatCard
+          label="In-Progress Velocity"
+          value={`${stats.pending} In-Flight`}
+          icon={<Timer className="h-5 w-5" />}
+          accent="amber"
+          sublabel={
+            <span className="flex items-center gap-1">
+              <span className="text-zinc-600 dark:text-zinc-400">Avg stage time:</span>
+              <span className="font-mono-numeric font-semibold text-zinc-900 dark:text-white">
+                {stats.averageStageDays !== null ? `${stats.averageStageDays} days` : '—'}
+              </span>
+            </span>
+          }
+        />
+        <AgentStatCard
+          label="Escrow & Closed Value"
+          value={formatNairaCompact(stats.escrowValue)}
+          icon={<BadgeCheck className="h-5 w-5" />}
+          sublabel={
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="font-mono-numeric font-medium text-zinc-900 dark:text-white">
+                  {formatNairaCompact(stats.commissionValue)}
+                </span>
+                <span className="text-zinc-500">commission</span>
+              </span>
+              <span className="text-[11px] uppercase text-zinc-500">10% agency</span>
+            </div>
+          }
+        />
       </div>
 
-      {/* Kanban */}
-      <div className="w-full overflow-x-auto pb-4">
-        {visibleStages.map((stage) => {
-          const stageIndex = STAGE_ORDER.indexOf(stage.id)
-          const nextStageId = stageIndex >= 0 && stageIndex < STAGE_ORDER.length - 1 ? STAGE_ORDER[stageIndex + 1] : null
-          const nextStageTitle = nextStageId ? initialData.stages.find((s) => s.id === nextStageId)?.title ?? null : null
-          return (
-            <PipelineColumn key={stage.id} stage={stage} deals={getDealsForStage(stage.id)} color={STAGE_COLORS[stage.id] || 'var(--accent)'} nextStageTitle={nextStageTitle} onMoveStage={handleMoveStage} />
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-function PipelineColumn({ stage, deals, color, nextStageTitle, onMoveStage }: { stage: Stage; deals: Deal[]; color: string; nextStageTitle: string | null; onMoveStage: (dealId: string, fromStageId: string) => void }) {
-  return (
-    <div className="flex-shrink-0 w-80 flex flex-col" style={{ minWidth: '280px' }}>
-      <div className="glass-card h-full flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-        <div className="px-4 py-4 border-b border-zinc-200 dark:border-white/[0.08]" style={{ background: `${color}15` }}>
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-zinc-900 dark:text-white" style={{ color }}>{stage.title}</h3>
-            <Badge variant="secondary" className="text-xs font-bold" style={{ background: color, color: 'white' }}>{deals.length}</Badge>
+      {/* ── Filter bar ───────────────────────────────────────────────────── */}
+      <AgentCard className="flex flex-col gap-4 p-5">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <ToolbarSearch
+              value={search}
+              onChange={setSearch}
+              placeholder="Search by property, client name, or agreement ID…"
+            />
+          </div>
+          <div className="md:col-span-3">
+            <ToolbarSelect
+              ariaLabel="Deal type filter"
+              value={typeFilter}
+              onChange={setTypeFilter}
+              options={typeOptions}
+            />
+          </div>
+          <div className="md:col-span-2">
+            <ToolbarSelect
+              ariaLabel="Sort order"
+              value={sort}
+              onChange={setSort}
+              options={[
+                { value: 'value_desc', label: 'Value (High → Low)' },
+                { value: 'value_asc', label: 'Value (Low → High)' },
+                { value: 'newest', label: 'Newest First' },
+                { value: 'oldest', label: 'Oldest First' },
+              ]}
+            />
+          </div>
+          <div className="flex items-center md:col-span-2 md:justify-end">
+            <span className="text-[13px] text-zinc-600 dark:text-zinc-400">
+              <span className="font-mono-numeric font-semibold text-zinc-900 dark:text-white">
+                {filtered.length}
+              </span>{' '}
+              of {deals.length} records
+            </span>
           </div>
         </div>
-        <div className="p-4 flex-1">
-          <div className="space-y-3 min-h-[400px]">
-            {deals.length === 0 ? (
-              <div className="h-32 flex flex-col items-center justify-center gap-2" style={{ border: '2px dashed #262626', borderRadius: '0.75rem' }}>
-                <span className="text-xs text-zinc-600 dark:text-zinc-400">No deals in this stage</span>
-                <Button size="sm" variant="ghost" className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
-                  <Plus className="w-3 h-3 mr-1" /> Add Deal
-                </Button>
-              </div>
-            ) : (
-              deals.map((deal) => <DealCard key={deal.id} deal={deal} color={color} stageId={stage.id} nextStageTitle={nextStageTitle} onMoveStage={onMoveStage} />)
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
 
-function DealCard({ deal, color, stageId, nextStageTitle, onMoveStage }: { deal: Deal; color: string; stageId: string; nextStageTitle: string | null; onMoveStage: (dealId: string, fromStageId: string) => void }) {
-  const [expanded, setExpanded] = useState(false)
-
-  return (
-    <div
-      className="p-3 rounded-xl cursor-pointer transition-all group"
-      style={{
-        background: 'rgba(10,10,10,0.5)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-      }}
-      onClick={() => setExpanded(!expanded)}
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm font-medium truncate text-zinc-900 dark:text-white">{deal.title}</span>
-            <Badge variant="outline" className="text-xs">{deal.property}</Badge>
-          </div>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Client: {deal.client}</p>
+        <div className="flex flex-wrap items-center gap-2 border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+            Fast Filters:
+          </span>
+          <FilterPill active={stageFilter === 'all'} onClick={() => setStageFilter('all')} count={deals.length}>
+            All Stages
+          </FilterPill>
+          {PIPELINE_STAGES.map((stage) => (
+            <FilterPill
+              key={stage.id}
+              active={stageFilter === stage.id}
+              onClick={() => setStageFilter(stageFilter === stage.id ? 'all' : stage.id)}
+              count={deals.filter((d) => d.stage === stage.id).length}
+            >
+              {stage.shortTitle}
+            </FilterPill>
+          ))}
+          {(stageFilter !== 'all' || typeFilter !== 'all' || search) && (
+            <button
+              type="button"
+              onClick={() => {
+                setStageFilter('all');
+                setTypeFilter('all');
+                setSearch('');
+              }}
+              className="ml-1 text-[13px] font-medium text-emerald-700 hover:underline dark:text-emerald-400"
+            >
+              Reset Filters
+            </button>
+          )}
         </div>
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <GripVertical className="w-4 h-4 text-zinc-600 dark:text-zinc-400" style={{ cursor: 'grab' }} />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6">
-                <MoreVertical className="w-3 h-3" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onSelect={(e) => { e.preventDefault(); alert(`Call ${deal.assignedAgentPhone || 'N/A'}`) }}>
-                <Phone className="w-3 h-3 mr-2" /> Call
-              </DropdownMenuItem>
-              <DropdownMenuItem onSelect={(e) => { e.preventDefault(); alert(`Message ${deal.clientEmail || 'N/A'}`) }}>
-                <Mail className="w-3 h-3 mr-2" /> Message
-              </DropdownMenuItem>
-              <DropdownMenuItem onSelect={(e) => { e.preventDefault(); alert(`View ${deal.property}`) }}>
-                <MapPin className="w-3 h-3 mr-2" /> View Property
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {nextStageTitle && (
-                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onMoveStage(deal.id, stageId) }}>
-                  <ArrowRight className="w-3 h-3 mr-2" /> Move to {nextStageTitle}
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem onSelect={(e) => { e.preventDefault(); alert(`Edit ${deal.id}`) }}>
-                <Edit className="w-3 h-3 mr-2" /> Edit
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
+      </AgentCard>
 
-      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-sm uppercase tracking-wider border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400">
-        <span className="text-zinc-900 dark:text-white font-medium">₦{deal.value.toLocaleString('en-NG')}</span>
-        <span>{formatAge(deal.createdAt)}</span>
-      </div>
-
-      {expanded && (
-        <div className="mt-3 p-3 rounded-xl" style={{ background: 'rgba(10,10,10,0.3)', border: '1px solid #262626' }}>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Property:</span>
-              <span className="text-zinc-900 dark:text-white">{deal.property}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Client:</span>
-              <span className="text-zinc-900 dark:text-white">{deal.client}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Value:</span>
-              <span className="text-sm font-medium text-zinc-900 dark:text-white">₦{deal.value.toLocaleString('en-NG')}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Agent:</span>
-              <span className="text-zinc-900 dark:text-white">{deal.assignedAgent}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Last Contact:</span>
-              <span className="text-zinc-900 dark:text-white">{deal.lastContact}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t border-zinc-200 dark:border-white/[0.08]">
-            <Button variant="ghost" size="sm" className="flex-1"><Phone className="w-3 h-3 mr-1" /> Call</Button>
-            <Button variant="ghost" size="sm" className="flex-1"><Mail className="w-3 h-3 mr-1" /> Message</Button>
-            <Button variant="ghost" size="sm" className="flex-1"><MapPin className="w-3 h-3 mr-1" /> View</Button>
-            <Button variant="ghost" size="sm" className="flex-1"><Edit className="w-3 h-3 mr-1" /> Edit</Button>
-          </div>
-        </div>
+      {/* ── Main view ────────────────────────────────────────────────────── */}
+      {view === 'kanban' ? (
+        <KanbanView
+          byStage={byStage}
+          stageTotals={stageTotals}
+          totalDeals={deals.length}
+          emptyAll={deals.length === 0}
+        />
+      ) : (
+        <LedgerView deals={filtered} total={deals.length} emptyAll={deals.length === 0} />
       )}
     </div>
-  )
+  );
 }
 
-function formatAge(createdAt: string) {
-  const diff = Date.now() - new Date(createdAt).getTime()
-  const minutes = Math.floor(diff / 60000)
-  if (minutes < 60) return `${minutes}m ago`
-  const hours = Math.floor(minutes / 60)
-  if (hours < 24) return `${hours}h ago`
-  const days = Math.floor(hours / 24)
-  if (days < 7) return `${days}d ago`
-  const weeks = Math.floor(days / 7)
-  return `${weeks}w ago`
+// ─── Kanban ───────────────────────────────────────────────────────────────────
+
+function KanbanView({
+  byStage,
+  stageTotals,
+  totalDeals,
+  emptyAll,
+}: {
+  byStage: Map<StageId, DealRecord[]>;
+  stageTotals: Map<StageId, number>;
+  totalDeals: number;
+  emptyAll: boolean;
+}) {
+  if (emptyAll) {
+    return (
+      <AgentCard>
+        <AgentEmptyState
+          icon={<Inbox className="h-12 w-12" />}
+          title="No deals in the pipeline yet"
+          description="Once a mandate, viewing or agreement is created against your listings, it will appear here across the five conveyancing stages."
+        />
+      </AgentCard>
+    );
+  }
+
+  return (
+    <div className="flex snap-x snap-mandatory items-start gap-4 overflow-x-auto pb-6">
+      {PIPELINE_STAGES.map((stage) => {
+        const stageDeals = byStage.get(stage.id) ?? [];
+        const total = stageTotals.get(stage.id) ?? 0;
+        return (
+          <section
+            key={stage.id}
+            className="w-[340px] shrink-0 snap-start rounded-xl bg-zinc-100 p-2 shadow-sm dark:bg-zinc-800/50"
+            aria-label={stage.title}
+          >
+            <header className="flex flex-col gap-1.5 rounded-lg bg-white p-3 shadow-sm dark:bg-zinc-900">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className={`h-2.5 w-2.5 rounded-full ${stage.accent}`} />
+                  <h2 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-white">
+                    {stage.title}
+                  </h2>
+                </div>
+                <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                  {stageDeals.length} {stageDeals.length === 1 ? 'Deal' : 'Deals'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                <span>Stage Pipeline:</span>
+                <span className="font-mono-numeric font-bold text-zinc-900 dark:text-white">
+                  {formatNairaCompact(total)}
+                </span>
+              </div>
+            </header>
+
+            <div className="mt-2 flex flex-col gap-2">
+              {stageDeals.length === 0 ? (
+                <div className="rounded-lg border border-dashed border-zinc-300 px-3 py-8 text-center text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-500">
+                  No deals in this stage
+                </div>
+              ) : (
+                stageDeals.map((deal) => <DealCard key={deal.id} deal={deal} stage={stage.id} />)
+              )}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
+function DealCard({ deal, stage }: { deal: DealRecord; stage: StageId }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const status = statusMeta(deal.status);
+  const type = typeMeta(deal.type);
+  const consideration = considerationOf(deal);
+  const age = daysSince(deal.createdAt);
+  const counterparty = deal.tenant ?? deal.landlord;
+
+  return (
+    <article className="group flex flex-col gap-3 rounded-lg bg-white p-4 shadow-sm transition-all hover:shadow-md dark:bg-zinc-900">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-1.5 text-zinc-500">
+          <GripVertical className="h-4 w-4 shrink-0 opacity-40 transition-opacity group-hover:opacity-100" />
+          <span className="truncate font-mono-numeric text-[11px] uppercase tracking-wider">
+            {deal.reference}
+          </span>
+        </div>
+        <div className="relative">
+          <button
+            type="button"
+            aria-label="Deal actions"
+            onClick={() => setMenuOpen((v) => !v)}
+            className="rounded p-0.5 text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-white"
+          >
+            <MoreVertical className="h-4 w-4" />
+          </button>
+          {menuOpen ? (
+            <>
+              <button
+                type="button"
+                aria-label="Close menu"
+                className="fixed inset-0 z-10 cursor-default"
+                onClick={() => setMenuOpen(false)}
+              />
+              <div className="absolute right-0 z-20 mt-1 w-48 overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg dark:border-white/[0.08] dark:bg-zinc-900">
+                {deal.tenant?.phone ? (
+                  <a
+                    href={`tel:${deal.tenant.phone}`}
+                    className="flex items-center gap-2 px-3 py-2 text-[13px] text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  >
+                    <Handshake className="h-3.5 w-3.5" /> Call client
+                  </a>
+                ) : null}
+                {deal.tenant?.email ? (
+                  <a
+                    href={`mailto:${deal.tenant.email}`}
+                    className="flex items-center gap-2 px-3 py-2 text-[13px] text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  >
+                    <Mail className="h-3.5 w-3.5" /> Email client
+                  </a>
+                ) : null}
+                {deal.property ? (
+                  <Link
+                    href={`/dashboard/agent/listings`}
+                    className="flex items-center gap-2 px-3 py-2 text-[13px] text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  >
+                    <MapPin className="h-3.5 w-3.5" /> View listing
+                  </Link>
+                ) : null}
+                {deal.pdfUrl ? (
+                  <a
+                    href={deal.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 text-[13px] text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  >
+                    <FileText className="h-3.5 w-3.5" /> Download agreement
+                  </a>
+                ) : null}
+              </div>
+            </>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="min-w-0">
+        <h3 className="truncate text-sm font-semibold text-zinc-900 transition-colors group-hover:text-emerald-700 dark:text-white dark:group-hover:text-emerald-400">
+          {deal.property?.title ?? 'Untitled listing'}
+        </h3>
+        {deal.property?.address ? (
+          <span className="mt-0.5 block truncate text-[13px] text-zinc-500 dark:text-zinc-400">
+            {deal.property.address}
+          </span>
+        ) : null}
+      </div>
+
+      {counterparty ? (
+        <div className="flex items-center justify-between gap-2 rounded bg-zinc-50 p-2 dark:bg-zinc-800/60">
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600/15 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+              {initials(counterparty.fullName)}
+            </div>
+            <div className="min-w-0">
+              <span className="block truncate text-[13px] font-semibold text-zinc-900 dark:text-white">
+                {counterparty.fullName}
+              </span>
+              <span className="block truncate text-[10px] text-zinc-500">
+                {deal.tenant ? 'Tenant / Buyer' : 'Landlord / Vendor'}
+              </span>
+            </div>
+          </div>
+          {deal.headTenantVerified ? (
+            <span className="inline-flex shrink-0 items-center gap-1 rounded bg-emerald-600/10 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
+              <ShieldCheck className="h-3 w-3" /> Verified
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+
+      <div className="flex items-end justify-between gap-2 pt-1">
+        <div className="min-w-0">
+          <span className="block text-[11px] text-zinc-500 dark:text-zinc-400">
+            {deal.type === 'sale' ? 'Transaction Price' : 'Annual Value'}
+          </span>
+          <span className="font-mono-numeric text-base font-bold text-zinc-900 dark:text-white">
+            {formatNairaCompact(consideration)}
+            {deal.type !== 'sale' ? (
+              <span className="text-[11px] font-normal text-zinc-500">/yr</span>
+            ) : null}
+          </span>
+        </div>
+        {deal.cautionDeposit > 0 ? (
+          <div className="text-right">
+            <span className="block text-[11px] text-zinc-500 dark:text-zinc-400">Caution</span>
+            <span className="font-mono-numeric text-[13px] font-medium text-zinc-700 dark:text-zinc-300">
+              {formatNairaValue(deal.cautionDeposit)}
+            </span>
+          </div>
+        ) : null}
+      </div>
+
+      <div className="flex flex-wrap items-center gap-1.5">
+        <ToneBadge className={statusPillClass(status.tone)} dot={status.dot}>
+          {status.label}
+        </ToneBadge>
+        <ToneBadge className={type.className}>{type.label}</ToneBadge>
+        {stage === 'agreements' && deal.stampDutyAmount ? (
+          <ToneBadge className="bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+            <Receipt className="h-3 w-3" /> Stamp duty
+          </ToneBadge>
+        ) : null}
+      </div>
+
+      <div className="flex items-center justify-between gap-2 border-t border-zinc-100 pt-2 text-[11px] text-zinc-500 dark:border-white/[0.08] dark:text-zinc-400">
+        <span className="inline-flex items-center gap-1">
+          <Calendar className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+          {age !== null ? `${age}d in stage` : formatRelative(deal.createdAt)}
+        </span>
+        {deal.landlord ? (
+          <span className="max-w-[120px] truncate" title={`Landlord: ${deal.landlord.fullName}`}>
+            Landlord: {deal.landlord.fullName.split(' ')[0]}
+          </span>
+        ) : null}
+      </div>
+
+      <div className="flex items-center gap-2 pt-1">
+        <Link
+          href={`/dashboard/agent/deals/${deal.id}`}
+          className="flex-1 rounded bg-zinc-100 py-1.5 text-center text-[13px] font-medium text-zinc-900 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+        >
+          Open Deal
+        </Link>
+        {deal.pdfUrl ? (
+          <a
+            href={deal.pdfUrl}
+            target="_blank"
+            rel="noreferrer"
+            title="Preview agreement"
+            className="rounded bg-zinc-100 px-2 py-1.5 text-zinc-700 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+          >
+            <Eye className="h-4 w-4" />
+          </a>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+// ─── Ledger ───────────────────────────────────────────────────────────────────
+
+function LedgerView({
+  deals,
+  total,
+  emptyAll,
+}: {
+  deals: DealRecord[];
+  total: number;
+  emptyAll: boolean;
+}) {
+  if (emptyAll) {
+    return (
+      <AgentCard>
+        <AgentEmptyState
+          icon={<Table2 className="h-12 w-12" />}
+          title="No ledger records"
+          description="Your agent-scoped agreements will be listed here with their compliance and escrow flags."
+        />
+      </AgentCard>
+    );
+  }
+
+  return (
+    <AgentTableWrap>
+      <AgentCardHeader
+        title="Transaction Ledger &amp; Legal Audit View"
+        subtitle={`Displaying ${deals.length} of ${total} mandated records with compliance signatures and escrow clearance flags.`}
+        icon={<Table2 className="h-5 w-5" />}
+      />
+      <table className="w-full border-collapse text-left text-sm">
+        <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-800/50">
+          <tr>
+            <AgentTh>Deal ID &amp; Property</AgentTh>
+            <AgentTh>Client / Counterparty</AgentTh>
+            <AgentTh>Deal Type</AgentTh>
+            <AgentTh className="text-right">Value (₦)</AgentTh>
+            <AgentTh className="text-right">Caution / EOI</AgentTh>
+            <AgentTh>Stage</AgentTh>
+            <AgentTh>Statutory &amp; Escrow</AgentTh>
+            <AgentTh className="text-right">Actions</AgentTh>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-zinc-100 dark:divide-white/[0.06]">
+          {deals.map((deal) => {
+            const status = statusMeta(deal.status);
+            const type = typeMeta(deal.type);
+            const stage = stageMeta(deal.stage);
+            return (
+              <tr
+                key={deal.id}
+                className="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/40"
+              >
+                <AgentTd>
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-zinc-900 dark:text-white">
+                      {deal.property?.title ?? 'Untitled listing'}
+                    </span>
+                    <span className="font-mono-numeric text-xs text-zinc-500">
+                      {deal.reference}
+                      {deal.property?.area ? ` · ${deal.property.area}` : ''}
+                    </span>
+                  </div>
+                </AgentTd>
+                <AgentTd>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-zinc-900 dark:text-white">
+                      {deal.tenant?.fullName ?? deal.landlord?.fullName ?? '—'}
+                    </span>
+                    <span className="text-xs text-zinc-500">
+                      {deal.tenant ? 'Tenant / Buyer' : 'Landlord / Vendor'}
+                    </span>
+                  </div>
+                </AgentTd>
+                <AgentTd>
+                  <ToneBadge className={type.className}>{type.label}</ToneBadge>
+                </AgentTd>
+                <AgentTd className="text-right font-mono-numeric font-bold">
+                  {formatNairaValue(considerationOf(deal))}
+                  {deal.type !== 'sale' ? (
+                    <span className="text-[11px] font-normal text-zinc-500">/yr</span>
+                  ) : null}
+                </AgentTd>
+                <AgentTd className="text-right font-mono-numeric text-zinc-600 dark:text-zinc-400">
+                  {deal.cautionDeposit > 0 ? formatNairaValue(deal.cautionDeposit) : '—'}
+                </AgentTd>
+                <AgentTd>
+                  <ToneBadge className={statusPillClass(status.tone)} dot={status.dot}>
+                    {stage.shortTitle}
+                  </ToneBadge>
+                </AgentTd>
+                <AgentTd>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+                    {deal.headTenantVerified ? (
+                      <>
+                        <ShieldCheck className="h-3.5 w-3.5" /> Counterparty verified
+                      </>
+                    ) : deal.stampDutyCertificateUrl ? (
+                      <>
+                        <BadgeCheck className="h-3.5 w-3.5" /> Stamp duty certified
+                      </>
+                    ) : (
+                      <>
+                        <ShieldCheck className="h-3.5 w-3.5" /> {status.label}
+                      </>
+                    )}
+                  </span>
+                </AgentTd>
+                <AgentTd className="text-right">
+                  <Link
+                    href={`/dashboard/agent/deals/${deal.id}`}
+                    className="inline-flex items-center gap-0.5 text-[13px] font-medium text-emerald-700 hover:underline dark:text-emerald-400"
+                  >
+                    Details
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </Link>
+                </AgentTd>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </AgentTableWrap>
+  );
 }

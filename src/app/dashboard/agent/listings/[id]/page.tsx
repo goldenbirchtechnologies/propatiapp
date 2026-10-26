@@ -83,7 +83,7 @@ export default async function AgentListingDetailPage({
       applications: {
         orderBy: { createdAt: 'desc' },
         take: 10,
-        select: { id: true, status: true, createdAt: true, applicant: { select: { fullName: true, email: true } } },
+        select: { id: true, status: true, createdAt: true, tenant: { select: { fullName: true, email: true } } },
       },
       agreements: {
         orderBy: { createdAt: 'desc' },
@@ -93,7 +93,7 @@ export default async function AgentListingDetailPage({
       bookings: {
         orderBy: { checkIn: 'desc' },
         take: 5,
-        select: { id: true, status: true, checkIn: true, checkOut: true, totalPrice: true, tenant: { select: { fullName: true } } },
+        select: { id: true, status: true, checkIn: true, checkOut: true, totalPrice: true, guest: { select: { fullName: true } } },
       },
       maintenanceTickets: {
         orderBy: { createdAt: 'desc' },
@@ -225,7 +225,7 @@ export default async function AgentListingDetailPage({
               id: a.id,
               status: a.status,
               createdAt: a.createdAt.toISOString(),
-              applicant: a.applicant,
+              applicant: a.tenant,
             })),
             agreements: listing.agreements.map((a) => ({
               id: a.id,
@@ -238,7 +238,7 @@ export default async function AgentListingDetailPage({
               checkIn: b.checkIn.toISOString(),
               checkOut: b.checkOut.toISOString(),
               totalPrice: toNumber(b.totalPrice),
-              tenant: b.tenant,
+              tenant: b.guest,
             })),
             maintenanceTickets: listing.maintenanceTickets.map((t) => ({
               id: t.id,

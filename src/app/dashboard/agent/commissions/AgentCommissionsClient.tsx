@@ -1,328 +1,486 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { cn, formatCurrency } from '@/lib/utils';
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import {
-  DollarSign,
+  Landmark,
   TrendingUp,
+  BadgeCheck,
+  Lock,
+  Percent,
+  Scale,
   Download,
+  RefreshCw,
+  Search,
+  Receipt,
   CheckCircle2,
   Clock,
-  XCircle,
-  Table2,
+  ArrowRight,
+  Briefcase,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { FailureState } from '@/components/feedback/FailureState';
-import { LoadingState } from '@/components/feedback/LoadingState';
+import {
+  FinancePage,
+  FinanceHeader,
+  FinanceStatCard,
+  FinanceProgress,
+  FinanceStatus,
+  FinanceFilterBar,
+  FinanceSearch,
+  FinanceSelect,
+  FinanceTabs,
+  FinanceTableWrap,
+  FinanceTableHead,
+  FinanceTh,
+  FinanceTd,
+  FinanceTableRow,
+  FinanceEmptyState,
+  FinancePagination,
+  FinanceButton,
+  AGENT_FINANCE_LABEL,
+  naira,
+  nairaShort,
+  formatDate,
+  type FinanceStatusTone,
+} from '@/components/financials/agent/AgentFinanceUI';
+import type {
+  AgentFinanceAgreement,
+  AgentFinanceSummary,
+  AgentFinanceTransaction,
+} from '@/lib/agent-finance-data';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-type CommissionStatus = 'paid' | 'pending' | 'cancelled';
+const PAGE_SIZE = 20;
 
-interface Commission {
+type Props = {
+  summary: AgentFinanceSummary;
+  agreements: AgentFinanceAgreement[];
+  transactions: AgentFinanceTransaction[];
+};
+
+type CommissionRow = {
   id: string;
   deal: string;
+  client: string;
   amount: number;
   rate: string;
   date: string;
-  status: CommissionStatus;
-  client: string;
-}
-
-// ─── Props ────────────────────────────────────────────────────────────────────
-interface AgentCommissionsClientProps {
-  initialCommissions: Commission[];
-  totalEarned: number;
-  totalPaid: number;
-  totalPending: number;
-  onRetry?: () => void;
-}
-
-// ─── Status config ────────────────────────────────────────────────────────────
-const statusConfig: Record<CommissionStatus, { class: string; label: string }> = {
-  paid: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]', label: 'Paid' },
-  pending: { class: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending' },
-  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
+  status: 'paid' | 'escrow' | 'pending';
+  escrowRef: string | null;
 };
 
-// ─── Skeleton helpers ─────────────────────────────────────────────────────────
-const SkeletonStat = () => (
-  <div className="glass-card p-5">
-    <Skeleton className="h-3 w-20 mb-2" />
-    <Skeleton className="h-8 w-24" />
-  </div>
-);
+const STATUS_TONE: Record<CommissionRow['status'], FinanceStatusTone> = {
+  paid: 'success',
+  escrow: 'escrow',
+  pending: 'pending',
+};
 
-const SkeletonRow = () => (
-  <div className="card">
-    <div className="p-5 flex items-center gap-4">
-      <Skeleton className="h-4 w-1/3 flex-shrink-0" />
-      <Skeleton className="h-4 w-20 flex-shrink-0" />
-      <Skeleton className="h-4 w-24 flex-shrink-0" />
-      <Skeleton className="h-5 w-16 rounded-full flex-shrink-0" />
-      <Skeleton className="h-4 w-20 flex-shrink-0 hidden lg:block" />
-    </div>
-  </div>
-);
+const STATUS_LABEL: Record<CommissionRow['status'], string> = {
+  paid: 'Paid Out',
+  escrow: 'Pending Escrow',
+  pending: 'Accruing',
+};
 
-// ─── Stat Card ────────────────────────────────────────────────────────────────
-function CommissionStatCard({
-  label,
-  value,
-  icon: Icon,
-  accent,
-}: {
-  label: string;
-  value: number;
-  icon: React.ReactNode;
-  accent?: string;
-}) {
-  return (
-    <div className="glass-card p-5">
-      <div className="flex items-center gap-3">
-        <div
-          className="p-2 rounded-full flex-shrink-0"
-          style={{ background: 'bg-[#10b981]/10', color: 'text-zinc-900 dark:text-white' }}
-        >
-          {Icon}
-        </div>
-        <div>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-            {label}
-          </p>
-          <p
-            className="text-2xl font-headline-sm font-bold"
-            style={{
-              color: accent || 'text-zinc-900 dark:text-white',
-            }}
-          >
-            {formatCurrency(value)}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+export default function AgentCommissionsClient({ summary, agreements, transactions }: Props) {
+  const [tab, setTab] = useState('all');
+  const [query, setQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [page, setPage] = useState(1);
 
-// ─── Empty State ──────────────────────────────────────────────────────────────
-function EmptyState() {
-  return (
-    <div className="glass-card flex flex-col items-center justify-center p-12 text-center">
-      <DollarSign className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" style={{ opacity: 0.4 }} />
-      <h3 className="font-headline-sm font-bold text-lg mb-2 text-zinc-900 dark:text-white">
-        No commissions yet
-      </h3>
-      <p className="text-xs font-label-sm uppercase tracking-wider mb-6 max-w-sm mx-auto text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-        Your earnings will appear here when deals are closed and transactions are released for you.
-      </p>
-      <Button variant="outline" asChild>
-        <a href="/dashboard/agent/pipeline">View Deal Pipeline</a>
-      </Button>
-    </div>
-  );
-}
+  // Commission rows are derived from released deal consideration (5% standard
+  // agency rate) on the agent's own agreements.
+  const rows = useMemo<CommissionRow[]>(() => {
+    const out: CommissionRow[] = [];
 
-// ─── Commission Row ───────────────────────────────────────────────────────────
-function CommissionRow({ commission }: { commission: Commission }) {
-  const sc = statusConfig[commission.status] || statusConfig.pending;
+    for (const a of agreements) {
+      const released = transactions.filter(
+        (t) => t.status === 'released' && t.description?.includes(a.id),
+      );
+      const explicit = transactions.filter(
+        (t) => t.status === 'released' && t.agentCommission > 0 && t.listingTitle === a.listingTitle,
+      );
 
-  const labelClass = cn(
-    'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border',
-    sc.class
-  );
+      const base =
+        explicit.length > 0
+          ? explicit.reduce((s, t) => s + t.amount, 0)
+          : released.length > 0
+            ? released.reduce((s, t) => s + t.amount, 0)
+            : a.rentAmount;
 
-  return (
-    <div className="card">
-      <div className="p-5 flex flex-wrap items-center gap-4">
-        {/* Deal */}
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-zinc-900 dark:text-white">
-            {commission.deal}
-          </p>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-            Client: {commission.client}
-          </p>
-        </div>
+      if (base <= 0) continue;
 
-        {/* Amount */}
-        <div className="text-right flex-shrink-0">
-          <p className="text-sm font-bold text-zinc-900 dark:text-white">
-            {formatCurrency(commission.amount)}
-          </p>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-            @ {commission.rate}
-          </p>
-        </div>
+      const amount = base * 0.05;
+      const status: CommissionRow['status'] =
+        explicit.some((t) => t.agentCommissionStatus === 'released')
+          ? 'paid'
+          : explicit.some((t) => t.agentCommissionStatus === 'held') || explicit.length > 0
+            ? 'escrow'
+            : a.status === 'fully_signed' || a.status === 'landlord_signed'
+              ? 'escrow'
+              : 'pending';
 
-        {/* Status badge */}
-        <span className={labelClass}>{sc.label}</span>
+      out.push({
+        id: a.id,
+        deal: `${a.type.replace(/_/g, ' ')} — ${a.listingTitle ?? 'Untitled mandate'}`,
+        client: a.tenantName ?? a.landlordName ?? '—',
+        amount,
+        rate: '5%',
+        date: a.createdAt,
+        status,
+        escrowRef: explicit[0]?.reference ?? null,
+      });
+    }
 
-        {/* Date */}
-        <div className="hidden lg:block flex-shrink-0" style={{ minWidth: 70 }}>
-          <p
-            className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400"
-          >
-            {new Date(commission.date).toLocaleDateString('en-NG', {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+    return out.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [agreements, transactions]);
 
-// ─── Filter bar sub-component ─────────────────────────────────────────────────
-function FilterBar({
-  filter,
-  setFilter,
-  counts,
-}: {
-  filter: string;
-  setFilter: (v: string) => void;
-  counts: { all: number; paid: number; pending: number; cancelled: number };
-}) {
-  return (
-    <div className="glass-card p-4 flex items-center justify-between flex-wrap gap-3">
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-          <Table2 className="w-3.5 h-3.5 inline mr-1" />
-          Filter
-        </span>
-        {[
-          { value: 'all', label: 'All' },
-          { value: 'paid', label: 'Paid' },
-          { value: 'pending', label: 'Pending' },
-          { value: 'cancelled', label: 'Cancelled' },
-        ].map((f) => (
-          <button
-            key={f.value}
-            onClick={() => setFilter(f.value)}
-            className={cn(
-              'px-3 py-1.5 rounded-md text-sm font-medium border transition-all',
-              filter === f.value
-                ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50'
-                : 'border-transparent hover:bg-[#171717]/50'
-            )}
-          >
-            {f.label}
-            <Badge
-              variant="secondary"
-              className="ml-2 text-xs px-1.5 py-0 min-w-[20px]"
-            >
-              {counts[f.value as keyof typeof counts]}
-            </Badge>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
+  const counts = useMemo(() => {
+    const c = { all: rows.length, paid: 0, escrow: 0, pending: 0 };
+    for (const r of rows) c[r.status] += 1;
+    return c;
+  }, [rows]);
 
-// ─── Main Client Component ────────────────────────────────────────────────────
-export default function AgentCommissionsClient({
-  initialCommissions,
-  totalEarned,
-  totalPaid,
-  totalPending,
-  onRetry,
-}: AgentCommissionsClientProps) {
-  const [error, setError] = useState<Error | null>(null);
-  const [filter, setFilter] = useState<string>('all');
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return rows.filter((r) => {
+      if (tab !== 'all' && r.status !== tab) return false;
+      if (statusFilter !== 'all' && r.status !== statusFilter) return false;
+      if (!q) return true;
+      return (
+        r.deal.toLowerCase().includes(q) ||
+        r.client.toLowerCase().includes(q) ||
+        (r.escrowRef?.toLowerCase().includes(q) ?? false)
+      );
+    });
+  }, [rows, tab, statusFilter, query]);
 
-  const retry = useCallback(() => {
-    setError(null);
-    onRetry?.();
-  }, [onRetry]);
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const visible = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
-  // Stats (static from server pre-fetch)
-  const commissions = initialCommissions;
-  const counts = {
-    all: commissions.length,
-    paid: commissions.filter((c) => c.status === 'paid').length,
-    pending: commissions.filter((c) => c.status === 'pending').length,
-    cancelled: commissions.filter((c) => c.status === 'cancelled').length,
+  const filteredTotal = filtered.reduce((s, r) => s + r.amount, 0);
+  const paidTotal = filtered.filter((r) => r.status === 'paid').reduce((s, r) => s + r.amount, 0);
+  const escrowTotal = filtered.filter((r) => r.status === 'escrow').reduce((s, r) => s + r.amount, 0);
+  const paidPct = filteredTotal > 0 ? (paidTotal / filteredTotal) * 100 : 0;
+  const escrowPct = filteredTotal > 0 ? (escrowTotal / filteredTotal) * 100 : 0;
+
+  const exportCsv = () => {
+    const header = ['Deal / Mandate', 'Client', 'Rate', 'Amount (NGN)', 'Status', 'Date', 'Escrow Ref'];
+    const body = filtered.map((r) => [
+      r.deal,
+      r.client,
+      r.rate,
+      r.amount.toFixed(2),
+      STATUS_LABEL[r.status],
+      r.date,
+      r.escrowRef ?? '',
+    ]);
+    const csv = [header, ...body]
+      .map((cols) => cols.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `agent-commissions-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const filtered =
-    filter === 'all'
-      ? commissions
-      : commissions.filter((c) => c.status === filter);
+  return (
+    <FinancePage>
+      <FinanceHeader
+        breadcrumb={['Finance', 'Rent & Payments', 'Brokerage Commissions Ledger']}
+        title="Brokerage Commissions & Retainers"
+        description="Immutable commission accounting ledger, statutory 5% agency entitlement tracking, and payout status across every mandated conveyancing deal."
+        badges={
+          <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+            Statutory Ledger
+          </span>
+        }
+        actions={
+          <>
+            <FinanceButton onClick={() => window.location.reload()}>
+              <RefreshCw className="h-3.5 w-3.5" /> Refresh Ledger
+            </FinanceButton>
+            <Link
+              href="/dashboard/agent/pipeline"
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-white/[0.06]"
+            >
+              <Briefcase className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> View Deal Pipeline
+            </Link>
+            <FinanceButton variant="primary" onClick={exportCsv}>
+              <Download className="h-3.5 w-3.5" /> Export CSV
+            </FinanceButton>
+          </>
+        }
+      />
 
-  if (error) {
-    return (
-      <div className="space-y-6">
-        <PageHeader />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <CommissionStatCard label="Total Earned" value={0} icon={<DollarSign className="w-5 h-5" />} />
-          <CommissionStatCard label="Paid Out" value={0} icon={<CheckCircle2 className="w-5 h-5" />} accent="var(--green)" />
-          <CommissionStatCard label="Pending" value={0} icon={<Clock className="w-5 h-5" />} accent="var(--amber)" />
+      {/* Settlement target card */}
+      <div className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/[0.08] dark:bg-zinc-900">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <Landmark className="h-5 w-5" />
         </div>
-        <FailureState
-          title="Unable to load commissions"
-          description={error.message}
-          onRetry={retry}
-          className="py-12"
+        <div className="flex flex-col">
+          <span className={AGENT_FINANCE_LABEL}>Settlement Target</span>
+          <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">
+            Trust wallet · {naira(summary.walletBalance)} available
+          </span>
+          <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Auto-disbursement active
+          </span>
+        </div>
+      </div>
+
+      {/* Statutory regulatory pill */}
+      <div className="flex flex-col items-start justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 md:flex-row md:items-center dark:border-white/[0.08] dark:bg-zinc-800/50">
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+            <Scale className="h-4 w-4" />
+          </div>
+          <p className="text-xs text-zinc-600 dark:text-zinc-400">
+            <strong className="font-semibold text-zinc-900 dark:text-white">Statutory Agent Commission:</strong>{' '}
+            Fixed at 5.0% of transacted deal consideration pursuant to the NIESV Scale of Professional Charges
+            and Lagos State Tenancy Law (Cap. L25, 2015).
+          </p>
+        </div>
+        <span className="inline-flex items-center self-end rounded-full bg-emerald-500/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 md:self-auto">
+          Scale 1A Standard
+        </span>
+      </div>
+
+      {/* Executive metric cards */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <FinanceStatCard
+          label="Total Commission Entitled"
+          value={naira(summary.commissionEntitled)}
+          hint={`${summary.commissionCount} settled deal${summary.commissionCount === 1 ? '' : 's'}`}
+          tone="primary"
+          icon={<Percent className="h-4 w-4" />}
+          footer={
+            <div className="flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                <TrendingUp className="h-3.5 w-3.5" /> Live from released deals
+              </span>
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
+                {summary.agreementCount} mandates
+              </span>
+            </div>
+          }
+        />
+
+        <FinanceStatCard
+          label="Disbursed & Realized"
+          value={naira(summary.commissionReleased)}
+          tone="primary"
+          icon={<BadgeCheck className="h-4 w-4" />}
+          footer={
+            <div className="space-y-2 border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
+              <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-400">
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  NIBSS / Mandate
+                </span>
+                <span className="font-mono">
+                  {counts.paid} batch{counts.paid === 1 ? '' : 'es'}
+                </span>
+              </div>
+              <FinanceProgress value={paidPct} />
+            </div>
+          }
+        />
+
+        <FinanceStatCard
+          label="Pending Escrow & Releases"
+          value={naira(summary.commissionHeld)}
+          tone="amber"
+          icon={<Lock className="h-4 w-4" />}
+          footer={
+            <div className="space-y-2 border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
+              <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-400">
+                <span className="inline-flex items-center gap-1.5">
+                  <Receipt className="h-3.5 w-3.5" /> Awaiting title &amp; consent
+                </span>
+                <span className="font-mono">{counts.escrow} holds</span>
+              </div>
+              <FinanceProgress value={escrowPct} tone="amber" />
+            </div>
+          }
         />
       </div>
-    );
-  }
 
-  return (
-    <div className="space-y-6">
-      <PageHeader />
+      {/* Filter + tabs */}
+      <FinanceFilterBar className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <FinanceTabs
+          active={tab}
+          onChange={(v) => {
+            setTab(v);
+            setPage(1);
+          }}
+          tabs={[
+            { value: 'all', label: 'All Commissions', count: counts.all },
+            { value: 'paid', label: 'Paid Out', count: counts.paid },
+            { value: 'escrow', label: 'Pending Escrow', count: counts.escrow },
+            { value: 'pending', label: 'Accruing', count: counts.pending },
+          ]}
+        />
+        <div className="flex flex-wrap items-center gap-2">
+          <FinanceSearch
+            value={query}
+            onChange={(v) => {
+              setQuery(v);
+              setPage(1);
+            }}
+            placeholder="Search mandate, client or escrow ref..."
+          />
+          <FinanceSelect
+            ariaLabel="Filter by status"
+            value={statusFilter}
+            onChange={(v) => {
+              setStatusFilter(v);
+              setPage(1);
+            }}
+            options={[
+              { value: 'all', label: 'All Statuses' },
+              { value: 'paid', label: 'Paid Out' },
+              { value: 'escrow', label: 'Pending Escrow' },
+              { value: 'pending', label: 'Accruing' },
+            ]}
+            className="min-w-[160px]"
+          />
+        </div>
+      </FinanceFilterBar>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <CommissionStatCard label="Total Earned" value={totalEarned} icon={<DollarSign className="w-5 h-5" />} />
-        <CommissionStatCard label="Paid Out" value={totalPaid} icon={<CheckCircle2 className="w-5 h-5" />} />
-        <CommissionStatCard label="Pending" value={totalPending} icon={<Clock className="w-5 h-5" />} />
-      </div>
-
-      {/* Export bar */}
-      <div className="glass-card p-4 flex items-center justify-between">
-        <p className="text-sm font-medium text-zinc-900 dark:text-white">
-          Commission summary
-        </p>
-        <Button variant="outline" className="gap-2" asChild>
-          <a href="#" onClick={(e) => e.preventDefault()}>
-            <Download className="w-4 h-4" />
-            Export CSV
-          </a>
-        </Button>
-      </div>
-
-      {/* Filter */}
-      <FilterBar filter={filter} setFilter={setFilter} counts={counts} />
-
-      {/* List */}
-      <div className="space-y-3">
-        {filtered.length === 0 ? (
-          <EmptyState />
+      {/* Ledger table */}
+      <FinanceTableWrap>
+        {visible.length === 0 ? (
+          <FinanceEmptyState
+            icon={<Percent className="h-6 w-6" />}
+            title="No commissions yet"
+            description="Your earnings appear here once a mandate under your agency reaches a released transaction. Commissions accrue at the standard 5% agency rate."
+            action={
+              <Link
+                href="/dashboard/agent/pipeline"
+                className="inline-flex h-9 items-center gap-2 rounded-lg bg-emerald-600 px-3.5 text-xs font-medium text-white"
+              >
+                <Briefcase className="h-3.5 w-3.5" /> View Deal Pipeline
+              </Link>
+            }
+          />
         ) : (
-          filtered.map((c) => <CommissionRow key={c.id} commission={c} />)
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <FinanceTableHead>
+                  <FinanceTh>Deal / Mandate</FinanceTh>
+                  <FinanceTh>Client</FinanceTh>
+                  <FinanceTh>Escrow Reference</FinanceTh>
+                  <FinanceTh align="right">Commission (NGN)</FinanceTh>
+                  <FinanceTh>Rate</FinanceTh>
+                  <FinanceTh>Status</FinanceTh>
+                  <FinanceTh>Date</FinanceTh>
+                  <FinanceTh align="center">Actions</FinanceTh>
+                </FinanceTableHead>
+                <tbody className="divide-y divide-zinc-100 dark:divide-white/[0.06]">
+                  {visible.map((r) => (
+                    <FinanceTableRow key={r.id}>
+                      <FinanceTd>
+                        <div className="max-w-[260px] truncate font-semibold text-zinc-900 dark:text-white">
+                          {r.deal}
+                        </div>
+                        <div className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
+                          {r.id.slice(0, 12).toUpperCase()}
+                        </div>
+                      </FinanceTd>
+                      <FinanceTd>
+                        <div className="max-w-[160px] truncate font-medium text-zinc-900 dark:text-white">
+                          {r.client}
+                        </div>
+                      </FinanceTd>
+                      <FinanceTd>
+                        <span className="font-mono text-[11px] text-zinc-700 dark:text-zinc-300">
+                          {r.escrowRef ?? '—'}
+                        </span>
+                      </FinanceTd>
+                      <FinanceTd align="right">
+                        <span className="font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                          {naira(r.amount)}
+                        </span>
+                      </FinanceTd>
+                      <FinanceTd>
+                        <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-zinc-700 dark:bg-white/[0.06] dark:text-zinc-300">
+                          <Percent className="h-3 w-3" /> {r.rate}
+                        </span>
+                      </FinanceTd>
+                      <FinanceTd>
+                        <FinanceStatus tone={STATUS_TONE[r.status]}>
+                          {r.status === 'paid' ? <CheckCircle2 className="h-3 w-3" /> : null}
+                          {r.status === 'escrow' ? <Lock className="h-3 w-3" /> : null}
+                          {r.status === 'pending' ? <Clock className="h-3 w-3" /> : null}
+                          {STATUS_LABEL[r.status]}
+                        </FinanceStatus>
+                      </FinanceTd>
+                      <FinanceTd>
+                        <span className="whitespace-nowrap text-zinc-600 dark:text-zinc-400">
+                          {formatDate(r.date)}
+                        </span>
+                      </FinanceTd>
+                      <FinanceTd align="center">
+                        <Link
+                          href={`/dashboard/agent/commission-ledger?ref=${encodeURIComponent(r.escrowRef ?? r.id)}`}
+                          className="inline-block rounded p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-white/[0.06] dark:hover:text-white"
+                          title="View ledger entry"
+                        >
+                          <Receipt className="h-4 w-4" />
+                        </Link>
+                      </FinanceTd>
+                    </FinanceTableRow>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <FinancePagination
+              page={safePage}
+              pageCount={pageCount}
+              onPage={setPage}
+              summary={`Showing ${(safePage - 1) * PAGE_SIZE + 1} to ${Math.min(
+                safePage * PAGE_SIZE,
+                filtered.length,
+              )} of ${filtered.length} commissions · ${naira(filteredTotal)} total`}
+            />
+          </>
         )}
-      </div>
-    </div>
-  );
-}
+      </FinanceTableWrap>
 
-// ─── Page Header ─────────────────────────────────────────────────────────────
-function PageHeader() {
-  return (
-    <div>
-      <h1
-        className="font-headline-sm font-bold"
-        style={{ fontSize: 'font-headline-sm', color: 'text-zinc-900 dark:text-white' }}
-      >
-        Commissions
-      </h1>
-      <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">
-        Track earnings and payouts per deal
-      </p>
-    </div>
+      {/* Footer cross-links */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white p-4 dark:border-white/[0.08] dark:bg-zinc-900">
+        <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
+          <span>
+            Entitled:{' '}
+            <span className="font-mono font-semibold text-zinc-900 dark:text-white">
+              {naira(summary.commissionEntitled)}
+            </span>
+          </span>
+          <span className="text-zinc-300 dark:text-zinc-700">•</span>
+          <span>
+            Realized:{' '}
+            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+              {naira(summary.commissionReleased)}
+            </span>
+          </span>
+          <span className="text-zinc-300 dark:text-zinc-700">•</span>
+          <span>
+            Held:{' '}
+            <span className="font-mono font-semibold text-amber-600 dark:text-amber-400">
+              {naira(summary.commissionHeld)}
+            </span>
+          </span>
+        </div>
+        <Link
+          href="/dashboard/agent/commission-ledger"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+        >
+          Open commission ledger <ArrowRight className="h-3 w-3" />
+        </Link>
+      </div>
+    </FinancePage>
   );
 }

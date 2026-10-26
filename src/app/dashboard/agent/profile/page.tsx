@@ -24,13 +24,51 @@ export default async function Page() {
       agentTier: true,
       agentApproved: true,
       profileBio: true,
+      agentBio: true,
+      agentAreas: true,
       ninVerified: true,
+      bvnEncrypted: true,
       phoneVerified: true,
       idVerified: true,
+      profileCompleted: true,
+      businessProfiles: {
+        select: {
+          id: true,
+          companyName: true,
+          cacNumber: true,
+          rcNumber: true,
+          verified: true,
+        },
+        take: 1,
+      },
+      licenses: {
+        where: { status: 'approved' },
+        select: {
+          id: true,
+          board: true,
+          licenseType: true,
+          registrationNo: true,
+          issuingBody: true,
+          validUntil: true,
+          reviewedAt: true,
+        },
+        orderBy: { reviewedAt: 'desc' },
+        take: 1,
+      },
+      managedListings: {
+        select: { id: true },
+      },
+      agentAgreements: {
+        where: { status: { in: ['fully_signed', 'tenant_signed', 'landlord_signed'] } },
+        select: { id: true },
+      },
     },
   });
 
   if (!profile) redirect('/sign-in');
+
+  // BVN is stored encrypted; derive the boolean flag the profile UI renders.
+  const profileWithBvn = { ...profile, bvnVerified: Boolean(profile.bvnEncrypted) };
 
   return (
     <DashboardShell
@@ -42,9 +80,9 @@ export default async function Page() {
 
       <ErrorBoundary>
 
-      <AgentProfileClient user={profile} />
-    
+      <AgentProfileClient user={profileWithBvn} />
+
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

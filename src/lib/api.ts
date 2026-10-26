@@ -583,6 +583,11 @@ export const apiEndpoints = {
     accept: (id: string) => api.post<any>(`/agent-invites/${id}/accept`, {}),
     revoke: (id: string) => api.post<any>(`/agent-invites/${id}/revoke`, {}),
   },
+  agentStanding: {
+    getReputation: (params?: { agentId?: string }) => api.get<any>('/agent/reputation', params as any),
+    getLicenses: (params?: { agentId?: string }) => api.get<any>('/agent/licenses', params as any),
+    submitLicense: (data: any) => api.post<any>('/agent/licenses', data),
+  },
   invoices: {
     list: (params?: PaginationParams) => api.get<PaginatedResponse<any>>('/invoices', params),
     getById: (id: string) => api.get<any>(`/invoices/${id}`),

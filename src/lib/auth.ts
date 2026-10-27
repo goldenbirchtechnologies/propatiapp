@@ -173,6 +173,8 @@ export async function syncClerkUser(clerkUser: Awaited<ReturnType<typeof current
       role,
       password: 'clerk_managed',
       isActive: true,
+      onboardingRequired: true,
+      onboardingStatus: 'not_started',
     },
   });
 }

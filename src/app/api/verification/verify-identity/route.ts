@@ -149,11 +149,14 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      // Update listing verification tier
-      await prisma.listing.update({
-        where: { id: verification.listingId },
-        data: { verificationTier: 'verified' },
-      });
+      // Update listing verification tier. User-level identity verifications
+      // have no listing, so this must be skipped rather than crash on a null id.
+      if (verification.listingId) {
+        await prisma.listing.update({
+          where: { id: verification.listingId },
+          data: { verificationTier: 'verified' },
+        });
+      }
 
       // Update user's identity verification status
       await prisma.user.update({

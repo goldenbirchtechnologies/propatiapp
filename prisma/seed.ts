@@ -5,6 +5,7 @@
 
 import { PrismaClient, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
+import { seedCountriesAndJurisdictions } from './seed-countries';
 
 const prisma = new PrismaClient();
 
@@ -58,6 +59,14 @@ async function main() {
     ]);
     console.log('✅ Cleanup complete\n');
   }
+
+  // ---------------------------------------------------------------------------
+  // 0. COUNTRIES & JURISDICTIONS
+  // Required by user onboarding (country/state jurisdiction mapping) and by
+  // listings, which reference a jurisdiction.
+  // ---------------------------------------------------------------------------
+  console.log('🌍 Seeding countries and jurisdictions...');
+  await seedCountriesAndJurisdictions(prisma);
 
   // ---------------------------------------------------------------------------
   // 1. CREATE 5 TEST USERS (one per role)

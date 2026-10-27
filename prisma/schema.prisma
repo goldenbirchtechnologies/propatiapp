@@ -490,6 +490,13 @@ enum KycStatus {
   requires_review
 }
 
+enum OnboardingStatus {
+  not_started
+  in_progress
+  blocked
+  completed
+}
+
 // ===========================================================================
 // CORE AUTHENTICATION (4 tables)
 // ===========================================================================
@@ -512,6 +519,8 @@ model User {
   bvnEncrypted          String?   @map("bvn_encrypted")
   idType                IdType?   @map("id_type")
   idNumberEnc           String?   @map("id_number_enc")
+  idNumberHash          String?   @unique @map("id_number_hash")
+  emailVerified         Boolean   @default(false) @map("email_verified")
   idVerified            Boolean   @default(false) @map("id_verified")
   idDocUrl              String?   @map("id_doc_url")
   phoneVerified         Boolean   @default(false) @map("phone_verified")
@@ -533,6 +542,20 @@ model User {
   isActive              Boolean   @default(true) @map("is_active")
   isBanned              Boolean   @default(false) @map("is_banned")
   banReason             String?   @map("ban_reason")
+
+  // Location / Jurisdiction
+  city                  String?   @map("city")
+  jurisdictionId        String?   @map("jurisdiction_id")
+  addressLine1          String?   @map("address_line_1")
+  addressLine2          String?   @map("address_line_2")
+
+  // Onboarding
+  // onboardingRequired defaults to false so pre-existing accounts are never
+  // gated by the onboarding overlay. Only accounts created through the Clerk
+  // signup webhook set it to true.
+  onboardingRequired    Boolean   @default(false) @map("onboarding_required")
+  onboardingStatus      OnboardingStatus @default(not_started) @map("onboarding_status")
+  onboardingCompletedAt DateTime? @map("onboarding_completed_at")
 
   // Agent Specific
   agentTier             AgentTier @default(standard) @map("agent_tier")
@@ -608,6 +631,9 @@ model User {
   paystackAccount       UserPaystackAccount?
   userKyc               UserKyc?
   country               Country?      @relation(fields: [countryId], references: [code])
+  jurisdiction          Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
+  userOnboarding        UserOnboarding?
+  rentalDossiers        RentalApplicationDossier[]
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -632,6 +658,89 @@ model UserKyc {
 
   @@index([userId], map: "idx_user_kyc_user")
   @@map("user_kyc")
+}
+
+// ===========================================================================
+// ONBOARDING (2 tables)
+// ===========================================================================
+
+// Per-step detail for the signup onboarding wizard. The gate itself reads the
+// denormalised User.onboardingStatus / User.onboardingRequired columns; this
+// table holds the step-by-step breakdown used to resume a partially
+// completed wizard and to report where users are dropping out.
+model UserOnboarding {
+  id              String           @id @default(cuid()) @map("id")
+  userId          String           @unique @map("user_id")
+  role            UserRole         @map("role")
+  status          OnboardingStatus @default(not_started) @map("status")
+  currentStep     String           @default("location") @map("current_step")
+  locationDone    Boolean          @default(false) @map("location_done")
+  contactDone     Boolean          @default(false) @map("contact_done")
+  identityDone    Boolean          @default(false) @map("identity_done")
+  employmentDone  Boolean          @default(false) @map("employment_done")
+  guarantorDone   Boolean          @default(false) @map("guarantor_done")
+  completedAt     DateTime?        @map("completed_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_onboardings")
+}
+
+// A tenant's pre-tenancy rental application. Unlike Application, which is a
+// response to a specific listing from a specific landlord, this dossier has no
+// property attached: it is the tenant's own standing profile, captured during
+// onboarding and later copied into an Application when they apply for a home.
+model RentalApplicationDossier {
+  id             String   @id @default(cuid()) @map("id")
+  userId         String   @unique @map("user_id")
+  status         String   @default("draft") @map("status")
+
+  // Address
+  addressLine1   String?  @map("address_line_1")
+  addressLine2   String?  @map("address_line_2")
+  city           String?  @map("city")
+  countryId      String?  @map("country_id")
+  jurisdictionId String?  @map("jurisdiction_id")
+
+  // Employment
+  employmentStatus  EmploymentStatus? @map("employment_status")
+  employmentType    EmploymentType?   @map("employment_type")
+  employerName      String?  @map("employer_name")
+  jobTitle          String?  @map("job_title")
+  yearlyIncome      BigInt?  @map("yearly_income")
+  yearsInEmployment String?  @map("years_in_employment")
+
+  // Guarantor
+  guarantorName         String? @map("guarantor_name")
+  guarantorPhone        String? @map("guarantor_phone")
+  guarantorRelationship String? @map("guarantor_relationship")
+  guarantorAddress      String? @map("guarantor_address")
+  guarantorOccupation   String? @map("guarantor_occupation")
+
+  // Identity
+  idType      IdType? @map("id_type")
+  idNumberEnc String? @map("id_number_enc")
+  idDocUrl    String? @map("id_doc_url")
+  idVerified  Boolean @default(false) @map("id_verified")
+
+  // Property preferences
+  preferredListingType ListingType? @map("preferred_listing_type")
+  monthlyBudget         BigInt?     @map("monthly_budget")
+
+  submittedAt   DateTime? @map("submitted_at")
+  reviewedAt    DateTime? @map("reviewed_at")
+  reviewerNotes String?   @map("reviewer_notes")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country     Country?     @relation(fields: [countryId], references: [code])
+  jurisdiction Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
+
+  @@index([status], map: "idx_rental_dossier_status")
+  @@map("rental_application_dossiers")
 }
 
 model RefreshToken {
@@ -2227,6 +2336,7 @@ model Country {
   legalMatters   LegalMatter[]
   jurisdictionRules JurisdictionRule[]
   documentTemplates DocumentTemplate[]
+  rentalDossiers    RentalApplicationDossier[]
 
   @@map("countries")
 }
@@ -2246,6 +2356,8 @@ model Jurisdiction {
   legalMatters      LegalMatter[]
   jurisdictionRules JurisdictionRule[]
   documentTemplates DocumentTemplate[]
+  users          User[]
+  rentalDossiers    RentalApplicationDossier[]
   @@index([countryId], map: "idx_jurisdictions_country")
   @@map("jurisdictions")
 }

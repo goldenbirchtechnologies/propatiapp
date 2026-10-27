@@ -8,6 +8,7 @@ import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SidebarOverlay } from '@/components/layout/sidebar';
+import { OnboardingGate } from '@/components/onboarding/OnboardingGate';
 import { cn } from '@/lib/utils';
 import { getDashboardPageTitle } from '@/lib/dashboard-titles';
 import {
@@ -376,6 +377,7 @@ export default function TenantRailShell({
           </button>
         </nav>
       </main>
+      <OnboardingGate />
     </div>
   );
 }

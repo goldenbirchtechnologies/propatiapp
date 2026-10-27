@@ -44,9 +44,12 @@ export async function POST(request: NextRequest) {
       create: {
         clerkId,
         email: primaryEmail || `${clerkId}@clerk.local`,
-        phone: clerkUser.phone_numbers?.[0]?.phone_number || '',
+        // '' is a valid non-null value on a @unique column, so two phone-less
+        // signups collide on the unique index. Store null instead.
+        phone: clerkUser.phone_numbers?.[0]?.phone_number || null,
         fullName: fullName || clerkId,
         role,
+        onboardingRequired: true,
       },
       select: { id: true, email: true },
     });

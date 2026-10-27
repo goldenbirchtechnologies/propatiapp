@@ -959,3 +959,71 @@ export type ConflictCheckInput = z.infer<typeof conflictCheckSchema>;
 export type LawyerDocumentInput = z.infer<typeof lawyerDocumentSchema>;
 
 export type MarkNotificationReadInput = z.infer<typeof markNotificationReadSchema>;
+
+// ===========================================================================
+// ONBOARDING
+// ===========================================================================
+
+export const onboardingLocationSchema = z.object({
+  countryCode: z.string().length(2, 'Select a country'),
+  jurisdictionId: z.string().min(1).optional(),
+  jurisdictionCode: z.string().min(1).optional(),
+  city: z.string().min(2, 'Enter a city').max(100),
+  addressLine1: z.string().max(200).optional(),
+  addressLine2: z.string().max(200).optional(),
+});
+
+export const onboardingContactSchema = z.object({
+  phone: phoneSchema,
+});
+
+export const onboardingPhoneVerifySchema = z.object({
+  code: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
+});
+
+export const onboardingIdentitySchema = z.object({
+  idType: idTypeSchema,
+  number: z.string().min(5, 'Enter a valid ID number').max(20),
+});
+
+export const onboardingEmploymentSchema = z.object({
+  employmentStatus: z.enum([
+    'employed',
+    'self_employed',
+    'business_owner',
+    'student',
+    'retired',
+    'unemployed',
+  ]),
+  employmentType: z
+    .enum(['full_time', 'part_time', 'contract', 'freelance', 'internship'])
+    .optional(),
+  employerName: z.string().min(2, 'Enter your employer').max(120).optional(),
+  jobTitle: z.string().min(2, 'Enter your job title').max(120).optional(),
+  yearlyIncome: z.coerce.number().nonnegative().optional(),
+  yearsInEmployment: z.string().max(20).optional(),
+});
+
+export const onboardingGuarantorSchema = z.object({
+  guarantorName: z.string().min(2, "Enter your guarantor's name").max(120),
+  guarantorPhone: phoneSchema,
+  guarantorRelationship: z.string().min(2, 'Describe your relationship').max(60),
+  guarantorAddress: z.string().max(200).optional(),
+  guarantorOccupation: z.string().max(120).optional(),
+});
+
+export const onboardingRentalApplicationSchema = z.object({
+  addressLine1: z.string().min(4, 'Enter your address').max(200),
+  addressLine2: z.string().max(200).optional(),
+  city: z.string().min(2, 'Enter your city').max(100),
+  preferredListingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']).optional(),
+  monthlyBudget: z.coerce.number().nonnegative().optional(),
+});
+
+export type OnboardingLocationInput = z.infer<typeof onboardingLocationSchema>;
+export type OnboardingContactInput = z.infer<typeof onboardingContactSchema>;
+export type OnboardingPhoneVerifyInput = z.infer<typeof onboardingPhoneVerifySchema>;
+export type OnboardingIdentityInput = z.infer<typeof onboardingIdentitySchema>;
+export type OnboardingEmploymentInput = z.infer<typeof onboardingEmploymentSchema>;
+export type OnboardingGuarantorInput = z.infer<typeof onboardingGuarantorSchema>;
+export type OnboardingRentalApplicationInput = z.infer<typeof onboardingRentalApplicationSchema>;

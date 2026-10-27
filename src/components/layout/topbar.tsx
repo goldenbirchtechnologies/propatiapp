@@ -172,9 +172,9 @@ function UserMenu({ userRole }: { userRole?: string }) {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/api/auth/sign-out" className="cursor-pointer text-destructive">
+          <a href="/api/auth/sign-out" className="cursor-pointer text-destructive">
             Sign Out
-          </Link>
+          </a>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

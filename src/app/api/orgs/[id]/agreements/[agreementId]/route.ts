@@ -2,17 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 
-// GET /api/orgs/[orgId]/agreements/[agreementId]
+// GET /api/orgs/[id]/agreements/[agreementId]
 // Get a single agreement scoped to the organization
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ orgId: string; agreementId: string }> }
+  { params }: { params: Promise<{ id: string; agreementId: string }> }
 ) {
   const authResult = await withAuth(request, ['estate_manager', 'admin']);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
-  const { orgId, agreementId } = await params;
+  const { id: orgId, agreementId } = await params;
 
   try {
     // Verify user is an active member of the org
@@ -39,7 +39,6 @@ export async function GET(
         },
         tenant: { select: { id: true, fullName: true, email: true } },
         landlord: { select: { id: true, fullName: true, email: true } },
-        documentUrl: true,
       },
     });
 

@@ -332,9 +332,9 @@ export default function TenantRailShell({
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/api/auth/sign-out" className="w-full cursor-pointer text-destructive">
+                  <a href="/api/auth/sign-out" className="w-full cursor-pointer text-destructive">
                     Sign Out
-                  </Link>
+                  </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

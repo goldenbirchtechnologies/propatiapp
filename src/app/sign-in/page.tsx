@@ -1,7 +1,6 @@
 'use client';
 
 import { SignIn } from '@clerk/nextjs';
-import Image from 'next/image';
 
 export default function SignInPage() {
   return (
@@ -78,15 +77,9 @@ export default function SignInPage() {
         </div>
       </div>
 
-      {/* Right Panel - Lagos Skyline + Testimonial */}
+      {/* Right Panel - Brand Panel + Testimonial */}
       <div className="hidden lg:block lg:flex-1 relative overflow-hidden bg-black">
-        <Image
-          src="https://lh3.googleusercontent.com/aida/AEtjO1VmMLy92cRQcjgJD7XBsJCNiyHj_kR4KM3V4_eEt7rAroioKX4QJ4HrpFTUD-nHW8RgYFs3Ry4ne4d-NVZE_xyx8yjEdgs_MU1426Jt5bV_Q99xXo2g5QEI4RO6wCZ3M1si5KdJ7PajYhMekHnF4rJONcEjVWYgZDjIp0tNcgadSKMooY9Ed9vyOSa7q3oadVBEnc5TIEW2PspJOPJDZBayHzL7eeFfzH3GQR66gGG32n9v3eJ7Iu87wBuc"
-          alt="Lagos Skyline"
-          fill
-          className="absolute inset-0 object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
-          priority
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.18),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(21,101,192,0.16),transparent_55%)]" />
         {/* Gradient Scrim */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30" />
 

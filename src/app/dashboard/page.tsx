@@ -1,6 +1,7 @@
 import { getCurrentUser, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { resolveAuthUserId } from '@/lib/auth-bypass';
+import DashboardLandingClient from './DashboardLandingClient';
 
 export default async function DashboardRootPage() {
   const userId = await resolveAuthUserId();
@@ -15,8 +16,8 @@ export default async function DashboardRootPage() {
     redirect(getRoleRedirectPath(user.role));
   }
 
-  // Authenticated with Clerk, but Prisma user is not resolvable yet.
-  // Avoid redirecting the user away from the dashboard on a transient
-  // session/provisioning gap; a refresh or client-side retry can resolve it.
-  return null;
+  // Clerk is authenticated but Prisma has not created (or cannot resolve)
+  // the user yet — webhook latency, a transient DB blip, or a migration gap.
+  // Render a client component that retries provisioning rather than a blank.
+  return <DashboardLandingClient />;
 }

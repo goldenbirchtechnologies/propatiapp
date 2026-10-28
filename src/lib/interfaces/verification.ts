@@ -1,4 +1,3 @@
-import type { verifyNIN, verifyBVN } from '../prembly';
 import type { DojahVerifyBVNResponse, DojahVerifyNINResponse } from '../dojah';
 
 export interface IdentityVerificationResult {

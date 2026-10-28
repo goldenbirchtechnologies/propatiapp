@@ -1,21 +1,21 @@
 import type { VerificationProvider, IdentityVerificationResult, BusinessVerificationResult } from '../../interfaces';
-import { verifyNIN, verifyBVN } from '../../prembly';
+import { prembly } from '../../prembly';
 
 export const verificationProvider: VerificationProvider = {
   async verifyIdentity(idType, idNumber, firstName, lastName) {
     if (idType === 'nin') {
-      const result = await verifyNIN(idNumber, firstName, lastName);
+      const result = await prembly.verifyNIN(idNumber, firstName ?? '', lastName ?? '');
       return {
-        verified: result.verified,
-        fullName: result.fullName,
+        verified: result.status === 'success',
+        fullName: `${result.detail.firstname ?? ''} ${result.detail.surname ?? ''}`.trim() || undefined,
         raw: result as unknown as Record<string, unknown>,
       };
     }
     if (idType === 'bvn') {
-      const result = await verifyBVN(idNumber);
+      const result = await prembly.verifyBVN(idNumber, firstName ?? '', lastName ?? '');
       return {
-        verified: result.verified,
-        fullName: result.fullName,
+        verified: result.status === 'success',
+        fullName: `${result.detail.firstname ?? ''} ${result.detail.surname ?? ''}`.trim() || undefined,
         raw: result as unknown as Record<string, unknown>,
       };
     }

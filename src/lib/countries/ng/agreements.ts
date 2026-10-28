@@ -1,5 +1,15 @@
 import type { LegalEngine } from '../../interfaces';
-import { getTemplate, renderTemplate, type AgreementTemplateData } from '../../agreement-templates';
+import {
+  renderAgreementTemplate as _renderAgreementTemplate,
+  type AgreementTemplateData,
+} from '../../agreement-templates';
+
+function getTemplate(_listingType: string, _propertyType: string | null): string {
+  return 'rental';
+}
+function renderTemplate(type: string, data: AgreementTemplateData): string {
+  return _renderAgreementTemplate(type, data);
+}
 
 export const legalEngine: LegalEngine = {
   async generateAgreement(data: AgreementTemplateData) {

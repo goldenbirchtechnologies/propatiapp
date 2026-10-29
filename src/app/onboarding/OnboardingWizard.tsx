@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import StepProgress from '@/components/onboarding/StepProgress';
 import LocationStep from './steps/LocationStep';
@@ -10,8 +10,31 @@ import ContactStep from './steps/ContactStep';
 import IdentityStep from './steps/IdentityStep';
 import EmploymentStep from './steps/EmploymentStep';
 import GuarantorStep from './steps/GuarantorStep';
+import LandlordProfileStep from './steps/LandlordProfileStep';
+import LandlordSettlementStep from './steps/LandlordSettlementStep';
+import AgentProfileStep from './steps/AgentProfileStep';
+import AgentLicenseStep from './steps/AgentLicenseStep';
+import AgentTerritoryStep from './steps/AgentTerritoryStep';
+import AgentSettlementStep from './steps/AgentSettlementStep';
+import EstateProfileStep from './steps/EstateProfileStep';
+import EstateAuthorityStep from './steps/EstateAuthorityStep';
+import EstateRemittanceStep from './steps/EstateRemittanceStep';
 
-type StepId = 'location' | 'contact' | 'identity' | 'employment' | 'guarantor';
+type StepId =
+  | 'location'
+  | 'contact'
+  | 'identity'
+  | 'employment'
+  | 'guarantor'
+  | 'landlordProfile'
+  | 'landlordSettlement'
+  | 'agentProfile'
+  | 'agentLicense'
+  | 'agentTerritory'
+  | 'agentSettlement'
+  | 'estateProfile'
+  | 'estateAuthority'
+  | 'estateRemittance';
 
 interface OnboardingWizardProps {
   role: string;
@@ -27,27 +50,26 @@ interface StepInfo {
   description: string;
 }
 
-const STEP_INFOS: Record<StepId, StepInfo> = {
-  location: { id: 'location', title: 'Location', description: 'Country, state and city' },
-  contact: { id: 'contact', title: 'Contact', description: 'Phone number' },
-  identity: { id: 'identity', title: 'Identity', description: 'Verify your ID' },
-  employment: { id: 'employment', title: 'Employment', description: 'Job & income' },
-  guarantor: { id: 'guarantor', title: 'Guarantor', description: 'Guarantor details' },
-};
-
-const COMPONENT_MAP: Record<StepId, React.ComponentType<{ stepId: StepId }>> = {
+const COMPONENT_MAP: Record<string, React.ComponentType> = {
   location: LocationStep,
   contact: ContactStep,
   identity: IdentityStep,
   employment: EmploymentStep,
   guarantor: GuarantorStep,
+  landlordProfile: LandlordProfileStep,
+  landlordSettlement: LandlordSettlementStep,
+  agentProfile: AgentProfileStep,
+  agentLicense: AgentLicenseStep,
+  agentTerritory: AgentTerritoryStep,
+  agentSettlement: AgentSettlementStep,
+  estateProfile: EstateProfileStep,
+  estateAuthority: EstateAuthorityStep,
+  estateRemittance: EstateRemittanceStep,
 };
 
 export default function OnboardingWizard({
   role,
   initialStep,
-  initialStatus,
-  canComplete,
   embedded = false,
 }: OnboardingWizardProps) {
   const router = useRouter();
@@ -67,7 +89,7 @@ export default function OnboardingWizard({
       .then((json) => {
         if (!cancelled) {
           const data = json.data;
-          const steps: StepInfo[] = data.steps.map((s: any) => ({
+          const steps: StepInfo[] = (data.steps ?? []).map((s: { id: string; title: string; description: string }) => ({
             id: s.id as StepId,
             title: s.title,
             description: s.description,
@@ -79,7 +101,7 @@ export default function OnboardingWizard({
             canComplete: data.canComplete,
           });
           if (steps.length > 0) {
-            const startStep = initialStep ?? data.currentStep ?? steps[0].id;
+            const startStep = initialStep ?? (data.currentStep as StepId) ?? steps[0].id;
             const idx = steps.findIndex((s) => s.id === startStep);
             setStepIndex(Math.max(0, idx));
           }
@@ -102,7 +124,7 @@ export default function OnboardingWizard({
 
   const activeStep = status.steps[stepIndex];
   if (!activeStep) return null;
-  const StepComponent = COMPONENT_MAP[activeStep.id];
+  const StepComponent = COMPONENT_MAP[activeStep.id] ?? (() => null);
   const isLastStep = stepIndex === status.steps.length - 1;
 
   return (
@@ -123,14 +145,14 @@ export default function OnboardingWizard({
       </div>
 
       <div className="flex items-end gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">{activeStep.title}</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-white">{activeStep.title}</h1>
         <span className="ml-auto text-xs bg-zinc-800 px-3 py-1 rounded-full text-zinc-400">
           Step {stepIndex + 1} of {status.steps.length}
         </span>
       </div>
       <p className="text-zinc-400 mb-8">{activeStep.description}</p>
 
-      <StepComponent stepId={activeStep.id} />
+      <StepComponent />
 
       <div className="mt-10 flex items-center justify-between">
         {stepIndex > 0 && (

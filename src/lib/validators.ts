@@ -1027,3 +1027,112 @@ export type OnboardingIdentityInput = z.infer<typeof onboardingIdentitySchema>;
 export type OnboardingEmploymentInput = z.infer<typeof onboardingEmploymentSchema>;
 export type OnboardingGuarantorInput = z.infer<typeof onboardingGuarantorSchema>;
 export type OnboardingRentalApplicationInput = z.infer<typeof onboardingRentalApplicationSchema>;
+
+// Landlord — Steps 4 & 5
+
+export const onboardingLandlordProfileSchema = z.object({
+  legalEntityType: z.enum(['individual', 'joint', 'company']),
+  legalName: z.string().min(2, 'Enter the legal name').max(200),
+  jointOwnerNames: z.string().max(500).optional(),
+  companyName: z.string().max(200).optional(),
+  primaryPhone: phoneSchema,
+  contactEmail: emailSchema,
+  mailingAddress: z.string().min(4).max(300),
+  taxIdType: z.enum(['tin', 'nin', 'other']),
+  taxNumber: z.string().min(5).max(30),
+});
+
+export const onboardingLandlordSettlementSchema = z.object({
+  accountName: z.string().min(2).max(120),
+  bankName: z.string().min(2).max(80),
+  accountNumber: z.string().regex(/^\d{10,12}$/, 'NUBAN must be 10–12 digits'),
+  bvn: z.string().regex(/^\d{11}$/, 'BVN must be 11 digits').optional(),
+  targetMonthlyRent: z.coerce.number().nonnegative().optional(),
+  targetAnnualRent: z.coerce.number().nonnegative().optional(),
+  securityDeposit: z.coerce.number().nonnegative().optional(),
+  preferredLeaseDuration: z.enum(['6m', '12m', '24m', 'flexible']).optional(),
+  commissionConsent: z.literal(true, { errorMap: () => ({ message: 'You must acknowledge the fee terms' }) }),
+});
+
+// Agent — Steps 4–7
+
+export const onboardingAgentProfileSchema = z.object({
+  legalName: z.string().min(2).max(200),
+  dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD').optional(),
+  homeAddress: z.string().min(4).max(300).optional(),
+  businessPhone: phoneSchema,
+  corporateEmail: z.string().email('Enter a valid corporate email').optional(),
+  ninOrBvnOrTin: z.string().min(5).max(30).optional(),
+  emergencyContactName: z.string().min(2).max(120),
+  emergencyContactPhone: phoneSchema,
+  emergencyContactRelationship: z.string().min(2).max(60),
+});
+
+export const onboardingAgentLicenseSchema = z.object({
+  board: z.string().min(2, 'Enter the board (e.g. REDAN, NIESV)').max(60),
+  licenseNumber: z.string().min(2).max(60),
+  certificateFileName: z.string().max(200).optional(),
+  isAgency: z.boolean().optional(),
+  cacDocumentFileName: z.string().max(200).optional(),
+  indemnityPolicyNumber: z.string().max(60).optional(),
+  indemnityExpiryDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD').optional(),
+  codeOfConductConsent: z.literal(true, { errorMap: () => ({ message: 'Background & code of conduct assent is required' }) }),
+});
+
+export const onboardingAgentTerritorySchema = z.object({
+  operationalTerritories: z.array(z.string().min(2)).min(1, 'Select at least one territory'),
+  focusAreas: z.array(z.string().min(2)).min(1, 'Select at least one focus area'),
+  activeListingsCount: z.coerce.number().int().nonnegative().optional(),
+});
+
+export const onboardingAgentSettlementSchema = z.object({
+  bankName: z.string().min(2).max(80),
+  accountName: z.string().min(2).max(120),
+  accountNumber: z.string().regex(/^\d{10,12}$/, 'NUBAN must be 10–12 digits'),
+  commissionSplitPercent: z.coerce.number().min(0).max(100).optional(),
+  subscriptionTier: z.string().max(40).optional(),
+  primaryDeviceOs: z.enum(['ios', 'android', 'both']).optional(),
+  crmNotes: z.string().max(500).optional(),
+});
+
+// Estate Manager — Steps 4–6
+
+export const onboardingEstateProfileSchema = z.object({
+  legalEntityName: z.string().min(2).max(200),
+  isCorporate: z.boolean().optional(),
+  cacTinNumber: z.string().min(5).max(30).optional(),
+  professionalCredentialNumber: z.string().min(2).max(60).optional(),
+  professionalCredentialBoard: z.string().max(60).optional(),
+  officeAddress: z.string().min(4).max(300),
+  businessPhone: phoneSchema.optional(),
+  emergencyHotline: phoneSchema.optional(),
+});
+
+export const onboardingEstateAuthoritySchema = z.object({
+  hasManagementAgreement: z.boolean(),
+  agreementFileName: z.string().max(200).optional(),
+  evictionAuthority: z.boolean(),
+  evictionAuthorityNote: z.string().max(500).optional(),
+  minIncomeThreshold: z.coerce.number().nonnegative().optional(),
+  guarantorRequirementNote: z.string().max(500).optional(),
+});
+
+export const onboardingEstateRemittanceSchema = z.object({
+  trustBankName: z.string().min(2).max(80),
+  trustAccountName: z.string().min(2).max(120),
+  trustAccountNumber: z.string().regex(/^\d{10,12}$/, 'NUBAN must be 10–12 digits'),
+  remittanceCycle: z.enum(['instant', 'monthly', 'annual']),
+  managementFeeType: z.enum(['percent', 'flat']).optional(),
+  managementFeeValue: z.coerce.number().nonnegative().optional(),
+  whtInstructionAcknowledged: z.boolean().optional(),
+});
+
+export type OnboardingLandlordProfileInput = z.infer<typeof onboardingLandlordProfileSchema>;
+export type OnboardingLandlordSettlementInput = z.infer<typeof onboardingLandlordSettlementSchema>;
+export type OnboardingAgentProfileInput = z.infer<typeof onboardingAgentProfileSchema>;
+export type OnboardingAgentLicenseInput = z.infer<typeof onboardingAgentLicenseSchema>;
+export type OnboardingAgentTerritoryInput = z.infer<typeof onboardingAgentTerritorySchema>;
+export type OnboardingAgentSettlementInput = z.infer<typeof onboardingAgentSettlementSchema>;
+export type OnboardingEstateProfileInput = z.infer<typeof onboardingEstateProfileSchema>;
+export type OnboardingEstateAuthorityInput = z.infer<typeof onboardingEstateAuthoritySchema>;
+export type OnboardingEstateRemittanceInput = z.infer<typeof onboardingEstateRemittanceSchema>;

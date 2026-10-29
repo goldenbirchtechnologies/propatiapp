@@ -18,6 +18,15 @@ export interface UserOnboardingFacts {
   guarantorName: string | null;
   guarantorPhone: string | null;
   guarantorRelationship: string | null;
+  landlordLegalName?: string | null;
+  landlordSettlementComplete?: boolean;
+  agentProfileComplete?: boolean;
+  agentLicenseComplete?: boolean;
+  agentTerritoryComplete?: boolean;
+  agentSettlementComplete?: boolean;
+  estateProfileComplete?: boolean;
+  estateAuthorityComplete?: boolean;
+  estateRemittanceComplete?: boolean;
 }
 
 /**
@@ -32,6 +41,15 @@ export const STEP_PREDICATES: Record<StepId, (u: UserOnboardingFacts) => boolean
   employment: (u) =>
     !!u.employmentStatus && !!u.employerName && !!u.jobTitle && u.yearlyIncome != null,
   guarantor: (u) => !!u.guarantorName && !!u.guarantorPhone && !!u.guarantorRelationship,
+  landlordProfile: (u) => !!u.landlordLegalName,
+  landlordSettlement: (u) => !!u.landlordSettlementComplete,
+  agentProfile: (u) => !!u.agentProfileComplete,
+  agentLicense: (u) => !!u.agentLicenseComplete,
+  agentTerritory: (u) => !!u.agentTerritoryComplete,
+  agentSettlement: (u) => !!u.agentSettlementComplete,
+  estateProfile: (u) => !!u.estateProfileComplete,
+  estateAuthority: (u) => !!u.estateAuthorityComplete,
+  estateRemittance: (u) => !!u.estateRemittanceComplete,
 };
 
 export interface OnboardingStepState {

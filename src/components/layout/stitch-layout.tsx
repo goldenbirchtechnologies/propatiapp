@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 const navLinks = [
   { href: '/listings', label: 'Properties' },
@@ -62,18 +63,8 @@ export function StitchHeader() {
       }`}
     >
       <div className="h-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md">
-            P
-          </div>
-          <div className="flex flex-col">
-            <span className="font-title-md text-title-md tracking-tight font-bold text-primary">
-              Propati<span className="text-on-surface">Box</span>
-            </span>
-            <span className="font-label-sm text-label-sm text-outline tracking-wider uppercase">
-              Nigeria Enterprise
-            </span>
-          </div>
+        <Link href="/" className="flex items-center group">
+          <PropatiBoxLogo size="sm" />
         </Link>
 
         <nav className="hidden xl:flex items-center gap-3 sm:gap-6 2xl:gap-8">
@@ -121,18 +112,8 @@ export function StitchFooter() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-14">
           {/* Brand col */}
           <div className="col-span-2 md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md">
-                P
-              </div>
-              <div className="flex flex-col">
-                <span className="font-title-md text-title-md font-bold text-primary">
-                  Propati<span className="text-on-surface">Box</span>
-                </span>
-                <span className="font-label-sm text-label-sm text-outline tracking-wider uppercase">
-                  Nigeria Enterprise
-                </span>
-              </div>
+            <div className="mb-4">
+              <PropatiBoxLogo size="sm" />
             </div>
             <p className="text-sm text-on-surface-variant leading-relaxed max-w-xs">
               Nigeria&apos;s premier verified property marketplace. Find, rent, buy, and

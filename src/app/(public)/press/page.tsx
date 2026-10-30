@@ -13,13 +13,13 @@ const coverage = [
 
 export default function PressPage() {
   return (
-    <div className="bg-black min-h-screen pt-16">
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+    <div className="bg-background min-h-screen pt-16">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Press</SectionLabel>
-          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">Newsroom</h1>
+          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight">Newsroom</h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
             The latest from PropatiBox — boilerplate, press kit, and coverage. For media enquiries, reach{' '}
             <a href="mailto:press@propati.ng" className="text-[#4edea3] hover:text-[#6ffbbe]">
@@ -36,7 +36,7 @@ export default function PressPage() {
             {/* Boilerplate + kit */}
             <div className="space-y-6">
               <div className="glass-card p-6 md:p-8">
-                <h2 className="text-lg font-bold text-white">Boilerplate</h2>
+                <h2 className="text-lg font-bold text-foreground">Boilerplate</h2>
                 <p className="mt-3 text-sm text-zinc-400 leading-relaxed">
                   PropatiBox is Nigeria&apos;s first verified property marketplace. Every listing is verified through a 5-layer process — document, identity, live
                   video, physical inspection, and admin certification — before it earns a certified badge. Payments are held in licensed escrow until
@@ -44,17 +44,17 @@ export default function PressPage() {
                   estate managers from a single platform. Founded in Lagos, PropatiBox is registered as PropatiBox Technologies Ltd.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Button asChild size="sm" variant="outline" className="border-white/15 text-white hover:bg-white/10">
+                  <Button asChild size="sm" variant="outline" className="border-border text-white hover:bg-card">
                     <a href="/brand/propatibox-logo-dark.jpg" download>
                       <Download className="mr-2 h-4 w-4" /> Logo (dark)
                     </a>
                   </Button>
-                  <Button asChild size="sm" variant="outline" className="border-white/15 text-white hover:bg-white/10">
+                  <Button asChild size="sm" variant="outline" className="border-border text-white hover:bg-card">
                     <a href="/brand/propatibox-logo-light.jpg" download>
                       <Download className="mr-2 h-4 w-4" /> Logo (light)
                     </a>
                   </Button>
-                  <Button asChild size="sm" variant="outline" className="border-white/15 text-white hover:bg-white/10">
+                  <Button asChild size="sm" variant="outline" className="border-border text-white hover:bg-card">
                     <a href="mailto:press@propati.ng?subject=Press%20enquiry">
                       <Mail className="mr-2 h-4 w-4" /> Contact press
                     </a>
@@ -63,7 +63,7 @@ export default function PressPage() {
               </div>
 
               <div className="glass-card p-6">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                   <ImageIcon className="h-4 w-4 text-zinc-600" /> Brand usage
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-zinc-500 leading-relaxed list-disc list-inside">
@@ -76,14 +76,14 @@ export default function PressPage() {
 
             {/* Coverage */}
             <div className="glass-card p-6">
-              <h3 className="text-sm font-bold text-white">Coverage</h3>
+              <h3 className="text-sm font-bold text-foreground">Coverage</h3>
               <p className="mt-1 text-sm text-zinc-500">Selected press mentions. Full list on request.</p>
               <div className="mt-6 space-y-4">
                 {coverage.map((c) => (
-                  <div key={c.title} className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
+                  <div key={c.title} className="rounded-lg border border-border bg-card p-4">
                     <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{c.outlet} · {c.date}</p>
-                    <p className="mt-1.5 text-sm font-medium text-white leading-relaxed">{c.title}</p>
-                    <a href="#" className="mt-2 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-white">
+                    <p className="mt-1.5 text-sm font-medium text-foreground leading-relaxed">{c.title}</p>
+                    <a href="#" className="mt-2 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-foreground">
                       Read <ExternalLink className="h-3 w-3" />
                     </a>
                   </div>

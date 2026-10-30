@@ -19,14 +19,14 @@ export default function AgreementsPage() {
   const duty = calculateStampDuty(n);
 
   return (
-    <div className="bg-black min-h-screen pt-16">
+    <div className="bg-background min-h-screen pt-16">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Legal</SectionLabel>
-          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">
+          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight">
             Tenancy agreements, legally stamped
           </h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
@@ -38,7 +38,7 @@ export default function AgreementsPage() {
                 My agreements <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-white/15 text-white hover:bg-white/10">
+            <Button asChild size="lg" variant="outline" className="border-border text-white hover:bg-card">
               <Link href="/how-it-works">How it works</Link>
             </Button>
           </div>
@@ -55,10 +55,10 @@ export default function AgreementsPage() {
                   <ScaleIcon />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-white">Stamp Duties Act, CAP S8 LFN 2004</h2>
+                  <h2 className="text-lg font-bold text-foreground">Stamp Duties Act, CAP S8 LFN 2004</h2>
                   <p className="mt-1 text-sm text-zinc-500 leading-relaxed">
-                    Tenancy agreements for annual rent above ₦10,000 attract stamp duty at <span className="text-white font-semibold">0.78% of annual rent</span>, with a minimum of{' '}
-                    <span className="text-white font-semibold">₦500</span>. At or below ₦10,000, duty is ₦0. PropatiBox calculates this automatically — you don&apos;t need a manual table.
+                    Tenancy agreements for annual rent above ₦10,000 attract stamp duty at <span className="text-foreground font-semibold">0.78% of annual rent</span>, with a minimum of{' '}
+                    <span className="text-foreground font-semibold">₦500</span>. At or below ₦10,000, duty is ₦0. PropatiBox calculates this automatically — you don&apos;t need a manual table.
                   </p>
                 </div>
               </div>
@@ -69,9 +69,9 @@ export default function AgreementsPage() {
                   { k: 'Minimum', v: '₦500' },
                   { k: 'Threshold', v: '₦10,000 (zero below)' },
                 ].map((item) => (
-                  <div key={item.k} className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+                  <div key={item.k} className="rounded-lg border border-border bg-card px-4 py-3">
                     <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{item.k}</p>
-                    <p className="mt-1 text-sm font-bold text-white">{item.v}</p>
+                    <p className="mt-1 text-sm font-bold text-foreground">{item.v}</p>
                   </div>
                 ))}
               </div>
@@ -86,7 +86,7 @@ export default function AgreementsPage() {
 
             {/* Live calculator */}
             <div className="glass-card p-6 md:p-8">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                 <Receipt className="h-4 w-4 text-[#4edea3]" />
                 Stamp duty calculator
               </h3>
@@ -101,13 +101,13 @@ export default function AgreementsPage() {
                 value={annualRent}
                 onChange={(e) => setAnnualRent(e.target.value.replace(/[^0-9,]/g, ''))}
                 placeholder="1,200,000"
-                className="mt-1 bg-zinc-950 border-white/[0.08] text-white"
+                className="mt-1 bg-card border-border text-foreground"
               />
               <p className="mt-1.5 text-xs text-zinc-600">Tip: try 10,000 vs 10,001 to see the threshold, or 50,000 to see the ₦500 minimum.</p>
 
               <div className="mt-6 rounded-xl border border-primary/20 bg-primary/20 p-5">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#4edea3]">Stamp duty payable</p>
-                <p className="mt-1 text-2xl font-bold text-white">{duty === 0 ? '₦0' : formatNaira(duty)}</p>
+                <p className="mt-1 text-2xl font-bold text-foreground">{duty === 0 ? '₦0' : formatNaira(duty)}</p>
                 <p className="mt-1 text-xs text-zinc-500">
                   {n <= 10000
                     ? 'No duty — at or below the ₦10,000 threshold.'
@@ -117,11 +117,11 @@ export default function AgreementsPage() {
                 </p>
               </div>
 
-              <div className="mt-4 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
+              <div className="mt-4 rounded-lg border border-border bg-card p-4">
                 <p className="text-xs font-semibold text-zinc-400">How it&apos;s paid</p>
                 <p className="mt-1 text-sm text-zinc-500 leading-relaxed">
                   Via Remita (SystemSpecs) — the FIRS/GIFMIS gateway. PropatiBox generates an RRR, you pay through Remita, and the e-certificate{' '}
-                  <code className="px-1 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-zinc-300">FIRS-SD-…</code> is embedded in your agreement.
+                  <code className="px-1 py-0.5 rounded bg-card border border-border text-zinc-300">FIRS-SD-…</code> is embedded in your agreement.
                 </p>
               </div>
             </div>
@@ -130,9 +130,9 @@ export default function AgreementsPage() {
       </section>
 
       {/* Lifecycle */}
-      <section className="py-12 md:py-16 border-t border-white/[0.06]">
+      <section className="py-12 md:py-16 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold text-white tracking-tight">Agreement lifecycle</h2>
+          <h2 className="text-2xl font-bold text-foreground tracking-tight">Agreement lifecycle</h2>
           <p className="mt-2 text-sm text-zinc-500 max-w-2xl">
             From draft to fully signed — each step is recorded with who signed, when, from which IP, and a SHA-256 checksum.
           </p>
@@ -146,10 +146,10 @@ export default function AgreementsPage() {
               { step: 'Fully signed', desc: 'Both parties signed. Stamp duty + certificate follow.' },
             ].map((s, i) => (
               <div key={s.step} className="glass-card p-5">
-                <div className="w-7 h-7 rounded-full bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-xs font-bold text-white">
+                <div className="w-7 h-7 rounded-full bg-card border border-border flex items-center justify-center text-xs font-bold text-foreground">
                   {i + 1}
                 </div>
-                <p className="mt-3 text-sm font-semibold text-white">{s.step}</p>
+                <p className="mt-3 text-sm font-semibold text-foreground">{s.step}</p>
                 <p className="mt-1 text-sm text-zinc-500 leading-relaxed">{s.desc}</p>
               </div>
             ))}
@@ -161,7 +161,7 @@ export default function AgreementsPage() {
                 <PenLine className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">E-signature</p>
+                <p className="text-sm font-semibold text-foreground">E-signature</p>
                 <p className="mt-1 text-sm text-zinc-500 leading-relaxed">Typed consent + SHA-256 hash + IP/UA + timestamp. Tamper-evident.</p>
               </div>
             </div>
@@ -170,7 +170,7 @@ export default function AgreementsPage() {
                 <Shield className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Escrow</p>
+                <p className="text-sm font-semibold text-foreground">Escrow</p>
                 <p className="mt-1 text-sm text-zinc-500 leading-relaxed">Rent held until handover is confirmed — not released on a timer.</p>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function AgreementsPage() {
                 <FileCheck className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Rent schedule</p>
+                <p className="text-sm font-semibold text-foreground">Rent schedule</p>
                 <p className="mt-1 text-sm text-zinc-500 leading-relaxed">Prorated schedule generated from start date and tenancy length.</p>
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function AgreementsPage() {
             <Button asChild>
               <Link href="/listings">Find a verified property</Link>
             </Button>
-            <Button asChild variant="outline" className="border-white/15 text-white hover:bg-white/10">
+            <Button asChild variant="outline" className="border-border text-white hover:bg-card">
               <Link href="/verification">How verification works</Link>
             </Button>
           </div>

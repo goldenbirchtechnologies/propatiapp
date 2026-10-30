@@ -50,17 +50,17 @@ export default function ContactUsPage() {
 
   if (submitted) {
     return (
-      <div className="bg-black min-h-screen pt-16 flex items-center justify-center p-4">
+      <div className="bg-background min-h-screen pt-16 flex items-center justify-center p-4">
         <div className="glass-card max-w-md w-full p-8 text-center">
           <div className="mx-auto w-12 h-12 rounded-full bg-primary/15 border border-primary/20 flex items-center justify-center text-[#4edea3]">
             <Send className="h-6 w-6" />
           </div>
-          <h2 className="mt-4 text-xl font-bold text-white">Message sent</h2>
+          <h2 className="mt-4 text-xl font-bold text-foreground">Message sent</h2>
           <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
             Thank you for contacting PropatiBox. Our team will respond within one business day. If you need faster help, email support@propati.ng.
           </p>
           <div className="mt-6 flex justify-center gap-3">
-            <Button onClick={() => setSubmitted(false)} variant="outline" className="border-white/15 text-white hover:bg-white/10">
+            <Button onClick={() => setSubmitted(false)} variant="outline" className="border-border text-white hover:bg-card">
               Send another
             </Button>
             <Button asChild>
@@ -73,15 +73,15 @@ export default function ContactUsPage() {
   }
 
   return (
-    <div className="bg-black min-h-screen pt-16">
+    <div className="bg-background min-h-screen pt-16">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <div className="max-w-3xl">
             <SectionLabel>Get in touch</SectionLabel>
-            <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">
+            <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight">
               Let&apos;s talk about your property goals
             </h1>
             <p className="mt-4 text-lg text-zinc-400 leading-relaxed">
@@ -97,7 +97,7 @@ export default function ContactUsPage() {
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
             {/* Form */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="text-lg font-bold text-white">Send a message</h2>
+              <h2 className="text-lg font-bold text-foreground">Send a message</h2>
               <p className="mt-1 text-sm text-zinc-500">We read every message. No bots, no auto-replies.</p>
               <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -105,26 +105,26 @@ export default function ContactUsPage() {
                     <label htmlFor="name" className="text-xs font-medium text-zinc-400">
                       Full name
                     </label>
-                    <Input id="name" name="name" required placeholder="Chidi Okafor" className="mt-1 bg-zinc-950 border-white/[0.08] text-white" />
+                    <Input id="name" name="name" required placeholder="Chidi Okafor" className="mt-1 bg-card border-border text-foreground" />
                   </div>
                   <div>
                     <label htmlFor="phone" className="text-xs font-medium text-zinc-400">
                       Phone <span className="text-zinc-600">(optional)</span>
                     </label>
-                    <Input id="phone" name="phone" placeholder="+234 801 234 5678" className="mt-1 bg-zinc-950 border-white/[0.08] text-white" />
+                    <Input id="phone" name="phone" placeholder="+234 801 234 5678" className="mt-1 bg-card border-border text-foreground" />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="email" className="text-xs font-medium text-zinc-400">
                     Email
                   </label>
-                  <Input id="email" name="email" type="email" required placeholder="you@company.com" className="mt-1 bg-zinc-950 border-white/[0.08] text-white" />
+                  <Input id="email" name="email" type="email" required placeholder="you@company.com" className="mt-1 bg-card border-border text-foreground" />
                 </div>
                 <div>
                   <label htmlFor="subject" className="text-xs font-medium text-zinc-400">
                     Subject <span className="text-zinc-600">(optional)</span>
                   </label>
-                  <Input id="subject" name="subject" placeholder="Rent enquiry · Partnership · Support" className="mt-1 bg-zinc-950 border-white/[0.08] text-white" />
+                  <Input id="subject" name="subject" placeholder="Rent enquiry · Partnership · Support" className="mt-1 bg-card border-border text-foreground" />
                 </div>
                 <div>
                   <label htmlFor="message" className="text-xs font-medium text-zinc-400">
@@ -136,7 +136,7 @@ export default function ContactUsPage() {
                     required
                     rows={5}
                     placeholder="How can we help?"
-                    className="mt-1 bg-zinc-950 border-white/[0.08] text-white"
+                    className="mt-1 bg-card border-border text-foreground"
                   />
                 </div>
                 {error && (
@@ -165,24 +165,24 @@ export default function ContactUsPage() {
             {/* Offices */}
             <div className="space-y-4">
               <div className="glass-card p-6">
-                <h3 className="text-sm font-semibold text-white">Offices</h3>
+                <h3 className="text-sm font-semibold text-foreground">Offices</h3>
                 <div className="mt-4 space-y-5">
                   {offices.map((o) => (
-                    <div key={o.city} className="border-b border-white/[0.06] pb-5 last:border-0 last:pb-0">
-                      <p className="text-sm font-semibold text-white">{o.city}</p>
+                    <div key={o.city} className="border-b border-border pb-5 last:border-0 last:pb-0">
+                      <p className="text-sm font-semibold text-foreground">{o.city}</p>
                       <p className="mt-1 flex items-start gap-2 text-sm text-zinc-500 leading-relaxed">
                         <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-zinc-600" />
                         {o.address}
                       </p>
                       <p className="mt-1.5 flex items-center gap-2 text-sm text-zinc-500">
                         <Phone className="h-3.5 w-3.5 text-zinc-600" />
-                        <a href={`tel:${o.phone.replace(/\s/g, '')}`} className="hover:text-white">
+                        <a href={`tel:${o.phone.replace(/\s/g, '')}`} className="hover:text-foreground">
                           {o.phone}
                         </a>
                       </p>
                       <p className="flex items-center gap-2 text-sm text-zinc-500">
                         <Mail className="h-3.5 w-3.5 text-zinc-600" />
-                        <a href={`mailto:${o.email}`} className="hover:text-white">
+                        <a href={`mailto:${o.email}`} className="hover:text-foreground">
                           {o.email}
                         </a>
                       </p>
@@ -197,7 +197,7 @@ export default function ContactUsPage() {
                     <CheckCircle2 className="h-4 w-4" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">Need faster help?</p>
+                    <p className="text-sm font-semibold text-foreground">Need faster help?</p>
                     <p className="mt-1 text-sm text-zinc-400 leading-relaxed">
                       For tenancy, payment, or verification issues, email{' '}
                       <a href="mailto:support@propati.ng" className="text-[#4edea3] hover:text-[#6ffbbe]">

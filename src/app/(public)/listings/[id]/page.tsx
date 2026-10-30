@@ -135,7 +135,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
   return (
     <div className="bg-[#F8FAFC] dark:bg-black min-h-screen pt-20">
       {/* ── Sticky breadcrumb / reference bar ── */}
-      <div className="sticky top-20 z-30 border-b border-zinc-200 dark:border-white/[0.06] bg-white/95 dark:bg-zinc-950/95 backdrop-blur">
+      <div className="sticky top-20 z-30 border-b border-zinc-200 dark:border-border bg-background/95 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap min-w-0 text-sm">
             <Link href="/listings" className="inline-flex items-center gap-1.5 font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3] hover:text-[var(--sovereign-hover)] shrink-0">
@@ -167,12 +167,12 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
           <div className="flex flex-col gap-6 min-w-0">
             {/* Gallery */}
             <section className="flex flex-col gap-3">
-              <div className="relative w-full h-[360px] sm:h-[460px] lg:h-[490px] rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] shadow-lg group">
+              <div className="relative w-full h-[360px] sm:h-[460px] lg:h-[490px] rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-200 dark:border-border shadow-lg group">
                 <img src={galleryImages[activeImage]} alt={listing.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/40 pointer-events-none" />
                 {/* Top badges */}
                 <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2 z-10">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-white/90 dark:bg-zinc-900/90 backdrop-blur text-zinc-900 dark:text-white text-[11px] font-bold uppercase tracking-wider shadow-sm border border-zinc-200 dark:border-white/10">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-white/90 dark:bg-zinc-900/90 backdrop-blur text-zinc-900 dark:text-white text-[11px] font-bold uppercase tracking-wider shadow-sm border border-zinc-200 dark:border-border">
                     <span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> {typeLabel} • {isRent ? 'For Rent' : 'For Sale'}
                   </span>
                   {listing.verified && (
@@ -200,10 +200,10 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 </div>
                 {/* Actions */}
                 <div className="absolute top-4 right-4 flex gap-2 z-10 lg:hidden">
-                  <button onClick={() => setIsFavorite(!isFavorite)} className={`w-9 h-9 rounded-full backdrop-blur flex items-center justify-center shadow-sm border ${isFavorite ? 'bg-red-500 text-white border-red-500' : 'bg-black/60 text-white border-white/20 hover:bg-black/80'}`}>
+                  <button onClick={() => setIsFavorite(!isFavorite)} className={`w-9 h-9 rounded-full backdrop-blur flex items-center justify-center shadow-sm border ${isFavorite ? 'bg-red-500 text-white border-red-500' : 'bg-black/60 text-white border-border hover:bg-black/80'}`}>
                     <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
                   </button>
-                  <button onClick={handleShare} className="w-9 h-9 rounded-full bg-black/60 backdrop-blur flex items-center justify-center text-white border border-white/20 hover:bg-black/80">
+                  <button onClick={handleShare} className="w-9 h-9 rounded-full bg-black/60 backdrop-blur flex items-center justify-center text-white border border-border hover:bg-black/80">
                     <Share2 size={16} />
                   </button>
                 </div>
@@ -223,7 +223,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
             </section>
 
             {/* Title + specs */}
-            <section className="bg-white dark:bg-zinc-900 rounded-2xl p-5 sm:p-6 shadow-sm border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
+            <section className="bg-white dark:bg-zinc-900 rounded-2xl p-5 sm:p-6 shadow-sm border border-zinc-200 dark:border-border flex flex-col gap-4">
               <div className="flex flex-col gap-2">
                 <h1 className="text-[22px] sm:text-[26px] font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">{listing.title}</h1>
                 <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
@@ -251,7 +251,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
             </section>
 
             {/* Tabs */}
-            <section className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-200 dark:border-white/[0.06] overflow-hidden">
+            <section className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-200 dark:border-border overflow-hidden">
               <div className="flex items-center gap-1 p-2 bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-100 dark:border-white/[0.04] overflow-x-auto">
                 {[
                   { id: 'overview', label: 'Overview' },
@@ -259,7 +259,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   { id: 'survey', label: 'Survey & Title Audit' },
                   { id: 'broker', label: 'Licensed Broker' },
                 ].map((t) => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id as any)} className={`px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${activeTab === t.id ? 'bg-white dark:bg-zinc-900 text-[var(--sovereign-hover)] dark:text-[#4edea3] shadow-sm border border-zinc-200 dark:border-white/[0.06]' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-800'}`}>{t.label}</button>
+                  <button key={t.id} onClick={() => setActiveTab(t.id as any)} className={`px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${activeTab === t.id ? 'bg-white dark:bg-zinc-900 text-[var(--sovereign-hover)] dark:text-[#4edea3] shadow-sm border border-zinc-200 dark:border-border' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-800'}`}>{t.label}</button>
                 ))}
               </div>
 
@@ -292,7 +292,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                     </div>
                   </div>
                   {/* Title audit box */}
-                  <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
+                  <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-border flex flex-col gap-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#4edea3] flex items-center justify-center shrink-0"><BadgeCheck size={20} /></div>
@@ -344,10 +344,10 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
               {activeTab === 'survey' && (
                 <div className="p-6 sm:p-8 flex flex-col gap-6">
                   <div><h2 className="text-lg font-bold text-zinc-900 dark:text-white">Survey Map & Geo-Coordinates</h2><p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">High-precision survey polygon registered under Plan No. LA/VI/4091B at Alausa Land Survey Bureau.</p></div>
-                  <div className="w-full h-80 rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/[0.06] bg-zinc-900 relative flex flex-col justify-between p-4" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=400&fit=crop')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                    <div className="absolute inset-0 bg-black/40" />
+                  <div className="w-full h-80 rounded-2xl overflow-hidden border border-zinc-200 dark:border-border bg-zinc-900 relative flex flex-col justify-between p-4" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=400&fit=crop')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                    <div className="absolute inset-0 bg-card/40" />
                     <div className="relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 backdrop-blur text-zinc-900 dark:text-white text-xs font-semibold shadow-sm w-fit"><Layers size={14} className="text-primary" />Surveyor-General Beacon Grid Verified</div>
-                    <div className="relative bg-black/80 backdrop-blur p-4 rounded-xl max-w-lg flex flex-col gap-1.5 border border-white/10">
+                    <div className="relative bg-black/80 backdrop-blur p-4 rounded-xl max-w-lg flex flex-col gap-1.5 border border-border">
                       <div className="flex items-center justify-between text-white text-xs font-bold"><span>Polygon Corners (WGS-84):</span><span className="text-[#4edea3] font-mono text-xs">UTM Zone 31N</span></div>
                       <div className="grid grid-cols-2 gap-2 text-white/70 font-mono text-xs"><div>PB 1: 6.4328° N, 3.4241° E</div><div>PB 2: 6.4332° N, 3.4253° E</div><div>PB 3: 6.4319° N, 3.4258° E</div><div>PB 4: 6.4315° N, 3.4246° E</div></div>
                     </div>
@@ -378,7 +378,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">With 16+ years of surveying and prime property allocations in Victoria Island and Ikoyi, Engr. Balogun provides institutional oversight, verifying deed chains and executing escrow agreements in strict compliance with Nigerian land laws.</p>
                   <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-white/[0.04] flex items-center justify-between">
                     <div className="flex items-center gap-3"><BadgeCheck size={20} className="text-primary" /><div><div className="text-xs font-bold text-zinc-900 dark:text-white">PROPATI Verified Custodian Guarantee</div><div className="text-xs text-zinc-500 dark:text-zinc-400">Zero hidden agency markups. Regulated fee framework.</div></div></div>
-                    <button className="hidden sm:inline-flex px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-xs font-semibold">View Credentials</button>
+                    <button className="hidden sm:inline-flex px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-border text-zinc-900 dark:text-white text-xs font-semibold">View Credentials</button>
                   </div>
                 </div>
               )}
@@ -388,7 +388,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
           {/* ── RIGHT RAIL ── */}
           <aside className="w-full lg:sticky lg:top-[120px] flex flex-col gap-6">
             {/* Price card */}
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 sm:p-7 shadow-lg border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-5">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 sm:p-7 shadow-lg border border-zinc-200 dark:border-border flex flex-col gap-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{isRent ? 'Standard Annual Lease' : 'Outright Assignment'}</div>
@@ -399,10 +399,10 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   {isRent && listing.price > 0 && <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Approx. ${(listing.price / 1600).toLocaleString(undefined, { maximumFractionDigits: 0 })} USD/yr • {formatPrice(Math.round(listing.price / 12))} monthly equiv.</div>}
                 </div>
                 <div className="hidden lg:flex items-center gap-1.5 shrink-0">
-                  <button aria-label="Save" onClick={() => setIsFavorite(!isFavorite)} className={`w-9 h-9 rounded-xl flex items-center justify-center border transition-colors ${isFavorite ? 'bg-red-500 border-red-500 text-white' : 'bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-white/[0.06] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>
+                  <button aria-label="Save" onClick={() => setIsFavorite(!isFavorite)} className={`w-9 h-9 rounded-xl flex items-center justify-center border transition-colors ${isFavorite ? 'bg-red-500 border-red-500 text-white' : 'bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-border text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>
                     <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
                   </button>
-                  <button aria-label="Share" onClick={handleShare} className="w-9 h-9 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 relative">
+                  <button aria-label="Share" onClick={handleShare} className="w-9 h-9 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-border flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 relative">
                     <Share2 size={16} />
                     {shareCopied && <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-zinc-900 text-white text-xs px-2 py-1 rounded shadow-md">Copied!</span>}
                   </button>
@@ -428,7 +428,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 <button onClick={() => router.push(`/listings/${listing.id}#apply`)} className="w-full py-3 px-4 rounded-xl bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-black dark:hover:bg-zinc-100 text-sm font-bold flex items-center justify-center gap-2 transition-colors">
                   <Wallet2 size={18} /> Apply & Lock via Escrow
                 </button>
-                <a href={`https://wa.me/2348000000000?text=Hello%20Engr%20Dapo,%20I%20am%20inquiring%20about%20${encodeURIComponent(listing.title)}%20(Ref:%20${referenceId})`} target="_blank" rel="noopener noreferrer" className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700 text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
+                <a href={`https://wa.me/2348000000000?text=Hello%20Engr%20Dapo,%20I%20am%20inquiring%20about%20${encodeURIComponent(listing.title)}%20(Ref:%20${referenceId})`} target="_blank" rel="noopener noreferrer" className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-border text-zinc-900 dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700 text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
                   <MessageSquare size={16} className="text-primary" /> Chat with Verified Broker
                 </a>
               </div>
@@ -436,7 +436,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
             </div>
 
             {/* Calendar widget */}
-            <div id="booking-widget" className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
+            <div id="booking-widget" className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-border flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2"><Clock3 size={18} className="text-primary" /><h3 className="text-sm font-bold text-zinc-900 dark:text-white">Available Slots</h3></div>
                 <span className="text-xs font-bold text-primary">This Week</span>
@@ -460,15 +460,15 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
             </div>
 
             {/* Broker contact */}
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-border flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shrink-0">DB</div>
                 <div className="min-w-0"><div className="text-sm font-bold text-zinc-900 dark:text-white truncate">Engr. Dapo Balogun</div><div className="text-xs text-zinc-500 dark:text-zinc-400 truncate">SURCON Reg. Surveyor #894</div><div className="text-xs font-semibold text-primary">Replies in &lt; 15 mins</div></div>
               </div>
               <form onSubmit={handleInquiry} className="flex flex-col gap-3">
-                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Full Legal Name</label><input value={inqName} onChange={(e) => setInqName(e.target.value)} placeholder="e.g. Chief Adeleke Coker" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div>
-                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Corporate Email Address</label><input value={inqEmail} onChange={(e) => setInqEmail(e.target.value)} placeholder="name@company.ng" type="email" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div>
-                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Nigerian Phone / WhatsApp</label><div className="flex"><span className="inline-flex items-center px-3 rounded-l-lg bg-zinc-100 dark:bg-zinc-800 border border-r-0 border-zinc-200 dark:border-white/[0.06] text-xs text-zinc-600 dark:text-zinc-400 font-medium">+234</span><input value={inqPhone} onChange={(e) => setInqPhone(e.target.value)} placeholder="803 000 0000" type="tel" required className="w-full h-10 px-3 rounded-r-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div></div>
+                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Full Legal Name</label><input value={inqName} onChange={(e) => setInqName(e.target.value)} placeholder="e.g. Chief Adeleke Coker" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-border text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div>
+                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Corporate Email Address</label><input value={inqEmail} onChange={(e) => setInqEmail(e.target.value)} placeholder="name@company.ng" type="email" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-border text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div>
+                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Nigerian Phone / WhatsApp</label><div className="flex"><span className="inline-flex items-center px-3 rounded-l-lg bg-zinc-100 dark:bg-zinc-800 border border-r-0 border-zinc-200 dark:border-border text-xs text-zinc-600 dark:text-zinc-400 font-medium">+234</span><input value={inqPhone} onChange={(e) => setInqPhone(e.target.value)} placeholder="803 000 0000" type="tel" required className="w-full h-10 px-3 rounded-r-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-border text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div></div>
                 <button type="submit" className="mt-1 w-full py-2.5 rounded-xl bg-primary hover:bg-[var(--sovereign-hover)] text-white text-sm font-semibold transition-colors">Send Direct Message</button>
                 {inquirySent && <div className="p-2 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs text-center font-medium">Inquiry submitted directly to Engr. Balogun.</div>}
               </form>
@@ -483,7 +483,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[1, 2, 3].map((i) => (
               <Link key={i} href={`/listings/${listing.id}-similar-${i}`} className="group">
-                <div className="rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.06] hover:border-zinc-300 dark:hover:border-white/15 transition-all">
+                <div className="rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-border hover:border-zinc-300 dark:hover:border-border transition-all">
                   <div className="relative h-48 bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
                     <img src={`https://picsum.photos/seed/${listing.id}-${i}/800/600`} alt="Similar listing" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

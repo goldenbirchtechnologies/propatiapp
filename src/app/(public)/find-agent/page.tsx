@@ -152,9 +152,9 @@ export default function FindAgentPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-background min-h-screen">
       {/* Hero — Stitch layout, bichrome */}
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.10),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-10 md:pt-14 md:pb-12">
@@ -168,7 +168,7 @@ export default function FindAgentPage() {
             <span className="text-white/70">LASRERA Regulated</span>
           </div>
 
-          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight max-w-3xl">
+          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight max-w-3xl">
             A great agent makes{' '}
             <span className="text-[#4edea3]">all the difference</span>.
           </h1>
@@ -178,7 +178,7 @@ export default function FindAgentPage() {
 
           {/* Search console — glass-card */}
           <div className="mt-6 max-w-4xl glass-card p-4 md:p-5">
-            <div className="flex items-center gap-6 pb-3 border-b border-white/[0.06] text-xs font-semibold">
+            <div className="flex items-center gap-6 pb-3 border-b border-border text-xs font-semibold">
               <button
                 onClick={() => setActiveTab('location')}
                 className={`inline-flex items-center gap-1.5 pb-1 border-b-2 transition-colors ${activeTab === 'location' ? 'text-[#4edea3] border-primary' : 'text-zinc-500 border-transparent hover:text-zinc-300'}`}
@@ -193,11 +193,11 @@ export default function FindAgentPage() {
               </button>
             </div>
 
-            <div className="mt-4 flex flex-col md:flex-row gap-2 bg-black/40 rounded-xl p-1.5 border border-white/[0.06]">
-              <div className="flex items-center flex-1 gap-2 px-3 py-2 rounded-lg bg-black/40">
+            <div className="mt-4 flex flex-col md:flex-row gap-2 bg-card/40 rounded-xl p-1.5 border border-border">
+              <div className="flex items-center flex-1 gap-2 px-3 py-2 rounded-lg bg-card/40">
                 <Search className="h-4 w-4 text-zinc-500 shrink-0" />
                 <input
-                  className="w-full bg-transparent text-sm text-white placeholder:text-zinc-600 focus:outline-none"
+                  className="w-full bg-transparent text-sm text-foreground placeholder:text-zinc-600 focus:outline-none"
                   placeholder={activeTab === 'location' ? 'City, neighborhood, or jurisdiction (e.g., Victoria Island, Ikoyi, Maitama)' : 'Agent or firm name'}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
@@ -216,7 +216,7 @@ export default function FindAgentPage() {
                   key={f}
                   onClick={() => setFilter(f)}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${
-                    filter === f ? 'bg-primary text-black border-primary' : 'bg-white/[0.06] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
+                    filter === f ? 'bg-primary text-black border-primary' : 'bg-card text-zinc-400 border-border hover:text-foreground hover:border-border'
                   }`}
                 >
                   {f}
@@ -228,7 +228,7 @@ export default function FindAgentPage() {
       </section>
 
       {/* Metrics strip */}
-      <section className="border-y border-white/[0.06] bg-white/[0.02]">
+      <section className="border-y border-border bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
@@ -243,7 +243,7 @@ export default function FindAgentPage() {
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-lg font-bold text-white">{m.value}</span>
+                    <span className="text-lg font-bold text-foreground">{m.value}</span>
                     <span className="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/15 text-[#4edea3] border border-primary/20">{m.badge}</span>
                   </div>
                   <p className="text-xs text-zinc-500 truncate">{m.label}</p>
@@ -260,7 +260,7 @@ export default function FindAgentPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6">
             <div>
               <SectionLabel>Accredited network</SectionLabel>
-              <h2 className="mt-2 text-2xl md:text-3xl font-bold text-white tracking-tight">Verified Estate Surveyors &amp; Brokers</h2>
+              <h2 className="mt-2 text-2xl md:text-3xl font-bold text-foreground tracking-tight">Verified Estate Surveyors &amp; Brokers</h2>
               <p className="mt-1 text-sm text-zinc-500">Showing {results.length} accredited partners — filtered from your search.</p>
             </div>
             <div className="flex items-center gap-2">
@@ -275,20 +275,20 @@ export default function FindAgentPage() {
                 <div key={agent.id} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#002113] via-[var(--sovereign-hover)]/40 to-black border border-primary/20 p-6 flex flex-col justify-between min-h-[280px]">
                   <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-primary/10 blur-2xl pointer-events-none" />
                   <div className="flex items-start gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-white/10 border border-border flex items-center justify-center text-foreground shrink-0">
                       <Users className="h-6 w-6" />
                     </div>
                     <div>
                       <p className="text-xs font-bold uppercase tracking-wider text-[#4edea3]">PropatiBox Concierge Desk</p>
-                      <h3 className="text-lg font-bold text-white">Get institutional agent placement</h3>
+                      <h3 className="text-lg font-bold text-foreground">Get institutional agent placement</h3>
                     </div>
                   </div>
                   <p className="mt-3 text-sm text-zinc-300 leading-relaxed">
                     Need bespoke representation for commercial portfolios, diplomatic leasing, or multi-hectare acquisitions? Our Senior Advisory Desk pairs you with a Premier Accredited Broker.
                   </p>
                   <div className="mt-4 grid grid-cols-2 gap-2">
-                    <div className="rounded-lg bg-white/10 border border-white/10 px-3 py-2 text-xs text-white flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[#4edea3]" /> Zero illegal fees</div>
-                    <div className="rounded-lg bg-white/10 border border-white/10 px-3 py-2 text-xs text-white flex items-center gap-2"><Lock className="h-4 w-4 text-[#4edea3]" /> Trustee Escrow</div>
+                    <div className="rounded-lg bg-white/10 border border-border px-3 py-2 text-xs text-foreground flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[#4edea3]" /> Zero illegal fees</div>
+                    <div className="rounded-lg bg-white/10 border border-border px-3 py-2 text-xs text-foreground flex items-center gap-2"><Lock className="h-4 w-4 text-[#4edea3]" /> Trustee Escrow</div>
                   </div>
                   <Button className="mt-5 w-full gap-2" asChild>
                     <Link href="/contact-us">Connect with a local agent <ArrowRight className="h-4 w-4" /></Link>
@@ -298,7 +298,7 @@ export default function FindAgentPage() {
                 <div key={agent.id} className="glass-card p-5 hover:border-primary/20 transition-colors flex flex-col">
                   <div className="flex items-start gap-4">
                     <div className="relative flex-shrink-0">
-                      <img src={agent.photo} alt={agent.name} className="w-20 h-20 rounded-xl object-cover border border-white/[0.08]" />
+                      <img src={agent.photo} alt={agent.name} className="w-20 h-20 rounded-xl object-cover border border-border" />
                       {agent.isTopAgent && (
                         <span className="absolute -bottom-1.5 -right-1.5 bg-primary text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-0.5 shadow">
                           <ShieldCheck className="h-3 w-3" /> Top
@@ -310,20 +310,20 @@ export default function FindAgentPage() {
                         <p className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">{agent.title}</p>
                         <span className="inline-flex items-center gap-1 text-xs">
                           <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                          <span className="font-bold text-white">{agent.rating.toFixed(1)}</span>
+                          <span className="font-bold text-foreground">{agent.rating.toFixed(1)}</span>
                           <span className="text-zinc-500">({agent.reviewCount.toLocaleString()})</span>
                         </span>
                       </div>
-                      <h3 className="text-sm font-bold text-white truncate mt-0.5">{agent.name}</h3>
+                      <h3 className="text-sm font-bold text-foreground truncate mt-0.5">{agent.name}</h3>
                       <p className="text-xs text-zinc-400">{agent.company}</p>
                       <p className="mt-1 flex items-center gap-1 text-xs text-zinc-500"><MapPin className="h-3 w-3 shrink-0" />{agent.area}</p>
                     </div>
                   </div>
 
-                  <div className="mt-4 rounded-xl bg-white/[0.04] border border-white/[0.06] px-3 py-2.5 grid grid-cols-2 gap-3">
+                  <div className="mt-4 rounded-xl bg-card border border-border px-3 py-2.5 grid grid-cols-2 gap-3">
                     <div>
                       <p className="text-[11px] uppercase tracking-wider text-zinc-500">Transaction Consideration</p>
-                      <p className="text-sm font-bold text-white">{agent.teamPriceRange} range</p>
+                      <p className="text-sm font-bold text-foreground">{agent.teamPriceRange} range</p>
                     </div>
                     <div className="text-right">
                       <p className="text-[11px] uppercase tracking-wider text-zinc-500">12-Mo. Proven</p>
@@ -333,16 +333,16 @@ export default function FindAgentPage() {
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {agent.badges.map((b) => (
-                      <span key={b} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-xs text-zinc-300">
+                      <span key={b} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-card border border-border text-xs text-zinc-300">
                         <FileCheck className="h-3 w-3 text-[#4edea3]" /> {b}
                       </span>
                     ))}
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between gap-2 pt-3 border-t border-white/[0.06]">
+                  <div className="mt-4 flex items-center justify-between gap-2 pt-3 border-t border-border">
                     <p className="text-xs text-zinc-500">{agent.teamSales.toLocaleString()} lifetime closings</p>
                     <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm" className="border-white/10 text-white hover:bg-white/10" asChild>
+                      <Button variant="outline" size="sm" className="border-border text-white hover:bg-white/10" asChild>
                         <Link href="/contact-us">Inquire</Link>
                       </Button>
                       <Button size="sm" asChild><Link href="/listings">View Profile</Link></Button>
@@ -363,7 +363,7 @@ export default function FindAgentPage() {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 border border-primary/20 text-xs font-semibold text-[#4edea3] w-fit">
                 <ShieldCheck className="h-3.5 w-3.5" /> Direct Broker Pairing
               </span>
-              <h2 className="mt-3 text-2xl font-bold text-white">Get help finding an accredited agent</h2>
+              <h2 className="mt-3 text-2xl font-bold text-foreground">Get help finding an accredited agent</h2>
               <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
                 We will pair you with a PropatiBox Premier Agent who has the verified inside track on prime inventory, title validity, and institutional lease structures.
               </p>
@@ -374,7 +374,7 @@ export default function FindAgentPage() {
                 <span className="text-xs text-zinc-500">No advance inspection surcharges</span>
               </div>
             </div>
-            <div className="w-full lg:w-5/12 min-h-[260px] bg-gradient-to-br from-[var(--sovereign-hover)]/30 via-zinc-900 to-black relative overflow-hidden flex items-center justify-center border-t lg:border-t-0 lg:border-l border-white/[0.06]">
+            <div className="w-full lg:w-5/12 min-h-[260px] bg-gradient-to-br from-[var(--sovereign-hover)]/30 via-zinc-900 to-black relative overflow-hidden flex items-center justify-center border-t lg:border-t-0 lg:border-l border-border">
               <Building2 className="h-24 w-24 text-white/10" />
             </div>
           </div>
@@ -386,7 +386,7 @@ export default function FindAgentPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
             <SectionLabel>Due Diligence &amp; Safety</SectionLabel>
-            <h2 className="mt-2 text-2xl md:text-3xl font-bold text-white tracking-tight">Frequently asked questions</h2>
+            <h2 className="mt-2 text-2xl md:text-3xl font-bold text-foreground tracking-tight">Frequently asked questions</h2>
             <p className="mt-2 text-sm text-zinc-500">Understanding agency accreditation, escrow custody, and legal fiduciary representation under Nigerian tenancy laws.</p>
           </div>
           <div className="space-y-2">
@@ -396,10 +396,10 @@ export default function FindAgentPage() {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
                 >
-                  <span className="text-sm font-semibold text-white">{f.q}</span>
+                  <span className="text-sm font-semibold text-foreground">{f.q}</span>
                   <ChevronDown className={`h-4 w-4 text-zinc-500 shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
                 </button>
-                {openFaq === i && <div className="px-5 pb-5 text-sm text-zinc-400 leading-relaxed border-t border-white/[0.06] pt-3">{f.a}</div>}
+                {openFaq === i && <div className="px-5 pb-5 text-sm text-zinc-400 leading-relaxed border-t border-border pt-3">{f.a}</div>}
               </div>
             ))}
           </div>
@@ -412,10 +412,10 @@ export default function FindAgentPage() {
           <div className="rounded-2xl bg-gradient-to-br from-[var(--sovereign-hover)] to-primary p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 relative overflow-hidden">
             <div className="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
             <div className="max-w-2xl relative z-10">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-foreground text-xs font-semibold">
                 Broker Enterprise Network
               </span>
-              <h2 className="mt-3 text-xl md:text-2xl font-bold text-white">Are you a licensed estate surveyor or verified broker?</h2>
+              <h2 className="mt-3 text-xl md:text-2xl font-bold text-foreground">Are you a licensed estate surveyor or verified broker?</h2>
               <p className="mt-2 text-sm text-white/80 leading-relaxed">
                 Join Nigeria&apos;s premier institutional property network. Access corporate lease mandates, automated FIRS Stamp Duty electronic remittances, and escrow-guaranteed agency fee disbursement on closing.
               </p>
@@ -424,7 +424,7 @@ export default function FindAgentPage() {
               <Button variant="secondary" className="bg-white text-[var(--sovereign-hover)] hover:bg-zinc-100" asChild>
                 <Link href="/contact-us">Apply for Accreditation</Link>
               </Button>
-              <Button variant="ghost" className="text-white hover:bg-white/10 border border-white/20" asChild>
+              <Button variant="ghost" className="text-white hover:bg-white/10 border border-border" asChild>
                 <Link href="/verification">Download Broker Playbook</Link>
               </Button>
             </div>
@@ -433,11 +433,11 @@ export default function FindAgentPage() {
       </section>
 
       {/* Jurisdiction ledger */}
-      <section className="py-8 border-t border-white/[0.06]">
+      <section className="py-8 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Verified Lagos Surveyors</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3">Verified Lagos Surveyors</h4>
               <ul className="space-y-1.5 text-zinc-400">
                 <li><Link href="/find-agent?location=Victoria+Island" className="hover:text-[#4edea3]">Victoria Island Real Estate Brokers</Link></li>
                 <li><Link href="/find-agent?location=Ikoyi" className="hover:text-[#4edea3]">Ikoyi Prime Property Consultants</Link></li>
@@ -447,7 +447,7 @@ export default function FindAgentPage() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Verified Abuja FCT Brokers</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3">Verified Abuja FCT Brokers</h4>
               <ul className="space-y-1.5 text-zinc-400">
                 <li><Link href="/find-agent?location=Maitama" className="hover:text-[#4edea3]">Maitama Diplomatic Property Desk</Link></li>
                 <li><Link href="/find-agent?location=Asokoro" className="hover:text-[#4edea3]">Asokoro Estate Advisors</Link></li>
@@ -457,7 +457,7 @@ export default function FindAgentPage() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Regional Hubs &amp; Industrial</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3">Regional Hubs &amp; Industrial</h4>
               <ul className="space-y-1.5 text-zinc-400">
                 <li><Link href="/find-agent?location=Port+Harcourt" className="hover:text-[#4edea3]">Port Harcourt GRA Phase 2 Brokers</Link></li>
                 <li><Link href="/find-agent?location=Trans-Amadi" className="hover:text-[#4edea3]">Trans-Amadi Industrial Surveyors</Link></li>

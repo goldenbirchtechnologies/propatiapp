@@ -34,13 +34,13 @@ const steps = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="bg-black min-h-screen pt-16">
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+    <div className="bg-background min-h-screen pt-16">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>How it works</SectionLabel>
-          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">Renting reimagined — from search to keys</h1>
+          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight">Renting reimagined — from search to keys</h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
             A seamless, transparent process built for Nigeria. Three steps, one place — whether you rent, own, manage, or transact.
           </p>
@@ -58,7 +58,7 @@ export default function HowItWorksPage() {
                   </div>
                   <span className="text-2xl font-black tracking-tight text-white/[0.06]">{s.n}</span>
                 </div>
-                <h3 className="mt-4 text-base font-bold text-white">{s.title}</h3>
+                <h3 className="mt-4 text-base font-bold text-foreground">{s.title}</h3>
                 <p className="mt-2 text-sm text-zinc-500 leading-relaxed flex-1">{s.desc}</p>
                 <ul className="mt-4 space-y-1.5">
                   {s.bullets.map((b) => (
@@ -68,7 +68,7 @@ export default function HowItWorksPage() {
                     </li>
                   ))}
                 </ul>
-                <Button asChild variant="outline" size="sm" className="mt-5 border-white/10 text-white hover:bg-white/10">
+                <Button asChild variant="outline" size="sm" className="mt-5 border-border text-white hover:bg-white/10">
                   <Link href={s.cta.href}>
                     {s.cta.label} <ArrowRight className="ml-2 h-3.5 w-3.5" />
                   </Link>

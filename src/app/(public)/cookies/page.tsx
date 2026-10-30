@@ -171,7 +171,7 @@ export default function CookiesPage() {
 
             </div>
 
-            <div className="mt-10 pt-8 border-t border-white/[0.08]">
+            <div className="mt-10 pt-8 border-t border-border">
               <Button variant="secondary" className="gap-2" onClick={() => window.location.assign('/privacy-policy')}>
                 Read Privacy Policy
               </Button>

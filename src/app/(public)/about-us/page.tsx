@@ -21,15 +21,15 @@ const compliancePoints = [
 
 export default function AboutUsPage() {
   return (
-    <div className="bg-black min-h-screen pt-16">
+    <div className="bg-background min-h-screen pt-16">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 relative">
           <div className="max-w-3xl">
             <SectionLabel>About PropatiBox</SectionLabel>
-            <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">
+            <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight">
               Building trust in Nigerian property transactions
             </h1>
             <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
@@ -41,7 +41,7 @@ export default function AboutUsPage() {
                   Browse verified listings <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Button asChild size="lg" variant="outline" className="border-border text-white hover:bg-card">
                 <Link href="/contact-us">Talk to us</Link>
               </Button>
             </div>
@@ -54,7 +54,7 @@ export default function AboutUsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto text-center mb-12">
             <SectionLabel>Our mission</SectionLabel>
-            <h2 className="mt-3 text-2xl md:text-3xl font-bold text-white tracking-tight">Secure, transparent, and accessible for every Nigerian</h2>
+            <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground tracking-tight">Secure, transparent, and accessible for every Nigerian</h2>
             <p className="mt-3 text-sm text-zinc-500 leading-relaxed">
               Fraud and misrepresentation are the country&apos;s top property risks. PropatiBox was built to close that gap — not with slogans, but with verification, escrow, and enforceable agreements.
             </p>
@@ -64,21 +64,21 @@ export default function AboutUsPage() {
               <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                 <Users className="h-5 w-5" />
               </div>
-              <h3 className="mt-4 text-sm font-semibold text-white">For tenants</h3>
-              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Verified listings, vetted landlords, and rent collection that creates a receipt ┬ÌÌÑ a dispute.</p>
+              <h3 className="mt-4 text-sm font-semibold text-foreground">For tenants</h3>
+              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Verified listings, vetted landlords, and rent collection that creates a receipt — a dispute.</p>
             </div>
             <div className="glass-card p-6">
               <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                 <Shield className="h-5 w-5" />
               </div>
-              <h3 className="mt-4 text-sm font-semibold text-white">For landlords</h3>
+              <h3 className="mt-4 text-sm font-semibold text-foreground">For landlords</h3>
               <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Identity-verified tenants, stamp-duty-compliant agreements, and escrow until handover is confirmed.</p>
             </div>
             <div className="glass-card p-6">
               <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                 <Heart className="h-5 w-5" />
               </div>
-              <h3 className="mt-4 text-sm font-semibold text-white">For the market</h3>
+              <h3 className="mt-4 text-sm font-semibold text-foreground">For the market</h3>
               <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">A single source of truth where a certified badge actually means something.</p>
             </div>
           </div>
@@ -86,19 +86,19 @@ export default function AboutUsPage() {
       </section>
 
       {/* Team */}
-      <section className="py-16 md:py-20 border-t border-white/[0.06]">
+      <section className="py-16 md:py-20 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Leadership</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">Leadership</h2>
             <p className="mt-2 text-sm text-zinc-500">Operators from property, engineering, and legal — not a stock-photo team.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {teamMembers.map((m) => (
               <div key={m.name} className="glass-card p-6 text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 border border-white/[0.08] text-white font-semibold">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-muted border border-border text-foreground font-semibold">
                   {m.initials}
                 </div>
-                <p className="mt-3 text-sm font-semibold text-white">{m.name}</p>
+                <p className="mt-3 text-sm font-semibold text-foreground">{m.name}</p>
                 <p className="mt-1 text-xs text-zinc-500">{m.role}</p>
               </div>
             ))}
@@ -107,10 +107,10 @@ export default function AboutUsPage() {
       </section>
 
       {/* Compliance */}
-      <section className="py-16 md:py-20 border-t border-white/[0.06]">
+      <section className="py-16 md:py-20 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mb-8">
-            <h2 className="text-2xl font-bold text-white tracking-tight">Built for compliance</h2>
+            <h2 className="text-2xl font-bold text-foreground tracking-tight">Built for compliance</h2>
             <p className="mt-2 text-sm text-zinc-500">Trust is a legal standard, not a marketing word. Every flow is mapped to it.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -120,7 +120,7 @@ export default function AboutUsPage() {
                   <CheckCircle2 className="h-4 w-4" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">{c.title}</p>
+                  <p className="text-sm font-semibold text-foreground">{c.title}</p>
                   <p className="mt-1 text-sm text-zinc-500 leading-relaxed">{c.description}</p>
                 </div>
               </div>
@@ -130,20 +130,20 @@ export default function AboutUsPage() {
       </section>
 
       {/* Address + CTA */}
-      <section className="py-12 md:py-16 border-t border-white/[0.06]">
+      <section className="py-12 md:py-16 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="glass-card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500">
                 <MapPin className="h-3.5 w-3.5" /> Lagos · Nigeria
               </div>
-              <h3 className="mt-2 text-lg font-bold text-white">PropatiBox Technologies Ltd.</h3>
+              <h3 className="mt-2 text-lg font-bold text-foreground">PropatiBox Technologies Ltd.</h3>
               <p className="mt-1 text-sm text-zinc-500">15 Akin Adesola Street, Victoria Island, Lagos.</p>
               <p className="text-sm text-zinc-500">support@propati.ng · dpo@propati.ng</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild><Link href="/contact-us">Contact us</Link></Button>
-              <Button asChild variant="outline" className="border-white/15 text-white hover:bg-white/10">
+              <Button asChild variant="outline" className="border-border text-white hover:bg-card">
                 <Link href="/verification">How verification works</Link>
               </Button>
             </div>

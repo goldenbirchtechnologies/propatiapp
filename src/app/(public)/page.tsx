@@ -216,7 +216,7 @@ export default function HomePage() {
 
         <div className="relative mx-auto flex max-w-6xl flex-col items-center px-6 pb-20 pt-28 text-center">
           {/* Eyebrow Pill */}
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-white/5 px-3.5 py-1.5 backdrop-blur-md">
             <ShieldCheck className="h-4 w-4 text-[#4edea3]" />
             <span className="text-[11px] font-semibold uppercase tracking-wider text-[#4edea3]">
               Nigeria&apos;s Premier Verified Property Marketplace
@@ -358,7 +358,7 @@ export default function HomePage() {
       </section>
 
       {/* ===================== 4-PILLAR TRUST STRIP ===================== */}
-      <section className="w-full bg-[#f6f2f7] dark:bg-zinc-950 py-8">
+      <section className="w-full bg-muted py-8">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar, i) => (
@@ -431,7 +431,7 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED OPPORTUNITIES ===================== */}
-      <section className="w-full bg-[#f6f2f7] dark:bg-zinc-950 py-16">
+      <section className="w-full bg-muted py-16">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>

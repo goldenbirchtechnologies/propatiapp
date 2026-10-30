@@ -55,14 +55,14 @@ const layers = [
 
 export default function VerificationPage() {
   return (
-    <div className="bg-black min-h-screen pt-16">
+    <div className="bg-background min-h-screen pt-16">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Trust</SectionLabel>
-          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">
+          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight">
             5 layers. One certified badge.
           </h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
@@ -74,13 +74,13 @@ export default function VerificationPage() {
                 View certified listings <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-white/15 text-white hover:bg-white/10">
+            <Button asChild size="lg" variant="outline" className="border-border text-white hover:bg-card">
               <Link href="/listings">Browse all listings</Link>
             </Button>
           </div>
           <div className="mt-6 flex flex-wrap gap-2 text-xs">
             {['basic', 'verified', 'inspected', 'certified'].map((tier) => (
-              <span key={tier} className="px-2.5 py-1 rounded-full border border-white/[0.08] bg-white/[0.04] text-zinc-400 capitalize">
+              <span key={tier} className="px-2.5 py-1 rounded-full border border-border bg-card text-zinc-400 capitalize">
                 {tier}
               </span>
             ))}
@@ -92,11 +92,11 @@ export default function VerificationPage() {
       <section className="py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mb-8">
-            <h2 className="text-2xl font-bold text-white tracking-tight">How verification works</h2>
+            <h2 className="text-2xl font-bold text-foreground tracking-tight">How verification works</h2>
             <p className="mt-2 text-sm text-zinc-500">
-              Progress is tracked as <code className="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-zinc-300">currentLayer 1→5</code> and{' '}
-              <code className="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-zinc-300">overallStatus</code> (not_started, in_progress, certified, rejected, frozen). Each layer&apos;s
-              status is <code className="px-1 py-0.5 rounded bg-white/[0.06] text-zinc-300">pending / approved / rejected</code>.
+              Progress is tracked as <code className="px-1.5 py-0.5 rounded bg-card border border-border text-zinc-300">currentLayer 1→5</code> and{' '}
+              <code className="px-1.5 py-0.5 rounded bg-card border border-border text-zinc-300">overallStatus</code> (not_started, in_progress, certified, rejected, frozen). Each layer&apos;s
+              status is <code className="px-1 py-0.5 rounded bg-card text-zinc-300">pending / approved / rejected</code>.
             </p>
           </div>
 
@@ -109,7 +109,7 @@ export default function VerificationPage() {
                   </div>
                   <span className="text-xs font-semibold text-zinc-500">Layer {layer.n}</span>
                 </div>
-                <h3 className="mt-4 text-sm font-bold text-white">{layer.title}</h3>
+                <h3 className="mt-4 text-sm font-bold text-foreground">{layer.title}</h3>
                 <p className="mt-1 text-xs font-medium text-[#4edea3]">{layer.tier}</p>
 
                 <div className="mt-4 space-y-2">
@@ -144,13 +144,13 @@ export default function VerificationPage() {
                 <Clock className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Rejected or frozen?</p>
+                <p className="text-sm font-semibold text-foreground">Rejected or frozen?</p>
                 <p className="mt-1 text-sm text-zinc-500 leading-relaxed max-w-xl">
-                  A rejected layer can be resubmitted. A frozen verification is locked by an admin (see <code className="px-1 py-0.5 rounded bg-white/[0.06] text-zinc-300">frozenReason</code>) and requires support.
+                  A rejected layer can be resubmitted. A frozen verification is locked by an admin (see <code className="px-1 py-0.5 rounded bg-card text-zinc-300">frozenReason</code>) and requires support.
                 </p>
               </div>
             </div>
-            <Button asChild variant="outline" className="border-white/15 text-white hover:bg-white/10 shrink-0">
+            <Button asChild variant="outline" className="border-border text-white hover:bg-card shrink-0">
               <Link href="/contact-us">Contact support</Link>
             </Button>
           </div>
@@ -161,7 +161,7 @@ export default function VerificationPage() {
                 Browse certified <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" className="border-white/15 text-white hover:bg-white/10">
+            <Button asChild variant="outline" className="border-border text-white hover:bg-card">
               <Link href="/about-us">Why we built this</Link>
             </Button>
           </div>

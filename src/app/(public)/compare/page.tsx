@@ -169,7 +169,7 @@ export default function ComparePage() {
   const showEmpty = !hasSelection && showcaseCount === 0;
 
   return (
-    <div className="bg-black min-h-screen pt-16">
+    <div className="bg-background min-h-screen pt-16">
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 flex items-center gap-2 text-xs text-zinc-500">
         <Link href="/" className="hover:text-zinc-300">Home</Link>
@@ -180,29 +180,29 @@ export default function ComparePage() {
       </div>
 
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/[0.08]">
+      <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.10),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-10 relative">
           <SectionLabel>Multi-property due diligence matrix</SectionLabel>
-          <h1 className="mt-3 text-3xl md:text-4xl font-bold leading-tight text-white tracking-tight">Compare Properties Side by Side</h1>
+          <h1 className="mt-3 text-3xl md:text-4xl font-bold leading-tight text-foreground tracking-tight">Compare Properties Side by Side</h1>
           <p className="mt-3 text-sm md:text-base text-zinc-400 max-w-3xl leading-relaxed">
             Evaluate verified institutional assets across statutory title standing (C&nbsp;of&nbsp;O & Governor&apos;s Consent), CBN-regulated escrow custody, physical coordinate surveys, service charge clarity, and lease enforceability.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-2">
-            <Button asChild size="sm" variant="outline" className="border-white/15 text-white hover:bg-white/10">
+            <Button asChild size="sm" variant="outline" className="border-border text-white hover:bg-card">
               <Link href="/listings"><span className="inline-flex items-center gap-1.5"><span className="text-lg leading-none">＋</span> Add Property</span></Link>
             </Button>
             <Button
               size="sm"
               variant="outline"
-              className="border-white/15 text-white hover:bg-white/10 gap-1.5"
+              className="border-border text-foreground hover:bg-card gap-1.5"
               onClick={() => { const url = typeof window !== 'undefined' ? window.location.href : ''; navigator.clipboard?.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
             >
               {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />} {copied ? 'Copied' : 'Export Dossier (PDF)'}
             </Button>
             {hasSelection && (
-              <Button size="sm" variant="ghost" className="text-zinc-400 hover:text-white" onClick={clearAll}>
+              <Button size="sm" variant="ghost" className="text-zinc-400 hover:text-foreground" onClick={clearAll}>
                 <X className="h-3.5 w-3.5 mr-1" /> Clear Comparison
               </Button>
             )}
@@ -211,7 +211,7 @@ export default function ComparePage() {
       </section>
 
       {/* Trust strip */}
-      <section className="border-y border-white/[0.06] bg-white/[0.02]">
+      <section className="border-y border-border bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {[
@@ -225,7 +225,7 @@ export default function ComparePage() {
                   <m.icon className="h-5 w-5" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-bold text-white leading-tight">{m.value}</p>
+                  <p className="text-sm font-bold text-foreground leading-tight">{m.value}</p>
                   <p className="text-xs text-zinc-500 truncate">{m.label}</p>
                   <p className="text-[11px] text-[#4edea3]">{m.badge}</p>
                 </div>
@@ -236,23 +236,23 @@ export default function ComparePage() {
       </section>
 
       {/* Filter tabs + highlight toggle */}
-      <section className="py-4 border-b border-white/[0.06]">
+      <section className="py-4 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             {FILTER_TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setActiveTab(t.id)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${activeTab === t.id ? 'bg-primary text-black border-primary' : 'bg-white/[0.06] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'}`}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${activeTab === t.id ? 'bg-primary text-black border-primary' : 'bg-card text-zinc-400 border-border hover:text-foreground hover:border-border'}`}
               >
                 {t.label} {t.count ? `(${t.count})` : ''}
               </button>
             ))}
           </div>
           <label className="flex items-center gap-2 text-xs text-zinc-400 cursor-pointer select-none">
-            <input type="checkbox" checked={highlightDiff} onChange={(e) => setHighlightDiff(e.target.checked)} className="rounded border-white/20 bg-transparent text-primary focus:ring-primary/30" />
+            <input type="checkbox" checked={highlightDiff} onChange={(e) => setHighlightDiff(e.target.checked)} className="rounded border-border bg-transparent text-primary focus:ring-primary/30" />
             Highlight Differences Only
-            <span className="ml-2 px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.06] text-[11px] text-zinc-500">
+            <span className="ml-2 px-2 py-0.5 rounded-full bg-card border border-border text-[11px] text-zinc-500">
               Comparing {showcaseCount} of {MAX_COMPARE} Maximum
             </span>
           </label>
@@ -265,7 +265,7 @@ export default function ComparePage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-[#4edea3]">Evaluation Set</p>
-              <h2 className="text-lg font-bold text-white">Multi-Asset Benchmarking</h2>
+              <h2 className="text-lg font-bold text-foreground">Multi-Asset Benchmarking</h2>
               <p className="text-xs text-zinc-500">Direct legal parity, institutional lease verification, and escrow liquidity guarantees. Audit Date: October 2024</p>
             </div>
             {!hasSelection && <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-500">Demo showcase — add <Link href="/listings" className="text-[#4edea3] hover:text-[#6ffbbe]">listings</Link> via ?ids=</span>}
@@ -275,16 +275,16 @@ export default function ComparePage() {
             <div className="grid gap-4 md:grid-cols-3">
               {Array.from({ length: ids.length || 3 }).map((_, i) => (
                 <div key={i} className="glass-card p-6 animate-pulse">
-                  <div className="h-40 rounded-lg bg-white/[0.04] mb-4" />
-                  <div className="h-4 w-3/4 bg-white/[0.04] rounded mb-2" />
-                  <div className="h-3 w-1/2 bg-white/[0.04] rounded" />
+                  <div className="h-40 rounded-lg bg-card mb-4" />
+                  <div className="h-4 w-3/4 bg-card rounded mb-2" />
+                  <div className="h-3 w-1/2 bg-card rounded" />
                 </div>
               ))}
             </div>
           ) : error ? (
             <div className="glass-card p-8 text-center">
               <p className="text-sm text-red-400">{error}</p>
-              <Button asChild variant="outline" className="mt-4 border-white/15 text-white hover:bg-white/10">
+              <Button asChild variant="outline" className="mt-4 border-border text-white hover:bg-card">
                 <Link href="/listings">Browse listings</Link>
               </Button>
             </div>
@@ -307,12 +307,12 @@ export default function ComparePage() {
                   </div>
                   <div className="px-4 pt-2 pb-3">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">{l.status || l.listingType || 'Residential'}</p>
-                    <h3 className="text-sm font-bold text-white line-clamp-1">{l.title}</h3>
+                    <h3 className="text-sm font-bold text-foreground line-clamp-1">{l.title}</h3>
                     <p className="mt-1 flex items-center gap-1 text-xs text-zinc-500">
                       <MapPin className="h-3 w-3 shrink-0" />
                       {l.area || l.address}
                     </p>
-                    <p className="mt-2 text-sm font-bold text-white">
+                    <p className="mt-2 text-sm font-bold text-foreground">
                       {l.price ? formatCurrency(Number(l.price) * 100) : '—'} {l.pricePeriod ? <span className="text-xs font-normal text-zinc-500">/ {l.pricePeriod}</span> : null}
                       {l.serviceCharge != null && <span className="block text-xs font-normal text-zinc-500">Service: {formatCurrency(Number(l.serviceCharge) * 100)} / yr</span>}
                     </p>
@@ -326,11 +326,11 @@ export default function ComparePage() {
                     <Button asChild size="sm" className="flex-1 gap-1.5">
                       <Link href={hasSelection ? `/listings/${l.id}` : '/listings'}><ShieldCheck className="h-3.5 w-3.5" /> Initiate Escrow Lease</Link>
                     </Button>
-                    <Button variant="outline" size="sm" className="border-white/10 text-xs" asChild>
+                    <Button variant="outline" size="sm" className="border-border text-xs" asChild>
                       <Link href={hasSelection ? `/listings/${l.id}` : '/listings'}>Schedule Inspection</Link>
                     </Button>
                     {hasSelection && (
-                      <button onClick={() => removeId(l.id)} className="w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:border-white/20 shrink-0" aria-label="Remove">
+                      <button onClick={() => removeId(l.id)} className="w-8 h-8 rounded-lg border border-border flex items-center justify-center text-zinc-500 hover:text-foreground hover:border-border shrink-0" aria-label="Remove">
                         <X className="h-3.5 w-3.5" />
                       </button>
                     )}
@@ -347,9 +347,9 @@ export default function ComparePage() {
         <section className="pb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="glass-card overflow-hidden">
-              <div className="px-4 sm:px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+              <div className="px-4 sm:px-6 py-4 border-b border-border flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-[#4edea3]" />
-                <h2 className="text-sm font-semibold text-white">
+                <h2 className="text-sm font-semibold text-foreground">
                   {activeTab === 'all' ? 'Side-by-side specs' : FILTER_TABS.find(t => t.id === activeTab)?.label}
                 </h2>
                 <span className="ml-auto text-xs text-zinc-500">{rows.length} rows</span>
@@ -357,10 +357,10 @@ export default function ComparePage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/[0.06] bg-white/[0.02]">
+                    <tr className="border-b border-border bg-card">
                       <th className="text-left px-4 sm:px-6 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 w-48">Feature</th>
                       {showcase.map((l: any) => (
-                        <th key={l.id} className="text-left px-4 py-3 text-xs font-semibold text-white min-w-[180px]">
+                        <th key={l.id} className="text-left px-4 py-3 text-xs font-semibold text-foreground min-w-[180px]">
                           <span className="line-clamp-1">{l.title}</span>
                         </th>
                       ))}
@@ -368,7 +368,7 @@ export default function ComparePage() {
                   </thead>
                   <tbody>
                     {rows.map((row) => (
-                      <tr key={row.label} className={`border-b border-white/[0.04] last:border-0 ${highlightDiff ? 'has-[.diff]:bg-amber-500/5' : ''}`}>
+                      <tr key={row.label} className={`border-b border-border last:border-0 ${highlightDiff ? 'has-[.diff]:bg-amber-500/5' : ''}`}>
                         <td className="px-4 sm:px-6 py-3 text-xs font-medium text-zinc-500">{row.label}</td>
                         {showcase.map((l: any) => (
                           <td key={l.id} className="px-4 py-3 text-sm text-zinc-300">
@@ -383,17 +383,17 @@ export default function ComparePage() {
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild variant="outline" className="border-white/15 text-white hover:bg-white/10">
+              <Button asChild variant="outline" className="border-border text-white hover:bg-card">
                 <Link href="/listings">Add another</Link>
               </Button>
               <Button
                 variant="ghost"
-                className="text-zinc-400 hover:text-white gap-1.5"
+                className="text-zinc-400 hover:text-foreground gap-1.5"
                 onClick={() => { const url = typeof window !== 'undefined' ? window.location.href : ''; navigator.clipboard?.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
               >
                 {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />} {copied ? 'Link copied' : 'Copy compare link'}
               </Button>
-              <Button variant="outline" className="border-white/15 text-white hover:bg-white/10 gap-1.5" onClick={() => window.print()}>
+              <Button variant="outline" className="border-border text-white hover:bg-card gap-1.5" onClick={() => window.print()}>
                 <Printer className="h-3.5 w-3.5" /> Print dossier
               </Button>
             </div>
@@ -410,14 +410,14 @@ export default function ComparePage() {
                 <Landmark className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white">Need an independent surveyor report or deed certification?</h3>
+                <h3 className="text-sm font-bold text-foreground">Need an independent surveyor report or deed certification?</h3>
                 <p className="mt-1 text-sm text-zinc-500 leading-relaxed max-w-2xl">
                   Before committing significant institutional capital, commission a registered NIESV fellow to perform coordinate verification, boundary beacon mapping, or physical structural testing.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-[#4edea3]"><Check className="h-3 w-3" /> LASRERA Accredited</span>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-[#4edea3]"><Check className="h-3 w-3" /> AGIS Cadastral Validated</span>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.06] text-zinc-400"><ShieldCheck className="h-3 w-3" /> 48-Hour Execution Guarantee</span>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-card border border-border text-zinc-400"><ShieldCheck className="h-3 w-3" /> 48-Hour Execution Guarantee</span>
                 </div>
               </div>
             </div>
@@ -425,7 +425,7 @@ export default function ComparePage() {
               <Button asChild>
                 <Link href="/verification">Request Title Search</Link>
               </Button>
-              <Button variant="outline" className="border-white/15 text-white hover:bg-white/10 gap-1.5">
+              <Button variant="outline" className="border-border text-white hover:bg-card gap-1.5">
                 <Printer className="h-3.5 w-3.5" /> Download Spec Sheet (PDF)
               </Button>
             </div>

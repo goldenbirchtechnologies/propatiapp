@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/components/providers/ThemeProvider';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { Sun, Moon } from 'lucide-react';
 import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
@@ -73,8 +74,8 @@ export function StitchHeader() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 border-b transition-shadow duration-300 ${
           scrolled
-            ? 'bg-white border-outline-variant/60 shadow-[0_1px_4px_rgba(0,0,0,0.03)]'
-            : 'bg-white border-outline-variant/40'
+            ? 'bg-background/95 backdrop-blur border-outline-variant/60 shadow-[0_1px_4px_rgba(0,0,0,0.03)]'
+            : 'bg-background/95 backdrop-blur border-outline-variant/40'
         }`}
       >
         <div className="h-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
@@ -106,14 +107,14 @@ export function StitchHeader() {
               onClick={toggleTheme}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-xl border border-outline-variant bg-white text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+              className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-xl border border-outline-variant bg-background text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
               type="button"
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             <Link
               href="/sign-up?role=landlord"
-              className="hidden sm:inline-flex items-center justify-center h-10 px-3.5 rounded-xl border border-outline-variant bg-white text-on-surface-variant hover:text-on-surface text-xs font-semibold transition-colors"
+              className="hidden sm:inline-flex items-center justify-center h-10 px-3.5 rounded-xl border border-outline-variant bg-background text-on-surface-variant hover:text-on-surface text-xs font-semibold transition-colors"
             >
               Switch Role
             </Link>
@@ -123,18 +124,31 @@ export function StitchHeader() {
             >
               List Property
             </Link>
-            <Link
-              href="/sign-in"
-              className="hidden sm:inline-flex items-center justify-center h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-title-sm text-title-sm font-semibold border border-outline-variant hover:bg-surface-container transition-colors"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/sign-up"
-              className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-xl bg-zinc-900 text-white font-title-sm text-title-sm font-semibold hover:bg-black transition-colors shadow-sm"
-            >
-              Get Started
-            </Link>
+            <SignedOut>
+              <Link
+                href="/sign-in"
+                className="hidden sm:inline-flex items-center justify-center h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-title-sm text-title-sm font-semibold border border-outline-variant hover:bg-surface-container transition-colors"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/sign-up"
+                className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-xl bg-zinc-900 text-white font-title-sm text-title-sm font-semibold hover:bg-black transition-colors shadow-sm"
+              >
+                Get Started
+              </Link>
+            </SignedOut>
+            <SignedIn>
+              <Link
+                href="/dashboard"
+                className="hidden sm:inline-flex items-center justify-center h-10 px-4 rounded-xl bg-primary text-on-primary font-title-sm text-title-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm"
+              >
+                Dashboard
+              </Link>
+              <div className="hidden sm:inline-flex items-center">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -156,7 +170,7 @@ export function StitchHeader() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="xl:hidden absolute top-20 inset-x-0 bg-white border-t border-outline-variant/40 shadow-xl max-h-[calc(100vh-5rem)] overflow-y-auto">
+          <div className="xl:hidden absolute top-20 inset-x-0 bg-background border-t border-outline-variant/40 shadow-xl max-h-[calc(100vh-5rem)] overflow-y-auto">
             <div className="px-4 py-4 space-y-1">
               {navLinks.map((link) => {
                 const active = link.href === pathname || link.href === `/${pathname}`;
@@ -172,20 +186,32 @@ export function StitchHeader() {
                   </Link>
                 );
               })}
-              <div className="pt-3 mt-3 border-t border-outline-variant/40 flex gap-2">
-                <Link
-                  href="/sign-in"
-                  className="flex-1 text-center py-2.5 rounded-xl border border-outline-variant text-sm font-semibold text-on-surface-variant"
-                >
-                  Sign in
-                </Link>
-                <Link
-                  href="/sign-up"
-                  className="flex-1 text-center py-2.5 rounded-xl bg-zinc-900 text-white text-sm font-semibold"
-                >
-                  Get Started
-                </Link>
-              </div>
+              <SignedOut>
+                <div className="pt-3 mt-3 border-t border-outline-variant/40 flex gap-2">
+                  <Link
+                    href="/sign-in"
+                    className="flex-1 text-center py-2.5 rounded-xl border border-outline-variant text-sm font-semibold text-on-surface-variant"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/sign-up"
+                    className="flex-1 text-center py-2.5 rounded-xl bg-zinc-900 text-white text-sm font-semibold"
+                  >
+                    Get Started
+                  </Link>
+                </div>
+              </SignedOut>
+              <SignedIn>
+                <div className="pt-3 mt-3 border-t border-outline-variant/40 flex gap-2">
+                  <Link
+                    href="/dashboard"
+                    className="flex-1 text-center py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold"
+                  >
+                    Dashboard
+                  </Link>
+                </div>
+              </SignedIn>
               <Link
                 href="/sign-up"
                 className="block w-full text-center py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold mt-2"
@@ -202,7 +228,7 @@ export function StitchHeader() {
 
 export function StitchFooter() {
   return (
-    <footer className="bg-white border-t border-outline-variant/60 pt-16 pb-8">
+    <footer className="bg-background border-t border-outline-variant/60 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-14">
           {/* Brand col */}

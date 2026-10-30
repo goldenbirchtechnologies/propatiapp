@@ -144,7 +144,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
         badges={
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:bg-white/[0.06] dark:text-zinc-400">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> Escrow Live
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> Escrow Live
             </span>
             <span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
               {summary.propertyCount} managed properties
@@ -176,7 +176,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
               <span className="text-zinc-600 dark:text-zinc-400">
                 {collections.filter((c) => c.agreementCount > 0).length} with live mandates
               </span>
-              <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <TrendingUp className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
             </div>
           }
         />
@@ -223,7 +223,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
               <span className="text-[11px] text-zinc-500 dark:text-zinc-400">Across all mandates</span>
-              <Shield className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <Shield className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
             </div>
           }
         />
@@ -275,7 +275,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
             collections.length === 0 ? (
               <Link
                 href="/dashboard/agent/invites"
-                className="inline-flex h-9 items-center gap-2 rounded-lg bg-emerald-600 px-3.5 text-xs font-medium text-white"
+                className="inline-flex h-9 items-center gap-2 rounded-lg bg-primary px-3.5 text-xs font-medium text-white"
               >
                 <Users className="h-3.5 w-3.5" /> View invitations
               </Link>
@@ -313,7 +313,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
 
                     <div className="min-w-0 flex-1 space-y-3">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                           <BadgeCheck className="h-3.5 w-3.5" /> Full Access Mandate
                         </span>
                         {c.property.state ? (
@@ -363,7 +363,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
 
                       <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
                         <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2.5 py-1 font-medium text-zinc-600 dark:bg-white/[0.06] dark:text-zinc-400">
-                          <Building2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                          <Building2 className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
                           {c.unitCount} unit{c.unitCount === 1 ? '' : 's'} ({c.occupiedUnitCount}/{c.unitCount} occupied)
                         </span>
                         {c.tenantNames.slice(0, 3).map((t) => (
@@ -388,7 +388,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
                       <div className="mt-1 font-mono text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
                         {naira(c.expectedRent)}
                       </div>
-                      <div className="mt-1 flex items-center justify-between text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                      <div className="mt-1 flex items-center justify-between text-xs font-semibold text-primary dark:text-[#4edea3]">
                         <span>Settled: {naira(c.collectedRent)}</span>
                         <span>{rate.toFixed(1)}%</span>
                       </div>
@@ -417,7 +417,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
                       </div>
                       <Link
                         href="/dashboard/agent/receipts"
-                        className="inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg bg-emerald-600 text-sm font-semibold text-white hover:bg-emerald-500"
+                        className="inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg bg-primary text-sm font-semibold text-white hover:bg-primary"
                       >
                         <Landmark className="h-3.5 w-3.5" /> Reconcile Payment
                       </Link>
@@ -445,14 +445,14 @@ export default function AgentRentsClient({ summary, collections }: Props) {
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span>
             Collected:{' '}
-            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
               {naira(totalCollected)}
             </span>
           </span>
         </div>
         <Link
           href="/dashboard/agent/payments"
-          className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-primary dark:text-[#4edea3] hover:underline"
         >
           Open full payment ledger <ChevronRight className="h-3 w-3" />
         </Link>

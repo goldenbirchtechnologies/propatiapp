@@ -79,7 +79,7 @@ export default function CountriesAdminPage() {
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground"
+          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-[#4edea3]-foreground"
         >
           <Plus className="h-4 w-4" /> Add Country
         </button>
@@ -95,7 +95,7 @@ export default function CountriesAdminPage() {
             <input placeholder="Locale (e.g. en-GH)" value={form.locale} onChange={e => setForm({...form, locale: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-3 py-2" />
             <input placeholder="Timezone (e.g. Africa/Accra)" value={form.timezone} onChange={e => setForm({...form, timezone: e.target.value})} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-3 py-2" />
             <div className="flex gap-2">
-              <button type="submit" className="rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground">Save</button>
+              <button type="submit" className="rounded-lg bg-primary px-4 py-2 text-[#4edea3]-foreground">Save</button>
               <button type="button" onClick={() => setShowAdd(false)} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] px-4 py-2">Cancel</button>
             </div>
           </form>
@@ -116,10 +116,10 @@ export default function CountriesAdminPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className={`text-xs px-2 py-1 rounded ${country.active ? "bg-green-100 text-emerald-400" : "bg-gray-100 text-gray-600"}`}>
+                <span className={`text-xs px-2 py-1 rounded ${country.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-gray-600"}`}>
                   {country.active ? "Active" : "Inactive"}
                 </span>
-                <button onClick={() => toggleActive(country.code, country.active)} className="text-sm text-emerald-400 hover:underline">
+                <button onClick={() => toggleActive(country.code, country.active)} className="text-sm text-[#4edea3] hover:underline">
                   {country.active ? "Deactivate" : "Activate"}
                 </button>
               </div>
@@ -145,7 +145,7 @@ export default function CountriesAdminPage() {
                 <p className="text-sm font-medium text-zinc-900 dark:text-white mb-2">Feature Capabilities</p>
                 <div className="flex flex-wrap gap-2">
                   {country.capabilities.map(cap => (
-                    <span key={cap.id} className={`text-xs px-2 py-1 rounded ${cap.enabled ? "bg-green-100 text-emerald-400" : cap.available ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"}`}>
+                    <span key={cap.id} className={`text-xs px-2 py-1 rounded ${cap.enabled ? "bg-green-100 text-[#4edea3]" : cap.available ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"}`}>
                       {cap.feature}: {cap.enabled ? "live" : cap.available ? "soon" : "off"}
                     </span>
                   ))}

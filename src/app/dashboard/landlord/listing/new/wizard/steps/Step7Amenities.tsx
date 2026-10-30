@@ -57,7 +57,7 @@ export default function Step7Amenities({ amenities = [], onChange }: Step7Props)
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 07 / Infrastructure & Utilities</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 07 / Infrastructure & Utilities</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Institutional Amenities & Infrastructure Matrix</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Select facility assurances including independent power generation and security protocols.</p>
       </div>
@@ -65,7 +65,7 @@ export default function Step7Amenities({ amenities = [], onChange }: Step7Props)
         {Object.entries(CATEGORIES).map(([category, items]) => (
           <div key={category} className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="size-4 text-emerald-600" />
+              <Sparkles className="size-4 text-primary" />
               <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">{category}</h3>
             </div>
             <div className="flex flex-col gap-2">
@@ -76,7 +76,7 @@ export default function Step7Amenities({ amenities = [], onChange }: Step7Props)
                     key={item.value}
                     className={`flex items-center gap-3 rounded-xl border p-2.5 cursor-pointer transition ${
                       checked
-                        ? 'border-emerald-600 dark:border-emerald-500 bg-emerald-600/5'
+                        ? 'border-primary dark:border-primary bg-primary/5'
                         : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04] hover:border-zinc-300 dark:hover:border-white/20'
                     }`}
                   >

@@ -64,7 +64,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
             size="icon"
-            className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
+            className={viewMode === 'grid' ? 'bg-primary hover:bg-primary text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
             onClick={() => setViewMode('grid')}
           >
             <Home className="h-4 w-4" />
@@ -72,7 +72,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
           <Button
             variant={viewMode === 'list' ? 'default' : 'outline'}
             size="icon"
-            className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
+            className={viewMode === 'list' ? 'bg-primary hover:bg-primary text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
             onClick={() => setViewMode('list')}
           >
             <Search className="h-4 w-4" />
@@ -165,7 +165,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
                       <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                         <Share2 className="h-4 w-4" />
                       </Button>
-                      <Button asChild variant="ghost" size="sm" className="text-emerald-400 hover:text-emerald-300">
+                      <Button asChild variant="ghost" size="sm" className="text-[#4edea3] hover:text-[#6ffbbe]">
                         <Link href={`/listings/${property.id}`}>
                           <Eye className="h-4 w-4 mr-1" /> View
                         </Link>

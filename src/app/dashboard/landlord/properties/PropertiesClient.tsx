@@ -168,7 +168,7 @@ export default function PropertiesClient({ listings }: Props) {
         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] uppercase tracking-wider text-primary dark:text-[#4edea3] font-semibold bg-primary/10 px-2.5 py-0.5 rounded-full">
                 Institutional Portfolio
               </span>
               <span className="text-zinc-400 text-xs">•</span>
@@ -183,20 +183,20 @@ export default function PropertiesClient({ listings }: Props) {
             {/* Live Stat Badges */}
             <div className="flex flex-wrap items-center gap-2 mt-2">
               <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span className="w-2 h-2 rounded-full bg-primary" />
                 <span className="font-semibold text-zinc-900 dark:text-white">{counts.totalProperties}</span> Properties
               </div>
               <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <Building2 size={14} className="text-emerald-600 dark:text-emerald-400" />
+                <Building2 size={14} className="text-primary dark:text-[#4edea3]" />
                 <span className="font-semibold text-zinc-900 dark:text-white">{counts.totalUnits}</span> Total Units
               </div>
               <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <PieChart size={14} className="text-emerald-600 dark:text-emerald-400" />
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{counts.occupancy}%</span> Occupancy
+                <PieChart size={14} className="text-primary dark:text-[#4edea3]" />
+                <span className="font-semibold text-primary dark:text-[#4edea3]">{counts.occupancy}%</span> Occupancy
               </div>
               <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <BadgeCheck size={14} className="text-emerald-600 dark:text-emerald-400" />
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">Tier {counts.verified > 0 ? '4' : '—'}</span> Certified
+                <BadgeCheck size={14} className="text-primary dark:text-[#4edea3]" />
+                <span className="font-semibold text-primary dark:text-[#4edea3]">Tier {counts.verified > 0 ? '4' : '—'}</span> Certified
               </div>
             </div>
           </div>
@@ -208,7 +208,7 @@ export default function PropertiesClient({ listings }: Props) {
             </button>
             <Link
               href="/dashboard/landlord/properties/new"
-              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors"
+              className="flex items-center gap-2 bg-primary hover:bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors"
             >
               <Plus size={16} />
               <span>Add Property</span>
@@ -257,7 +257,7 @@ export default function PropertiesClient({ listings }: Props) {
               <ChevronDown className="size-4 text-zinc-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
             {/* Verification Pill */}
-            <button className="flex items-center gap-1.5 bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 px-3 py-2 rounded-lg text-sm font-medium shadow-sm border border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors">
+            <button className="flex items-center gap-1.5 bg-white dark:bg-zinc-800 text-primary dark:text-[#4edea3] px-3 py-2 rounded-lg text-sm font-medium shadow-sm border border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors">
               <ShieldCheck size={14} />
               <span>Tier 3–5 Verified</span>
             </button>
@@ -282,14 +282,14 @@ export default function PropertiesClient({ listings }: Props) {
               <div className="flex items-center bg-zinc-100 dark:bg-white/[0.08] p-1 rounded-lg">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 text-emerald-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
+                  className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 text-primary shadow-sm' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
                   title="Grid View"
                 >
                   <LayoutGrid size={16} />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 text-emerald-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
+                  className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 text-primary shadow-sm' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
                   title="List View"
                 >
                   <List size={16} />
@@ -312,7 +312,7 @@ export default function PropertiesClient({ listings }: Props) {
             </p>
             <Link
               href="/dashboard/landlord/properties/new"
-              className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm hover:bg-emerald-500 transition-colors"
+              className="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm hover:bg-primary transition-colors"
             >
               <Plus size={18} />
               <span>Add Property</span>
@@ -335,8 +335,8 @@ export default function PropertiesClient({ listings }: Props) {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
                     {/* Status Badge */}
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-emerald-600 dark:text-emerald-400 text-[10px] font-semibold shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-primary dark:text-[#4edea3] text-[10px] font-semibold shadow-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                       {listing.listedUnitCount > 0 ? 'Active' : titleCase(listing.status)}
                     </div>
                     {/* Favorite */}
@@ -353,7 +353,7 @@ export default function PropertiesClient({ listings }: Props) {
                       </span>
                     </div>
                     <div className="absolute bottom-3 right-3">
-                      <span className="bg-emerald-600/90 text-white backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-medium">
+                      <span className="bg-primary/90 text-white backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-medium">
                         {listing.listedUnitCount} / {listing.unitCount} Leased
                       </span>
                     </div>
@@ -361,17 +361,17 @@ export default function PropertiesClient({ listings }: Props) {
                   {/* Body */}
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                      <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-primary dark:group-hover:text-[#4edea3] transition-colors">
                         {titleCase(listing.title)}
                       </h3>
                       <div className="flex items-center gap-1.5 mt-1 text-zinc-500 dark:text-zinc-400 text-xs truncate">
-                        <MapPin size={12} className="text-emerald-500 shrink-0" />
+                        <MapPin size={12} className="text-primary shrink-0" />
                         <span className="truncate">{titleCase(listing.area)}, {titleCase(listing.state)}</span>
                       </div>
                       {/* Stats Bar */}
                       <div className="flex items-center justify-between py-2 my-2.5 bg-zinc-50 dark:bg-zinc-800/50 px-2.5 rounded-lg text-xs text-zinc-500 dark:text-zinc-400">
                         <div className="flex items-center gap-1">
-                          <Home size={12} className="text-emerald-600 dark:text-emerald-400" />
+                          <Home size={12} className="text-primary dark:text-[#4edea3]" />
                           <span>{listing.unitCount} Units</span>
                         </div>
                         <span className="text-zinc-300 dark:text-zinc-600">•</span>
@@ -380,7 +380,7 @@ export default function PropertiesClient({ listings }: Props) {
                         <div>{listing.units?.[0]?.type ? titleCase(listing.units[0].type) : '—'}</div>
                       </div>
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-zinc-100 dark:bg-white/[0.08] flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">
+                        <div className="w-6 h-6 rounded-full bg-zinc-100 dark:bg-white/[0.08] flex items-center justify-center text-primary dark:text-[#4edea3] font-bold text-[10px]">
                           {(listing.assignedAgent?.fullName || 'BA').slice(0, 2).toUpperCase()}
                         </div>
                         <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
@@ -390,23 +390,23 @@ export default function PropertiesClient({ listings }: Props) {
                     </div>
                     {/* Price & Verification */}
                     <div className="pt-2 flex flex-col gap-1">
-                      <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-xs font-medium">
+                      <div className="flex items-center gap-1.5 text-primary dark:text-[#4edea3] text-xs font-medium">
                         <BadgeCheck size={12} />
                         <span>{listing.verification?.overallStatus === 'certified' ? 'Verified' : 'Pending Verification'}</span>
                       </div>
                       <div className="flex items-baseline justify-between">
-                        <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(listing.price)}</span>
+                        <span className="text-lg font-bold text-primary dark:text-[#4edea3]">{formatCurrency(listing.price)}</span>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400">/ {listing.pricePeriod || 'annum'}</span>
                       </div>
                     </div>
                   </div>
                   {/* Footer Actions */}
                   <div className="px-4 py-2.5 bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-between text-zinc-700 dark:text-zinc-300 text-xs font-medium border-t border-zinc-100 dark:border-white/[0.06]">
-                    <Link href={`/dashboard/landlord/properties/${listing.id}`} className="flex items-center gap-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+                    <Link href={`/dashboard/landlord/properties/${listing.id}`} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
                       <Eye size={14} />
                       <span>View Property</span>
                     </Link>
-                    <Link href={`/dashboard/landlord/properties/${listing.id}`} className="flex items-center gap-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+                    <Link href={`/dashboard/landlord/properties/${listing.id}`} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
                       <Pencil size={14} />
                       <span>Edit</span>
                     </Link>
@@ -460,7 +460,7 @@ export default function PropertiesClient({ listings }: Props) {
                         )}
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <Link href={`/dashboard/landlord/properties/${listing.id}`} className="text-sm font-semibold text-zinc-900 dark:text-white truncate hover:text-emerald-600 dark:hover:text-emerald-400">
+                        <Link href={`/dashboard/landlord/properties/${listing.id}`} className="text-sm font-semibold text-zinc-900 dark:text-white truncate hover:text-primary dark:hover:text-[#4edea3]">
                           {titleCase(listing.title)}
                         </Link>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
@@ -470,20 +470,20 @@ export default function PropertiesClient({ listings }: Props) {
                     </div>
                     <div className="col-span-2 flex flex-col">
                       <span className="text-sm font-medium text-zinc-900 dark:text-white">{formatListingType(listing.listingType)}</span>
-                      <span className="text-xs text-emerald-600 dark:text-emerald-400">{listing.listedUnitCount}/{listing.unitCount} Units</span>
+                      <span className="text-xs text-primary dark:text-[#4edea3]">{listing.listedUnitCount}/{listing.unitCount} Units</span>
                     </div>
-                    <div className="col-span-2 flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-xs">
+                    <div className="col-span-2 flex items-center gap-1 text-primary dark:text-[#4edea3] text-xs">
                       <BadgeCheck size={14} />
                       <span>{listing.verification?.overallStatus === 'certified' ? 'Verified' : 'Pending'}</span>
                     </div>
                     <div className="col-span-2 text-right">
-                      <span className="text-sm font-mono font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(listing.price)}</span>
+                      <span className="text-sm font-mono font-bold text-primary dark:text-[#4edea3]">{formatCurrency(listing.price)}</span>
                     </div>
                     <div className="col-span-2 flex items-center justify-end gap-1">
-                      <Link href={`/dashboard/landlord/properties/${listing.id}`} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-emerald-600 transition-colors">
+                      <Link href={`/dashboard/landlord/properties/${listing.id}`} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
                         <Eye size={14} />
                       </Link>
-                      <Link href={`/dashboard/landlord/properties/${listing.id}`} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-emerald-600 transition-colors">
+                      <Link href={`/dashboard/landlord/properties/${listing.id}`} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
                         <Pencil size={14} />
                       </Link>
                       <DropdownMenu>

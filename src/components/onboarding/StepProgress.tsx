@@ -27,9 +27,9 @@ export default function StepProgress({ steps, currentStep, className }: StepProg
                 className={cn(
                   'relative flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-colors',
                   isDone
-                    ? 'bg-[#10b981] text-white'
+                    ? 'bg-[#006c49] text-white'
                     : isCurrent
-                    ? 'bg-[#10b981]/20 text-[#10b981] ring-2 ring-[#10b981]'
+                    ? 'bg-[#006c49]/20 text-[#006c49] ring-2 ring-[#006c49]'
                     : 'bg-zinc-800 text-zinc-500'
                 )}
               >
@@ -45,7 +45,7 @@ export default function StepProgress({ steps, currentStep, className }: StepProg
                 <span
                   className={cn(
                     'h-px flex-1 max-w-[120px] transition-colors',
-                    isDone ? 'bg-[#10b981]' : 'bg-zinc-700'
+                    isDone ? 'bg-[#006c49]' : 'bg-zinc-700'
                   )}
                 />
               )}

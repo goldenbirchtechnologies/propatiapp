@@ -402,7 +402,7 @@ export default function AgentApplicationsClient({
                   onClick={() => setStatusTab(tab.key)}
                   className={
                     statusTab === tab.key
-                      ? 'px-4 py-1.5 rounded-full text-[13px] font-semibold bg-emerald-600 text-white shadow-sm whitespace-nowrap'
+                      ? 'px-4 py-1.5 rounded-full text-[13px] font-semibold bg-primary text-white shadow-sm whitespace-nowrap'
                       : 'px-4 py-1.5 rounded-full text-[13px] font-medium text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 whitespace-nowrap transition-colors'
                   }
                 >
@@ -465,19 +465,19 @@ export default function AgentApplicationsClient({
                             onClick={() => setSelectedAppId(a.id)}
                             className={
                               isSelected
-                                ? 'bg-emerald-50/70 dark:bg-emerald-500/10 cursor-pointer transition-colors'
+                                ? 'bg-primary/70 dark:bg-primary/10 cursor-pointer transition-colors'
                                 : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/40 cursor-pointer transition-colors'
                             }
                           >
                             <td className="py-3.5 px-4">
                               <div className="flex items-center gap-3">
-                                <span className="w-9 h-9 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-semibold text-sm shrink-0">
+                                <span className="w-9 h-9 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] flex items-center justify-center font-semibold text-sm shrink-0">
                                   {initialsOf(a.tenant.fullName)}
                                 </span>
                                 <div className="flex flex-col min-w-0">
                                   <span className="font-medium text-zinc-900 dark:text-white truncate flex items-center gap-1.5">
                                     {a.tenant.fullName}
-                                    <BadgeCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                                    <BadgeCheck className="h-3.5 w-3.5 text-primary dark:text-[#4edea3] shrink-0" />
                                   </span>
                                   <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
                                     {a.tenant.email}
@@ -493,7 +493,7 @@ export default function AgentApplicationsClient({
                                 <span className="font-medium text-zinc-900 dark:text-white">
                                   {a.listing?.title ?? '—'}
                                 </span>
-                                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                                <span className="text-xs text-primary dark:text-[#4edea3] font-medium">
                                   {a.listing?.area ?? '—'}
                                 </span>
                                 <span className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -575,7 +575,7 @@ export default function AgentApplicationsClient({
           {/* Compliance footer */}
           <OpsCard className="p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div className="flex items-start md:items-center gap-3">
-              <span className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+              <span className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary dark:text-[#4edea3] shrink-0">
                 <ShieldCheck className="h-5 w-5" />
               </span>
               <div>
@@ -629,12 +629,12 @@ export default function AgentApplicationsClient({
                     onClick={() => setSelectedConvId(c.id)}
                     className={`w-full text-left p-4 transition-colors relative ${
                       c.id === selectedConvId
-                        ? 'bg-emerald-50/70 dark:bg-emerald-500/10'
+                        ? 'bg-primary/70 dark:bg-primary/10'
                         : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
                     }`}
                   >
                     {c.id === selectedConvId ? (
-                      <span className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-600" />
+                      <span className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
                     ) : null}
                     <div className="flex items-start gap-3">
                       <span className="w-9 h-9 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-xs font-semibold text-zinc-700 dark:text-zinc-300 shrink-0 overflow-hidden">
@@ -663,7 +663,7 @@ export default function AgentApplicationsClient({
                             {c.participantRole}
                           </span>
                           {c.unreadCount > 0 ? (
-                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-600 text-white font-mono text-[11px] font-semibold shrink-0">
+                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-white font-mono text-[11px] font-semibold shrink-0">
                               {c.unreadCount}
                             </span>
                           ) : null}
@@ -703,7 +703,7 @@ export default function AgentApplicationsClient({
                 />
                 <div className="p-5 space-y-4 flex-1">
                   <div className="mx-auto max-w-xl bg-zinc-100 dark:bg-zinc-800/50 rounded-xl p-3 flex items-start gap-2.5">
-                    <Lock className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <Lock className="h-4 w-4 text-primary dark:text-[#4edea3] shrink-0 mt-0.5" />
                     <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                       <span className="font-semibold text-zinc-900 dark:text-white">
                         Conveyancing Record Notice:
@@ -733,7 +733,7 @@ export default function AgentApplicationsClient({
                               <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
                                 {formatTime(m.createdAt)}
                               </span>
-                              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                              <span className="text-sm font-medium text-primary dark:text-[#4edea3]">
                                 {m.senderName}
                               </span>
                             </>
@@ -751,7 +751,7 @@ export default function AgentApplicationsClient({
                         <div
                           className={
                             m.isMine
-                              ? 'bg-emerald-600 text-white p-4 rounded-2xl rounded-tr-xs shadow-sm text-sm leading-relaxed'
+                              ? 'bg-primary text-white p-4 rounded-2xl rounded-tr-xs shadow-sm text-sm leading-relaxed'
                               : 'bg-zinc-50 dark:bg-zinc-800/50 text-zinc-900 dark:text-zinc-100 p-4 rounded-2xl rounded-tl-xs shadow-sm text-sm leading-relaxed'
                           }
                         >
@@ -904,7 +904,7 @@ function ApplicationDossier({
             </div>
             <div className="text-right shrink-0">
               <OpsLabel>Proposed Rent</OpsLabel>
-              <div className="mt-0.5 text-lg font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+              <div className="mt-0.5 text-lg font-bold text-primary dark:text-[#4edea3] font-mono">
                 {formatCompactNaira(application.listing?.price ?? null)}
               </div>
               {application.listing?.pricePeriod ? (
@@ -936,7 +936,7 @@ function ApplicationDossier({
             <span className="text-sm font-semibold text-zinc-900 dark:text-white">
               Statutory Vetting Scorecard
             </span>
-            <span className="text-[11px] uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="text-[11px] uppercase tracking-wider font-semibold text-primary dark:text-[#4edea3]">
               {checks.filter((c) => c.done).length} of {checks.length} satisfied
             </span>
           </div>
@@ -946,7 +946,7 @@ function ApplicationDossier({
                 <div className="flex justify-between text-[11px] uppercase tracking-wider">
                   <span className="text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">
                     {c.done ? (
-                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <CheckCircle2 className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
                     ) : (
                       <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
                     )}
@@ -955,7 +955,7 @@ function ApplicationDossier({
                   <span
                     className={
                       c.done
-                        ? 'font-mono font-semibold text-emerald-600 dark:text-emerald-400'
+                        ? 'font-mono font-semibold text-primary dark:text-[#4edea3]'
                         : 'font-semibold text-amber-600 dark:text-amber-400'
                     }
                   >
@@ -964,7 +964,7 @@ function ApplicationDossier({
                 </div>
                 <div className="w-full bg-zinc-200 dark:bg-zinc-800 rounded-full h-1.5 overflow-hidden">
                   <div
-                    className={c.done ? 'bg-emerald-500 h-1.5 rounded-full' : 'bg-amber-500 h-1.5 rounded-full'}
+                    className={c.done ? 'bg-primary h-1.5 rounded-full' : 'bg-amber-500 h-1.5 rounded-full'}
                     style={{ width: c.done ? '100%' : '20%' }}
                   />
                 </div>
@@ -998,9 +998,9 @@ function ApplicationDossier({
                   className="flex items-center justify-between p-2.5 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors group"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <FileText className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <FileText className="h-4 w-4 text-primary dark:text-[#4edea3] shrink-0" />
                     <div className="min-w-0">
-                      <span className="block text-[13px] text-zinc-900 dark:text-white font-medium truncate group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                      <span className="block text-[13px] text-zinc-900 dark:text-white font-medium truncate group-hover:text-primary dark:group-hover:text-[#4edea3]">
                         {doc.name ?? 'Applicant document'}
                       </span>
                       <span className="block text-[11px] text-zinc-500 dark:text-zinc-400">
@@ -1137,9 +1137,9 @@ function InviteApplicantModal({
               />
             </OpsField>
           </div>
-          <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-start gap-2.5">
-            <Fingerprint className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-            <span className="text-xs text-emerald-800 dark:text-emerald-300">
+          <div className="p-3 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 flex items-start gap-2.5">
+            <Fingerprint className="h-5 w-5 text-primary dark:text-[#4edea3] shrink-0 mt-0.5" />
+            <span className="text-xs text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
               The applicant receives an automated invitation to verify via NIN/BVN biometric screening and
               upload 6 months of certified bank statements via Open Banking.
             </span>
@@ -1204,9 +1204,9 @@ function DecisionModal({
         </div>
 
         {done ? (
-          <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-start gap-2.5">
-            <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-            <span className="text-sm text-emerald-800 dark:text-emerald-300">{done}</span>
+          <div className="p-4 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 flex items-start gap-2.5">
+            <CheckCircle2 className="h-5 w-5 text-primary dark:text-[#4edea3] shrink-0 mt-0.5" />
+            <span className="text-sm text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">{done}</span>
           </div>
         ) : (
           <>

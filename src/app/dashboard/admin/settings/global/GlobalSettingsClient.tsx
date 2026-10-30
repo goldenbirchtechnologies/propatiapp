@@ -27,7 +27,7 @@ export default function GlobalSettingsClient() {
               <AppIcon name="undo" className="lucide" />
               Discard
             </button>
-            <button className="flex items-center gap-sm px-6 h-11 bg-emerald-500 text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-emerald-500/90 shadow-none transition-all">
+            <button className="flex items-center gap-sm px-6 h-11 bg-primary text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-primary/90 shadow-none transition-all">
               <AppIcon name="save" className="lucide" />
               Save Changes
             </button>
@@ -51,7 +51,7 @@ export default function GlobalSettingsClient() {
                 <AppIcon name="verified_user" className="lucide" />
                 Verification
               </a>
-              <a className="flex items-center gap-sm px-md py-sm border-l-4 border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 text-zinc-900 dark:text-white font-bold rounded-r-lg transition-colors font-label-sm" href="#">
+              <a className="flex items-center gap-sm px-md py-sm border-l-4 border-zinc-200 dark:border-white/[0.08] bg-primary/5 text-zinc-900 dark:text-white font-bold rounded-r-lg transition-colors font-label-sm" href="#">
                 <AppIcon name="security" className="lucide" />
                 Security
               </a>
@@ -145,12 +145,12 @@ export default function GlobalSettingsClient() {
                 {/* Rule Card */}
                 <div className="p-4 bg-surface rounded-lg border border-zinc-200 dark:border-white/[0.08]">
                   <div className="flex justify-between items-start mb-4">
-                    <span className="px-2 py-1 bg-on-tertiary-container/10 text-[#10b981] text-[10px] font-bold rounded uppercase tracking-wider">
+                    <span className="px-2 py-1 bg-on-tertiary-container/10 text-[#006c49] text-[10px] font-bold rounded uppercase tracking-wider">
                       Automated
                     </span>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input checked={true} className="sr-only peer" type="checkbox" />
-                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-zinc-950/50 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-zinc-950/50 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
                   <h4 className="font-label-sm text-label-md text-zinc-900 dark:text-white mb-1">Suspicious Listing Flag</h4>
@@ -175,7 +175,7 @@ export default function GlobalSettingsClient() {
                     </span>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input checked={true} className="sr-only peer" type="checkbox" />
-                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-zinc-950/50 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-zinc-950/50 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
                   <h4 className="font-label-sm text-label-md text-zinc-900 dark:text-white mb-1">Expiry Notifications</h4>
@@ -193,7 +193,7 @@ export default function GlobalSettingsClient() {
                 </div>
 
                 {/* Rule Card - Premium */}
-                <div className="p-4 bg-emerald-500 text-zinc-900 dark:text-white rounded-lg shadow-none">
+                <div className="p-4 bg-primary text-zinc-900 dark:text-white rounded-lg shadow-none">
                   <div className="flex justify-between items-start mb-4">
                     <span className="px-2 py-1 bg-white dark:bg-zinc-950/50/20 text-zinc-900 dark:text-white text-[10px] font-bold rounded uppercase tracking-wider">
                       Premium
@@ -240,7 +240,7 @@ export default function GlobalSettingsClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <div className="grid grid-cols-12 gap-6">
@@ -259,7 +259,7 @@ export default function GlobalSettingsClient() {
                     </p>
                   </div>
                   <div className="col-span-4 flex flex-col justify-end">
-                    <button className="w-full h-[44px] flex items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] __PHWHITE__ font-bold hover:bg-emerald-500/5 transition-all">
+                    <button className="w-full h-[44px] flex items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] __PHWHITE__ font-bold hover:bg-primary/5 transition-all">
                       <span className="lucide text-sm" data-icon="add">add</span>
                       Detect Current IP
                     </button>
@@ -290,7 +290,7 @@ export default function GlobalSettingsClient() {
                       </div>
                       <p className="font-label-sm text-label-md">NIMC Identity API</p>
                     </div>
-                    <span className="px-2 py-0.5 bg-on-tertiary-container/20 text-[#10b981] text-[10px] font-bold rounded">
+                    <span className="px-2 py-0.5 bg-on-tertiary-container/20 text-[#006c49] text-[10px] font-bold rounded">
                       CONNECTED
                     </span>
                   </div>
@@ -308,7 +308,7 @@ export default function GlobalSettingsClient() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium">Last Ping: 2m ago</span>
-                      <span className="text-[10px] text-[#10b981] font-bold">Latency: 45ms</span>
+                      <span className="text-[10px] text-[#006c49] font-bold">Latency: 45ms</span>
                     </div>
                   </div>
                 </div>
@@ -362,8 +362,8 @@ export default function GlobalSettingsClient() {
                 </button>
               </div>
               <div className="w-full h-64 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-lg overflow-hidden relative">
-                <div className="w-full h-full bg-gradient-to-br from-emerald-500/10 via-zinc-100 to-zinc-200 dark:from-emerald-500/10 dark:via-zinc-900 dark:to-zinc-800" />
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 to-transparent"></div>
+                <div className="w-full h-full bg-gradient-to-br from-primary/10 via-zinc-100 to-zinc-200 dark:from-primary/10 dark:via-zinc-900 dark:to-zinc-800" />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                   <div className="w-4 h-4 bg-secondary-container rounded-full animate-ping absolute"></div>
                   <div className="w-4 h-4 bg-secondary-container rounded-full relative shadow-[0_0_10px_rgba(254,174,44,0.8)]"></div>
@@ -381,7 +381,7 @@ export default function GlobalSettingsClient() {
       {/* Footer Fixed Save Bar */}
       <div className="fixed bottom-0 left-64 right-0 bg-white dark:bg-zinc-950/50/80 backdrop-blur-md border-t border-zinc-200 dark:border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
         <div className="flex items-center gap-4">
-          <span className="lucide text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <span className="lucide text-[#006c49]" style={{ fontVariationSettings: "'FILL' 1" }}>
             check_circle
           </span>
           <p className="text-body-sm text-zinc-600 dark:text-zinc-400">
@@ -392,7 +392,7 @@ export default function GlobalSettingsClient() {
           <p className="text-[10px] text-zinc-600 dark:text-zinc-400 uppercase font-bold tracking-widest mr-4">
             Revision History: V4.1.09
           </p>
-          <button className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-zinc-900 dark:text-white rounded-lg font-bold shadow-none shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+          <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-zinc-900 dark:text-white rounded-lg font-bold shadow-none shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
             <span className="lucide text-sm" data-icon="cloud_upload">cloud_upload</span>
             Sync to Global Edge
           </button>

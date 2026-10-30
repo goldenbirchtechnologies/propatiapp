@@ -21,7 +21,7 @@ export default function SettingsDashboardClient() {
             <button className="px-6 py-3 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white font-label-sm hover:bg-white dark:bg-zinc-900 transition-all">
               Discard
             </button>
-            <button className="px-xl py-3 rounded-lg bg-emerald-500 text-zinc-900 dark:text-white font-label-sm shadow-none hover:shadow-none transition-all">
+            <button className="px-xl py-3 rounded-lg bg-primary text-zinc-900 dark:text-white font-label-sm shadow-none hover:shadow-none transition-all">
               Save Changes
             </button>
           </div>
@@ -75,7 +75,7 @@ export default function SettingsDashboardClient() {
               <div className="space-y-md">
                 <div className="flex justify-between items-center py-sm border-b border-zinc-200 dark:border-white/[0.08]">
                   <span className="text-body-sm font-medium">2FA Status</span>
-                  <span className="text-[#10b981] font-label-sm">Enforced</span>
+                  <span className="text-[#006c49] font-label-sm">Enforced</span>
                 </div>
                 <div className="flex justify-between items-center py-sm border-b border-zinc-200 dark:border-white/[0.08]">
                   <span className="text-body-sm font-medium">Active Admin Sessions</span>
@@ -100,7 +100,7 @@ export default function SettingsDashboardClient() {
             </div>
             <div className="space-y-lg">
               <div className="flex items-center gap-md">
-                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#10b981]">
+                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#006c49]">
                   <AppIcon name="check_circle" className="lucide" />
                 </div>
                 <div>
@@ -109,7 +109,7 @@ export default function SettingsDashboardClient() {
                 </div>
               </div>
               <div className="flex items-center gap-md">
-                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#10b981]">
+                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#006c49]">
                   <AppIcon name="check_circle" className="lucide" />
                 </div>
                 <div>
@@ -156,7 +156,7 @@ export default function SettingsDashboardClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
@@ -166,7 +166,7 @@ export default function SettingsDashboardClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
@@ -176,7 +176,7 @@ export default function SettingsDashboardClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white dark:bg-zinc-950/50 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export default function SettingsDashboardClient() {
         {/* Footer Fixed Save Bar */}
         <div className="fixed bottom-0 left-64 right-0 bg-white dark:bg-zinc-950/50/80 backdrop-blur-md border-t border-zinc-200 dark:border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
           <div className="flex items-center gap-4">
-            <span className="lucide text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }}>
+            <span className="lucide text-[#006c49]" style={{ fontVariationSettings: "'FILL' 1" }}>
               check_circle
             </span>
             <p className="text-body-sm text-zinc-600 dark:text-zinc-400">
@@ -222,7 +222,7 @@ export default function SettingsDashboardClient() {
             <p className="text-[10px] text-zinc-600 dark:text-zinc-400 uppercase font-bold tracking-widest mr-4">
               Revision History: V4.1.09
             </p>
-            <button className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-zinc-900 dark:text-white rounded-lg font-bold shadow-none shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+            <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-zinc-900 dark:text-white rounded-lg font-bold shadow-none shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
               <span className="lucide text-sm" data-icon="cloud_upload">cloud_upload</span>
               Sync to Global Edge
             </button>

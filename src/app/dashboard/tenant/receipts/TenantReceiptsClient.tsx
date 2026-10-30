@@ -53,7 +53,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Paid" value={String(paidCount)} sub={`${formatNairaFull(paidKobo / 100)} settled`} icon={Receipt} accentColor="#10b981" />
+        <StatCard label="Paid" value={String(paidCount)} sub={`${formatNairaFull(paidKobo / 100)} settled`} icon={Receipt} accentColor="#006c49" />
         <StatCard label="Pending" value={String(pendingCount)} sub="Awaiting settlement" icon={Filter} accentColor="#f59e0b" />
         <StatCard label="Total" value={String(initialReceipts.length)} sub="Vouchers issued" icon={Receipt} />
         <StatCard label="Total Value" value={formatNairaFull(totalKobo / 100)} sub="All receipts" icon={Receipt} accentColor="#0ea5e9" />
@@ -70,7 +70,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold capitalize ${filter === f ? 'bg-emerald-600 text-white shadow-sm' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-white/[0.08]'}`}
+                className={`rounded-lg px-3 py-1.5 text-xs font-semibold capitalize ${filter === f ? 'bg-primary text-white shadow-sm' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-white/[0.08]'}`}
               >
                 {f === 'released' ? 'Paid' : f}
               </button>
@@ -104,7 +104,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
                     <div className="flex flex-col">
                       <span className="font-mono text-xs text-zinc-900 dark:text-white">{r.ref}</span>
                       <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 mt-0.5">
-                        <Verified className="w-3 h-3 text-emerald-600" /> FIRS-stamped
+                        <Verified className="w-3 h-3 text-primary" /> FIRS-stamped
                       </span>
                     </div>
                   </td>
@@ -123,7 +123,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
                     ₦ {(r.amount / 100).toLocaleString('en-NG', { minimumFractionDigits: 2 })}
                   </td>
                   <td className="py-3 px-4 text-center whitespace-nowrap">
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${r.status === 'released' ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' : r.status === 'pending' ? 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-400' : 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400'}`}>
+                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${r.status === 'released' ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : r.status === 'pending' ? 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-400' : 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400'}`}>
                       {r.status === 'released' ? 'Paid' : r.status}
                     </span>
                   </td>

@@ -42,7 +42,7 @@ function getStepStatus(v: Verification | undefined): 'cleared' | 'action_require
 
 function statusBadge(status: string) {
   switch (status) {
-    case 'cleared': return { label: 'Verified & Cleared', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+    case 'cleared': return { label: 'Verified & Cleared', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary', dot: 'bg-primary' };
     case 'action_required': return { label: 'Action Required', cls: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
     case 'next_up': return { label: 'Next Step', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200', dot: 'bg-zinc-400' };
     case 'locked': return { label: 'Locked', cls: 'bg-zinc-100 text-zinc-500 border-zinc-200', dot: 'bg-zinc-400' };
@@ -136,7 +136,7 @@ export default function LandlordOnboardingPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="rounded bg-zinc-100 px-2 py-1 text-xs font-mono text-zinc-500">PORTFOLIO TIER: INSTITUTIONAL PRIME</span>
-              <span className="flex items-center gap-1 rounded bg-[#10b981]/20 px-2 py-1 text-xs font-semibold text-[#006c49]">
+              <span className="flex items-center gap-1 rounded bg-[#006c49]/20 px-2 py-1 text-xs font-semibold text-[#006c49]">
                 <ShieldCheck className="h-3.5 w-3.5" /> CBN ESCROW READY
               </span>
             </div>
@@ -148,7 +148,7 @@ export default function LandlordOnboardingPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative z-10">
               <div className="lg:col-span-8 space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100/60 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-800">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/60 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)]">
                     <BadgeCheck className="h-3 w-3" /> LASRERA REGISTERED DEED HOLDER
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-600">
@@ -193,7 +193,7 @@ export default function LandlordOnboardingPage() {
                     <Check className="h-4 w-4 text-[#006c49]" /> CAC Entity Cleared
                   </div>
                   <div className="flex items-center gap-1.5 text-zinc-700">
-                    <Clock className="h-4 w-4 text-[#10b981]" /> Cadastral Title Pending
+                    <Clock className="h-4 w-4 text-[#006c49]" /> Cadastral Title Pending
                   </div>
                   <div className="flex items-center gap-1.5 text-zinc-400">
                     <Lock className="h-4 w-4" /> Escrow Settlement
@@ -212,13 +212,13 @@ export default function LandlordOnboardingPage() {
                 return (
                   <div
                     key={step.id}
-                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 transition hover:shadow-md ${step.status === 'action_required' ? 'ring-2 ring-[#10b981]/30' : ''}`}
+                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 transition hover:shadow-md ${step.status === 'action_required' ? 'ring-2 ring-[#006c49]/30' : ''}`}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
                         <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg mt-0.5 ${
-                          step.status === 'cleared' ? 'bg-emerald-100/40 text-[#006c49]' :
-                          step.status === 'action_required' ? 'bg-[#10b981]/20 text-[#00422b]' :
+                          step.status === 'cleared' ? 'bg-primary/40 text-[#006c49]' :
+                          step.status === 'action_required' ? 'bg-[#006c49]/20 text-[#00422b]' :
                           'bg-zinc-100 text-zinc-500'
                         }`}>
                           {step.status === 'cleared' ? <Check className="h-6 w-6" /> : step.icon}
@@ -273,7 +273,7 @@ export default function LandlordOnboardingPage() {
                         </td>
                         <td className="py-2.5 px-4 font-mono text-zinc-500">NIN Hash</td>
                         <td className="py-2.5 px-4">
-                          <span className="rounded bg-emerald-100/60 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">Identity Verified</span>
+                          <span className="rounded bg-primary/60 px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">Identity Verified</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-mono text-zinc-500">10:14 AM WAT</td>
                       </tr>
@@ -283,7 +283,7 @@ export default function LandlordOnboardingPage() {
                         </td>
                         <td className="py-2.5 px-4 font-mono text-zinc-500">RC Status Report</td>
                         <td className="py-2.5 px-4">
-                          <span className="rounded bg-emerald-100/60 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">Active & Good Standing</span>
+                          <span className="rounded bg-primary/60 px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">Active & Good Standing</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-mono text-zinc-500">10:19 AM WAT</td>
                       </tr>
@@ -293,7 +293,7 @@ export default function LandlordOnboardingPage() {
                         </td>
                         <td className="py-2.5 px-4 font-mono text-zinc-500">BVN Verification</td>
                         <td className="py-2.5 px-4">
-                          <span className="rounded bg-emerald-100/60 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">Director Match 100%</span>
+                          <span className="rounded bg-primary/60 px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">Director Match 100%</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-mono text-zinc-500">10:24 AM WAT</td>
                       </tr>
@@ -347,7 +347,7 @@ export default function LandlordOnboardingPage() {
                 <div className="flex items-center gap-3 mt-3">
                   <div className="relative">
                     <div className="h-14 w-14 rounded-full bg-zinc-100 shrink-0 flex items-center justify-center">
-                      <Gavel className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                      <Gavel className="h-6 w-6 text-primary dark:text-[#4edea3]" />
                     </div>
                     <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full bg-[#006c49] ring-2 ring-white" />
                   </div>
@@ -401,7 +401,7 @@ export default function LandlordOnboardingPage() {
                           </div>
                         </div>
                         <span className={`shrink-0 rounded px-2 py-0.5 text-[11px] font-semibold ${
-                          v.overallStatus === 'verified' ? 'bg-emerald-100/60 text-emerald-800' :
+                          v.overallStatus === 'verified' ? 'bg-primary/60 text-[var(--sovereign-hover)]' :
                           v.overallStatus === 'in_progress' ? 'bg-amber-100 text-amber-700' :
                           'bg-zinc-100 text-zinc-500'
                         }`}>

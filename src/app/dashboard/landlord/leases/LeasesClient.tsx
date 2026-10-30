@@ -112,7 +112,7 @@ function periodLabel(period: string | null) {
 function statusBadge(lease: Lease) {
   if (lease.status === 'fully_signed') {
     return (
-      <Badge variant="success" className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">
+      <Badge variant="success" className="bg-primary/10 text-primary dark:text-[#4edea3] border-primary/20">
         Active Lease
       </Badge>
     );
@@ -314,7 +314,7 @@ export default function LandlordLeasesClient({
       <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+            <span className="text-[10px] uppercase tracking-wider text-primary dark:text-[#4edea3] font-bold bg-primary/10 px-2.5 py-0.5 rounded-full">
               FY 2024–2025 Ledger
             </span>
             <span className="text-zinc-400 text-xs">•</span>
@@ -336,7 +336,7 @@ export default function LandlordLeasesClient({
           </button>
           <Link
             href="/dashboard/landlord/agreements/new"
-            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors"
+            className="flex items-center gap-2 bg-primary hover:bg-primary text-white px-3 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors"
           >
             <Plus size={16} />
             <span>Create Agreement</span>
@@ -349,13 +349,13 @@ export default function LandlordLeasesClient({
         <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#18181b] p-5 shadow-none">
           <div className="flex items-start justify-between">
             <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium uppercase tracking-wider">Total Leases</p>
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-500/10 border border-zinc-200 dark:border-white/[0.08]">
-              <FileText size={15} className="text-emerald-600 dark:text-emerald-400" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary/10 border border-zinc-200 dark:border-white/[0.08]">
+              <FileText size={15} className="text-primary dark:text-[#4edea3]" />
             </div>
           </div>
           <p className="text-2xl font-bold mt-1 text-zinc-900 dark:text-white">{stats.total}</p>
           <div className="flex items-center gap-2 mt-1">
-            <span className="flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="flex items-center gap-1 text-xs font-medium text-primary dark:text-[#4edea3]">
               <TrendingUp size={12} />
               {stats.total - stats.addedThisMonth > 0 ? `${stats.total - stats.addedThisMonth} Executed` : 'Executed'}
             </span>
@@ -370,11 +370,11 @@ export default function LandlordLeasesClient({
             <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium uppercase tracking-wider">
               Active &amp; Performing
             </p>
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-500/10 border border-zinc-200 dark:border-white/[0.08]">
-              <BadgeCheck size={15} className="text-emerald-600 dark:text-emerald-400" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary/10 border border-zinc-200 dark:border-white/[0.08]">
+              <BadgeCheck size={15} className="text-primary dark:text-[#4edea3]" />
             </div>
           </div>
-          <p className="text-2xl font-bold mt-1 text-emerald-600 dark:text-emerald-400">{stats.active}</p>
+          <p className="text-2xl font-bold mt-1 text-primary dark:text-[#4edea3]">{stats.active}</p>
           <div className="flex items-center gap-2 mt-1">
             <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Units</span>
             <span className="text-xs text-zinc-600 dark:text-zinc-400">
@@ -429,7 +429,7 @@ export default function LandlordLeasesClient({
                 }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
                   tab === t.value
-                    ? 'bg-emerald-600 text-white border-emerald-600'
+                    ? 'bg-primary text-white border-primary'
                     : 'bg-zinc-50 dark:bg-white/[0.03] text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-100 dark:hover:bg-white/[0.06]'
                 }`}
               >
@@ -486,7 +486,7 @@ export default function LandlordLeasesClient({
             </p>
             <Link
               href="/dashboard/landlord/agreements/new"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-primary hover:bg-primary text-white rounded-lg text-sm font-medium transition-colors"
             >
               <Plus size={16} />
               Create First Lease Agreement
@@ -526,7 +526,7 @@ export default function LandlordLeasesClient({
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-white/[0.06] flex items-center justify-center shrink-0">
-                            <Building2 size={16} className="text-emerald-600 dark:text-emerald-400" />
+                            <Building2 size={16} className="text-primary dark:text-[#4edea3]" />
                           </div>
                           <div>
                             <p className="text-sm font-medium text-zinc-900 dark:text-white">
@@ -548,7 +548,7 @@ export default function LandlordLeasesClient({
                             {lease.tenant.kycVerified && (
                               <Badge
                                 variant="success"
-                                className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 text-[10px]"
+                                className="bg-primary/10 text-primary dark:text-[#4edea3] border-primary/20 text-[10px]"
                               >
                                 <BadgeCheck size={10} />
                                 Verified
@@ -645,13 +645,13 @@ export default function LandlordLeasesClient({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#18181b] p-5 shadow-none">
           <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 border border-zinc-200 dark:border-white/[0.08]">
-              <BadgeCheck size={16} className="text-emerald-600 dark:text-emerald-400" />
+            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 border border-zinc-200 dark:border-white/[0.08]">
+              <BadgeCheck size={16} className="text-primary dark:text-[#4edea3]" />
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-zinc-900 dark:text-white">FIRS / LIRS Stamp Duty Health</p>
-                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                <span className="text-xs font-semibold text-primary dark:text-[#4edea3]">
                   {stampPct}% Certified
                 </span>
               </div>
@@ -661,7 +661,7 @@ export default function LandlordLeasesClient({
               </p>
               <div className="flex items-center gap-4 mt-3">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="w-2 h-2 rounded-full bg-primary" />
                   <span className="text-xs text-zinc-700 dark:text-zinc-300">
                     {stampHealth.certified} Compliant Leases
                   </span>
@@ -679,8 +679,8 @@ export default function LandlordLeasesClient({
 
         <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#18181b] p-5 shadow-none">
           <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 border border-zinc-200 dark:border-white/[0.08]">
-              <FileText size={16} className="text-emerald-600 dark:text-emerald-400" />
+            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 border border-zinc-200 dark:border-white/[0.08]">
+              <FileText size={16} className="text-primary dark:text-[#4edea3]" />
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between">

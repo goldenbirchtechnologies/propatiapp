@@ -109,8 +109,8 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
     return FALLBACK_GALLERY;
   })();
 
-  if (loading) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex items-center justify-center pt-20"><div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" /></div>;
-  if (!listing) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex flex-col items-center justify-center pt-20 p-8 text-center"><p className="text-zinc-900 dark:text-white font-semibold">Listing not found</p><Link href="/listings" className="mt-4 text-emerald-600 dark:text-emerald-400 text-sm">Back to listings</Link></div>;
+  if (loading) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex items-center justify-center pt-20"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
+  if (!listing) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex flex-col items-center justify-center pt-20 p-8 text-center"><p className="text-zinc-900 dark:text-white font-semibold">Listing not found</p><Link href="/listings" className="mt-4 text-primary dark:text-[#4edea3] text-sm">Back to listings</Link></div>;
 
   const referenceId = `PB-REF-LA-2024-${String(listing.id).slice(-4).toUpperCase().padStart(4, '8')}`;
   const beaconRef = listing.area ? `SG/LAG/${listing.area.slice(0, 2).toUpperCase()}-4091/2021` : 'SG/LAG/ET-4091/2021';
@@ -138,7 +138,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
       <div className="sticky top-20 z-30 border-b border-zinc-200 dark:border-white/[0.06] bg-white/95 dark:bg-zinc-950/95 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap min-w-0 text-sm">
-            <Link href="/listings" className="inline-flex items-center gap-1.5 font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 shrink-0">
+            <Link href="/listings" className="inline-flex items-center gap-1.5 font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3] hover:text-[var(--sovereign-hover)] shrink-0">
               <ArrowLeft size={16} /> Back to Search Results
             </Link>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
@@ -150,10 +150,10 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.07] text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              <BadgeCheck size={14} className="text-emerald-600" /> Ref: <span className="text-emerald-700 dark:text-emerald-400 font-mono">{referenceId}</span>
+              <BadgeCheck size={14} className="text-primary" /> Ref: <span className="text-[var(--sovereign-hover)] dark:text-[#4edea3] font-mono">{referenceId}</span>
             </span>
             {listing.verified && (
-              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wider border border-emerald-200 dark:border-emerald-500/20">
+              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-[11px] font-bold uppercase tracking-wider border border-primary dark:border-primary/20">
                 <Award size={12} /> Gov. Consent Active
               </span>
             )}
@@ -173,10 +173,10 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 {/* Top badges */}
                 <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2 z-10">
                   <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-white/90 dark:bg-zinc-900/90 backdrop-blur text-zinc-900 dark:text-white text-[11px] font-bold uppercase tracking-wider shadow-sm border border-zinc-200 dark:border-white/10">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> {typeLabel} • {isRent ? 'For Rent' : 'For Sale'}
+                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> {typeLabel} • {isRent ? 'For Rent' : 'For Sale'}
                   </span>
                   {listing.verified && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
                       <BadgeCheck size={14} /> 100% C of O & Bank-Backed Escrow
                     </span>
                   )}
@@ -191,11 +191,11 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 {/* Bottom overlays */}
                 <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 z-10">
                   <div className="hidden sm:block bg-black/75 backdrop-blur px-3.5 py-2 rounded-xl text-white shadow-sm max-w-[60%]">
-                    <p className="font-semibold text-sm flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />{GALLERY_CAPTIONS[activeImage % GALLERY_CAPTIONS.length]}</p>
+                    <p className="font-semibold text-sm flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#4edea3]" />{GALLERY_CAPTIONS[activeImage % GALLERY_CAPTIONS.length]}</p>
                     <p className="text-white/70 text-xs mt-0.5">High-rise level 22 • 180° uninterrupted panoramic coastal vista</p>
                   </div>
                   <div className="ml-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/80 backdrop-blur text-white text-xs font-medium shadow-md">
-                    <Layers size={14} className="text-emerald-400" /> {galleryImages.length} Verified Photos <span className="text-white/50">•</span> <span className="text-emerald-400 font-semibold">3D Virtual Tour</span>
+                    <Layers size={14} className="text-[#4edea3]" /> {galleryImages.length} Verified Photos <span className="text-white/50">•</span> <span className="text-[#4edea3] font-semibold">3D Virtual Tour</span>
                   </div>
                 </div>
                 {/* Actions */}
@@ -214,9 +214,9 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
               {/* Thumbnails */}
               <div className="grid grid-cols-5 gap-2 sm:gap-3">
                 {galleryImages.slice(0, 5).map((img, i) => (
-                  <button key={i} onClick={() => setActiveImage(i)} className={`group relative h-16 sm:h-20 lg:h-24 rounded-xl overflow-hidden shadow-sm transition-all ${activeImage === i ? 'ring-2 ring-emerald-500 opacity-100' : 'opacity-70 hover:opacity-100 ring-0'}`}>
+                  <button key={i} onClick={() => setActiveImage(i)} className={`group relative h-16 sm:h-20 lg:h-24 rounded-xl overflow-hidden shadow-sm transition-all ${activeImage === i ? 'ring-2 ring-primary opacity-100' : 'opacity-70 hover:opacity-100 ring-0'}`}>
                     <img src={img} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    {activeImage === i && <div className="absolute inset-0 bg-emerald-500/15 pointer-events-none" />}
+                    {activeImage === i && <div className="absolute inset-0 bg-primary/15 pointer-events-none" />}
                   </button>
                 ))}
               </div>
@@ -227,11 +227,11 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
               <div className="flex flex-col gap-2">
                 <h1 className="text-[22px] sm:text-[26px] font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">{listing.title}</h1>
                 <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  <span className="inline-flex items-center gap-1 font-medium text-zinc-900 dark:text-white"><MapPin size={14} className="text-emerald-600" />{listing.address}</span>
+                  <span className="inline-flex items-center gap-1 font-medium text-zinc-900 dark:text-white"><MapPin size={14} className="text-primary" />{listing.address}</span>
                   <span className="hidden sm:inline text-zinc-300 dark:text-zinc-600">•</span>
                   <span className="font-mono text-xs bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded text-zinc-700 dark:text-zinc-300 font-semibold">Beacon Ref: {beaconRef}</span>
                   <span className="hidden sm:inline text-zinc-300 dark:text-zinc-600">•</span>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400"><Building2 size={12} />Level 22, Torre Atlantic</span>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]"><Building2 size={12} />Level 22, Torre Atlantic</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 pt-1">
@@ -243,7 +243,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   { icon: Zap, label: '24/7 Power', sub: 'Dual 500kVA' },
                 ].map((s) => (
                   <div key={s.label} className="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-white/[0.04]">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center text-emerald-700 dark:text-emerald-400 shrink-0"><s.icon size={16} /></div>
+                    <div className="w-8 h-8 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/15 flex items-center justify-center text-[var(--sovereign-hover)] dark:text-[#4edea3] shrink-0"><s.icon size={16} /></div>
                     <div className="min-w-0"><div className="text-xs font-bold text-zinc-900 dark:text-white leading-tight">{s.label}</div><div className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{s.sub}</div></div>
                   </div>
                 ))}
@@ -259,7 +259,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   { id: 'survey', label: 'Survey & Title Audit' },
                   { id: 'broker', label: 'Licensed Broker' },
                 ].map((t) => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id as any)} className={`px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${activeTab === t.id ? 'bg-white dark:bg-zinc-900 text-emerald-700 dark:text-emerald-400 shadow-sm border border-zinc-200 dark:border-white/[0.06]' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-800'}`}>{t.label}</button>
+                  <button key={t.id} onClick={() => setActiveTab(t.id as any)} className={`px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${activeTab === t.id ? 'bg-white dark:bg-zinc-900 text-[var(--sovereign-hover)] dark:text-[#4edea3] shadow-sm border border-zinc-200 dark:border-white/[0.06]' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-800'}`}>{t.label}</button>
                 ))}
               </div>
 
@@ -295,10 +295,10 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0"><BadgeCheck size={20} /></div>
+                        <div className="w-10 h-10 rounded-xl bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#4edea3] flex items-center justify-center shrink-0"><BadgeCheck size={20} /></div>
                         <div><h3 className="text-sm font-bold text-zinc-900 dark:text-white">PropatiBox Title Audit</h3><span className="text-xs text-zinc-500 dark:text-zinc-400">Lagos Lands Bureau Registry Cleared</span></div>
                       </div>
-                      <span className="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wide border border-emerald-200 dark:border-emerald-500/20 shrink-0">Zero Encumbrance</span>
+                      <span className="px-2.5 py-1 rounded-md bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-[11px] font-bold uppercase tracking-wide border border-primary dark:border-primary/20 shrink-0">Zero Encumbrance</span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                       {[
@@ -308,7 +308,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                         { icon: MapPin, title: 'Survey Beacon Coordinates', desc: 'Surveyor General coordinates aligned with official GIS shapefile: ET-4091.' },
                       ].map((r) => (
                         <div key={r.title} className="flex items-start gap-2.5 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-white/[0.04]">
-                          <r.icon size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          <r.icon size={18} className="text-primary dark:text-[#4edea3] shrink-0 mt-0.5" />
                           <div className="min-w-0"><div className="text-xs font-semibold text-zinc-900 dark:text-white">{r.title}</div><div className="text-xs text-zinc-500 dark:text-zinc-400 leading-snug">{r.desc}</div></div>
                         </div>
                       ))}
@@ -333,7 +333,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                       { icon: ShieldCheck, title: 'Fire Suppression', sub: 'Automated FM200 sprinklers' },
                     ].map((a) => (
                       <div key={a.title} className="flex items-center gap-3 p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-white/[0.04]">
-                        <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center text-emerald-700 dark:text-emerald-400 shrink-0"><a.icon size={18} /></div>
+                        <div className="w-10 h-10 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/15 flex items-center justify-center text-[var(--sovereign-hover)] dark:text-[#4edea3] shrink-0"><a.icon size={18} /></div>
                         <div className="min-w-0"><div className="text-xs font-bold text-zinc-900 dark:text-white">{a.title}</div><div className="text-xs text-zinc-500 dark:text-zinc-400">{a.sub}</div></div>
                       </div>
                     ))}
@@ -346,9 +346,9 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   <div><h2 className="text-lg font-bold text-zinc-900 dark:text-white">Survey Map & Geo-Coordinates</h2><p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">High-precision survey polygon registered under Plan No. LA/VI/4091B at Alausa Land Survey Bureau.</p></div>
                   <div className="w-full h-80 rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/[0.06] bg-zinc-900 relative flex flex-col justify-between p-4" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=400&fit=crop')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                     <div className="absolute inset-0 bg-black/40" />
-                    <div className="relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 backdrop-blur text-zinc-900 dark:text-white text-xs font-semibold shadow-sm w-fit"><Layers size={14} className="text-emerald-600" />Surveyor-General Beacon Grid Verified</div>
+                    <div className="relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 backdrop-blur text-zinc-900 dark:text-white text-xs font-semibold shadow-sm w-fit"><Layers size={14} className="text-primary" />Surveyor-General Beacon Grid Verified</div>
                     <div className="relative bg-black/80 backdrop-blur p-4 rounded-xl max-w-lg flex flex-col gap-1.5 border border-white/10">
-                      <div className="flex items-center justify-between text-white text-xs font-bold"><span>Polygon Corners (WGS-84):</span><span className="text-emerald-400 font-mono text-xs">UTM Zone 31N</span></div>
+                      <div className="flex items-center justify-between text-white text-xs font-bold"><span>Polygon Corners (WGS-84):</span><span className="text-[#4edea3] font-mono text-xs">UTM Zone 31N</span></div>
                       <div className="grid grid-cols-2 gap-2 text-white/70 font-mono text-xs"><div>PB 1: 6.4328° N, 3.4241° E</div><div>PB 2: 6.4332° N, 3.4253° E</div><div>PB 3: 6.4319° N, 3.4258° E</div><div>PB 4: 6.4315° N, 3.4246° E</div></div>
                     </div>
                   </div>
@@ -368,16 +368,16 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
               {activeTab === 'broker' && (
                 <div className="p-6 sm:p-8 flex flex-col gap-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">DB</div>
+                    <div className="w-16 h-16 rounded-2xl bg-primary text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">DB</div>
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2"><h2 className="text-base font-bold text-zinc-900 dark:text-white">Engr. Dapo Balogun, FNIS</h2><BadgeCheck size={18} className="text-emerald-600" /></div>
+                      <div className="flex items-center gap-2"><h2 className="text-base font-bold text-zinc-900 dark:text-white">Engr. Dapo Balogun, FNIS</h2><BadgeCheck size={18} className="text-primary" /></div>
                       <div className="text-sm text-zinc-500 dark:text-zinc-400">Lead Surveyor & Principal Partner, Musa Realty Ikoyi</div>
-                      <div className="flex flex-wrap items-center gap-2 mt-1"><span className="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold">SURCON #SUR/2012/894</span><span className="px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[11px] font-bold">LASRERA: BRK-092-2024</span></div>
+                      <div className="flex flex-wrap items-center gap-2 mt-1"><span className="px-2 py-0.5 rounded bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-[11px] font-bold">SURCON #SUR/2012/894</span><span className="px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[11px] font-bold">LASRERA: BRK-092-2024</span></div>
                     </div>
                   </div>
                   <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">With 16+ years of surveying and prime property allocations in Victoria Island and Ikoyi, Engr. Balogun provides institutional oversight, verifying deed chains and executing escrow agreements in strict compliance with Nigerian land laws.</p>
                   <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-white/[0.04] flex items-center justify-between">
-                    <div className="flex items-center gap-3"><BadgeCheck size={20} className="text-emerald-600" /><div><div className="text-xs font-bold text-zinc-900 dark:text-white">PROPATI Verified Custodian Guarantee</div><div className="text-xs text-zinc-500 dark:text-zinc-400">Zero hidden agency markups. Regulated fee framework.</div></div></div>
+                    <div className="flex items-center gap-3"><BadgeCheck size={20} className="text-primary" /><div><div className="text-xs font-bold text-zinc-900 dark:text-white">PROPATI Verified Custodian Guarantee</div><div className="text-xs text-zinc-500 dark:text-zinc-400">Zero hidden agency markups. Regulated fee framework.</div></div></div>
                     <button className="hidden sm:inline-flex px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-xs font-semibold">View Credentials</button>
                   </div>
                 </div>
@@ -408,9 +408,9 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   </button>
                 </div>
               </div>
-              <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-start gap-2.5">
-                <ShieldCheck size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                <div className="min-w-0"><div className="text-xs font-bold text-emerald-900 dark:text-emerald-300">PropatiBox Protected Escrow™</div><div className="text-xs leading-snug text-zinc-600 dark:text-zinc-400">Deposit safely held in licensed bank escrow. Funds disbursed only after key hand-over and tenant physical signoff.</div></div>
+              <div className="p-3.5 rounded-xl bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 flex items-start gap-2.5">
+                <ShieldCheck size={18} className="text-primary dark:text-[#4edea3] shrink-0 mt-0.5" />
+                <div className="min-w-0"><div className="text-xs font-bold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">PropatiBox Protected Escrow™</div><div className="text-xs leading-snug text-zinc-600 dark:text-zinc-400">Deposit safely held in licensed bank escrow. Funds disbursed only after key hand-over and tenant physical signoff.</div></div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-center">
                 {[
@@ -422,14 +422,14 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                 ))}
               </div>
               <div className="flex flex-col gap-2.5 pt-1">
-                <button onClick={() => document.getElementById('booking-widget')?.scrollIntoView({ behavior: 'smooth', block: 'center' })} className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
+                <button onClick={() => document.getElementById('booking-widget')?.scrollIntoView({ behavior: 'smooth', block: 'center' })} className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-[var(--sovereign-hover)] text-white text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
                   <CalendarDays size={18} /> Schedule Private Inspection
                 </button>
                 <button onClick={() => router.push(`/listings/${listing.id}#apply`)} className="w-full py-3 px-4 rounded-xl bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-black dark:hover:bg-zinc-100 text-sm font-bold flex items-center justify-center gap-2 transition-colors">
                   <Wallet2 size={18} /> Apply & Lock via Escrow
                 </button>
                 <a href={`https://wa.me/2348000000000?text=Hello%20Engr%20Dapo,%20I%20am%20inquiring%20about%20${encodeURIComponent(listing.title)}%20(Ref:%20${referenceId})`} target="_blank" rel="noopener noreferrer" className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700 text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
-                  <MessageSquare size={16} className="text-emerald-600" /> Chat with Verified Broker
+                  <MessageSquare size={16} className="text-primary" /> Chat with Verified Broker
                 </a>
               </div>
               <div className="text-center text-xs text-zinc-500 dark:text-zinc-400">NIBSS Direct Settlement • Paystack Institutional Escrow</div>
@@ -438,8 +438,8 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
             {/* Calendar widget */}
             <div id="booking-widget" className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2"><Clock3 size={18} className="text-emerald-600" /><h3 className="text-sm font-bold text-zinc-900 dark:text-white">Available Slots</h3></div>
-                <span className="text-xs font-bold text-emerald-600">This Week</span>
+                <div className="flex items-center gap-2"><Clock3 size={18} className="text-primary" /><h3 className="text-sm font-bold text-zinc-900 dark:text-white">Available Slots</h3></div>
+                <span className="text-xs font-bold text-primary">This Week</span>
               </div>
               <div className="flex flex-col gap-2">
                 {[
@@ -447,7 +447,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
                   ['Tomorrow, 11:00 AM', 'VIP Guided Tour with Facility Head'],
                   ['Saturday, 2:00 PM', 'Weekend Inspection Session'],
                 ].map(([title, sub], i) => (
-                  <button key={title} onClick={() => setSelectedSlot(i)} className={`flex items-center justify-between p-3 rounded-xl text-left transition-all border ${selectedSlot === i ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-white/[0.04] hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-white'}`}>
+                  <button key={title} onClick={() => setSelectedSlot(i)} className={`flex items-center justify-between p-3 rounded-xl text-left transition-all border ${selectedSlot === i ? 'bg-primary border-primary text-white shadow-sm' : 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-white/[0.04] hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-white'}`}>
                     <div><div className={`text-xs font-semibold ${selectedSlot === i ? 'text-white' : 'text-zinc-900 dark:text-white'}`}>{title}</div><div className={`text-xs ${selectedSlot === i ? 'text-white/80' : 'text-zinc-500 dark:text-zinc-400'}`}>{sub}</div></div>
                     {selectedSlot === i ? <CheckCircle size={18} className="text-white" /> : <Radio size={18} className="text-zinc-400" />}
                   </button>
@@ -456,21 +456,21 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
               <button onClick={() => setBookingConfirmed(true)} disabled={bookingConfirmed} className={`w-full py-2.5 rounded-xl text-sm font-semibold transition-colors ${bookingConfirmed ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 cursor-default' : 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-black dark:hover:bg-zinc-100'}`}>
                 {bookingConfirmed ? 'Slot Reserved Successfully' : 'Confirm Slot Reservation'}
               </button>
-              {bookingConfirmed && <span className="text-center text-xs font-semibold text-emerald-600">Inspection slot requested! Broker will confirm via SMS.</span>}
+              {bookingConfirmed && <span className="text-center text-xs font-semibold text-primary">Inspection slot requested! Broker will confirm via SMS.</span>}
             </div>
 
             {/* Broker contact */}
             <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.06] flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0">DB</div>
-                <div className="min-w-0"><div className="text-sm font-bold text-zinc-900 dark:text-white truncate">Engr. Dapo Balogun</div><div className="text-xs text-zinc-500 dark:text-zinc-400 truncate">SURCON Reg. Surveyor #894</div><div className="text-xs font-semibold text-emerald-600">Replies in &lt; 15 mins</div></div>
+                <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shrink-0">DB</div>
+                <div className="min-w-0"><div className="text-sm font-bold text-zinc-900 dark:text-white truncate">Engr. Dapo Balogun</div><div className="text-xs text-zinc-500 dark:text-zinc-400 truncate">SURCON Reg. Surveyor #894</div><div className="text-xs font-semibold text-primary">Replies in &lt; 15 mins</div></div>
               </div>
               <form onSubmit={handleInquiry} className="flex flex-col gap-3">
-                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Full Legal Name</label><input value={inqName} onChange={(e) => setInqName(e.target.value)} placeholder="e.g. Chief Adeleke Coker" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" /></div>
-                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Corporate Email Address</label><input value={inqEmail} onChange={(e) => setInqEmail(e.target.value)} placeholder="name@company.ng" type="email" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" /></div>
-                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Nigerian Phone / WhatsApp</label><div className="flex"><span className="inline-flex items-center px-3 rounded-l-lg bg-zinc-100 dark:bg-zinc-800 border border-r-0 border-zinc-200 dark:border-white/[0.06] text-xs text-zinc-600 dark:text-zinc-400 font-medium">+234</span><input value={inqPhone} onChange={(e) => setInqPhone(e.target.value)} placeholder="803 000 0000" type="tel" required className="w-full h-10 px-3 rounded-r-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" /></div></div>
-                <button type="submit" className="mt-1 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors">Send Direct Message</button>
-                {inquirySent && <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-xs text-center font-medium">Inquiry submitted directly to Engr. Balogun.</div>}
+                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Full Legal Name</label><input value={inqName} onChange={(e) => setInqName(e.target.value)} placeholder="e.g. Chief Adeleke Coker" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div>
+                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Corporate Email Address</label><input value={inqEmail} onChange={(e) => setInqEmail(e.target.value)} placeholder="name@company.ng" type="email" required className="w-full h-10 px-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div>
+                <div><label className="block text-xs font-bold text-zinc-900 dark:text-white mb-1">Nigerian Phone / WhatsApp</label><div className="flex"><span className="inline-flex items-center px-3 rounded-l-lg bg-zinc-100 dark:bg-zinc-800 border border-r-0 border-zinc-200 dark:border-white/[0.06] text-xs text-zinc-600 dark:text-zinc-400 font-medium">+234</span><input value={inqPhone} onChange={(e) => setInqPhone(e.target.value)} placeholder="803 000 0000" type="tel" required className="w-full h-10 px-3 rounded-r-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.06] text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20" /></div></div>
+                <button type="submit" className="mt-1 w-full py-2.5 rounded-xl bg-primary hover:bg-[var(--sovereign-hover)] text-white text-sm font-semibold transition-colors">Send Direct Message</button>
+                {inquirySent && <div className="p-2 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs text-center font-medium">Inquiry submitted directly to Engr. Balogun.</div>}
               </form>
             </div>
           </aside>

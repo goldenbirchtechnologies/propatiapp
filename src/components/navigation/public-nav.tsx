@@ -41,7 +41,7 @@ export default function PublicNav() {
   if (!isLoaded) {
     return (
       <div className="fixed top-0 inset-x-0 z-50 h-20 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-zinc-200 dark:border-white/[0.06] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-6 w-6 border-2 border-emerald-600 border-t-transparent" />
+        <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent" />
       </div>
     );
   }
@@ -79,7 +79,7 @@ export default function PublicNav() {
                   className={cn(
                     'px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors border-b-2',
                     active
-                      ? 'text-zinc-900 dark:text-white border-emerald-600'
+                      ? 'text-zinc-900 dark:text-white border-primary'
                       : 'text-zinc-600 dark:text-zinc-400 border-transparent hover:text-zinc-900 dark:hover:text-white hover:border-zinc-300 dark:hover:border-zinc-600'
                   )}
                 >
@@ -110,7 +110,7 @@ export default function PublicNav() {
 
             <Link
               href={userId ? '/dashboard/landlord/properties/new' : '/signup'}
-              className="inline-flex items-center gap-1.5 h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm transition-colors"
+              className="inline-flex items-center gap-1.5 h-10 px-4 rounded-xl bg-primary hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:hover:bg-[var(--sovereign-hover)] text-white text-xs font-semibold shadow-sm transition-colors"
             >
               <span className="hidden sm:inline">List Property</span>
               <span className="sm:hidden">List</span>
@@ -121,7 +121,7 @@ export default function PublicNav() {
                 <img
                   src={user?.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.fullName || 'User')}&background=10b981&color=fff`}
                   alt={user?.fullName || 'User'}
-                  className="w-9 h-9 rounded-full ring-2 ring-emerald-500/30 object-cover shadow-sm"
+                  className="w-9 h-9 rounded-full ring-2 ring-primary/30 object-cover shadow-sm"
                 />
               </Link>
             ) : (
@@ -168,7 +168,7 @@ export default function PublicNav() {
                     href={link.href}
                     className={cn(
                       'block px-3 py-2.5 rounded-xl text-sm font-semibold',
-                      active ? 'bg-emerald-600 text-white' : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                      active ? 'bg-primary text-white' : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900'
                     )}
                   >
                     {link.label}
@@ -184,7 +184,7 @@ export default function PublicNav() {
                 </Link>
                 <Link
                   href={userId ? '/dashboard/landlord/properties/new' : '/signup'}
-                  className="block w-full text-center py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-semibold"
+                  className="block w-full text-center py-2.5 rounded-xl bg-primary text-white text-sm font-semibold"
                 >
                   List Property
                 </Link>

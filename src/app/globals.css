@@ -4,9 +4,58 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 :root {
-  /* Semantic Colors */
-  --green: #10b981;
-  --green-bg: rgba(16, 185, 129, 0.1);
+  /* Sovereign Estate — single green source (DESIGN.md) */
+  --sovereign: #006c49;
+  --sovereign-hover: #00422b;
+  --sovereign-container: #10b981;
+  --sovereign-container-bg: #ecfdf5;
+  --sovereign-ring: rgba(0, 108, 73, 0.4);
+  --sovereign-ring-soft: rgba(0, 108, 73, 0.15);
+
+  /* Sovereign surface system */
+  --surface: #fbf8fc;
+  --surface-dim: #dcd9dd;
+  --surface-bright: #fbf8fc;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f6f2f7;
+  --surface-container: #f0edf1;
+  --surface-container-high: #eae7eb;
+  --surface-container-highest: #e4e1e6;
+  --on-surface: #1b1b1e;
+  --on-surface-variant: #3c4a42;
+  --inverse-surface: #303033;
+  --inverse-on-surface: #f3f0f4;
+  --outline: #6c7a71;
+  --outline-variant: #bbcabf;
+  --surface-tint: #006c49;
+  --surface-variant: #e4e1e6;
+  --background-sovereign: #fbf8fc;
+  --on-background: #1b1b1e;
+  --inverse-primary: #4edea3;
+  --secondary: #006c49;
+  --on-secondary: #ffffff;
+  --secondary-container: #82f5c1;
+  --on-secondary-container: #00714e;
+  --tertiary: #bf0715;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #ff7a6e;
+  --on-tertiary-container: #790007;
+  --error-sovereign: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+  --secondary-fixed: #85f8c4;
+  --secondary-fixed-dim: #68dba9;
+  --on-secondary-fixed: #002114;
+  --on-secondary-fixed-variant: #005137;
+  --tertiary-fixed: #ffdad6;
+  --tertiary-fixed-dim: #ffb4ab;
+  --on-tertiary-fixed: #410002;
+  --on-tertiary-fixed-variant: #93000b;
+
+  /* Semantic Colors — all green aliases point to Sovereign */
+  --green: var(--sovereign);
+  --green-bg: rgba(0, 108, 73, 0.1);
   --amber: #f59e0b;
   --amber-bg: rgba(245, 158, 11, 0.1);
   --red: #ef4444;
@@ -15,18 +64,24 @@
   --blue-bg: rgba(59, 130, 246, 0.1);
   --success: var(--green);
   --warning: var(--amber);
+  --primary-container: var(--sovereign-container);
+  --on-primary-container: var(--sovereign-hover);
+  --primary-fixed: #6ffbbe;
+  --primary-fixed-dim: #4edea3;
+  --on-primary-fixed: #002113;
+  --on-primary-fixed-variant: #005236;
 
-  /* Tag tokens */
-  --tag-gold: #10b981;
-  --tag-gold-bg: rgba(16, 185, 129, 0.1);
-  --tag-rust: #10b981;
-  --tag-rust-bg: rgba(16, 185, 129, 0.1);
-  --tag-teal: #10b981;
-  --tag-teal-bg: rgba(16, 185, 129, 0.1);
-  --tag-cyan: #10b981;
-  --tag-cyan-bg: rgba(16, 185, 129, 0.1);
+  /* Tag tokens — unified to Sovereign */
+  --tag-gold: var(--sovereign);
+  --tag-gold-bg: rgba(0, 108, 73, 0.1);
+  --tag-rust: var(--sovereign);
+  --tag-rust-bg: rgba(0, 108, 73, 0.1);
+  --tag-teal: var(--sovereign);
+  --tag-teal-bg: rgba(0, 108, 73, 0.1);
+  --tag-cyan: var(--sovereign);
+  --tag-cyan-bg: rgba(0, 108, 73, 0.1);
 
-  /* Global Vercel Dark Canonical Tokens */
+  /* Global Vercel Dark Canonical Tokens — Sovereign single-green */
   --theme-dark-bg: #000000;
   --theme-dark-surface: #09090b;
   --theme-dark-surface-elevated: #121215;
@@ -35,8 +90,8 @@
   --theme-dark-text: #ededed;
   --theme-dark-muted: #18181b;
   --theme-dark-muted-foreground: #a1a1aa;
-  --theme-dark-accent: #10b981;
-  --theme-dark-accent2: #059669;
+  --theme-dark-accent: var(--sovereign);
+  --theme-dark-accent2: var(--sovereign-hover);
 
   /* Role-based Theme overrides map to Vercel Dark */
   /* Landing / Marketplace */
@@ -45,7 +100,7 @@
   --theme-landing-surface-elevated: #121215;
   --theme-landing-border: rgba(255, 255, 255, 0.08);
   --theme-landing-text: #ededed;
-  --theme-landing-accent: #10b981;
+  --theme-landing-accent: var(--sovereign);
 
   /* Landlord */
   --theme-landlord-bg: #000000;
@@ -55,8 +110,8 @@
   --theme-landlord-text: #ededed;
   --theme-landlord-muted: #18181b;
   --theme-landlord-muted-foreground: #a1a1aa;
-  --theme-landlord-accent: #10b981;
-  --theme-landlord-accent2: #059669;
+  --theme-landlord-accent: var(--sovereign);
+  --theme-landlord-accent2: var(--sovereign-hover);
 
   /* Tenant */
   --theme-tenant-bg: #000000;
@@ -65,8 +120,8 @@
   --theme-tenant-text: #ededed;
   --theme-tenant-muted: #18181b;
   --theme-tenant-muted-foreground: #a1a1aa;
-  --theme-tenant-accent: #10b981;
-  --theme-tenant-accent2: #059669;
+  --theme-tenant-accent: var(--sovereign);
+  --theme-tenant-accent2: var(--sovereign-hover);
 
   /* Agent */
   --theme-agent-bg: #000000;
@@ -75,8 +130,8 @@
   --theme-agent-text: #ededed;
   --theme-agent-muted: #18181b;
   --theme-agent-muted-foreground: #a1a1aa;
-  --theme-agent-accent: #10b981;
-  --theme-agent-accent2: #059669;
+  --theme-agent-accent: var(--sovereign);
+  --theme-agent-accent2: var(--sovereign-hover);
 
   /* Estate Manager */
   --theme-em-bg: #000000;
@@ -87,8 +142,8 @@
   --theme-em-text: #ededed;
   --theme-em-muted: #18181b;
   --theme-em-muted-foreground: #a1a1aa;
-  --theme-em-accent: #10b981;
-  --theme-em-accent2: #059669;
+  --theme-em-accent: var(--sovereign);
+  --theme-em-accent2: var(--sovereign-hover);
 
   /* Admin */
   --theme-admin-bg: #000000;
@@ -98,8 +153,8 @@
   --theme-admin-text: #ededed;
   --theme-admin-muted: #18181b;
   --theme-admin-muted-foreground: #a1a1aa;
-  --theme-admin-accent: #10b981;
-  --theme-admin-accent2: #059669;
+  --theme-admin-accent: var(--sovereign);
+  --theme-admin-accent2: var(--sovereign-hover);
 
   --font-serif: var(--font-inter), sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -108,13 +163,29 @@
   --font-body-fallback: var(--font-inter), system-ui, sans-serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
 
-  /* Verification tokens */
+  /* Verification tokens — unified to Sovereign */
   --verification-basic: #71717a;
-  --verification-verified: #10b981;
+  --verification-verified: var(--sovereign);
   --verification-inspected: #3b82f6;
   --verification-certified: #06b6d4;
 
-  /* Font Scale */
+  /* Sovereign Estate — Typography & Spacing (DESIGN.md single source) */
+  /* Font Scale — Inter only, tabular-nums for financial readouts */
+  --text-display: 40px;
+  --text-display-mobile: 30px;
+  --text-headline-lg: 32px;
+  --text-headline-lg-mobile: 24px;
+  --text-headline-md: 24px;
+  --text-headline-sm: 20px;
+  --text-title-md: 16px;
+  --text-title-sm: 14px;
+  --text-body-lg: 16px;
+  --text-body-md: 14px;
+  --text-body-sm: 12px;
+  --text-label-md: 13px;
+  --text-label-sm: 11px;
+  --text-mono-numeric: 14px;
+  /* legacy aliases */
   --text-hero: clamp(2.2rem, 5vw, 3.8rem);
   --text-page-title: 1.25rem;
   --text-card-title: 0.95rem;
@@ -123,30 +194,37 @@
   --text-tag: 0.7rem;
   --text-mono: 0.75rem;
 
-  /* Spacing Scale */
+  /* Spacing — DESIGN.md: gutter 1.5rem (1rem mobile), margin 2rem (1rem mobile) */
+  --space-gutter: 1.5rem;
+  --space-gutter-mobile: 1rem;
+  --space-margin: 2rem;
+  --space-margin-mobile: 1rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
   --space-tight: 0.25rem;
   --space-vs: 0.35rem;
   --space-sm-gap: 0.5rem;
-  --space-sm: 0.5rem;
   --space-base-sm: 0.65rem;
   --space-base: 0.75rem;
   --space-md-sm: 0.85rem;
-  --space-md: 1rem;
-  --space-lg: 1.25rem;
   --space-md-lg: 1.5rem;
-  --space-xl: 1.75rem;
   --space-xxl: 2rem;
   --space-section: 2.5rem;
   --space-hero: 3.5rem;
 
-  /* Border Radius Scale */
-  --radius-tag: 6px;
-  --radius-btn-sm: 6px;
-  --radius-btn: 8px;
-  --radius-card: 12px;
-  --radius-card-lg: 14px;
-  --radius-modal: 16px;
-  --radius-modal-mobile: 20px;
+  /* Sovereign Estate — DESIGN.md single source */
+  /* Rounded — sm:4px DEFAULT:8px md:12px lg:16px xl:24px full:9999px */
+  --radius-sm: 0.25rem;
+  --radius-btn: 0.5rem;
+  --radius-btn-sm: 0.5rem;
+  --radius-card: 1rem;
+  --radius-card-lg: 1rem;
+  --radius-modal: 1.5rem;
+  --radius-modal-mobile: 1.5rem;
+  --radius-tag: 9999px;
   --radius-avatar: 50%;
   --radius-pill: 9999px;
 
@@ -162,10 +240,12 @@
   --content-padding-desktop: 1.75rem 2rem;
   --content-padding-mobile: 1rem;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.6);
+  /* Shadows — DESIGN.md Elevation (no heavy drop, 1px borders own depth) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* Role-based theme classes applied to body */
@@ -529,13 +609,13 @@ body.em-theme {
   --surface-tint: var(--theme-admin-accent);
 }
 
-/* New dark-mode extended palette tokens */
+/* New dark-mode extended palette tokens — Sovereign single-green */
 :root {
   --blackCanvas: #ffffff;
   --cardDark: #f5f5f5;
   --cardDarker: #e5e5e5;
   --grayMuted: #6b7280;
-  --accentGreen: #22c55e;
+  --accentGreen: var(--sovereign);
   --accentBlue: #3b82f6;
 }
 html.dark,
@@ -544,7 +624,7 @@ html.dark,
   --cardDark: #121214;
   --cardDarker: #0a0a0b;
   --grayMuted: #9ca3af;
-  --accentGreen: #22c55e;
+  --accentGreen: var(--sovereign);
   --accentBlue: #3b82f6;
 }
 
@@ -830,7 +910,7 @@ a:hover {
 .dark-input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-bg, rgba(16, 185, 129, 0.15));
+  box-shadow: 0 0 0 3px var(--accent-bg, var(--sovereign-ring-soft));
 }
 
 /* Dashboard shell layout */
@@ -958,62 +1038,64 @@ a:hover {
 
 @layer base {
   :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.527 0.154 150.069);
-    --primary-foreground: oklch(0.982 0.018 155.826);
-    --secondary: oklch(0.967 0.001 286.375);
-    --secondary-foreground: oklch(0.21 0.006 285.885);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
+    /* Sovereign Estate — single green overrides shadcn oklch */
+    --background: #fbf8fc;
+    --foreground: #1b1b1e;
+    --card: #ffffff;
+    --card-foreground: #1b1b1e;
+    --popover: #ffffff;
+    --popover-foreground: #1b1b1e;
+    --primary: #006c49;
+    --primary-foreground: #ffffff;
+    --secondary: #006c49;
+    --secondary-foreground: #ffffff;
+    --muted: #f0edf1;
+    --muted-foreground: #6c7a71;
+    --accent: #006c49;
+    --accent-foreground: #00422b;
+    --destructive: #ba1a1a;
+    --border: #e4e1e6;
+    --input: #e4e1e6;
+    --ring: #006c49;
+    --chart-1: #006c49;
+    --chart-2: #006c49;
+    --chart-3: #6c7a71;
+    --chart-4: #bbcabf;
+    --chart-5: #1b1b1e;
     --radius: 0.875rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.627 0.194 149.214);
-    --sidebar-primary-foreground: oklch(0.982 0.018 155.826);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --sidebar: #f6f2f7;
+    --sidebar-foreground: #1b1b1e;
+    --sidebar-primary: #006c49;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f0edf1;
+    --sidebar-accent-foreground: #1b1b1e;
+    --sidebar-border: #e4e1e6;
+    --sidebar-ring: #006c49;
   }
   .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.448 0.119 151.328);
-    --primary-foreground: oklch(0.982 0.018 155.826);
-    --secondary: oklch(0.274 0.006 286.033);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
+    --background: #000000;
+    --foreground: #ededed;
+    --card: #09090b;
+    --card-foreground: #ededed;
+    --popover: #09090b;
+    --popover-foreground: #ededed;
+    --primary: #006c49;
+    --primary-foreground: #ffffff;
+    --secondary: #006c49;
+    --secondary-foreground: #ffffff;
+    --muted: #18181b;
+    --muted-foreground: #a1a1aa;
+    --accent: #006c49;
+    --accent-foreground: #ffffff;
+    --destructive: #ff5449;
+    --border: rgba(255,255,255,0.08);
+    --input: rgba(255,255,255,0.08);
+    --ring: #006c49;
+    --chart-1: #006c49;
+    --chart-2: #006c49;
+    --chart-3: #3c4a42;
+    --chart-4: #27272a;
+    --chart-5: #ededed;
     --chart-5: oklch(0.269 0 0);
     --sidebar: oklch(0.205 0 0);
     --sidebar-foreground: oklch(0.985 0 0);
@@ -1189,9 +1271,9 @@ a:hover {
   animation: fadeIn 0.3s ease forwards;
 }
 
-/* Green glow utility */
+/* Sovereign glow utility */
 .glow-green {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 0 20px var(--sovereign-ring-soft);
 }
 
 /* Scrollbar styling */
@@ -1200,8 +1282,8 @@ a:hover {
 ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
-/* Selection */
-::selection { background: rgba(16, 185, 129, 0.25); color: #fff; }
+/* Selection — Sovereign */
+::selection { background: rgba(0, 108, 73, 0.25); color: #fff; }
 
-/* Focus ring */
-:focus-visible { outline: 2px solid #10b981; outline-offset: 2px; }
+/* Focus ring — Sovereign */
+:focus-visible { outline: 2px solid var(--sovereign); outline-offset: 2px; }

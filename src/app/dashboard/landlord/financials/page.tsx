@@ -354,7 +354,7 @@ export default function LandlordFinancialsPage() {
 
   const statusBadge = (variant: TransactionRow['statusBadgeVariant'], label: string) => {
     const map: Record<string, string> = {
-      default: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20',
+      default: 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary/20',
       secondary: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20',
       destructive: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
       outline: 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]',
@@ -374,13 +374,13 @@ export default function LandlordFinancialsPage() {
                   <div className="flex items-center gap-2 text-[11px] font-semibold tracking-widest text-zinc-500">
                     <span>Finances &amp; Analytics</span>
                     <span className="text-zinc-300 dark:text-zinc-700">/</span>
-                    <span className="text-emerald-600 dark:text-emerald-400">Financials &amp; Payouts</span>
+                    <span className="text-primary dark:text-[#4edea3]">Financials &amp; Payouts</span>
                   </div>
                   <h1 className="mt-1 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Financials Overview</h1>
                   <p className="mt-1 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">Wallet, payouts, vacancy exposure and overdue recovery — all computed from live ledger data. No mock balances.</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
+                  <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
                     <FileText className="w-3.5 h-3.5" /> Create Invoice
                   </Button>
                   <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/[0.06]" onClick={() => setWithdrawModalOpen(true)} disabled={!wallet.bankAccount?.recipientCode}>
@@ -396,11 +396,11 @@ export default function LandlordFinancialsPage() {
               <div className="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-3 sm:flex-row sm:items-center">
                 <div className="flex flex-1 items-center gap-2">
                   <div className="relative flex-1">
-                    <Input type="date" value={filters.from} onChange={(e) => setFilters((s) => ({ ...s, from: e.target.value }))} className="h-9 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 rounded-lg text-xs focus-visible:ring-emerald-500/30" />
+                    <Input type="date" value={filters.from} onChange={(e) => setFilters((s) => ({ ...s, from: e.target.value }))} className="h-9 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 rounded-lg text-xs focus-visible:ring-primary/30" />
                   </div>
                   <span className="shrink-0 text-xs text-zinc-500">—</span>
                   <div className="relative flex-1">
-                    <Input type="date" value={filters.to} onChange={(e) => setFilters((s) => ({ ...s, to: e.target.value }))} className="h-9 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 rounded-lg text-xs focus-visible:ring-emerald-500/30" />
+                    <Input type="date" value={filters.to} onChange={(e) => setFilters((s) => ({ ...s, to: e.target.value }))} className="h-9 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 rounded-lg text-xs focus-visible:ring-primary/30" />
                   </div>
                 </div>
                 <Select value={filters.propertyId} onValueChange={(val) => setFilters((s) => ({ ...s, propertyId: val === '__all__' ? '' : val }))}>
@@ -451,7 +451,7 @@ export default function LandlordFinancialsPage() {
                         <p className="text-sm font-semibold text-zinc-900 dark:text-white">Welcome — let&apos;s get your payouts ready</p>
                         <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Setup your payout bank and create your first invoice to start receiving rent.</p>
                         <div className="mt-3 flex gap-2">
-                          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => setBankModalOpen(true)}>Setup payout bank</Button>
+                          <Button size="sm" className="bg-primary hover:bg-primary text-white" onClick={() => setBankModalOpen(true)}>Setup payout bank</Button>
                           <Button size="sm" variant="outline" className="border-zinc-200 dark:border-white/[0.08] bg-transparent text-zinc-600 dark:text-zinc-400" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>View invoices</Button>
                         </div>
                       </div>
@@ -461,16 +461,16 @@ export default function LandlordFinancialsPage() {
                   {/* Bento KPI — 4 live cards: Total Income | Pending Escrow | Vacancy | Overdue */}
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-5">
-                      <div className="absolute inset-x-0 top-0 h-1 bg-emerald-500" />
+                      <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Total Income</span>
-                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary dark:text-[#4edea3]">
                           <Banknote className="h-3.5 w-3.5" />
                         </span>
                       </div>
                       <div className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(metrics.totalIncome)}</div>
                       <p className="mt-1 text-xs text-zinc-500">{metrics.transactionCount} transactions · Released</p>
-                      <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                      <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-primary dark:text-[#4edea3]">
                         <TrendingUp className="h-3.5 w-3.5" /> Live ledger
                       </div>
                     </div>
@@ -504,7 +504,7 @@ export default function LandlordFinancialsPage() {
                       <div className="mt-3 flex items-baseline gap-2">
                         <span className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{vacancy.vacantCount}</span>
                         <span className="text-xs text-zinc-500">/ {vacancy.total} units</span>
-                        <span className={`ml-1 rounded-full px-2 py-0.5 text-[11px] font-semibold border ${vacancy.vacancyRate > 30 ? 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' : vacancy.vacancyRate > 10 ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20' : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20'}`}>
+                        <span className={`ml-1 rounded-full px-2 py-0.5 text-[11px] font-semibold border ${vacancy.vacancyRate > 30 ? 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' : vacancy.vacancyRate > 10 ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20' : 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary/20'}`}>
                           {vacancy.vacancyRate}% vacant
                         </span>
                       </div>
@@ -545,7 +545,7 @@ export default function LandlordFinancialsPage() {
                       )}
                       <div className="mt-4 flex flex-wrap gap-2">
                         {!wallet.bankAccount ? (
-                          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={() => setBankModalOpen(true)}>
+                          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={() => setBankModalOpen(true)}>
                             <Landmark className="w-3.5 h-3.5" /> Setup bank
                           </Button>
                         ) : (
@@ -553,7 +553,7 @@ export default function LandlordFinancialsPage() {
                             <ShieldCheck className="w-3.5 h-3.5" /> {wallet.bankAccount.accountName || wallet.bankAccount.bankName || 'Bank'}
                           </Button>
                         )}
-                        <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-40" onClick={() => setWithdrawModalOpen(true)} disabled={wallet.isLocked || !wallet.bankAccount?.recipientCode}>
+                        <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white disabled:opacity-40" onClick={() => setWithdrawModalOpen(true)} disabled={wallet.isLocked || !wallet.bankAccount?.recipientCode}>
                           <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
                         </Button>
                       </div>
@@ -576,7 +576,7 @@ export default function LandlordFinancialsPage() {
                           </div>
                           <p className="mt-3 text-sm font-medium text-zinc-900 dark:text-white">No vacant units</p>
                           <p className="mx-auto mt-1 max-w-xs text-xs text-zinc-500">All listings are active. Create a new listing to fill the market gap.</p>
-                          <Button asChild size="sm" className="mt-4 bg-emerald-600 hover:bg-emerald-500 text-white">
+                          <Button asChild size="sm" className="mt-4 bg-primary hover:bg-primary text-white">
                             <Link href="/dashboard/landlord/listing/new">Publish listing</Link>
                           </Button>
                         </div>
@@ -616,8 +616,8 @@ export default function LandlordFinancialsPage() {
                     <div className="p-5">
                       {overdue.rows.length === 0 ? (
                         <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-950 p-8 text-center">
-                          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                            <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20">
+                            <ShieldCheck className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                           </div>
                           <p className="mt-3 text-sm font-medium text-zinc-900 dark:text-white">No overdue payments</p>
                           <p className="mt-1 text-xs text-zinc-500">All rent schedules are current. Overdue items will appear here with days count and actions.</p>
@@ -678,7 +678,7 @@ export default function LandlordFinancialsPage() {
                           <p className="mt-3 text-sm font-medium text-zinc-900 dark:text-white">No payouts yet</p>
                           <p className="mt-1 text-xs text-zinc-500">Withdrawals and wallet transactions will show here.</p>
                           <div className="mt-4 flex items-center justify-center gap-2">
-                            <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
+                            <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
                               <FileText className="w-3.5 h-3.5" /> Create Invoice
                             </Button>
                             <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400" onClick={() => toastHook({ title: 'Record Payment — coming soon' })}>
@@ -775,14 +775,14 @@ export default function LandlordFinancialsPage() {
               {resolving && <Loader2 className="w-4 h-4 animate-spin" />} Verify Account
             </Button>
             {accountName && (
-              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3 text-sm text-emerald-700 dark:text-emerald-300">
+              <div className="rounded-lg border border-primary/20 bg-primary/10 p-3 text-sm text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
                 Verified account: <span className="font-semibold">{accountName}</span> at <span className="font-semibold">{bankNameInput}</span>
               </div>
             )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setBankModalOpen(false)} disabled={savingBank}>Cancel</Button>
-            <Button onClick={saveBankAccount} disabled={savingBank || !accountName} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+            <Button onClick={saveBankAccount} disabled={savingBank || !accountName} className="bg-primary hover:bg-primary text-white">
               {savingBank && <Loader2 className="w-4 h-4 animate-spin" />} Save Bank
             </Button>
           </DialogFooter>
@@ -815,7 +815,7 @@ export default function LandlordFinancialsPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setWithdrawModalOpen(false)} disabled={withdrawing}>Cancel</Button>
-            <Button onClick={requestWithdrawal} disabled={withdrawing} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+            <Button onClick={requestWithdrawal} disabled={withdrawing} className="bg-primary hover:bg-primary text-white">
               {withdrawing && <Loader2 className="w-4 h-4 animate-spin" />} Send payout request
             </Button>
           </DialogFooter>

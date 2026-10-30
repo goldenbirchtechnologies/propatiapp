@@ -97,7 +97,7 @@ function Step2IdentityClient(props: Props) {
             </div>
           ) : status === 'approved' ? (
             <div className="flex items-center gap-2 p-4 rounded-lg bg-success/10 border border-success/20">
-              <CheckCircle2 className="h-5 w-5 text-[#10b981]" />
+              <CheckCircle2 className="h-5 w-5 text-[#006c49]" />
               <p className="text-sm font-medium">Identity verified successfully.</p>
             </div>
           ) : status === 'pending' ? (

@@ -54,9 +54,9 @@ const STATUS_META: Record<AgreementStatus, { label: string; cls: string; dot: st
   draft: { label: 'Draft', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700', dot: 'bg-zinc-400' },
   pending_landlord: { label: 'Pending Landlord', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
   pending_tenant: { label: 'Pending Tenant', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
-  tenant_signed: { label: 'Tenant Signed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
-  landlord_signed: { label: 'Landlord Signed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
-  fully_signed: { label: 'Fully Signed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
+  tenant_signed: { label: 'Tenant Signed', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
+  landlord_signed: { label: 'Landlord Signed', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
+  fully_signed: { label: 'Fully Signed', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
   terminated: { label: 'Terminated', cls: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30', dot: 'bg-rose-500' },
   expired: { label: 'Expired', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700', dot: 'bg-zinc-400' },
 };
@@ -176,11 +176,11 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
   }) => {
     const iconCls =
       tone === 'emerald'
-        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+        ? 'bg-primary/10 text-primary dark:text-[#4edea3]'
         : tone === 'amber'
           ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
           : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400';
-    const valueCls = tone === 'emerald' ? 'text-emerald-600 dark:text-emerald-400' : tone === 'amber' ? 'text-amber-600 dark:text-amber-400' : 'text-zinc-900 dark:text-white';
+    const valueCls = tone === 'emerald' ? 'text-primary dark:text-[#4edea3]' : tone === 'amber' ? 'text-amber-600 dark:text-amber-400' : 'text-zinc-900 dark:text-white';
     return (
       <div className={`${CARD} group transition-shadow hover:shadow-md`}>
         <div className="flex items-start justify-between">
@@ -204,8 +204,8 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
         <div className="flex flex-col">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Agreements</h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               {organization?.name ?? 'Live Ledgers'}
             </span>
           </div>
@@ -219,13 +219,13 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
             disabled={filtered.length === 0}
             className="group inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm transition-all hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
           >
-            <Download className="h-[18px] w-[18px] text-zinc-400 transition-colors group-hover:text-emerald-600" />
+            <Download className="h-[18px] w-[18px] text-zinc-400 transition-colors group-hover:text-primary" />
             Audit Export
             <span className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">CSV</span>
           </button>
           <Link
             href="/dashboard/estate-manager/units"
-            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
           >
             <Plus className="h-[18px] w-[18px]" />
             Create Agreement
@@ -249,7 +249,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search reference, tenant, landlord, or property..."
-            className="w-full rounded-lg border border-zinc-200 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+            className="w-full rounded-lg border border-zinc-200 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
           />
         </div>
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
@@ -259,7 +259,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
               onClick={() => setFilter(f.key)}
               className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider transition-all ${
                 filter === f.key
-                  ? 'bg-emerald-600 text-white shadow-sm'
+                  ? 'bg-primary text-white shadow-sm'
                   : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
               }`}
             >
@@ -283,7 +283,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
             </p>
             <Link
               href="/dashboard/estate-manager/units"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
             >
               <Plus className="h-[18px] w-[18px]" /> Add your first unit
             </Link>
@@ -318,14 +318,14 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
                       return (
                         <tr key={a.id} className="group transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                           <td className="whitespace-nowrap px-4 py-3.5">
-                            <div className="flex items-center gap-1.5 font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                            <div className="flex items-center gap-1.5 font-mono text-xs font-semibold text-primary dark:text-[#4edea3]">
                               <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
                               {a.id.slice(0, 8).toUpperCase()}
                             </div>
                           </td>
                           <td className="px-4 py-3.5">
                             <div className="flex min-w-0 flex-col">
-                              <span className="text-sm font-semibold text-zinc-900 transition-colors group-hover:text-emerald-600 dark:text-white">
+                              <span className="text-sm font-semibold text-zinc-900 transition-colors group-hover:text-primary dark:text-white">
                                 {TYPE_LABELS[a.type] ?? a.type}
                               </span>
                               <span className={`mt-0.5 truncate ${MUTED}`}>{a.listing?.title ?? 'No listing'}</span>
@@ -333,7 +333,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
                           </td>
                           <td className="px-4 py-3.5">
                             <div className="flex items-center gap-2.5">
-                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                 {initialsOf(a.tenant?.fullName)}
                               </div>
                               <div className="flex min-w-0 flex-col">
@@ -367,7 +367,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
                               <Link
                                 href={`/dashboard/estate-manager/agreements/${a.id}`}
                                 title="View agreement dossier"
-                                className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800"
+                                className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                               >
                                 <Eye className="h-[18px] w-[18px]" />
                               </Link>
@@ -375,7 +375,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
                                 <a
                                   href={`/api/agreements/${a.id}/pdf`}
                                   title="Download counterpart PDF"
-                                  className="rounded-lg p-1.5 text-emerald-600 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                                  className="rounded-lg p-1.5 text-primary transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
                                 >
                                   <Download className="h-[18px] w-[18px]" />
                                 </a>

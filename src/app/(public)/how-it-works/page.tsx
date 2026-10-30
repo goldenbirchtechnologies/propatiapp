@@ -36,8 +36,8 @@ export default function HowItWorksPage() {
   return (
     <div className="bg-black min-h-screen pt-16">
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>How it works</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">Renting reimagined — from search to keys</h1>
@@ -53,7 +53,7 @@ export default function HowItWorksPage() {
             {steps.map((s) => (
               <div key={s.n} className="glass-card p-6 flex flex-col">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                     <s.icon className="h-5 w-5" />
                   </div>
                   <span className="text-2xl font-black tracking-tight text-white/[0.06]">{s.n}</span>

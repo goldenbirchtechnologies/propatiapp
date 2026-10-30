@@ -35,9 +35,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 
 // ─── Design tokens ───────────────────────────────────────────────────────────
-// Estate-manager theme: emerald accent (#10b981 / --accent), elevated surfaces.
+// Estate-manager theme: Sovereign (#006c49 / --accent), elevated surfaces.
 const ACCENT = 'var(--accent)';
-const SUCCESS = '#22c55e';
+const SUCCESS = 'var(--sovereign)';
 const WARN = '#f59e0b';
 const DANGER = 'var(--destructive)';
 

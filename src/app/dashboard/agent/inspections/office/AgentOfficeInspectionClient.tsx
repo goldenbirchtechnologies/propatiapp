@@ -69,7 +69,7 @@ export default function AgentOfficeInspectionClient() {
         <div className="glass-card">
           <div className="p-6 p-4">
             <div className="flex justify-between mb-4 px-2">
-              <span className="text-xs font-label-sm uppercase tracking-wider flex items-center gap-1 text-[#10b981]">
+              <span className="text-xs font-label-sm uppercase tracking-wider flex items-center gap-1 text-[#006c49]">
                 <CheckCircle className="h-3 w-3" /> Submitted
               </span>
               <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-900 dark:text-white">Scheduled</span>
@@ -77,7 +77,7 @@ export default function AgentOfficeInspectionClient() {
               <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Report</span>
             </div>
             <div className="relative h-2 bg-[#171717] rounded-full overflow-hidden">
-              <div className="absolute h-full w-[45%] bg-gradient-to-r from-[#10b981] to-[#262626]" />
+              <div className="absolute h-full w-[45%] bg-gradient-to-r from-[#006c49] to-[#262626]" />
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function AgentOfficeInspectionClient() {
                           className={cn(
                             'p-2 rounded-md transition-colors',
                             d.disabled ? 'text-zinc-600 dark:text-zinc-400 cursor-not-allowed' : 'hover:bg-[#171717] cursor-pointer',
-                            d.active ? 'bg-[#10b981] text-zinc-900 dark:text-white font-bold shadow-none' : ''
+                            d.active ? 'bg-[#006c49] text-zinc-900 dark:text-white font-bold shadow-none' : ''
                           )}
                         >
                           {d.date}
@@ -139,7 +139,7 @@ export default function AgentOfficeInspectionClient() {
                         className={cn(
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'morning'
-                            ? 'border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-white font-bold'
+                            ? 'border-zinc-200 dark:border-white/[0.08] bg-[#006c49]/10 text-zinc-900 dark:text-white font-bold'
                             : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-400'
                         )}
                       >
@@ -156,7 +156,7 @@ export default function AgentOfficeInspectionClient() {
                         className={cn(
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'afternoon'
-                            ? 'border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-white font-bold'
+                            ? 'border-zinc-200 dark:border-white/[0.08] bg-[#006c49]/10 text-zinc-900 dark:text-white font-bold'
                             : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-400'
                         )}
                       >
@@ -231,7 +231,7 @@ export default function AgentOfficeInspectionClient() {
           {/* Right Column */}
           <aside className="lg:col-span-5 space-y-6">
             <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-              <div className="bg-[#10b981] px-6 py-4 flex justify-between items-center">
+              <div className="bg-[#006c49] px-6 py-4 flex justify-between items-center">
                 <h3 className="text-zinc-900 dark:text-white font-headline-sm font-bold">Inspection Summary</h3>
                 <span className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
                   Tier 2
@@ -282,12 +282,12 @@ export default function AgentOfficeInspectionClient() {
               </div>
             </div>
 
-            <div className="glass-card border border-[#10b981] bg-[#10b981]/5 bg-[rgba(23,23,23,0.4)] backdrop-blur rounded-xl">
+            <div className="glass-card border border-[#006c49] bg-[#006c49]/5 bg-[rgba(23,23,23,0.4)] backdrop-blur rounded-xl">
               <div className="p-6 p-6 flex items-start gap-3">
-                <Verified className="h-5 w-5 text-[#10b981] mt-0.5" />
+                <Verified className="h-5 w-5 text-[#006c49] mt-0.5" />
                 <div>
-                  <h4 className="font-headline-sm font-bold text-[#10b981] mb-1">Why verify?</h4>
-                  <p className="text-xs font-label-sm uppercase tracking-wider text-[#10b981]/80 leading-relaxed">
+                  <h4 className="font-headline-sm font-bold text-[#006c49] mb-1">Why verify?</h4>
+                  <p className="text-xs font-label-sm uppercase tracking-wider text-[#006c49]/80 leading-relaxed">
                     Verified agents receive 3x more property inquiries and gain access to the &quot;Verified Prime&quot; filter on the PropatiBox consumer portal.
                   </p>
                 </div>

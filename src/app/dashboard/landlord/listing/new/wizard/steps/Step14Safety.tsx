@@ -60,7 +60,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 14 / Safety Protocols & Audit</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 14 / Safety Protocols & Audit</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Fire Safety, Life Protection & Statutory Verification</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Affirm compliance with Lagos State Safety Commission (LSSC) high-rise directives.</p>
       </div>
@@ -78,7 +78,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
               ].map((item) => (
                 <div key={item.title} className="p-4 bg-zinc-50 dark:bg-white/[0.04] rounded-xl flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-emerald-600/10 text-emerald-600 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
                       <Siren className="size-4" />
                     </div>
                     <div>
@@ -86,7 +86,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
                       <div className="text-xs text-zinc-600 dark:text-zinc-400">{item.desc}</div>
                     </div>
                   </div>
-                  <span className="text-xs px-2.5 py-1 rounded bg-emerald-600/10 text-emerald-600 font-semibold">{item.badge}</span>
+                  <span className="text-xs px-2.5 py-1 rounded bg-primary/10 text-primary font-semibold">{item.badge}</span>
                 </div>
               ))}
             </div>
@@ -127,7 +127,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
                         )}
                       </Label>
                       {item.policyLink && (
-                        <a href={item.policyLink} className="text-xs text-emerald-600 flex items-center gap-1">
+                        <a href={item.policyLink} className="text-xs text-primary flex items-center gap-1">
                           <FileText className="size-3" /> Policy
                         </a>
                       )}
@@ -147,9 +147,9 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
         </div>
 
         <div className="lg:col-span-4 flex flex-col gap-4">
-          <div className="p-5 bg-emerald-600/10 border border-emerald-600/20 rounded-xl space-y-3">
+          <div className="p-5 bg-primary/10 border border-primary/20 rounded-xl space-y-3">
             <div className="flex items-center gap-2">
-              <Shield className="size-5 text-emerald-600" />
+              <Shield className="size-5 text-primary" />
               <span className="text-sm font-semibold text-zinc-900 dark:text-white">Institutional Landlord Attestation</span>
             </div>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
@@ -157,7 +157,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
             </p>
             <div className="p-3 bg-white dark:bg-zinc-900 rounded-lg flex items-center justify-between">
               <span className="text-xs text-zinc-400">DIGITAL CAC HASH</span>
-              <span className="font-mono text-xs text-emerald-600 font-bold">SHA256: 9e01...b28a</span>
+              <span className="font-mono text-xs text-primary font-bold">SHA256: 9e01...b28a</span>
             </div>
           </div>
         </div>

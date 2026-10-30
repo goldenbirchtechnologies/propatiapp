@@ -124,7 +124,7 @@ export function NotificationCard({
                         size="sm"
                         variant="outline"
                         onClick={(e) => { e.stopPropagation(); doConfirm(); }}
-                        className="text-emerald-400 border-emerald-400/20 bg-emerald-400/10 hover:bg-emerald-400/20"
+                        className="text-[#4edea3] border-primary/20 bg-primary/10 hover:bg-primary/20"
                       >
                         Confirm payment
                       </Button>

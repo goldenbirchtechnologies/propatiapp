@@ -224,7 +224,7 @@ export default function LandlordWithdrawalsPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <nav className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mb-1">
-                <span>Home</span><span>/</span><span>Financials &amp; Payouts</span><span>/</span><span className="text-emerald-600 font-semibold">Withdrawals</span>
+                <span>Home</span><span>/</span><span>Financials &amp; Payouts</span><span>/</span><span className="text-primary font-semibold">Withdrawals</span>
               </nav>
               <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Withdrawals &amp; Fund Management</h1>
               <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">Disburse rental yields, manage settlement nodes, and monitor payouts.</p>
@@ -233,7 +233,7 @@ export default function LandlordWithdrawalsPage() {
               <Button variant="outline" size="sm" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400" onClick={() => setBankModalOpen(true)}>
                 <Landmark className="w-4 h-4" /> Payout Bank Settings
               </Button>
-              <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => setWithdrawModalOpen(true)} disabled={wallet.isLocked || !wallet.bankAccount?.recipientCode}>
+              <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white" onClick={() => setWithdrawModalOpen(true)} disabled={wallet.isLocked || !wallet.bankAccount?.recipientCode}>
                 <ArrowUpRight className="w-4 h-4" /> Request Withdrawal
               </Button>
             </div>
@@ -251,14 +251,14 @@ export default function LandlordWithdrawalsPage() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-6 relative overflow-hidden">
-                  <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none" />
+                  <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-primary/10 rounded-full blur-xl pointer-events-none" />
                   <div className="flex items-center justify-between mb-3">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600"><Wallet className="w-5 h-5" /></div>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Live Escrow Float</span>
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><Wallet className="w-5 h-5" /></div>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3] bg-primary/10 px-2 py-0.5 rounded-full">Live Escrow Float</span>
                   </div>
                   <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</div>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Settled &amp; ready for immediate disbursement</p>
-                  <div className="mt-3 flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> Direct Bank Settlement Ready</div>
+                  <div className="mt-3 flex items-center gap-2 text-xs text-primary dark:text-[#4edea3]"><span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> Direct Bank Settlement Ready</div>
                 </div>
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-6 relative overflow-hidden">
                   <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none" />
@@ -273,13 +273,13 @@ export default function LandlordWithdrawalsPage() {
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-6 relative overflow-hidden">
                   <div className="flex items-center justify-between mb-3">
                     <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-700 dark:text-zinc-300"><Banknote className="w-5 h-5" /></div>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Audited</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3] bg-primary/10 px-2 py-0.5 rounded-full">Audited</span>
                   </div>
                   <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(totalWithdrawn)}</div>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">YTD aggregate disbursals</p>
                   <div className="mt-3 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 font-mono">
                     <span>Tax Withheld (WHT 10%): Compliant</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">100% Cleared</span>
+                    <span className="text-primary dark:text-[#4edea3] font-bold">100% Cleared</span>
                   </div>
                 </div>
               </div>
@@ -326,7 +326,7 @@ export default function LandlordWithdrawalsPage() {
                       ) : (
                         wallet.recentTransactions.map((tx) => (
                           <tr key={tx.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
-                            <td className="py-3.5 px-4 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">{tx.providerRef || tx.id}</td>
+                            <td className="py-3.5 px-4 font-mono text-xs text-primary dark:text-[#4edea3] font-bold">{tx.providerRef || tx.id}</td>
                             <td className="py-3.5 px-4 text-zinc-600 dark:text-zinc-400 whitespace-nowrap">{new Date(tx.date).toLocaleString('en-NG')}</td>
                             <td className="py-3.5 px-4">
                               <div className="flex items-center gap-2">
@@ -342,7 +342,7 @@ export default function LandlordWithdrawalsPage() {
                             </td>
                             <td className="py-3.5 px-4 text-right font-mono font-bold text-zinc-900 dark:text-white">{formatNairaFull(tx.amount)}</td>
                             <td className="py-3.5 px-4 text-center">
-                              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold ${tx.status === 'success' || tx.status === 'released' ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400' : tx.status === 'pending' ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400' : 'bg-red-500/10 text-red-700 dark:text-red-400'}`}>
+                              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold ${tx.status === 'success' || tx.status === 'released' ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : tx.status === 'pending' ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400' : 'bg-red-500/10 text-red-700 dark:text-red-400'}`}>
                                 {tx.status}
                               </span>
                             </td>
@@ -385,7 +385,7 @@ export default function LandlordWithdrawalsPage() {
                 {resolving && <Loader2 className="w-4 h-4 animate-spin" />} Verify Account
               </Button>
               {accountName && (
-                <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 text-sm text-zinc-900 dark:text-white">
+                <div className="rounded-lg border border-primary/30 bg-primary/5 p-3 text-sm text-zinc-900 dark:text-white">
                   Verified account: <span className="font-semibold">{accountName}</span> at <span className="font-semibold">{bankNameInput}</span>
                 </div>
               )}

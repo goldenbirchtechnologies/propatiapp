@@ -305,15 +305,15 @@ export function StampDutyWidget({
 
   if (settled) {
     return (
-      <Card className="border-emerald-200 bg-emerald-500/[0.06] p-6 dark:border-emerald-500/20">
+      <Card className="border-primary bg-primary/[0.06] p-6 dark:border-primary/20">
         <div className="flex items-start gap-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
-            <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/15">
+            <CheckCircle2 className="h-5 w-5 text-primary dark:text-[#4edea3]" />
           </div>
           <div className="min-w-0 flex-1">
             <div className="mb-1 flex flex-wrap items-center gap-2">
               <h3 className="font-semibold text-zinc-900 dark:text-white">Stamp duty settled</h3>
-              <Badge className="border-emerald-200 bg-emerald-500/15 text-emerald-700 dark:border-emerald-500/20 dark:text-emerald-300">
+              <Badge className="border-primary bg-primary/15 text-[var(--sovereign-hover)] dark:border-primary/20 dark:text-[#6ffbbe]">
                 {currentStatus === 'certificate_issued' ? 'Certificate issued' : 'Paid'}
               </Badge>
             </div>
@@ -334,7 +334,7 @@ export function StampDutyWidget({
                   href={certificateUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 underline hover:text-emerald-700 dark:text-emerald-400"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-primary underline hover:text-[var(--sovereign-hover)] dark:text-[#4edea3]"
                 >
                   <Download className="h-3 w-3" />
                   Download e-certificate
@@ -412,7 +412,7 @@ export function StampDutyWidget({
               <Button
                 onClick={handleInitiate}
                 disabled={initiating || !quote.payable}
-                className="bg-emerald-600 text-white hover:bg-emerald-700"
+                className="bg-primary text-white hover:bg-[var(--sovereign-hover)]"
               >
                 {initiating ? (
                   <>
@@ -444,7 +444,7 @@ export function StampDutyWidget({
                 <Button
                   onClick={handleVerify}
                   disabled={verifying}
-                  className="bg-emerald-600 text-white hover:bg-emerald-700"
+                  className="bg-primary text-white hover:bg-[var(--sovereign-hover)]"
                 >
                   {verifying ? (
                     <>

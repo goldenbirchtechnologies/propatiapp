@@ -91,7 +91,7 @@ export default function LandlordScreeningClient({
             </button>
             <button
               type="button"
-              className="h-10 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-colors flex items-center gap-2 text-sm font-medium shadow-sm"
+              className="h-10 px-4 rounded-lg bg-primary hover:bg-[var(--sovereign-hover)] text-white transition-colors flex items-center gap-2 text-sm font-medium shadow-sm"
             >
               <Plus className="h-4 w-4" />
               <span>Schedule Screening Call</span>
@@ -106,7 +106,7 @@ export default function LandlordScreeningClient({
           value={upcoming}
           sub="Scheduled"
           icon={Calendar}
-          accentColor="#10b981"
+          accentColor="#006c49"
           trendValue={upcoming > 0 ? 'Next pending' : 'None pending'}
         />
         <StatCard
@@ -114,7 +114,7 @@ export default function LandlordScreeningClient({
           value={completed}
           sub="Vetted"
           icon={CheckCircle2}
-          accentColor="#10b981"
+          accentColor="#006c49"
           trendValue="88% progression rate"
         />
         <StatCard
@@ -192,7 +192,7 @@ export default function LandlordScreeningClient({
                   >
                     <td className="py-3 px-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs font-bold">
+                        <div className="w-9 h-9 rounded-full bg-primary/10 text-primary dark:text-[#4edea3] flex items-center justify-center text-xs font-bold">
                           {s.tenant
                             .split(' ')
                             .map((p) => p[0])
@@ -232,7 +232,7 @@ export default function LandlordScreeningClient({
                     <td className="py-3 px-5 text-right">
                       <Link
                         href="#"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-primary dark:text-[#4edea3] hover:bg-primary/10 transition-colors"
                       >
                         <Eye className="h-3.5 w-3.5" />
                         View

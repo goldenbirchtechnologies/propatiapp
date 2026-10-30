@@ -102,7 +102,7 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
         <span className="text-zinc-300 dark:text-zinc-700">›</span>
         <Link href="/dashboard/tenant/maintenance" className="hover:text-zinc-900 dark:hover:text-white">Maintenance Requests</Link>
         <span className="text-zinc-300 dark:text-zinc-700">›</span>
-        <span className="text-emerald-600 dark:text-emerald-400">New Request</span>
+        <span className="text-primary dark:text-[#4edea3]">New Request</span>
       </div>
 
       <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
@@ -112,7 +112,7 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
         </div>
         <div className="flex items-center gap-2 text-xs">
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-100 dark:bg-white/[0.06] px-3 py-1.5 font-semibold text-zinc-700 dark:text-zinc-300">SLA Guaranteed • ISO 41001</span>
-          <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-3 py-1.5 font-semibold text-emerald-700 dark:text-emerald-300"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" /> 24/7 Response Desk</span>
+          <span className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><span className="h-2 w-2 animate-pulse rounded-full bg-primary" /> 24/7 Response Desk</span>
         </div>
       </div>
 
@@ -121,7 +121,7 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
         <aside className="space-y-4 lg:col-span-4">
           <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">⚙</span>
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]">⚙</span>
               <div>
                 <h2 className="font-semibold text-zinc-900 dark:text-white">Institutional MEP Portal</h2>
                 <p className="text-xs text-zinc-600 dark:text-zinc-400">Sovereign Asset Care Protocol</p>
@@ -130,17 +130,17 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">Provide diagnostic telemetry and site conditions. We promptly assign a certified MEP engineering partner.</p>
             <div className="mt-5 space-y-3">
               <div className="flex gap-3">
-                <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${step >= 1 ? 'bg-emerald-600 text-white' : 'bg-zinc-200 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>1</span>
-                <div><p className={`text-sm font-semibold ${step === 1 ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-900 dark:text-white'}`}>Diagnostics &amp; Location</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Unit scope, category, description</p></div>
+                <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${step >= 1 ? 'bg-primary text-white' : 'bg-zinc-200 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>1</span>
+                <div><p className={`text-sm font-semibold ${step === 1 ? 'text-primary dark:text-[#4edea3]' : 'text-zinc-900 dark:text-white'}`}>Diagnostics &amp; Location</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Unit scope, category, description</p></div>
               </div>
               <div className="flex gap-3">
-                <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${step >= 2 ? 'bg-emerald-600 text-white' : 'bg-zinc-200 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>2</span>
-                <div><p className={`text-sm font-semibold ${step === 2 ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-600 dark:text-zinc-400'}`}>Photos &amp; Access Protocol</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Timing &amp; evidence</p></div>
+                <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${step >= 2 ? 'bg-primary text-white' : 'bg-zinc-200 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>2</span>
+                <div><p className={`text-sm font-semibold ${step === 2 ? 'text-primary dark:text-[#4edea3]' : 'text-zinc-600 dark:text-zinc-400'}`}>Photos &amp; Access Protocol</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Timing &amp; evidence</p></div>
               </div>
             </div>
             <div className="mt-5 grid grid-cols-2 gap-2 text-center">
               <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3"><p className="font-mono text-sm font-bold text-red-600">&lt; 2h</p><p className="text-[11px] font-semibold tracking-widest text-zinc-500">Emergency P1</p></div>
-              <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3"><p className="font-mono text-sm font-bold text-emerald-600">&lt; 24h</p><p className="text-[11px] font-semibold tracking-widest text-zinc-500">Routine Standard</p></div>
+              <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3"><p className="font-mono text-sm font-bold text-primary">&lt; 24h</p><p className="text-[11px] font-semibold tracking-widest text-zinc-500">Routine Standard</p></div>
             </div>
           </div>
 
@@ -166,10 +166,10 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
           <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50">
             <div className="flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] px-6 py-4">
               <div>
-                <p className="text-[11px] font-bold tracking-widest text-emerald-600 dark:text-emerald-400">STEP {step} OF 2</p>
+                <p className="text-[11px] font-bold tracking-widest text-primary dark:text-[#4edea3]">STEP {step} OF 2</p>
                 <h2 className="font-semibold text-zinc-900 dark:text-white">{step === 1 ? 'Issue Diagnostics & Location' : 'Photos & Access Protocol'}</h2>
               </div>
-              <div className="h-2 w-24 overflow-hidden rounded-full bg-zinc-200 dark:bg-white/[0.08]"><div className="h-full bg-emerald-600 transition-all" style={{ width: step === 1 ? '50%' : '100%' }} /></div>
+              <div className="h-2 w-24 overflow-hidden rounded-full bg-zinc-200 dark:bg-white/[0.08]"><div className="h-full bg-primary transition-all" style={{ width: step === 1 ? '50%' : '100%' }} /></div>
             </div>
 
             <div className="space-y-6 p-6">
@@ -210,7 +210,7 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
                       {CATEGORIES.map((c) => (
                         <label key={c.value} className="cursor-pointer">
                           <input type="radio" name="category" value={c.value} checked={category === c.value} onChange={() => setCategory(c.value)} className="peer sr-only" />
-                          <div className="flex h-full flex-col gap-2 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04] p-4 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 peer-checked:ring-1 peer-checked:ring-emerald-500">
+                          <div className="flex h-full flex-col gap-2 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04] p-4 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:ring-1 peer-checked:ring-primary">
                             <span className="text-sm font-semibold text-zinc-900 dark:text-white">{c.label.split(' — ')[0]}</span>
                             <span className="text-[11px] text-zinc-600 dark:text-zinc-400">{c.label.split(' — ')[1] ?? ''}</span>
                           </div>
@@ -225,7 +225,7 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
                       {PRIORITIES.map((p) => (
                         <label key={p.value} className="cursor-pointer">
                           <input type="radio" name="priority" value={p.value} checked={priority === p.value} onChange={() => setPriority(p.value)} className="peer sr-only" />
-                          <div className={`flex h-24 flex-col justify-between rounded-xl border p-3 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 peer-checked:ring-1 peer-checked:ring-emerald-500 ${p.value === 'urgent' ? 'border-red-200 dark:border-red-500/20 bg-red-50/50 dark:bg-red-500/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04]'}`}>
+                          <div className={`flex h-24 flex-col justify-between rounded-xl border p-3 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:ring-1 peer-checked:ring-primary ${p.value === 'urgent' ? 'border-red-200 dark:border-red-500/20 bg-red-50/50 dark:bg-red-500/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04]'}`}>
                             <div className="flex items-center justify-between"><span className={`text-sm font-semibold ${p.value === 'urgent' ? 'text-red-600 dark:text-red-400' : 'text-zinc-900 dark:text-white'}`}>{p.label}</span><span className="font-mono text-[11px] font-semibold text-zinc-500">{p.hint.split(' — ')[0]}</span></div>
                             <span className="text-[11px] text-zinc-600 dark:text-zinc-400">{p.hint.split(' — ')[1] ?? p.hint}</span>
                           </div>
@@ -247,7 +247,7 @@ export default function TenantMaintenanceRequestClient({ listings }: { listings:
                   </div>
 
                   <div className="flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3 text-xs text-zinc-600 dark:text-zinc-400">
-                    <AlertCircle className="h-4 w-4 shrink-0 text-emerald-500" />
+                    <AlertCircle className="h-4 w-4 shrink-0 text-primary" />
                     <span><strong>Nigerian Tenancy Covenant Sec 14:</strong> Routine repairs require photographic evidence and symptom logs prior to dispatch.</span>
                   </div>
 

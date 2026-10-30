@@ -45,7 +45,7 @@ export default function VerificationQueueDetailObsidianClient() {
             ].map((step) => {
               const icon = step.state === 'done' ? 'check' : step.state === 'active' ? 'pending' : 'radio_button_unchecked';
               const cls = step.state === 'done'
-                ? 'bg-on-tertiary-container text-[#10b981]'
+                ? 'bg-on-tertiary-container text-[#006c49]'
                 : step.state === 'active'
                   ? 'bg-secondary-container text-on-secondary-fixed ring-4 ring-background'
                   : 'bg-zinc-800 text-zinc-600 dark:text-zinc-400';
@@ -68,10 +68,10 @@ export default function VerificationQueueDetailObsidianClient() {
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h4 className="font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Property Owner</h4>
-              <span className="rounded bg-on-tertiary-container/10 px-2 py-0.5 text-xs font-label-sm text-[#10b981]">MATCHED 98%</span>
+              <span className="rounded bg-on-tertiary-container/10 px-2 py-0.5 text-xs font-label-sm text-[#006c49]">MATCHED 98%</span>
             </div>
             <div className="flex items-center gap-4">
-              <span className="h-12 w-12 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"><AppIcon name="person" className="lucide" /></span>
+              <span className="h-12 w-12 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-primary/10 text-primary dark:text-[#4edea3] flex items-center justify-center"><AppIcon name="person" className="lucide" /></span>
               <div>
                 <p className="font-headline-sm text-zinc-900 dark:text-white">Emeka Adeyemi</p>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">Verified BVN: 221****092</p>
@@ -145,8 +145,8 @@ export default function VerificationQueueDetailObsidianClient() {
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-400 font-label-sm">Risk Assessment</p>
               <div className="rounded-r-lg border-l-4 border-on-tertiary-container bg-on-tertiary-container/5 p-4">
-                <p className="font-headline-sm text-[#10b981] text-zinc-900 dark:text-white">LOW RISK</p>
-                <p className="text-sm opacity-80 text-[#10b981]">9.5/10 Security Score</p>
+                <p className="font-headline-sm text-[#006c49] text-zinc-900 dark:text-white">LOW RISK</p>
+                <p className="text-sm opacity-80 text-[#006c49]">9.5/10 Security Score</p>
               </div>
             </div>
           </div>

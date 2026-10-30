@@ -220,9 +220,9 @@ export default function EstateManagerFinancialsPage() {
     tone: 'emerald' | 'rose';
     action?: React.ReactNode;
   }) => {
-    const accent = tone === 'emerald' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400';
-    const bar = tone === 'emerald' ? 'bg-emerald-500' : 'bg-rose-500';
-    const dot = tone === 'emerald' ? 'bg-emerald-500' : 'bg-rose-500';
+    const accent = tone === 'emerald' ? 'text-primary dark:text-[#4edea3]' : 'text-rose-600 dark:text-rose-400';
+    const bar = tone === 'emerald' ? 'bg-primary' : 'bg-rose-500';
+    const dot = tone === 'emerald' ? 'bg-primary' : 'bg-rose-500';
     return (
       <div className={`${SECTION_CARD} flex flex-col justify-between`}>
         <div>
@@ -296,7 +296,7 @@ export default function EstateManagerFinancialsPage() {
         <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-primary dark:text-[#4edea3]">
                 Portfolio Intelligence
               </span>
               <span className="text-zinc-400">•</span>
@@ -341,10 +341,10 @@ export default function EstateManagerFinancialsPage() {
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {/* Revenue */}
           <div className={`${CARD} relative flex flex-col justify-between overflow-hidden`}>
-            <div className="pointer-events-none absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-emerald-500/5 blur-xl" />
+            <div className="pointer-events-none absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-primary/5 blur-xl" />
             <div className="mb-4 flex items-center justify-between">
               <span className={LABEL}>Total Revenue</span>
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--sovereign-container-bg)] text-primary dark:bg-primary/10 dark:text-[#4edea3]">
                 <Wallet className="h-5 w-5" />
               </div>
             </div>
@@ -413,7 +413,7 @@ export default function EstateManagerFinancialsPage() {
 
           {/* Margin */}
           <div className={`${CARD} relative flex flex-col justify-between overflow-hidden`}>
-            <div className="pointer-events-none absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-emerald-500/10 blur-xl" />
+            <div className="pointer-events-none absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-primary/10 blur-xl" />
             <div className="mb-4 flex items-center justify-between">
               <span className={LABEL}>Profit Margin</span>
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
@@ -472,7 +472,7 @@ export default function EstateManagerFinancialsPage() {
                       <div key={m.month + i} className="group flex h-full flex-col items-center justify-end">
                         <div className="flex h-full w-full items-end justify-center gap-1 sm:gap-2">
                           <div
-                            className={`w-3.5 rounded-t transition-all group-hover:brightness-110 sm:w-6 ${isLast ? 'bg-emerald-600 ring-2 ring-emerald-500/20' : 'bg-emerald-500'}`}
+                            className={`w-3.5 rounded-t transition-all group-hover:brightness-110 sm:w-6 ${isLast ? 'bg-primary ring-2 ring-primary/20' : 'bg-primary'}`}
                             style={{ height: `${revH}%` }}
                             title={`${m.month} revenue: ${ngn(m.revenue)}`}
                           />
@@ -484,7 +484,7 @@ export default function EstateManagerFinancialsPage() {
                         </div>
                         <span
                           className={`mt-3 text-xs font-medium ${
-                            isLast ? 'font-bold text-emerald-600 dark:text-emerald-400' : 'text-zinc-500 dark:text-zinc-400'
+                            isLast ? 'font-bold text-primary dark:text-[#4edea3]' : 'text-zinc-500 dark:text-zinc-400'
                           }`}
                         >
                           {m.month}
@@ -498,7 +498,7 @@ export default function EstateManagerFinancialsPage() {
               {/* Legend */}
               <div className="flex flex-wrap items-center justify-center gap-6 border-t border-zinc-200 pt-2 text-sm text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
                 <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 rounded-full bg-emerald-500" />
+                  <span className="h-3 w-3 rounded-full bg-primary" />
                   <span>Revenue</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -522,7 +522,7 @@ export default function EstateManagerFinancialsPage() {
             action={
               <Link
                 href="/dashboard/estate-manager/collections"
-                className="flex items-center gap-1 text-sm font-medium text-emerald-600 hover:underline dark:text-emerald-400"
+                className="flex items-center gap-1 text-sm font-medium text-primary hover:underline dark:text-[#4edea3]"
               >
                 View All <ArrowRight className="h-4 w-4" />
               </Link>
@@ -549,7 +549,7 @@ export default function EstateManagerFinancialsPage() {
         {/* Settlement context — only real fields */}
         <div className={`${SECTION_CARD} flex flex-col items-start justify-between gap-4 p-5 md:flex-row md:items-center`}>
           <div className="flex items-start gap-3.5 md:items-center">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--sovereign-container-bg)] text-primary dark:bg-primary/10 dark:text-[#4edea3]">
               <Landmark className="h-[22px] w-[22px]" />
             </div>
             <div className="flex flex-col">
@@ -570,7 +570,7 @@ export default function EstateManagerFinancialsPage() {
             </Link>
             <Link
               href="/dashboard/estate-manager/disbursements"
-              className="inline-flex items-center gap-1 rounded-lg bg-emerald-500/10 px-3.5 py-1.5 text-sm font-semibold text-emerald-600 transition-colors hover:bg-emerald-500/20 dark:text-emerald-400"
+              className="inline-flex items-center gap-1 rounded-lg bg-primary/10 px-3.5 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 dark:text-[#4edea3]"
             >
               Disbursements <ArrowRight className="h-4 w-4" />
             </Link>

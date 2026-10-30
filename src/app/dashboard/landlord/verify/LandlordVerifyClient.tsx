@@ -32,10 +32,10 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <Clock className="w-3 h-3 mr-1" /> },
     in_progress: { class: 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
-    certified: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
+    certified: { class: 'bg-success/10 text-[#006c49] border-success/20', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <Clock className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <Clock className="w-3 h-3 mr-1" /> },
-    approved: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Approved', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
+    approved: { class: 'bg-success/10 text-[#006c49] border-success/20', label: 'Approved', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
   };
 
   return (
@@ -128,7 +128,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                             isCurrent ? 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08]' : 'border border-zinc-200 dark:border-white/[0.08] bg-transparent'
                           } ${
                             isApproved
-                              ? 'bg-[#10b981]/10 text-[#10b981]'
+                              ? 'bg-[#006c49]/10 text-[#006c49]'
                               : isCurrent
                                 ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
                                 : 'bg-outline-variant text-zinc-600 dark:text-zinc-400'
@@ -136,7 +136,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                         >
                           <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border ${
                             isApproved
-                              ? 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20'
+                              ? 'bg-[#006c49]/10 text-[#006c49] border-[#006c49]/20'
                               : isCurrent
                                 ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20'
                                 : 'bg-outline-variant text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'

@@ -93,7 +93,7 @@ export default function RevenueSignatureClient({
           </p>
         </div>
         {transactionCount > 0 && (
-          <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-200 dark:border-emerald-500/30 px-3 py-1 text-[10px]">
+          <Badge className="bg-primary/10 text-[var(--sovereign-hover)] border-primary dark:border-primary/30 px-3 py-1 text-[10px]">
             {transactionCount} transactions
           </Badge>
         )}
@@ -134,7 +134,7 @@ export default function RevenueSignatureClient({
       ) : (
         <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
           <div className="mb-4 flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+            <TrendingUp className="h-5 w-5 text-primary dark:text-[#4edea3]" />
             <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white">12-Month Revenue Signature</h3>
           </div>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-4">Stacked composition: Rent transactions vs. service charges. Net shown when revenue &gt; 0.</p>
@@ -149,14 +149,14 @@ export default function RevenueSignatureClient({
                   <div className="w-10 text-right text-xs font-mono text-zinc-500 dark:text-zinc-400">{m.month.slice(0, 3)}</div>
                   <div className="relative flex-1">
                     <div className="mb-1 flex h-3 items-end gap-px overflow-hidden rounded-sm bg-zinc-100 dark:bg-zinc-800">
-                      <div className="bg-emerald-500 transition-all duration-300" style={{ width: `${rentH}%`, height: rentH > 0 ? '100%' : '2%' }} title={`Rent: ${ngn(m.rentTransactions)}`} />
+                      <div className="bg-primary transition-all duration-300" style={{ width: `${rentH}%`, height: rentH > 0 ? '100%' : '2%' }} title={`Rent: ${ngn(m.rentTransactions)}`} />
                       <div className="bg-sky-500 transition-all duration-300" style={{ width: `${scH}%`, height: scH > 0 ? '100%' : '2%' }} title={`Service Charges: ${ngn(m.serviceCharges)}`} />
                     </div>
                     <div className="mt-1 h-1.5 w-full overflow-hidden rounded-sm bg-zinc-100 dark:bg-zinc-800">
                       <div className="bg-zinc-300 dark:bg-zinc-700 transition-all duration-300" style={{ width: `${barW}%` }} />
                     </div>
                   </div>
-                  <div className={`w-28 text-right font-mono text-sm font-bold ${netPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                  <div className={`w-28 text-right font-mono text-sm font-bold ${netPositive ? 'text-primary dark:text-[#4edea3]' : 'text-rose-600 dark:text-rose-400'}`}>
                     {netPositive ? '+' : ''} {ngn(m.totalRevenue)}
                   </div>
                 </div>
@@ -170,7 +170,7 @@ export default function RevenueSignatureClient({
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Total Revenue</p>
-          <p className="text-2xl font-bold text-[#10b981] font-mono">{ngn(totalRevenue)}</p>
+          <p className="text-2xl font-bold text-[#006c49] font-mono">{ngn(totalRevenue)}</p>
         </div>
         <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Service Charges</p>
@@ -182,7 +182,7 @@ export default function RevenueSignatureClient({
         </div>
         <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Net Signature</p>
-          <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+          <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-[#006c49]' : 'text-red-500'}`}>
             {totalNet >= 0 ? '+' : ''} {ngn(totalNet)}
           </p>
         </div>
@@ -228,10 +228,10 @@ export default function RevenueSignatureClient({
                 filtered.map((m) => (
                   <TableRow key={m.month} className="border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900">
                     <TableCell className="text-sm text-zinc-900 dark:text-white">{m.month}</TableCell>
-                    <TableCell className="text-right text-[#10b981] font-mono text-sm">{ngn(m.totalRevenue)}</TableCell>
+                    <TableCell className="text-right text-[#006c49] font-mono text-sm">{ngn(m.totalRevenue)}</TableCell>
                     <TableCell className="text-right text-zinc-600 dark:text-zinc-400 font-mono text-sm">-{ngn(m.serviceCharges)}</TableCell>
                     <TableCell className="text-right text-zinc-900 dark:text-white font-mono text-sm">{ngn(m.rentTransactions)}</TableCell>
-                    <TableCell className={`text-right font-mono text-sm ${m.net >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                    <TableCell className={`text-right font-mono text-sm ${m.net >= 0 ? 'text-[#006c49]' : 'text-red-500'}`}>
                       {m.net >= 0 ? '+' : ''} {ngn(m.net)}
                     </TableCell>
                   </TableRow>

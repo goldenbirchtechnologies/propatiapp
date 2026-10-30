@@ -27,14 +27,14 @@ type Props = {
 };
 
 function statusIcon(status: string) {
-  if (status === 'approved') return <CheckCircle2 className="h-5 w-5 text-[#10b981]" />;
+  if (status === 'approved') return <CheckCircle2 className="h-5 w-5 text-[#006c49]" />;
   if (status === 'rejected') return <XCircle className="h-5 w-5 text-red-500" />;
   if (status === 'pending') return <Loader2 className="h-5 w-4 animate-spin text-warning" />;
   return <Loader2 className="h-5 w-5 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />;
 }
 
 function statusColor(status: string) {
-  if (status === 'approved') return 'bg-success/10 text-[#10b981] border-success/20';
+  if (status === 'approved') return 'bg-success/10 text-[#006c49] border-success/20';
   if (status === 'rejected') return 'bg-red-500/10 text-red-500 border-red-500/20';
   if (status === 'pending') return 'bg-warning/10 text-warning border-warning/20';
   return 'bg-muted text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
@@ -128,7 +128,7 @@ function VerificationChecklistClient(props: Props) {
 
       <div className="flex justify-end">
         {props.overallStatus === 'certified' ? (
-          <Badge className="bg-success/10 text-[#10b981] border-success/20 px-4 py-2 text-sm font-bold">
+          <Badge className="bg-success/10 text-[#006c49] border-success/20 px-4 py-2 text-sm font-bold">
             Fully Certified
           </Badge>
         ) : props.overallStatus === 'rejected' ? (

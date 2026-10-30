@@ -121,12 +121,12 @@ export default function EmploymentStep() {
       </form>
 
       {message && (
-        <p className={`text-sm p-3 rounded-lg ${message.startsWith('Saved') ? 'bg-emerald-900/20 text-emerald-400' : 'bg-[#27272a]/20 text-zinc-300'}`}>
+        <p className={`text-sm p-3 rounded-lg ${message.startsWith('Saved') ? 'bg-primary/20 text-[#4edea3]' : 'bg-[#27272a]/20 text-zinc-300'}`}>
           {message}
         </p>
       )}
 
-      <Button type="submit" form="employment-form" disabled={saving} className="w-full bg-[#10b981] hover:bg-[#006c49] mt-4">
+      <Button type="submit" form="employment-form" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49] mt-4">
         {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
         Save employment details
       </Button>

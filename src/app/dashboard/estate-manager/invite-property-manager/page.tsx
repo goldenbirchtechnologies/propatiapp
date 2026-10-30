@@ -243,7 +243,7 @@ export default function InvitePropertyManagerPage() {
                     className={cn(
                       'text-left rounded-xl border p-4 transition-all',
                       isSelected
-                        ? 'border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-emerald-500/10'
+                        ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5 shadow-none shadow-primary/10'
                         : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-100 dark:hover:bg-zinc-900est'
                     )}
                   >

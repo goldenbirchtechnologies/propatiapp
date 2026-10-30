@@ -100,9 +100,9 @@ const STATUS_META: Record<AgreementStatus, StatusMeta> = {
   draft: { label: 'Draft', tone: 'neutral', dot: 'bg-zinc-400 dark:bg-zinc-500' },
   pending_landlord: { label: 'Pending Landlord', tone: 'pending', dot: 'bg-amber-500' },
   pending_tenant: { label: 'Pending Tenant', tone: 'pending', dot: 'bg-amber-500' },
-  tenant_signed: { label: 'Tenant Signed', tone: 'active', dot: 'bg-emerald-600 dark:text-emerald-400' },
-  landlord_signed: { label: 'Landlord Signed', tone: 'active', dot: 'bg-emerald-600 dark:text-emerald-400' },
-  fully_signed: { label: 'Fully Signed', tone: 'complete', dot: 'bg-emerald-600 dark:text-emerald-400' },
+  tenant_signed: { label: 'Tenant Signed', tone: 'active', dot: 'bg-primary dark:text-[#4edea3]' },
+  landlord_signed: { label: 'Landlord Signed', tone: 'active', dot: 'bg-primary dark:text-[#4edea3]' },
+  fully_signed: { label: 'Fully Signed', tone: 'complete', dot: 'bg-primary dark:text-[#4edea3]' },
   terminated: { label: 'Terminated', tone: 'danger', dot: 'bg-red-500' },
   expired: { label: 'Expired', tone: 'danger', dot: 'bg-red-500' },
 };
@@ -133,9 +133,9 @@ export function statusPillClass(tone: StatusTone): string {
     case 'pending':
       return 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/25';
     case 'active':
-      return 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400 border-emerald-600/25';
+      return 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary/25';
     case 'complete':
-      return 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400 border-emerald-600/25';
+      return 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary/25';
     case 'danger':
       return 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/25';
     default:
@@ -221,21 +221,21 @@ export const PIPELINE_STAGES: StageMeta[] = [
     id: 'offers',
     title: '3. Offers & LOI',
     shortTitle: 'Offers',
-    accent: 'bg-emerald-600 dark:text-emerald-400',
+    accent: 'bg-primary dark:text-[#4edea3]',
     description: 'Offers, LOIs and counter-offers',
   },
   {
     id: 'agreements',
     title: '4. Agreements & Conveyancing',
     shortTitle: 'Agreements',
-    accent: 'bg-emerald-400',
+    accent: 'bg-[#4edea3]',
     description: 'Execution, escrow and statutory clearance',
   },
   {
     id: 'closed',
     title: '5. Closed & Executed',
     shortTitle: 'Closed',
-    accent: 'bg-emerald-600 dark:text-emerald-400',
+    accent: 'bg-primary dark:text-[#4edea3]',
     description: 'Completed and disbursed matters',
   },
 ];

@@ -79,7 +79,7 @@ const TYPE_TONE: Record<string, string> = {
   Seller: 'bg-violet-500/10 text-violet-700 dark:text-violet-300 border-violet-500/25',
   Buyer: 'bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-500/25',
   Landlord: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/25',
-  Renter: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400 border-emerald-600/25',
+  Renter: 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary/25',
 };
 
 export default function AgentClientsClient({
@@ -174,7 +174,7 @@ export default function AgentClientsClient({
               Institutional Client Directory
             </h1>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 font-mono-numeric text-[12px] font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
               {stats.total} Total Portfolios
             </span>
           </div>
@@ -190,7 +190,7 @@ export default function AgentClientsClient({
           </SecondaryAction>
           <Link
             href="/dashboard/agent/clients/new"
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
           >
             <UserPlus className="h-4 w-4" />
             <span>+ Add New Client</span>
@@ -354,7 +354,7 @@ export default function AgentClientsClient({
             action={
               <Link
                 href="/dashboard/agent/clients/new"
-                className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900"
+                className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900"
               >
                 <UserPlus className="h-4 w-4" />
                 Add First Client
@@ -391,7 +391,7 @@ export default function AgentClientsClient({
                   >
                     <AgentTd className="align-top">
                       <div className="flex items-start gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-sm font-bold text-emerald-700 dark:bg-zinc-800 dark:text-emerald-400">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-sm font-bold text-[var(--sovereign-hover)] dark:bg-zinc-800 dark:text-[#4edea3]">
                           {client.avatarUrl ? (
                             <img
                               src={client.avatarUrl}
@@ -406,12 +406,12 @@ export default function AgentClientsClient({
                           <div className="flex flex-wrap items-center gap-2">
                             <Link
                               href={`/dashboard/agent/clients/${client.id}`}
-                              className="truncate font-semibold text-zinc-900 transition-colors hover:text-emerald-700 dark:text-white dark:hover:text-emerald-400"
+                              className="truncate font-semibold text-zinc-900 transition-colors hover:text-[var(--sovereign-hover)] dark:text-white dark:hover:text-[#4edea3]"
                             >
                               {client.name}
                             </Link>
                             {verified ? (
-                              <span className="inline-flex items-center gap-1 rounded bg-emerald-600/10 px-1.5 py-0.5 font-mono-numeric text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
+                              <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 font-mono-numeric text-[10px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                 <BadgeCheck className="h-3 w-3" /> KYC
                               </span>
                             ) : null}
@@ -439,20 +439,20 @@ export default function AgentClientsClient({
                             type="button"
                             title="Copy email"
                             onClick={() => navigator.clipboard?.writeText(client.email)}
-                            className="shrink-0 text-zinc-500 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+                            className="shrink-0 text-zinc-500 transition-colors hover:text-primary dark:hover:text-[#4edea3]"
                           >
                             <Copy className="h-3.5 w-3.5" />
                           </button>
                         </div>
                         <div className="inline-flex items-center gap-1 pt-0.5 text-[11px] font-medium text-zinc-500">
-                          <MapPin className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                          <MapPin className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
                           Client since {formatDate(client.clientSince)}
                         </div>
                       </div>
                     </AgentTd>
                     <AgentTd className="align-top">
                       <div className="space-y-1">
-                        <div className="inline-flex items-center gap-1.5 rounded bg-emerald-600/10 px-2.5 py-1 text-[13px] font-medium text-emerald-700 dark:text-emerald-400">
+                        <div className="inline-flex items-center gap-1.5 rounded bg-primary/10 px-2.5 py-1 text-[13px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                           <ShieldCheck className="h-3.5 w-3.5" />
                           {client.activeDeals > 0
                             ? 'Accepted Agent Mandate'
@@ -468,7 +468,7 @@ export default function AgentClientsClient({
                     <AgentTd className="align-top">
                       <div className="space-y-1">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-semibold text-emerald-700 dark:text-emerald-400">
+                          <span className="font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                             {client.activeDeals} Active
                           </span>
                           <span className="text-zinc-500">·</span>
@@ -488,7 +488,7 @@ export default function AgentClientsClient({
                         <div className="font-mono-numeric text-base font-bold text-zinc-900 dark:text-white">
                           {formatNairaValue(client.managedValue)}
                         </div>
-                        <div className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+                        <div className="text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                           {client.managedValue > 0 ? 'NGN Escrow Protected' : 'No escrow value'}
                         </div>
                       </div>
@@ -496,7 +496,7 @@ export default function AgentClientsClient({
                     <AgentTd className="align-top">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                          <span className="h-2 w-2 rounded-full bg-primary" />
                           <span className="text-[13px] font-semibold text-zinc-900 dark:text-white">
                             {formatRelative(client.lastContact)}
                           </span>
@@ -516,7 +516,7 @@ export default function AgentClientsClient({
                         <Link
                           href={`/dashboard/agent/messages?recipientId=${client.id}`}
                           title="Start direct message"
-                          className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800 dark:hover:text-emerald-400"
+                          className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800 dark:hover:text-[#4edea3]"
                         >
                           <MessageSquare className="h-4 w-4" />
                         </Link>

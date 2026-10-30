@@ -30,7 +30,7 @@ function VerificationBadge({ verification }: { verification: Props['verification
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-bold text-zinc-900 dark:text-white border border-emerald-500/20 dark:bg-emerald-500/20 dark:text-white dark:border-emerald-500/30">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-bold text-zinc-900 dark:text-white border border-primary/20 dark:bg-primary/20 dark:text-white dark:border-primary/30">
           <svg
             width="10"
             height="10"
@@ -48,7 +48,7 @@ function VerificationBadge({ verification }: { verification: Props['verification
       );
     case 'certified':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/20 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-[#4edea3] border border-primary/20 dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40">
           Certified
         </span>
       );

@@ -143,9 +143,9 @@ const AGREEMENT_STATUS_CONFIG: Record<string, { class: string; label: string }> 
   draft: { class: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-white/10', label: 'Draft' },
   pending_landlord: { class: 'bg-amber-500/10 text-amber-700 border-amber-500/20 dark:text-amber-400', label: 'Pending Landlord' },
   pending_tenant: { class: 'bg-amber-500/10 text-amber-700 border-amber-500/20 dark:text-amber-400', label: 'Pending Tenant' },
-  tenant_signed: { class: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-400', label: 'Tenant Signed' },
-  landlord_signed: { class: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-400', label: 'Landlord Signed' },
-  fully_signed: { class: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-400', label: 'Fully Signed' },
+  tenant_signed: { class: 'bg-primary/10 text-[var(--sovereign-hover)] border-primary/20 dark:text-[#4edea3]', label: 'Tenant Signed' },
+  landlord_signed: { class: 'bg-primary/10 text-[var(--sovereign-hover)] border-primary/20 dark:text-[#4edea3]', label: 'Landlord Signed' },
+  fully_signed: { class: 'bg-primary/10 text-[var(--sovereign-hover)] border-primary/20 dark:text-[#4edea3]', label: 'Fully Signed' },
   terminated: { class: 'bg-red-500/10 text-red-700 border-red-500/20 dark:text-red-400', label: 'Terminated' },
   expired: { class: 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-white/10', label: 'Expired' },
 };
@@ -158,7 +158,7 @@ function AgreementStatusBadge({ status }: { status: string }) {
 const INVOICE_STATUS_CONFIG: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300', label: 'Draft' },
   sent: { class: 'bg-blue-500/10 text-blue-700 border-blue-500/20 dark:text-blue-400', label: 'Sent' },
-  paid: { class: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-400', label: 'Paid' },
+  paid: { class: 'bg-primary/10 text-[var(--sovereign-hover)] border-primary/20 dark:text-[#4edea3]', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-700 border-red-500/20 dark:text-red-400', label: 'Overdue' },
   cancelled: { class: 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400', label: 'Cancelled' },
 };
@@ -171,7 +171,7 @@ function InvoiceStatusBadge({ status }: { status: string }) {
 const TICKET_STATUS_CONFIG: Record<string, { class: string; label: string }> = {
   open: { class: 'bg-amber-500/10 text-amber-700 border-amber-500/20 dark:text-amber-400', label: 'Open' },
   in_progress: { class: 'bg-blue-500/10 text-blue-700 border-blue-500/20 dark:text-blue-400', label: 'In Progress' },
-  resolved: { class: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-400', label: 'Resolved' },
+  resolved: { class: 'bg-primary/10 text-[var(--sovereign-hover)] border-primary/20 dark:text-[#4edea3]', label: 'Resolved' },
   closed: { class: 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400', label: 'Closed' },
 };
 
@@ -247,7 +247,7 @@ export default function TenantProfileClient({
   };
 
   const statusChipClass = (status: string) => {
-    if (status === 'fully_signed') return 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400';
+    if (status === 'fully_signed') return 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]';
     if (status === 'terminated' || status === 'rejected') return 'bg-red-500/10 text-red-700 dark:text-red-400';
     if (status === 'pending_landlord' || status === 'pending_tenant' || status === 'draft') return 'bg-amber-500/10 text-amber-700 dark:text-amber-400';
     return 'bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-400';
@@ -259,12 +259,12 @@ export default function TenantProfileClient({
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
-        <Link href="/dashboard/landlord" className="hover:text-emerald-600 transition-colors flex items-center gap-1">
+        <Link href="/dashboard/landlord" className="hover:text-primary transition-colors flex items-center gap-1">
           <Home className="w-4 h-4" />
           <span>Home</span>
         </Link>
         <span className="text-zinc-300 dark:text-zinc-600">/</span>
-        <Link href="/dashboard/landlord/tenants" className="hover:text-emerald-600 transition-colors font-medium">
+        <Link href="/dashboard/landlord/tenants" className="hover:text-primary transition-colors font-medium">
           Tenants
         </Link>
         <span className="text-zinc-300 dark:text-zinc-600">/</span>
@@ -273,7 +273,7 @@ export default function TenantProfileClient({
 
       {/* Header Card */}
       <section className="relative overflow-hidden rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] shadow-sm p-6">
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="flex items-start gap-4">
             <div className="relative">
@@ -281,12 +281,12 @@ export default function TenantProfileClient({
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={tenant.avatarUrl} alt={tenant.fullName} className="w-16 h-16 rounded-full object-cover shadow-sm bg-zinc-100 dark:bg-zinc-800" />
               ) : (
-                <div className="w-16 h-16 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xl">
+                <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">
                   {tenant.fullName.charAt(0).toUpperCase()}
                 </div>
               )}
               {tenant.idVerified && (
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center shadow-xs">
                   <BadgeCheck className="w-3 h-3" />
                 </div>
               )}
@@ -330,7 +330,7 @@ export default function TenantProfileClient({
           <div className="flex flex-col items-start md:items-end justify-between self-stretch pt-1 gap-2">
             <div className="text-left md:text-right">
               <span className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">Target Property</span>
-              <span className="text-sm font-semibold text-emerald-600">{listingTitle}</span>
+              <span className="text-sm font-semibold text-primary">{listingTitle}</span>
             </div>
             {primaryAgreement?.rentAmount != null && (
               <div className="text-left md:text-right">
@@ -346,7 +346,7 @@ export default function TenantProfileClient({
         {/* Action Buttons Bar */}
         <div className="flex items-center flex-wrap gap-2.5 mt-5 pt-4 bg-zinc-50 dark:bg-zinc-800/50 -mx-6 -mb-6 px-6 py-3.5 rounded-b-2xl border-t border-zinc-200 dark:border-white/[0.08]">
           <Link href={`/dashboard/landlord/messages?tenant=${tenant.id}`}>
-            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1.5">
+            <Button className="bg-primary hover:bg-[var(--sovereign-hover)] text-white gap-1.5">
               <MessageSquare className="w-4 h-4" />
               Message Tenant
             </Button>
@@ -373,12 +373,12 @@ export default function TenantProfileClient({
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                     <Building2 className="w-5 h-5" />
                   </div>
                   <h2 className="text-base font-bold text-zinc-900 dark:text-white">Tenancy Details</h2>
                 </div>
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3] px-2.5 py-0.5 rounded-full bg-primary/10">
                   {primaryAgreement?.status ? primaryAgreement.status.replace(/_/g, ' ') : 'Residential'}
                 </span>
               </div>
@@ -430,14 +430,14 @@ export default function TenantProfileClient({
                         <div className="flex justify-between items-center text-sm">
                           <span className="text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
                             Refundable Caution Deposit
-                            <Shield className="w-3.5 h-3.5 text-emerald-600" />
+                            <Shield className="w-3.5 h-3.5 text-primary" />
                           </span>
                           <span className="font-mono font-semibold text-zinc-900 dark:text-white">{formatCurrency(primaryAgreement.cautionDeposit)}</span>
                         </div>
                       )}
                       <div className="pt-2 mt-2 bg-zinc-100 dark:bg-zinc-800 -mx-3 -mb-3 p-3 rounded-b-lg flex justify-between items-center">
                         <span className="text-sm font-bold text-zinc-900 dark:text-white">Total Initial Outlay</span>
-                        <span className="text-base font-bold text-emerald-600 font-mono">
+                        <span className="text-base font-bold text-primary font-mono">
                           {formatCurrency(
                             (primaryAgreement.rentAmount || 0) +
                               (primaryAgreement.serviceCharge || 0) +
@@ -464,13 +464,13 @@ export default function TenantProfileClient({
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                     <UserCheck className="w-5 h-5" />
                   </div>
                   <h2 className="text-base font-bold text-zinc-900 dark:text-white">Tenant Profile &amp; Background</h2>
                 </div>
                 {kyc && (
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 px-2.5 py-0.5 rounded bg-emerald-500/10">
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3] px-2.5 py-0.5 rounded bg-primary/10">
                     {kycLabel(kyc.status)}
                   </span>
                 )}
@@ -491,7 +491,7 @@ export default function TenantProfileClient({
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Employer</span>
                     {tenant.incomeVerified && (
-                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                         Verified
                       </span>
                     )}
@@ -501,11 +501,11 @@ export default function TenantProfileClient({
                   <div className="pt-2 grid grid-cols-2 gap-2">
                     <div className="bg-white dark:bg-zinc-900 p-2.5 rounded border border-zinc-200 dark:border-white/[0.08]">
                       <span className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">Yearly Income</span>
-                      <span className="text-sm font-bold text-emerald-600 font-mono">{tenant.yearlyIncome ? `₦${Number(tenant.yearlyIncome).toLocaleString()}` : '—'}</span>
+                      <span className="text-sm font-bold text-primary font-mono">{tenant.yearlyIncome ? `₦${Number(tenant.yearlyIncome).toLocaleString()}` : '—'}</span>
                     </div>
                     <div className="bg-white dark:bg-zinc-900 p-2.5 rounded border border-zinc-200 dark:border-white/[0.08]">
                       <span className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">Income Verified</span>
-                      <span className={`text-sm font-bold font-mono ${tenant.incomeVerified ? 'text-emerald-600' : 'text-zinc-400'}`}>
+                      <span className={`text-sm font-bold font-mono ${tenant.incomeVerified ? 'text-primary' : 'text-zinc-400'}`}>
                         {tenant.incomeVerified ? 'Yes' : 'No'}
                       </span>
                     </div>
@@ -523,21 +523,21 @@ export default function TenantProfileClient({
                     Statutory Identity Tokens
                   </span>
                   <div className="flex flex-col gap-1.5">
-                    <div className={`flex items-center justify-between px-3 py-2 rounded-lg ${tenant.idVerified ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
+                    <div className={`flex items-center justify-between px-3 py-2 rounded-lg ${tenant.idVerified ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
                       <div className="flex items-center gap-2">
                         <BadgeCheck className="w-4 h-4" />
                         <span className="text-sm font-medium">ID Verification</span>
                       </div>
                       <span className="text-[11px] font-mono uppercase font-bold">{tenant.idVerified ? 'Validated' : 'Pending'}</span>
                     </div>
-                    <div className={`flex items-center justify-between px-3 py-2 rounded-lg ${tenant.ninVerified ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
+                    <div className={`flex items-center justify-between px-3 py-2 rounded-lg ${tenant.ninVerified ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
                       <div className="flex items-center gap-2">
                         <Fingerprint className="w-4 h-4" />
                         <span className="text-sm font-medium">NIN Verification</span>
                       </div>
                       <span className="text-[11px] font-mono uppercase font-bold">{tenant.ninVerified ? 'NIMC Active' : 'Pending'}</span>
                     </div>
-                    <div className={`flex items-center justify-between px-3 py-2 rounded-lg ${tenant.phoneVerified ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
+                    <div className={`flex items-center justify-between px-3 py-2 rounded-lg ${tenant.phoneVerified ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
                       <div className="flex items-center gap-2">
                         <MessageSquare className="w-4 h-4" />
                         <span className="text-sm font-medium">Phone OTP</span>
@@ -555,7 +555,7 @@ export default function TenantProfileClient({
               <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between pb-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                    <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                       <ShieldCheck className="w-5 h-5" />
                     </div>
                     <h2 className="text-base font-bold text-zinc-900 dark:text-white">Guarantor Information</h2>
@@ -584,12 +584,12 @@ export default function TenantProfileClient({
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                     <FileCheck className="w-5 h-5" />
                   </div>
                   <h2 className="text-base font-bold text-zinc-900 dark:text-white">KYC Status</h2>
                 </div>
-                <span className="text-[11px] font-mono font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+                <span className="text-[11px] font-mono font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3] bg-primary/10 px-2.5 py-1 rounded-full">
                   {kyc ? `Level ${kyc.level}` : '—'}
                 </span>
               </div>
@@ -599,7 +599,7 @@ export default function TenantProfileClient({
                     <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 dark:text-white">Status</span>
                     <div className="text-xs text-zinc-500 dark:text-zinc-400">{kyc ? kycLabel(kyc.status) : 'Not Started'}</div>
                   </div>
-                  <span className={`flex items-center gap-1 text-[11px] font-bold ${kyc?.status === 'approved' ? 'text-emerald-600' : 'text-zinc-400'}`}>
+                  <span className={`flex items-center gap-1 text-[11px] font-bold ${kyc?.status === 'approved' ? 'text-primary' : 'text-zinc-400'}`}>
                     <CheckCircle2 className="w-4 h-4" />
                     {kyc?.status === 'approved' ? 'PASSED' : 'PENDING'}
                   </span>
@@ -615,7 +615,7 @@ export default function TenantProfileClient({
             <div className="p-6 space-y-3">
               <div className="flex items-center justify-between pb-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                     <FileText className="w-5 h-5" />
                   </div>
                   <h2 className="text-base font-bold text-zinc-900 dark:text-white">Lease Agreements</h2>
@@ -657,12 +657,12 @@ export default function TenantProfileClient({
             <div className="p-6 space-y-3">
               <div className="flex items-center justify-between pb-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                     <CalendarDays className="w-5 h-5" />
                   </div>
                   <h2 className="text-base font-bold text-zinc-900 dark:text-white">Financial Summary</h2>
                 </div>
-                <span className={`text-sm font-medium ${outstanding > 0 ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                <span className={`text-sm font-medium ${outstanding > 0 ? 'text-red-600 dark:text-red-400' : 'text-primary dark:text-[#4edea3]'}`}>
                   Outstanding: {formatCurrency(outstanding > 0 ? outstanding : null)}
                 </span>
               </div>
@@ -699,7 +699,7 @@ export default function TenantProfileClient({
             <div className="p-6 space-y-3">
               <div className="flex items-center justify-between pb-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                     <Gavel className="w-5 h-5" />
                   </div>
                   <h2 className="text-base font-bold text-zinc-900 dark:text-white">Maintenance Requests</h2>
@@ -738,7 +738,7 @@ export default function TenantProfileClient({
             <div className="p-6 space-y-3">
               <div className="flex items-center justify-between pb-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <h2 className="text-base font-bold text-zinc-900 dark:text-white">Internal Notes &amp; Audit Log</h2>
@@ -802,7 +802,7 @@ export default function TenantProfileClient({
           </div>
           <DialogFooter>
             <Button variant="outline" size="sm" onClick={() => setInvoiceOpen(false)} disabled={isSaving}>Cancel</Button>
-            <Button size="sm" onClick={handleCreateInvoice} disabled={isSaving} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button size="sm" onClick={handleCreateInvoice} disabled={isSaving} className="bg-primary hover:bg-[var(--sovereign-hover)] text-white">
               {isSaving ? 'Creating...' : 'Create Invoice'}
             </Button>
           </DialogFooter>

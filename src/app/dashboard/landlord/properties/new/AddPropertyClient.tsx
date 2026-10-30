@@ -411,7 +411,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
         </nav>
         <div className="flex items-center gap-2">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             Registry Active
           </div>
         </div>
@@ -432,7 +432,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
       <div className="bg-surface-container-low dark:bg-zinc-900 rounded-xl p-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
           <div className="hidden md:block absolute top-6 left-12 right-12 h-0.5 bg-surface-container-high dark:bg-zinc-700" />
-          <div className="hidden md:block absolute top-6 left-12 h-0.5 bg-emerald-500 transition-all duration-500" style={{ width: `${((currentStep - 1) / 2) * 100}%`, maxWidth: 'calc(100% - 6rem)' }} />
+          <div className="hidden md:block absolute top-6 left-12 h-0.5 bg-primary transition-all duration-500" style={{ width: `${((currentStep - 1) / 2) * 100}%`, maxWidth: 'calc(100% - 6rem)' }} />
           {[
             { num: 1, label: 'Property Details', sub: 'Title, footprint & specs' },
             { num: 2, label: 'Units Builder', sub: 'Rent matrix & amenities' },
@@ -444,7 +444,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               className={`group text-left relative z-10 flex items-center md:flex-col md:items-start gap-3 transition-opacity ${currentStep === step.num ? '' : 'opacity-60'}`}
             >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-md font-bold text-sm ${
-                currentStep >= step.num ? 'bg-emerald-500 text-white' : 'bg-surface-container-high dark:bg-zinc-700 text-surface-variant dark:text-surface-variant'
+                currentStep >= step.num ? 'bg-primary text-white' : 'bg-surface-container-high dark:bg-zinc-700 text-surface-variant dark:text-surface-variant'
               }`}>
                 {currentStep > step.num ? <Check size={16} /> : step.num}
               </div>
@@ -544,7 +544,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                 {/* Footer Actions */}
                 <div className="px-6 py-4 bg-surface-container-low dark:bg-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <Button type="button" variant="outline" className="w-full sm:w-auto">Save as Draft</Button>
-                  <Button type="button" onClick={() => setCurrentStep(2)} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white shadow-md">
+                  <Button type="button" onClick={() => setCurrentStep(2)} className="w-full sm:w-auto bg-primary hover:bg-primary text-white shadow-md">
                     Continue to Units Builder <ArrowRight size={16} className="ml-1" />
                   </Button>
                 </div>
@@ -556,18 +556,18 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
           {currentStep === 2 && (
             <div className="flex flex-col gap-6">
               {/* Units Summary Ribbon */}
-              <div className="bg-emerald-600 text-white rounded-xl p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="bg-primary text-white rounded-xl p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-surface-container-lowest/10 flex items-center justify-center">
                     <Building2 size={24} />
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider text-emerald-100">Unit Matrix Overview</span>
+                    <span className="text-[10px] uppercase tracking-wider text-primary">Unit Matrix Overview</span>
                     <span className="text-lg font-semibold block">Total {units.length} Units Configured</span>
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2 bg-surface-container-lowest/10 px-4 py-2 rounded-lg">
-                  <span className="text-xs text-emerald-100">Combined Monthly:</span>
+                  <span className="text-xs text-primary">Combined Monthly:</span>
                   <span className="text-xl font-bold tracking-tight">₦ {units.reduce((s, u) => s + (u.price || 0), 0).toLocaleString()}</span>
                 </div>
               </div>
@@ -580,7 +580,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                       <div className="flex items-center gap-2">
                         <span className="font-mono font-bold text-on-primary-fixed dark:text-primary">#{u.unitNumber}</span>
                         <span className="text-sm font-semibold text-on-surface dark:text-white">Unit {u.unitNumber}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-on-primary-fixed dark:text-primary text-[10px] font-semibold">DRAFT</span>
+                        <span className="px-2 py-0.5 rounded-full bg-primary/10 text-on-primary-fixed dark:text-primary text-[10px] font-semibold">DRAFT</span>
                       </div>
                       <div className="flex items-center gap-1">
                         {units.length > 1 && (
@@ -625,7 +625,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               {/* Footer */}
               <div className="flex items-center justify-between">
                 <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>Back</Button>
-                <Button type="button" onClick={() => setCurrentStep(3)} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+                <Button type="button" onClick={() => setCurrentStep(3)} className="bg-primary hover:bg-primary text-white">
                   Review & Confirm <ArrowRight size={16} className="ml-1" />
                 </Button>
               </div>
@@ -635,7 +635,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
           {/* STEP 3: CONFIRMATION */}
           {currentStep === 3 && (
             <div className="bg-surface-container-lowest dark:bg-zinc-900 rounded-xl border border-surface-variant dark:border-inverse-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)] p-6 flex flex-col items-center justify-center text-center py-12">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <CheckCircle size={32} className="text-on-primary-fixed dark:text-primary" />
               </div>
               <h2 className="text-xl font-bold text-on-surface dark:text-white">Ready to Publish</h2>
@@ -644,7 +644,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               </p>
               <div className="flex items-center gap-3 mt-6">
                 <Button type="button" variant="outline" onClick={() => setCurrentStep(2)}>Back to Units</Button>
-                <Button type="submit" disabled={submitting} className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-md">
+                <Button type="submit" disabled={submitting} className="bg-primary hover:bg-primary text-white shadow-md">
                   {submitting ? <Loader2 size={16} className="mr-2 animate-spin" /> : <Check size={16} className="mr-2" />}
                   {submitting ? 'Publishing...' : 'Publish Property'}
                 </Button>

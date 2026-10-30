@@ -404,8 +404,8 @@ function StepContent({
       )}
 
       {step.status === 'approved' && (
-        <div className="p-4 bg-emerald-500/10 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-          <div className="flex items-center gap-2 text-emerald-400 dark:text-green-300">
+        <div className="p-4 bg-primary/10 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+          <div className="flex items-center gap-2 text-[#4edea3] dark:text-green-300">
             <CheckCircle className="h-5 w-5" />
             <span className="font-medium">Approved</span>
             {step.completedAt && <span className="text-xs ml-auto">Completed {formatRelativeTime(step.completedAt)}</span>}

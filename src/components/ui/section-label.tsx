@@ -6,7 +6,7 @@ function SectionLabel({ children, className }: { children: React.ReactNode; clas
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full",
+        "inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold text-[#4edea3] bg-primary/10 border border-primary/20 rounded-full",
         className
       )}
     >

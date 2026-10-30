@@ -35,11 +35,11 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 12 / Financial Architecture & Liquidity</span>
+          <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 12 / Financial Architecture & Liquidity</span>
           <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Institutional Pricing, Escrow & Statutory Fees</h2>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">Configure annual lease float, caution escrow accounts, and LIRS stamp duty rates.</p>
         </div>
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-600/10 text-emerald-600 rounded-lg text-sm font-medium">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-medium">
           <Banknote className="size-4" /> Paystack Institutional Escrow Enabled
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
           <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-3">
             <div className="flex items-center justify-between">
               <Label className="text-sm font-medium text-zinc-900 dark:text-white">Annual Net Base Rent</Label>
-              <span className="text-xs font-semibold text-emerald-600">BILLED YEARLY IN ADVANCE</span>
+              <span className="text-xs font-semibold text-primary">BILLED YEARLY IN ADVANCE</span>
             </div>
             <div className="relative flex items-center">
               <span className="absolute left-4 font-mono font-bold text-lg text-zinc-900 dark:text-white">₦</span>
@@ -70,7 +70,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
             <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-zinc-900 dark:text-white">Caution Escrow</span>
-                <span className="text-xs font-semibold text-emerald-600">10% STANDARD</span>
+                <span className="text-xs font-semibold text-primary">10% STANDARD</span>
               </div>
               <div className="relative flex items-center">
                 <span className="absolute left-3 font-mono font-bold text-zinc-900 dark:text-white">₦</span>
@@ -81,7 +81,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
             <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-zinc-900 dark:text-white">Facility Sinking Fund</span>
-                <span className="text-xs font-semibold text-emerald-600">IPP & DIESEL</span>
+                <span className="text-xs font-semibold text-primary">IPP & DIESEL</span>
               </div>
               <div className="relative flex items-center">
                 <span className="absolute left-3 font-mono font-bold text-zinc-900 dark:text-white">₦</span>
@@ -93,7 +93,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
 
           <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-3">
             <div className="flex items-center gap-2">
-              <Banknote className="size-4 text-emerald-600" />
+              <Banknote className="size-4 text-primary" />
               <span className="text-sm font-medium text-zinc-900 dark:text-white">Legal Fee & LIRS Stamp Duty Assessment</span>
               <span className="ml-auto text-xs font-mono text-zinc-400">5.0% OF BASE RENT</span>
             </div>
@@ -125,7 +125,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
           <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-md space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-white/[0.08]">
               <span className="text-sm font-semibold uppercase tracking-wider text-zinc-900 dark:text-white">Upfront Settlement Bill</span>
-              <span className="text-xs px-2 py-0.5 rounded bg-emerald-600/10 text-emerald-600 font-semibold">T1 INSTITUTIONAL</span>
+              <span className="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-semibold">T1 INSTITUTIONAL</span>
             </div>
             <div className="flex flex-col gap-2 text-sm">
               <div className="flex items-center justify-between">
@@ -144,7 +144,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
             <div className="pt-3 border-t border-zinc-200 dark:border-white/[0.08] flex flex-col gap-1">
               <div className="flex items-baseline justify-between">
                 <span className="text-sm font-semibold text-zinc-900 dark:text-white">Total Initial Capital Outlay</span>
-                <span className="text-xl font-mono font-bold text-emerald-600">₦ {basePrice ? (parseFloat(basePrice) * 1.15).toLocaleString() : '0'}</span>
+                <span className="text-xl font-mono font-bold text-primary">₦ {basePrice ? (parseFloat(basePrice) * 1.15).toLocaleString() : '0'}</span>
               </div>
               <span className="text-xs text-zinc-400">Reconciled via automated NIBSS / Paystack virtual dedicated IBAN.</span>
             </div>
@@ -171,7 +171,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
 }
 
 function CheckIcon() {
-  return <svg className="size-5 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>;
+  return <svg className="size-5 text-primary" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>;
 }
 
 export function validate(data: unknown): string[] {

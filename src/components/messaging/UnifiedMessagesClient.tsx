@@ -719,9 +719,9 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
 function ScreeningStatusBadge({ status }: { status: string }) {
   const map: Record<string, { label: string; className: string }> = {
     scheduled: { label: 'Scheduled', className: 'bg-blue-500/10 text-blue-500 border-blue-500/20' },
-    completed: { label: 'Completed', className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
+    completed: { label: 'Completed', className: 'bg-primary/10 text-primary border-primary/20' },
     cancelled: { label: 'Cancelled', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
-    missed: { label: 'Missed', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+    missed: { label: 'Missed', className: 'bg-primary/10 text-[#4edea3] border-primary/20' },
   };
   const item = map[status] || { label: status, className: 'bg-zinc-900' };
   return <Badge className={item.className}>{item.label}</Badge>;
@@ -826,7 +826,7 @@ function ConversationList({ conversations, loading, onSelect, selectedId }: { co
           <button
             key={conv.id}
             onClick={() => onSelect(conv.id)}
-            className={`w-full flex items-center gap-4 p-4 border-b transition-colors text-left ${selectedId === conv.id ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20' : 'hover:bg-zinc-50 dark:hover:bg-zinc-900/30 border-zinc-200 dark:border-zinc-800'}`}
+            className={`w-full flex items-center gap-4 p-4 border-b transition-colors text-left ${selectedId === conv.id ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border-primary dark:border-primary/20' : 'hover:bg-zinc-50 dark:hover:bg-zinc-900/30 border-zinc-200 dark:border-zinc-800'}`}
           >
             <Avatar>
               <AvatarImage src={conv.participant?.avatarUrl as string | undefined} alt={conv.participant?.fullName || 'User'} />

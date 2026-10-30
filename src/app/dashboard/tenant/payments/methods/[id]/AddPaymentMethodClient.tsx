@@ -119,7 +119,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
           <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50">
             <div className="border-b border-zinc-200 dark:border-white/[0.08] px-6 py-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white"><CreditCard className="h-5 w-5" /></span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white"><CreditCard className="h-5 w-5" /></span>
                 <div>
                   <h1 className="font-semibold text-zinc-900 dark:text-white">Add Payment Method</h1>
                   <p className="text-sm text-zinc-600 dark:text-zinc-400">Securely link your card or bank details for rent &amp; escrow payments.</p>
@@ -188,9 +188,9 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                   <div className="space-y-1.5">
                     <Label>Account Name</Label>
-                    <div className={`flex h-11 items-center gap-2 rounded-lg border px-4 text-sm ${resolved ? 'border-emerald-500/40 bg-emerald-500/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-950'}`}>
-                      <span className={resolved ? 'font-semibold text-emerald-700 dark:text-emerald-300' : 'text-zinc-500'}>{accountName || 'Verify account to fetch name'}</span>
-                      {resolved && <CheckCircle2 className="h-4 w-4 text-emerald-500" />}
+                    <div className={`flex h-11 items-center gap-2 rounded-lg border px-4 text-sm ${resolved ? 'border-primary/40 bg-primary/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-950'}`}>
+                      <span className={resolved ? 'font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' : 'text-zinc-500'}>{accountName || 'Verify account to fetch name'}</span>
+                      {resolved && <CheckCircle2 className="h-4 w-4 text-primary" />}
                     </div>
                   </div>
 
@@ -205,7 +205,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                       {resolving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Shield className="mr-2 h-4 w-4" />}
                       {resolving ? 'Verifying…' : 'Verify Account'}
                     </Button>
-                    <Button onClick={submitBank} disabled={submitting || !resolved} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+                    <Button onClick={submitBank} disabled={submitting || !resolved} className="bg-primary hover:bg-primary text-white">
                       {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Lock className="mr-2 h-4 w-4" />}
                       {submitting ? 'Saving…' : 'Securely Add'}
                     </Button>

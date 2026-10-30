@@ -42,7 +42,7 @@ function gatewayLabel(row: LedgerRow): string {
 function statusPill(status: string) {
   if (status === 'released' || status === 'success') {
     return (
-      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
         <CheckCircle className="w-3 h-3" /> Cleared
       </span>
     );
@@ -89,7 +89,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 
   const typeBadge = (type: string) => {
-    if (type === 'Rent') return 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400';
+    if (type === 'Rent') return 'bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3]';
     if (type === 'Caution') return 'bg-blue-50 dark:bg-blue-500/15 text-blue-800 dark:text-blue-400';
     return 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-300';
   };
@@ -100,10 +100,10 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Institutional Financial Management</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">Institutional Financial Management</span>
             <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600" />
             <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
-              <BadgeCheck className="w-3 h-3 text-emerald-600" /> FIRS &amp; CAC Audited
+              <BadgeCheck className="w-3 h-3 text-primary" /> FIRS &amp; CAC Audited
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Payments &amp; Ledger</h1>
@@ -115,7 +115,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="w-4 h-4" /> Export Ledger
           </Button>
-          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button size="sm" className="gap-2 bg-primary hover:bg-[var(--sovereign-hover)] text-white">
             <BadgeCheck className="w-4 h-4" /> + Pay Now
           </Button>
         </div>
@@ -129,12 +129,12 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
               <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Paid</span>
               <span className="text-xl font-bold text-zinc-900 dark:text-white mt-1 font-mono">₦ {metrics.totalPaid.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
             </div>
-            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-primary">
               <Wallet className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
-            <span className="text-xs text-emerald-600 flex items-center gap-1 font-semibold"><ArrowUp className="w-3 h-3" /> on schedule</span>
+            <span className="text-xs text-primary flex items-center gap-1 font-semibold"><ArrowUp className="w-3 h-3" /> on schedule</span>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">lifetime</span>
           </div>
         </div>
@@ -161,16 +161,16 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
               <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Failed Debits</span>
               <div className="flex items-baseline gap-2 mt-1">
                 <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">{metrics.failedCount}</span>
-                <span className="text-xs text-emerald-600 bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 rounded-full font-medium">Clean Record</span>
+                <span className="text-xs text-primary bg-[var(--sovereign-container-bg)] dark:bg-primary/20 px-2 py-0.5 rounded-full font-medium">Clean Record</span>
               </div>
             </div>
-            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-primary">
               <BadgeCheck className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
             <span className="text-xs text-zinc-500 dark:text-zinc-400">NIBSS / Interswitch</span>
-            <span className="text-xs text-emerald-600 font-medium">Zero chargebacks</span>
+            <span className="text-xs text-primary font-medium">Zero chargebacks</span>
           </div>
         </div>
         <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
@@ -185,7 +185,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
             <span className="text-xs text-zinc-500 dark:text-zinc-400">{ledger.filter((l) => l.status === 'released').length} cleared transactions</span>
-            <span className="text-xs text-emerald-600 font-mono">Mean</span>
+            <span className="text-xs text-primary font-mono">Mean</span>
           </div>
         </div>
       </div>
@@ -212,7 +212,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                 <div className="flex items-center gap-4 mt-3 flex-wrap">
                   <div className="flex items-center gap-1.5 font-mono text-zinc-900 dark:text-white">
                     <span className="text-zinc-500 dark:text-zinc-400 font-normal text-sm">Obligation:</span>
-                    <span className="text-lg font-bold text-emerald-600">₦ {alertInvoice.amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
+                    <span className="text-lg font-bold text-primary">₦ {alertInvoice.amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
                   </div>
                   {alertInvoice.dueDate && (
                     <>
@@ -228,9 +228,9 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
             </div>
             <div className="flex flex-col sm:flex-row items-stretch lg:items-center gap-2 shrink-0">
               <Link href="/dashboard/tenant/payments/auto-pay" className="h-10 px-4 rounded-lg bg-zinc-50 dark:bg-white/[0.04] text-zinc-900 dark:text-white text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors flex items-center justify-center gap-1.5 border border-zinc-200 dark:border-white/[0.08]">
-                <BadgeCheck className="w-4 h-4 text-emerald-600" /> Auto-Debit
+                <BadgeCheck className="w-4 h-4 text-primary" /> Auto-Debit
               </Link>
-              <Button size="sm" className="h-10 px-5 gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button size="sm" className="h-10 px-5 gap-2 bg-primary hover:bg-[var(--sovereign-hover)] text-white">
                 <CreditCard className="w-4 h-4" /> Pay via Paystack
               </Button>
             </div>
@@ -297,7 +297,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                       <div className="flex flex-col">
                         <span className="font-semibold text-zinc-900 dark:text-white">{listingTitle}</span>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 mt-0.5 font-mono">
-                          <MapPin className="w-3 h-3 text-emerald-600" /> #{row.reference}
+                          <MapPin className="w-3 h-3 text-primary" /> #{row.reference}
                         </span>
                       </div>
                     </td>
@@ -319,7 +319,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                       </div>
                     </td>
                     <td className="py-3 px-4 text-right whitespace-nowrap">
-                      <span className={`font-mono font-semibold ${row.status === 'released' ? 'text-emerald-600' : 'text-zinc-900 dark:text-white'}`}>₦ {row.amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
+                      <span className={`font-mono font-semibold ${row.status === 'released' ? 'text-primary' : 'text-zinc-900 dark:text-white'}`}>₦ {row.amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
                     </td>
                     <td className="py-3 px-4 text-center whitespace-nowrap">{statusPill(row.status)}</td>
                     <td className="py-3 px-4 text-right whitespace-nowrap">

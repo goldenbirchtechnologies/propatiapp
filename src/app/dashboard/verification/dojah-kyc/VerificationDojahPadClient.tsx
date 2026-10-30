@@ -81,7 +81,7 @@ function StatusIcon({ status }: { status: StatusCheckItem['status'] }) {
 function statusMeta(status: StatusCheckItem['status']) {
   switch (status) {
     case 'approved':
-      return { badge: 'secondary' as const, label: 'Verified', text: 'text-emerald-400', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' };
+      return { badge: 'secondary' as const, label: 'Verified', text: 'text-[#4edea3]', className: 'bg-primary/10 text-[#4edea3] border-primary/20' };
     case 'pending':
     case 'in_progress':
       return { badge: 'secondary' as const, label: 'Pending', text: 'text-zinc-600 dark:text-zinc-400', className: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' };
@@ -156,13 +156,13 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
       )}
 
       {isApproved && (
-        <div className="glass-card border-emerald-500/30 bg-emerald-950/20">
+        <div className="glass-card border-primary/30 bg-primary/20">
           <div className="p-6 p-6">
             <div className="flex items-start gap-4">
-              <CheckCircle2 className="h-6 w-6 text-emerald-400" />
+              <CheckCircle2 className="h-6 w-6 text-[#4edea3]" />
               <div>
-                <p className="text-sm font-semibold text-emerald-300">Fully Verified</p>
-                <p className="text-xs text-emerald-400/80 mt-1">
+                <p className="text-sm font-semibold text-[#6ffbbe]">Fully Verified</p>
+                <p className="text-xs text-[#4edea3]/80 mt-1">
                   Your identity checks are complete. You can proceed with payments, agreements, and full platform access.
                 </p>
               </div>

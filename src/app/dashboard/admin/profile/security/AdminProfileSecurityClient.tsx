@@ -13,16 +13,16 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
           <div className="absolute -right-16 -top-16 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
           <div className="relative group">
             <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-white shadow-none">
-              <span className="w-full h-full flex items-center justify-center bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><AppIcon name="person" className="lucide" /></span>
+              <span className="w-full h-full flex items-center justify-center bg-primary/10 text-primary dark:text-[#4edea3]"><AppIcon name="person" className="lucide" /></span>
             </div>
-            <button className="absolute -bottom-2 -right-2 bg-emerald-500 text-zinc-900 dark:text-white w-10 h-10 rounded-full border-4 border-white flex items-center justify-center shadow-none hover:bg-primary-container transition-colors">
+            <button className="absolute -bottom-2 -right-2 bg-primary text-zinc-900 dark:text-white w-10 h-10 rounded-full border-4 border-white flex items-center justify-center shadow-none hover:bg-primary-container transition-colors">
               <AppIcon name="photo_camera" className="lucide" />
             </button>
           </div>
           <div className="flex-1 space-y-4 text-center md:text-left">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <h3 className="font-headline-lg text-headline-lg text-zinc-900 dark:text-white">{displayName}</h3>
-              <span className="px-3 py-1 rounded-full bg-emerald-600 text-on-success font-label-sm text-[10px] flex items-center gap-1">
+              <span className="px-3 py-1 rounded-full bg-primary text-on-success font-label-sm text-[10px] flex items-center gap-1">
                 <span className="lucide text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                 Verified
               </span>
@@ -32,7 +32,7 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
               Overseeing regional operations and high-value asset verification across West Africa. Active member since January 2023.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
-              <button className="px-6 py-2.5 bg-emerald-500 text-zinc-900 dark:text-white rounded-xl font-medium text-body-sm hover:translate-y-[-2px] transition-all shadow-none">
+              <button className="px-6 py-2.5 bg-primary text-zinc-900 dark:text-white rounded-xl font-medium text-body-sm hover:translate-y-[-2px] transition-all shadow-none">
                 Edit Profile
               </button>
               <button className="px-6 py-2.5 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white rounded-xl font-medium text-body-sm hover:bg-primary-container hover:text-on-primary-container transition-all">
@@ -52,7 +52,7 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
             <div className="space-y-4">
               <div className="flex justify-between items-center pb-2 border-b border-on-primary-container/30">
                 <span className="text-on-primary-container font-label-sm text-label-md">Status</span>
-                <span className="text-emerald-400 font-bold">Optimal</span>
+                <span className="text-[#4edea3] font-bold">Optimal</span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-on-primary-container/30">
                 <span className="text-on-primary-container font-label-sm text-label-md">Last Login</span>
@@ -121,7 +121,7 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
               </div>
             </div>
             <div className="pt-4 flex justify-end">
-              <button className="bg-emerald-500 text-zinc-900 dark:text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-container transition-all shadow-none active:scale-95" type="submit">
+              <button className="bg-primary text-zinc-900 dark:text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-container transition-all shadow-none active:scale-95" type="submit">
                 Save Changes
               </button>
             </div>
@@ -146,7 +146,7 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">Last changed 2 days ago</p>
                 </div>
               </div>
-              <button className="px-4 py-2 bg-emerald-500 text-zinc-900 dark:text-white rounded-lg text-sm font-semibold hover:bg-emerald-500/90 transition-colors">
+              <button className="px-4 py-2 bg-primary text-zinc-900 dark:text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
                 Change
               </button>
             </div>
@@ -192,12 +192,12 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
         </div>
         <div className="space-y-6 relative before:content-[''] before:absolute before:left-4 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant">
           <div className="relative pl-10">
-            <div className="absolute left-2.5 top-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-none"></div>
+            <div className="absolute left-2.5 top-1 w-3 h-3 bg-primary rounded-full border-2 border-white shadow-none"></div>
             <p className="font-bold text-body-sm text-zinc-900 dark:text-white">Password changed successfully</p>
             <p className="text-xs text-zinc-600 dark:text-zinc-400">2 days ago • IP: 102.89.23.41</p>
           </div>
           <div className="relative pl-10">
-            <div className="absolute left-2.5 top-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-none"></div>
+            <div className="absolute left-2.5 top-1 w-3 h-3 bg-primary rounded-full border-2 border-white shadow-none"></div>
             <p className="font-bold text-body-sm text-zinc-900 dark:text-white">2FA verified at 09:41 AM</p>
             <p className="text-xs text-zinc-600 dark:text-zinc-400">Today • iPhone 15 Pro</p>
           </div>
@@ -219,7 +219,7 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
 
       {/* Sticky footer for mobile actions */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-zinc-950/50 border-t border-zinc-200 dark:border-white/[0.08] flex gap-3 z-50">
-        <button className="flex-1 py-3 bg-emerald-500 text-zinc-900 dark:text-white rounded-xl font-bold shadow-none">Save All Changes</button>
+        <button className="flex-1 py-3 bg-primary text-zinc-900 dark:text-white rounded-xl font-bold shadow-none">Save All Changes</button>
         <button className="w-14 h-14 bg-zinc-800 text-zinc-900 dark:text-white rounded-xl flex items-center justify-center">
           <AppIcon name="help" className="lucide" />
         </button>

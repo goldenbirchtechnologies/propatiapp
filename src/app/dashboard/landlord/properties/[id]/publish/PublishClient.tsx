@@ -56,20 +56,20 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-        <Link href="/dashboard/landlord" className="hover:text-emerald-600">Home</Link>
+        <Link href="/dashboard/landlord" className="hover:text-primary">Home</Link>
         <span>/</span>
-        <Link href="/dashboard/landlord/properties" className="hover:text-emerald-600">Properties</Link>
+        <Link href="/dashboard/landlord/properties" className="hover:text-primary">Properties</Link>
         <span>/</span>
         <span className="text-zinc-900 dark:text-white font-semibold truncate">{listing.title}</span>
         <span>/</span>
-        <span className="text-emerald-600 dark:text-emerald-400 font-bold">Publish</span>
+        <span className="text-primary dark:text-[#4edea3] font-bold">Publish</span>
       </nav>
 
       {/* Header */}
       <header className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 flex flex-col xl:flex-row xl:items-end justify-between gap-6">
         <div className="max-w-3xl">
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-2.5 py-0.5 rounded text-white bg-emerald-600 text-xs tracking-widest uppercase font-bold">Marketplace Syndication</span>
+            <span className="px-2.5 py-0.5 rounded text-white bg-primary text-xs tracking-widest uppercase font-bold">Marketplace Syndication</span>
             <span className="text-zinc-500 dark:text-zinc-400 text-xs">Propati Node</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Publish Listing — {listing.title}</h1>
@@ -79,7 +79,7 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
           <Button variant="outline" className="flex items-center gap-2">
             <Eye size={16} /> Preview Listing
           </Button>
-          <Button onClick={handlePublish} disabled={publishing} className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={handlePublish} disabled={publishing} className="flex items-center gap-2 bg-primary hover:bg-[var(--sovereign-hover)] text-white">
             <Rocket size={16} /> {publishing ? 'Publishing...' : 'Publish to Marketplace'}
           </Button>
         </div>
@@ -90,10 +90,10 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-400 text-xs font-semibold">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" /> Draft (Ready to Syndicate)
         </span>
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 text-xs font-semibold">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">
           <CheckCircle2 size={14} /> CAC Verified
         </span>
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 text-xs font-semibold">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">
           <FileText size={14} /> LASRERA Active 2024
         </span>
       </div>
@@ -112,7 +112,7 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">Public identity visible to institutional tenants</p>
                 </div>
               </div>
-              <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded">REQUIRED</span>
+              <span className="text-xs font-mono text-primary dark:text-[#4edea3] bg-[var(--sovereign-container-bg)] dark:bg-primary/10 px-2 py-0.5 rounded">REQUIRED</span>
             </div>
             <div className="space-y-3">
               <div>
@@ -236,11 +236,11 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
             </div>
             <div className="space-y-3 text-sm text-zinc-600 dark:text-zinc-400">
               <div className="flex items-start gap-2">
-                <CheckCircle2 size={16} className="mt-0.5 text-emerald-600 dark:text-emerald-400" />
+                <CheckCircle2 size={16} className="mt-0.5 text-primary dark:text-[#4edea3]" />
                 <span>CAC registration verified (RC-1849204).</span>
               </div>
               <div className="flex items-start gap-2">
-                <CheckCircle2 size={16} className="mt-0.5 text-emerald-600 dark:text-emerald-400" />
+                <CheckCircle2 size={16} className="mt-0.5 text-primary dark:text-[#4edea3]" />
                 <span>LASRERA registration active for 2024.</span>
               </div>
               <div className="flex items-start gap-2">

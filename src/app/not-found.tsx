@@ -35,7 +35,7 @@ export default function NotFound() {
             width: '96px',
             height: '96px',
             borderRadius: '9999px',
-            background: 'rgba(16,185,129,0.16)',
+            background: 'rgba(0, 108, 73,0.16)',
             marginBottom: '1.5rem',
             animation: 'propLogoPop 2.4s ease-in-out infinite',
           }}
@@ -45,7 +45,7 @@ export default function NotFound() {
             style={{
               fontSize: '40px',
               lineHeight: 1,
-              color: '#10b981',
+              color: '#006c49',
             }}
           >
             ?
@@ -54,7 +54,7 @@ export default function NotFound() {
 
         <p
           style={{
-            color: '#10b981',
+            color: '#006c49',
             fontWeight: 700,
             fontSize: '0.85rem',
             letterSpacing: '0.08em',
@@ -93,7 +93,7 @@ export default function NotFound() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: '#10b981',
+            background: '#006c49',
             color: '#fff',
             fontWeight: 600,
             padding: '0.75rem 1.5rem',

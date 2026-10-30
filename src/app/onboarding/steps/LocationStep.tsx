@@ -215,7 +215,7 @@ export default function LocationStep({ stepId }: Props) {
 
         {error && <p className="text-sm text-destructive">{error}</p>}
 
-        <Button type="submit" disabled={saving} className="bg-[#10b981] hover:bg-[#006c49]">
+        <Button type="submit" disabled={saving} className="bg-[#006c49] hover:bg-[#006c49]">
           {saving ? 'Saving...' : 'Save &amp; continue'}
         </Button>
       </form>

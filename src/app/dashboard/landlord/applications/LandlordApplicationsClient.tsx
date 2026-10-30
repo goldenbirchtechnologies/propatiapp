@@ -124,8 +124,8 @@ function statusPill(status: string) {
   const s = String(status || '').toLowerCase();
   if (s === 'accepted' || s === 'approved') {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">
+        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
         Approved
       </span>
     );
@@ -167,7 +167,7 @@ function screeningPill(value: string) {
   if (!normalized || normalized === 'not_started' || normalized === 'none' || normalized === 'false')
     return <span className="text-xs text-red-400 border border-red-500/20 rounded-full px-2 py-0.5">Not Verified</span>;
   if (normalized === 'approved' || normalized === 'verified' || normalized === 'true')
-    return <span className="text-xs text-primary border border-emerald-500/20 rounded-full px-2 py-0.5">Verified</span>;
+    return <span className="text-xs text-primary border border-primary/20 rounded-full px-2 py-0.5">Verified</span>;
   return <span className="text-xs text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5">Pending</span>;
 }
 
@@ -181,7 +181,7 @@ function screeningScore(screening: Record<string, string>) {
   const score = Math.min(860, 650 + entries.length * 45);
   const tier = score >= 800 ? 'Tier-1' : score >= 720 ? 'Tier-2' : 'Tier-3';
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-primary">
+    <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-xs text-[var(--sovereign-hover)] dark:text-primary">
       <ShieldCheck className="h-3 w-3" />
       Score: {score} {tier}
     </span>
@@ -220,7 +220,7 @@ function incomeLabel(raw: string | number | null | undefined) {
 }
 
 const selectClass =
-  'w-full rounded-lg border border-surface-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none transition-colors focus:border-emerald-500/50 dark:border-on-surface/10 dark:bg-[#18181b] dark:text-white';
+  'w-full rounded-lg border border-surface-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none transition-colors focus:border-primary/50 dark:border-on-surface/10 dark:bg-[#18181b] dark:text-white';
 
 export default function LandlordApplicationsClient({ applications: initial }: { applications: Application[] }) {
   const [applications, setApplications] = useState<Application[]>(initial);
@@ -423,7 +423,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
           <span>/</span>
           <span>Portfolio</span>
           <span>/</span>
-          <span className="text-emerald-600 dark:text-emerald-400">Applications</span>
+          <span className="text-primary dark:text-[#4edea3]">Applications</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Applications</h1>
@@ -446,7 +446,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
           value={String(stats.total)}
           icon={Users}
           trendValue={`${stats.total} Total`}
-          accentColor="#10b981"
+          accentColor="#006c49"
         />
         <StatCard
           label="Pending Review"
@@ -464,7 +464,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             const label = incomeLabel(stats.annualized);
             return label ? `${label} annualized` : undefined;
           })()}
-          accentColor="#10b981"
+          accentColor="#006c49"
         />
         <StatCard
           label="Rejected"
@@ -488,7 +488,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 setPage(0);
               }}
               placeholder="Search applicant, property, employer…"
-              className="w-full rounded-lg border border-surface-variant bg-surface-container-lowest py-2 pl-9 pr-3 text-sm text-on-surface outline-none transition-colors placeholder:text-surface-variant focus:border-emerald-500/50 dark:border-on-surface/10 dark:bg-[#09090b] dark:text-white"
+              className="w-full rounded-lg border border-surface-variant bg-surface-container-lowest py-2 pl-9 pr-3 text-sm text-on-surface outline-none transition-colors placeholder:text-surface-variant focus:border-primary/50 dark:border-on-surface/10 dark:bg-[#09090b] dark:text-white"
             />
           </div>
 
@@ -645,7 +645,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                       <td className="px-4 py-3">
                         <div className="flex flex-wrap items-center gap-1.5">
                           {app.tenant?.idVerified ? (
-                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-700 dark:text-primary">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-xs text-[var(--sovereign-hover)] dark:text-primary">
                               <BadgeCheck className="h-3 w-3" />
                               ID Verified
                             </span>
@@ -763,7 +763,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         {selectedApp.tenant?.fullName || 'Tenant'}
                       </p>
                       {selectedApp.tenant?.idVerified && (
-                        <span className="inline-flex items-center gap-1 text-xs text-on-primary-fixed dark:text-primary bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
+                        <span className="inline-flex items-center gap-1 text-xs text-on-primary-fixed dark:text-primary bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
                           <BadgeCheck className="h-3 w-3" /> ID Verified
                         </span>
                       )}

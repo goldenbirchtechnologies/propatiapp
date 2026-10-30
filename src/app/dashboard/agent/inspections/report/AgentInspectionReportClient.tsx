@@ -129,7 +129,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             action={
               <Link
                 href="/dashboard/agent/inspections"
-                className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--sovereign-hover)]"
               >
                 <ArrowLeft className="h-4 w-4" /> Back to inspections
               </Link>
@@ -205,13 +205,13 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             </Link>
             <span className="hidden sm:block w-px h-4 bg-zinc-200 dark:bg-white/[0.08]" />
             <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-wider font-semibold text-zinc-600 dark:text-zinc-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               Official Cadastral Audit Docket
             </span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <OpsButton variant="secondary" onClick={() => setShowHash(true)} className="px-3 py-1.5 text-[13px]">
-              <Fingerprint className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              <Fingerprint className="h-4 w-4 text-primary dark:text-[#4edea3]" />
               Verify SHA-256 Hash
             </OpsButton>
             <OpsButton
@@ -236,7 +236,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
 
       {/* Main legal document */}
       <OpsCard className="max-w-5xl mx-auto w-full overflow-hidden shadow-md">
-        <div className="h-2.5 w-full bg-gradient-to-r from-emerald-700 via-emerald-500 to-emerald-400" />
+        <div className="h-2.5 w-full bg-gradient-to-r from-[var(--sovereign-hover)] via-primary to-[#4edea3]" />
 
         <div className="p-5 md:p-8 space-y-8">
           {/* SECTION 1 — header */}
@@ -244,10 +244,10 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
               <div className="flex items-start gap-4">
                 <div className="w-16 h-16 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0 shadow-sm">
-                  <Scale className="h-9 w-9 text-emerald-600 dark:text-emerald-400" />
+                  <Scale className="h-9 w-9 text-primary dark:text-[#4edea3]" />
                 </div>
                 <div className="space-y-1">
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] uppercase tracking-wider">
                     Official Gazette Copy
                   </span>
                   <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">
@@ -264,7 +264,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                   <span
                     className={`inline-flex items-center px-1.5 py-0.5 rounded font-mono text-[10px] font-semibold ${
                       cleared
-                        ? 'bg-emerald-600 text-white'
+                        ? 'bg-primary text-white'
                         : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200'
                     }`}
                   >
@@ -308,7 +308,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                   Lead Broker: {report.agent?.fullName ?? 'Awaiting assignment'}
                   {report.agent?.email ? ` (${report.agent.email})` : ''}
                 </p>
-                <div className="flex items-center md:justify-end gap-2 pt-1 font-mono text-xs text-emerald-600 dark:text-emerald-400">
+                <div className="flex items-center md:justify-end gap-2 pt-1 font-mono text-xs text-primary dark:text-[#4edea3]">
                   <BadgeCheck className="h-3.5 w-3.5" />
                   <span>Agent Tier: {report.agent?.agentTier ?? 'unassigned'}</span>
                 </div>
@@ -321,7 +321,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             <div
               className={`rounded-xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden ${
                 cleared
-                  ? 'bg-gradient-to-br from-emerald-700 to-emerald-500 text-white'
+                  ? 'bg-gradient-to-br from-[var(--sovereign-hover)] to-primary text-white'
                   : report.status === 'rejected'
                     ? 'bg-gradient-to-br from-red-700 to-red-500 text-white'
                     : 'bg-gradient-to-br from-amber-600 to-amber-400 text-white'
@@ -329,7 +329,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             >
               <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-64 h-64 rounded-full bg-white/10 pointer-events-none" />
               <div className="flex items-start sm:items-center gap-4 relative z-10">
-                <div className="w-14 h-14 rounded-xl bg-white text-emerald-700 flex items-center justify-center shrink-0 shadow-sm">
+                <div className="w-14 h-14 rounded-xl bg-white text-[var(--sovereign-hover)] flex items-center justify-center shrink-0 shadow-sm">
                   {cleared ? (
                     <ShieldCheck className="h-8 w-8" />
                   ) : (
@@ -338,7 +338,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="px-2.5 py-0.5 rounded-full bg-white text-emerald-700 text-[11px] font-bold tracking-wider uppercase">
+                    <span className="px-2.5 py-0.5 rounded-full bg-white text-[var(--sovereign-hover)] text-[11px] font-bold tracking-wider uppercase">
                       {meta.label}
                     </span>
                     {cleared ? (
@@ -392,21 +392,21 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <OpsCard className="p-3 flex items-center gap-2.5 bg-zinc-50 dark:bg-zinc-800/50">
-                <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <Building2 className="h-5 w-5 text-primary dark:text-[#4edea3] shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">Mandate Verified</p>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">Lagos State registry trail</p>
                 </div>
               </OpsCard>
               <OpsCard className="p-3 flex items-center gap-2.5 bg-zinc-50 dark:bg-zinc-800/50">
-                <Scale className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <Scale className="h-5 w-5 text-primary dark:text-[#4edea3] shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">Consent Pipeline</p>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">Direct lodging qualified</p>
                 </div>
               </OpsCard>
               <OpsCard className="p-3 flex items-center gap-2.5 bg-zinc-50 dark:bg-zinc-800/50">
-                <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <CheckCircle2 className="h-5 w-5 text-primary dark:text-[#4edea3] shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">
                     {cleared ? 'Beacon Integrity Confirmed' : 'Beacon Review Open'}
@@ -441,13 +441,13 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                   <OpsCard key={c.key} className="p-4 bg-zinc-50 dark:bg-zinc-800/50 flex flex-col justify-between gap-4">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="w-8 h-8 rounded-lg bg-white dark:bg-zinc-900 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                        <span className="w-8 h-8 rounded-lg bg-white dark:bg-zinc-900 flex items-center justify-center text-primary dark:text-[#4edea3]">
                           <Icon className="h-4 w-4" />
                         </span>
                         <span
                           className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold ${
                             satisfied === items.length
-                              ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
+                              ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]'
                               : 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400'
                           }`}
                         >
@@ -467,7 +467,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                         {items.map((item) => (
                           <li key={item.label} className="flex items-start gap-1.5">
                             {item.ok ? (
-                              <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                              <Check className="h-4 w-4 text-primary dark:text-[#4edea3] shrink-0" />
                             ) : (
                               <span className="w-4 h-4 rounded-full border border-zinc-300 dark:border-zinc-600 shrink-0 mt-0.5" />
                             )}
@@ -481,7 +481,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                         href={report.reportUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:underline pt-1"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-primary dark:text-[#4edea3] hover:underline pt-1"
                       >
                         View Original Filing
                         <ChevronRight className="h-3.5 w-3.5" />
@@ -583,15 +583,15 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs text-zinc-500 dark:text-zinc-400">
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <Check className="h-4 w-4 text-primary dark:text-[#4edea3]" />
                 <span>Cadastral offset: recorded</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <Check className="h-4 w-4 text-primary dark:text-[#4edea3]" />
                 <span>Urban setback: {cleared ? 'compliant' : 'pending'}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <Check className="h-4 w-4 text-primary dark:text-[#4edea3]" />
                 <span>Audit sync: {cleared ? 'fully cleared' : 'in progress'}</span>
               </div>
             </div>
@@ -606,9 +606,9 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                 </span>
                 <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg space-y-1 relative overflow-hidden">
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
-                    <BadgeCheck className="h-28 w-28 text-emerald-600" />
+                    <BadgeCheck className="h-28 w-28 text-primary" />
                   </div>
-                  <div className="font-serif italic text-lg text-emerald-700 dark:text-emerald-400 font-bold tracking-wider select-none">
+                  <div className="font-serif italic text-lg text-[var(--sovereign-hover)] dark:text-[#4edea3] font-bold tracking-wider select-none">
                     {report.agent?.fullName ?? 'Pending assignment'}
                   </div>
                   <div className="space-y-0.5">
@@ -634,14 +634,14 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                   <QrGlyph />
                 </div>
                 <div className="space-y-1 min-w-0">
-                  <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider font-bold text-emerald-600 dark:text-emerald-400">
+                  <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider font-bold text-primary dark:text-[#4edea3]">
                     <Fingerprint className="h-3.5 w-3.5" />
                     Instant Portal Scan
                   </span>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">
                     Verify this docket against the Lagos State Lands Bureau registry.
                   </p>
-                  <span className="font-mono text-[11px] text-emerald-600 dark:text-emerald-400 break-all block">
+                  <span className="font-mono text-[11px] text-primary dark:text-[#4edea3] break-all block">
                     /verify/docket/{docketRef}
                   </span>
                 </div>
@@ -650,13 +650,13 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
 
             <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-lg p-3 flex flex-col md:flex-row md:items-center justify-between gap-2 text-zinc-500 dark:text-zinc-400 font-mono text-[11px]">
               <div className="flex items-center gap-2 truncate">
-                <Lock className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <Lock className="h-4 w-4 text-primary dark:text-[#4edea3] shrink-0" />
                 <span className="text-zinc-700 dark:text-zinc-300 font-semibold">SHA-256 Checksum:</span>
                 <span className="truncate">{checksum ?? 'Pending finalization of the signed report'}</span>
               </div>
               <div className="flex items-center gap-4 shrink-0 text-zinc-700 dark:text-zinc-300">
                 <span>Security Block: #{report.id.slice(-6).toUpperCase()}</span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                <span className="text-primary dark:text-[#4edea3] font-semibold">
                   {cleared ? 'TAMPER-EVIDENT VALIDATED' : 'PENDING SIGNATURE'}
                 </span>
               </div>
@@ -676,7 +676,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
           <div className="bg-white dark:bg-zinc-900 rounded-xl max-w-lg w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Fingerprint className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                <Fingerprint className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                 <h4 className="text-lg font-bold text-zinc-900 dark:text-white">Cryptographic Verification</h4>
               </div>
               <button
@@ -698,7 +698,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             </div>
             <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
               <span>Status: {cleared ? 'Match Confirmed' : 'Pending signature'}</span>
-              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+              <span className="text-primary dark:text-[#4edea3] font-semibold">
                 {cleared ? 'Zero Discrepancies' : 'Awaiting Sign-Off'}
               </span>
             </div>
@@ -716,7 +716,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
 
 function FileTextIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5 text-emerald-600 dark:text-emerald-400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5 text-primary dark:text-[#4edea3]">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
       <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
     </svg>

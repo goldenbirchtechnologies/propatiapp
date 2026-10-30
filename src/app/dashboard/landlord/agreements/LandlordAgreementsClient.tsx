@@ -36,9 +36,9 @@ const STATUS_META: Record<string, { label: string; cls: string; dot: string }> =
   draft: { label: 'Draft', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700', dot: 'bg-zinc-400' },
   pending_landlord: { label: 'Pending Landlord', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
   pending_tenant: { label: 'Pending Tenant', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
-  tenant_signed: { label: 'Tenant Signed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
-  landlord_signed: { label: 'Landlord Signed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
-  fully_signed: { label: 'Active', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-600' },
+  tenant_signed: { label: 'Tenant Signed', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
+  landlord_signed: { label: 'Landlord Signed', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
+  fully_signed: { label: 'Active', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
   terminated: { label: 'Terminated', cls: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30', dot: 'bg-rose-500' },
   expired: { label: 'Expired', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700', dot: 'bg-zinc-400' },
 };
@@ -119,10 +119,10 @@ export default function LandlordAgreementsClient() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600">Legal &amp; Tenancy Governance</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-primary">Legal &amp; Tenancy Governance</span>
                 <span className="text-zinc-400 text-xs">•</span>
                 <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                   FIRS Stamp Duty &amp; E-Sign Compliant
                 </span>
               </div>
@@ -141,7 +141,7 @@ export default function LandlordAgreementsClient() {
               </button>
               <Link
                 href="/dashboard/landlord/agreements/new"
-                className="h-10 px-5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm font-medium flex items-center gap-2 transition-colors shadow-sm"
+                className="h-10 px-5 rounded-lg bg-primary text-white hover:bg-[var(--sovereign-hover)] text-sm font-medium flex items-center gap-2 transition-colors shadow-sm"
               >
                 <Plus className="w-4 h-4" />
                 Create Agreement
@@ -162,7 +162,7 @@ export default function LandlordAgreementsClient() {
                 <span className="text-3xl font-bold">{counts.total}</span>
                 <span className="text-sm text-zinc-500 dark:text-zinc-400">Records</span>
               </div>
-              <div className="mt-2 flex items-center gap-1 text-xs text-emerald-600">
+              <div className="mt-2 flex items-center gap-1 text-xs text-primary">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Indexed to Lagos Land Bureau</span>
               </div>
@@ -171,16 +171,16 @@ export default function LandlordAgreementsClient() {
             <div className="bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-zinc-800">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Active &amp; Enforced</span>
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-emerald-600">{counts.active}</span>
+                <span className="text-3xl font-bold text-primary">{counts.active}</span>
                 <span className="text-sm text-zinc-500 dark:text-zinc-400">Agreements</span>
               </div>
-              <div className="mt-2 flex items-center gap-1.5 text-xs text-emerald-600">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-600" />
+              <div className="mt-2 flex items-center gap-1.5 text-xs text-primary">
+                <span className="inline-block w-2 h-2 rounded-full bg-primary" />
                 <span>Enforceable</span>
               </div>
             </div>
@@ -225,11 +225,11 @@ export default function LandlordAgreementsClient() {
             <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3 flex-wrap">
                 <span className="text-sm font-semibold">Covenant Ledger</span>
-                <span className="bg-emerald-500/10 text-emerald-600 text-xs px-2.5 py-0.5 rounded-full font-medium">
+                <span className="bg-primary/10 text-primary text-xs px-2.5 py-0.5 rounded-full font-medium">
                   All ({filtered.length} Records)
                 </span>
                 <span className="bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                  <ShieldCheck className="w-3 h-3 text-primary" />
                   Prisma Decrypted
                 </span>
               </div>
@@ -239,7 +239,7 @@ export default function LandlordAgreementsClient() {
                   <input
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
-                    className="w-full h-9 pl-9 pr-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                    className="w-full h-9 pl-9 pr-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-primary"
                     placeholder="Filter property or tenant..."
                   />
                 </div>
@@ -270,7 +270,7 @@ export default function LandlordAgreementsClient() {
                 </p>
                 <Link
                   href="/dashboard/landlord/agreements/new"
-                  className="mt-6 h-10 px-5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm font-medium flex items-center gap-2 transition-colors shadow-sm"
+                  className="mt-6 h-10 px-5 rounded-lg bg-primary text-white hover:bg-[var(--sovereign-hover)] text-sm font-medium flex items-center gap-2 transition-colors shadow-sm"
                 >
                   <Plus className="w-4 h-4" />
                   Create your first agreement
@@ -301,11 +301,11 @@ export default function LandlordAgreementsClient() {
                         <tr key={a.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors cursor-pointer group border-t border-zinc-100 dark:border-zinc-800">
                           <td className="py-4 px-6">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                              <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                                 <Building2 className="w-5 h-5" />
                               </div>
                               <div className="flex flex-col">
-                                <span className="text-sm font-semibold group-hover:text-emerald-600 transition-colors">{propertyTitle}</span>
+                                <span className="text-sm font-semibold group-hover:text-primary transition-colors">{propertyTitle}</span>
                                 <div className="flex items-center gap-1.5 mt-0.5">
                                   <span className="text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">{a.type}</span>
                                   {area && <span className="text-[11px] text-zinc-500 dark:text-zinc-400">{area}</span>}
@@ -332,7 +332,7 @@ export default function LandlordAgreementsClient() {
                             <div className="inline-flex items-center gap-1">
                               <Link
                                 href={`/dashboard/landlord/agreements/${a.id}`}
-                                className="w-8 h-8 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-emerald-600 flex items-center justify-center transition-colors"
+                                className="w-8 h-8 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary flex items-center justify-center transition-colors"
                                 title="View Agreement"
                               >
                                 <Eye className="w-4 h-4" />
@@ -367,7 +367,7 @@ export default function LandlordAgreementsClient() {
 
             <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <ShieldCheck className="w-4 h-4 text-primary" />
                 <span>Lagos State Tenancy Law 2011 &amp; Supreme Court Precedent compliant</span>
               </div>
               <span>Showing {filtered.length} of {agreements.length} records</span>

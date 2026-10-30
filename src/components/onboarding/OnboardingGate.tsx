@@ -84,7 +84,7 @@ export function OnboardingGate({ snapshot: providedSnapshot }: OnboardingGatePro
             key={step.id}
             className={`rounded-lg p-4 transition-colors ${
               step.done
-                ? 'bg-emerald-900/20 border border-emerald-900/30'
+                ? 'bg-primary/20 border border-primary/30'
                 : step.skippable
                 ? 'bg-amber-900/20 border border-amber-900/30'
                 : 'bg-zinc-800 border border-zinc-700'
@@ -94,7 +94,7 @@ export function OnboardingGate({ snapshot: providedSnapshot }: OnboardingGatePro
               <span
                 className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                   step.done
-                    ? 'bg-emerald-500 text-white'
+                    ? 'bg-primary text-white'
                     : 'bg-zinc-700 text-zinc-400'
                 }`}
               >

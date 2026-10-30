@@ -30,12 +30,12 @@ function ComingSoonContent() {
         </div>
         <div className="glass-card p-8">
           <div className="flex justify-center mb-6">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">
-              <Globe className="h-8 w-8 text-emerald-400" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+              <Globe className="h-8 w-8 text-[#4edea3]" />
             </div>
           </div>
           <SectionLabel>
-            <Globe size={11} className="text-emerald-400" />
+            <Globe size={11} className="text-[#4edea3]" />
             Coming Soon
           </SectionLabel>
           <h1 className="text-4xl lg:text-6xl font-black text-white tracking-tight mt-4 mb-4">
@@ -56,13 +56,13 @@ function ComingSoonContent() {
               />
               <InteractiveHoverButton
                 type="submit"
-                className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 transition-colors"
+                className="w-full rounded-xl bg-primary hover:bg-primary text-white font-semibold py-3 transition-colors"
               >
                 Notify me
               </InteractiveHoverButton>
             </form>
           ) : (
-            <div className="flex items-center justify-center gap-2 text-emerald-400">
+            <div className="flex items-center justify-center gap-2 text-[#4edea3]">
               <CheckCircle className="h-5 w-5" />
               <span className="font-medium">You&apos;re on the list!</span>
             </div>

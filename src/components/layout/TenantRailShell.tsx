@@ -107,13 +107,13 @@ export default function TenantRailShell({
         className={cn(
           'group relative flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
           active
-            ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+            ? 'bg-primary/15 text-primary dark:text-[#4edea3]'
             : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
         )}
       >
         {item.icon}
         {item.badge != null && item.badge !== '' && (
-          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-emerald-500 px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
             {item.badge}
           </span>
         )}
@@ -143,7 +143,7 @@ export default function TenantRailShell({
             href={quickAction.href}
             aria-label={quickAction.label}
             title={quickAction.label}
-            className="group relative mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white transition-colors hover:bg-emerald-500"
+            className="group relative mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white transition-colors hover:bg-primary"
           >
             {quickAction.icon || <span className="text-lg font-semibold">+</span>}
             <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 dark:bg-zinc-800">
@@ -176,7 +176,7 @@ export default function TenantRailShell({
                 className={cn(
                   'group relative flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
                   active
-                    ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+                    ? 'bg-primary/15 text-primary dark:text-[#4edea3]'
                     : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
                 )}
               >
@@ -231,7 +231,7 @@ export default function TenantRailShell({
                             className={cn(
                               'flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors',
                               active
-                                ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+                                ? 'bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]'
                                 : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
                             )}
                           >
@@ -257,7 +257,7 @@ export default function TenantRailShell({
                     className={cn(
                       'flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors',
                       active
-                        ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+                        ? 'bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]'
                         : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
                     )}
                   >
@@ -308,7 +308,7 @@ export default function TenantRailShell({
                     className="h-8 w-8 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-white/10"
                   />
                 ) : (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">
                     {(userName || 'User').charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -358,10 +358,10 @@ export default function TenantRailShell({
                 aria-current={active ? 'true' : undefined}
                 className={cn(
                   'relative flex flex-1 flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors',
-                  active ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-500 dark:text-zinc-400'
+                  active ? 'text-primary dark:text-[#4edea3]' : 'text-zinc-500 dark:text-zinc-400'
                 )}
               >
-                {active && <span className="absolute top-0 h-0.5 w-8 rounded-full bg-emerald-500" />}
+                {active && <span className="absolute top-0 h-0.5 w-8 rounded-full bg-primary" />}
                 {item.icon}
                 <span className="leading-none">{item.label.split(' ')[0]}</span>
               </Link>

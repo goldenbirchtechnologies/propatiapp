@@ -92,7 +92,7 @@ const CLAUSES = [
 const STATUS_META: Record<string, { label: string; cls: string; dot: string }> = {
   pending: { label: 'Pending', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700', dot: 'bg-zinc-400' },
   in_progress: { label: 'In Progress', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
-  completed: { label: 'Verified', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
+  completed: { label: 'Verified', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
 };
 
 const TYPE_LABELS: Record<string, string> = {
@@ -240,7 +240,7 @@ export default function EstateManagerLeaseReviewPage() {
                 onClick={() => {
                   alert('Agreement approved - this would trigger the webhook');
                 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-[#10b981]-foreground hover:bg-success/90 transition-colors text-sm font-medium"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-[#006c49]-foreground hover:bg-success/90 transition-colors text-sm font-medium"
               >
                 <CheckCircle2 className="w-4 h-4" /> Approve Agreement
               </button>

@@ -79,7 +79,7 @@ function Bubble({
         variant === 'muted'
           ? 'bg-neutral-700 text-neutral-200 rounded-bl-sm'
           : ctx?.isMe
-            ? 'bg-emerald-500 text-white rounded-br-sm'
+            ? 'bg-primary text-white rounded-br-sm'
             : 'bg-neutral-800 text-white rounded-bl-sm',
         className
       )}

@@ -30,7 +30,7 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 01 / Spatial Architecture</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 01 / Spatial Architecture</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Property Structure & Asset Classification</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Define title deed parameters, building typology, and target tenancy terms for institutional listing.</p>
       </div>
@@ -44,16 +44,16 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
               onClick={() => handleSelect(opt.value)}
               className={`relative flex flex-col gap-3 p-5 rounded-xl border transition-all text-left ${
                 isActive
-                  ? 'bg-white dark:bg-zinc-900 border-emerald-600 dark:border-emerald-500 shadow-md'
+                  ? 'bg-white dark:bg-zinc-900 border-primary dark:border-primary shadow-md'
                   : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08] hover:border-zinc-300 dark:hover:border-white/20'
               }`}
             >
               {isActive && (
-                <div className="absolute top-3 right-3 bg-emerald-600 text-white rounded-full p-1">
+                <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-1">
                   <Check className="w-3 h-3" />
                 </div>
               )}
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${isActive ? 'bg-emerald-600/10 text-emerald-600' : 'bg-zinc-50 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400'}`}>
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${isActive ? 'bg-primary/10 text-primary' : 'bg-zinc-50 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400'}`}>
                 {opt.icon}
               </div>
               <div>
@@ -66,7 +66,7 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
       </div>
       <div className="p-5 bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] rounded-xl">
         <div className="flex items-center gap-2 mb-2">
-          <Building2 className="size-4 text-emerald-600" />
+          <Building2 className="size-4 text-primary" />
           <span className="text-sm font-semibold text-zinc-900 dark:text-white">Asset Visualizer</span>
         </div>
         <p className="text-xs text-zinc-600 dark:text-zinc-400">Selected typology drives regulatory disclosure requirements and tenancy terms.</p>

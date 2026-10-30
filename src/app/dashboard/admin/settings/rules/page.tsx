@@ -78,13 +78,13 @@ export default function RulesEnginePage() {
       </div>
 
       <div className="flex gap-2 border-b border-zinc-200 dark:border-white/[0.08]">
-        <button onClick={() => setTab("rules")} className={`px-4 py-2 font-medium ${tab === "rules" ? "border-b-2 border-zinc-200 dark:border-white/[0.08] text-emerald-400" : "text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400"}`}>
+        <button onClick={() => setTab("rules")} className={`px-4 py-2 font-medium ${tab === "rules" ? "border-b-2 border-zinc-200 dark:border-white/[0.08] text-[#4edea3]" : "text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400"}`}>
           <Shield className="inline-block mr-2 h-4 w-4" /> Rules
         </button>
-        <button onClick={() => setTab("compliance")} className={`px-4 py-2 font-medium ${tab === "compliance" ? "border-b-2 border-zinc-200 dark:border-white/[0.08] text-emerald-400" : "text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400"}`}>
+        <button onClick={() => setTab("compliance")} className={`px-4 py-2 font-medium ${tab === "compliance" ? "border-b-2 border-zinc-200 dark:border-white/[0.08] text-[#4edea3]" : "text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400"}`}>
           <Clock className="inline-block mr-2 h-4 w-4" /> Compliance
         </button>
-        <button onClick={() => setTab("templates")} className={`px-4 py-2 font-medium ${tab === "templates" ? "border-b-2 border-zinc-200 dark:border-white/[0.08] text-emerald-400" : "text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400"}`}>
+        <button onClick={() => setTab("templates")} className={`px-4 py-2 font-medium ${tab === "templates" ? "border-b-2 border-zinc-200 dark:border-white/[0.08] text-[#4edea3]" : "text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400"}`}>
           <FileText className="inline-block mr-2 h-4 w-4" /> Templates
         </button>
       </div>
@@ -96,7 +96,7 @@ export default function RulesEnginePage() {
           {tab === "rules" && (
             <div className="space-y-4">
               <div className="flex justify-end">
-                <button className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground">
+                <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-[#4edea3]-foreground">
                   <Plus className="h-4 w-4" /> Add Rule
                 </button>
               </div>
@@ -113,10 +113,10 @@ export default function RulesEnginePage() {
                         <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">{rule.ruleType} · Priority: {rule.priority}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs px-2 py-1 rounded ${rule.active ? "bg-green-100 text-emerald-400" : "bg-gray-100 text-gray-600"}`}>
+                        <span className={`text-xs px-2 py-1 rounded ${rule.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-gray-600"}`}>
                           {rule.active ? "Active" : "Inactive"}
                         </span>
-                        <button onClick={() => toggleRule(rule.id, rule.active)} className="text-sm text-emerald-400 hover:underline">
+                        <button onClick={() => toggleRule(rule.id, rule.active)} className="text-sm text-[#4edea3] hover:underline">
                           {rule.active ? "Deactivate" : "Activate"}
                         </button>
                       </div>
@@ -139,7 +139,7 @@ export default function RulesEnginePage() {
                         <h3 className="font-semibold text-zinc-900 dark:text-white">{event.title}</h3>
                         <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">{event.eventType} · Due: {new Date(event.deadline).toLocaleDateString('en-NG')}</p>
                       </div>
-                      <span className={`text-xs px-2 py-1 rounded ${event.status === "completed" ? "bg-green-100 text-emerald-400" : event.status === "overdue" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"}`}>
+                      <span className={`text-xs px-2 py-1 rounded ${event.status === "completed" ? "bg-green-100 text-[#4edea3]" : event.status === "overdue" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"}`}>
                         {event.status}
                       </span>
                     </div>
@@ -152,7 +152,7 @@ export default function RulesEnginePage() {
           {tab === "templates" && (
             <div className="space-y-4">
               <div className="flex justify-end">
-                <button className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground">
+                <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-[#4edea3]-foreground">
                   <Plus className="h-4 w-4" /> Add Template
                 </button>
               </div>
@@ -166,7 +166,7 @@ export default function RulesEnginePage() {
                         <h3 className="font-semibold text-zinc-900 dark:text-white">{tpl.name}</h3>
                         <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">v{tpl.version} · {tpl.language}</p>
                       </div>
-                      <span className={`text-xs px-2 py-1 rounded ${tpl.active ? "bg-green-100 text-emerald-400" : "bg-gray-100 text-gray-600"}`}>
+                      <span className={`text-xs px-2 py-1 rounded ${tpl.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-gray-600"}`}>
                         {tpl.active ? "Active" : "Inactive"}
                       </span>
                     </div>

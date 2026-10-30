@@ -173,7 +173,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
       <div
         className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-4 py-3 rounded-xl shadow-xl border border-zinc-800 dark:border-zinc-200 transition-all duration-300 ${toast ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
       >
-        <Sparkles className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+        <Sparkles className="w-4 h-4 text-[#4edea3] dark:text-primary" />
         <span className="text-sm font-medium">{toast}</span>
       </div>
 
@@ -181,16 +181,16 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div className="flex flex-col gap-1">
           <nav className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-            <Link href="/dashboard" className="hover:text-emerald-600 dark:hover:text-emerald-400">Home</Link>
+            <Link href="/dashboard" className="hover:text-primary dark:hover:text-[#4edea3]">Home</Link>
             <span className="text-zinc-300 dark:text-zinc-600">›</span>
             <span>Operations</span>
             <span className="text-zinc-300 dark:text-zinc-600">›</span>
-            <span className="text-emerald-600">Turnover Tasks</span>
+            <span className="text-primary">Turnover Tasks</span>
           </nav>
           <div className="flex items-center gap-3">
             <h1 className="text-[28px] font-bold tracking-tight text-zinc-900 dark:text-white leading-none">Turnover Tasks</h1>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[11px] font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live Sync • WAT
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-[11px] font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Live Sync • WAT
             </span>
           </div>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">Cleaning, vendor turnover handovers, and statutory readiness checks.</p>
@@ -204,7 +204,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
           </button>
           <button
             onClick={() => showToast('New turnover task — use property maintenance to create')}
-            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold shadow-sm transition-colors"
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-primary hover:bg-primary text-white text-sm font-semibold shadow-sm transition-colors"
           >
             <Wrench className="w-4 h-4" /> + New Turnover Task
           </button>
@@ -253,15 +253,15 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
               <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Cleared Readiness</span>
               <div className="flex items-baseline gap-2 mt-2">
                 <span className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{doneCount}</span>
-                <span className="text-sm font-medium text-emerald-600">Completed</span>
+                <span className="text-sm font-medium text-primary">Completed</span>
               </div>
             </div>
-            <div className="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600">
+            <div className="w-11 h-11 rounded-xl bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 flex items-center justify-center text-primary">
               <BadgeCheck className="w-6 h-6" />
             </div>
           </div>
           <div className="mt-4 pt-3 border-t border-zinc-200 dark:border-white/[0.08] flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" /> Certified ready for guest/tenant move-in
+            <span className="w-2 h-2 rounded-full bg-primary" /> Certified ready for guest/tenant move-in
           </div>
         </div>
       </div>
@@ -275,7 +275,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search tasks, cleaning items, vendors..."
-              className="w-full h-10 pl-9 pr-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full h-10 pl-9 pr-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -283,7 +283,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
               <select
                 value={propertyFilter}
                 onChange={(e) => setPropertyFilter(e.target.value)}
-                className="h-10 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="h-10 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-primary/20"
               >
                 <option value="all">All Properties</option>
                 {propertyOptions.map(([key, label]) => (
@@ -298,7 +298,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
               <select
                 value={sortValue}
                 onChange={(e) => setSortValue(e.target.value)}
-                className="h-10 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="h-10 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-primary/20"
               >
                 <option value="earliest">Sort: Due Date (Earliest first)</option>
                 <option value="latest">Sort: Due Date (Latest first)</option>
@@ -318,7 +318,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
             <button
               key={p.id}
               onClick={() => setFilterStatus(p.id)}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${filterStatus === p.id ? 'bg-emerald-600 text-white' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.08]'}`}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${filterStatus === p.id ? 'bg-primary text-white' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.08]'}`}
             >
               {p.label} <span className={`px-1.5 py-0.5 rounded-full text-[11px] ${filterStatus === p.id ? 'bg-white/20 text-white' : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>{p.count}</span>
             </button>
@@ -334,7 +334,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
           </div>
           <h3 className="font-semibold text-zinc-900 dark:text-white">No turnover tasks yet</h3>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1 max-w-md">All units are primed for occupancy. Initialize a post-checkout turnover or schedule maintenance inspection.</p>
-          <button onClick={() => showToast('Create turnover task from property maintenance')} className="mt-4 h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold inline-flex items-center gap-2">
+          <button onClick={() => showToast('Create turnover task from property maintenance')} className="mt-4 h-9 px-4 rounded-xl bg-primary hover:bg-primary text-white text-sm font-semibold inline-flex items-center gap-2">
             <Wrench className="w-4 h-4" /> Create First Task
           </button>
         </div>
@@ -347,7 +347,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
             const isPending = task.status === 'pending';
             const isProgress = task.status === 'in_progress';
             const isDone = task.status === 'completed';
-            const borderCls = isPending ? 'border-l-amber-500' : isProgress ? 'border-l-blue-500' : isDone ? 'border-l-emerald-500' : 'border-l-zinc-300 dark:border-l-white/20';
+            const borderCls = isPending ? 'border-l-amber-500' : isProgress ? 'border-l-blue-500' : isDone ? 'border-l-primary' : 'border-l-zinc-300 dark:border-l-white/20';
             const dueLabel = formatDue(task.scheduledStart || task.createdAt);
             const isTodayDue = dueLabel.includes('Today');
             return (
@@ -367,7 +367,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
                         </span>
                       )}
                       {isDone && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">
                           <CheckCircle2 className="w-3.5 h-3.5" /> Completed
                         </span>
                       )}
@@ -384,7 +384,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
                       <div className="flex flex-wrap gap-2 pt-1">
                         {checklistItems.slice(0, 6).map((item, i) => (
                           <span key={i} className="inline-flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] px-2.5 py-1 rounded-lg">
-                            <BadgeCheck className="w-3.5 h-3.5 text-emerald-600" /> {item}
+                            <BadgeCheck className="w-3.5 h-3.5 text-primary" /> {item}
                           </span>
                         ))}
                         {checklistItems.length > 6 && <span className="text-xs text-zinc-500 dark:text-zinc-400 px-2 py-1">+{checklistItems.length - 6} more</span>}
@@ -396,13 +396,13 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
                       </span>
                       <span className="text-zinc-300 dark:text-white/20">•</span>
                       <span className="inline-flex items-center gap-1.5">
-                        <Building2 className="w-4 h-4 text-emerald-600" /> <span className="font-medium text-zinc-900 dark:text-white">{task.listing?.title || 'Unassigned property'}</span>
+                        <Building2 className="w-4 h-4 text-primary" /> <span className="font-medium text-zinc-900 dark:text-white">{task.listing?.title || 'Unassigned property'}</span>
                         {task.listing?.address && <span className="hidden sm:inline">({task.listing.address})</span>}
                       </span>
                       <span className="text-zinc-300 dark:text-white/20">•</span>
                       {task.assignedToUser?.fullName ? (
                         <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300">
-                          <span className="w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                          <span className="w-5 h-5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/15 border border-primary dark:border-primary/20 flex items-center justify-center text-[10px] font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                             {task.assignedToUser.fullName.slice(0, 2).toUpperCase()}
                           </span>
                           {task.assignedToUser.fullName}
@@ -422,7 +422,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
                         </button>
                       )}
                       {isProgress && (
-                        <button onClick={() => handleStatusChange(task.id, 'completed')} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition-colors">
+                        <button onClick={() => handleStatusChange(task.id, 'completed')} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-xl bg-primary hover:bg-primary text-white text-xs font-semibold shadow-sm transition-colors">
                           <CheckCircle2 className="w-4 h-4" /> Mark Complete
                         </button>
                       )}

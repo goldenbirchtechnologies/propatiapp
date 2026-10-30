@@ -69,18 +69,18 @@ interface AdvancedSearchMapViewProps {
 // Utility Functions
 const getCategoryColor = (listingType: string): string => {
   const colors: Record<string, { marker: string; cluster: string }> = {
-    rent: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
-    sale: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
-    short_let: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
-    share: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
+    rent: { marker: 'bg-primary', cluster: 'bg-primary/90' },
+    sale: { marker: 'bg-primary', cluster: 'bg-primary/90' },
+    short_let: { marker: 'bg-primary', cluster: 'bg-primary/90' },
+    share: { marker: 'bg-primary', cluster: 'bg-primary/90' },
     commercial: { marker: 'bg-amber-500', cluster: 'bg-amber-500/90' },
   };
-  return colors[listingType]?.marker || 'bg-emerald-500';
+  return colors[listingType]?.marker || 'bg-primary';
 };
 
 const getClusterColor = (properties: PropertyMarker[]): string => {
   const hasCommercial = properties.some(p => p.listingType === 'commercial');
-  return hasCommercial ? 'bg-amber-500/90' : 'bg-emerald-500/90';
+  return hasCommercial ? 'bg-amber-500/90' : 'bg-primary/90';
 };
 
 // Create clusters from markers based on zoom level
@@ -290,7 +290,7 @@ function PropertyHoverCard({ property, onClose }: { property: PropertyMarker; on
           </p>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-emerald-400">
+              <p className="text-xl font-bold text-[#4edea3]">
                 {property.priceFormatted || `₦${(property.price / 100).toLocaleString()}`}
               </p>
               {property.listingType === 'rent' && (
@@ -796,7 +796,7 @@ export function AdvancedSearchMapView({
         <Card className="shadow-lg">
           <CardContent className="p-3">
             <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-emerald-400" />
+              <MapPin className="h-4 w-4 text-[#4edea3]" />
               <span className="font-semibold text-sm">
                 {filteredMarkers.length} {filteredMarkers.length === 1 ? 'Property' : 'Properties'}
               </span>
@@ -810,7 +810,7 @@ export function AdvancedSearchMapView({
         <Card className="shadow-lg">
           <CardContent className="p-3 space-y-2">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-emerald-500" />
+              <div className="w-3 h-3 rounded-full bg-primary" />
               <span className="text-xs font-medium">Residential</span>
             </div>
             <div className="flex items-center gap-2">

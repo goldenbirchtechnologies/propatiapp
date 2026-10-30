@@ -9,10 +9,10 @@
  *   surface-container-high -> bg-zinc-200       dark:bg-zinc-700/60
  *   surface-container-highest->bg-zinc-300      dark:bg-zinc-700
  *   outline-variant        -> border-zinc-200   dark:border-white/[0.08]
- *   primary                -> emerald-700       dark:emerald-500
- *   primary-container      -> emerald-500       dark:emerald-400
- *   on-primary-container   -> emerald-900       dark:emerald-950
- *   secondary-container    -> emerald-200       dark:emerald-500/20
+ *   primary                -> [var(--sovereign-hover)]       dark:primary
+ *   primary-container      -> primary       dark:[#4edea3]
+ *   on-primary-container   -> primary       dark:primary
+ *   secondary-container    -> emerald-200       dark:primary/20
  *   tertiary               -> red-700          dark:red-500
  *   tertiary-container     -> red-100          dark:red-500/20
  *   error                  -> red-700          dark:red-400
@@ -56,17 +56,17 @@ export const MUTED = 'text-zinc-600 dark:text-zinc-400';
 
 export const OUTLINE = 'text-zinc-500 dark:text-zinc-500';
 
-export const PRIMARY_TEXT = 'text-emerald-700 dark:text-emerald-400';
+export const PRIMARY_TEXT = 'text-[var(--sovereign-hover)] dark:text-[#4edea3]';
 
-export const PRIMARY_BG = 'bg-emerald-700 dark:bg-emerald-500';
+export const PRIMARY_BG = 'bg-[var(--sovereign-hover)] dark:bg-primary';
 
-export const PRIMARY_CONTAINER_BG = 'bg-emerald-500 dark:bg-emerald-400';
+export const PRIMARY_CONTAINER_BG = 'bg-primary dark:bg-[#4edea3]';
 
-export const PRIMARY_CONTAINER_TEXT = 'text-emerald-950 dark:text-emerald-950';
+export const PRIMARY_CONTAINER_TEXT = 'text-primary dark:text-primary';
 
-export const SECONDARY_CONTAINER_BG = 'bg-emerald-200/60 dark:bg-emerald-500/20';
+export const SECONDARY_CONTAINER_BG = 'bg-primary/60 dark:bg-primary/20';
 
-export const SECONDARY_CONTAINER_TEXT = 'text-emerald-800 dark:text-emerald-300';
+export const SECONDARY_CONTAINER_TEXT = 'text-[var(--sovereign-hover)] dark:text-[#6ffbbe]';
 
 export const TERTIARY_BG = 'bg-red-100 dark:bg-red-500/20';
 
@@ -157,8 +157,8 @@ export function listingStatusPill(status: string): {
       return {
         label: 'Active',
         className:
-          'bg-emerald-200/60 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300',
-        dot: 'bg-emerald-700 dark:bg-emerald-400',
+          'bg-primary/60 dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]',
+        dot: 'bg-[var(--sovereign-hover)] dark:bg-[#4edea3]',
       };
     case 'draft':
       return {
@@ -198,16 +198,16 @@ export function agreementStatusPill(status: string): {
       return {
         label: 'Active / Signed',
         className:
-          'bg-emerald-200/60 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300',
-        dot: 'bg-emerald-700 dark:bg-emerald-400',
+          'bg-primary/60 dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]',
+        dot: 'bg-[var(--sovereign-hover)] dark:bg-[#4edea3]',
       };
     case 'landlord_signed':
     case 'tenant_signed':
       return {
         label: 'Awaiting Escrow',
         className:
-          'bg-emerald-200/60 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300',
-        dot: 'bg-emerald-700 dark:bg-emerald-400',
+          'bg-primary/60 dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]',
+        dot: 'bg-[var(--sovereign-hover)] dark:bg-[#4edea3]',
       };
     case 'pending_landlord':
     case 'pending_tenant':
@@ -254,14 +254,14 @@ export function verificationTierPill(tier: string): {
       return {
         label: 'Tier 4 · Certified',
         className:
-          'bg-emerald-200/60 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300',
+          'bg-primary/60 dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]',
         icon: 'verified',
       };
     case 'inspected':
       return {
         label: 'Tier 3 · Inspected',
         className:
-          'bg-emerald-200/60 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300',
+          'bg-primary/60 dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]',
         icon: 'verified',
       };
     case 'verified':

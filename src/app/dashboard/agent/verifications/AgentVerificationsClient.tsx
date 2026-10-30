@@ -34,7 +34,7 @@ const statusBadge = (status: 'verified' | 'pending' | 'not-started') => {
   switch (status) {
     case 'verified':
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#006c49]/10 text-[#006c49] border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
           <CheckCircle className="h-3 w-3" /> Verified
         </span>
       );
@@ -130,7 +130,7 @@ export default function AgentVerificationsClient() {
         </div>
 
         <div className="lg:col-span-4 space-y-6">
-          <div className="glass-card bg-[#10b981] text-zinc-900 dark:text-white">
+          <div className="glass-card bg-[#006c49] text-zinc-900 dark:text-white">
             <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-600 dark:text-zinc-400">Next Priority Action</h3>
             </div>

@@ -176,7 +176,7 @@ export default function MessagesPage() {
               <button className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800">
                 <Filter className="h-[18px] w-[18px]" /> Filter
               </button>
-              <button className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-700">
+              <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)]">
                 <Plus className="h-[18px] w-[18px]" /> New Conversation
               </button>
             </div>
@@ -193,7 +193,7 @@ export default function MessagesPage() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search channels & contacts…"
-                    className="w-full rounded-lg border border-zinc-200 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                    className="w-full rounded-lg border border-zinc-200 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
                   />
                 </div>
                 <div className="flex items-center gap-1 overflow-x-auto">
@@ -203,7 +203,7 @@ export default function MessagesPage() {
                       onClick={() => setCategory(cat)}
                       className={`whitespace-nowrap rounded px-3 py-1 text-[11px] font-semibold transition-colors ${
                         category === cat
-                          ? 'bg-emerald-600 text-white'
+                          ? 'bg-primary text-white'
                           : 'bg-zinc-200 text-zinc-600 hover:bg-zinc-300 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
                       }`}
                     >
@@ -236,11 +236,11 @@ export default function MessagesPage() {
                         }`}
                       >
                         <div className="relative flex-shrink-0">
-                          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-100 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+                          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--sovereign-container-bg)] text-sm font-semibold text-[var(--sovereign-hover)] dark:bg-primary/30 dark:text-[#4edea3]">
                             {name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                           </div>
                           {c.unreadCount > 0 && (
-                            <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-[9px] font-bold text-white">
+                            <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white">
                               {c.unreadCount}
                             </span>
                           )}
@@ -272,13 +272,13 @@ export default function MessagesPage() {
                   {/* Thread Header */}
                   <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--sovereign-container-bg)] text-sm font-semibold text-[var(--sovereign-hover)] dark:bg-primary/30 dark:text-[#4edea3]">
                         {activeName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-zinc-900 dark:text-white">{activeName}</span>
-                          <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                          <span className="rounded bg-[var(--sovereign-container-bg)] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[var(--sovereign-hover)] dark:bg-primary/10 dark:text-[#4edea3]">
                             {activeConvo.tenant ? 'Tenant' : activeConvo.landlord ? 'Landlord' : 'Team'}
                           </span>
                         </div>
@@ -312,14 +312,14 @@ export default function MessagesPage() {
                         return (
                           <div key={m.id} className={`flex items-start gap-3 ${isMe ? 'justify-end' : ''}`}>
                             {!isMe && (
-                              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+                              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--sovereign-container-bg)] text-xs font-semibold text-[var(--sovereign-hover)] dark:bg-primary/30 dark:text-[#4edea3]">
                                 {m.senderName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                               </div>
                             )}
                             <div className={`max-w-[70%] ${isMe ? 'items-end' : 'items-start'}`}>
                               <div className={`rounded-xl p-4 text-sm leading-relaxed ${
                                 isMe
-                                  ? 'rounded-tr-sm bg-emerald-600 text-white'
+                                  ? 'rounded-tr-sm bg-primary text-white'
                                   : 'rounded-tl-sm bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                               }`}>
                                 <p>{m.content}</p>
@@ -332,7 +332,7 @@ export default function MessagesPage() {
                               </div>
                               <div className={`mt-1 flex items-center gap-1 px-1 text-[10px] text-zinc-500 ${isMe ? 'justify-end' : ''}`}>
                                 {new Date(m.createdAt).toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' })}
-                                {isMe && <CheckCheck className="h-3 w-3 text-emerald-500" />}
+                                {isMe && <CheckCheck className="h-3 w-3 text-primary" />}
                               </div>
                             </div>
                           </div>
@@ -349,7 +349,7 @@ export default function MessagesPage() {
                         <button
                           key={cr.label}
                           onClick={() => setDraft(cr.text)}
-                          className="whitespace-nowrap rounded bg-zinc-100 px-2.5 py-1 text-[11px] text-zinc-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-emerald-900/30"
+                          className="whitespace-nowrap rounded bg-zinc-100 px-2.5 py-1 text-[11px] text-zinc-700 transition-colors hover:bg-[var(--sovereign-container-bg)] hover:text-[var(--sovereign-hover)] dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-primary/30"
                         >
                           {cr.label}
                         </button>
@@ -385,7 +385,7 @@ export default function MessagesPage() {
                           <button
                             onClick={sendMessage}
                             disabled={!draft.trim() || sending}
-                            className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 disabled:opacity-40"
+                            className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] disabled:opacity-40"
                           >
                             <Send className="h-4 w-4" /> Send
                           </button>
@@ -413,8 +413,8 @@ export default function MessagesPage() {
                 <>
                   <div className="rounded-xl bg-white p-4 shadow-sm dark:bg-zinc-800">
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Unit Summary</span>
-                      <span className="rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-primary dark:text-[#4edea3]">Unit Summary</span>
+                      <span className="rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--sovereign-hover)] dark:bg-primary/10 dark:text-[#4edea3]">
                         {activeConvo.status}
                       </span>
                     </div>

@@ -98,7 +98,7 @@ function formatDateSeparator(iso: string) {
 function rolePill(role: string | null | undefined): { label: string; className: string } {
   switch ((role || '').toLowerCase()) {
     case 'landlord':
-      return { label: 'Verified Landlord', className: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' };
+      return { label: 'Verified Landlord', className: 'bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' };
     case 'agent':
       return { label: 'Agent', className: 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-300' };
     case 'estate_manager':
@@ -277,18 +277,18 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
       {/* Breadcrumb + trust pills */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-          <span className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer uppercase tracking-wider text-[11px] font-semibold">Dashboard</span>
+          <span className="hover:text-primary dark:hover:text-[#4edea3] transition-colors cursor-pointer uppercase tracking-wider text-[11px] font-semibold">Dashboard</span>
           <ChevronRight className="h-3.5 w-3.5" />
-          <span className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer uppercase tracking-wider text-[11px] font-semibold">Communications</span>
+          <span className="hover:text-primary dark:hover:text-[#4edea3] transition-colors cursor-pointer uppercase tracking-wider text-[11px] font-semibold">Communications</span>
           <ChevronRight className="h-3.5 w-3.5" />
           <span className="text-zinc-900 dark:text-white font-semibold uppercase tracking-wider text-[11px]">Messages</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-1 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">
-            <Shield className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+            <Shield className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
             NDPR &amp; LASRERA Encrypted Channel
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
             <BadgeCheck className="h-3.5 w-3.5" />
             Verified Corporate Tenancy
           </span>
@@ -308,7 +308,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           </Button>
           <Button variant="outline" size="sm" className="h-9 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]" asChild>
             <a href="tel:+234180076837">
-              <Phone className="mr-1.5 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              <Phone className="mr-1.5 h-4 w-4 text-primary dark:text-[#4edea3]" />
               24/7 Concierge Desk
             </a>
           </Button>
@@ -331,7 +331,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               className={cn(
                 'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors',
                 active
-                  ? 'bg-emerald-600 text-white shadow-sm dark:bg-emerald-600'
+                  ? 'bg-primary text-white shadow-sm dark:bg-primary'
                   : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08]'
               )}
             >
@@ -373,7 +373,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                 className={cn('flex flex-1 items-center justify-center gap-1 rounded-md py-1.5 text-center text-sm transition-colors', subTab === 'unread' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white shadow-sm font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white')}
               >
                 <span>Unread</span>
-                {counts.unread > 0 && <span className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-bold text-white">{counts.unread}</span>}
+                {counts.unread > 0 && <span className="flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">{counts.unread}</span>}
               </button>
               <button
                 onClick={() => setSubTab('archived')}
@@ -410,25 +410,25 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                       active ? 'bg-white dark:bg-zinc-800' : 'hover:bg-white/60 dark:hover:bg-white/[0.04]'
                     )}
                   >
-                    {active && <span className="absolute bottom-0 left-0 top-0 w-1 bg-emerald-500" />}
+                    {active && <span className="absolute bottom-0 left-0 top-0 w-1 bg-primary" />}
                     <span className="relative shrink-0">
                       {conv.participant?.avatarUrl ? (
                         <img src={conv.participant.avatarUrl} alt={conv.participant.fullName || ''} className="h-12 w-12 rounded-full object-cover shadow-sm" />
                       ) : avatarVariant === 'legal' ? (
                         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-700 text-sm font-bold text-zinc-700 dark:text-zinc-300">{initials(conv.participant?.fullName || conv.subject)}</span>
                       ) : avatarVariant === 'ops' ? (
-                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"><Building2 className="h-6 w-6" /></span>
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><Building2 className="h-6 w-6" /></span>
                       ) : avatarVariant === 'billing' ? (
                         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300"><Landmark className="h-6 w-6" /></span>
                       ) : (
                         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-700 text-sm font-bold text-zinc-700 dark:text-zinc-300">{initials(conv.participant?.fullName || conv.subject)}</span>
                       )}
-                      {active && <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white dark:border-zinc-900 bg-emerald-500" />}
+                      {active && <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white dark:border-zinc-900 bg-primary" />}
                     </span>
                     <span className="flex min-w-0 flex-1 flex-col">
                       <span className="flex items-center justify-between gap-1">
                         <span className="truncate text-sm font-semibold text-zinc-900 dark:text-white">{conv.participant?.fullName || conv.subject || 'New Conversation'}</span>
-                        <span className={cn('shrink-0 text-[11px] font-semibold', active ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-500')}>{formatTime(conv.lastMessageAt)}</span>
+                        <span className={cn('shrink-0 text-[11px] font-semibold', active ? 'text-primary dark:text-[#4edea3]' : 'text-zinc-500')}>{formatTime(conv.lastMessageAt)}</span>
                       </span>
                       <span className="mt-0.5 flex items-center gap-1">
                         <span className={cn('rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase', pill.className)}>{pill.label}</span>
@@ -439,9 +439,9 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                     </span>
                     <span className="shrink-0 pt-1">
                       {(conv.unreadCount || 0) > 0 ? (
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-bold text-white">{conv.unreadCount}</span>
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-white">{conv.unreadCount}</span>
                       ) : (
-                        <span className="text-zinc-400"><CheckCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /></span>
+                        <span className="text-zinc-400"><CheckCheck className="h-4 w-4 text-primary dark:text-[#4edea3]" /></span>
                       )}
                     </span>
                   </button>
@@ -457,12 +457,12 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
 
           {/* Left Column Footer */}
           <div className="flex flex-col gap-2 bg-white dark:bg-zinc-900 p-4">
-            <Button onClick={() => setShowNewConversation(true)} className="h-10 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-sm">
+            <Button onClick={() => setShowNewConversation(true)} className="h-10 w-full bg-primary hover:bg-primary text-white font-semibold shadow-sm">
               <SquarePen className="mr-2 h-4 w-4" />
               New Conversation
             </Button>
             <span className="flex items-center justify-center gap-1 text-[11px] font-medium text-zinc-500">
-              <Lock className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+              <Lock className="h-3 w-3 text-primary dark:text-[#4edea3]" />
               End-to-End Encrypted via NDPA 2023 Protocol
             </span>
           </div>
@@ -481,17 +481,17 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                     ) : (
                       <span className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-700 text-sm font-bold text-zinc-700 dark:text-zinc-300">{initials(selectedConversation.participant?.fullName || selectedConversation.subject)}</span>
                     )}
-                    <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white dark:border-zinc-900 bg-emerald-500" />
+                    <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white dark:border-zinc-900 bg-primary" />
                   </span>
                   <span className="flex min-w-0 flex-col">
                     <span className="flex flex-wrap items-center gap-2">
                       <span className="truncate text-sm font-bold text-zinc-900 dark:text-white">{selectedConversation.participant?.fullName || selectedConversation.subject || 'New Conversation'}</span>
-                      <span className="shrink-0 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">Lessor</span>
+                      <span className="shrink-0 rounded-full bg-primary/15 px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Lessor</span>
                     </span>
                     <span className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
                       <span className="truncate">{selectedConversation.participant?.role ? selectedConversation.participant.role.replace(/_/g, ' ') : ''}{selectedConversation.propertyName ? ` • ${selectedConversation.propertyName}` : selectedConversation.listing?.title ? ` • ${selectedConversation.listing.title}` : ''}</span>
                       <span className="hidden sm:inline">•</span>
-                      <span className="inline-flex items-center gap-1 font-medium text-emerald-600 dark:text-emerald-400"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />Active Now</span>
+                      <span className="inline-flex items-center gap-1 font-medium text-primary dark:text-[#4edea3]"><span className="h-1.5 w-1.5 rounded-full bg-primary" />Active Now</span>
                     </span>
                   </span>
                 </span>
@@ -528,7 +528,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                         if (isAttachment && isOwn) {
                           return (
                             <div key={m.id} className="flex max-w-md flex-col gap-1 self-end">
-                              <div className="flex items-center justify-between gap-3 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 p-3">
+                              <div className="flex items-center justify-between gap-3 rounded-xl bg-primary/10 dark:bg-primary/15 p-3">
                                 <span className="flex min-w-0 items-center gap-3">
                                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-500 text-white"><FileText className="h-5 w-5" /></span>
                                   <span className="flex min-w-0 flex-col">
@@ -536,18 +536,18 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                                     <span className="text-xs text-zinc-600 dark:text-zinc-400">{m.attachmentType || 'Document'} • Signed</span>
                                   </span>
                                 </span>
-                                <a href={m.attachmentUrl || '#'} target="_blank" rel="noopener noreferrer" className="shrink-0 p-2 text-emerald-600 dark:text-emerald-400 hover:text-zinc-900 dark:hover:text-white"><Download className="h-5 w-5" /></a>
+                                <a href={m.attachmentUrl || '#'} target="_blank" rel="noopener noreferrer" className="shrink-0 p-2 text-primary dark:text-[#4edea3] hover:text-zinc-900 dark:hover:text-white"><Download className="h-5 w-5" /></a>
                               </div>
-                              {m.content && <span className="self-end rounded-2xl rounded-tr-sm bg-emerald-600 px-4 py-3 text-sm leading-relaxed text-white shadow-sm">{m.content}</span>}
-                              <span className="self-end pr-1 text-[11px] text-zinc-500">{formatTime(m.createdAt)} • <span className="inline-flex items-center gap-0.5 font-medium text-emerald-600 dark:text-emerald-400"><CheckCheck className="h-3 w-3" /> Read</span></span>
+                              {m.content && <span className="self-end rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm leading-relaxed text-white shadow-sm">{m.content}</span>}
+                              <span className="self-end pr-1 text-[11px] text-zinc-500">{formatTime(m.createdAt)} • <span className="inline-flex items-center gap-0.5 font-medium text-primary dark:text-[#4edea3]"><CheckCheck className="h-3 w-3" /> Read</span></span>
                             </div>
                           );
                         }
                         if (isOwn) {
                           return (
                             <div key={m.id} className="flex max-w-2xl flex-col items-end gap-1 self-end">
-                              <span className="rounded-2xl rounded-tr-sm bg-emerald-600 px-4 py-3 text-sm leading-relaxed text-white shadow-sm">{m.content}</span>
-                              <span className="flex items-center gap-1 pr-1 text-[11px] text-zinc-500">{formatTime(m.createdAt)} • <span className="inline-flex items-center gap-0.5 font-medium text-emerald-600 dark:text-emerald-400"><CheckCheck className="h-3 w-3" /> Read</span></span>
+                              <span className="rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm leading-relaxed text-white shadow-sm">{m.content}</span>
+                              <span className="flex items-center gap-1 pr-1 text-[11px] text-zinc-500">{formatTime(m.createdAt)} • <span className="inline-flex items-center gap-0.5 font-medium text-primary dark:text-[#4edea3]"><CheckCheck className="h-3 w-3" /> Read</span></span>
                             </div>
                           );
                         }
@@ -574,9 +574,9 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                 {sendMessageMutation.isPending && (
                   <span className="flex items-center gap-2 pl-10 text-xs text-zinc-500">
                     <span className="flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-3 py-1.5">
-                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-emerald-500" />
-                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-emerald-500 [animation-delay:0.2s]" />
-                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-emerald-500 [animation-delay:0.4s]" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:0.2s]" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:0.4s]" />
                     </span>
                     Sending…
                   </span>
@@ -588,7 +588,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               <div className="flex flex-col gap-2 bg-zinc-50/70 dark:bg-white/[0.03] p-4 border-t border-zinc-200 dark:border-white/[0.08]">
                 {pendingAttachment && (
                   <span className="flex items-center justify-between rounded-lg bg-white dark:bg-zinc-800 px-3 py-1.5 text-sm border border-zinc-200 dark:border-white/[0.08]">
-                    <span className="flex items-center gap-2 truncate"><ImageIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /><span className="truncate font-medium text-zinc-900 dark:text-white">Attachment ready: {pendingAttachment.name} ({pendingAttachment.size})</span></span>
+                    <span className="flex items-center gap-2 truncate"><ImageIcon className="h-4 w-4 text-primary dark:text-[#4edea3]" /><span className="truncate font-medium text-zinc-900 dark:text-white">Attachment ready: {pendingAttachment.name} ({pendingAttachment.size})</span></span>
                     <button type="button" onClick={() => setPendingAttachment(null)} className="p-1 text-zinc-500 hover:text-red-600"><X className="h-4 w-4" /></button>
                   </span>
                 )}
@@ -627,7 +627,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                     </span>
                     <span className="flex items-center gap-2">
                       <span className="hidden text-[11px] text-zinc-500 md:inline">Enter ↵ to send</span>
-                      <Button onClick={handleSend} disabled={!msg.trim() || sendMessageMutation.isPending} className="h-9 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-sm">
+                      <Button onClick={handleSend} disabled={!msg.trim() || sendMessageMutation.isPending} className="h-9 bg-primary hover:bg-primary text-white font-semibold shadow-sm">
                         <span>Send</span>
                         <Send className="ml-1.5 h-4 w-4" />
                       </Button>
@@ -642,7 +642,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-white/[0.06] text-zinc-400 mb-3"><FileText className="h-8 w-8" /></span>
               <h2 className="text-base font-bold text-zinc-900 dark:text-white">No Active Conversation Selected</h2>
               <p className="mt-1 max-w-sm text-sm text-zinc-500">Select a conversation from the list on the left to review dialogues, or start a new one.</p>
-              <Button onClick={() => setShowNewConversation(true)} className="mt-4 bg-emerald-600 hover:bg-emerald-500 text-white"><SquarePen className="mr-2 h-4 w-4" />New Conversation</Button>
+              <Button onClick={() => setShowNewConversation(true)} className="mt-4 bg-primary hover:bg-primary text-white"><SquarePen className="mr-2 h-4 w-4" />New Conversation</Button>
             </div>
           )}
         </div>
@@ -661,12 +661,12 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               </label>
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Message</span>
-                <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} rows={4} placeholder="Type your message…" className="w-full rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800 px-3 py-2 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" />
+                <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} rows={4} placeholder="Type your message…" className="w-full rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800 px-3 py-2 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary/20" />
               </label>
             </div>
             <div className="mt-6 flex justify-end gap-2">
               <Button variant="outline" onClick={() => setShowNewConversation(false)}>Cancel</Button>
-              <Button onClick={handleCreateConversation} disabled={createConversationMutation.isPending} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+              <Button onClick={handleCreateConversation} disabled={createConversationMutation.isPending} className="bg-primary hover:bg-primary text-white">
                 {createConversationMutation.isPending ? 'Creating…' : 'Create & Send'}
               </Button>
             </div>

@@ -283,7 +283,7 @@ export default function WizardShell({ onComplete }: Props) {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" onClick={handleSaveExit} className="gap-1">
-              {saved ? <><CheckCircle2 className="size-4 text-emerald-500" /> Saved</> : <><Save className="size-4" /> Save & exit</>}
+              {saved ? <><CheckCircle2 className="size-4 text-primary" /> Saved</> : <><Save className="size-4" /> Save & exit</>}
             </Button>
             <Button variant="ghost" size="icon" onClick={handleSaveExit}>
               <X className="size-4" />

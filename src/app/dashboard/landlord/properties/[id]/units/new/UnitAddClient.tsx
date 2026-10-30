@@ -186,13 +186,13 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-        <button onClick={() => router.back()} className="hover:text-emerald-600 transition-colors flex items-center gap-1"><Home size={14} /> Home</button>
+        <button onClick={() => router.back()} className="hover:text-primary transition-colors flex items-center gap-1"><Home size={14} /> Home</button>
         <span>/</span>
         <span>Properties</span>
         <span>/</span>
         <span className="text-zinc-900 dark:text-white font-semibold">{capitalizeWords(listingTitle)}</span>
         <span>/</span>
-        <span className="text-emerald-600 dark:text-emerald-400 font-bold">Add Units</span>
+        <span className="text-primary dark:text-[#4edea3] font-bold">Add Units</span>
       </nav>
 
       {/* Header with quota */}
@@ -212,10 +212,10 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
             <span className="text-sm font-semibold text-zinc-900 dark:text-white font-mono">14 / 20 Units</span>
           </div>
           <div className="w-full bg-zinc-200 dark:bg-white/[0.08] h-2 rounded-full overflow-hidden">
-            <div className="bg-emerald-500 h-full rounded-full" style={{ width: '70%' }} />
+            <div className="bg-primary h-full rounded-full" style={{ width: '70%' }} />
           </div>
           <div className="flex items-center justify-between text-xs mt-2">
-            <span className="text-emerald-600 dark:text-emerald-400 font-medium">6 slots remaining</span>
+            <span className="text-primary dark:text-[#4edea3] font-medium">6 slots remaining</span>
             <span className="text-zinc-500 dark:text-zinc-400 font-mono">Cap: 20</span>
           </div>
         </div>
@@ -225,16 +225,16 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-4">
         <div className="flex items-center justify-between relative px-2">
           <div className="absolute left-6 right-6 top-3 h-0.5 bg-zinc-200 dark:bg-white/[0.08]" />
-          <div className="absolute left-6 top-3 h-0.5 bg-emerald-500 transition-all duration-500" style={{ width: `calc(${progressPct}% - ${progressPct * 0.06}rem)` }} />
+          <div className="absolute left-6 top-3 h-0.5 bg-primary transition-all duration-500" style={{ width: `calc(${progressPct}% - ${progressPct * 0.06}rem)` }} />
           {steps.map((step) => {
             const isCompleted = step.num < currentStep;
             const isActive = step.num === currentStep;
             return (
               <button key={step.num} onClick={() => setCurrentStep(step.num)} className="group relative z-10 flex flex-col items-center gap-1 focus:outline-none min-w-[40px]">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center shadow-sm text-[10px] font-bold transition-all ${isCompleted ? 'bg-emerald-500 text-white' : isActive ? 'bg-emerald-500 text-white ring-4 ring-emerald-500/20' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-500 dark:text-zinc-400'}`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center shadow-sm text-[10px] font-bold transition-all ${isCompleted ? 'bg-primary text-white' : isActive ? 'bg-primary text-white ring-4 ring-primary/20' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-500 dark:text-zinc-400'}`}>
                   {isCompleted ? <Check size={12} /> : step.num}
                 </div>
-                <span className={`text-[9px] whitespace-nowrap ${isActive ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-zinc-500 dark:text-zinc-400'}`}>{step.label}</span>
+                <span className={`text-[9px] whitespace-nowrap ${isActive ? 'text-primary dark:text-[#4edea3] font-bold' : 'text-zinc-500 dark:text-zinc-400'}`}>{step.label}</span>
               </button>
             );
           })}
@@ -265,9 +265,9 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
             <Label className="text-sm font-medium text-zinc-900 dark:text-white">Listing Intent</Label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {LISTING_TYPE_OPTIONS.map((opt) => (
-                <label key={opt.value} className={`p-4 rounded-xl border cursor-pointer transition-all ${listingType === opt.value ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' : 'border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-50 dark:hover:bg-white/[0.04]'}`}>
+                <label key={opt.value} className={`p-4 rounded-xl border cursor-pointer transition-all ${listingType === opt.value ? 'border-primary bg-[var(--sovereign-container-bg)] dark:bg-primary/10' : 'border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-50 dark:hover:bg-white/[0.04]'}`}>
                   <div className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded-full border-2 ${listingType === opt.value ? 'border-emerald-500 bg-emerald-500' : 'border-zinc-300 dark:border-zinc-600'}`} />
+                    <div className={`w-4 h-4 rounded-full border-2 ${listingType === opt.value ? 'border-primary bg-primary' : 'border-zinc-300 dark:border-zinc-600'}`} />
                     <span className="text-sm font-semibold text-zinc-900 dark:text-white">{opt.label}</span>
                   </div>
                   <input type="radio" className="hidden" checked={listingType === opt.value} onChange={() => setListingType(opt.value as any)} />
@@ -347,8 +347,8 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
         {currentStep === 6 && (
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
-                <CheckCircle size={24} className="text-emerald-600 dark:text-emerald-400" />
+              <div className="w-12 h-12 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 flex items-center justify-center">
+                <CheckCircle size={24} className="text-primary dark:text-[#4edea3]" />
               </div>
               <div>
                 <h3 className="font-bold text-zinc-900 dark:text-white">Review &amp; Confirm</h3>
@@ -372,11 +372,11 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
             </Button>
           ) : <div />}
           {currentStep < steps.length ? (
-            <Button type="button" onClick={() => setCurrentStep(currentStep + 1)} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button type="button" onClick={() => setCurrentStep(currentStep + 1)} className="bg-primary hover:bg-[var(--sovereign-hover)] text-white">
               Next <ArrowRight size={14} className="ml-1" />
             </Button>
           ) : (
-            <Button type="submit" disabled={submitting} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-md">
+            <Button type="submit" disabled={submitting} className="bg-primary hover:bg-[var(--sovereign-hover)] text-white shadow-md">
               {submitting ? <Loader2 size={14} className="mr-2 animate-spin" /> : <PartyPopper size={14} className="mr-2" />}
               {submitting ? 'Creating...' : 'Create Unit'}
             </Button>

@@ -81,7 +81,7 @@ export default async function AdminUsersPage() {
                       <td className="p-3 text-zinc-900 dark:text-white">{u.email}</td>
                       <td className="p-3 text-zinc-900 dark:text-white capitalize">{u.role}</td>
                       <td className="p-3">
-                        <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${u.isActive ? 'bg-green-100 text-emerald-400' : 'bg-red-100 text-red-400'}`}>
+                        <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${u.isActive ? 'bg-green-100 text-[#4edea3]' : 'bg-red-100 text-red-400'}`}>
                           {u.isActive ? 'Active' : 'Banned'}
                         </span>
                       </td>

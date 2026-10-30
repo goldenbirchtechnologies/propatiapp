@@ -181,8 +181,8 @@ export default function ComparePage() {
 
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.10),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.10),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-10 relative">
           <SectionLabel>Multi-property due diligence matrix</SectionLabel>
           <h1 className="mt-3 text-3xl md:text-4xl font-bold leading-tight text-white tracking-tight">Compare Properties Side by Side</h1>
@@ -221,13 +221,13 @@ export default function ComparePage() {
               { icon: Shield, label: 'Caution Disputes', value: '0', badge: '14-Day Disgorgement SLA' },
             ].map((m) => (
               <div key={m.label} className="glass-card px-4 py-3 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                   <m.icon className="h-5 w-5" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-white leading-tight">{m.value}</p>
                   <p className="text-xs text-zinc-500 truncate">{m.label}</p>
-                  <p className="text-[11px] text-emerald-400">{m.badge}</p>
+                  <p className="text-[11px] text-[#4edea3]">{m.badge}</p>
                 </div>
               </div>
             ))}
@@ -243,14 +243,14 @@ export default function ComparePage() {
               <button
                 key={t.id}
                 onClick={() => setActiveTab(t.id)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${activeTab === t.id ? 'bg-emerald-500 text-black border-emerald-500' : 'bg-white/[0.06] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'}`}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${activeTab === t.id ? 'bg-primary text-black border-primary' : 'bg-white/[0.06] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'}`}
               >
                 {t.label} {t.count ? `(${t.count})` : ''}
               </button>
             ))}
           </div>
           <label className="flex items-center gap-2 text-xs text-zinc-400 cursor-pointer select-none">
-            <input type="checkbox" checked={highlightDiff} onChange={(e) => setHighlightDiff(e.target.checked)} className="rounded border-white/20 bg-transparent text-emerald-500 focus:ring-emerald-500/30" />
+            <input type="checkbox" checked={highlightDiff} onChange={(e) => setHighlightDiff(e.target.checked)} className="rounded border-white/20 bg-transparent text-primary focus:ring-primary/30" />
             Highlight Differences Only
             <span className="ml-2 px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.06] text-[11px] text-zinc-500">
               Comparing {showcaseCount} of {MAX_COMPARE} Maximum
@@ -264,11 +264,11 @@ export default function ComparePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">Evaluation Set</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-[#4edea3]">Evaluation Set</p>
               <h2 className="text-lg font-bold text-white">Multi-Asset Benchmarking</h2>
               <p className="text-xs text-zinc-500">Direct legal parity, institutional lease verification, and escrow liquidity guarantees. Audit Date: October 2024</p>
             </div>
-            {!hasSelection && <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-500">Demo showcase — add <Link href="/listings" className="text-emerald-400 hover:text-emerald-300">listings</Link> via ?ids=</span>}
+            {!hasSelection && <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-500">Demo showcase — add <Link href="/listings" className="text-[#4edea3] hover:text-[#6ffbbe]">listings</Link> via ?ids=</span>}
           </div>
 
           {loading ? (
@@ -348,7 +348,7 @@ export default function ComparePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="glass-card overflow-hidden">
               <div className="px-4 sm:px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                <ShieldCheck className="h-4 w-4 text-[#4edea3]" />
                 <h2 className="text-sm font-semibold text-white">
                   {activeTab === 'all' ? 'Side-by-side specs' : FILTER_TABS.find(t => t.id === activeTab)?.label}
                 </h2>
@@ -404,9 +404,9 @@ export default function ComparePage() {
       {/* CTA banner */}
       <section className="pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="glass-card p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-500/10">
+          <div className="glass-card p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-primary/10">
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                 <Landmark className="h-5 w-5" />
               </div>
               <div>
@@ -415,8 +415,8 @@ export default function ComparePage() {
                   Before committing significant institutional capital, commission a registered NIESV fellow to perform coordinate verification, boundary beacon mapping, or physical structural testing.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"><Check className="h-3 w-3" /> LASRERA Accredited</span>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"><Check className="h-3 w-3" /> AGIS Cadastral Validated</span>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-[#4edea3]"><Check className="h-3 w-3" /> LASRERA Accredited</span>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-[#4edea3]"><Check className="h-3 w-3" /> AGIS Cadastral Validated</span>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.06] text-zinc-400"><ShieldCheck className="h-3 w-3" /> 48-Hour Execution Guarantee</span>
                 </div>
               </div>

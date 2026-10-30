@@ -52,7 +52,7 @@ export default function ContactUsPage() {
     return (
       <div className="bg-black min-h-screen pt-16 flex items-center justify-center p-4">
         <div className="glass-card max-w-md w-full p-8 text-center">
-          <div className="mx-auto w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+          <div className="mx-auto w-12 h-12 rounded-full bg-primary/15 border border-primary/20 flex items-center justify-center text-[#4edea3]">
             <Send className="h-6 w-6" />
           </div>
           <h2 className="mt-4 text-xl font-bold text-white">Message sent</h2>
@@ -76,8 +76,8 @@ export default function ContactUsPage() {
     <div className="bg-black min-h-screen pt-16">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <div className="max-w-3xl">
             <SectionLabel>Get in touch</SectionLabel>
@@ -191,16 +191,16 @@ export default function ContactUsPage() {
                 </div>
               </div>
 
-              <div className="glass-card p-6 bg-emerald-950/20 border-emerald-500/15">
+              <div className="glass-card p-6 bg-primary/20 border-primary/15">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-primary/15 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                     <CheckCircle2 className="h-4 w-4" />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">Need faster help?</p>
                     <p className="mt-1 text-sm text-zinc-400 leading-relaxed">
                       For tenancy, payment, or verification issues, email{' '}
-                      <a href="mailto:support@propati.ng" className="text-emerald-400 hover:text-emerald-300">
+                      <a href="mailto:support@propati.ng" className="text-[#4edea3] hover:text-[#6ffbbe]">
                         support@propati.ng
                       </a>{' '}
                       — we prioritize active transactions.

@@ -49,10 +49,10 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
               <div className="space-y-3">
                 <div>
                   <div className="flex items-center gap-1.5 mb-1">
-                    <ArrowUpRight className="w-3.5 h-3.5 text-[#10b981]" />
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#006c49]" />
                     <p className="text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Monthly Income</p>
                   </div>
-                  <p className="text-xl font-bold text-[#10b981] font-mono">₦{(scenario.monthlyIncome / 1e6).toFixed(2)}M</p>
+                  <p className="text-xl font-bold text-[#006c49] font-mono">₦{(scenario.monthlyIncome / 1e6).toFixed(2)}M</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5 mb-1">
@@ -64,7 +64,7 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
                 <div className="pt-2 border-t border-zinc-200 dark:border-white/[0.08]">
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Net Monthly</p>
-                    <span className={`text-sm font-bold font-mono ${isPositive ? 'text-[#10b981]' : 'text-red-500'}`}>
+                    <span className={`text-sm font-bold font-mono ${isPositive ? 'text-[#006c49]' : 'text-red-500'}`}>
                       {isPositive ? '+' : ''}₦{(net / 1e6).toFixed(2)}M
                     </span>
                   </div>
@@ -100,9 +100,9 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
                   <tr key={scenario.name} className="border-b border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900est">
                     <td className="p-2 text-zinc-900 dark:text-white font-medium">{scenario.name}</td>
                     <td className="p-2 text-right text-zinc-600 dark:text-zinc-400 font-mono">{scenario.occupancyRate.toFixed(1)}%</td>
-                    <td className="p-2 text-right text-[#10b981] font-mono">₦{scenario.monthlyIncome.toLocaleString()}</td>
+                    <td className="p-2 text-right text-[#006c49] font-mono">₦{scenario.monthlyIncome.toLocaleString()}</td>
                     <td className="p-2 text-right text-red-500 font-mono">₦{scenario.monthlyExpenses.toLocaleString()}</td>
-                    <td className={`p-2 text-right font-mono ${net >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                    <td className={`p-2 text-right font-mono ${net >= 0 ? 'text-[#006c49]' : 'text-red-500'}`}>
                       {net >= 0 ? '+' : ''}₦{net.toLocaleString()}
                     </td>
                     <td className="p-2 text-right text-zinc-600 dark:text-zinc-400 font-mono">

@@ -64,10 +64,10 @@ export function CategoryToggle({
           'inline-flex items-center gap-2 px-4 py-2.5 rounded-full',
           'font-sans font-semibold text-sm',
           'transition-all duration-200 ease-out',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           value === 'residential'
-            ? 'bg-emerald-500 text-white shadow-md'
+            ? 'bg-primary text-white shadow-md'
             : 'bg-zinc-800 text-white hover:bg-zinc-900'
         )}
       >
@@ -108,10 +108,10 @@ export function CategoryToggle({
           'inline-flex items-center gap-2 px-4 py-2.5 rounded-full',
           'font-sans font-semibold text-sm',
           'transition-all duration-200 ease-out',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           value === 'short_let'
-            ? 'bg-emerald-500 text-white shadow-md'
+            ? 'bg-primary text-white shadow-md'
             : 'bg-zinc-800 text-white hover:bg-zinc-900'
         )}
       >

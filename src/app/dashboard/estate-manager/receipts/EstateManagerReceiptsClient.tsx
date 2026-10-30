@@ -48,7 +48,7 @@ function bucketOf(status: string): Bucket {
 }
 
 const STATUS_META: Record<string, { label: string; cls: string; dot: string }> = {
-  paid: { label: 'Settled', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
+  paid: { label: 'Settled', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
   sent: { label: 'Awaiting Payment', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
   draft: { label: 'Draft', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700', dot: 'bg-zinc-400' },
   overdue: { label: 'Overdue', cls: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30', dot: 'bg-rose-500' },
@@ -158,7 +158,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
     tone?: 'default' | 'emerald' | 'amber' | 'rose';
   }) => {
     const iconCls =
-      tone === 'emerald' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+      tone === 'emerald' ? 'bg-primary/10 text-primary dark:text-[#4edea3]'
       : tone === 'amber' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
       : tone === 'rose' ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
       : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400';
@@ -183,7 +183,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
       {/* Header */}
       <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
         <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-2 rounded bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+          <span className="inline-flex items-center gap-2 rounded bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
             Settlement Records
           </span>
           <h1 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Receipts</h1>
@@ -218,7 +218,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search receipt number, tenant, or property..."
-            className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
+            className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2.5">
@@ -226,7 +226,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
             <select
               value={tenantFilter}
               onChange={(e) => setTenantFilter(e.target.value)}
-              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
             >
               <option value="all">All Tenants ({tenants.length})</option>
               {tenants.map(([id, name]) => (
@@ -246,7 +246,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
                 onClick={() => setBucket(key)}
                 className={`whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all ${
                   bucket === key
-                    ? 'bg-white text-emerald-600 shadow-sm dark:bg-zinc-900 dark:text-emerald-400'
+                    ? 'bg-white text-primary shadow-sm dark:bg-zinc-900 dark:text-[#4edea3]'
                     : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
                 }`}
               >
@@ -270,7 +270,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
             </p>
             <Link
               href="/dashboard/estate-manager/billing"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
             >
               Go to Billing
             </Link>
@@ -305,7 +305,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
                         <tr key={r.id} className="group transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2.5">
-                              <div className={`flex h-8 w-8 items-center justify-center rounded ${settled ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
+                              <div className={`flex h-8 w-8 items-center justify-center rounded ${settled ? 'bg-primary/15 text-primary dark:text-[#4edea3]' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
                                 {settled ? <CheckCircle2 className="h-[18px] w-[18px]" /> : <Receipt className="h-[18px] w-[18px]" />}
                               </div>
                               <div className="flex flex-col">
@@ -338,7 +338,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
                           </td>
                           <td className="whitespace-nowrap px-4 py-3 text-right">
                             <span className="font-mono text-base font-bold text-zinc-900 dark:text-white">{ngn(r.amount)}</span>
-                            {settled && <span className={`block ${LABEL} text-emerald-600 dark:text-emerald-400`}>incl. levy</span>}
+                            {settled && <span className={`block ${LABEL} text-primary dark:text-[#4edea3]`}>incl. levy</span>}
                           </td>
                           <td className="whitespace-nowrap px-4 py-3 text-center">
                             <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${meta.cls}`}>
@@ -354,7 +354,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   title="Download receipt PDF"
-                                  className="rounded-lg p-1.5 text-emerald-600 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                                  className="rounded-lg p-1.5 text-primary transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
                                 >
                                   <FileText className="h-[18px] w-[18px]" />
                                 </a>
@@ -362,7 +362,7 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
                                 <a
                                   href={`/api/invoices/${r.id}/receipt`}
                                   title="Generate receipt PDF"
-                                  className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800"
+                                  className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                                 >
                                   <RefreshCw className="h-[18px] w-[18px]" />
                                 </a>

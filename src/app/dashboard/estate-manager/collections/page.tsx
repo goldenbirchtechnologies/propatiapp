@@ -57,7 +57,7 @@ function compactNgn(amount: number): string {
 }
 
 const STATUS_META: Record<string, { label: string; cls: string; dot: string }> = {
-  released: { label: 'Disbursed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
+  released: { label: 'Disbursed', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
   in_escrow: { label: 'In Escrow', cls: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/30', dot: 'bg-blue-500' },
   commission_held: { label: 'Escrow Pending', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
   pending: { label: 'Pending', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
@@ -197,7 +197,7 @@ export default function ManagedCollectionsPage() {
     tone?: 'default' | 'emerald' | 'amber' | 'blue';
   }) => {
     const iconCls =
-      tone === 'emerald' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+      tone === 'emerald' ? 'bg-primary/10 text-primary dark:text-[#4edea3]'
       : tone === 'amber' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
       : tone === 'blue' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400'
       : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400';
@@ -236,17 +236,17 @@ export default function ManagedCollectionsPage() {
       <main className="mx-auto w-full max-w-[1240px] space-y-8 p-6 lg:p-10">
         {/* Breadcrumb */}
         <nav className={`flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider ${MUTED}`}>
-          <Link href="/dashboard/estate-manager" className="transition-colors hover:text-emerald-600">Home</Link>
+          <Link href="/dashboard/estate-manager" className="transition-colors hover:text-primary">Home</Link>
           <span className="text-zinc-300 dark:text-zinc-600">/</span>
           <span>Rent &amp; Payments</span>
           <span className="text-zinc-300 dark:text-zinc-600">/</span>
-          <span className="text-emerald-600 dark:text-emerald-400">Managed Collections</span>
+          <span className="text-primary dark:text-[#4edea3]">Managed Collections</span>
         </nav>
 
         {/* Header */}
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
           <div className="max-w-3xl space-y-1.5">
-            <h1 className="text-3xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">Managed Collections</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-[var(--sovereign-hover)] dark:text-[#4edea3]">Managed Collections</h1>
             <p className={`text-sm ${MUTED}`}>
               Rent collection, escrow holding, and split disbursement reconciliation across your managed properties.
             </p>
@@ -257,7 +257,7 @@ export default function ManagedCollectionsPage() {
               disabled={filtered.length === 0}
               className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
             >
-              <Download className="h-[18px] w-[18px] text-emerald-600" /> Export Audit (CSV)
+              <Download className="h-[18px] w-[18px] text-primary" /> Export Audit (CSV)
             </button>
           </div>
         </div>
@@ -295,11 +295,11 @@ export default function ManagedCollectionsPage() {
                   onClick={() => setTab(key)}
                   className={`whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-all ${
                     tab === key
-                      ? 'bg-white text-emerald-600 shadow-sm dark:bg-zinc-900 dark:text-emerald-400'
+                      ? 'bg-white text-primary shadow-sm dark:bg-zinc-900 dark:text-[#4edea3]'
                       : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
                   }`}
                 >
-                  {label} <span className="ml-1 rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-xs text-emerald-600 dark:text-emerald-400">{n}</span>
+                  {label} <span className="ml-1 rounded-full bg-primary/10 px-1.5 py-0.5 text-xs text-primary dark:text-[#4edea3]">{n}</span>
                 </button>
               ))}
             </div>
@@ -310,7 +310,7 @@ export default function ManagedCollectionsPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search property, tenant, landlord, or reference..."
-              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
+              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
             />
           </div>
         </div>
@@ -356,7 +356,7 @@ export default function ManagedCollectionsPage() {
                         return (
                           <tr key={t.id} className="group transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                             <td className="whitespace-nowrap px-5 py-3">
-                              <div className="font-mono text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                              <div className="font-mono text-sm font-medium text-primary dark:text-[#4edea3]">
                                 {t.reference ?? t.paystackRef ?? t.id.slice(0, 8).toUpperCase()}
                               </div>
                               <div className={MUTED}>{t.type}</div>
@@ -367,7 +367,7 @@ export default function ManagedCollectionsPage() {
                             </td>
                             <td className="px-5 py-3">
                               <div className="flex items-center gap-2.5">
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                   {initialsOf(t.payer?.fullName, t.payer?.email)}
                                 </div>
                                 <div className="flex min-w-0 flex-col">
@@ -382,7 +382,7 @@ export default function ManagedCollectionsPage() {
                               {ngn(gross)}
                             </td>
                             <td className="whitespace-nowrap px-5 py-3 text-right">
-                              <div className="font-mono text-sm font-medium text-emerald-600 dark:text-emerald-400">{ngn(landlordSplit)}</div>
+                              <div className="font-mono text-sm font-medium text-primary dark:text-[#4edea3]">{ngn(landlordSplit)}</div>
                               <div className={MUTED}>to {t.payee?.fullName ?? 'landlord'}</div>
                             </td>
                             <td className="whitespace-nowrap px-5 py-3 text-right font-mono text-sm text-zinc-700 dark:text-zinc-300">
@@ -399,7 +399,7 @@ export default function ManagedCollectionsPage() {
                                 <Link
                                   href={`/api/payments/transactions/${t.id}/receipt`}
                                   title="View receipt"
-                                  className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800"
+                                  className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                                 >
                                   <Eye className="h-[18px] w-[18px]" />
                                 </Link>
@@ -407,7 +407,7 @@ export default function ManagedCollectionsPage() {
                                   <a
                                     href={`mailto:${t.payer.email}`}
                                     title="Contact payer"
-                                    className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800"
+                                    className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                                   >
                                     <Send className="h-[18px] w-[18px]" />
                                   </a>

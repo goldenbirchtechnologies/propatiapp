@@ -198,7 +198,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf8fc] dark:bg-black text-zinc-900 dark:text-zinc-100 antialiased selection:bg-emerald-500/20">
+    <div className="min-h-screen bg-[#fbf8fc] dark:bg-black text-zinc-900 dark:text-zinc-100 antialiased selection:bg-primary/20">
       {/* ===================== HERO ===================== */}
       <section className="relative w-full overflow-hidden bg-[#1b1b1e] text-white">
         {/* Background Image */}
@@ -211,21 +211,21 @@ export default function HomePage() {
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#1b1b1e]/85 via-[#1b1b1e]/75 to-[#1b1b1e]" />
-          <div className="absolute -top-32 right-1/4 h-96 w-96 rounded-full bg-emerald-500/20 blur-3xl" />
+          <div className="absolute -top-32 right-1/4 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
         </div>
 
         <div className="relative mx-auto flex max-w-6xl flex-col items-center px-6 pb-20 pt-28 text-center">
           {/* Eyebrow Pill */}
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 backdrop-blur-md">
-            <ShieldCheck className="h-4 w-4 text-emerald-400" />
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+            <ShieldCheck className="h-4 w-4 text-[#4edea3]" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#4edea3]">
               Nigeria&apos;s Premier Verified Property Marketplace
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="mb-4 max-w-4xl text-4xl font-bold leading-tight tracking-tight text-white md:text-[54px] md:leading-[62px]">
-            Find your <span className="text-emerald-400">verified</span> home and documented land in Nigeria.
+            Find your <span className="text-[#4edea3]">verified</span> home and documented land in Nigeria.
           </h1>
           <p className="mb-8 max-w-2xl text-base text-zinc-400 md:text-lg">
             Every listing cross-referenced with Surveyor-General beacon coordinates. Zero fake agents, zero Omonile risks. Bank-backed secure escrow aligned with Lagos State regulatory frameworks.
@@ -235,17 +235,17 @@ export default function HomePage() {
           {liveStats && (
             <div className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-full border border-white/5 bg-white/5 px-5 py-2 backdrop-blur-sm">
               <span className="flex items-center gap-1.5 text-sm text-zinc-400">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+                <span className="h-2 w-2 animate-pulse rounded-full bg-[#4edea3]" />
                 <strong className="font-mono text-white">{liveStats[0].value}</strong> Curated Live Listings
               </span>
               <span className="text-zinc-600">•</span>
               <span className="flex items-center gap-1.5 text-sm text-zinc-400">
-                <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                <ShieldCheck className="h-4 w-4 text-[#4edea3]" />
                 <strong className="font-mono text-white">100%</strong> C of O / Gazette Audited
               </span>
               <span className="text-zinc-600">•</span>
               <span className="flex items-center gap-1.5 text-sm text-zinc-400">
-                <Lock className="h-4 w-4 text-emerald-400" />
+                <Lock className="h-4 w-4 text-[#4edea3]" />
                 <strong className="font-mono text-white">₦1.2B+</strong> Active Escrow Pipeline
               </span>
             </div>
@@ -271,7 +271,7 @@ export default function HomePage() {
                   className={cn(
                     'flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition-colors',
                     searchTab === tab.key
-                      ? 'bg-emerald-600 text-white'
+                      ? 'bg-primary text-white'
                       : 'text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white'
                   )}
                 >
@@ -284,7 +284,7 @@ export default function HomePage() {
             {/* Search Grid */}
             <div className="grid grid-cols-1 items-center gap-3 sm:grid-cols-2 lg:grid-cols-12">
               <label className="flex items-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5 lg:col-span-4 cursor-text">
-                <MapPin className="mr-2 h-5 w-5 shrink-0 text-emerald-600" />
+                <MapPin className="mr-2 h-5 w-5 shrink-0 text-primary" />
                 <span className="min-w-0 flex-1 flex flex-col">
                   <span className="text-[10px] font-semibold uppercase text-zinc-500 dark:text-zinc-400">Location</span>
                   <input
@@ -298,7 +298,7 @@ export default function HomePage() {
                 </span>
               </label>
               <label className="flex items-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5 lg:col-span-3">
-                <Building2 className="mr-2 h-5 w-5 shrink-0 text-emerald-600" />
+                <Building2 className="mr-2 h-5 w-5 shrink-0 text-primary" />
                 <span className="min-w-0 flex-1 flex flex-col">
                   <span className="text-[10px] font-semibold uppercase text-zinc-500 dark:text-zinc-400">Asset Class</span>
                   <select
@@ -314,7 +314,7 @@ export default function HomePage() {
                 </span>
               </label>
               <label className="flex items-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5 lg:col-span-3">
-                <TrendingUp className="mr-2 h-5 w-5 shrink-0 text-emerald-600" />
+                <TrendingUp className="mr-2 h-5 w-5 shrink-0 text-primary" />
                 <span className="min-w-0 flex-1 flex flex-col">
                   <span className="text-[10px] font-semibold uppercase text-zinc-500 dark:text-zinc-400">Budget Range (NGN)</span>
                   <select
@@ -333,7 +333,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={handleSearch}
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)]"
                 >
                   <Search className="h-5 w-5" />
                   <span>Search</span>
@@ -349,7 +349,7 @@ export default function HomePage() {
                 <span className="inline-flex items-center gap-1 rounded bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-700 dark:text-zinc-300">Governor&apos;s Consent ✓</span>
                 <span className="inline-flex items-center gap-1 rounded bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-700 dark:text-zinc-300">Gazette Excision</span>
               </div>
-              <Link href="/listings" className="flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
+              <Link href="/listings" className="flex items-center gap-1 font-semibold text-primary dark:text-[#4edea3] hover:text-[var(--sovereign-hover)] dark:hover:text-[#6ffbbe]">
                 Survey Beacon Search <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -365,16 +365,16 @@ export default function HomePage() {
               <FadeIn key={pillar.title} delay={i * 0.08} y={16}>
                 <div className="flex h-full flex-col justify-between rounded-xl bg-white dark:bg-zinc-900 border border-transparent dark:border-zinc-800 p-5 shadow-sm">
                   <div>
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-primary dark:text-[#4edea3]">
                       {pillar.icon}
                     </div>
                     <div className="mb-1 flex items-center gap-1">
                       <h2 className="text-base font-bold text-zinc-900 dark:text-white">{pillar.title}</h2>
-                      <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <ShieldCheck className="h-4 w-4 text-primary dark:text-[#4edea3]" />
                     </div>
                     <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{pillar.desc}</p>
                   </div>
-                  <div className="mt-4 flex items-center gap-1 border-t border-zinc-100 dark:border-zinc-800 pt-2 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  <div className="mt-4 flex items-center gap-1 border-t border-zinc-100 dark:border-zinc-800 pt-2 text-[11px] font-semibold text-primary dark:text-[#4edea3]">
                     {pillar.tag}
                     <CheckCircle2 className="h-3.5 w-3.5" />
                   </div>
@@ -389,7 +389,7 @@ export default function HomePage() {
       <section className="w-full bg-[#fbf8fc] dark:bg-black py-16">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto mb-12 max-w-xl text-center">
-            <div className="mb-2 inline-block rounded-full bg-emerald-100 dark:bg-emerald-500/15 px-3 py-1 text-[11px] font-semibold uppercase text-emerald-700 dark:text-emerald-300">
+            <div className="mb-2 inline-block rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
               Operational Workflow
             </div>
             <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Renting &amp; Buying Reimagined</h2>
@@ -399,16 +399,16 @@ export default function HomePage() {
           </div>
           {/* Desktop stepper: 5 circular nodes with connector line */}
           <div className="hidden lg:block relative mb-2">
-            <div className="absolute top-8 left-16 right-16 h-1 bg-gradient-to-r from-emerald-500 via-emerald-400 to-[#c9952a] -z-0" />
+            <div className="absolute top-8 left-16 right-16 h-1 bg-gradient-to-r from-primary via-[#4edea3] to-[#c9952a] -z-0" />
             <div className="grid grid-cols-5 gap-4 relative z-10 text-center">
               {steps.map((step) => (
                 <div key={step.num} className="flex flex-col items-center">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-[#fbf8fc] dark:ring-zinc-900 mb-3 ${step.num === '05' ? 'bg-[#c9952a] text-white' : 'bg-emerald-600 text-white'}`}>
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-[#fbf8fc] dark:ring-zinc-900 mb-3 ${step.num === '05' ? 'bg-[#c9952a] text-white' : 'bg-primary text-white'}`}>
                     {step.num.replace(/^0/, '')}
                   </div>
                   <h4 className="font-bold text-zinc-900 dark:text-white text-base mb-1">{step.title}</h4>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-[170px] leading-relaxed mb-2">{step.desc}</p>
-                  <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-mono ${step.title === 'Secure Payment' ? 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold border border-amber-200 dark:border-amber-500/20' : step.title === 'Move In' ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-500/20' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'}`}>{step.metric}</span>
+                  <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-mono ${step.title === 'Secure Payment' ? 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold border border-amber-200 dark:border-amber-500/20' : step.title === 'Move In' ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] font-semibold border border-primary dark:border-primary/20' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'}`}>{step.metric}</span>
                 </div>
               ))}
             </div>
@@ -418,7 +418,7 @@ export default function HomePage() {
             {steps.map((step) => (
               <div key={step.num} className="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-800 relative">
                 <span className="font-mono text-4xl font-bold text-zinc-200 dark:text-zinc-700 absolute top-4 right-4">{step.num}</span>
-                <div className="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center mb-3">
+                <div className="w-9 h-9 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#4edea3] flex items-center justify-center mb-3">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
                 <h4 className="font-bold text-zinc-900 dark:text-white text-lg mb-1">{step.num.replace(/^0/, '')}. {step.title}</h4>
@@ -435,7 +435,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <div className="mb-2 inline-block rounded-full bg-emerald-600 px-3 py-1 text-[11px] font-semibold uppercase text-white">
+              <div className="mb-2 inline-block rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase text-white">
                 Curated Assets
               </div>
               <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Handpicked Opportunities</h2>
@@ -450,7 +450,7 @@ export default function HomePage() {
                   className={cn(
                     'rounded px-3.5 py-1.5 text-sm font-semibold transition-colors',
                     tab === 'All'
-                      ? 'bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 shadow-sm'
+                      ? 'bg-white dark:bg-zinc-800 text-primary dark:text-[#4edea3] shadow-sm'
                       : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                   )}
                 >
@@ -475,7 +475,7 @@ export default function HomePage() {
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute left-2.5 top-2.5 flex items-center gap-1">
-                      <span className="rounded bg-emerald-600 px-2 py-0.5 text-[10px] font-semibold uppercase text-white">{listing.type}</span>
+                      <span className="rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase text-white">{listing.type}</span>
                       <span className="rounded bg-black/80 px-2 py-0.5 text-[10px] font-semibold uppercase text-white backdrop-blur-sm">{listing.kind}</span>
                     </div>
                     <button
@@ -484,12 +484,12 @@ export default function HomePage() {
                     >
                       <Heart className="h-4 w-4" />
                     </button>
-                    <div className="absolute bottom-2.5 right-2.5 rounded bg-black/90 px-2.5 py-1 font-mono text-xs font-bold text-emerald-400 backdrop-blur-sm">
+                    <div className="absolute bottom-2.5 right-2.5 rounded bg-black/90 px-2.5 py-1 font-mono text-xs font-bold text-[#4edea3] backdrop-blur-sm">
                       {listing.price}
                     </div>
                   </div>
                   <div className="flex flex-1 flex-col p-4">
-                    <div className="mb-1 flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    <div className="mb-1 flex items-center gap-1 text-[11px] font-semibold text-primary dark:text-[#4edea3]">
                       <ShieldCheck className="h-3.5 w-3.5" />
                       <span>Gov Consent Validated</span>
                     </div>
@@ -512,7 +512,7 @@ export default function HomePage() {
                       </Link>
                       <button
                         aria-label="Instant WhatsApp Inspection"
-                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white transition-colors hover:bg-emerald-700"
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white transition-colors hover:bg-[var(--sovereign-hover)]"
                       >
                         <MessageCircle className="h-4 w-4" />
                       </button>
@@ -526,7 +526,7 @@ export default function HomePage() {
           <div className="mt-10 text-center">
             <button
               onClick={() => router.push('/listings')}
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-8 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)]"
             >
               View All {liveStats?.[0]?.value ?? '10,840+'} Audited Listings
               <ArrowRight className="h-4 w-4" />
@@ -555,13 +555,13 @@ export default function HomePage() {
                   className="group flex h-full flex-col justify-between rounded-xl bg-white dark:bg-zinc-900 border border-transparent dark:border-zinc-800 p-6 shadow-sm transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800"
                 >
                   <div>
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-primary dark:text-[#4edea3]">
                       {role.icon}
                     </div>
-                    <h3 className="mb-1 text-base font-bold text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">{role.title}</h3>
+                    <h3 className="mb-1 text-base font-bold text-zinc-900 dark:text-white group-hover:text-primary dark:group-hover:text-[#4edea3]">{role.title}</h3>
                     <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{role.desc}</p>
                   </div>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 dark:text-emerald-400 transition-all group-hover:gap-2">
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary dark:text-[#4edea3] transition-all group-hover:gap-2">
                     Get Started <ArrowRight className="h-4 w-4" />
                   </span>
                 </Link>

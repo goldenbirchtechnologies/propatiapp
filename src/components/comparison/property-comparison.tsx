@@ -67,7 +67,7 @@ const verificationTierLabels: Record<ListingData['verificationTier'], string> = 
 
 const verificationTierColors: Record<ListingData['verificationTier'], string> = {
   basic: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',
-  verified: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-emerald-400',
+  verified: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-[#4edea3]',
   inspected: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
   certified: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
 };
@@ -132,7 +132,7 @@ function PropertyImage({
           className={cn(
             'text-xs font-semibold',
             isResidential
-              ? 'bg-emerald-500 text-white'
+              ? 'bg-primary text-white'
               : 'bg-amber-500 text-white'
           )}
         >
@@ -166,7 +166,7 @@ function PropertyHeader({ property }: { property: ListingData }) {
         <span
           className={cn(
             'font-heading font-bold text-2xl',
-            isResidential ? 'text-emerald-400' : 'text-amber-400'
+            isResidential ? 'text-[#4edea3]' : 'text-amber-400'
           )}
         >
           {displayPrice}
@@ -256,7 +256,7 @@ function MobileComparisonCard({
             className={cn(
               'w-full',
               isResidential
-                ? 'bg-emerald-500 hover:bg-emerald-500/90'
+                ? 'bg-primary hover:bg-primary/90'
                 : 'bg-amber-500 hover:bg-amber-500/90'
             )}
           >
@@ -313,7 +313,7 @@ function DesktopComparisonTable({
                     className={cn(
                       'w-full',
                       property.listingType !== 'commercial'
-                        ? 'bg-emerald-500 hover:bg-emerald-500/90'
+                        ? 'bg-primary hover:bg-primary/90'
                         : 'bg-amber-500 hover:bg-amber-500/90'
                     )}
                   >
@@ -504,7 +504,7 @@ export function PropertyComparison({
             Add properties to start comparing their features and prices.
           </p>
           {onAddProperty && (
-            <InteractiveHoverButton onClick={onAddProperty} className="bg-emerald-500">
+            <InteractiveHoverButton onClick={onAddProperty} className="bg-primary">
               Add Properties
             </InteractiveHoverButton>
           )}
@@ -538,7 +538,7 @@ export function PropertyComparison({
             <InteractiveHoverButton
               onClick={onAddProperty}
               size="sm"
-              className="bg-emerald-500 hover:bg-emerald-500/90"
+              className="bg-primary hover:bg-primary/90"
             >
               Add Property
             </InteractiveHoverButton>
@@ -594,7 +594,7 @@ export function PropertyComparison({
               <Button
                 variant="default"
                 size="sm"
-                className="bg-emerald-500 hover:bg-emerald-500/90"
+                className="bg-primary hover:bg-primary/90"
                 asChild
               >
                 <Link href="/listings">Browse More Properties</Link>

@@ -51,7 +51,7 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen bg-[#09090b] text-white flex flex-col items-center justify-center p-4 sm:p-8">
       {/* Ambient Glow */}
-      <div className="fixed -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#10b981]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#006c49]/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Stepper */}
       <div className="w-full max-w-2xl mb-8">
@@ -59,7 +59,7 @@ export default function SignUpPage() {
           <button
             onClick={() => setStep(1)}
             className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              step === 1 ? 'bg-[#10b981] text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'
+              step === 1 ? 'bg-[#006c49] text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'
             }`}
           >
             <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
@@ -71,7 +71,7 @@ export default function SignUpPage() {
           <button
             onClick={() => selectedRole && setStep(2)}
             className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              step === 2 ? 'bg-[#10b981] text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'
+              step === 2 ? 'bg-[#006c49] text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'
             }`}
           >
             <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
@@ -95,7 +95,7 @@ export default function SignUpPage() {
               </div>
               <span className="text-xl font-bold tracking-tight">PropatiBox</span>
             </div>
-            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#10b981]/15 text-[#6ffbbe] text-[11px] tracking-wide uppercase">
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#006c49]/15 text-[#6ffbbe] text-[11px] tracking-wide uppercase">
               <Building2 className="h-3.5 w-3.5" />
               <span>Join PropatiBox</span>
             </div>
@@ -116,7 +116,7 @@ export default function SignUpPage() {
                   onClick={() => setSelectedRole(role.id)}
                   className={`group relative flex flex-col p-4 rounded-xl transition-all duration-200 text-left ${
                     isSelected
-                      ? 'bg-[#27272a]/25 ring-2 ring-[#10b981]'
+                      ? 'bg-[#27272a]/25 ring-2 ring-[#006c49]'
                       : 'bg-[#27272a]/10 hover:bg-[#27272a]/20'
                   }`}
                 >
@@ -155,7 +155,7 @@ export default function SignUpPage() {
                 onChange={(e) => setAgreed(e.target.checked)}
                 className="peer sr-only"
               />
-              <div className="w-5 h-5 rounded bg-[#27272a]/30 peer-checked:bg-[#10b981] flex items-center justify-center transition-colors">
+              <div className="w-5 h-5 rounded bg-[#27272a]/30 peer-checked:bg-[#006c49] flex items-center justify-center transition-colors">
                 <svg className={`w-4 h-4 text-white transition-opacity ${agreed ? 'opacity-100' : 'opacity-0'}`} viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                 </svg>
@@ -204,7 +204,7 @@ export default function SignUpPage() {
               <ArrowLeft className="h-4 w-4" />
               Back to Role Selection
             </button>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#10b981]/15 text-[#6ffbbe] text-[11px]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#006c49]/15 text-[#6ffbbe] text-[11px]">
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
               </svg>
@@ -240,12 +240,12 @@ export default function SignUpPage() {
                   dividerText: 'bg-[#09090b] px-3 text-[11px] uppercase tracking-wider text-zinc-500',
                   formFieldInput: 'h-10 px-3 rounded-lg bg-[#27272a]/20 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:bg-[#27272a]/30 transition-all w-full',
                   formFieldLabel: 'text-sm text-white font-medium',
-                  formButtonPrimary: 'w-full mt-2 rounded-xl py-3.5 text-base font-semibold bg-[#10b981] hover:bg-[#006c49] text-white transition-all duration-200 shadow-lg shadow-[#10b981]/20 flex items-center justify-center gap-2 active:scale-[0.99]',
+                  formButtonPrimary: 'w-full mt-2 rounded-xl py-3.5 text-base font-semibold bg-[#006c49] hover:bg-[#006c49] text-white transition-all duration-200 shadow-lg shadow-[#006c49]/20 flex items-center justify-center gap-2 active:scale-[0.99]',
                   formFieldAction: 'text-[#6ffbbe] text-xs hover:underline',
                   footer: 'hidden',
                 },
                 variables: {
-                  colorPrimary: '#10b981',
+                  colorPrimary: '#006c49',
                   colorTextOnPrimaryBackground: '#ffffff',
                 },
               }}

@@ -59,7 +59,7 @@ export default function AgentTerritoryStep() {
               key={t}
               type="button"
               onClick={() => toggle(territories, t, 'operationalTerritories')}
-              className={`px-3 py-1.5 rounded-full text-xs border ${territories.includes(t) ? 'bg-[#10b981] text-white border-[#10b981]' : 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:border-zinc-600'}`}
+              className={`px-3 py-1.5 rounded-full text-xs border ${territories.includes(t) ? 'bg-[#006c49] text-white border-[#006c49]' : 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:border-zinc-600'}`}
             >
               {t}
             </button>
@@ -74,7 +74,7 @@ export default function AgentTerritoryStep() {
               key={f}
               type="button"
               onClick={() => toggle(focusAreas, f, 'focusAreas')}
-              className={`px-3 py-1.5 rounded-full text-xs border ${focusAreas.includes(f) ? 'bg-[#10b981] text-white border-[#10b981]' : 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:border-zinc-600'}`}
+              className={`px-3 py-1.5 rounded-full text-xs border ${focusAreas.includes(f) ? 'bg-[#006c49] text-white border-[#006c49]' : 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:border-zinc-600'}`}
             >
               {f}
             </button>
@@ -85,8 +85,8 @@ export default function AgentTerritoryStep() {
         <Label>Current active listings count</Label>
         <Input type="number" placeholder="e.g. 12" {...form.register('activeListingsCount')} />
       </div>
-      {message && <p className={`text-sm p-3 rounded-lg ${message.includes('saved') ? 'bg-emerald-900/20 text-emerald-400' : 'bg-red-900/20 text-red-400'}`}>{message}</p>}
-      <Button type="submit" disabled={saving} className="w-full bg-[#10b981] hover:bg-[#006c49]">
+      {message && <p className={`text-sm p-3 rounded-lg ${message.includes('saved') ? 'bg-primary/20 text-[#4edea3]' : 'bg-red-900/20 text-red-400'}`}>{message}</p>}
+      <Button type="submit" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49]">
         {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null} Save territory & portfolio
       </Button>
     </form>

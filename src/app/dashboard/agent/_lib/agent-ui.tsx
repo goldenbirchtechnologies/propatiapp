@@ -37,7 +37,7 @@ export function AgentCardHeader({
   return (
     <div className="flex flex-col gap-3 border-b border-zinc-200 bg-zinc-50/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-white/[0.08] dark:bg-zinc-800/50">
       <div className="flex min-w-0 items-center gap-2">
-        {icon ? <span className="text-emerald-600 dark:text-emerald-400">{icon}</span> : null}
+        {icon ? <span className="text-primary dark:text-[#4edea3]">{icon}</span> : null}
         <div className="min-w-0">
           <h2 className="truncate text-base font-semibold text-zinc-900 dark:text-white">{title}</h2>
           {subtitle ? (
@@ -68,7 +68,7 @@ export function AgentStatCard({
   trailing?: ReactNode;
 }) {
   const accentClass = {
-    emerald: 'bg-emerald-600/10 text-emerald-600 dark:text-emerald-400',
+    emerald: 'bg-primary/10 text-primary dark:text-[#4edea3]',
     amber: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
     red: 'bg-red-500/10 text-red-600 dark:text-red-400',
     neutral: 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400',
@@ -170,7 +170,7 @@ export function FilterPill({
       className={cn(
         'inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-medium transition-colors',
         active
-          ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-zinc-900'
+          ? 'bg-primary text-white dark:bg-primary dark:text-zinc-900'
           : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
       )}
     >
@@ -319,7 +319,7 @@ export function ToolbarSearch({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-9 pr-3 text-sm text-zinc-900 outline-none transition-colors placeholder:text-zinc-500 focus:border-emerald-600 focus:bg-white focus:ring-1 focus:ring-emerald-600 dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-emerald-500 dark:focus:bg-zinc-900"
+        className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-9 pr-3 text-sm text-zinc-900 outline-none transition-colors placeholder:text-zinc-500 focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-primary dark:focus:bg-zinc-900"
       />
     </div>
   );
@@ -344,7 +344,7 @@ export function ToolbarSelect({
         aria-label={ariaLabel}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-10 w-full appearance-none rounded-lg border border-zinc-200 bg-zinc-50 px-3 pr-8 text-[13px] font-medium text-zinc-900 outline-none transition-colors focus:border-emerald-600 focus:bg-white dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white dark:focus:border-emerald-500 dark:focus:bg-zinc-900"
+        className="h-10 w-full appearance-none rounded-lg border border-zinc-200 bg-zinc-50 px-3 pr-8 text-[13px] font-medium text-zinc-900 outline-none transition-colors focus:border-primary focus:bg-white dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white dark:focus:border-primary dark:focus:bg-zinc-900"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
@@ -378,7 +378,7 @@ export function PrimaryAction({
   return (
     <button
       type="button"
-      className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-[0.98] dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+      className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] active:scale-[0.98] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
       {...rest}
     >
       {icon}
@@ -422,12 +422,12 @@ export function AgentBreadcrumb({
           {item.href && !item.current ? (
             <a
               href={item.href}
-              className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+              className="transition-colors hover:text-primary dark:hover:text-[#4edea3]"
             >
               {item.label}
             </a>
           ) : (
-            <span className={item.current ? 'text-emerald-600 dark:text-emerald-400' : undefined}>
+            <span className={item.current ? 'text-primary dark:text-[#4edea3]' : undefined}>
               {item.label}
             </span>
           )}

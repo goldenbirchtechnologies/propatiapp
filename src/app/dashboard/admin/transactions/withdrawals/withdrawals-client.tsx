@@ -43,7 +43,7 @@ function WithdrawalsClient({
   const statusClass = (s: string) => {
     switch (s) {
       case 'released':
-        return 'bg-emerald-600 text-on-success';
+        return 'bg-primary text-on-success';
       case 'in_escrow':
         return 'bg-secondary-container text-on-secondary-container';
       case 'pending':

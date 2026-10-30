@@ -57,7 +57,7 @@ export default async function TenantMaintenanceEmergencyPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-md">
-                <Timer className="h-4 w-4 text-emerald-300" />
+                <Timer className="h-4 w-4 text-[#6ffbbe]" />
                 <span className="font-mono text-xs font-semibold tracking-tight text-white">Active SLA: &lt; 15 Minutes Arrival</span>
               </div>
             </div>
@@ -66,7 +66,7 @@ export default async function TenantMaintenanceEmergencyPage() {
           {/* Hero Card */}
           <div className="relative overflow-hidden rounded-xl border-2 border-red-500/40 bg-white dark:bg-zinc-900 p-6 shadow-md lg:p-8">
             <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-red-500/5 blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-emerald-500/5 blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-primary/5 blur-2xl pointer-events-none" />
             <div className="relative z-10 grid gap-6 lg:grid-cols-12 lg:items-center">
               {/* Left: phone + actions */}
               <div className="flex flex-col gap-4 lg:col-span-7">
@@ -87,8 +87,8 @@ export default async function TenantMaintenanceEmergencyPage() {
                     <PhoneCall className="h-4 w-4 text-red-500" />
                     <span>Direct Lagos MEP Desk: <strong className="text-zinc-900 dark:text-white">+234 (0) 800 776 7284</strong></span>
                     <span className="text-zinc-300 dark:text-zinc-700">•</span>
-                    <span className="flex items-center gap-1 font-medium text-emerald-600 dark:text-emerald-400">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> 8 Lines Available
+                    <span className="flex items-center gap-1 font-medium text-primary dark:text-[#4edea3]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary" /> 8 Lines Available
                     </span>
                   </div>
                 </div>
@@ -97,11 +97,11 @@ export default async function TenantMaintenanceEmergencyPage() {
                     <Phone className="h-5 w-5" /> Call Now (0800-PROPATI)
                   </a>
                   <a href="https://wa.me/2348007767284?text=EMERGENCY%20INCIDENT%20REPORT%20-%20Immediate%20Dispatch%20Required" target="_blank" rel="noopener noreferrer" className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-red-500/30 bg-white dark:bg-zinc-900 px-4 py-3 text-sm font-semibold text-red-600 dark:text-red-400 shadow-sm transition-colors hover:bg-red-50 dark:hover:bg-red-500/10">
-                    <MessageCircle className="h-5 w-5 text-emerald-500" /> WhatsApp Emergency Desk
+                    <MessageCircle className="h-5 w-5 text-primary" /> WhatsApp Emergency Desk
                   </a>
                 </div>
                 <div className="flex items-center gap-2 pt-1 text-xs text-zinc-600 dark:text-zinc-400">
-                  <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                  <ShieldCheck className="h-4 w-4 text-primary" />
                   <span>Guaranteed <strong>&lt; 15 Min First Response Benchmark</strong> • On-Site Estate MEP Emergency Squad</span>
                 </div>
               </div>
@@ -112,7 +112,7 @@ export default async function TenantMaintenanceEmergencyPage() {
                   <span className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white">
                     <Radar className="h-5 w-5 text-red-500" /> Emergency Dispatch Telemetry
                   </span>
-                  <span className="rounded bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">Active Sector</span>
+                  <span className="rounded bg-[var(--sovereign-container-bg)] dark:bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Active Sector</span>
                 </div>
                 <div className="relative h-44 w-full overflow-hidden rounded-lg shadow-inner bg-gradient-to-br from-zinc-800 to-zinc-900">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-3 text-white">
@@ -127,14 +127,14 @@ export default async function TenantMaintenanceEmergencyPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs text-zinc-700 dark:text-zinc-300">
                   <div className="flex items-center gap-2 rounded-lg bg-white dark:bg-zinc-900 p-3">
-                    <Cog className="h-5 w-5 text-emerald-500" />
+                    <Cog className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-[11px] text-zinc-500">Lead MEP Tech</p>
                       <p className="text-sm font-semibold text-zinc-900 dark:text-white">Engr. K. Balogun</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 rounded-lg bg-white dark:bg-zinc-900 p-3">
-                    <Flame className="h-5 w-5 text-emerald-500" />
+                    <Flame className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-[11px] text-zinc-500">Safety Cert</p>
                       <p className="text-sm font-semibold text-zinc-900 dark:text-white">LASG Fire-Cleared</p>
@@ -181,10 +181,10 @@ export default async function TenantMaintenanceEmergencyPage() {
             </div>
 
             {/* Non-emergency redirect */}
-            <div className="flex flex-col justify-between gap-4 rounded-xl border-l-4 border-l-emerald-500 bg-zinc-50 dark:bg-white/[0.04] p-6 shadow-sm lg:col-span-5">
+            <div className="flex flex-col justify-between gap-4 rounded-xl border-l-4 border-l-primary bg-zinc-50 dark:bg-white/[0.04] p-6 shadow-sm lg:col-span-5">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <CheckCircle className="h-6 w-6 text-emerald-500" />
+                  <CheckCircle className="h-6 w-6 text-primary" />
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Non-Emergency Maintenance?</h3>
                 </div>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">
@@ -192,12 +192,12 @@ export default async function TenantMaintenanceEmergencyPage() {
                 </p>
                 <div className="rounded-lg bg-white dark:bg-zinc-900 p-3">
                   <div className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white">
-                    <Clock className="h-4 w-4 text-emerald-500" /> Standard Resolution SLA: 24 - 48 Hours
+                    <Clock className="h-4 w-4 text-primary" /> Standard Resolution SLA: 24 - 48 Hours
                   </div>
                   <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Tracked with timestamped landlord compliance logs under Lagos Tenancy Law.</p>
                 </div>
               </div>
-              <Link href="/dashboard/tenant/maintenance/new" className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-500">
+              <Link href="/dashboard/tenant/maintenance/new" className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary">
                 File Standard Maintenance Ticket <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -215,8 +215,8 @@ export default async function TenantMaintenanceEmergencyPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {[
                 { n: '01', title: 'Immediate Danger: PhoneCall 999', color: 'bg-red-600', desc: 'If there is uncontrolled fire, gas explosion threat, or medical collapse, call Nigerian Emergency Services (112 / 999) or Lagos State Fire Service before contacting estate facility managers.', footer: ['State Emergency Service', '112 / 999'], tc: 'text-red-600 dark:text-red-400' },
-                { n: '02', title: 'Call Emergency Hotline', color: 'bg-emerald-600', desc: 'Dial 0800-PROPATI to notify the Sovereign Central Command. Inform dispatch of your exact Block, Unit number, and immediate containment hazards.', footer: ['Sovereign Central Command', '0800-776-7284'], tc: 'text-emerald-600 dark:text-emerald-400' },
-                { n: '03', title: 'File Formal Incident Ticket', color: 'bg-emerald-500', desc: 'Once physical hazards are contained, generate an audit ticket in this compliance portal to initiate insurance underwriting and landlord statutory claims.', footer: ['Statutory Compliance', 'LASRERA Mandated'], tc: 'text-emerald-600 dark:text-emerald-400' },
+                { n: '02', title: 'Call Emergency Hotline', color: 'bg-primary', desc: 'Dial 0800-PROPATI to notify the Sovereign Central Command. Inform dispatch of your exact Block, Unit number, and immediate containment hazards.', footer: ['Sovereign Central Command', '0800-776-7284'], tc: 'text-primary dark:text-[#4edea3]' },
+                { n: '03', title: 'File Formal Incident Ticket', color: 'bg-primary', desc: 'Once physical hazards are contained, generate an audit ticket in this compliance portal to initiate insurance underwriting and landlord statutory claims.', footer: ['Statutory Compliance', 'LASRERA Mandated'], tc: 'text-primary dark:text-[#4edea3]' },
                 { n: '04', title: 'Attach Visual Telemetry', color: 'bg-zinc-400', desc: 'Upload timestamped damage photographs and equipment tags to the maintenance vault. Do NOT enter hazardous zones to capture media.', footer: ['Digital Forensic Vault', 'CAC Linked'], tc: 'text-zinc-500' },
               ].map((s) => (
                 <div key={s.n} className="flex flex-col justify-between gap-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-4 shadow-sm">
@@ -248,7 +248,7 @@ export default async function TenantMaintenanceEmergencyPage() {
                   <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Registered Unit Emergency Profile</h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">Pre-verified property coordinates linked to tenant {user.fullName}</p>
                 </div>
-                <span className="rounded bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">Verified Occupancy</span>
+                <span className="rounded bg-[var(--sovereign-container-bg)] dark:bg-primary/10 px-2 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Verified Occupancy</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-3">
                 <div className="flex flex-col gap-1 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3">
@@ -264,12 +264,12 @@ export default async function TenantMaintenanceEmergencyPage() {
                 <div className="flex flex-col gap-1 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3">
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Assembly Point</span>
                   <span className="text-sm font-semibold text-zinc-900 dark:text-white">Car Park Court Yard (North)</span>
-                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Clear Evacuation Route</span>
+                  <span className="text-xs font-medium text-primary dark:text-[#4edea3]">Clear Evacuation Route</span>
                 </div>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><MapPin className="h-7 w-7" /></span>
+                  <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]"><MapPin className="h-7 w-7" /></span>
                   <div>
                     <h5 className="text-sm font-semibold text-zinc-900 dark:text-white">Unit 4B Digital Evacuation &amp; Utility Map</h5>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">Includes master water riser isolation, gas cylinder locker, and breaker panel locators.</p>
@@ -283,25 +283,25 @@ export default async function TenantMaintenanceEmergencyPage() {
             <div className="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-6 shadow-sm lg:col-span-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Standby Squad Roster</h3>
-                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-500" />
+                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-primary" />
               </div>
               <p className="text-xs text-zinc-600 dark:text-zinc-400">Shift: Alpha Rapid Response (Night / 24H)</p>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-2">
                   <div className="flex items-center gap-2"><Droplets className="h-5 w-5 text-red-500" /><span className="text-sm font-medium text-zinc-900 dark:text-white">Droplets &amp; Riser</span></div>
-                  <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">ON SITE (5m)</span>
+                  <span className="text-[11px] font-semibold text-primary dark:text-[#4edea3]">ON SITE (5m)</span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-2">
                   <div className="flex items-center gap-2"><Bolt className="h-5 w-5 text-red-500" /><span className="text-sm font-medium text-zinc-900 dark:text-white">High-Voltage Electrical</span></div>
-                  <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">ON SITE (5m)</span>
+                  <span className="text-[11px] font-semibold text-primary dark:text-[#4edea3]">ON SITE (5m)</span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-2">
                   <div className="flex items-center gap-2"><Stethoscope className="h-5 w-5 text-red-500" /><span className="text-sm font-medium text-zinc-900 dark:text-white">First Aid / Paramedic</span></div>
-                  <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">STANDBY (8m)</span>
+                  <span className="text-[11px] font-semibold text-primary dark:text-[#4edea3]">STANDBY (8m)</span>
                 </div>
               </div>
               <div className="mt-auto flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-2 text-xs text-zinc-600 dark:text-zinc-400">
-                <Shield className="h-4 w-4 text-emerald-500" /> Insured by Sovereign General Insurance Nig. Ltd
+                <Shield className="h-4 w-4 text-primary" /> Insured by Sovereign General Insurance Nig. Ltd
               </div>
             </div>
           </div>
@@ -313,7 +313,7 @@ export default async function TenantMaintenanceEmergencyPage() {
                 <ArrowRight className="h-4 w-4 rotate-180" /> Back to Maintenance Overview
               </Link>
               <span className="hidden text-zinc-300 dark:text-zinc-700 sm:inline">•</span>
-              <Link href="/dashboard/tenant/maintenance/protocol" className="flex items-center gap-1 text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+              <Link href="/dashboard/tenant/maintenance/protocol" className="flex items-center gap-1 text-sm text-primary dark:text-[#4edea3] hover:underline">
                 <FileText className="h-4 w-4" /> View Sovereign SLA &amp; Maintenance FileText Standards
               </Link>
             </div>
@@ -325,7 +325,7 @@ export default async function TenantMaintenanceEmergencyPage() {
           {/* Legal disclaimer footer */}
           <div className="flex flex-col items-start justify-between gap-4 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4 text-xs text-zinc-600 dark:text-zinc-400 md:flex-row md:items-center">
             <div className="flex items-start gap-2">
-              <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
+              <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
               <p>
                 <strong className="text-zinc-900 dark:text-white">Legal Incident Recording:</strong> PhoneCalls placed to 0800-PROPATI are recorded and encrypted for quality, safety verification, and compliance with the <em>Lagos State Real Estate Regulatory Authority (LASRERA)</em> and the <em>Nigeria Data Protection Act (NDPA 2023)</em>.
               </p>
@@ -333,7 +333,7 @@ export default async function TenantMaintenanceEmergencyPage() {
             <div className="shrink-0 font-mono text-[11px] text-zinc-500">
               <span>SOVEREIGN DISPATCH ENGINE v4.2</span>
               <span className="mx-2">•</span>
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400">ALL SYSTEMS NOMINAL</span>
+              <span className="font-semibold text-primary dark:text-[#4edea3]">ALL SYSTEMS NOMINAL</span>
             </div>
           </div>
 

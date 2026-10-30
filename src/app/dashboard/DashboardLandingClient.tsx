@@ -122,7 +122,7 @@ export default function DashboardLandingClient() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-center">
-      <Loader2 className="h-8 w-8 animate-spin text-[#10b981] mb-4" />
+      <Loader2 className="h-8 w-8 animate-spin text-[#006c49] mb-4" />
       <p className="text-sm text-zinc-600">Setting up your dashboard…</p>
       {errorMessage && <p className="text-xs text-zinc-500 mt-2 max-w-sm">{errorMessage}</p>}
     </div>

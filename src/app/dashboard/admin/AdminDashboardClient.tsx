@@ -21,12 +21,12 @@ interface UserActivityProps {
 const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
   const statusColors: Record<string, string> = {
     pending: 'bg-amber-500/10 text-amber-400',
-    verified: 'bg-emerald-500/10 text-emerald-400',
-    active: 'bg-emerald-500/10 text-emerald-400',
+    verified: 'bg-primary/10 text-[#4edea3]',
+    active: 'bg-primary/10 text-[#4edea3]',
   };
 
   const roleColors: Record<string, string> = {
-    tenant: 'bg-emerald-500/10 text-emerald-400',
+    tenant: 'bg-primary/10 text-[#4edea3]',
     landlord: 'bg-amber-500/10 text-amber-400',
     agent: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400',
     'estate-manager': 'bg-amber-500/10 text-amber-400',
@@ -62,7 +62,7 @@ const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
   const styles: Record<string, string> = {
     warning: 'bg-amber-500/10 border-amber-500/20 text-amber-400',
     info: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
-    success: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+    success: 'bg-primary/10 border-primary/20 text-[#4edea3]',
   };
 
   return (
@@ -162,7 +162,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
             <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors">
               Export Report
             </a>
-            <a href="/dashboard/admin/settings" className="inline-flex items-center px-4 py-2 text-sm bg-emerald-500 text-zinc-900 dark:text-white rounded-lg hover:bg-emerald-600 transition-colors">
+            <a href="/dashboard/admin/settings" className="inline-flex items-center px-4 py-2 text-sm bg-primary text-zinc-900 dark:text-white rounded-lg hover:bg-primary transition-colors">
               Settings
             </a>
           </div>
@@ -187,7 +187,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
               <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">User Growth</h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-xs mt-0.5">Platform revenue · last 12 months</p>
             </div>
-            <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
+            <a href="/dashboard/admin/users" className="text-xs text-[#4edea3] flex items-center gap-1">
               View users <ArrowRight size={11} />
             </a>
           </div>
@@ -211,7 +211,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
                         className="w-full rounded-sm"
                         style={{
                           height: `${pct}%`,
-                          background: isLast ? '#10b981' : 'rgba(255,255,255,0.06)',
+                          background: isLast ? '#006c49' : 'rgba(255,255,255,0.06)',
                           minHeight: 4,
                         }}
                       />
@@ -277,7 +277,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Recent Users</h3>
-            <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
+            <a href="/dashboard/admin/users" className="text-xs text-[#4edea3] flex items-center gap-1">
               All users <ArrowRight size={11} />
             </a>
           </div>
@@ -296,13 +296,13 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-zinc-900 dark:text-white font-semibold text-sm flex items-center gap-2">
-              <Shield size={14} className="text-emerald-400" />
+              <Shield size={14} className="text-[#4edea3]" />
               Verification Queue
               <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-400 rounded-full">
                 {stats.pendingVerifications}
               </span>
             </h3>
-            <a href="/dashboard/admin/verification" className="text-xs text-emerald-400 flex items-center gap-1">
+            <a href="/dashboard/admin/verification" className="text-xs text-[#4edea3] flex items-center gap-1">
               View all <ArrowRight size={11} />
             </a>
           </div>
@@ -331,7 +331,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
       <div className="glass-card p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-zinc-900 dark:text-white font-semibold text-sm">Recent Transactions</h3>
-          <a href="/dashboard/admin/transactions" className="text-xs text-emerald-400 flex items-center gap-1">
+          <a href="/dashboard/admin/transactions" className="text-xs text-[#4edea3] flex items-center gap-1">
             All transactions <ArrowRight size={11} />
           </a>
         </div>

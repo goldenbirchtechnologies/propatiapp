@@ -151,7 +151,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
             </Link>
             <Link
               href="/dashboard/agent/inspections/new"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[13px] font-semibold shadow-sm transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary hover:bg-[var(--sovereign-hover)] text-white text-[13px] font-semibold shadow-sm transition-colors"
             >
               <CalendarPlus className="h-4 w-4" />
               Schedule Inspection
@@ -242,7 +242,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by property title, cadastral plot, address, or inspection ID..."
-            className="w-full h-10 pl-11 pr-4 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-600/25"
+            className="w-full h-10 pl-11 pr-4 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary/25"
           />
         </div>
       </OpsCard>
@@ -261,7 +261,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
             action={
               <Link
                 href="/dashboard/agent/inspections/new"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[13px] font-semibold shadow-sm transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-[var(--sovereign-hover)] text-white text-[13px] font-semibold shadow-sm transition-colors"
               >
                 <CalendarPlus className="h-4 w-4" />
                 Schedule Inspection
@@ -296,7 +296,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                               {i.reference}
                             </span>
                             {i.listingType ? (
-                              <span className="px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                              <span className="px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                 {TYPE_LABEL[i.listingType] ?? i.listingType}
                               </span>
                             ) : null}
@@ -325,12 +325,12 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                                 : 'text-zinc-900 dark:text-white'
                             }`}
                           >
-                            <Clock className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                            <Clock className="h-4 w-4 text-primary dark:text-[#4edea3]" />
                             {i.scheduledAt ? formatDate(i.scheduledAt) : 'Not scheduled'}
                           </div>
                           {i.completedAt ? (
                             <div className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-400">
-                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                              <CheckCircle2 className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
                               Completed {formatDate(i.completedAt)}
                             </div>
                           ) : null}
@@ -352,7 +352,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                                 href={i.reportUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[13px] font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors self-start"
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-[13px] font-semibold hover:bg-[var(--sovereign-container-bg)] dark:hover:bg-primary/20 transition-colors self-start"
                               >
                                 <FileText className="h-4 w-4" />
                                 View Verified Report (PDF)
@@ -439,7 +439,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                     </div>
                     <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white">
                       <div className="flex items-center gap-1 font-mono text-xs font-medium">
-                        <MapPin className="h-3.5 w-3.5 text-emerald-400" />
+                        <MapPin className="h-3.5 w-3.5 text-[#4edea3]" />
                         <span className="truncate">
                           {i.listingArea ?? '—'}
                           {i.listingState ? `, ${i.listingState}` : ''}
@@ -451,7 +451,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                     <div>
                       <div className="flex items-center justify-between gap-2">
                         <OpsLabel>Elevation Facade</OpsLabel>
-                        <span className="text-[11px] uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
+                        <span className="text-[11px] uppercase tracking-wider font-semibold text-primary dark:text-[#4edea3]">
                           {i.status === 'approved' ? 'Verified' : 'Pending'}
                         </span>
                       </div>
@@ -466,7 +466,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                     <div className="mt-3 pt-3 flex items-center justify-between border-t border-zinc-200 dark:border-white/[0.08] text-xs text-zinc-500 dark:text-zinc-400">
                       <span>{i.completedAt ? `Verified ${formatDate(i.completedAt)}` : 'Field visit pending'}</span>
                       {i.ownerName ? (
-                        <span className="text-emerald-600 dark:text-emerald-400 font-semibold truncate max-w-[50%]">
+                        <span className="text-primary dark:text-[#4edea3] font-semibold truncate max-w-[50%]">
                           {i.ownerName}
                         </span>
                       ) : null}
@@ -487,7 +487,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
       {/* Technical audit footer */}
       <OpsCard className="p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div className="flex items-start md:items-center gap-3">
-          <span className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+          <span className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary dark:text-[#4edea3] shrink-0">
             <ShieldCheck className="h-5 w-5" />
           </span>
           <div>

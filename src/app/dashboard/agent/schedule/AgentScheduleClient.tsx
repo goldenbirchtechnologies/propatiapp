@@ -18,8 +18,8 @@ type ScheduleItem = {
 
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  upcoming: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]', label: 'Upcoming' },
-  completed: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]', label: 'Completed' },
+  upcoming: { class: 'bg-[#006c49]/10 text-[#006c49] border border-zinc-200 dark:border-white/[0.08]', label: 'Upcoming' },
+  completed: { class: 'bg-[#006c49]/10 text-[#006c49] border border-zinc-200 dark:border-white/[0.08]', label: 'Completed' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
 };
 
@@ -176,7 +176,7 @@ export default function AgentScheduleClient() {
                       <tr key={item.id} className="border-b transition-colors hover:bg-[#171717]/30 border-zinc-200 dark:border-white/[0.08]">
                         <td className="p-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-[#10b981]/10 text-zinc-900 dark:text-white flex items-center justify-center flex-shrink-0">
+                            <div className="w-10 h-10 rounded-xl bg-[#006c49]/10 text-zinc-900 dark:text-white flex items-center justify-center flex-shrink-0">
                               <CalendarDays className="w-5 h-5" />
                             </div>
                             <div className="min-w-0">

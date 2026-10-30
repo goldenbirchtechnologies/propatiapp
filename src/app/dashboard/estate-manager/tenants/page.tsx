@@ -33,7 +33,7 @@ const STATUS_FILTERS = [
 const STATUS_META: Record<string, { label: string; cls: string }> = {
   active: {
     label: 'Active',
-    cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
+    cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30',
   },
   pending: {
     label: 'Pending',
@@ -50,7 +50,7 @@ const CARD = 'rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:bord
 const LABEL = 'text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400';
 const MUTED = 'text-xs text-zinc-500 dark:text-zinc-400';
 const SELECT =
-  'w-full appearance-none rounded-lg border border-zinc-200 bg-white py-2 pl-3.5 pr-8 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
+  'w-full appearance-none rounded-lg border border-zinc-200 bg-white py-2 pl-3.5 pr-8 text-sm text-zinc-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
 const TH = 'px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400';
 
 function formatLeaseEnd(value: string): string {
@@ -174,7 +174,7 @@ export default function EstateManagerTenantsPage() {
   }) => {
     const toneCls =
       tone === 'emerald'
-        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+        ? 'bg-primary/10 text-primary dark:text-[#4edea3]'
         : tone === 'amber'
           ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
           : tone === 'sky'
@@ -205,7 +205,7 @@ export default function EstateManagerTenantsPage() {
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2">
-              <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+              <span className="rounded bg-primary/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-widest text-primary dark:text-[#4edea3]">
                 Tenancy Management
               </span>
               <span className="h-1 w-1 rounded-full bg-zinc-300 dark:bg-zinc-600" />
@@ -229,7 +229,7 @@ export default function EstateManagerTenantsPage() {
             </button>
             <Link
               href="/dashboard/estate-manager/units"
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] active:scale-[0.98]"
             >
               <UserPlus className="h-[18px] w-[18px]" />
               + Add Tenant
@@ -253,7 +253,7 @@ export default function EstateManagerTenantsPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search tenant name, unit, or email..."
-              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
+              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-1 focus:ring-primary dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
             />
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -290,7 +290,7 @@ export default function EstateManagerTenantsPage() {
             </p>
             <Link
               href="/dashboard/estate-manager/units"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
             >
               <UserPlus className="h-[18px] w-[18px]" /> Add your first tenant
             </Link>
@@ -325,7 +325,7 @@ export default function EstateManagerTenantsPage() {
                         <tr key={t.id} className="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                 {initialsOf(t.name)}
                               </div>
                               <span className="truncate text-sm font-semibold text-zinc-900 dark:text-white">{t.name}</span>
@@ -341,7 +341,7 @@ export default function EstateManagerTenantsPage() {
                           <td className="px-6 py-4">
                             <a
                               href={`mailto:${t.email}`}
-                              className="truncate text-sm text-zinc-600 transition-colors hover:text-emerald-600 dark:text-zinc-400"
+                              className="truncate text-sm text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400"
                             >
                               {t.email}
                             </a>
@@ -362,7 +362,7 @@ export default function EstateManagerTenantsPage() {
                           <td className="px-6 py-4 text-right">
                             <Link
                               href={`/dashboard/estate-manager/units`}
-                              className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700 dark:text-emerald-400"
+                              className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-[var(--sovereign-hover)] dark:text-[#4edea3]"
                             >
                               View <ArrowRight className="h-4 w-4" />
                             </Link>

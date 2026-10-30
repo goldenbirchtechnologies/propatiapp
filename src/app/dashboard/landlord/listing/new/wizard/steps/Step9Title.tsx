@@ -20,14 +20,14 @@ export default function Step9Title({ title, onChange }: Step9Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 09 / Listing Title</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 09 / Listing Title</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Title / Listing Title</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Create a catchy title that describes your place. Keep it short and sweet.</p>
       </div>
       <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-4">
         <div className="flex items-center justify-between">
           <Label htmlFor="title" className="text-sm font-medium text-zinc-900 dark:text-white flex items-center gap-2">
-            <FileText className="size-4 text-emerald-600" /> Institutional Property Title
+            <FileText className="size-4 text-primary" /> Institutional Property Title
           </Label>
           <span className={`text-xs font-medium ${remaining < 0 ? 'text-red-500' : remaining < 10 ? 'text-amber-600' : 'text-zinc-600 dark:text-zinc-400'}`}>
             {value.length} / 50
@@ -55,7 +55,7 @@ export default function Step9Title({ title, onChange }: Step9Props) {
       </div>
       <div className="p-5 bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] rounded-xl">
         <div className="flex items-center gap-2 mb-2">
-          <Sparkles className="size-4 text-emerald-600" />
+          <Sparkles className="size-4 text-primary" />
           <span className="text-sm font-semibold text-zinc-900 dark:text-white">Syndication Marketing Pitch</span>
         </div>
         <p className="text-xs text-zinc-600 dark:text-zinc-400">Character limit: 142/800. Ultra-luxury duplex with panoramic views of Lagos Lagoon...</p>

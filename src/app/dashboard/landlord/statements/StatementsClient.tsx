@@ -162,9 +162,9 @@ export default function StatementsClient() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-        <span className="hover:text-emerald-600 cursor-pointer transition-colors">Home</span>
+        <span className="hover:text-primary cursor-pointer transition-colors">Home</span>
         <ChevronRight className="h-3.5 w-3.5 opacity-40" />
-        <span className="hover:text-emerald-600 cursor-pointer transition-colors">Financials &amp; Payouts</span>
+        <span className="hover:text-primary cursor-pointer transition-colors">Financials &amp; Payouts</span>
         <ChevronRight className="h-3.5 w-3.5 opacity-40" />
         <span className="text-zinc-900 dark:text-white font-semibold">Statements</span>
       </nav>
@@ -174,7 +174,7 @@ export default function StatementsClient() {
         <div className="flex flex-col max-w-3xl">
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Statements</h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
               <CheckCircle2 className="h-3.5 w-3.5" /> IFRS-16 &amp; Statutory Yield Audit Ready
             </span>
           </div>
@@ -213,7 +213,7 @@ export default function StatementsClient() {
           <Button variant="outline" size="sm" className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" onClick={batchExport}>
             <FileDown className="h-4 w-4" /> Batch Export Archive (.ZIP)
           </Button>
-          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={triggerGeneration}>
+          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={triggerGeneration}>
             <FileText className="h-4 w-4" /> Generate Statement
           </Button>
         </div>
@@ -238,7 +238,7 @@ export default function StatementsClient() {
                 <div
                   className={`flex h-10 w-10 items-center justify-center rounded-xl border ${
                     k.tint === 'emerald'
-                      ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+                      ? 'bg-primary/10 border-primary/20 text-primary dark:text-[#4edea3]'
                       : k.tint === 'amber'
                         ? 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400'
                         : 'bg-zinc-100 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.06] text-zinc-500 dark:text-zinc-400'
@@ -305,7 +305,7 @@ export default function StatementsClient() {
                   <tr key={t.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-colors">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/[0.06] text-emerald-600 dark:text-emerald-400">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/[0.06] text-primary dark:text-[#4edea3]">
                           <FileText className="h-5 w-5" />
                         </div>
                         <span className="text-sm font-semibold text-zinc-900 dark:text-white line-clamp-1">{t.description || t.type}</span>
@@ -317,7 +317,7 @@ export default function StatementsClient() {
                       <span
                         className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-semibold capitalize ${
                           t.status === 'success' || t.status === 'completed' || t.status === 'released'
-                            ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                            ? 'border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]'
                             : t.status === 'pending' || t.status === 'processing'
                               ? 'border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400'
                               : 'border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-white/[0.08] dark:bg-white/[0.06] dark:text-zinc-400'
@@ -336,7 +336,7 @@ export default function StatementsClient() {
                         onClick={() => downloadRow(t)}
                         disabled={downloading === t.id}
                         aria-label="Download"
-                        className="text-zinc-500 hover:text-emerald-600 dark:text-zinc-400"
+                        className="text-zinc-500 hover:text-primary dark:text-zinc-400"
                       >
                         {downloading === t.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
                       </Button>

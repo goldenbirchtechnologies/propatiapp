@@ -303,12 +303,12 @@ export default function VerificationDetailClient({
             </div>
 
             {verification.overallStatus === 'certified' && (
-              <Card className="border-green-200 bg-emerald-500/10">
+              <Card className="border-green-200 bg-primary/10">
                 <CardContent className="pt-6 flex items-center gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-emerald-400" />
+                  <CheckCircle2 className="h-6 w-6 text-[#4edea3]" />
                   <div>
-                    <p className="font-medium text-emerald-800">Fully Certified</p>
-                    <p className="text-sm text-emerald-400">This property has completed all verification layers.</p>
+                    <p className="font-medium text-[var(--sovereign-hover)]">Fully Certified</p>
+                    <p className="text-sm text-[#4edea3]">This property has completed all verification layers.</p>
                   </div>
                 </CardContent>
               </Card>
@@ -375,7 +375,7 @@ export default function VerificationDetailClient({
                         <div
                           className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${
                             status === 'approved'
-                              ? 'bg-green-100 text-emerald-400'
+                              ? 'bg-green-100 text-[#4edea3]'
                               : isCurrent
                                 ? 'bg-blue-100 text-blue-700'
                                 : 'bg-gray-100 text-gray-500'
@@ -482,10 +482,10 @@ export default function VerificationDetailClient({
                   {verification.overallStatus === 'certified' && (
                     <div className="flex gap-4">
                       <div className="flex flex-col items-center">
-                        <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                        <CheckCircle2 className="h-4 w-4 text-[#4edea3]" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-emerald-400">Certified</p>
+                        <p className="text-sm font-medium text-[#4edea3]">Certified</p>
                         <p className="text-xs text-zinc-400">Property is fully verified and certified.</p>
                       </div>
                     </div>

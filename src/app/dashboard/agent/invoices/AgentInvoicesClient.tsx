@@ -179,7 +179,7 @@ export default function AgentInvoicesClient({ summary, invoices }: Props) {
         title="Invoices & Billing Demands"
         description="Escrow-backed demand ledger across every mandate — each invoice issues against a registered property and settles through the platform trust account."
         badges={
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             Tier-4 Institutional
           </span>
         }
@@ -197,7 +197,7 @@ export default function AgentInvoicesClient({ summary, invoices }: Props) {
 
       {/* Compliance strip */}
       <div className="flex flex-col items-start gap-4 rounded-xl border border-zinc-200 bg-white p-5 lg:flex-row lg:items-center dark:border-white/[0.08] dark:bg-zinc-900">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]">
           <Shield className="h-5 w-5" />
         </div>
         <div className="min-w-0 flex-1">
@@ -328,7 +328,7 @@ export default function AgentInvoicesClient({ summary, invoices }: Props) {
               invoices.length === 0 ? (
                 <Link
                   href="/dashboard/agent/pipeline"
-                  className="inline-flex h-9 items-center gap-2 rounded-lg bg-emerald-600 px-3.5 text-xs font-medium text-white"
+                  className="inline-flex h-9 items-center gap-2 rounded-lg bg-primary px-3.5 text-xs font-medium text-white"
                 >
                   <Building2 className="h-3.5 w-3.5" /> View deal pipeline
                 </Link>
@@ -484,7 +484,7 @@ export default function AgentInvoicesClient({ summary, invoices }: Props) {
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span>
             Paid:{' '}
-            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
               {naira(summary.invoicePaid)}
             </span>
           </span>
@@ -498,7 +498,7 @@ export default function AgentInvoicesClient({ summary, invoices }: Props) {
         </div>
         <Link
           href="/dashboard/agent/statements"
-          className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-primary dark:text-[#4edea3] hover:underline"
         >
           View financial statements <ChevronRight className="h-3 w-3" />
         </Link>

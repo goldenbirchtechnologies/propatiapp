@@ -11,8 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
 const helpCategories = [
-  { icon: DollarSign, title: 'Payments & Billing', desc: 'Rent status, auto-pay setup, and payment history.', cta: 'View Billing', color: 'text-[#10b981]', bg: 'bg-success/10' },
-  { icon: Wrench, title: 'Maintenance Requests', desc: 'Report issues, track repairs, and view schedules.', cta: 'Track Repairs', color: 'text-[#10b981]', bg: 'bg-success/10', highlight: true },
+  { icon: DollarSign, title: 'Payments & Billing', desc: 'Rent status, auto-pay setup, and payment history.', cta: 'View Billing', color: 'text-[#006c49]', bg: 'bg-success/10' },
+  { icon: Wrench, title: 'Maintenance Requests', desc: 'Report issues, track repairs, and view schedules.', cta: 'Track Repairs', color: 'text-[#006c49]', bg: 'bg-success/10', highlight: true },
   { icon: FileText, title: 'Lease & Agreements', desc: 'Renewals, digital contracts, and terms of use.', cta: 'Access Documents', color: 'text-zinc-900 dark:text-white' },
   { icon: ArrowUpDown, title: 'Move-in / Move-out', desc: 'Checklists, key collection, and deposit returns.', cta: 'View Checklist', color: 'text-zinc-900 dark:text-white' },
   { icon: Users, title: 'Community & Rules', desc: 'Building policies, parking, and neighbor relations.', cta: 'Read Guidelines', color: 'text-zinc-900 dark:text-white' },
@@ -98,7 +98,7 @@ export default function TenantSupportPage() {
                 className="w-full p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] hover:bg-white dark:bg-zinc-900 transition-colors cursor-pointer flex items-center justify-between group text-left"
               >
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-[#10b981]" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                  <svg className="w-5 h-5 text-[#006c49]" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
                   <span className="text-sm font-medium text-zinc-900 dark:text-white">{faq.q}</span>
                 </div>
                 <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:text-white transition-colors" />

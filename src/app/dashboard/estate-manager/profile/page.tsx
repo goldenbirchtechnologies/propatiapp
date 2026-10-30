@@ -91,7 +91,7 @@ const CARD =
   'rounded-xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7 dark:border-zinc-800 dark:bg-zinc-900';
 const INPUT =
   'w-full rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all ' +
-  'focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 ' +
+  'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 ' +
   'dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
 const INPUT_READONLY =
   'w-full cursor-not-allowed rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-3.5 py-2.5 pr-9 text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-400';
@@ -99,7 +99,7 @@ const LABEL = 'mb-1.5 block text-xs font-medium text-zinc-900 dark:text-white';
 const TITLE = 'text-base font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-lg';
 const SUB = 'mt-0.5 text-xs text-zinc-500 dark:text-zinc-400 sm:text-sm';
 const MUTED = 'text-xs text-zinc-500 dark:text-zinc-400';
-const SECTION_ICON = 'h-4 w-4 text-emerald-600 dark:text-emerald-400';
+const SECTION_ICON = 'h-4 w-4 text-primary dark:text-[#4edea3]';
 
 function initialsOf(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -128,7 +128,7 @@ function Toggle({
         aria-label={label}
         className="peer sr-only"
       />
-      <div className="h-6 w-11 rounded-full border border-zinc-200 bg-zinc-200 transition-colors duration-200 peer-checked:border-emerald-600 peer-checked:bg-emerald-600 peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-500/40 dark:border-zinc-700 dark:bg-zinc-700">
+      <div className="h-6 w-11 rounded-full border border-zinc-200 bg-zinc-200 transition-colors duration-200 peer-checked:border-primary peer-checked:bg-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 dark:border-zinc-700 dark:bg-zinc-700">
         <div
           className={`mt-1 ml-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${
             checked ? 'translate-x-5' : 'translate-x-0'
@@ -322,7 +322,7 @@ export default function EstateManagerProfilePage() {
 
   const kycTone =
     kyc === 'approved'
-      ? { label: 'Firm Verified', cls: 'bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-500/10 dark:border-emerald-500/30 dark:text-emerald-400', icon: ShieldCheck }
+      ? { label: 'Firm Verified', cls: 'bg-[var(--sovereign-container-bg)] border-primary text-[var(--sovereign-hover)] dark:bg-primary/10 dark:border-primary/30 dark:text-[#4edea3]', icon: ShieldCheck }
       : { label: 'Firm Pending', cls: 'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-500/10 dark:border-amber-500/30 dark:text-amber-400', icon: ShieldAlert };
 
   const KycIcon = kycTone.icon;
@@ -336,7 +336,7 @@ export default function EstateManagerProfilePage() {
       <main className="mx-auto w-full max-w-[1240px] p-6 lg:p-10">
         {/* Page header */}
         <div className="mb-8">
-          <div className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+          <div className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
             <UserCog className="h-3.5 w-3.5" />
             <span>Management Profile</span>
           </div>
@@ -352,21 +352,21 @@ export default function EstateManagerProfilePage() {
           {/* ── LEFT: identity + readiness ── */}
           <div className="space-y-6">
             <div className={`${CARD} relative flex flex-col items-center overflow-hidden text-center`}>
-              <div className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-emerald-500/10 to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-primary/10 to-transparent" />
 
               {/* Avatar */}
               <div className="relative mb-5 mt-2">
-                <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-emerald-500/20 bg-zinc-100 p-1 shadow-sm dark:bg-zinc-800">
+                <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-primary/20 bg-zinc-100 p-1 shadow-sm dark:bg-zinc-800">
                   {avatarUrl ? (
                     <img src={avatarUrl} alt={form.fullName || 'Avatar'} className="h-full w-full rounded-full object-cover" />
                   ) : (
-                    <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                    <span className="text-2xl font-bold text-primary dark:text-[#4edea3]">
                       {initialsOf(form.fullName || 'Estate Manager')}
                     </span>
                   )}
                 </div>
                 <span
-                  className="absolute bottom-0 right-0 flex h-8 w-8 translate-x-1 translate-y-1 items-center justify-center rounded-full border border-zinc-200 bg-white text-emerald-600 shadow-sm transition-colors dark:border-zinc-700 dark:bg-zinc-900"
+                  className="absolute bottom-0 right-0 flex h-8 w-8 translate-x-1 translate-y-1 items-center justify-center rounded-full border border-zinc-200 bg-white text-primary shadow-sm transition-colors dark:border-zinc-700 dark:bg-zinc-900"
                   title="Avatar is managed by Clerk"
                 >
                   <Camera className="h-4 w-4" />
@@ -411,9 +411,9 @@ export default function EstateManagerProfilePage() {
               {!orgName && (
                 <Link
                   href="/dashboard/estate-manager/organizations/new"
-                  className="mt-5 flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-xs font-medium text-zinc-700 transition-colors hover:border-emerald-500 hover:bg-zinc-50 hover:text-emerald-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  className="mt-5 flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-xs font-medium text-zinc-700 transition-colors hover:border-primary hover:bg-zinc-50 hover:text-primary dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
                 >
-                  <Building2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <Building2 className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
                   Create Organization
                 </Link>
               )}
@@ -425,11 +425,11 @@ export default function EstateManagerProfilePage() {
                 <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                   Profile Readiness
                 </span>
-                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">{readiness}%</span>
+                <span className="text-xs font-bold text-primary dark:text-[#4edea3]">{readiness}%</span>
               </div>
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all"
+                  className="h-full rounded-full bg-gradient-to-r from-primary to-[#4edea3] transition-all"
                   style={{ width: `${readiness}%` }}
                 />
               </div>
@@ -462,7 +462,7 @@ export default function EstateManagerProfilePage() {
                   </div>
                 )}
                 {saved && (
-                  <div className="flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-400">
+                  <div className="flex items-center gap-2 rounded-lg border border-primary bg-[var(--sovereign-container-bg)] px-3.5 py-2.5 text-xs text-[var(--sovereign-hover)] dark:border-primary/30 dark:bg-primary/10 dark:text-[#4edea3]">
                     <Check className="h-3.5 w-3.5" />
                     <span>Profile changes saved.</span>
                   </div>
@@ -471,7 +471,7 @@ export default function EstateManagerProfilePage() {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className={LABEL} htmlFor="fullName">
-                      Full Name <span className="text-emerald-600">*</span>
+                      Full Name <span className="text-primary">*</span>
                     </label>
                     <input
                       id="fullName"
@@ -528,7 +528,7 @@ export default function EstateManagerProfilePage() {
                   <button
                     type="submit"
                     disabled={saving || !dirty}
-                    className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-xs font-medium text-white shadow-sm transition-all hover:bg-emerald-700 disabled:opacity-50 sm:text-sm"
+                    className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-xs font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] disabled:opacity-50 sm:text-sm"
                   >
                     {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                     {saving ? 'Saving…' : 'Save Changes'}
@@ -550,7 +550,7 @@ export default function EstateManagerProfilePage() {
               <div className="mt-4 space-y-4">
                 <div className="flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-3.5 dark:border-zinc-800 dark:bg-zinc-800/40">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]">
                       <ShieldCheck className="h-4 w-4" />
                     </div>
                     <div>
@@ -568,7 +568,7 @@ export default function EstateManagerProfilePage() {
 
                 <div className="flex flex-col items-start justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3.5 sm:flex-row sm:items-center dark:border-zinc-800 dark:bg-zinc-800/40">
                   <div className="flex items-start gap-3 sm:items-center">
-                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 sm:mt-0 dark:text-emerald-400">
+                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary sm:mt-0 dark:text-[#4edea3]">
                       <IdCard className="h-4 w-4" />
                     </div>
                     <div>
@@ -581,7 +581,7 @@ export default function EstateManagerProfilePage() {
                   <button
                     type="button"
                     onClick={() => reloadKyc()}
-                    className="inline-flex items-center gap-1.5 self-end whitespace-nowrap rounded-lg border border-emerald-600 px-4 py-2 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-500/5 sm:self-auto dark:text-emerald-400"
+                    className="inline-flex items-center gap-1.5 self-end whitespace-nowrap rounded-lg border border-primary px-4 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/5 sm:self-auto dark:text-[#4edea3]"
                   >
                     <Phone className="h-3.5 w-3.5" />
                     Recheck Status
@@ -613,7 +613,7 @@ export default function EstateManagerProfilePage() {
                     <div className="pr-2">
                       <div className="flex items-center gap-2 text-sm font-medium text-zinc-900 dark:text-white">
                         <span>{t.label}</span>
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                       </div>
                       <p className={`mt-0.5 ${MUTED}`}>{t.description}</p>
                     </div>
@@ -639,7 +639,7 @@ export default function EstateManagerProfilePage() {
               <div className="mt-5 flex flex-col items-start justify-between gap-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4 sm:flex-row sm:items-center dark:border-zinc-800 dark:bg-zinc-800/40">
                 <Link
                   href="/sign-in"
-                  className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-xs font-medium text-white shadow-sm transition-all hover:bg-emerald-700 sm:text-sm"
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] sm:text-sm"
                 >
                   <KeyRound className="h-4 w-4" />
                   Change password

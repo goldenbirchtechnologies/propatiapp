@@ -267,7 +267,7 @@ export default function AgentStatementsClient({
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
               <span className="text-xs text-zinc-500 dark:text-zinc-400">Live from ledger</span>
-              <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <TrendingUp className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
             </div>
           }
         />
@@ -287,7 +287,7 @@ export default function AgentStatementsClient({
           tone="amber"
           icon={<Receipt className="h-4 w-4" />}
           footer={
-            <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 text-xs text-primary dark:text-[#4edea3]">
               <BadgeCheck className="h-3.5 w-3.5" /> FIRS batch reconciled
             </span>
           }
@@ -412,14 +412,14 @@ export default function AgentStatementsClient({
                       </FinanceTd>
                       <FinanceTd>
                         <div className="flex items-center gap-1.5">
-                          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                          <span className="h-2 w-2 rounded-full bg-primary" />
                           <span className="font-mono text-[11px] text-zinc-700 dark:text-zinc-300">
                             {r.channel}
                           </span>
                         </div>
                       </FinanceTd>
                       <FinanceTd align="right">
-                        <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                        <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
                           {r.inflow > 0 ? `+${naira(r.inflow)}` : '—'}
                         </span>
                       </FinanceTd>
@@ -456,7 +456,7 @@ export default function AgentStatementsClient({
       {/* Audit footer */}
       <div className="flex flex-col items-start justify-between gap-3 rounded-xl border border-zinc-200 bg-white p-4 lg:flex-row lg:items-center dark:border-white/[0.08] dark:bg-zinc-900">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]">
             <Shield className="h-4 w-4" />
           </div>
           <div>

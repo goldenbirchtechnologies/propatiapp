@@ -87,11 +87,11 @@ export default function AgentMessagesClient({
                   <Link
                     key={c.id}
                     href={`#conversation-${c.id}`}
-                    className={`block px-4 py-4 hover:bg-white dark:bg-zinc-950/30 transition-colors ${unread > 0 ? 'bg-[#10b981]/5' : ''}`}
+                    className={`block px-4 py-4 hover:bg-white dark:bg-zinc-950/30 transition-colors ${unread > 0 ? 'bg-[#006c49]/5' : ''}`}
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${unread > 0 ? 'bg-[#10b981]/10 text-zinc-900 dark:text-white' : 'bg-[#171717] text-zinc-600 dark:text-zinc-400'}`}
+                        className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${unread > 0 ? 'bg-[#006c49]/10 text-zinc-900 dark:text-white' : 'bg-[#171717] text-zinc-600 dark:text-zinc-400'}`}
                       >
                         <MessageSquare className="h-4 w-4" />
                       </div>
@@ -105,7 +105,7 @@ export default function AgentMessagesClient({
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         {unread > 0 ? (
-                          <Badge className="bg-[#10b981] text-zinc-900 dark:text-white">{unread}</Badge>
+                          <Badge className="bg-[#006c49] text-zinc-900 dark:text-white">{unread}</Badge>
                         ) : null}
                         <span className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-400">
                           <Clock className="h-3 w-3" />

@@ -24,8 +24,8 @@ export default function AboutUsPage() {
     <div className="bg-black min-h-screen pt-16">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 relative">
           <div className="max-w-3xl">
             <SectionLabel>About PropatiBox</SectionLabel>
@@ -61,21 +61,21 @@ export default function AboutUsPage() {
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             <div className="glass-card p-6">
-              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                 <Users className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-sm font-semibold text-white">For tenants</h3>
               <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Verified listings, vetted landlords, and rent collection that creates a receipt ┬ÌÌÑ a dispute.</p>
             </div>
             <div className="glass-card p-6">
-              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                 <Shield className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-sm font-semibold text-white">For landlords</h3>
               <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Identity-verified tenants, stamp-duty-compliant agreements, and escrow until handover is confirmed.</p>
             </div>
             <div className="glass-card p-6">
-              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                 <Heart className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-sm font-semibold text-white">For the market</h3>
@@ -116,7 +116,7 @@ export default function AboutUsPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {compliancePoints.map((c) => (
               <div key={c.title} className="glass-card p-5 flex gap-3">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0 mt-0.5">
                   <CheckCircle2 className="h-4 w-4" />
                 </div>
                 <div>

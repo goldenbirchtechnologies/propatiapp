@@ -33,7 +33,7 @@ interface WalletTransaction {
 }
 
 const TYPE_META: Record<TxType, { label: string; Icon: JSX.Element; cls: string }> = {
-  deposit: { label: 'Deposit', Icon: <ArrowDownRight className="h-[18px] w-[18px]" />, cls: 'text-emerald-600 dark:text-emerald-400' },
+  deposit: { label: 'Deposit', Icon: <ArrowDownRight className="h-[18px] w-[18px]" />, cls: 'text-primary dark:text-[#4edea3]' },
   escrow_credit: { label: 'Escrow Credit', Icon: <Landmark className="h-[18px] w-[18px]" />, cls: 'text-sky-600 dark:text-sky-400' },
   transfer: { label: 'Transfer', Icon: <ArrowUpRight className="h-[18px] w-[18px]" />, cls: 'text-zinc-600 dark:text-zinc-400' },
   refund: { label: 'Refund', Icon: <RefreshCw className="h-[18px] w-[18px]" />, cls: 'text-purple-600 dark:text-purple-400' },
@@ -42,9 +42,9 @@ const TYPE_META: Record<TxType, { label: string; Icon: JSX.Element; cls: string 
 };
 
 const STATUS_META: Record<TxStatus, { label: string; cls: string; dot: string }> = {
-  completed: { label: 'Completed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
-  paid: { label: 'Paid', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
-  released: { label: 'Released', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
+  completed: { label: 'Completed', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
+  paid: { label: 'Paid', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
+  released: { label: 'Released', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
   pending: { label: 'Pending', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
   in_escrow: { label: 'In Escrow', cls: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-500/10 dark:text-sky-400 dark:border-sky-500/30', dot: 'bg-sky-500' },
   failed: { label: 'Failed', cls: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30', dot: 'bg-rose-500' },
@@ -154,7 +154,7 @@ export default function LedgerPage() {
         <div className="space-y-6">
           <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
             <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-2 rounded bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-2 rounded bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
                 Facility Operations
               </span>
               <h1 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Ledger</h1>
@@ -191,11 +191,11 @@ export default function LedgerPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <span className={LABEL}>Net Change</span>
-              <div className={`mt-2 text-2xl font-bold font-mono ${totals.total >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>{ngn(totals.total)}</div>
+              <div className={`mt-2 text-2xl font-bold font-mono ${totals.total >= 0 ? 'text-primary dark:text-[#4edea3]' : 'text-rose-600 dark:text-rose-400'}`}>{ngn(totals.total)}</div>
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <span className={LABEL}>Credits</span>
-              <div className="mt-2 text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">+{ngn(totals.credit)}</div>
+              <div className="mt-2 text-2xl font-bold font-mono text-primary dark:text-[#4edea3]">+{ngn(totals.credit)}</div>
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <span className={LABEL}>Debits</span>
@@ -215,14 +215,14 @@ export default function LedgerPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search description or reference…"
-                className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
+                className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
               />
             </div>
             <div className="flex flex-wrap items-center gap-2.5">
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+                className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
               >
                 <option value="ALL">All Types</option>
                 {Object.entries(TYPE_META).map(([v, m]) => (<option key={v} value={v}>{m.label}</option>))}
@@ -230,7 +230,7 @@ export default function LedgerPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+                className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
               >
                 <option value="ALL">All Statuses</option>
                 {Object.entries(STATUS_META).map(([v, m]) => (<option key={v} value={v}>{m.label}</option>))}
@@ -238,7 +238,7 @@ export default function LedgerPage() {
               <select
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value as '30' | '90' | '365' | 'ALL')}
-                className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+                className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
               >
                 <option value="ALL">All Time</option>
                 <option value="30">Last 30 days</option>
@@ -296,7 +296,7 @@ export default function LedgerPage() {
                                 {stat.label}
                               </span>
                             </td>
-                            <td className={`whitespace-nowrap px-4 py-3 text-right font-mono font-bold ${isCancelled ? 'text-zinc-400' : isDebit ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                            <td className={`whitespace-nowrap px-4 py-3 text-right font-mono font-bold ${isCancelled ? 'text-zinc-400' : isDebit ? 'text-rose-600 dark:text-rose-400' : 'text-primary dark:text-[#4edea3]'}`}>
                               {isCancelled ? '—' : (isDebit ? `-${ngn(t.amount)}` : `+${ngn(t.amount)}`)}
                             </td>
                           </tr>

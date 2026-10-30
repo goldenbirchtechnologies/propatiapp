@@ -58,7 +58,7 @@ function UsersManagementClient({
   const VerificationBadge = ({ user }: { user: (typeof users)[0] }) => {
     if (user.idVerified)
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-[#10b981] font-label-sm text-label-sm border border-on-tertiary-container/20">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-[#006c49] font-label-sm text-label-sm border border-on-tertiary-container/20">
           <AppIcon name="verified" className="lucide" size={16} />
           Lvl 5
         </span>
@@ -91,7 +91,7 @@ function UsersManagementClient({
             key={card.label}
             className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-md shadow-none flex items-center gap-4"
           >
-            <div className="p-3 rounded-lg bg-emerald-500-container/5 text-zinc-900 dark:text-white shrink-0">
+            <div className="p-3 rounded-lg bg-primary-container/5 text-zinc-900 dark:text-white shrink-0">
               <AppIcon name={card.icon} className="lucide" size={28} />
             </div>
             <div>
@@ -169,7 +169,7 @@ function UsersManagementClient({
                   <tr key={u.id} className="hover:bg-white dark:bg-zinc-900 transition-all duration-200">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-emerald-500-fixed-dim flex items-center justify-center __PHWHITE__ font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center __PHWHITE__ font-bold text-sm">
                           {initials(u.fullName)}
                         </div>
                         <div>
@@ -195,7 +195,7 @@ function UsersManagementClient({
                           }`}
                         />
                         <span
-                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-400'}`}
+                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#006c49]' : 'text-zinc-600 dark:text-zinc-400'}`}
                         >
                           {u.isBanned ? 'Suspended' : u.isActive ? 'Active' : 'Inactive'}
                         </span>
@@ -249,7 +249,7 @@ function UsersManagementClient({
                   href={buildHref(pageNum)}
                   className={`w-10 h-10 flex items-center justify-center rounded-lg text-xs text-label-md transition-colors ${
                     pageNum === currentPage
-                      ? 'bg-emerald-500 text-zinc-900 dark:text-white shadow-none font-bold'
+                      ? 'bg-primary text-zinc-900 dark:text-white shadow-none font-bold'
                       : 'border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900'
                   }`}
                 >

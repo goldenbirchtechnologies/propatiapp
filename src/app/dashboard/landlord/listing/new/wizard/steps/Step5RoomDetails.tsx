@@ -80,11 +80,11 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
     <div className="flex flex-col gap-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 05 / Compartment Hierarchy</span>
+          <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 05 / Compartment Hierarchy</span>
           <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Room Builder & Fixture Inventory</h2>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">Catalogue specific rooms, luxury fittings, and ensuite dimensions.</p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
+        <Button className="bg-primary hover:bg-[var(--sovereign-hover)] text-white gap-2">
           <Plus className="size-4" /> Add Another Room
         </Button>
       </div>
@@ -103,7 +103,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
               key={opt}
               className={`flex items-center gap-2 rounded-xl border p-3 cursor-pointer transition ${
                 selected.includes(opt)
-                  ? 'border-emerald-600 dark:border-emerald-500 bg-emerald-600/5'
+                  ? 'border-primary dark:border-primary bg-primary/5'
                   : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-white/20'
               }`}
             >
@@ -122,7 +122,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
           onDragLeave={() => setDragOver(false)}
           onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
           className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
-            dragOver ? 'border-emerald-600 bg-emerald-600/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04]'
+            dragOver ? 'border-primary bg-primary/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04]'
           }`}
         >
           {images.length === 0 ? (
@@ -159,7 +159,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
           <div key={room.title} className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl flex flex-col justify-between gap-3">
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-emerald-600">{room.level}</span>
+                <span className="text-xs font-semibold text-primary">{room.level}</span>
                 <button type="button" className="text-zinc-400 hover:text-red-500"><X className="size-4" /></button>
               </div>
               <div className="font-semibold text-sm text-zinc-900 dark:text-white">{room.title}</div>

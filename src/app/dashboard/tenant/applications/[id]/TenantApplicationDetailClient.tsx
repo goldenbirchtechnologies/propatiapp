@@ -104,7 +104,7 @@ export default function TenantApplicationDetailClient({ application: initial }: 
         </nav>
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400"><Gavel className="h-3.5 w-3.5" /> LASRERA COMPLIANT</span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-700 dark:text-emerald-300"><ShieldCheck className="h-3.5 w-3.5" /> CAC VERIFIED</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><ShieldCheck className="h-3.5 w-3.5" /> CAC VERIFIED</span>
         </div>
       </div>
 
@@ -119,7 +119,7 @@ export default function TenantApplicationDetailClient({ application: initial }: 
             <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm text-zinc-600 dark:text-zinc-400">
               <MapPin className="h-4 w-4 text-zinc-400" /> {initial.listing.address} • {initial.listing.area}, {initial.listing.state}
               <span className="hidden sm:inline text-zinc-300 dark:text-zinc-700">•</span>
-              <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">Unit Ref: {initial.listing.id.slice(-4).toUpperCase()}</span>
+              <span className="font-mono text-xs font-semibold text-primary dark:text-[#4edea3]">Unit Ref: {initial.listing.id.slice(-4).toUpperCase()}</span>
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -128,7 +128,7 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                 {initial.landlord.avatarUrl ? <img src={initial.landlord.avatarUrl} alt={initial.landlord.fullName} className="h-full w-full object-cover" /> : initials(initial.landlord.fullName)}
               </span>
               <div className="min-w-0">
-                <p className="flex items-center gap-1 truncate text-sm font-semibold text-zinc-900 dark:text-white">{initial.landlord.fullName} <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-emerald-500" /></p>
+                <p className="flex items-center gap-1 truncate text-sm font-semibold text-zinc-900 dark:text-white">{initial.landlord.fullName} <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-primary" /></p>
                 <p className="truncate text-xs text-zinc-600 dark:text-zinc-400">Lessor • {initial.landlord.email}</p>
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                     {cover ? <img src={cover.url} alt={initial.listing.title} className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center text-zinc-400"><Building2 className="h-10 w-10" /></div>}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
                     <div className="absolute left-4 top-4 flex gap-2 text-[11px] font-semibold">
-                      <span className="rounded bg-emerald-600 px-2.5 py-1 text-white capitalize">{initial.listing.listingType.replace(/_/g, ' ')}</span>
+                      <span className="rounded bg-primary px-2.5 py-1 text-white capitalize">{initial.listing.listingType.replace(/_/g, ' ')}</span>
                       <span className="rounded bg-white/20 px-2.5 py-1 text-white backdrop-blur">{initial.listing.area}, {initial.listing.state}</span>
                     </div>
                     <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -170,16 +170,16 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                     ))}
                   </div>
                   <div className="flex flex-wrap gap-2 p-4 text-xs">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><BedDouble className="h-4 w-4 text-emerald-500" /> 4 Ensuite</span>
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><Bath className="h-4 w-4 text-emerald-500" /> 4.5 Luxury</span>
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><Ruler className="h-4 w-4 text-emerald-500" /> 420 sq.m</span>
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><Car className="h-4 w-4 text-emerald-500" /> 2 Bays</span>
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-3 py-2 font-semibold text-emerald-700 dark:text-emerald-300"><Zap className="h-4 w-4" /> 24/7 Redundant</span>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><BedDouble className="h-4 w-4 text-primary" /> 4 Ensuite</span>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><Bath className="h-4 w-4 text-primary" /> 4.5 Luxury</span>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><Ruler className="h-4 w-4 text-primary" /> 420 sq.m</span>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2"><Car className="h-4 w-4 text-primary" /> 2 Bays</span>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-2 font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><Zap className="h-4 w-4" /> 24/7 Redundant</span>
                   </div>
                   <div className="mx-4 mb-4 flex flex-col gap-4 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4 md:flex-row md:items-center md:justify-between">
                     <div>
                       <p className="text-[11px] font-semibold tracking-widest text-zinc-500">ANNUAL TENANCY COMMITMENT</p>
-                      <p className="mt-0.5 font-mono text-xl font-bold text-emerald-600 dark:text-emerald-400">{formatNairaFull(initial.listing.price)} <span className="text-sm font-normal text-zinc-500">/ {initial.listing.pricePeriod ?? 'annum'}</span></p>
+                      <p className="mt-0.5 font-mono text-xl font-bold text-primary dark:text-[#4edea3]">{formatNairaFull(initial.listing.price)} <span className="text-sm font-normal text-zinc-500">/ {initial.listing.pricePeriod ?? 'annum'}</span></p>
                     </div>
                     <div className="flex gap-6 text-sm">
                       <div><p className="text-[11px] tracking-widest text-zinc-500">LISTING TYPE</p><p className="font-semibold capitalize text-zinc-900 dark:text-white">{initial.listing.listingType.replace(/_/g,' ')}</p></div>
@@ -190,11 +190,11 @@ export default function TenantApplicationDetailClient({ application: initial }: 
 
                 {/* Landlord review note */}
                 {initial.landlordNotes && (
-                  <div className="rounded-xl bg-gradient-to-r from-emerald-500/10 to-zinc-50 dark:from-emerald-500/10 dark:to-white/[0.03] p-5">
+                  <div className="rounded-xl bg-gradient-to-r from-primary/10 to-zinc-50 dark:from-primary/10 dark:to-white/[0.03] p-5">
                     <div className="flex gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white"><MessageSquare className="h-5 w-5" /></span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white"><MessageSquare className="h-5 w-5" /></span>
                       <div>
-                        <p className="text-[11px] font-semibold tracking-widest text-emerald-700 dark:text-emerald-300">OFFICIAL LESSOR DIRECTIVE &amp; EVALUATION FEEDBACK</p>
+                        <p className="text-[11px] font-semibold tracking-widest text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">OFFICIAL LESSOR DIRECTIVE &amp; EVALUATION FEEDBACK</p>
                         <p className="mt-1 text-sm font-medium italic leading-relaxed text-zinc-900 dark:text-white">“{initial.landlordNotes}”</p>
                         <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">{initial.landlord.fullName} • {initial.reviewedAt ? formatDateLong(initial.reviewedAt) : formatDateLong(initial.updatedAt)}</p>
                       </div>
@@ -211,8 +211,8 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                 {/* Tenant dossier */}
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
                   <div className="flex items-center justify-between">
-                    <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Users className="h-5 w-5 text-emerald-500" /> Tenant Submitted Dossier</h2>
-                    <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">Mono Verified</Badge>
+                    <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Users className="h-5 w-5 text-primary" /> Tenant Submitted Dossier</h2>
+                    <Badge className="bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Mono Verified</Badge>
                   </div>
                   <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Validated financial metrics &amp; tenancy occupancy declaration</p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -242,12 +242,12 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
                   <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-zinc-900 dark:text-white">Compliance Stepper</h2>
-                    <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">STAGE {stepper.filter(s=>s.done).length} OF {stepper.length}</span>
+                    <span className="font-mono text-xs font-semibold text-primary dark:text-[#4edea3]">STAGE {stepper.filter(s=>s.done).length} OF {stepper.length}</span>
                   </div>
                   <div className="relative mt-4 space-y-4 pl-6 before:absolute before:bottom-3 before:left-2.5 before:top-3 before:w-0.5 before:bg-zinc-200 dark:before:bg-white/[0.08]">
                     {stepper.map((s, idx) => (
                       <div key={idx} className={`relative flex gap-3 ${!s.done && !s.active ? 'opacity-60' : ''}`}>
-                        <span className={`absolute -left-6 top-0.5 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold ring-4 ring-white dark:ring-zinc-900 ${s.done ? 'bg-emerald-500 text-white' : s.active ? 'bg-amber-500 text-white animate-pulse' : 'bg-zinc-200 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>
+                        <span className={`absolute -left-6 top-0.5 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold ring-4 ring-white dark:ring-zinc-900 ${s.done ? 'bg-primary text-white' : s.active ? 'bg-amber-500 text-white animate-pulse' : 'bg-zinc-200 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>
                           {s.done ? <CheckCircle2 className="h-3 w-3" /> : s.active ? <Clock className="h-3 w-3" /> : <span className="h-2 w-2 rounded-full bg-current" />}
                         </span>
                         <div>
@@ -260,14 +260,14 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                 </div>
 
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
-                  <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><FileText className="h-5 w-5 text-emerald-500" /> Uploaded Dossier</h2>
+                  <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><FileText className="h-5 w-5 text-primary" /> Uploaded Dossier</h2>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">{docs.length} of {docs.length || 0} submitted • Applicant documents</p>
                   <div className="mt-4 space-y-2">
                     {docs.length === 0 ? (
                       <p className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4 text-center text-sm text-zinc-600 dark:text-zinc-400">No applicant documents uploaded yet.</p>
                     ) : docs.map((d: any, i:number)=> (
                       <div key={i} className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3">
-                        <span className="flex items-center gap-3 min-w-0"><FileText className="h-5 w-5 shrink-0 text-emerald-500" /><span className="min-w-0"><p className="truncate text-sm font-medium text-zinc-900 dark:text-white">{d.name ?? d.fileName ?? `Document ${i+1}`}</p><p className="text-xs text-zinc-600 dark:text-zinc-400">{d.type ?? 'PDF'} • {d.url ? 'Uploaded' : '—'}</p></span></span>
+                        <span className="flex items-center gap-3 min-w-0"><FileText className="h-5 w-5 shrink-0 text-primary" /><span className="min-w-0"><p className="truncate text-sm font-medium text-zinc-900 dark:text-white">{d.name ?? d.fileName ?? `Document ${i+1}`}</p><p className="text-xs text-zinc-600 dark:text-zinc-400">{d.type ?? 'PDF'} • {d.url ? 'Uploaded' : '—'}</p></span></span>
                         {d.url ? <Button asChild variant="ghost" size="sm"><a href={d.url} target="_blank" rel="noreferrer"><ExternalLink className="h-4 w-4" /></a></Button> : <Badge variant="outline" className="text-[11px]">Pending</Badge>}
                       </div>
                     ))}
@@ -287,13 +287,13 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
                   <h2 className="font-semibold text-zinc-900 dark:text-white">Authorized Real Estate Desk</h2>
                   <div className="mt-4 space-y-3 text-sm">
-                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-emerald-600 dark:text-emerald-400"><Gavel className="h-5 w-5" /></span><div><p className="font-semibold text-zinc-900 dark:text-white">Barrister T. Adegbenro (LL.B, BL)</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Listing Solicitor • LASRERA #BRK-08492</p></div></div>
-                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-emerald-600 dark:text-emerald-400"><Building2 className="h-5 w-5" /></span><div><p className="font-semibold text-zinc-900 dark:text-white">Sovereign Estate Ikoyi Operations</p><p className="text-xs text-zinc-600 dark:text-zinc-400">24/7 Facility Desk: +234 1 290 8820</p><p className="text-xs text-zinc-600 dark:text-zinc-400">helpdesk@propatibox.ng</p></div></div>
+                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-primary dark:text-[#4edea3]"><Gavel className="h-5 w-5" /></span><div><p className="font-semibold text-zinc-900 dark:text-white">Barrister T. Adegbenro (LL.B, BL)</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Listing Solicitor • LASRERA #BRK-08492</p></div></div>
+                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-primary dark:text-[#4edea3]"><Building2 className="h-5 w-5" /></span><div><p className="font-semibold text-zinc-900 dark:text-white">Sovereign Estate Ikoyi Operations</p><p className="text-xs text-zinc-600 dark:text-zinc-400">24/7 Facility Desk: +234 1 290 8820</p><p className="text-xs text-zinc-600 dark:text-zinc-400">helpdesk@propatibox.ng</p></div></div>
                   </div>
                 </div>
 
                 <div className="rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4 text-sm">
-                  <p className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><ShieldCheck className="h-4 w-4 text-emerald-500" /> Statutory Protection &amp; Escrow</p>
+                  <p className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><ShieldCheck className="h-4 w-4 text-primary" /> Statutory Protection &amp; Escrow</p>
                   <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">Application fees and caution deposits are maintained in an NDIC-insured institutional escrow. Tenancy contracts follow the Lagos State Tenancy Law (2011) and LASRERA standards.</p>
                   <div className="mt-3 flex flex-wrap gap-1.5 text-[11px] font-semibold">
                     <span className="rounded bg-white dark:bg-zinc-900 px-2 py-1">CBN Compliant</span>
@@ -357,11 +357,11 @@ export default function TenantApplicationDetailClient({ application: initial }: 
               </div>
               <div className="mt-6 space-y-0 divide-y divide-zinc-100 dark:divide-white/[0.06]">
                 <div className="flex items-center justify-between py-4">
-                  <span className="flex items-center gap-3"><ShieldCheck className="h-5 w-5 text-emerald-500" /><span><p className="text-sm font-semibold text-zinc-900 dark:text-white">BVN Identity Validation</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Automated biometric match</p></span></span>
+                  <span className="flex items-center gap-3"><ShieldCheck className="h-5 w-5 text-primary" /><span><p className="text-sm font-semibold text-zinc-900 dark:text-white">BVN Identity Validation</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Automated biometric match</p></span></span>
                   <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">{formatDateLong(initial.createdAt)}</span>
                 </div>
                 <div className="flex items-center justify-between py-4">
-                  <span className="flex items-center gap-3"><FileText className="h-5 w-5 text-emerald-500" /><span><p className="text-sm font-semibold text-zinc-900 dark:text-white">Initial Tenancy Application Submitted</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Form signed with Escrow Commitment</p></span></span>
+                  <span className="flex items-center gap-3"><FileText className="h-5 w-5 text-primary" /><span><p className="text-sm font-semibold text-zinc-900 dark:text-white">Initial Tenancy Application Submitted</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Form signed with Escrow Commitment</p></span></span>
                   <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">{formatDateLong(initial.createdAt)}</span>
                 </div>
                 {initial.reviewedAt && (
@@ -382,13 +382,13 @@ export default function TenantApplicationDetailClient({ application: initial }: 
             <div className="space-y-4">
               {initial.message && (
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
-                  <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><MessageSquare className="h-5 w-5 text-emerald-500" /> Your Message</h3>
+                  <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><MessageSquare className="h-5 w-5 text-primary" /> Your Message</h3>
                   <p className="mt-3 whitespace-pre-wrap text-sm text-zinc-900 dark:text-white">{initial.message}</p>
                 </div>
               )}
               {initial.landlordNotes && (
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
-                  <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Users className="h-5 w-5 text-emerald-500" /> Landlord Notes</h3>
+                  <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Users className="h-5 w-5 text-primary" /> Landlord Notes</h3>
                   <p className="mt-3 whitespace-pre-wrap text-sm text-zinc-900 dark:text-white">{initial.landlordNotes}</p>
                 </div>
               )}
@@ -417,9 +417,9 @@ export default function TenantApplicationDetailClient({ application: initial }: 
             <DialogDescription>Withdraw <strong className="text-zinc-900 dark:text-white">{initial.listing.title}</strong>? This voids your priority reservation and notifies the lessor.</DialogDescription>
           </DialogHeader>
           <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4 text-sm">
-            <p className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><ShieldCheck className="h-4 w-4 text-emerald-500" /> Instant Escrow Refund Guarantee</p>
+            <p className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><ShieldCheck className="h-4 w-4 text-primary" /> Instant Escrow Refund Guarantee</p>
             <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Your caution deposit will be released back to your settlement account via Paystack / NIBSS.</p>
-            <p className="mt-2 font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">Tracking ID: #{deedRef(initial.id)}</p>
+            <p className="mt-2 font-mono text-xs font-semibold text-primary dark:text-[#4edea3]">Tracking ID: #{deedRef(initial.id)}</p>
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={()=>setConfirmOpen(false)}>Keep Application</Button>

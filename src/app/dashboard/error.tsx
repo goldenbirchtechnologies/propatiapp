@@ -28,7 +28,7 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <InteractiveHoverButton
             onClick={() => reset()}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white text-sm font-medium rounded-lg transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary text-zinc-900 dark:text-white text-sm font-medium rounded-lg transition-colors"
           >
             <RefreshCw size={14} />
             Try again

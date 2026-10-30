@@ -165,8 +165,8 @@ export default function AgentDealsClient({
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
               Deals &amp; Agreements Ledger
             </h1>
-            <span className="inline-flex items-center rounded-full bg-emerald-600/10 px-2.5 py-1 font-mono-numeric text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
-              <span className="mr-1.5 h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 font-mono-numeric text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
+              <span className="mr-1.5 h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
               {stats.active} Active Matters
             </span>
           </div>
@@ -189,7 +189,7 @@ export default function AgentDealsClient({
           </SecondaryAction>
           <Link
             href="/dashboard/agent/agreements/new"
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-[0.98] dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] active:scale-[0.98] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
           >
             <Plus className="h-4 w-4" />
             <span>New Agreement</span>
@@ -205,7 +205,7 @@ export default function AgentDealsClient({
           icon={<Building2 className="h-5 w-5" />}
           sublabel={
             <div className="flex items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 <TrendingUp className="h-3.5 w-3.5" />
                 {stats.active} live
               </span>
@@ -237,7 +237,7 @@ export default function AgentDealsClient({
           sublabel={
             <div className="flex items-center justify-between gap-2">
               <span className="truncate">Registry stamped</span>
-              <span className="font-mono-numeric font-semibold text-emerald-700 dark:text-emerald-400">
+              <span className="font-mono-numeric font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 100% Bound
               </span>
             </div>
@@ -251,7 +251,7 @@ export default function AgentDealsClient({
           sublabel={
             <div className="flex items-center justify-between gap-2">
               <span className="font-mono-numeric">10% Agency &amp; Legal</span>
-              <span className="font-mono-numeric font-semibold text-emerald-700 dark:text-emerald-400">
+              <span className="font-mono-numeric font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {formatNairaCompact(stats.escrowValue)} in escrow
               </span>
             </div>
@@ -327,7 +327,7 @@ export default function AgentDealsClient({
                 setTypeFilter('all');
                 setSearch('');
               }}
-              className="ml-auto text-[11px] font-semibold text-emerald-700 hover:underline dark:text-emerald-400"
+              className="ml-auto text-[11px] font-semibold text-[var(--sovereign-hover)] hover:underline dark:text-[#4edea3]"
             >
               Reset All Filters
             </button>
@@ -381,7 +381,7 @@ export default function AgentDealsClient({
                       <div className="flex flex-col">
                         <Link
                           href={`/dashboard/agent/deals/${d.id}`}
-                          className="font-mono-numeric font-bold text-emerald-700 hover:underline dark:text-emerald-400"
+                          className="font-mono-numeric font-bold text-[var(--sovereign-hover)] hover:underline dark:text-[#4edea3]"
                         >
                           {d.reference}
                         </Link>
@@ -409,7 +409,7 @@ export default function AgentDealsClient({
                             {d.property?.address ?? '—'}
                           </span>
                           <span className="flex items-center gap-1 text-[11px] text-zinc-500">
-                            <BadgeCheck className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                            <BadgeCheck className="h-3 w-3 text-primary dark:text-[#4edea3]" />
                             {d.landlord?.fullName ?? 'Unassigned landlord'}
                           </span>
                         </div>
@@ -423,8 +423,8 @@ export default function AgentDealsClient({
                         {d.tenant?.email ? (
                           <span className="truncate text-xs text-zinc-500">{d.tenant.email}</span>
                         ) : null}
-                        <span className="inline-flex items-center gap-1 font-mono-numeric text-[11px] text-emerald-700 dark:text-emerald-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        <span className="inline-flex items-center gap-1 font-mono-numeric text-[11px] text-[var(--sovereign-hover)] dark:text-[#4edea3]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                           {d.headTenantVerified ? 'Verified entity' : 'Verification pending'}
                         </span>
                       </div>
@@ -445,7 +445,7 @@ export default function AgentDealsClient({
                             <span className="text-[11px] font-normal text-zinc-500">/yr</span>
                           ) : null}
                         </span>
-                        <span className="inline-flex items-center gap-0.5 font-mono-numeric text-[11px] text-emerald-700 dark:text-emerald-400">
+                        <span className="inline-flex items-center gap-0.5 font-mono-numeric text-[11px] text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                           {d.cautionDeposit > 0 ? (
                             <>
                               <Lock className="h-3 w-3" />
@@ -477,7 +477,7 @@ export default function AgentDealsClient({
                       <div className="flex items-center justify-end gap-1.5">
                         <Link
                           href={`/dashboard/agent/deals/${d.id}`}
-                          className="rounded-md bg-zinc-100 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-emerald-400 dark:hover:bg-zinc-700"
+                          className="rounded-md bg-zinc-100 px-2.5 py-1.5 text-xs font-semibold text-[var(--sovereign-hover)] transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-[#4edea3] dark:hover:bg-zinc-700"
                         >
                           View Deal
                         </Link>

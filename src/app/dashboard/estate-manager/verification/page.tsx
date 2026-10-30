@@ -57,7 +57,7 @@ const TYPE_META: Record<VerificationType, { label: string; icon: JSX.Element; de
 };
 
 const STATUS_META: Record<string, { label: string; cls: string; dot: string }> = {
-  verified: { label: 'Verified', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
+  verified: { label: 'Verified', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
   in_progress: { label: 'In Progress', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
   pending: { label: 'Pending', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700', dot: 'bg-zinc-400' },
   not_started: { label: 'Not Started', cls: 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-500 dark:border-zinc-700', dot: 'bg-zinc-400' },
@@ -69,7 +69,7 @@ const LAYER_LABELS = ['Documents', 'Identity Match', 'Live Video', 'Physical Ins
 
 function layerStatusCls(status: VerificationLayerStatus): string {
   switch (status) {
-    case 'verified': return 'bg-emerald-500';
+    case 'verified': return 'bg-primary';
     case 'in_progress': return 'bg-amber-500';
     case 'rejected': return 'bg-red-500';
     default: return 'bg-zinc-300 dark:bg-zinc-700';
@@ -164,7 +164,7 @@ export default function VerificationCenterPage() {
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Verified</span>
-              <div className="mt-1 text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">{counts.verified}</div>
+              <div className="mt-1 text-2xl font-bold font-mono text-primary dark:text-[#4edea3]">{counts.verified}</div>
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">In Progress</span>
@@ -184,13 +184,13 @@ export default function VerificationCenterPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search by type, status, or listing…"
-                className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
+                className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
               />
             </div>
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
             >
               <option value="ALL">All Types</option>
               <option value="property">Property</option>

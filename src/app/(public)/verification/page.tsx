@@ -58,8 +58,8 @@ export default function VerificationPage() {
     <div className="bg-black min-h-screen pt-16">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Trust</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">
@@ -104,13 +104,13 @@ export default function VerificationPage() {
             {layers.map((layer) => (
               <div key={layer.n} className="glass-card p-6 flex flex-col">
                 <div className="flex items-start justify-between gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                     <layer.icon className="h-5 w-5" />
                   </div>
                   <span className="text-xs font-semibold text-zinc-500">Layer {layer.n}</span>
                 </div>
                 <h3 className="mt-4 text-sm font-bold text-white">{layer.title}</h3>
-                <p className="mt-1 text-xs font-medium text-emerald-400">{layer.tier}</p>
+                <p className="mt-1 text-xs font-medium text-[#4edea3]">{layer.tier}</p>
 
                 <div className="mt-4 space-y-2">
                   <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Requires</p>
@@ -124,8 +124,8 @@ export default function VerificationPage() {
                   </ul>
                 </div>
 
-                <div className="mt-4 rounded-lg bg-emerald-950/30 border border-emerald-500/15 p-3">
-                  <p className="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
+                <div className="mt-4 rounded-lg bg-primary/30 border border-primary/15 p-3">
+                  <p className="text-xs font-semibold text-[#6ffbbe] flex items-center gap-1.5">
                     <Shield className="h-3.5 w-3.5" /> Proves
                   </p>
                   <p className="mt-1 text-sm text-zinc-300 leading-relaxed">{layer.proves}</p>

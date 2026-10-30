@@ -151,11 +151,11 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
           <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
             <span>Financials &amp; Payouts</span>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
-            <span className="text-emerald-600 font-semibold">Financial Reports</span>
+            <span className="text-primary font-semibold">Financial Reports</span>
           </nav>
           <div className="flex items-center gap-2 flex-wrap">
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Financial Reports</h1>
-            <span className="bg-emerald-600 text-white px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">IFRS &amp; LASRERA Ready</span>
+            <span className="bg-primary text-white px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">IFRS &amp; LASRERA Ready</span>
           </div>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl">
             Generate, schedule, and export institutional financial statements, tax filings, and audited portfolio yield ledgers.
@@ -165,7 +165,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
           <Button variant="outline" size="sm" onClick={() => toast({ title: 'Recurring scheduling — coming soon' })}>
             <Calendar className="w-4 h-4 mr-1" /> Schedule Recurring
           </Button>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={downloadReport} disabled={loading}>
+          <Button size="sm" className="bg-primary hover:bg-[var(--sovereign-hover)] text-white" onClick={downloadReport} disabled={loading}>
             {loading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <FileText className="w-4 h-4 mr-1" />}
             Generate Report
           </Button>
@@ -187,7 +187,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
             <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Reports Archive</span>
-                <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
+                <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-white/[0.04] flex items-center justify-center text-primary">
                   <FileText className="w-5 h-5" />
                 </div>
               </div>
@@ -197,11 +197,11 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
             <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Ready to Export</span>
-                <div className="w-9 h-9 rounded-lg bg-emerald-600/10 flex items-center justify-center text-emerald-600">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
               </div>
-              <div className="text-2xl font-bold text-emerald-600">{wallet?.recentTransactions?.length ?? 0}</div>
+              <div className="text-2xl font-bold text-primary">{wallet?.recentTransactions?.length ?? 0}</div>
               <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">wallet ledger entries</div>
             </div>
             <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
@@ -217,7 +217,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
             <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Total Income</span>
-                <div className="w-9 h-9 rounded-lg bg-emerald-600/10 flex items-center justify-center text-emerald-600">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
               </div>
@@ -239,7 +239,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
               onClick={() => setReportType(t.value)}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap border ${
                 reportType === t.value
-                  ? 'bg-emerald-600 text-white border-emerald-600'
+                  ? 'bg-primary text-white border-primary'
                   : 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.08]'
               }`}
             >
@@ -261,7 +261,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
               ))}
             </div>
             <div className="flex items-center gap-1.5 bg-zinc-50 dark:bg-white/[0.04] px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-xs text-zinc-600 dark:text-zinc-400">
-              <Calendar className="w-4 h-4 text-emerald-600" />
+              <Calendar className="w-4 h-4 text-primary" />
               <span className="font-mono font-medium text-zinc-900 dark:text-white">{periodLabel}</span>
             </div>
             <div className="flex items-center gap-1 bg-zinc-50 dark:bg-white/[0.04] rounded-lg px-3 py-1.5 border border-zinc-200 dark:border-white/[0.08]">
@@ -288,7 +288,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
       <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-sm overflow-hidden">
         <div className="px-6 py-3 bg-zinc-50 dark:bg-white/[0.04] border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">
-            <BarChart3 className="w-4 h-4 text-emerald-600" />
+            <BarChart3 className="w-4 h-4 text-primary" />
             Ledger Snapshot — {periodLabel}
           </div>
           <div className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -330,10 +330,10 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
                 </tr>
               ) : (
                 rows.map((tx: any) => (
-                  <tr key={tx.id} className="hover:bg-emerald-600/[0.04] transition-colors">
+                  <tr key={tx.id} className="hover:bg-primary/[0.04] transition-colors">
                     <td className="py-3 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/[0.06] flex items-center justify-center text-emerald-600">
+                        <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/[0.06] flex items-center justify-center text-primary">
                           <FileText className="w-4 h-4" />
                         </div>
                         <div>
@@ -345,7 +345,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
                     <td className="py-3 px-4 font-mono text-xs text-zinc-500 dark:text-zinc-400">{periodLabel}</td>
                     <td className="py-3 px-4 font-mono text-xs text-zinc-500 dark:text-zinc-400">{tx.date}</td>
                     <td className="py-3 px-4">
-                      <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold border bg-emerald-600 text-white border-emerald-600 capitalize">{String(tx.status).replace(/_/g, ' ')}</span>
+                      <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold border bg-primary text-white border-primary capitalize">{String(tx.status).replace(/_/g, ' ')}</span>
                     </td>
                     <td className="py-3 px-4 font-mono text-xs text-zinc-700 dark:text-zinc-300">
                       {tx.currency} {Number(tx.amount).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -368,7 +368,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
                 <option key={f} value={f}>{f.toUpperCase()}</option>
               ))}
             </select>
-            <Button onClick={downloadReport} disabled={loading} size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={downloadReport} disabled={loading} size="sm" className="bg-primary hover:bg-[var(--sovereign-hover)] text-white">
               {loading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Download className="w-4 h-4 mr-1" />}
               {loading ? 'Generating…' : `Download ${format.toUpperCase()}`}
             </Button>

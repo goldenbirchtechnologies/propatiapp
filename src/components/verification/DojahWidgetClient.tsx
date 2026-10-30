@@ -191,7 +191,7 @@ export default function DojahWidgetClient({
           onClick={startVerification}
           disabled={!scriptReady || statusState === 'launching'}
           type="button"
-          className="bg-emerald-600 hover:bg-emerald-500 text-white"
+          className="bg-primary hover:bg-primary text-white"
         >
           {statusState === 'launching' ? 'Launching…' : triggerLabel || 'Verify with Dojah'}
         </Button>
@@ -202,8 +202,8 @@ export default function DojahWidgetClient({
       )}
 
       {statusState === 'completed' && (
-        <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
-          <p className="text-xs font-medium text-emerald-400">Verification submitted</p>
+        <div className="rounded-lg border border-primary/20 bg-primary/10 p-3">
+          <p className="text-xs font-medium text-[#4edea3]">Verification submitted</p>
           <p className="text-xs text-zinc-400 mt-1">We’ll update your status via webhook shortly. Refresh status in a moment.</p>
         </div>
       )}

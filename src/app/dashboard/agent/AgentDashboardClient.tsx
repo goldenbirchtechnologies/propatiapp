@@ -152,7 +152,7 @@ function scheduleStatusPill(status: string): {
       return {
         label: 'Confirmed',
         className: SECONDARY_CONTAINER_TEXT,
-        dot: 'bg-emerald-700 dark:bg-emerald-400',
+        dot: 'bg-[var(--sovereign-hover)] dark:bg-[#4edea3]',
       };
     case 'rejected':
       return {
@@ -235,7 +235,7 @@ export default function AgentDashboardClient({
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"
+          className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl"
         />
         <div className="relative z-10 flex flex-col justify-between gap-4 xl:flex-row xl:items-center">
           {/* Agent Identity & Verification State */}
@@ -248,7 +248,7 @@ export default function AgentDashboardClient({
                 <span
                   className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 ${LABEL_SM} ${SECONDARY_CONTAINER_BG} ${SECONDARY_CONTAINER_TEXT}`}
                 >
-                  <BadgeCheck size={15} className="text-emerald-700 dark:text-emerald-400" />
+                  <BadgeCheck size={15} className="text-[var(--sovereign-hover)] dark:text-[#4edea3]" />
                   {tierDisplay} • {areaDisplay}
                 </span>
               ) : (
@@ -263,7 +263,7 @@ export default function AgentDashboardClient({
             <div className={`flex items-center gap-2 ${BODY_SM} text-zinc-500 dark:text-zinc-500`}>
               <span
                 className={`inline-block h-2 w-2 animate-pulse rounded-full ${
-                  agentApproved ? 'bg-emerald-500' : 'bg-amber-500'
+                  agentApproved ? 'bg-primary' : 'bg-amber-500'
                 }`}
               />
               <span>
@@ -291,7 +291,7 @@ export default function AgentDashboardClient({
             </Link>
             <Link
               href="/dashboard/agent/agreements/new"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-4 py-2 text-[13px] leading-[18px] text-white shadow-sm transition-all hover:bg-emerald-700 hover:shadow-md dark:bg-emerald-400 dark:text-emerald-950 dark:hover:bg-emerald-500"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-[13px] leading-[18px] text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] hover:shadow-md dark:bg-[#4edea3] dark:text-primary dark:hover:bg-primary"
             >
               <Plus size={18} />
               <span>New Agreement</span>
@@ -310,7 +310,7 @@ export default function AgentDashboardClient({
             <span className={`${LABEL_SM} text-zinc-500 dark:text-zinc-500`}>
               Managed Properties
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 transition-colors group-hover:bg-emerald-500 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] transition-colors group-hover:bg-primary dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <Building2 size={20} />
             </div>
           </div>
@@ -320,7 +320,7 @@ export default function AgentDashboardClient({
             </div>
             <div className={`mt-1 flex items-center gap-1.5 ${BODY_SM} ${MUTED}`}>
               <span
-                className={`inline-flex items-center rounded bg-emerald-200/60 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300`}
+                className={`inline-flex items-center rounded bg-primary/60 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#6ffbbe]`}
               >
                 {occupiedUnits}/{totalUnits} occupied
               </span>
@@ -335,7 +335,7 @@ export default function AgentDashboardClient({
         >
           <div className="flex items-center justify-between">
             <span className={`${LABEL_SM} text-zinc-500 dark:text-zinc-500`}>Active Deals</span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <Handshake size={20} />
             </div>
           </div>
@@ -360,7 +360,7 @@ export default function AgentDashboardClient({
             <span className={`${LABEL_SM} text-zinc-500 dark:text-zinc-500`}>
               Pending Escrow
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <Wallet size={20} />
             </div>
           </div>
@@ -369,7 +369,7 @@ export default function AgentDashboardClient({
               {nairaCompact(pendingCommissionAmount)}
             </div>
             <div className={`mt-1 flex items-center gap-1.5 ${BODY_SM} ${MUTED}`}>
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-700 dark:bg-emerald-400" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--sovereign-hover)] dark:bg-[#4edea3]" />
               <span>
                 {pendingCommissionCount} release{pendingCommissionCount === 1 ? '' : 's'} pending
                 Paystack
@@ -386,7 +386,7 @@ export default function AgentDashboardClient({
             <span className={`${LABEL_SM} text-zinc-500 dark:text-zinc-500`}>
               This Month Cleared
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <TrendingUp size={20} />
             </div>
           </div>
@@ -397,7 +397,7 @@ export default function AgentDashboardClient({
             <div className={`mt-1 flex items-center gap-1.5 ${BODY_SM} ${MUTED}`}>
               {monthDelta ? (
                 <span
-                  className={`inline-flex items-center rounded bg-emerald-200/60 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300`}
+                  className={`inline-flex items-center rounded bg-primary/60 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#6ffbbe]`}
                 >
                   {monthDelta}
                 </span>
@@ -552,7 +552,7 @@ export default function AgentDashboardClient({
                                   ? `/dashboard/agent/deals/${deal.listingId}`
                                   : '/dashboard/agent/deals'
                               }
-                              className={`inline-flex items-center gap-1 text-[13px] font-semibold ${PRIMARY_TEXT} transition-colors hover:text-emerald-900 dark:hover:text-emerald-200`}
+                              className={`inline-flex items-center gap-1 text-[13px] font-semibold ${PRIMARY_TEXT} transition-colors hover:text-[var(--sovereign-hover)] dark:hover:text-[#4edea3]`}
                             >
                               View
                               <ChevronRight size={16} />
@@ -718,9 +718,9 @@ export default function AgentDashboardClient({
                       key={item.id}
                       className={`space-y-1.5 rounded-lg border-l-2 bg-zinc-50/50 p-3 transition-colors hover:bg-zinc-50 dark:bg-zinc-800/40 dark:hover:bg-zinc-800/60 ${
                         item.status === 'approved'
-                          ? 'border-emerald-700 dark:border-emerald-400'
+                          ? 'border-primary dark:border-primary'
                           : item.status === 'pending'
-                            ? 'border-emerald-500 dark:border-emerald-400/70'
+                            ? 'border-primary dark:border-primary/70'
                             : 'border-zinc-300 dark:border-zinc-600'
                       }`}
                     >

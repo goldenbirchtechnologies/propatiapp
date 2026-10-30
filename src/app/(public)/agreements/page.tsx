@@ -22,8 +22,8 @@ export default function AgreementsPage() {
     <div className="bg-black min-h-screen pt-16">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Legal</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">
@@ -51,7 +51,7 @@ export default function AgreementsPage() {
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="glass-card p-6 md:p-8">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                   <ScaleIcon />
                 </div>
                 <div>
@@ -87,7 +87,7 @@ export default function AgreementsPage() {
             {/* Live calculator */}
             <div className="glass-card p-6 md:p-8">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Receipt className="h-4 w-4 text-emerald-400" />
+                <Receipt className="h-4 w-4 text-[#4edea3]" />
                 Stamp duty calculator
               </h3>
               <p className="mt-1 text-sm text-zinc-500">Preview what will be charged at signing. Uses the same function as the real flow.</p>
@@ -105,8 +105,8 @@ export default function AgreementsPage() {
               />
               <p className="mt-1.5 text-xs text-zinc-600">Tip: try 10,000 vs 10,001 to see the threshold, or 50,000 to see the ₦500 minimum.</p>
 
-              <div className="mt-6 rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">Stamp duty payable</p>
+              <div className="mt-6 rounded-xl border border-primary/20 bg-primary/20 p-5">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#4edea3]">Stamp duty payable</p>
                 <p className="mt-1 text-2xl font-bold text-white">{duty === 0 ? '₦0' : formatNaira(duty)}</p>
                 <p className="mt-1 text-xs text-zinc-500">
                   {n <= 10000
@@ -157,7 +157,7 @@ export default function AgreementsPage() {
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <div className="glass-card p-5 flex gap-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                 <PenLine className="h-4 w-4" />
               </div>
               <div>
@@ -166,7 +166,7 @@ export default function AgreementsPage() {
               </div>
             </div>
             <div className="glass-card p-5 flex gap-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                 <Shield className="h-4 w-4" />
               </div>
               <div>
@@ -175,7 +175,7 @@ export default function AgreementsPage() {
               </div>
             </div>
             <div className="glass-card p-5 flex gap-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                 <FileCheck className="h-4 w-4" />
               </div>
               <div>

@@ -116,14 +116,14 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       {/* Breadcrumbs */}
       <div className="flex flex-wrap items-center justify-between gap-2 text-zinc-600 dark:text-zinc-400 text-sm">
         <nav className="flex items-center gap-1 font-medium">
-          <Link href="/dashboard/landlord/properties" className="hover:text-emerald-600 transition-colors">Portfolio</Link>
+          <Link href="/dashboard/landlord/properties" className="hover:text-primary transition-colors">Portfolio</Link>
           <ChevronRight className="h-4 w-4 text-zinc-400" />
-          <span className="hover:text-emerald-600 transition-colors">{listing.area || 'Zone'}</span>
+          <span className="hover:text-primary transition-colors">{listing.area || 'Zone'}</span>
           <ChevronRight className="h-4 w-4 text-zinc-400" />
           <span className="text-zinc-900 dark:text-white font-semibold">{listing.title}</span>
         </nav>
         <div className="flex items-center gap-1 bg-zinc-50 dark:bg-white/[0.04] px-2 py-1 rounded-lg font-mono text-xs">
-          <span className="text-emerald-600 font-bold">ASSET REF:</span>
+          <span className="text-primary font-bold">ASSET REF:</span>
           <span className="text-zinc-900 dark:text-white tracking-wider">{listing.id.slice(0, 12).toUpperCase()}</span>
         </div>
       </div>
@@ -133,19 +133,19 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-2xl lg:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">{listing.title}</h1>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs uppercase font-semibold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span className="px-2 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs uppercase font-semibold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               {listing.status}
             </span>
             {listing.verification && (
               <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] text-zinc-900 dark:text-white text-xs uppercase font-semibold flex items-center gap-1">
-                <Verified className="h-3.5 w-3.5 text-emerald-600" />
+                <Verified className="h-3.5 w-3.5 text-primary" />
                 Verified
               </span>
             )}
           </div>
           <div className="flex items-center gap-1 text-zinc-600 dark:text-zinc-400 text-sm">
-            <MapPin className="h-4 w-4 text-emerald-600" />
+            <MapPin className="h-4 w-4 text-primary" />
             <span>{listing.address}, {listing.area}, {listing.state}</span>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </Link>
           <label className="relative inline-flex items-center cursor-pointer bg-white dark:bg-zinc-900 px-3 py-1.5 rounded-lg shadow-sm border border-zinc-200 dark:border-white/[0.08]">
             <input type="checkbox" className="sr-only peer" defaultChecked={listing.status === 'published'} />
-            <div className="w-9 h-5 bg-zinc-300 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500" />
+            <div className="w-9 h-5 bg-zinc-300 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary" />
             <span className="ml-2 text-sm font-semibold text-zinc-900 dark:text-white">Propati Live</span>
           </label>
           <Button variant="outline" className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-1" onClick={() => setShowDelete(true)}>
@@ -194,7 +194,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             </div>
           ))}
           <div className="aspect-video rounded-lg overflow-hidden relative cursor-pointer bg-zinc-100 dark:bg-zinc-800 flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors shadow-sm">
-            <Images className="h-6 w-6 text-emerald-600" />
+            <Images className="h-6 w-6 text-primary" />
             <span className="text-xs font-semibold uppercase tracking-wider mt-1">View All {listing.images.length}</span>
           </div>
         </div>
@@ -208,7 +208,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             onClick={() => setTab(t.key as any)}
             className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${
               tab === t.key
-                ? 'bg-white dark:bg-zinc-900 text-emerald-600 shadow-sm'
+                ? 'bg-white dark:bg-zinc-900 text-primary shadow-sm'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
             }`}
           >
@@ -223,7 +223,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm space-y-4 border border-zinc-200 dark:border-white/[0.08]">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Asset Specifications</h2>
-              <span className="text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 px-2 py-1 rounded-full font-semibold uppercase tracking-wider">Tier-1</span>
+              <span className="text-xs bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] px-2 py-1 rounded-full font-semibold uppercase tracking-wider">Tier-1</span>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-1">
               {[
@@ -249,7 +249,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {listing.amenities.map((a) => (
                   <div key={a} className="flex items-center gap-2 p-2 bg-zinc-50 dark:bg-white/[0.04] rounded-lg">
-                    <Check className="h-4 w-4 text-emerald-600" />
+                    <Check className="h-4 w-4 text-primary" />
                     <span className="text-sm font-medium text-zinc-900 dark:text-white">{a}</span>
                   </div>
                 ))}
@@ -270,7 +270,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               </p>
             </div>
             <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1">
+              <Button className="bg-primary hover:bg-[var(--sovereign-hover)] text-white flex items-center gap-1">
                 <Plus className="h-4 w-4" /> Add Unit
               </Button>
             </Link>
@@ -304,7 +304,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     <td className="p-2">
                       <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                         u.status === 'occupied'
-                          ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
+                          ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]'
                           : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
                       }`}>
                         {u.status}
@@ -354,7 +354,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">5-Tier Institutional Verification</h2>
               <p className="text-xs text-zinc-600 dark:text-zinc-400">Audited by Propati Regulatory Compliance</p>
             </div>
-            <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-bold text-sm self-start sm:self-auto">
+            <span className="px-3 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] font-bold text-sm self-start sm:self-auto">
               {listing.verification?.overallStatus || 'Pending'}
             </span>
           </div>
@@ -367,11 +367,11 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               { tier: 'Tier 5: LASRERA Digital Title Token', status: listing.verification?.l5Status },
             ].map((v) => (
               <div key={v.tier} className="flex items-start gap-3 p-3 bg-zinc-50 dark:bg-white/[0.04] rounded-lg">
-                <Shield className="h-6 w-6 text-emerald-600 mt-0.5" />
+                <Shield className="h-6 w-6 text-primary mt-0.5" />
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-bold text-zinc-900 dark:text-white">{v.tier}</span>
-                    <span className="text-emerald-600 text-xs font-bold">{v.status || 'PENDING'}</span>
+                    <span className="text-primary text-xs font-bold">{v.status || 'PENDING'}</span>
                   </div>
                 </div>
               </div>

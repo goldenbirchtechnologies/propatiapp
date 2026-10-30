@@ -109,7 +109,7 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-        <Link href="/dashboard/landlord/revenue-forecast" className="hover:text-emerald-600 transition-colors">
+        <Link href="/dashboard/landlord/revenue-forecast" className="hover:text-primary transition-colors">
           Revenue Forecasting
         </Link>
         <ChevronRight className="h-3.5 w-3.5 opacity-40" />
@@ -142,13 +142,13 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as typeof filter)}
-            className="h-9 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-8 text-xs font-semibold text-zinc-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/[0.08] dark:bg-zinc-800 dark:text-zinc-200 cursor-pointer"
+            className="h-9 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-8 text-xs font-semibold text-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-white/[0.08] dark:bg-zinc-800 dark:text-zinc-200 cursor-pointer"
           >
             <option value="ALL">Status: All Months</option>
             <option value="ON_TRACK">On Track</option>
             <option value="AT_RISK">At Risk</option>
           </select>
-          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={exportPdf}>
+          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={exportPdf}>
             <Download className="h-4 w-4" /> Export Report (PDF)
           </Button>
           <Button
@@ -167,7 +167,7 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Projected Annual Run-Rate</span>
           <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(319900000)}</div>
-          <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-emerald-600">
+          <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary">
             <TrendingUp className="h-4 w-4" /> +28.6% expected
           </div>
         </div>
@@ -180,8 +180,8 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Net Variance Pacing</span>
-          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-emerald-600">{formatNairaFull(12450000)}</div>
-          <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-emerald-600">
+          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-primary">{formatNairaFull(12450000)}</div>
+          <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary">
             <CheckCircle2 className="h-4 w-4" /> +5.27% above projection
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
       <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="flex items-center gap-2 text-sm font-bold tracking-tight text-zinc-900 dark:text-white">
-            <BarChart3 className="h-4 w-4 text-emerald-600" /> Projected vs Actual — {view === 'h1' ? 'H1' : view === 'h2' ? 'H2' : 'Full Year'}
+            <BarChart3 className="h-4 w-4 text-primary" /> Projected vs Actual — {view === 'h1' ? 'H1' : view === 'h2' ? 'H2' : 'Full Year'}
           </h2>
           <span className="text-xs text-zinc-500 dark:text-zinc-400">Calibrated ledger • export via /api/reports/export</span>
         </div>
@@ -210,7 +210,7 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
                 <div className="flex w-full max-w-[56px] items-end gap-1" style={{ height: 140 }}>
                   <div className="flex-1 rounded-t bg-zinc-300 dark:bg-zinc-600" style={{ height: `${Math.max(6, projH)}%` }} title={`Proj ${formatNairaFull(m.proj)}`} />
                   <div
-                    className={`flex-1 rounded-t ${m.status === 'AT_RISK' ? 'bg-amber-500' : 'bg-emerald-600'}`}
+                    className={`flex-1 rounded-t ${m.status === 'AT_RISK' ? 'bg-amber-500' : 'bg-primary'}`}
                     style={{ height: `${Math.max(6, actH)}%` }}
                     title={`Act ${formatNairaFull(m.act)}`}
                   />
@@ -225,7 +225,7 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
             <span className="h-3 w-3 rounded bg-zinc-300 dark:bg-zinc-600" /> Projected
           </span>
           <span className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded bg-emerald-600" /> Actual
+            <span className="h-3 w-3 rounded bg-primary" /> Actual
           </span>
           <span className="flex items-center gap-2">
             <span className="h-3 w-3 rounded bg-amber-500" /> At-risk
@@ -237,7 +237,7 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
       <div className="rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 overflow-hidden">
         <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-5 py-3 dark:border-white/[0.08] dark:bg-white/[0.04]">
           <div className="flex items-center gap-2">
-            <TableIcon className="h-5 w-5 text-emerald-600" />
+            <TableIcon className="h-5 w-5 text-primary" />
             <span className="text-sm font-bold tracking-tight text-zinc-900 dark:text-white">Institutional Monthly Ledger &amp; Calibrated Variance</span>
             <span className="rounded-full border border-zinc-200 bg-white px-2 py-0.5 font-mono text-xs text-zinc-500 dark:border-white/[0.08] dark:bg-zinc-800 dark:text-zinc-400">
               {filtered.length} Months
@@ -265,11 +265,11 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
                   <td className="px-4 py-3 text-xs text-zinc-500 dark:text-zinc-400">{m.sector}</td>
                   <td className="px-4 py-3 text-right font-mono text-sm text-zinc-600 dark:text-zinc-300">{formatNairaFull(m.proj)}</td>
                   <td className="px-4 py-3 text-right font-mono text-sm font-semibold text-zinc-900 dark:text-white">{formatNairaFull(m.act)}</td>
-                  <td className={`px-4 py-3 text-right font-mono text-sm font-bold ${m.status === 'AT_RISK' ? 'text-red-600' : 'text-emerald-600'}`}>{m.var}</td>
+                  <td className={`px-4 py-3 text-right font-mono text-sm font-bold ${m.status === 'AT_RISK' ? 'text-red-600' : 'text-primary'}`}>{m.var}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="h-1.5 w-16 overflow-hidden rounded-full bg-zinc-200 dark:bg-white/[0.08]">
-                        <div className="h-full rounded-full bg-emerald-600" style={{ width: `${m.conf}%` }} />
+                        <div className="h-full rounded-full bg-primary" style={{ width: `${m.conf}%` }} />
                       </div>
                       <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{m.conf}%</span>
                     </div>
@@ -279,10 +279,10 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
                       className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
                         m.status === 'AT_RISK'
                           ? 'border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-400'
-                          : 'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
+                          : 'border-primary/20 bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]'
                       }`}
                     >
-                      <span className={`h-1.5 w-1.5 rounded-full ${m.status === 'AT_RISK' ? 'bg-amber-500' : 'bg-emerald-600'}`} /> {m.status.toLowerCase()}
+                      <span className={`h-1.5 w-1.5 rounded-full ${m.status === 'AT_RISK' ? 'bg-amber-500' : 'bg-primary'}`} /> {m.status.toLowerCase()}
                     </span>
                   </td>
                 </tr>
@@ -290,14 +290,14 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
             </tbody>
             <tfoot>
               <tr className="border-t border-zinc-200 bg-zinc-50 text-xs font-semibold dark:border-white/[0.08] dark:bg-white/[0.04]">
-                <td className="px-4 py-3 uppercase font-bold text-emerald-600">Aggregate Totals (FY24)</td>
+                <td className="px-4 py-3 uppercase font-bold text-primary">Aggregate Totals (FY24)</td>
                 <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400">12 Active Portfolios</td>
                 <td className="px-4 py-3 text-right font-mono font-bold text-zinc-900 dark:text-white">{formatNairaFull(319900000)}</td>
-                <td className="px-4 py-3 text-right font-mono font-bold text-emerald-600">{formatNairaFull(323750000)}</td>
-                <td className="px-4 py-3 text-right font-mono font-bold text-emerald-600">+5.27%</td>
+                <td className="px-4 py-3 text-right font-mono font-bold text-primary">{formatNairaFull(323750000)}</td>
+                <td className="px-4 py-3 text-right font-mono font-bold text-primary">+5.27%</td>
                 <td className="px-4 py-3 font-mono font-bold text-zinc-900 dark:text-white">94.6% Mean</td>
                 <td className="px-4 py-3 text-center">
-                  <span className="rounded-full bg-emerald-600 px-2.5 py-0.5 text-[11px] font-bold text-white">OPTIMAL</span>
+                  <span className="rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold text-white">OPTIMAL</span>
                 </td>
               </tr>
             </tfoot>
@@ -312,7 +312,7 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
           { title: 'LIRS & FIRS Withholding Sync', sub: 'WHT remitted per Lagos tenancy laws.' },
         ].map((c) => (
           <div key={c.title} className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]">
               <CheckCircle2 className="h-5 w-5" />
             </div>
             <div className="flex flex-col">

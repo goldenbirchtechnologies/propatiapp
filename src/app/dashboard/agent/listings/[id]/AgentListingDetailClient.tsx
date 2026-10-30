@@ -333,7 +333,7 @@ function PermissionModal({
                 <Switch
                   checked={permissions.includes(key)}
                   onCheckedChange={() => togglePermission(key)}
-                  className="data-[state=checked]:bg-emerald-500"
+                  className="data-[state=checked]:bg-primary"
                 />
               </div>
             ))}
@@ -348,7 +348,7 @@ function PermissionModal({
                   variant={scope === s ? 'default' : 'outline'}
                   className={cn(
                     'rounded-lg capitalize',
-                    scope === s ? 'bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white' : 'border-white/10 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900'
+                    scope === s ? 'bg-primary hover:bg-primary text-zinc-900 dark:text-white' : 'border-white/10 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900'
                   )}
                   onClick={() => setScope(s)}
                 >
@@ -362,7 +362,7 @@ function PermissionModal({
           <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={saving} className="bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white">
+          <Button onClick={handleSave} disabled={saving} className="bg-primary hover:bg-primary text-zinc-900 dark:text-white">
             {saving ? 'Saving...' : 'Save Changes'}
           </Button>
         </DialogFooter>
@@ -492,7 +492,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
       {/* Action Toolbar */}
       <div className="flex flex-wrap items-center gap-2">
-        <Button size="sm" className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white" onClick={handlePublish}>
+        <Button size="sm" className="rounded-lg bg-primary hover:bg-primary text-zinc-900 dark:text-white" onClick={handlePublish}>
           <CheckCircle2 className="mr-2 size-3.5" /> Publish Listing
         </Button>
         <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-600 dark:text-zinc-400 hover:bg-white dark:bg-zinc-900">
@@ -520,7 +520,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
           <div className="flex items-center gap-3">
             <div className={cn(
               "size-10 rounded-lg flex items-center justify-center",
-              ownerAccessLevel === 'full_access' ? 'bg-emerald-500/10 text-emerald-400' :
+              ownerAccessLevel === 'full_access' ? 'bg-primary/10 text-[#4edea3]' :
                 ownerAccessLevel === 'read_only' ? 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400' : 'bg-amber-500/10 text-amber-400'
             )}>
               {ownerAccessLevel === 'full_access' ? <Unlock className="size-5" /> :
@@ -611,7 +611,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     <p className="text-xs text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium">Highlights</p>
                     <div className="flex flex-wrap gap-2">
                       {(Array.isArray(listing.highlights) ? listing.highlights : []).map((h: unknown, idx: number) => (
-                        <Badge key={idx} variant="outline" className="border-emerald-500/20 text-emerald-300">
+                        <Badge key={idx} variant="outline" className="border-primary/20 text-[#6ffbbe]">
                           {String(h)}
                         </Badge>
                       ))}
@@ -657,7 +657,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                       <div key={img.id} className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] aspect-video bg-white dark:bg-zinc-900">
                         <img src={img.url} alt={listing.title} className="h-full w-full object-cover" />
                         {img.isCover && (
-                          <Badge className="absolute top-2 left-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px]">
+                          <Badge className="absolute top-2 left-2 bg-primary/20 text-[#6ffbbe] border border-primary/30 text-[10px]">
                             Cover
                           </Badge>
                         )}
@@ -712,7 +712,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                           </TableCell>
                           <TableCell className="py-3">
                             {unit.isListed ? (
-                              <span className="tag bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2 py-1 rounded-full">
+                              <span className="tag bg-primary/10 text-[#4edea3] border border-primary/20 text-xs px-2 py-1 rounded-full">
                                 Listed
                               </span>
                             ) : (
@@ -984,7 +984,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
           <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
             <SectionHeader title="Quick Actions" />
             <div className="grid grid-cols-2 gap-2">
-              <Button size="sm" className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white" onClick={() => setMessageOpen(true)}>
+              <Button size="sm" className="rounded-lg bg-primary hover:bg-primary text-zinc-900 dark:text-white" onClick={() => setMessageOpen(true)}>
                 <MessageSquare className="mr-2 size-3.5" /> Message
               </Button>
               <Button asChild size="sm" variant="outline" className="rounded-lg border border-white/10 text-zinc-600 dark:text-zinc-400 hover:bg-white dark:bg-zinc-900">
@@ -1076,7 +1076,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
               <Button variant="ghost" onClick={() => setMessageOpen(false)} className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                 Cancel
               </Button>
-              <Button onClick={handleSendMessage} disabled={sending || !messageText.trim()} className="bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white">
+              <Button onClick={handleSendMessage} disabled={sending || !messageText.trim()} className="bg-primary hover:bg-primary text-zinc-900 dark:text-white">
                 {sending ? 'Sending...' : 'Send'}
               </Button>
             </div>

@@ -102,7 +102,7 @@ export default function InspectionScheduler({ listing }: Props) {
   return (
     <div className="border border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 bg-zinc-50 dark:bg-zinc-900 space-y-5">
       <div className="flex items-center gap-2">
-        <CalendarClock className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+        <CalendarClock className="w-5 h-5 text-primary dark:text-[#4edea3]" />
         <h3 className="text-lg font-bold text-zinc-900 dark:text-white">Schedule Inspection / Reserve Unit</h3>
       </div>
 
@@ -148,8 +148,8 @@ export default function InspectionScheduler({ listing }: Props) {
               onClick={() => setTimeSlot(slot)}
               className={`py-2 rounded-lg text-xs font-semibold border transition-all ${
                 timeSlot === slot
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-emerald-400'
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-primary'
               }`}
             >
               {slot}
@@ -162,22 +162,22 @@ export default function InspectionScheduler({ listing }: Props) {
       {canBook && activeUnit && (
         <div className="bg-white dark:bg-zinc-800/50 rounded-xl p-4 space-y-2">
           <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-            <Clock size={14} className="text-emerald-600 dark:text-emerald-400" />
+            <Clock size={14} className="text-primary dark:text-[#4edea3]" />
             <span>Selected Inspection:</span>
             <span className="font-semibold text-zinc-900 dark:text-white">{inspectionDate} at {timeSlot}</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-            <MapPin size={14} className="text-emerald-600 dark:text-emerald-400" />
+            <MapPin size={14} className="text-primary dark:text-[#4edea3]" />
             <span className="truncate">{listing.area}, {listing.state}</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-            <ShieldCheck size={14} className="text-emerald-600 dark:text-emerald-400" />
+            <ShieldCheck size={14} className="text-primary dark:text-[#4edea3]" />
             <span>Paystack Escrow Custody - Funds release gated by NIN verification</span>
           </div>
         </div>
       )}
 
-      <Button onClick={handleConfirm} disabled={!canBook || submitting} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white">
+      <Button onClick={handleConfirm} disabled={!canBook || submitting} className="w-full bg-primary hover:bg-[var(--sovereign-hover)] text-white">
         {submitting ? <Loader2 size={16} className="animate-spin mr-2" /> : 'Reserve Inspection Slot'}
       </Button>
 
@@ -187,7 +187,7 @@ export default function InspectionScheduler({ listing }: Props) {
           <div className="bg-zinc-50 dark:bg-zinc-900 rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CalendarClock size={22} className="text-emerald-600 dark:text-emerald-400" />
+                <CalendarClock size={22} className="text-primary dark:text-[#4edea3]" />
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-white">Confirm Inspection</h3>
               </div>
               <button onClick={() => setConfirmOpen(false)} className="text-zinc-400 hover:text-zinc-600">
@@ -201,12 +201,12 @@ export default function InspectionScheduler({ listing }: Props) {
               <div className="flex justify-between"><span className="text-zinc-500 dark:text-zinc-400">Location</span><span className="font-semibold text-zinc-900 dark:text-white">{listing.area}, {listing.state}</span></div>
               <div className="border-t border-zinc-200 dark:border-zinc-700 pt-2 flex justify-between">
                 <span className="text-zinc-500 dark:text-zinc-400">Listing Price</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(activeUnit.price)}</span>
+                <span className="font-bold text-primary dark:text-[#4edea3]">{formatCurrency(activeUnit.price)}</span>
               </div>
             </div>
             <div className="flex gap-2 pt-2">
               <Button variant="outline" onClick={() => setConfirmOpen(false)} className="flex-1 text-zinc-700 dark:text-zinc-300">Cancel</Button>
-              <Button onClick={handleSubmit} disabled={submitting} className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={handleSubmit} disabled={submitting} className="flex-1 bg-primary hover:bg-[var(--sovereign-hover)] text-white">
                 {submitting ? <Loader2 size={16} className="animate-spin mr-2" /> : <><Check size={16} className="mr-1" /> Confirm</>}
               </Button>
             </div>

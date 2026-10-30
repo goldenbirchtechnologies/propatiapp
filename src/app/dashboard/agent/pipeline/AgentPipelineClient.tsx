@@ -168,8 +168,8 @@ export default function AgentPipelineClient({ initialData }: { initialData: Pipe
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
               Deals &amp; Conveyancing Pipeline
             </h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/10 px-3 py-1 text-[13px] font-semibold text-emerald-700 dark:text-emerald-400">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[13px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
               {stats.total} In-Flight Transactions
             </span>
           </div>
@@ -193,7 +193,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: Pipe
           </SecondaryAction>
           <Link
             href="/dashboard/agent/agreements/new"
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-[0.98] dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] active:scale-[0.98] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
           >
             <Plus className="h-4 w-4" />
             <span>+ New Deal Agreement</span>
@@ -210,12 +210,12 @@ export default function AgentPipelineClient({ initialData }: { initialData: Pipe
           sublabel={
             <div className="flex items-center justify-between gap-2">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="h-2 w-2 rounded-full bg-primary" />
                 <span className="font-medium text-zinc-900 dark:text-white">
                   {stats.active} Active
                 </span>
               </span>
-              <span className="rounded bg-emerald-600/10 px-1.5 py-0.5 font-mono-numeric text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+              <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono-numeric text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {stats.closed} Closed
               </span>
             </div>
@@ -227,7 +227,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: Pipe
           icon={<Wallet className="h-5 w-5" />}
           accent="neutral"
           sublabel={
-            <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
+            <span className="inline-flex items-center gap-1 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               <TrendingUp className="h-3.5 w-3.5" />
               Gross mandate value
             </span>
@@ -254,7 +254,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: Pipe
           sublabel={
             <div className="flex items-center justify-between gap-2">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4edea3]" />
                 <span className="font-mono-numeric font-medium text-zinc-900 dark:text-white">
                   {formatNairaCompact(stats.commissionValue)}
                 </span>
@@ -332,7 +332,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: Pipe
                 setTypeFilter('all');
                 setSearch('');
               }}
-              className="ml-1 text-[13px] font-medium text-emerald-700 hover:underline dark:text-emerald-400"
+              className="ml-1 text-[13px] font-medium text-[var(--sovereign-hover)] hover:underline dark:text-[#4edea3]"
             >
               Reset Filters
             </button>
@@ -503,7 +503,7 @@ function DealCard({ deal, stage }: { deal: DealRecord; stage: StageId }) {
       </div>
 
       <div className="min-w-0">
-        <h3 className="truncate text-sm font-semibold text-zinc-900 transition-colors group-hover:text-emerald-700 dark:text-white dark:group-hover:text-emerald-400">
+        <h3 className="truncate text-sm font-semibold text-zinc-900 transition-colors group-hover:text-[var(--sovereign-hover)] dark:text-white dark:group-hover:text-[#4edea3]">
           {deal.property?.title ?? 'Untitled listing'}
         </h3>
         {deal.property?.address ? (
@@ -516,7 +516,7 @@ function DealCard({ deal, stage }: { deal: DealRecord; stage: StageId }) {
       {counterparty ? (
         <div className="flex items-center justify-between gap-2 rounded bg-zinc-50 p-2 dark:bg-zinc-800/60">
           <div className="flex min-w-0 items-center gap-2">
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600/15 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-[10px] font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               {initials(counterparty.fullName)}
             </div>
             <div className="min-w-0">
@@ -529,7 +529,7 @@ function DealCard({ deal, stage }: { deal: DealRecord; stage: StageId }) {
             </div>
           </div>
           {deal.headTenantVerified ? (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded bg-emerald-600/10 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               <ShieldCheck className="h-3 w-3" /> Verified
             </span>
           ) : null}
@@ -572,7 +572,7 @@ function DealCard({ deal, stage }: { deal: DealRecord; stage: StageId }) {
 
       <div className="flex items-center justify-between gap-2 border-t border-zinc-100 pt-2 text-[11px] text-zinc-500 dark:border-white/[0.08] dark:text-zinc-400">
         <span className="inline-flex items-center gap-1">
-          <Calendar className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+          <Calendar className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
           {age !== null ? `${age}d in stage` : formatRelative(deal.createdAt)}
         </span>
         {deal.landlord ? (
@@ -697,7 +697,7 @@ function LedgerView({
                   </ToneBadge>
                 </AgentTd>
                 <AgentTd>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                     {deal.headTenantVerified ? (
                       <>
                         <ShieldCheck className="h-3.5 w-3.5" /> Counterparty verified
@@ -716,7 +716,7 @@ function LedgerView({
                 <AgentTd className="text-right">
                   <Link
                     href={`/dashboard/agent/deals/${deal.id}`}
-                    className="inline-flex items-center gap-0.5 text-[13px] font-medium text-emerald-700 hover:underline dark:text-emerald-400"
+                    className="inline-flex items-center gap-0.5 text-[13px] font-medium text-[var(--sovereign-hover)] hover:underline dark:text-[#4edea3]"
                   >
                     Details
                     <ChevronRight className="h-3.5 w-3.5" />

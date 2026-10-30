@@ -46,7 +46,7 @@ export default async function AdminAgreementsPage() {
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
             <p className="text-zinc-600 dark:text-zinc-400 text-sm">Fully Signed</p>
-            <p className="text-2xl font-bold text-emerald-500 mt-2">{signedCount.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-primary mt-2">{signedCount.toLocaleString()}</p>
           </div>
           <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
             <p className="text-zinc-600 dark:text-zinc-400 text-sm">Draft</p>

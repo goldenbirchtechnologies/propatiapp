@@ -293,7 +293,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
             { value: 'other', label: 'Other', count: counts.other },
           ]}
         />
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 font-mono text-[11px] text-emerald-700 dark:text-emerald-400">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-mono text-[11px] text-[var(--sovereign-hover)] dark:text-[#4edea3]">
           <Lock className="h-3.5 w-3.5" /> NIBSS Instant &amp; Paystack Split Engine
         </span>
       </div>
@@ -334,7 +334,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
           tone="amber"
           icon={<Receipt className="h-4 w-4" />}
           footer={
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary dark:text-[#4edea3]">
               <CheckCircle2 className="h-3 w-3" /> Reconciled against payment records
             </span>
           }
@@ -446,7 +446,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
                           onClick={() => setSelected(row)}
                           className={
                             isSelected
-                              ? 'cursor-pointer bg-emerald-500/5 hover:bg-emerald-500/10'
+                              ? 'cursor-pointer bg-primary/5 hover:bg-primary/10'
                               : 'cursor-pointer hover:bg-zinc-50 dark:hover:bg-white/[0.03]'
                           }
                         >
@@ -474,12 +474,12 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
                           </FinanceTd>
                           <FinanceTd>
                             <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] text-zinc-700 dark:bg-white/[0.06] dark:text-zinc-300">
-                              <ChannelIcon className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                              <ChannelIcon className="h-3 w-3 text-primary dark:text-[#4edea3]" />
                               {row.channel}
                             </span>
                           </FinanceTd>
                           <FinanceTd align="right">
-                            <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                            <span className="font-mono text-xs font-semibold text-primary dark:text-[#4edea3]">
                               +{naira(row.amount)}
                             </span>
                           </FinanceTd>
@@ -499,7 +499,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
                                   e.stopPropagation();
                                   setSelected(row);
                                 }}
-                                className="rounded p-1 text-emerald-600 hover:bg-zinc-100 dark:hover:bg-white/[0.06] dark:text-emerald-400"
+                                className="rounded p-1 text-primary hover:bg-zinc-100 dark:hover:bg-white/[0.06] dark:text-[#4edea3]"
                                 title="View Detail"
                               >
                                 <Eye className="h-4 w-4" />
@@ -544,7 +544,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <span className={AGENT_FINANCE_LABEL}>Selected Audit Record</span>
-                    <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
+                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                       MATCHED &amp; VERIFIED
                     </span>
                   </div>
@@ -568,7 +568,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
               {/* Counterparty */}
               <div className={AGENT_FINANCE_INSET + ' flex items-center justify-between p-3'}>
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary dark:text-[#4edea3]">
                     {initialsOf(selected.counterparty)}
                   </div>
                   <div className="flex flex-col">
@@ -581,7 +581,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
                   </div>
                 </div>
                 {selected.counterparty ? (
-                  <BadgeCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <BadgeCheck className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                 ) : null}
               </div>
 
@@ -596,7 +596,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
                   {selected.commission > 0 ? (
                     <div className="flex items-center justify-between">
                       <span className="text-zinc-600 dark:text-zinc-400">Agent Commission</span>
-                      <span className="font-medium text-emerald-600 dark:text-emerald-400">
+                      <span className="font-medium text-primary dark:text-[#4edea3]">
                         {naira(selected.commission)}
                       </span>
                     </div>
@@ -613,7 +613,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
                   ) : null}
                   <div className="flex items-center justify-between border-t border-zinc-200 pt-2 font-semibold dark:border-white/[0.08]">
                     <span className="text-zinc-900 dark:text-white">Net Recorded</span>
-                    <span className="text-emerald-600 dark:text-emerald-400">
+                    <span className="text-primary dark:text-[#4edea3]">
                       {naira(selected.amount - selected.fee)}
                     </span>
                   </div>
@@ -622,7 +622,7 @@ export default function AgentReceiptsClient({ summary, platformTxns, walletTxns,
 
               {/* Audit metadata */}
               <div className={AGENT_FINANCE_INSET + ' space-y-2 p-3'}>
-                <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                <div className="flex items-center gap-2 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                   <Shield className="h-4 w-4" />
                   <span className="text-sm font-semibold">Audit &amp; Compliance</span>
                 </div>

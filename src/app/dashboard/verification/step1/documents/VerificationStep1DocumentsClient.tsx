@@ -145,7 +145,7 @@ function Step1DocumentsClient(props: Props) {
               <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-2">
                   {hasDoc ? (
-                    <CheckCircle2 className="h-5 w-5 text-[#10b981]" />
+                    <CheckCircle2 className="h-5 w-5 text-[#006c49]" />
                   ) : (
                     <AlertCircle className="h-5 w-5 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
                   )}

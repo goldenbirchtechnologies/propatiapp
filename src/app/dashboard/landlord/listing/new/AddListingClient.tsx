@@ -361,7 +361,7 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
                     key={t.id}
                     type="button"
                     onClick={() => form.setValue('listingType', t.id as any)}
-                    className={`p-3 rounded-xl border text-left transition-all ${active ? 'bg-emerald-600 border-emerald-600 text-zinc-900 dark:text-white shadow-md' : 'bg-white dark:bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-white/[0.08] dark:border-white/[0.08] text-zinc-700 dark:text-zinc-400 hover:border-emerald-500/30'}`}
+                    className={`p-3 rounded-xl border text-left transition-all ${active ? 'bg-primary border-primary text-zinc-900 dark:text-white shadow-md' : 'bg-white dark:bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-white/[0.08] dark:border-white/[0.08] text-zinc-700 dark:text-zinc-400 hover:border-primary/30'}`}
                   >
                     <div className="text-sm font-semibold">{t.label}</div>
                     <div className={`text-xs ${active ? 'text-zinc-900 dark:text-white/80' : 'text-zinc-600 dark:text-zinc-400'}`}>{t.desc}</div>
@@ -376,15 +376,15 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
         <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 overflow-hidden">
           <div className="p-6 border-b border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800/50">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                <Building2 className="w-4 h-4 text-emerald-400" />
+              <div className="w-9 h-9 rounded-lg bg-primary/15 border border-primary/20 flex items-center justify-center shrink-0">
+                <Building2 className="w-4 h-4 text-[#4edea3]" />
               </div>
               <div>
                 <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">Property Source</h2>
                 <p className="text-xs text-zinc-600 dark:text-zinc-400">{form.watch('listingType') === 'sale' ? 'Sale — no unit required (uses property directly)' : 'Select a vacant unit — required to publish'}</p>
               </div>
               {needsUnit && !selectedUnitId && <span className="ml-auto text-xs font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1">Required</span>}
-              {selectedUnitId && <span className="ml-auto flex items-center gap-1 text-xs font-medium text-emerald-400"><CheckCircle2 className="w-3.5 h-3.5" /> Selected</span>}
+              {selectedUnitId && <span className="ml-auto flex items-center gap-1 text-xs font-medium text-[#4edea3]"><CheckCircle2 className="w-3.5 h-3.5" /> Selected</span>}
             </div>
           </div>
           <div className="p-6 space-y-4">
@@ -424,8 +424,8 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
               </div>
             )}
             {autoFilledSource && (
-              <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+              <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/10 p-3">
+                <CheckCircle2 className="h-4 w-4 text-[#4edea3] shrink-0" />
                 <span className="text-xs text-zinc-600 dark:text-zinc-400">Auto-filled from</span>
                 <Badge variant="secondary" className="text-xs border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">{autoFilledSource}</Badge>
                 <Button type="button" variant="ghost" size="sm" className="ml-auto h-7 gap-1 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white" onClick={() => { setAutoFilledSource(null); setSelectedUnitId(''); }}>
@@ -465,14 +465,14 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
                   setListingImages((prev) => [...prev, { id: Math.random().toString(36).slice(2), url, file }]);
                 });
               }}
-              className="rounded-xl border-2 border-dashed border-zinc-200 dark:border-white/[0.08] bg-[#F8FAFC] dark:bg-zinc-900 p-8 text-center hover:border-emerald-500/30 hover:bg-white dark:bg-zinc-900 transition-colors"
+              className="rounded-xl border-2 border-dashed border-zinc-200 dark:border-white/[0.08] bg-[#F8FAFC] dark:bg-zinc-900 p-8 text-center hover:border-primary/30 hover:bg-white dark:bg-zinc-900 transition-colors"
             >
               <div className="w-12 h-12 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center mx-auto mb-3">
                 <Upload className="w-6 h-6 text-zinc-600 dark:text-zinc-400" />
               </div>
               <p className="text-sm font-medium text-zinc-900 dark:text-white">Drag & drop images here</p>
               <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">or click to browse • PNG, JPG up to 10MB • Up to 10 photos</p>
-              <label className="mt-4 inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white px-4 py-2 text-sm font-medium cursor-pointer">
+              <label className="mt-4 inline-flex items-center gap-2 rounded-lg bg-primary hover:bg-primary text-zinc-900 dark:text-white px-4 py-2 text-sm font-medium cursor-pointer">
                 <Plus className="w-4 h-4" /> Browse files
                 <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
                   const files = Array.from(e.target.files || []).filter((f) => f.type.startsWith('image/'));
@@ -726,7 +726,7 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
             <Button type="button" variant="outline" onClick={() => router.back()} className="border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white rounded-lg">
               <ArrowLeft className="mr-2 h-4 w-4" /> Cancel
             </Button>
-            <Button type="button" onClick={handleSubmitClick} disabled={submitting || (needsUnit && (!selectedUnitId || safeVacantUnits.length === 0))} className="bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white shadow-lg shadow-emerald-600/20 rounded-lg disabled:opacity-40">
+            <Button type="button" onClick={handleSubmitClick} disabled={submitting || (needsUnit && (!selectedUnitId || safeVacantUnits.length === 0))} className="bg-primary hover:bg-primary text-zinc-900 dark:text-white shadow-lg shadow-primary/20 rounded-lg disabled:opacity-40">
               {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} <Store className="mr-2 h-4 w-4" /> Publish to Marketplace
             </Button>
           </div>

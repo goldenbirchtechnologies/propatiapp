@@ -88,7 +88,7 @@ export default function LandlordRentClient({
 
   function TransactionStatusBadge({ status }: { status: string }) {
     const config: Record<string, { class: string; label: string }> = {
-      released: { class: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: 'Released' },
+      released: { class: 'bg-primary/10 text-[#4edea3] border-primary/20', label: 'Released' },
       in_escrow: { class: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-700', label: 'In Escrow' },
       pending: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'Pending' },
       failed: { class: 'bg-red-500/10 text-red-400 border-red-500/20', label: 'Failed' },
@@ -167,7 +167,7 @@ export default function LandlordRentClient({
       {/* Filters */}
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
-          <select className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '200px' }}>
+          <select className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-primary/50" style={{ maxWidth: '200px' }}>
             <option value="all">All Status</option>
             <option value="released">Released</option>
             <option value="in_escrow">In Escrow</option>
@@ -175,7 +175,7 @@ export default function LandlordRentClient({
             <option value="failed">Failed</option>
             <option value="refunded">Refunded</option>
           </select>
-          <select className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }}>
+          <select className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-primary/50" style={{ maxWidth: '180px' }}>
             <option value="all">All Types</option>
             <option value="rent">Rent</option>
             <option value="caution">Caution Deposit</option>
@@ -183,8 +183,8 @@ export default function LandlordRentClient({
             <option value="short_let">Short Let</option>
             <option value="subscription">Subscription</option>
           </select>
-          <input type="date" className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
-          <input type="date" className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
+          <input type="date" className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-primary/50" style={{ maxWidth: '180px' }} />
+          <input type="date" className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-primary/50" style={{ maxWidth: '180px' }} />
         </div>
       </div>
 
@@ -233,7 +233,7 @@ export default function LandlordRentClient({
                         <td className="p-4">
                           <div className="flex items-center gap-2">
                             {tx.status === 'in_escrow' && (
-                              <button className="px-3 py-1.5 text-xs font-medium bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white rounded-lg transition-colors">Release</button>
+                              <button className="px-3 py-1.5 text-xs font-medium bg-primary hover:bg-primary text-zinc-900 dark:text-white rounded-lg transition-colors">Release</button>
                             )}
                             <Link href={`/dashboard/landlord/rent/${tx.id}`} className="p-2 hover:bg-zinc-800 rounded-lg transition-colors" title="View Details">
                               <EyeIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />

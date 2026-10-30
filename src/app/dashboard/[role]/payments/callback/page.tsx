@@ -84,7 +84,7 @@ export default function PaymentCallbackPage() {
           {status === 'success' && (
             <div className="text-center py-8">
               <div className="bg-success/10 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
-                <CheckCircle className="h-12 w-12 text-[#10b981]" />
+                <CheckCircle className="h-12 w-12 text-[#006c49]" />
               </div>
               <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
               <p className="text-zinc-600 dark:text-zinc-400 mb-6">

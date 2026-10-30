@@ -90,8 +90,8 @@ export default function TenantDashboardClient({
       <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col">
           <div className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Tenancy Portal Active
             </span>
             <span className="text-zinc-300 dark:text-zinc-600 text-xs">•</span>
@@ -142,15 +142,15 @@ export default function TenantDashboardClient({
           <div className="flex flex-col gap-4">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 pb-3 border-b border-zinc-100 dark:border-white/[0.06]">
               <div className="flex flex-col">
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 uppercase font-bold tracking-wider">Lease Agreement • Primary Unit</span>
+                <span className="text-xs text-primary dark:text-[#4edea3] uppercase font-bold tracking-wider">Lease Agreement • Primary Unit</span>
                 <h2 className="text-lg font-semibold text-zinc-900 dark:text-white tracking-tight">Current Lease</h2>
                 <div className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400 mt-0.5">
                   <MapPin className="w-3.5 h-3.5 text-zinc-400" />
                   <span className="text-sm">{activeAgreement?.listing?.address ?? '—'}</span>
                 </div>
               </div>
-              <span className="self-start inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="self-start inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">
+                <span className="w-2 h-2 rounded-full bg-primary" />
                 Active Lease
               </span>
             </div>
@@ -174,7 +174,7 @@ export default function TenantDashboardClient({
               <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/60 flex flex-col">
                 <span className="text-xs text-zinc-500 dark:text-zinc-400">Monthly Rent</span>
                 <div className="flex items-baseline gap-1 mt-1">
-                  <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">₦</span>
+                  <span className="text-sm font-bold text-primary dark:text-[#4edea3]">₦</span>
                   <span className="text-lg font-bold text-zinc-900 dark:text-white">
                     {activeAgreement?.listing?.price ? Number(activeAgreement.listing.price).toLocaleString() : '—'}
                   </span>
@@ -201,7 +201,7 @@ export default function TenantDashboardClient({
                   <span className="text-zinc-500 dark:text-zinc-400 text-xs">{leaseProgress}% elapsed • {activeAgreementCount} agreement(s)</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
-                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${leaseProgress}%` }} />
+                  <div className="h-full bg-primary rounded-full" style={{ width: `${leaseProgress}%` }} />
                 </div>
               </div>
             )}
@@ -209,7 +209,7 @@ export default function TenantDashboardClient({
 
           <div className="pt-4 mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 dark:border-white/[0.06]">
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-semibold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
-              <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <Download className="w-4 h-4 text-primary dark:text-[#4edea3]" />
               Download Lease Agreement (PDF)
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-semibold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
@@ -224,13 +224,13 @@ export default function TenantDashboardClient({
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-primary dark:text-[#4edea3] flex items-center justify-center">
                   <CreditCard className="w-4 h-4" />
                 </div>
                 <h2 className="text-lg font-semibold text-zinc-900 dark:text-white tracking-tight">Next Payment</h2>
               </div>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-xs">
-                <Clock className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                <Clock className="w-3 h-3 text-primary dark:text-[#4edea3]" />
                 {daysUntilRent} days left
               </span>
             </div>
@@ -238,7 +238,7 @@ export default function TenantDashboardClient({
             <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 flex flex-col">
               <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium uppercase tracking-wider">Total Due Payable</span>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">₦</span>
+                <span className="text-sm font-bold text-primary dark:text-[#4edea3]">₦</span>
                 <span className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">
                   {activeAgreement?.listing?.price ? Number(activeAgreement.listing.price).toLocaleString() + '.00' : '—'}
                 </span>
@@ -247,12 +247,12 @@ export default function TenantDashboardClient({
           </div>
 
           <div className="flex flex-col gap-3 pt-4">
-            <Link href="/dashboard/tenant/payments" className="w-full h-11 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-sm transition-all flex items-center justify-center gap-2">
+            <Link href="/dashboard/tenant/payments" className="w-full h-11 px-4 rounded-lg bg-primary hover:bg-[var(--sovereign-hover)] text-white text-sm font-semibold shadow-sm transition-all flex items-center justify-center gap-2">
               <CreditCard className="w-4 h-4" />
               Pay Rent Now
             </Link>
             <div className="text-center">
-              <Link href="/dashboard/tenant/payments" className="text-sm text-emerald-600 dark:text-emerald-400 font-semibold inline-flex items-center gap-1 hover:underline">
+              <Link href="/dashboard/tenant/payments" className="text-sm text-primary dark:text-[#4edea3] font-semibold inline-flex items-center gap-1 hover:underline">
                 View Breakdown &amp; Invoices
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
@@ -267,10 +267,10 @@ export default function TenantDashboardClient({
         <div className={`${card} lg:col-span-7 p-5 sm:p-6 flex flex-col`}>
           <div className="flex items-center justify-between pb-4">
             <div className="flex items-center gap-2">
-              <Receipt className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <Receipt className="w-5 h-5 text-primary dark:text-[#4edea3]" />
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-white tracking-tight">Payment History</h2>
             </div>
-            <Link href="/dashboard/tenant/payments" className="text-sm text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1 hover:underline">
+            <Link href="/dashboard/tenant/payments" className="text-sm text-primary dark:text-[#4edea3] font-semibold flex items-center gap-1 hover:underline">
               All Payments
               <ChevronRight className="w-4 h-4" />
             </Link>
@@ -304,7 +304,7 @@ export default function TenantDashboardClient({
                         ₦{Number(tx.amount).toLocaleString()}
                       </td>
                       <td className="py-3 px-3 text-center">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">
                           <CheckCircle className="w-3 h-3" />
                           {tx.status}
                         </span>
@@ -321,7 +321,7 @@ export default function TenantDashboardClient({
         <div className={`${card} lg:col-span-5 p-5 sm:p-6 flex flex-col`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Wrench className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <Wrench className="w-5 h-5 text-primary dark:text-[#4edea3]" />
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-white tracking-tight">Maintenance Requests</h2>
             </div>
             <Link href="/dashboard/tenant/maintenance/new" className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-semibold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">

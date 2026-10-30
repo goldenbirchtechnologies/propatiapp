@@ -37,7 +37,7 @@ interface Unit {
 const CARD = 'rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900';
 const MUTED = 'text-xs text-zinc-500 dark:text-zinc-400';
 const BTN_PRIMARY =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 disabled:opacity-50 active:scale-[0.98]';
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] disabled:opacity-50 active:scale-[0.98]';
 const BTN_GHOST =
   'inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800';
 
@@ -179,9 +179,9 @@ export default function EstateManagerMoveInPage() {
         {/* Breadcrumb */}
         <div className="flex items-center justify-between">
           <nav className={`flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider ${MUTED}`}>
-            <Link href="/dashboard/estate-manager" className="transition-colors hover:text-emerald-600">Home</Link>
+            <Link href="/dashboard/estate-manager" className="transition-colors hover:text-primary">Home</Link>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
-            <Link href="/dashboard/estate-manager/units" className="transition-colors hover:text-emerald-600">Onboarding</Link>
+            <Link href="/dashboard/estate-manager/units" className="transition-colors hover:text-primary">Onboarding</Link>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
             <span className="text-zinc-900 dark:text-white">Move-in Coordination</span>
           </nav>
@@ -189,7 +189,7 @@ export default function EstateManagerMoveInPage() {
             <select
               value={selected.id}
               onChange={(e) => setSelectedId(e.target.value)}
-              className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
             >
               {units.map((u) => (
                 <option key={u.id} value={u.id}>
@@ -224,7 +224,7 @@ export default function EstateManagerMoveInPage() {
         </div>
 
         {/* Hero banner — real tenant + unit + lease data */}
-        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 p-6 shadow-sm lg:p-8 dark:from-emerald-700 dark:via-emerald-600 dark:to-teal-600">
+        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary via-primary to-teal-500 p-6 shadow-sm lg:p-8 dark:from-[var(--sovereign-hover)] dark:via-primary dark:to-teal-600">
           <div className="pointer-events-none absolute -right-16 -top-16 h-80 w-80 rounded-full bg-white/10 blur-2xl" />
           <div className="relative z-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
             <div className="max-w-3xl space-y-3">
@@ -259,7 +259,7 @@ export default function EstateManagerMoveInPage() {
           <div className={`${CARD} flex flex-col gap-5 lg:col-span-4`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]">
                   <Wallet className="h-5 w-5" />
                 </div>
                 <div>
@@ -267,7 +267,7 @@ export default function EstateManagerMoveInPage() {
                   <p className={MUTED}>Live unit + tenancy records</p>
                 </div>
               </div>
-              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase text-emerald-600 dark:text-emerald-400">
+              <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase text-primary dark:text-[#4edea3]">
                 Active
               </span>
             </div>
@@ -276,7 +276,7 @@ export default function EstateManagerMoveInPage() {
             <div className="space-y-3 rounded-lg bg-zinc-50 p-4 dark:bg-zinc-800/40">
               <div className="flex items-center justify-between text-xs">
                 <span className={MUTED}>Occupancy</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">{selected.occupancy}</span>
+                <span className="font-bold text-primary dark:text-[#4edea3]">{selected.occupancy}</span>
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className={MUTED}>Unit Status</span>
@@ -312,7 +312,7 @@ export default function EstateManagerMoveInPage() {
           <div className={`${CARD} flex flex-col gap-5 lg:col-span-8`}>
             <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]">
                   <KeyRound className="h-5 w-5" />
                 </div>
                 <div>
@@ -335,11 +335,11 @@ export default function EstateManagerMoveInPage() {
               ].map((item, i) => {
                 const stateCls =
                   item.state === 'done'
-                    ? 'bg-emerald-600 text-white'
+                    ? 'bg-primary text-white'
                     : 'bg-zinc-200 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400';
                 const badge =
                   item.state === 'done'
-                    ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
+                    ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]'
                     : 'bg-amber-500/15 text-amber-700 dark:text-amber-400';
                 return (
                   <div

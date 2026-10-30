@@ -53,13 +53,13 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 06 / Rules & Maintenance</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 06 / Rules & Maintenance</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Rules & Maintenance</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Select the rules you want to set for your guests and describe the property.</p>
       </div>
       <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl space-y-4">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="size-4 text-emerald-600" />
+          <ShieldCheck className="size-4 text-primary" />
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">House rules</h3>
           <Info className="size-4 text-zinc-400" />
         </div>
@@ -71,7 +71,7 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
                 key={rule.value}
                 className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition ${
                   checked
-                    ? 'border-emerald-600 dark:border-emerald-500 bg-emerald-600/5'
+                    ? 'border-primary dark:border-primary bg-primary/5'
                     : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-white/20'
                 }`}
               >

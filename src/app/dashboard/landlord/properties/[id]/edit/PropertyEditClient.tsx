@@ -99,17 +99,17 @@ export default function PropertyEditClient({ listing, userId }: { listing: Listi
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="space-y-2">
           <nav className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-            <Link href="/dashboard/landlord" className="hover:text-emerald-600">Portfolio</Link>
+            <Link href="/dashboard/landlord" className="hover:text-primary">Portfolio</Link>
             <span>/</span>
-            <Link href="/dashboard/landlord/properties" className="hover:text-emerald-600">Properties</Link>
+            <Link href="/dashboard/landlord/properties" className="hover:text-primary">Properties</Link>
             <span>/</span>
             <span className="text-zinc-900 dark:text-white font-semibold">{listing.title}</span>
             <span>/</span>
-            <span className="text-emerald-600 dark:text-emerald-400 font-bold">Edit</span>
+            <span className="text-primary dark:text-[#4edea3] font-bold">Edit</span>
           </nav>
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 px-2 py-0.5 rounded">Asset Ref: {listing.id.slice(0, 8).toUpperCase()}</span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold">{listing.status}</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] font-semibold">{listing.status}</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Edit Property — {listing.title}</h1>
         </div>
@@ -117,7 +117,7 @@ export default function PropertyEditClient({ listing, userId }: { listing: Listi
           <button onClick={() => router.back()} className="px-4 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-sm font-medium hover:bg-zinc-50 dark:hover:bg-white/[0.04] flex items-center gap-2">
             <X size={16} /> Discard
           </button>
-          <button onClick={handleSave} disabled={saving} className="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold flex items-center gap-2 disabled:opacity-60">
+          <button onClick={handleSave} disabled={saving} className="px-5 py-2 rounded-lg bg-primary hover:bg-[var(--sovereign-hover)] text-white text-sm font-semibold flex items-center gap-2 disabled:opacity-60">
             <Save size={16} /> {saving ? 'Saving...' : 'Save Property'}
           </button>
         </div>
@@ -233,7 +233,7 @@ export default function PropertyEditClient({ listing, userId }: { listing: Listi
               const Icon = a.icon;
               return (
                 <button type="button" key={a.id} onClick={() => toggleAmenity(a.id)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${active ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400' : 'bg-zinc-50 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08]'}`}>
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${active ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border-primary dark:border-primary/30 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'bg-zinc-50 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08]'}`}>
                   <Icon size={16} /> {a.label}
                 </button>
               );

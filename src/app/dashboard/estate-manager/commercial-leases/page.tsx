@@ -48,7 +48,7 @@ const LABEL = 'text-[11px] font-semibold uppercase tracking-wider text-zinc-500 
 const MUTED = 'text-xs text-zinc-500 dark:text-zinc-400';
 const TH = 'px-6 py-4 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400';
 const SELECT =
-  'appearance-none rounded-lg border border-zinc-200 bg-white py-2.5 pl-3.5 pr-8 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
+  'appearance-none rounded-lg border border-zinc-200 bg-white py-2.5 pl-3.5 pr-8 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
 
 function ngn(amount: number): string {
   return `₦${Math.round(amount).toLocaleString('en-NG')}`;
@@ -82,7 +82,7 @@ function formatDate(value: string | null): string {
 type DerivedStatus = 'paid' | 'overdue' | 'partial';
 
 const STATUS_META: Record<DerivedStatus, { label: string; cls: string; dot: string }> = {
-  paid: { label: 'Paid', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30', dot: 'bg-emerald-500' },
+  paid: { label: 'Paid', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30', dot: 'bg-primary' },
   overdue: { label: 'Overdue', cls: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30', dot: 'bg-rose-500' },
   partial: { label: 'Partial', cls: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30', dot: 'bg-amber-500' },
 };
@@ -283,11 +283,11 @@ export default function EstateManagerCommercialLeasesPage() {
     barPct?: number;
   }) => {
     const iconCls =
-      tone === 'emerald' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400'
+      tone === 'emerald' ? 'bg-[var(--sovereign-container-bg)] text-primary dark:bg-primary/10 dark:text-[#4edea3]'
       : tone === 'rose' ? 'bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-400'
       : tone === 'amber' ? 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400'
       : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400';
-    const barCls = tone === 'rose' ? 'bg-rose-500' : tone === 'amber' ? 'bg-amber-500' : tone === 'emerald' ? 'bg-emerald-500' : 'bg-emerald-500';
+    const barCls = tone === 'rose' ? 'bg-rose-500' : tone === 'amber' ? 'bg-amber-500' : tone === 'emerald' ? 'bg-primary' : 'bg-primary';
     return (
       <div className={CARD}>
         <div className="mb-3 flex items-center justify-between">
@@ -318,7 +318,7 @@ export default function EstateManagerCommercialLeasesPage() {
             <div className="mb-1 flex items-center gap-2">
               <h1 className="text-xl font-bold text-zinc-900 dark:text-white">Commercial Lease Collection</h1>
               <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
                 {organization.name}
               </span>
             </div>
@@ -336,7 +336,7 @@ export default function EstateManagerCommercialLeasesPage() {
             </button>
             <Link
               href="/dashboard/estate-manager/service-charges"
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)]"
             >
               <Receipt className="h-[18px] w-[18px]" /> Bulk Invoice
             </Link>
@@ -386,7 +386,7 @@ export default function EstateManagerCommercialLeasesPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search corporate tenant, suite, or unit code..."
-              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-11 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
+              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-11 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
             />
           </div>
           <div className="flex flex-wrap items-center gap-2.5">
@@ -405,7 +405,7 @@ export default function EstateManagerCommercialLeasesPage() {
                   onClick={() => setStatusFilter(s)}
                   className={`rounded-md px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider transition-colors ${
                     statusFilter === s
-                      ? 'bg-white text-emerald-600 shadow-sm dark:bg-zinc-900 dark:text-emerald-400'
+                      ? 'bg-white text-primary shadow-sm dark:bg-zinc-900 dark:text-[#4edea3]'
                       : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
                   }`}
                 >
@@ -430,7 +430,7 @@ export default function EstateManagerCommercialLeasesPage() {
               </p>
               <Link
                 href="/dashboard/estate-manager/units"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
               >
                 Add a unit
               </Link>
@@ -464,7 +464,7 @@ export default function EstateManagerCommercialLeasesPage() {
                           <tr key={r.unit.id} className="group transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 font-mono text-sm font-bold text-emerald-600 shadow-xs dark:text-emerald-400">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 font-mono text-sm font-bold text-primary shadow-xs dark:text-[#4edea3]">
                                   {initialsOf(r.unit.currentTenant?.fullName, r.unit.currentTenant?.email)}
                                 </div>
                                 <div className="min-w-0">
@@ -511,7 +511,7 @@ export default function EstateManagerCommercialLeasesPage() {
                                 <Link
                                   href={`/dashboard/estate-manager/units/${r.unit.id}`}
                                   title="Preview lease dossier"
-                                  className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800"
+                                  className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                                 >
                                   <Eye className="h-[18px] w-[18px]" />
                                 </Link>
@@ -519,7 +519,7 @@ export default function EstateManagerCommercialLeasesPage() {
                                   <a
                                     href={`mailto:${r.unit.currentTenant.email}`}
                                     title="Send invoice reminder"
-                                    className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800"
+                                    className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                                   >
                                     <Mail className="h-[18px] w-[18px]" />
                                   </a>

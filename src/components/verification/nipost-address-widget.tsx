@@ -90,10 +90,10 @@ export function NipostAddressWidget({
   // Already validated successfully
   if (result?.valid) {
     return (
-      <Card className="p-6 border-green-200 bg-emerald-500/10">
+      <Card className="p-6 border-green-200 bg-primary/10">
         <div className="flex items-start gap-4">
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+            <CheckCircle2 className="h-5 w-5 text-[#4edea3]" />
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
@@ -102,7 +102,7 @@ export function NipostAddressWidget({
                 {result.confidence} confidence
               </Badge>
             </div>
-            <p className="text-sm text-emerald-400 mb-3">
+            <p className="text-sm text-[#4edea3] mb-3">
               Nigerian Postal Service cross-reference complete
             </p>
             <div className="space-y-1 text-sm">

@@ -228,24 +228,24 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
       <div
         className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-4 py-3 rounded-xl shadow-xl border border-zinc-800 dark:border-zinc-200 transition-all duration-300 ${toast ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}
       >
-        <Sparkles className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+        <Sparkles className="w-4 h-4 text-[#4edea3] dark:text-primary" />
         <span className="text-sm font-medium">{toast}</span>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <nav className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-          <Link href="/dashboard" className="inline-flex items-center gap-1 hover:text-emerald-600 dark:hover:text-emerald-400">
+          <Link href="/dashboard" className="inline-flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3]">
             <Building2 className="w-3.5 h-3.5" /> Home
           </Link>
           <span className="text-zinc-300 dark:text-zinc-600">/</span>
-          <Link href="/dashboard/landlord/portfolio" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+          <Link href="/dashboard/landlord/portfolio" className="hover:text-primary dark:hover:text-[#4edea3]">
             Portfolio
           </Link>
           <span className="text-zinc-300 dark:text-zinc-600">/</span>
           <span className="font-semibold text-zinc-900 dark:text-white">Vacancies</span>
         </nav>
         <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] text-[11px] font-mono text-zinc-600 dark:text-zinc-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
           LASRERA ID: LAG-VR-2024-918 • Real-time Vacancy Index Active
         </div>
       </div>
@@ -269,7 +269,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
           </button>
           <button
             onClick={handleBroadcastAll}
-            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold shadow-sm transition-colors"
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-primary hover:bg-primary text-white text-sm font-semibold shadow-sm transition-colors"
           >
             <Radio className="w-4 h-4" /> + Broadcast All Unlisted
           </button>
@@ -280,7 +280,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Vacant</span>
-            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center text-primary">
               <DoorOpen className="w-5 h-5" />
             </div>
           </div>
@@ -290,18 +290,18 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
               <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Units</span>
             </div>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-              <span className="font-bold text-emerald-600">{pctVacant}%</span> of total portfolio ({totalPortfolio} total units)
+              <span className="font-bold text-primary">{pctVacant}%</span> of total portfolio ({totalPortfolio} total units)
             </p>
           </div>
           <div className="mt-3 w-full bg-zinc-100 dark:bg-white/[0.06] rounded-full h-1.5 overflow-hidden">
-            <div className="bg-emerald-600 h-full rounded-full" style={{ width: `${Math.min(100, Number(pctVacant))}%` }} />
+            <div className="bg-primary h-full rounded-full" style={{ width: `${Math.min(100, Number(pctVacant))}%` }} />
           </div>
         </div>
 
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Avg. Days Vacant</span>
-            <div className="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 flex items-center justify-center text-primary">
               <Clock className="w-5 h-5" />
             </div>
           </div>
@@ -314,7 +314,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
               Median: <span className="font-semibold text-zinc-900 dark:text-white">{medianDays} days</span> • Lagos avg: <span className="font-semibold text-zinc-900 dark:text-white">42 days</span>
             </p>
           </div>
-          <div className="mt-3 flex items-center justify-between text-[11px] font-bold text-emerald-600">
+          <div className="mt-3 flex items-center justify-between text-[11px] font-bold text-primary">
             <span>32% faster than market benchmark</span>
             <TrendingUp className="w-3.5 h-3.5" />
           </div>
@@ -339,15 +339,15 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Potential Recovery</span>
-            <div className="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/15 border border-primary dark:border-primary/20 flex items-center justify-center text-primary">
               <Wallet className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-4">
-            <div className="text-[22px] font-bold tracking-tight text-emerald-600 font-mono">{formatNaira(annualized)}</div>
+            <div className="text-[22px] font-bold tracking-tight text-primary font-mono">{formatNaira(annualized)}</div>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Annualized asset yield upon lease execution</p>
           </div>
-          <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+          <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold text-primary">
             <Sparkles className="w-3.5 h-3.5" /> Guaranteed standard escrow yield
           </div>
         </div>
@@ -361,7 +361,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search property name, unit number, address, or tenant tier..."
-              className="w-full h-11 pl-9 pr-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/30"
+              className="w-full h-11 pl-9 pr-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -369,7 +369,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
               <select
                 value={sortValue}
                 onChange={(e) => setSortValue(e.target.value)}
-                className="h-11 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="h-11 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-primary/20"
               >
                 <option value="days_desc">Sort: Days Vacant (High to Low)</option>
                 <option value="days_asc">Sort: Days Vacant (Low to High)</option>
@@ -383,7 +383,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
               <select
                 value={locationFilter}
                 onChange={(e) => setLocationFilter(e.target.value)}
-                className="h-11 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="h-11 pl-3 pr-8 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-white/[0.08] text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none focus:outline-none focus:ring-2 focus:ring-primary/20"
               >
                 <option value="all">All Locations</option>
                 {locationOptions.map((loc) => (
@@ -413,7 +413,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
             <button
               key={p.id}
               onClick={() => setFilterStatus(p.id as typeof filterStatus)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${filterStatus === p.id ? 'bg-emerald-600 text-white' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-white/[0.08] border border-zinc-200 dark:border-white/[0.08]'}`}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${filterStatus === p.id ? 'bg-primary text-white' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-white/[0.08] border border-zinc-200 dark:border-white/[0.08]'}`}
             >
               {p.dot && <span className="w-1.5 h-1.5 rounded-full bg-red-500" />} {p.label}{' '}
               <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[11px] ${filterStatus === p.id ? 'bg-white/20 text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]'}`}>
@@ -486,7 +486,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
                         <div className="flex flex-col">
                           <span className="text-sm font-semibold text-zinc-900 dark:text-white tracking-tight">{v.property}</span>
                           <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 mt-0.5">
-                            <MapPin className="w-3 h-3 text-emerald-600" /> {v.location || '—'}
+                            <MapPin className="w-3 h-3 text-primary" /> {v.location || '—'}
                           </span>
                           <span className="mt-1 inline-flex w-fit px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                             {v.state || v.area || 'Lagos'} • {v.verificationTier || '—'}
@@ -516,11 +516,11 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
                             role="switch"
                             aria-checked={listed}
                             onClick={() => toggleListed(v.id)}
-                            className={`relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors ${listed ? 'bg-emerald-600' : 'bg-zinc-300 dark:bg-white/20'}`}
+                            className={`relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors ${listed ? 'bg-primary' : 'bg-zinc-300 dark:bg-white/20'}`}
                           >
                             <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform mt-0.5 ${listed ? 'translate-x-4 ml-0.5' : 'translate-x-0.5'}`} />
                           </button>
-                          <span className={`text-[11px] font-semibold w-24 text-left ${listed ? 'text-emerald-600' : 'text-zinc-500 dark:text-zinc-400'}`}>
+                          <span className={`text-[11px] font-semibold w-24 text-left ${listed ? 'text-primary' : 'text-zinc-500 dark:text-zinc-400'}`}>
                             {listed ? 'Propati Live' : 'Unlisted / Staged'}
                           </span>
                         </div>
@@ -529,7 +529,7 @@ export default function VacanciesClient({ userId: _userId }: { userId: string })
                         <div className="inline-flex items-center gap-1">
                           <Link
                             href={`/dashboard/landlord/properties/${v.propertyId}`}
-                            className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/[0.06] text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 transition-colors"
+                            className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/[0.06] text-zinc-500 dark:text-zinc-400 hover:text-primary transition-colors"
                             title="View Property"
                           >
                             <Eye className="w-4 h-4" />

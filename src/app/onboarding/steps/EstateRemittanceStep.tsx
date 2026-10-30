@@ -89,8 +89,8 @@ export default function EstateRemittanceStep() {
           I acknowledge tax withholding (WHT) protocols on rental income where applicable.
         </Label>
       </div>
-      {message && <p className={`text-sm p-3 rounded-lg ${message.includes('saved') ? 'bg-emerald-900/20 text-emerald-400' : 'bg-red-900/20 text-red-400'}`}>{message}</p>}
-      <Button type="submit" disabled={saving} className="w-full bg-[#10b981] hover:bg-[#006c49]">
+      {message && <p className={`text-sm p-3 rounded-lg ${message.includes('saved') ? 'bg-primary/20 text-[#4edea3]' : 'bg-red-900/20 text-red-400'}`}>{message}</p>}
+      <Button type="submit" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49]">
         {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null} Save remittance details
       </Button>
     </form>

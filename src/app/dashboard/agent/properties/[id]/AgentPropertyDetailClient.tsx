@@ -355,7 +355,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                 </Badge>
               )}
               {listing.verificationTier !== 'basic' && (
-                <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <Badge className="bg-primary/10 text-[#4edea3] border border-primary/20">
                   <ShieldCheck className="mr-1 size-3" /> {listing.verificationTier}
                 </Badge>
               )}
@@ -484,7 +484,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                           </TableCell>
                           <TableCell className="py-3">
                             {unit.isListed ? (
-                              <span className="tag bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2 py-1 rounded-full">
+                              <span className="tag bg-primary/10 text-[#4edea3] border border-primary/20 text-xs px-2 py-1 rounded-full">
                                 Listed
                               </span>
                             ) : (
@@ -804,7 +804,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             <div className="grid grid-cols-2 gap-2">
               <Button
                 size="sm"
-                className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white"
+                className="rounded-lg bg-primary hover:bg-primary text-zinc-900 dark:text-white"
                 onClick={() => setMessageOpen(true)}
               >
                 <MessageSquare className="mr-2 size-3.5" /> Message
@@ -889,7 +889,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
               <Button variant="ghost" onClick={() => setMessageOpen(false)} className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                 Cancel
               </Button>
-              <Button onClick={listing.owner ? handleMessageOwner : handleSendMessage} disabled={sending || !messageText.trim()} className="bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white">
+              <Button onClick={listing.owner ? handleMessageOwner : handleSendMessage} disabled={sending || !messageText.trim()} className="bg-primary hover:bg-primary text-zinc-900 dark:text-white">
                 {sending ? 'Sending...' : 'Send'}
               </Button>
             </div>

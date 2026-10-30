@@ -188,7 +188,7 @@ export default function AddPaymentMethodNewPage() {
               Back to Payments &amp; Ledger
             </Link>
             <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-1 text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               ENCRYPTION PROTOCOL TLS 1.3
             </span>
           </div>
@@ -197,7 +197,7 @@ export default function AddPaymentMethodNewPage() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex max-w-2xl flex-col gap-1">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest">
-                <span className="text-emerald-600 dark:text-emerald-400">Billing Architecture</span>
+                <span className="text-primary dark:text-[#4edea3]">Billing Architecture</span>
                 <span className="text-zinc-300 dark:text-zinc-700">•</span>
                 <span className="text-zinc-500">Settlement Node</span>
               </div>
@@ -207,7 +207,7 @@ export default function AddPaymentMethodNewPage() {
               </p>
             </div>
             <div className="inline-flex items-center gap-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] px-4 py-3 shadow-sm">
-              <Shield className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <Shield className="h-5 w-5 text-primary dark:text-[#4edea3]" />
               <div className="flex flex-col">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 dark:text-white">PCI-DSS Level 1 Certified</span>
                 <span className="text-[11px] text-zinc-600 dark:text-zinc-400">256-bit Encrypted Tokenization via Paystack &amp; NIBSS</span>
@@ -229,7 +229,7 @@ export default function AddPaymentMethodNewPage() {
 
               <div className="flex flex-col gap-3">
                 {[
-                  { id: 'card' as Channel, label: 'Debit or Credit Card', pill: 'Instant Settlement', pillTone: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300', desc: 'Supports Mastercard, Visa, and Verve with tokenized recurring rent debits.', meta: ['MASTERCARD', 'VISA', 'VERVE', '• 3D-Secure V2'], icon: CreditCard, secIcon: true },
+                  { id: 'card' as Channel, label: 'Debit or Credit Card', pill: 'Instant Settlement', pillTone: 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]', desc: 'Supports Mastercard, Visa, and Verve with tokenized recurring rent debits.', meta: ['MASTERCARD', 'VISA', 'VERVE', '• 3D-Secure V2'], icon: CreditCard, secIcon: true },
                   { id: 'bank' as Channel, label: 'Direct Bank Transfer (NIBSS)', pill: 'Zero Processing Fee', desc: 'Link authorized Nigerian corporate or personal commercial bank accounts via NUBAN.', metaIcon: 'verified', metaLabel: 'Central Bank of Nigeria Authorized', icon: Building2 },
                   { id: 'mobile' as Channel, label: 'Mobile Money & USSD', pill: 'Quick Pay', desc: 'Pay with OPay, PalmPay, or instant bank USSD codes (*737#, *894#, *919#).', metaLine: 'OPay • PalmPay • GTB *737# • FirstBank *894#', icon: Smartphone },
                   { id: 'escrow' as Channel, label: 'Dedicated Tenancy Escrow', pill: 'Auto-Reconciliation', desc: 'Assigned virtual Wema / Providus Bank account for permanent rent invoicing.', metaLabel: 'Providus & Wema Bank V-Accounts', icon: Shield },
@@ -241,15 +241,15 @@ export default function AddPaymentMethodNewPage() {
                       key={ch.id}
                       type="button"
                       onClick={() => setChannel(ch.id)}
-                      className={`relative flex gap-4 rounded-xl border bg-white dark:bg-zinc-900 p-4 text-left shadow-sm transition-all hover:shadow-md ${active ? 'border-emerald-500 ring-2 ring-emerald-500 shadow-md' : 'border-zinc-200 dark:border-white/[0.08]'}`}
+                      className={`relative flex gap-4 rounded-xl border bg-white dark:bg-zinc-900 p-4 text-left shadow-sm transition-all hover:shadow-md ${active ? 'border-primary ring-2 ring-primary shadow-md' : 'border-zinc-200 dark:border-white/[0.08]'}`}
                     >
-                      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${active ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>
+                      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${active ? 'bg-primary/10 text-primary dark:text-[#4edea3]' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>
                         <Icon className="h-[22px] w-[22px]" />
                       </span>
                       <span className="flex min-w-0 flex-1 flex-col pr-6">
                         <span className="flex flex-wrap items-center gap-2">
                           <span className="text-sm font-semibold text-zinc-900 dark:text-white">{ch.label}</span>
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${ch.id === 'card' && active ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>{ch.pill}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${ch.id === 'card' && active ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' : 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'}`}>{ch.pill}</span>
                         </span>
                         <span className="mt-1 text-xs leading-snug text-zinc-600 dark:text-zinc-400">{ch.desc}</span>
                         {ch.meta && (
@@ -260,14 +260,14 @@ export default function AddPaymentMethodNewPage() {
                           </span>
                         )}
                         {ch.metaIcon === 'verified' && (
-                          <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                          <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-primary dark:text-[#4edea3]">
                             <CheckCircle2 className="h-3.5 w-3.5" />{ch.metaLabel}
                           </span>
                         )}
                         {ch.metaLine && <span className="mt-2 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">{ch.metaLine}</span>}
                         {ch.metaLabel && ch.id === 'escrow' && <span className="mt-2 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">{ch.metaLabel}</span>}
                       </span>
-                      <span className={`absolute right-4 top-4 flex h-5 w-5 items-center justify-center rounded-full ${active ? 'bg-emerald-500 text-white' : 'hidden bg-zinc-200 dark:bg-white/[0.08] text-zinc-500'}`}>
+                      <span className={`absolute right-4 top-4 flex h-5 w-5 items-center justify-center rounded-full ${active ? 'bg-primary text-white' : 'hidden bg-zinc-200 dark:bg-white/[0.08] text-zinc-500'}`}>
                         <Check className="h-3.5 w-3.5" />
                       </span>
                     </button>
@@ -276,7 +276,7 @@ export default function AddPaymentMethodNewPage() {
               </div>
 
               <div className="flex gap-3 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4">
-                <Lock className="h-[22px] w-[22px] shrink-0 text-emerald-600 dark:text-emerald-400" />
+                <Lock className="h-[22px] w-[22px] shrink-0 text-primary dark:text-[#4edea3]" />
                 <span className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-900 dark:text-white">Enterprise Tokenization Architecture</span>
                   <span className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">PropatiBox does not store raw card details, CVVs, or banking PINs. All channels are cryptographic tokens via CBN-licensed gateways and NIBSS routing.</span>
@@ -285,7 +285,7 @@ export default function AddPaymentMethodNewPage() {
 
               <div className="flex items-center justify-between rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] p-4 shadow-sm">
                 <span className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <Shield className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                   <span className="flex flex-col">
                     <span className="text-xs font-bold text-zinc-900 dark:text-white">CAC Reg: RC-1849204</span>
                     <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Primary Tenant: Adeleke Global Logistics Ltd</span>
@@ -303,8 +303,8 @@ export default function AddPaymentMethodNewPage() {
                     <span className="flex flex-col gap-1">
                       <span className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-white">
                         Card Authorization Details
-                        <span className="inline-flex items-center gap-1 rounded bg-emerald-500/10 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-300">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Live Tokenizer
+                        <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Live Tokenizer
                         </span>
                       </span>
                       <span className="text-xs text-zinc-600 dark:text-zinc-400">Enter your corporate or executive personal card information.</span>
@@ -314,9 +314,9 @@ export default function AddPaymentMethodNewPage() {
 
                   {/* Virtual Card Preview — exact gradient from Stitch */}
                   <div className="relative mt-4 overflow-hidden rounded-xl bg-gradient-to-tr from-zinc-900 via-zinc-800 to-zinc-700 p-4 text-white shadow-md">
-                    <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-emerald-500/20 blur-2xl" />
+                    <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-primary/20 blur-2xl" />
                     <div className="flex items-start justify-between">
-                      <span className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-emerald-300">PropatiBox <span className="font-normal normal-case tracking-normal text-white/60">• Commercial Access</span></span>
+                      <span className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#6ffbbe]">PropatiBox <span className="font-normal normal-case tracking-normal text-white/60">• Commercial Access</span></span>
                       <span className="text-white/80">◉</span>
                     </div>
                     <div className="mt-6 font-mono text-xl font-semibold tracking-[0.18em]">{cardNumber.replace(/\d{4}(?= \d)/g, '••••').padEnd(19, '•') || '•••• •••• •••• ••••'}</div>
@@ -328,7 +328,7 @@ export default function AddPaymentMethodNewPage() {
 
                   <div className="mt-6 flex flex-col gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <Label className="flex items-center justify-between">Cardholder Full Name <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400"><CheckCircle2 className="h-3 w-3" /> CAC Verified Match</span></Label>
+                      <Label className="flex items-center justify-between">Cardholder Full Name <span className="inline-flex items-center gap-1 text-[11px] font-medium text-primary dark:text-[#4edea3]"><CheckCircle2 className="h-3 w-3" /> CAC Verified Match</span></Label>
                       <Input id="cardholder-name" value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder="e.g. Babatunde Adeleke" className="h-11 bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white" />
                       <span className="text-[12px] text-zinc-500">Must match the name on your Tenancy Agreement and corporate CAC documentation.</span>
                     </div>
@@ -340,7 +340,7 @@ export default function AddPaymentMethodNewPage() {
                         <span className="pointer-events-none absolute right-3 flex items-center gap-1">
                           <span className="rounded bg-zinc-200 dark:bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-bold text-zinc-700 dark:text-zinc-300">MC</span>
                           <span className="rounded bg-zinc-200 dark:bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-bold text-zinc-700 dark:text-zinc-300">VISA</span>
-                          <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-300">VERVE</span>
+                          <span className="rounded bg-primary/15 px-1.5 py-0.5 text-[10px] font-bold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">VERVE</span>
                         </span>
                       </div>
                     </div>
@@ -369,20 +369,20 @@ export default function AddPaymentMethodNewPage() {
                         <span className="flex flex-col"><span className="text-sm font-medium text-zinc-900 dark:text-white">Enable automated WhatsApp and SMS settlement receipts</span><span className="text-xs text-zinc-600 dark:text-zinc-400">Instant CBN-compliant stamped receipt dispatch.</span></span>
                       </label>
                     </div>
-                    <div className="flex items-center gap-2 rounded-lg bg-emerald-500/10 p-3 text-xs text-emerald-800 dark:text-emerald-300">
-                      <Info className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                    <div className="flex items-center gap-2 rounded-lg bg-primary/10 p-3 text-xs text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
+                      <Info className="h-4 w-4 shrink-0 text-primary dark:text-[#4edea3]" />
                       A temporary authorization charge of <strong className="font-mono">₦50.00</strong> will be verified and immediately reversed to link this card.
                     </div>
                     <div className="flex flex-col gap-2 pt-1">
-                      <Button onClick={submitCard} disabled={cardSaving} className="h-11 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-sm">
+                      <Button onClick={submitCard} disabled={cardSaving} className="h-11 w-full bg-primary hover:bg-primary text-white font-semibold shadow-sm">
                         {cardSaving ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Lock className="mr-2 h-5 w-5" />}
                         {cardSaving ? 'Initializing Paystack Vault…' : 'Authorize & Link Payment Method (₦50 Verification)'}
                       </Button>
                       <Button asChild variant="ghost" className="h-10 w-full text-zinc-700 dark:text-zinc-300"><Link href="/dashboard/tenant/payments">Cancel &amp; Return to Payments</Link></Button>
                     </div>
                     <div className="flex flex-wrap items-center justify-between gap-2 border-t border-zinc-200 dark:border-white/[0.08] pt-3 text-[11px] text-zinc-500">
-                      <span className="inline-flex items-center gap-1.5"><Lock className="h-3.5 w-3.5 text-emerald-500" /> Secured with Paystack Payments System</span>
-                      <span className="inline-flex items-center gap-1.5"><Building2 className="h-3.5 w-3.5 text-emerald-500" /> Central Bank of Nigeria (CBN) Regulated</span>
+                      <span className="inline-flex items-center gap-1.5"><Lock className="h-3.5 w-3.5 text-primary" /> Secured with Paystack Payments System</span>
+                      <span className="inline-flex items-center gap-1.5"><Building2 className="h-3.5 w-3.5 text-primary" /> Central Bank of Nigeria (CBN) Regulated</span>
                     </div>
                   </div>
                 </div>
@@ -392,10 +392,10 @@ export default function AddPaymentMethodNewPage() {
                 <div className="flex flex-col gap-6 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] p-6 shadow-sm">
                   <div className="flex items-start justify-between border-b border-zinc-200 dark:border-white/[0.08] pb-4">
                     <span className="flex flex-col gap-1">
-                      <span className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-white">Nigerian Bank Account (NUBAN) Link <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">NIBSS Instant Verification</span></span>
+                      <span className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-white">Nigerian Bank Account (NUBAN) Link <span className="rounded bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">NIBSS Instant Verification</span></span>
                       <span className="text-xs text-zinc-600 dark:text-zinc-400">Direct settlement link via your commercial bank account.</span>
                     </span>
-                    <Building2 className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />
+                    <Building2 className="h-7 w-7 text-primary dark:text-[#4edea3]" />
                   </div>
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1.5">
@@ -416,10 +416,10 @@ export default function AddPaymentMethodNewPage() {
                       </div>
                     </div>
                     {resolved ? (
-                      <div className="flex items-center gap-3 rounded-lg bg-emerald-500/10 p-4">
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"><CheckCircle2 className="h-5 w-5" /></span>
+                      <div className="flex items-center gap-3 rounded-lg bg-primary/10 p-4">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary dark:text-[#4edea3]"><CheckCircle2 className="h-5 w-5" /></span>
                         <span className="flex flex-col">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">NIBSS Account Resolved</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">NIBSS Account Resolved</span>
                           <span className="text-sm font-bold text-zinc-900 dark:text-white">{accountName} ({banks.find((b) => b.code === selectedBank)?.name ?? ''})</span>
                           <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Match Score: 100% with registered CAC tenant record.</span>
                         </span>
@@ -435,7 +435,7 @@ export default function AddPaymentMethodNewPage() {
                         {resolving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Shield className="mr-2 h-4 w-4" />}
                         {resolving ? 'Verifying…' : 'Verify Account'}
                       </Button>
-                      <Button type="button" onClick={submitBank} disabled={bankSaving || !resolved} className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white">
+                      <Button type="button" onClick={submitBank} disabled={bankSaving || !resolved} className="flex-1 bg-primary hover:bg-primary text-white">
                         {bankSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Check className="mr-2 h-4 w-4" />}
                         {bankSaving ? 'Linking…' : 'Link Verified NUBAN Account'}
                       </Button>
@@ -449,15 +449,15 @@ export default function AddPaymentMethodNewPage() {
                 <div className="flex flex-col gap-6 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] p-6 shadow-sm">
                   <div className="flex items-start justify-between border-b border-zinc-200 dark:border-white/[0.08] pb-4">
                     <span className="flex flex-col gap-1"><span className="text-sm font-bold text-zinc-900 dark:text-white">Mobile Money &amp; Instant USSD</span><span className="text-xs text-zinc-600 dark:text-zinc-400">Setup rapid billing via authorized telco or digital wallet providers.</span></span>
-                    <Smartphone className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />
+                    <Smartphone className="h-7 w-7 text-primary dark:text-[#4edea3]" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="flex items-center gap-3 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4">
-                      <Wallet className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                      <Wallet className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                       <span className="flex flex-col"><span className="text-sm font-semibold text-zinc-900 dark:text-white">OPay Wallet</span><span className="text-xs text-zinc-600 dark:text-zinc-400">Instant Direct Debit</span></span>
                     </div>
                     <div className="flex items-center gap-3 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4">
-                      <Wallet className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                      <Wallet className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                       <span className="flex flex-col"><span className="text-sm font-semibold text-zinc-900 dark:text-white">PalmPay Direct</span><span className="text-xs text-zinc-600 dark:text-zinc-400">Zero fee processing</span></span>
                     </div>
                   </div>
@@ -468,7 +468,7 @@ export default function AddPaymentMethodNewPage() {
                       <Input id="mobile-number" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="803 910 2940" className="h-11 bg-zinc-50 dark:bg-zinc-950 pl-14 font-mono text-zinc-900 dark:text-white" />
                     </div>
                   </div>
-                  <Button onClick={sendMobileOtp} disabled={mobileSending} className="h-11 w-full bg-emerald-600 hover:bg-emerald-500 text-white">
+                  <Button onClick={sendMobileOtp} disabled={mobileSending} className="h-11 w-full bg-primary hover:bg-primary text-white">
                     {mobileSending ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Smartphone className="mr-2 h-5 w-5" />}
                     {mobileSending ? 'Sending OTP…' : 'Send Authorization OTP'}
                   </Button>
@@ -480,7 +480,7 @@ export default function AddPaymentMethodNewPage() {
                 <div className="flex flex-col gap-6 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] p-6 shadow-sm">
                   <div className="flex items-start justify-between border-b border-zinc-200 dark:border-white/[0.08] pb-4">
                     <span className="flex flex-col gap-1"><span className="text-sm font-bold text-zinc-900 dark:text-white">Dedicated Escrow Settlement Account</span><span className="text-xs text-zinc-600 dark:text-zinc-400">Permanent virtual bank account for your unit — auto-reconciled.</span></span>
-                    <Shield className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />
+                    <Shield className="h-7 w-7 text-primary dark:text-[#4edea3]" />
                   </div>
                   {escrowLoading ? (
                     <div className="flex items-center gap-2 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4 text-sm text-zinc-600 dark:text-zinc-400"><Loader2 className="h-4 w-4 animate-spin" /> Loading escrow account…</div>
@@ -488,7 +488,7 @@ export default function AddPaymentMethodNewPage() {
                     <div className="flex flex-col gap-3 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4">
                       <span className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.08] pb-2"><span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Receiving Bank</span><span className="text-sm font-bold text-zinc-900 dark:text-white">{escrow.bankName ?? 'Providus Bank PLC'}</span></span>
                       <span className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.08] pb-2"><span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Account Name</span><span className="text-sm font-bold text-zinc-900 dark:text-white">{escrow.accountName ?? '—'}</span></span>
-                      <span className="flex items-center justify-between"><span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Virtual Account No.</span><span className="flex items-center gap-2"><span className="font-mono text-lg font-bold text-emerald-600 dark:text-emerald-400">{escrow.accountNumber}</span><Button variant="ghost" size="icon" className="h-8 w-8" onClick={copyEscrow}><Check className="h-4 w-4" /></Button></span></span>
+                      <span className="flex items-center justify-between"><span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Virtual Account No.</span><span className="flex items-center gap-2"><span className="font-mono text-lg font-bold text-primary dark:text-[#4edea3]">{escrow.accountNumber}</span><Button variant="ghost" size="icon" className="h-8 w-8" onClick={copyEscrow}><Check className="h-4 w-4" /></Button></span></span>
                     </div>
                   ) : (
                     <div className="rounded-xl bg-amber-500/10 p-4 text-sm">

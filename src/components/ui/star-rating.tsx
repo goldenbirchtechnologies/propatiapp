@@ -12,7 +12,7 @@ function StarRating({ count = 5, className }: StarRatingProps) {
   return (
     <div className={cn("flex gap-0.5", className)}>
       {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} size={12} className="fill-emerald-500 text-emerald-500" />
+        <Star key={i} size={12} className="fill-primary text-primary" />
       ))}
     </div>
   )

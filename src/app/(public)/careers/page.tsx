@@ -40,8 +40,8 @@ export default function CareersPage() {
   return (
     <div className="bg-black min-h-screen pt-16">
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Careers</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">Build the verified marketplace</h1>
@@ -67,7 +67,7 @@ export default function CareersPage() {
             <h2 className="text-2xl font-bold text-white tracking-tight">Open roles</h2>
             <p className="mt-2 text-sm text-zinc-500">
               Don&apos;t see your role? Email{' '}
-              <a href="mailto:careers@propati.ng" className="text-emerald-400 hover:text-emerald-300">
+              <a href="mailto:careers@propati.ng" className="text-[#4edea3] hover:text-[#6ffbbe]">
                 careers@propati.ng
               </a>{' '}
               with your CV and a note on what you&apos;d own.

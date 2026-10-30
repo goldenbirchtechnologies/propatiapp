@@ -41,7 +41,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="flex min-h-[240px] flex-col items-center justify-center rounded-3xl border border-zinc-800 bg-zinc-950 p-8 text-center shadow-sm space-y-4">
-          <div className="rounded-full bg-emerald-500/10 p-4 text-emerald-400">
+          <div className="rounded-full bg-primary/10 p-4 text-[#4edea3]">
             <svg
               className="h-8 w-8"
               fill="none"
@@ -65,7 +65,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <div className="flex flex-wrap justify-center gap-3">
             <InteractiveHoverButton
               onClick={this.handleRetry}
-              className="inline-flex items-center justify-center rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-emerald-500/90"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Try again
             </InteractiveHoverButton>

@@ -51,7 +51,7 @@ const STATUS_META: Record<string, { label: string; cls: string }> = {
   open: { label: 'Open', cls: 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300 border-red-200 dark:border-red-500/20' },
   assigned: { label: 'Assigned', cls: 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-500/20' },
   in_progress: { label: 'In Progress', cls: 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/20' },
-  resolved: { label: 'Resolved', cls: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/20' },
+  resolved: { label: 'Resolved', cls: 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] border-primary dark:border-primary/20' },
   closed: { label: 'Closed', cls: 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
 };
 
@@ -214,18 +214,18 @@ export default function LandlordMaintenanceClient() {
           <span className="text-zinc-300 dark:text-zinc-700">/</span>
           <span>Operations</span>
           <span className="text-zinc-300 dark:text-zinc-700">/</span>
-          <span className="text-emerald-600 dark:text-emerald-400">Maintenance Requests</span>
+          <span className="text-primary dark:text-[#4edea3]">Maintenance Requests</span>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] border border-primary/20">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4edea3] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             </span>
             24/7 Facility Response Desk
           </span>
           <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> SLA Guaranteed
+            <ShieldCheck className="h-3.5 w-3.5 text-primary" /> SLA Guaranteed
           </span>
           <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
             Service Charge Covered
@@ -242,10 +242,10 @@ export default function LandlordMaintenanceClient() {
         <div className="flex flex-wrap items-center gap-2">
           <Button asChild variant="outline" size="sm" className="border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/[0.06]">
             <a href="tel:+23412908820">
-              <Phone className="mr-1 h-4 w-4 text-emerald-600" /> Call 24/7 Facility Desk
+              <Phone className="mr-1 h-4 w-4 text-primary" /> Call 24/7 Facility Desk
             </a>
           </Button>
-          <Button asChild size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20">
+          <Button asChild size="sm" className="bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20">
             <Link href="/dashboard/landlord/maintenance">New Maintenance Request</Link>
           </Button>
         </div>
@@ -290,21 +290,21 @@ export default function LandlordMaintenanceClient() {
           </p>
         </div>
         <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
-          <div className="absolute inset-x-0 top-0 h-1 bg-emerald-500" />
+          <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
           <div className="flex items-start justify-between">
             <div>
               <p className="text-[11px] font-semibold tracking-widest text-zinc-500">RESOLVED &amp; CLOSED</p>
               <p className="mt-1 flex items-baseline gap-2">
                 <span className="text-2xl font-bold text-zinc-900 dark:text-white">{counts.resolved + counts.closed}</span>
-                <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Completed</span>
+                <span className="text-sm font-medium text-primary dark:text-[#4edea3]">Completed</span>
               </p>
             </div>
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3] border border-primary/20">
               <CheckCircle2 className="h-5 w-5" />
             </span>
           </div>
           <p className="mt-4 flex items-center gap-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2 text-xs text-zinc-600 dark:text-zinc-400">
-            <ShieldCheck className="h-4 w-4 text-emerald-500" /> Tenant sign-off &amp; warranty logged
+            <ShieldCheck className="h-4 w-4 text-primary" /> Tenant sign-off &amp; warranty logged
           </p>
         </div>
       </div>
@@ -397,7 +397,7 @@ export default function LandlordMaintenanceClient() {
                       Clear filters
                     </Button>
                     <div className="mt-3 flex items-center justify-center gap-2">
-                      <Button asChild size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white">
+                      <Button asChild size="sm" className="bg-primary hover:bg-primary text-white">
                         <Link href="/dashboard/landlord/maintenance">New Maintenance Request</Link>
                       </Button>
                       <Button asChild variant="outline" size="sm" className="border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900">
@@ -415,11 +415,11 @@ export default function LandlordMaintenanceClient() {
                   return (
                     <tr key={t.id} className="hover:bg-zinc-50/70 dark:hover:bg-white/[0.03] transition-colors">
                       <td className="px-4 py-3.5">
-                        <Link href={`/dashboard/landlord/maintenance/${t.id}`} className="font-semibold text-zinc-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline line-clamp-1">
+                        <Link href={`/dashboard/landlord/maintenance/${t.id}`} className="font-semibold text-zinc-900 dark:text-white hover:text-primary dark:hover:text-[#4edea3] hover:underline line-clamp-1">
                           {t.title}
                         </Link>
                         <div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs">
-                          <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">#{shortId(t.id)}</span>
+                          <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">#{shortId(t.id)}</span>
                           <span className="text-zinc-300 dark:text-zinc-600">•</span>
                           <span className="text-zinc-600 dark:text-zinc-400 line-clamp-1">{t.listing?.title ?? '—'}{t.listing?.area ? ` • ${t.listing.area}` : ''}</span>
                         </div>
@@ -444,7 +444,7 @@ export default function LandlordMaintenanceClient() {
                       <td className="whitespace-nowrap px-4 py-3.5">
                         {t.assignedTo ? (
                           <span className="flex items-center gap-2">
-                            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-xs font-semibold border border-emerald-500/20">
+                            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs font-semibold border border-primary/20">
                               {(t.assignedTo.fullName ?? '—').slice(0, 2).toUpperCase()}
                             </span>
                             <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">{t.assignedTo.fullName ?? 'Assigned'}</span>
@@ -458,7 +458,7 @@ export default function LandlordMaintenanceClient() {
                       </td>
                       <td className="whitespace-nowrap px-4 py-3.5 text-right">
                         <div className="flex items-center justify-end gap-1">
-                          <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-emerald-600 dark:hover:text-emerald-400">
+                          <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-primary dark:hover:text-[#4edea3]">
                             <Link href={`/dashboard/landlord/maintenance/${t.id}`} aria-label="View">
                               <Eye className="h-4 w-4" />
                             </Link>

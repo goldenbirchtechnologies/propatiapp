@@ -31,7 +31,7 @@ const UTILITY_META: Record<UtilityType, { label: string; icon: JSX.Element; cls:
   electricity: { label: 'Electricity', icon: <Zap className="h-4 w-4" />, cls: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' },
   water: { label: 'Water', icon: <Droplets className="h-4 w-4" />, cls: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400' },
   gas: { label: 'Gas', icon: <Zap className="h-4 w-4" />, cls: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' },
-  sewer: { label: 'Sewer', icon: <Trash2 className="h-4 w-4" />, cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' },
+  sewer: { label: 'Sewer', icon: <Trash2 className="h-4 w-4" />, cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] dark:bg-primary/30 dark:text-[#4edea3]' },
   trash: { label: 'Trash', icon: <Trash2 className="h-4 w-4" />, cls: 'bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-400' },
   security: { label: 'Security', icon: <Shield className="h-4 w-4" />, cls: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' },
   maintenance: { label: 'Maintenance', icon: <Package className="h-4 w-4" />, cls: 'bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-400' },
@@ -40,9 +40,9 @@ const UTILITY_META: Record<UtilityType, { label: string; icon: JSX.Element; cls:
 };
 
 const STATUS_META: Record<string, { label: string; dot: string }> = {
-  paid: { label: 'Paid', dot: 'bg-emerald-500' },
-  completed: { label: 'Completed', dot: 'bg-emerald-500' },
-  released: { label: 'Released', dot: 'bg-emerald-500' },
+  paid: { label: 'Paid', dot: 'bg-primary' },
+  completed: { label: 'Completed', dot: 'bg-primary' },
+  released: { label: 'Released', dot: 'bg-primary' },
   pending: { label: 'Pending', dot: 'bg-amber-500' },
   draft: { label: 'Draft', dot: 'bg-zinc-400' },
   sent: { label: 'Sent', dot: 'bg-sky-500' },
@@ -177,7 +177,7 @@ export default function UtilityAllocationsPage() {
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <span className={LABEL}>Paid</span>
-              <div className="mt-1 text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">{loading ? '—' : ngn(totals.paid)}</div>
+              <div className="mt-1 text-2xl font-bold font-mono text-primary dark:text-[#4edea3]">{loading ? '—' : ngn(totals.paid)}</div>
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <span className={LABEL}>Outstanding</span>
@@ -197,16 +197,16 @@ export default function UtilityAllocationsPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search by type, unit, period, or reference…"
-                className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
+                className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-900"
               />
             </div>
             <div className="flex flex-wrap items-center gap-2.5">
               <Filter className="h-5 w-5 text-zinc-400" />
-              <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white">
+              <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white">
                 <option value="ALL">All Types</option>
                 {Object.entries(UTILITY_META).map(([v, m]) => (<option key={v} value={v}>{m.label}</option>))}
               </select>
-              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-emerald-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white">
+              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-primary focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white">
                 <option value="ALL">All Statuses</option>
                 <option value="paid">Paid</option>
                 <option value="pending">Pending</option>

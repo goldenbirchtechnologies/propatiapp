@@ -134,13 +134,13 @@ export default function PortfolioPage() {
           </div>
         </div>
 
-        <div className="glass-card bg-gradient-to-br from-emerald-500/10 via-emerald-500/20 to-emerald-500/30">
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Occupied</h3>
-            <Building2 className="h-4 w-4 text-[#10b981]" />
+            <Building2 className="h-4 w-4 text-[#006c49]" />
           </div>
           <div className="p-6">
-            <div className="text-2xl font-bold text-[#10b981]">{occupiedUnits}</div>
+            <div className="text-2xl font-bold text-[#006c49]">{occupiedUnits}</div>
           </div>
         </div>
 

@@ -87,14 +87,14 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
         <div className="p-6">
           <div className="relative">
             <div className="absolute left-0 top-5 h-0.5 w-full bg-zinc-200 dark:bg-white/[0.08]" />
-            <div className="absolute left-0 top-5 h-0.5 bg-emerald-500 transition-all" style={{ width: `${Math.min(100, (idx / Math.max(1, LIFECYCLE.length - 1)) * 100)}%` }} />
+            <div className="absolute left-0 top-5 h-0.5 bg-primary transition-all" style={{ width: `${Math.min(100, (idx / Math.max(1, LIFECYCLE.length - 1)) * 100)}%` }} />
             <div className="relative flex justify-between gap-2">
               {LIFECYCLE.map((step, i) => {
                 const done = i < idx;
                 const active = i === idx;
                 return (
                   <div key={step.key} className="flex max-w-[120px] flex-col items-center text-center">
-                    <span className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${done ? 'bg-emerald-500 text-white' : active ? 'bg-emerald-500 text-white ring-4 ring-emerald-500/20' : 'bg-white dark:bg-zinc-900 text-zinc-500 ring-1 ring-zinc-200 dark:ring-white/[0.08]'}`}>
+                    <span className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${done ? 'bg-primary text-white' : active ? 'bg-primary text-white ring-4 ring-primary/20' : 'bg-white dark:bg-zinc-900 text-zinc-500 ring-1 ring-zinc-200 dark:ring-white/[0.08]'}`}>
                       {done ? <CheckCircle2 className="h-5 w-5" /> : active ? <CalendarDays className="h-5 w-5" /> : <span className="h-2 w-2 rounded-full bg-current" />}
                     </span>
                     <span className={`mt-2 text-xs font-semibold ${active || done ? 'text-zinc-900 dark:text-white' : 'text-zinc-500'}`}>{step.label}</span>
@@ -113,7 +113,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
           <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-zinc-900 dark:text-white">Technician</h3>
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white"><CheckCircle2 className="h-3.5 w-3.5" /> VERIFIED</span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-bold text-white"><CheckCircle2 className="h-3.5 w-3.5" /> VERIFIED</span>
             </div>
             {ticket.assignedTo ? (
               <>
@@ -127,7 +127,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
                   </div>
                 </div>
                 <div className="mt-5 flex gap-3">
-                  <Button asChild className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white"><Link href="/dashboard/tenant/messages">Message</Link></Button>
+                  <Button asChild className="flex-1 bg-primary hover:bg-primary text-white"><Link href="/dashboard/tenant/messages">Message</Link></Button>
                   <Button asChild variant="outline" size="icon" className="h-11 w-11"><a href="tel:+23412908820"><Phone className="h-4 w-4" /></a></Button>
                 </div>
               </>
@@ -154,7 +154,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
               </div>
               {ticket.resolvedAt && (
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><CheckCircle2 className="h-5 w-5" /></span>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]"><CheckCircle2 className="h-5 w-5" /></span>
                   <div><p className="font-mono text-[11px] tracking-widest text-zinc-500">RESOLVED</p><p className="text-sm font-bold text-zinc-900 dark:text-white">{formatDateLong(ticket.resolvedAt)}</p></div>
                 </div>
               )}
@@ -164,7 +164,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
 
           {ticket.org && (
             <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
-              <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Building2 className="h-5 w-5 text-emerald-500" /> Estate</h3>
+              <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Building2 className="h-5 w-5 text-primary" /> Estate</h3>
               <p className="mt-1 font-medium text-zinc-900 dark:text-white">{ticket.org.name}</p>
               <p className="text-xs text-zinc-600 dark:text-zinc-400">Managing organisation</p>
             </div>
@@ -176,7 +176,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
           <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-zinc-900 dark:text-white">Report Summary</h3>
-              <Link href="/dashboard/tenant/maintenance" className="text-sm font-medium text-emerald-600 hover:underline dark:text-emerald-400">Back to requests</Link>
+              <Link href="/dashboard/tenant/maintenance" className="text-sm font-medium text-primary hover:underline dark:text-[#4edea3]">Back to requests</Link>
             </div>
             <div className="mt-5 space-y-5">
               <div>
@@ -193,8 +193,8 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
                 <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3"><p className="text-xs text-zinc-600 dark:text-zinc-400">Status</p><p><StatusBadge status={ticket.status} className="mt-1" /></p></div>
               </div>
               {ticket.resolutionNote && (
-                <div className="rounded-lg border border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10 p-4">
-                  <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-300"><CheckCircle2 className="h-4 w-4" /> Resolution Note</p>
+                <div className="rounded-lg border border-primary dark:border-primary/20 bg-[var(--sovereign-container-bg)] dark:bg-primary/10 p-4">
+                  <p className="flex items-center gap-1.5 text-sm font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><CheckCircle2 className="h-4 w-4" /> Resolution Note</p>
                   <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-900 dark:text-white">{ticket.resolutionNote}</p>
                 </div>
               )}
@@ -205,7 +205,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
                 ) : (
                   <div className="mt-2 grid grid-cols-3 gap-3">
                     {ticket.photoUrls.map((url, idx) => (
-                      <a key={idx} href={url} target="_blank" rel="noreferrer" className="group aspect-square overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] hover:border-emerald-500">
+                      <a key={idx} href={url} target="_blank" rel="noreferrer" className="group aspect-square overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] hover:border-primary">
                         <img src={url} alt={`Evidence ${idx + 1}`} className="h-full w-full object-cover transition-transform group-hover:scale-105" onError={(e) => ((e.target as HTMLImageElement).style.display = 'none')} />
                       </a>
                     ))}
@@ -217,7 +217,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
                 )}
               </div>
               <div className="flex flex-wrap gap-2 border-t border-zinc-100 dark:border-white/[0.06] pt-4 text-xs">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1"><ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> LASRERA Certified Partner</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> LASRERA Certified Partner</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1"><User className="h-3.5 w-3.5" /> Tenant: {ticket.tenant?.fullName ?? '—'}</span>
               </div>
             </div>

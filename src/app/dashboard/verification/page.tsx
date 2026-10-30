@@ -72,7 +72,7 @@ export default async function VerificationHubPage() {
         <PageHeader title="Verification Center" />
         <div className="glass-card p-6 text-center">
           <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{verificationsError}</p>
-          <Link href="/dashboard/verification" className="mt-4 inline-block text-sm text-emerald-400 underline">
+          <Link href="/dashboard/verification" className="mt-4 inline-block text-sm text-[#4edea3] underline">
             Retry
           </Link>
         </div>

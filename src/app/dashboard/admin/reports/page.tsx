@@ -178,7 +178,7 @@ export default function AdminReportsPage() {
             <button
               onClick={loadReport}
               disabled={loading}
-              className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:brightness-110 disabled:opacity-50"
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:brightness-110 disabled:opacity-50"
             >
               {loading ? 'Loading...' : 'Refresh'}
             </button>
@@ -198,7 +198,7 @@ export default function AdminReportsPage() {
               key={range.days}
               onClick={() => { setDays(range.days); setCustomFrom(''); setCustomTo(''); }}
               className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
-                days === range.days && !customFrom ? 'bg-emerald-500 text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'
+                days === range.days && !customFrom ? 'bg-primary text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'
               }`}
             >
               {range.label}

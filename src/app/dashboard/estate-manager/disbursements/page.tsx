@@ -29,9 +29,9 @@ const CARD = 'rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-z
 const LABEL = 'mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300';
 const MUTED = 'text-xs text-zinc-500 dark:text-zinc-400';
 const INPUT =
-  'w-full rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
+  'w-full rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
 const BTN_PRIMARY =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 hover:shadow-md disabled:opacity-50 active:scale-[0.98]';
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] hover:shadow-md disabled:opacity-50 active:scale-[0.98]';
 
 function ngn(amount: number): string {
   return `₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -120,17 +120,17 @@ function DisbursementsForm() {
       <main className="mx-auto w-full max-w-[1240px] space-y-8 p-6 lg:p-10">
         {/* Breadcrumb */}
         <nav className={`flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider ${MUTED}`}>
-          <Link href="/dashboard/estate-manager" className="transition-colors hover:text-emerald-600">Home</Link>
+          <Link href="/dashboard/estate-manager" className="transition-colors hover:text-primary">Home</Link>
           <span className="text-zinc-300 dark:text-zinc-600">/</span>
-          <Link href="/dashboard/estate-manager/collections" className="transition-colors hover:text-emerald-600">Rent &amp; Payments</Link>
+          <Link href="/dashboard/estate-manager/collections" className="transition-colors hover:text-primary">Rent &amp; Payments</Link>
           <span className="text-zinc-300 dark:text-zinc-600">/</span>
-          <span className="text-emerald-600 dark:text-emerald-400">Disbursements</span>
+          <span className="text-primary dark:text-[#4edea3]">Disbursements</span>
         </nav>
 
         {/* Header */}
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
           <div className="max-w-2xl space-y-1.5">
-            <div className="inline-flex items-center gap-2 rounded bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+            <div className="inline-flex items-center gap-2 rounded bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
               <span>Custody Wallet</span>
               <span className="text-zinc-400">•</span>
               <span>Escrow Release</span>
@@ -153,7 +153,7 @@ function DisbursementsForm() {
           </div>
         )}
         {success && (
-          <div className="flex items-start gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-400">
+          <div className="flex items-start gap-2 rounded-lg border border-primary bg-[var(--sovereign-container-bg)] px-4 py-3 text-sm text-[var(--sovereign-hover)] dark:border-primary/50 dark:bg-primary/30 dark:text-[#4edea3]">
             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
             <span>{success}</span>
           </div>
@@ -166,7 +166,7 @@ function DisbursementsForm() {
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
                   <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Disburse to Landlord</h2>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
                     <CheckCircle2 className="h-3.5 w-3.5" /> Escrow Release
                   </span>
                 </div>
@@ -178,7 +178,7 @@ function DisbursementsForm() {
                 {loadingWallet ? (
                   <Loader2 className="ml-auto h-4 w-4 animate-spin text-zinc-400" />
                 ) : (
-                  <span className="font-mono text-base font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span className="font-mono text-base font-semibold text-primary dark:text-[#4edea3]">
                     {wallet ? ngn(wallet.balance) : '—'}
                   </span>
                 )}
@@ -234,7 +234,7 @@ function DisbursementsForm() {
                       type="button"
                       onClick={() => setAmount(String(maxAmount))}
                       disabled={maxAmount <= 0}
-                      className="rounded px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-600 hover:bg-emerald-500/10 disabled:opacity-40 dark:text-emerald-400"
+                      className="rounded px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary hover:bg-primary/10 disabled:opacity-40 dark:text-[#4edea3]"
                     >
                       Full Balance
                     </button>
@@ -277,8 +277,8 @@ function DisbursementsForm() {
                     <span className="font-mono text-rose-600 dark:text-rose-400">- {ngn(wht)}</span>
                   </div>
                   <div className="flex items-center justify-between rounded-lg bg-white p-2.5 shadow-sm dark:bg-zinc-900">
-                    <span className="font-bold text-emerald-600 dark:text-emerald-400">Net Settlement to Landlord</span>
-                    <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">{ngn(net)}</span>
+                    <span className="font-bold text-primary dark:text-[#4edea3]">Net Settlement to Landlord</span>
+                    <span className="font-mono font-bold text-primary dark:text-[#4edea3]">{ngn(net)}</span>
                   </div>
                 </div>
                 {!loadingWallet && gross > maxAmount && (
@@ -336,7 +336,7 @@ function DisbursementsForm() {
           <div className="space-y-6 lg:col-span-4">
             <div className={`${CARD} p-5`}>
               <div className="mb-4 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]">
                   <Wallet className="h-5 w-5" />
                 </div>
                 <div>
@@ -351,7 +351,7 @@ function DisbursementsForm() {
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className={MUTED}>Wallet Status</span>
-                  <span className={`font-semibold ${wallet?.locked ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                  <span className={`font-semibold ${wallet?.locked ? 'text-rose-600 dark:text-rose-400' : 'text-primary dark:text-[#4edea3]'}`}>
                     {wallet ? (wallet.locked ? 'Locked' : 'Active') : '—'}
                   </span>
                 </div>
@@ -382,7 +382,7 @@ function DisbursementsForm() {
                 </div>
                 <div className="flex items-center justify-between border-t border-zinc-200 pt-2 dark:border-zinc-800">
                   <span className={MUTED}>Net to Landlord</span>
-                  <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
                     {((1 - EM_RETAINER_RATE - WHT_RATE) * 100).toFixed(1)}%
                   </span>
                 </div>

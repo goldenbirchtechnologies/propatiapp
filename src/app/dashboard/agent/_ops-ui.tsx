@@ -52,7 +52,7 @@ export function OpsCardHeader({
     >
       <div className="flex items-center gap-3 min-w-0">
         {icon ? (
-          <span className="w-8 h-8 shrink-0 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+          <span className="w-8 h-8 shrink-0 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-center text-primary dark:text-[#4edea3]">
             {icon}
           </span>
         ) : null}
@@ -110,9 +110,9 @@ const toneClasses: Record<OpsTone, string> = {
   neutral:
     'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/[0.08]',
   primary:
-    'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30',
+    'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary dark:border-primary/30',
   success:
-    'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30',
+    'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary dark:border-primary/30',
   warning:
     'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30',
   danger:
@@ -161,7 +161,7 @@ export function OpsButton({
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const variants: Record<string, string> = {
     primary:
-      'bg-emerald-600 hover:bg-emerald-700 text-white disabled:bg-emerald-600/50',
+      'bg-primary hover:bg-[var(--sovereign-hover)] text-white disabled:bg-primary/50',
     secondary:
       'bg-zinc-100 hover:bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-white',
     ghost:
@@ -196,7 +196,7 @@ export function OpsInput({
     <input
       {...rest}
       className={cn(
-        'w-full h-10 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] px-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-600/25 focus:border-emerald-600/50',
+        'w-full h-10 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] px-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/50',
         className
       )}
     />
@@ -212,7 +212,7 @@ export function OpsSelect({
     <select
       {...rest}
       className={cn(
-        'w-full h-10 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] px-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600/25',
+        'w-full h-10 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] px-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/25',
         className
       )}
     >
@@ -229,7 +229,7 @@ export function OpsTextarea({
     <textarea
       {...rest}
       className={cn(
-        'w-full rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] px-3 py-2.5 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-600/25',
+        'w-full rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.08] px-3 py-2.5 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary/25',
         className
       )}
     />
@@ -285,12 +285,12 @@ export function OpsBreadcrumb({
           {item.href ? (
             <a
               href={item.href}
-              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+              className="hover:text-primary dark:hover:text-[#4edea3] transition-colors"
             >
               {item.label}
             </a>
           ) : (
-            <span className="text-emerald-600 dark:text-emerald-400">{item.label}</span>
+            <span className="text-primary dark:text-[#4edea3]">{item.label}</span>
           )}
         </span>
       ))}
@@ -315,16 +315,16 @@ export function OpsStatCard({
 }) {
   const valueTone: Record<OpsTone, string> = {
     neutral: 'text-zinc-900 dark:text-white',
-    primary: 'text-emerald-600 dark:text-emerald-400',
-    success: 'text-emerald-600 dark:text-emerald-400',
+    primary: 'text-primary dark:text-[#4edea3]',
+    success: 'text-primary dark:text-[#4edea3]',
     warning: 'text-amber-600 dark:text-amber-400',
     danger: 'text-red-600 dark:text-red-400',
     info: 'text-zinc-900 dark:text-white',
   };
   const iconTone: Record<OpsTone, string> = {
     neutral: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300',
-    primary: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-    success: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+    primary: 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-primary dark:text-[#4edea3]',
+    success: 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-primary dark:text-[#4edea3]',
     warning: 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400',
     danger: 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400',
     info: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300',
@@ -399,7 +399,7 @@ export function OpsSectionTitle({
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div className="flex items-center gap-2 min-w-0">
         {icon ? (
-          <span className="text-emerald-600 dark:text-emerald-400 shrink-0">{icon}</span>
+          <span className="text-primary dark:text-[#4edea3] shrink-0">{icon}</span>
         ) : null}
         <div className="min-w-0">
           <h3 className="text-base font-semibold text-zinc-900 dark:text-white">{title}</h3>

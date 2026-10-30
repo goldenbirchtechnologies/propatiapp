@@ -166,7 +166,7 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-label-sm text-label-sm uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full">
+            <span className="bg-primary/10 text-primary dark:text-[#4edea3] font-label-sm text-label-sm uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full">
               Marketplace Syndication
             </span>
           </div>
@@ -190,15 +190,15 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
           { num: 2, label: 'Listing Details and Media Syndication', desc: 'Pricing, amenities, photo gallery, escrow terms', badge: step >= 2 ? 'Active' : 'Pending' },
         ].map((s) => (
           <div key={s.num} className="flex items-center gap-3 flex-1 min-w-0">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${step >= s.num ? 'bg-emerald-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500'}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${step >= s.num ? 'bg-primary text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500'}`}>
               {step > s.num ? <Check size={16} /> : s.num}
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className={`text-xs uppercase tracking-wider font-bold ${step >= s.num ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-500 dark:text-zinc-400'}`}>
+                <span className={`text-xs uppercase tracking-wider font-bold ${step >= s.num ? 'text-primary dark:text-[#4edea3]' : 'text-zinc-500 dark:text-zinc-400'}`}>
                   Phase {String(s.num).padStart(2, '0')}
                 </span>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${s.badge === 'Active' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400'}`}>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${s.badge === 'Active' ? 'bg-primary/10 text-primary dark:text-[#4edea3]' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400'}`}>
                   {s.badge}
                 </span>
               </div>
@@ -228,19 +228,19 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
                 <button
                   key={dev.id}
                   onClick={() => handleSelectDev(dev.id)}
-                  className={`text-left rounded-xl border-2 p-4 transition-all ${selectedDev === dev.id ? 'border-emerald-500 bg-emerald-500/5 ring-2 ring-emerald-500/20' : 'border-zinc-200 dark:border-zinc-700 hover:border-emerald-300'}`}
+                  className={`text-left rounded-xl border-2 p-4 transition-all ${selectedDev === dev.id ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-zinc-200 dark:border-zinc-700 hover:border-primary'}`}
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary dark:text-[#4edea3] flex items-center justify-center">
                       <Building2 size={20} />
                     </div>
-                    {selectedDev === dev.id && <CheckCircle2 size={20} className="text-emerald-600 dark:text-emerald-400" />}
+                    {selectedDev === dev.id && <CheckCircle2 size={20} className="text-primary dark:text-[#4edea3]" />}
                   </div>
                   <span className="text-sm font-semibold text-zinc-900 dark:text-white block truncate">{dev.name}</span>
                   <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 mt-0.5">
                     <MapPin size={12} /> {dev.address}
                   </span>
-                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1 block">{dev.unitCount} available units</span>
+                  <span className="text-xs text-primary dark:text-[#4edea3] font-medium mt-1 block">{dev.unitCount} available units</span>
                 </button>
               ))}
             </div>
@@ -260,7 +260,7 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
                     type="checkbox"
                     checked={activeDev.units.length > 0 && activeDev.units.every((u) => selectedUnits.has(u.id))}
                     onChange={toggleSelectAll}
-                    className="w-4 h-4 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500"
+                    className="w-4 h-4 rounded border-zinc-300 text-primary focus:ring-primary"
                   />
                   <span className="text-sm text-zinc-700 dark:text-zinc-300 font-medium">Select All</span>
                 </label>
@@ -271,12 +271,12 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
                   <button
                     key={unit.id}
                     onClick={() => toggleUnit(unit.id)}
-                    className={`text-left rounded-xl border-2 p-4 transition-all ${selectedUnits.has(unit.id) ? 'border-emerald-500 bg-emerald-500/5 ring-2 ring-emerald-500/20' : 'border-zinc-200 dark:border-zinc-700 hover:border-emerald-300'}`}
+                    className={`text-left rounded-xl border-2 p-4 transition-all ${selectedUnits.has(unit.id) ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-zinc-200 dark:border-zinc-700 hover:border-primary'}`}
                   >
                     <div className="flex items-start justify-between mb-2">
                       <span className="text-xs font-mono text-zinc-400">{unit.id}</span>
                       {selectedUnits.has(unit.id) ? (
-                        <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400" />
+                        <CheckCircle2 size={18} className="text-primary dark:text-[#4edea3]" />
                       ) : (
                         <div className="w-[18px] h-[18px] rounded border-2 border-zinc-300 dark:border-zinc-600" />
                       )}
@@ -288,7 +288,7 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
                       <span className="flex items-center gap-1"><Maximize2 size={12} /> {unit.size}</span>
                       <span>{unit.floor}</span>
                     </div>
-                    <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-2 block">
+                    <span className="text-sm font-bold text-primary dark:text-[#4edea3] mt-2 block">
                       {formatPrice(unit.price)} / {unit.pricePeriod === 'year' ? 'yr' : unit.pricePeriod}
                     </span>
                   </button>
@@ -301,14 +301,14 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
             <div className="flex items-center gap-3">
               <span className="text-xs text-zinc-500 dark:text-zinc-400">Selected:</span>
               {selectedUnits.size > 0 ? (
-                <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold">
+                <span className="bg-primary/10 text-primary dark:text-[#4edea3] px-3 py-1 rounded-full text-xs font-bold">
                   {selectedUnits.size} {selectedUnits.size === 1 ? 'unit' : 'units'}
                 </span>
               ) : (
                 <span className="text-xs text-zinc-400">None selected</span>
               )}
             </div>
-            <Button onClick={handleContinueStep1} disabled={!canProceedStep1} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={handleContinueStep1} disabled={!canProceedStep1} className="bg-primary hover:bg-[var(--sovereign-hover)] text-white">
               Continue <ArrowRight size={16} className="ml-1" />
             </Button>
           </div>
@@ -380,7 +380,7 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
             <Button variant="outline" onClick={handleBack} className="text-zinc-700 dark:text-zinc-300">
               <ArrowLeft size={16} className="mr-1" /> Back
             </Button>
-            <Button onClick={handleSubmit} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={handleSubmit} className="bg-primary hover:bg-[var(--sovereign-hover)] text-white">
               Create and Syndicate Listing <ArrowRight size={16} className="ml-1" />
             </Button>
           </div>

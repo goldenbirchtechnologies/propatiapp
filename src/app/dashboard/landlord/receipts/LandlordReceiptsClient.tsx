@@ -193,7 +193,7 @@ export default function LandlordReceiptsClient() {
           <p className="mt-1 max-w-sm text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             No payment transactions or remittances recorded for the selected filter criteria or billing cycle.
           </p>
-          <Button size="sm" className="mt-6 gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => window.location.reload()}>
+          <Button size="sm" className="mt-6 gap-2 bg-primary hover:bg-primary text-white" onClick={() => window.location.reload()}>
             Reset All Filters
           </Button>
         </div>
@@ -207,7 +207,7 @@ export default function LandlordReceiptsClient() {
       <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
         <span>Financials &amp; Payouts</span>
         <ChevronRight className="h-3.5 w-3.5 opacity-40" />
-        <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Receipts</span>
+        <span className="text-primary dark:text-[#4edea3] font-semibold">Receipts</span>
       </nav>
 
       {/* Header */}
@@ -237,7 +237,7 @@ export default function LandlordReceiptsClient() {
           >
             <Printer className="h-4 w-4" /> Batch Print Statements
           </Button>
-          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={() => toast.info('Reconciliation ledger — filters applied to live transactions')}>
+          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={() => toast.info('Reconciliation ledger — filters applied to live transactions')}>
             <Search className="h-4 w-4" /> Filter &amp; Reconcile
           </Button>
         </div>
@@ -248,13 +248,13 @@ export default function LandlordReceiptsClient() {
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Collected Receipts</span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]">
               <Wallet className="h-5 w-5" />
             </div>
           </div>
           <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(total)}</div>
           <div className="mt-2 flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary dark:text-[#4edea3]">
               <CheckCircle2 className="h-3 w-3" /> {rows.length} Issued
             </span>
           </div>
@@ -268,7 +268,7 @@ export default function LandlordReceiptsClient() {
           </div>
           <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(rentTotal)}</div>
           <div className="mt-2 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Paystack • NIBSS Direct Escrow
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" /> Paystack • NIBSS Direct Escrow
           </div>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
@@ -291,7 +291,7 @@ export default function LandlordReceiptsClient() {
           <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
             {formatNairaFull(failed.reduce((s, r) => s + r.amount, 0))}
           </div>
-          <div className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+          <div className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-primary dark:text-[#4edea3]">
             <CheckCircle2 className="h-3.5 w-3.5" /> {rows.length ? Math.round((paid.length / rows.length) * 100) : 100}% Settlement Rate
           </div>
         </div>
@@ -305,14 +305,14 @@ export default function LandlordReceiptsClient() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by Receipt #, Tenant, RC Number, or Suite..."
-            className="h-10 w-full pl-11 bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-white/[0.08] focus-visible:ring-emerald-500/30"
+            className="h-10 w-full pl-11 bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-white/[0.08] focus-visible:ring-primary/30"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <select
             value={cat}
             onChange={(e) => setCat(e.target.value)}
-            className="h-10 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-8 text-sm font-medium text-zinc-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/[0.08] dark:bg-zinc-800 dark:text-zinc-200 cursor-pointer"
+            className="h-10 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-8 text-sm font-medium text-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-white/[0.08] dark:bg-zinc-800 dark:text-zinc-200 cursor-pointer"
           >
             <option value="ALL">All Categories</option>
             <option value="RENT">Rent Remittance</option>
@@ -364,14 +364,14 @@ export default function LandlordReceiptsClient() {
               ) : (
                 filtered.map((r) => (
                   <tr key={r.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-colors">
-                    <td className={`px-4 py-3.5 font-mono text-xs font-bold ${r.status === 'failed' ? 'text-red-600' : 'text-emerald-600'}`}>{r.ref}</td>
+                    <td className={`px-4 py-3.5 font-mono text-xs font-bold ${r.status === 'failed' ? 'text-red-600' : 'text-primary'}`}>{r.ref}</td>
                     <td className="px-4 py-3.5 whitespace-nowrap font-mono text-xs text-zinc-500 dark:text-zinc-400">{r.date}</td>
                     <td className="px-4 py-3.5">
                       <div className="flex flex-col">
                         <span className="text-sm font-semibold leading-tight text-zinc-900 dark:text-white">{r.tenant}</span>
                         {r.rcNumber && (
                           <span className="flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
-                            <CheckCircle2 className="h-3 w-3 text-emerald-500" /> {r.rcNumber}
+                            <CheckCircle2 className="h-3 w-3 text-primary" /> {r.rcNumber}
                           </span>
                         )}
                       </div>
@@ -390,7 +390,7 @@ export default function LandlordReceiptsClient() {
                     </td>
                     <td className="px-4 py-3.5 text-center">
                       {r.status === 'paid' ? (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary dark:text-[#4edea3]">
                           <CheckCircle2 className="h-3 w-3" /> Paid
                         </span>
                       ) : (
@@ -403,7 +403,7 @@ export default function LandlordReceiptsClient() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => setModal(r)}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-primary dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
                           title="Quick View"
                           aria-label="Quick View"
                         >
@@ -411,7 +411,7 @@ export default function LandlordReceiptsClient() {
                         </button>
                         <button
                           onClick={() => downloadReceipt(r)}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-primary dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
                           title="Download PDF"
                           aria-label="Download PDF"
                         >
@@ -419,7 +419,7 @@ export default function LandlordReceiptsClient() {
                         </button>
                         <button
                           onClick={() => window.print()}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-primary dark:text-zinc-400 dark:hover:bg-white/[0.06] transition-colors"
                           title="Direct Print"
                           aria-label="Direct Print"
                         >
@@ -450,7 +450,7 @@ export default function LandlordReceiptsClient() {
           >
             <div className="flex items-center justify-between bg-zinc-900 px-6 py-4 text-white dark:bg-black">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                <CheckCircle2 className="h-5 w-5 text-[#4edea3]" />
                 <span className="text-sm font-semibold tracking-wide">Official E-Receipt</span>
               </div>
               <button
@@ -465,7 +465,7 @@ export default function LandlordReceiptsClient() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
                 <div>
                   <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Receipt Ref</span>
-                  <span className="font-mono text-sm font-bold text-emerald-600">{modal.ref}</span>
+                  <span className="font-mono text-sm font-bold text-primary">{modal.ref}</span>
                 </div>
                 <div>
                   <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Date Settled</span>
@@ -477,7 +477,7 @@ export default function LandlordReceiptsClient() {
                 </div>
                 <div>
                   <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Audit State</span>
-                  <span className="inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Verified</span>
+                  <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary dark:text-[#4edea3]">Verified</span>
                 </div>
               </div>
               <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 space-y-2 text-sm dark:border-white/[0.06] dark:bg-white/[0.04]">
@@ -497,19 +497,19 @@ export default function LandlordReceiptsClient() {
                   <span className="font-medium text-zinc-900 dark:text-white">{modal.description}</span>
                 </div>
               </div>
-              <div className="flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4">
+              <div className="flex items-center justify-between rounded-xl border border-primary/20 bg-primary/10 p-4">
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Total Amount Received (Naira)</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Total Amount Received (Naira)</span>
                   <span className="text-xs text-zinc-600 dark:text-zinc-400">Settled into Escrow Custody</span>
                 </div>
-                <span className="font-mono text-2xl font-bold text-emerald-600">{formatNairaFull(modal.amount)}</span>
+                <span className="font-mono text-2xl font-bold text-primary">{formatNairaFull(modal.amount)}</span>
               </div>
             </div>
             <div className="flex items-center justify-end gap-2 border-t border-zinc-200 bg-zinc-50 px-6 py-3.5 dark:border-white/[0.08] dark:bg-white/[0.04]">
               <Button variant="outline" size="sm" className="border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-800" onClick={() => setModal(null)}>
                 Close Preview
               </Button>
-              <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => window.print()}>
+              <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white" onClick={() => window.print()}>
                 <Printer className="h-4 w-4" /> Print Receipt
               </Button>
             </div>

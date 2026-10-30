@@ -205,13 +205,13 @@ export default function AgentCommissionLedgerClient({ summary, adjustments }: Pr
       {/* Telemetry strip */}
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-white/[0.08] dark:bg-zinc-800/50">
         <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-          <ArrowLeftRight className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+          <ArrowLeftRight className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
           <span>Ledger source: wallet adjustments &amp; escrow releases</span>
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span className="font-mono text-[11px]">Batch #{String(rows.length).padStart(4, '0')}</span>
         </div>
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary dark:text-[#4edea3]">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
           Live ledger sync
         </span>
       </div>
@@ -289,7 +289,7 @@ export default function AgentCommissionLedgerClient({ summary, adjustments }: Pr
                   {visible.map((r) => (
                     <FinanceTableRow key={r.key}>
                       <FinanceTd>
-                        <div className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        <div className="font-mono text-xs font-semibold text-primary dark:text-[#4edea3]">
                           {r.reference}
                         </div>
                         <div className="text-[11px] capitalize text-zinc-500 dark:text-zinc-400">
@@ -310,7 +310,7 @@ export default function AgentCommissionLedgerClient({ summary, adjustments }: Pr
                         <span
                           className={
                             r.isCredit
-                              ? 'font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400'
+                              ? 'font-mono text-sm font-bold text-primary dark:text-[#4edea3]'
                               : 'font-mono text-sm font-bold text-zinc-900 dark:text-white'
                           }
                         >
@@ -364,7 +364,7 @@ export default function AgentCommissionLedgerClient({ summary, adjustments }: Pr
         <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
           <span>
             Inflows:{' '}
-            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
               {naira(inflowTotal)}
             </span>
           </span>

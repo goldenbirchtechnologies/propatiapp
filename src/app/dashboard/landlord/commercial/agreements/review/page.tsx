@@ -61,7 +61,7 @@ export default async function CommercialAgreementsReviewPage() {
                 <span>/</span>
                 <span>Agreements</span>
                 <span>/</span>
-                <span className="text-emerald-600 font-bold">Agreement Review</span>
+                <span className="text-primary font-bold">Agreement Review</span>
               </nav>
               <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mt-1">
                 Commercial Lease Agreement Review
@@ -122,7 +122,7 @@ export default async function CommercialAgreementsReviewPage() {
 
             <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-sm flex items-center justify-between border border-zinc-200 dark:border-zinc-800">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 flex items-center justify-center">
+                <div className="w-11 h-11 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#4edea3] flex items-center justify-center">
                   <FileCheck2 className="w-5 h-5" />
                 </div>
                 <div>
@@ -134,8 +134,8 @@ export default async function CommercialAgreementsReviewPage() {
                   </p>
                 </div>
               </div>
-              <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Secured
+              <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] dark:bg-primary/40 dark:text-[#6ffbbe] flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Secured
               </span>
             </div>
           </div>
@@ -191,7 +191,7 @@ export default async function CommercialAgreementsReviewPage() {
                         >
                           <td className="py-4 px-4 align-top">
                             <div className="flex items-start gap-3">
-                              <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600 shrink-0 mt-0.5">
+                              <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary shrink-0 mt-0.5">
                                 <Building2 className="w-5 h-5" />
                               </div>
                               <div className="flex flex-col">
@@ -267,7 +267,7 @@ export default async function CommercialAgreementsReviewPage() {
                           <td className="py-4 px-4 align-top text-right">
                             <div className="flex items-center justify-end gap-1.5">
                               {isPending ? (
-                                <button className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors">
+                                <button className="flex items-center gap-1 px-3 py-1.5 bg-primary hover:bg-[var(--sovereign-hover)] text-white text-sm font-medium rounded-lg shadow-sm transition-colors">
                                   <PenLine className="w-4 h-4" />
                                   Sign Agreement
                                 </button>
@@ -294,7 +294,7 @@ export default async function CommercialAgreementsReviewPage() {
 
               <div className="p-4 bg-zinc-50 dark:bg-zinc-800/40 border-t border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 gap-2">
                 <div className="flex items-center gap-2">
-                  <CalendarDays className="w-4 h-4 text-emerald-600" />
+                  <CalendarDays className="w-4 h-4 text-primary" />
                   <span>Compliant with Lagos State Tenancy Law 2011 &amp; Land Use Charge Act Regulations.</span>
                 </div>
                 <span>Authenticated Landlord: {user.fullName}</span>

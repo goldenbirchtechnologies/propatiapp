@@ -10,7 +10,7 @@ export default function SignInPage() {
         {/* Top Brand Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="h-10 w-10 rounded-xl bg-[#10b981] flex items-center justify-center shadow-lg shadow-[#10b981]/20">
+            <div className="h-10 w-10 rounded-xl bg-[#006c49] flex items-center justify-center shadow-lg shadow-[#006c49]/20">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.84L18 11v7h-2v-6H8v6H6v-7l6-5.16z" />
               </svg>
@@ -21,7 +21,7 @@ export default function SignInPage() {
             </div>
           </div>
           <div className="hidden sm:flex items-center gap-2 text-zinc-400 text-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-[#10b981]" />
+            <span className="inline-block h-2 w-2 rounded-full bg-[#006c49]" />
             <span>Portal Access</span>
           </div>
         </div>
@@ -39,23 +39,23 @@ export default function SignInPage() {
                 socialButtonsBlockButtonText: 'font-medium text-sm',
                 dividerLine: 'bg-white/[0.1]',
                 dividerText: 'bg-[#09090b] px-3 text-[11px] uppercase tracking-wider text-zinc-500 font-semibold',
-                formFieldInput: 'h-12 rounded-xl bg-[#18181b]/90 border border-white/[0.12] text-white text-base placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#10b981] focus:border-transparent transition-all w-full px-4',
+                formFieldInput: 'h-12 rounded-xl bg-[#18181b]/90 border border-white/[0.12] text-white text-base placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#006c49] focus:border-transparent transition-all w-full px-4',
                 formFieldLabel: 'block text-[11px] uppercase tracking-wider text-zinc-300 mb-2 font-semibold',
-                formButtonPrimary: 'w-full h-12 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white text-sm font-semibold shadow-lg shadow-[#09090b]/40 transition-all duration-200 flex items-center justify-center gap-2 mt-6 active:scale-[0.99] disabled:opacity-50',
-                formFieldAction: 'text-[11px] text-[#10b981] hover:text-[#6ffbbe] hover:underline font-medium',
+                formButtonPrimary: 'w-full h-12 rounded-xl bg-[#006c49] hover:bg-[#006c49] text-white text-sm font-semibold shadow-lg shadow-[#09090b]/40 transition-all duration-200 flex items-center justify-center gap-2 mt-6 active:scale-[0.99] disabled:opacity-50',
+                formFieldAction: 'text-[11px] text-[#006c49] hover:text-[#6ffbbe] hover:underline font-medium',
                 footer: 'text-center text-base text-zinc-400 mt-6',
-                footerActionLink: 'text-[#10b981] font-semibold hover:underline transition-colors',
+                footerActionLink: 'text-[#006c49] font-semibold hover:underline transition-colors',
                 footerActionText: 'text-zinc-400 text-base',
                 formFieldRow: 'flex items-center gap-2.5',
                 formFieldInputShowPasswordButton: 'text-zinc-400 hover:text-white transition-colors',
                 identityPreviewText: 'text-zinc-400',
-                identityPreviewEditButton: 'text-[#10b981]',
+                identityPreviewEditButton: 'text-[#006c49]',
                 alert: 'text-red-400 text-sm',
                 formFieldWarningText: 'text-amber-400 text-xs',
                 formFieldErrorText: 'text-red-400 text-xs mt-1',
               },
               variables: {
-                colorPrimary: '#10b981',
+                colorPrimary: '#006c49',
                 colorTextOnPrimaryBackground: '#ffffff',
                 colorTextSecondary: '#a1a1aa',
               },
@@ -71,22 +71,22 @@ export default function SignInPage() {
         {/* Footer */}
         <div className="pt-6 border-t border-white/[0.05] text-xs text-zinc-500 text-center lg:text-left">
           By submitting, I accept PROPATIBOX&apos;s{' '}
-          <a href="/privacy-policy" className="text-[#10b981] hover:underline">Terms of Use</a>
+          <a href="/privacy-policy" className="text-[#006c49] hover:underline">Terms of Use</a>
           {' '}and{' '}
-          <a href="/privacy-policy" className="text-[#10b981] hover:underline">Privacy Policy</a>.
+          <a href="/privacy-policy" className="text-[#006c49] hover:underline">Privacy Policy</a>.
         </div>
       </div>
 
       {/* Right Panel - Brand Panel + Testimonial */}
       <div className="hidden lg:block lg:flex-1 relative overflow-hidden bg-black">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.18),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(21,101,192,0.16),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0, 108, 73,0.18),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(21,101,192,0.16),transparent_55%)]" />
         {/* Gradient Scrim */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30" />
 
         {/* Institutional Badges */}
         <div className="absolute top-8 right-8 flex items-center gap-3">
           <div className="flex items-center gap-2 rounded-full border border-white/[0.12] bg-[#18181b]/80 backdrop-blur-md px-4 py-2">
-            <svg className="w-4 h-4 text-[#10b981]" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-4 h-4 text-[#006c49]" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
             </svg>
             <span className="text-[11px] font-semibold tracking-wider text-zinc-200 uppercase">CAC / RC Verified</span>
@@ -103,8 +103,8 @@ export default function SignInPage() {
         <div className="absolute bottom-12 left-8 right-8 xl:left-12 xl:right-12 flex flex-col gap-4">
           <div className="flex items-center gap-2.5 rounded-full border border-white/[0.12] bg-[#18181b]/80 backdrop-blur-md px-4 py-2 w-fit">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4edea3] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
             </span>
             <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-200">Over 25,000+ Happy Homeowners</span>
           </div>
@@ -125,7 +125,7 @@ export default function SignInPage() {
             </p>
             <div className="flex items-center justify-between border-t border-white/[0.1] pt-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-sm font-semibold ring-2 ring-white/10">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-teal-400 flex items-center justify-center text-white text-sm font-semibold ring-2 ring-white/10">
                   AO
                 </div>
                 <div>

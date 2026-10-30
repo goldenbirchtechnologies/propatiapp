@@ -325,7 +325,7 @@ function AgentInfo({
           </div>
         )}
         {isVerified && (
-          <span className="absolute bottom-0 right-0 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
+          <span className="absolute bottom-0 right-0 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
             <CheckCircle className="h-3 w-3 text-white" />
           </span>
         )}

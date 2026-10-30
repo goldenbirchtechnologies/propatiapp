@@ -8,7 +8,7 @@ interface ProgressProps {
   className?: string
 }
 
-function ProgressBar({ value, color = "#10b981", className }: ProgressProps) {
+function ProgressBar({ value, color = "#006c49", className }: ProgressProps) {
   return (
     <div className={cn("h-1.5 bg-zinc-800 rounded-full overflow-hidden w-full", className)}>
       <div

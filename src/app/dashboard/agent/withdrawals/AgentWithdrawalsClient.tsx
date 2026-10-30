@@ -488,7 +488,7 @@ export default function AgentWithdrawalsClient({ summary, withdrawals }: Props) 
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span>
             Available:{' '}
-            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
               {naira(available)}
             </span>
           </span>
@@ -551,7 +551,7 @@ export default function AgentWithdrawalsClient({ summary, withdrawals }: Props) 
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-8 pr-3 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white"
+                    className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-8 pr-3 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white"
                   />
                 </div>
               </div>
@@ -568,7 +568,7 @@ export default function AgentWithdrawalsClient({ summary, withdrawals }: Props) 
                   type="text"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white"
+                  className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white"
                 />
               </div>
 
@@ -578,7 +578,7 @@ export default function AgentWithdrawalsClient({ summary, withdrawals }: Props) 
                 </div>
               ) : null}
               {success ? (
-                <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3 text-xs text-emerald-700 dark:text-emerald-300">
+                <div className="rounded-lg border border-primary/20 bg-primary/10 p-3 text-xs text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
                   {success}
                 </div>
               ) : null}

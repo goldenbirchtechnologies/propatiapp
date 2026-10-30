@@ -95,7 +95,7 @@ function VerificationGuideClient(props: Props) {
 
       <div className="glass-card border-success/20 bg-success/5">
         <div className="p-6 p-5 flex items-start gap-4">
-          <CheckCircle2 className="h-6 w-6 text-[#10b981] shrink-0 mt-0.5" />
+          <CheckCircle2 className="h-6 w-6 text-[#006c49] shrink-0 mt-0.5" />
           <div>
             <h4 className="font-bold mb-1">Why verify?</h4>
             <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">

@@ -37,11 +37,11 @@ export function CookieConsent() {
             <p className="text-sm text-zinc-300">
               We use cookies to improve your experience on PropatiBox and for marketing. 
               By clicking "Accept all", you agree to our{' '}
-              <Link href="/terms-of-agreement" className="text-emerald-400 hover:underline">
+              <Link href="/terms-of-agreement" className="text-[#4edea3] hover:underline">
                 Terms &amp; Conditions
               </Link>
               {' '}and{' '}
-              <Link href="/cookies" className="text-emerald-400 hover:underline">
+              <Link href="/cookies" className="text-[#4edea3] hover:underline">
                 Cookies Policy
               </Link>
               .
@@ -56,7 +56,7 @@ export function CookieConsent() {
             </button>
             <button
               onClick={acceptAll}
-              className="px-5 py-2 text-sm font-semibold text-white bg-emerald-500 hover:bg-emerald-600 rounded-lg transition-colors"
+              className="px-5 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary rounded-lg transition-colors"
             >
               Accept all
             </button>

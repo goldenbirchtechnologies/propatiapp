@@ -39,8 +39,8 @@ export default function MortgageCalculatorPage() {
   return (
     <div className="bg-black min-h-screen pt-16">
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Tools</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">Mortgage calculator</h1>
@@ -56,7 +56,7 @@ export default function MortgageCalculatorPage() {
             {/* Controls */}
             <div className="glass-card p-6 md:p-8 space-y-6">
               <h2 className="text-sm font-bold text-white flex items-center gap-2">
-                <Calculator className="h-4 w-4 text-emerald-400" /> Your loan
+                <Calculator className="h-4 w-4 text-[#4edea3]" /> Your loan
               </h2>
 
               <div>
@@ -173,7 +173,7 @@ export default function MortgageCalculatorPage() {
               <div className="glass-card p-6">
                 <h3 className="text-sm font-semibold text-white">What this doesn&apos;t include</h3>
                 <ul className="mt-3 space-y-1.5 text-sm text-zinc-500 leading-relaxed list-disc list-inside">
-                  <li>Stamp duty (0.78% of annual rent for tenancies) — see <Link href="/agreements" className="text-emerald-400 hover:text-emerald-300">Agreements</Link>.</li>
+                  <li>Stamp duty (0.78% of annual rent for tenancies) — see <Link href="/agreements" className="text-[#4edea3] hover:text-[#6ffbbe]">Agreements</Link>.</li>
                   <li>Agency, legal, and valuation fees.</li>
                   <li>NHF / PMB-specific terms — confirm with your lender.</li>
                 </ul>

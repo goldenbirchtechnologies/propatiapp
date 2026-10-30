@@ -173,7 +173,7 @@ export default function OnboardingWizard({
               setStepIndex((i) => i + 1);
             }
           }}
-          className="w-full md:w-auto bg-[#10b981] hover:bg-[#006c49]"
+          className="w-full md:w-auto bg-[#006c49] hover:bg-[#006c49]"
         >
           {isLastStep ? (
             <>

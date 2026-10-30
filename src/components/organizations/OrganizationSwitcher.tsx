@@ -53,7 +53,7 @@ export function OrganizationSwitcher() {
             className="flex items-center justify-between cursor-pointer"
           >
             <span>{org.name}</span>
-            {organization.id === org.id && <Check className="h-3 w-3 text-[#10b981]" />}
+            {organization.id === org.id && <Check className="h-3 w-3 text-[#006c49]" />}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />

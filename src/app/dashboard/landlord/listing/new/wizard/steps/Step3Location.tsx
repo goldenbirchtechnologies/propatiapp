@@ -114,7 +114,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 03 / Location</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 03 / Location</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Capacity Matrix & Lagos GIS Coordinates / Location</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Pin your property on the Lagos GIS cadastral map and capture coordinates.</p>
       </div>
@@ -145,7 +145,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-400" />
                 <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSearch()} placeholder="Search address in Lagos..." className="pl-9" />
               </div>
-              <Button onClick={handleSearch} disabled={searching} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={handleSearch} disabled={searching} className="bg-primary hover:bg-[var(--sovereign-hover)] text-white">
                 {searching ? 'Searching...' : 'Search'}
               </Button>
             </div>
@@ -166,7 +166,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
               </div>
             </div>
             <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-              <input type="checkbox" checked={precise} onChange={(e) => { setPrecise(e.target.checked); sync({ show_precise_location: e.target.checked }); }} className="accent-emerald-600" />
+              <input type="checkbox" checked={precise} onChange={(e) => { setPrecise(e.target.checked); sync({ show_precise_location: e.target.checked }); }} className="accent-primary" />
               Show precise location to guests
             </label>
           </div>
@@ -174,7 +174,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
         <div className="lg:col-span-5 flex flex-col gap-4">
           <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
             <div className="flex items-center gap-2 mb-3">
-              <MapPin className="size-4 text-emerald-600" />
+              <MapPin className="size-4 text-primary" />
               <span className="text-sm font-semibold text-zinc-900 dark:text-white">Lagos GIS Cadastral Pin</span>
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -184,13 +184,13 @@ export default function Step3Location({ value, onChange }: Step3Props) {
               </div>
               <div className="p-3 bg-zinc-50 dark:bg-white/[0.04] rounded-lg">
                 <span className="text-xs text-zinc-600 dark:text-zinc-400 block">FLOOD RISK INDEX</span>
-                <span className="font-medium text-emerald-600">Zone A (Elevated +2.4m)</span>
+                <span className="font-medium text-primary">Zone A (Elevated +2.4m)</span>
               </div>
             </div>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-3">Coordinates locked to Lagos State Land Bureau cadastre.</p>
           </div>
           <div className="p-5 bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-            <Navigation className="size-4 text-emerald-600 mb-2" />
+            <Navigation className="size-4 text-primary mb-2" />
             <p className="text-xs text-zinc-600 dark:text-zinc-400">Click on the map or drag the marker to set coordinates. Use search to geocode an address.</p>
           </div>
         </div>

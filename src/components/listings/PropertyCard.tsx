@@ -32,23 +32,23 @@ export interface PropertyCardProps {
 }
 
 const categoryChips = {
-  residential: 'bg-emerald-500/90 text-white',
+  residential: 'bg-primary/90 text-white',
   commercial: 'bg-amber-500/90 text-white',
-  short_let: 'bg-emerald-500/90 text-white',
+  short_let: 'bg-primary/90 text-white',
 } as const;
 
 const verificationChips = {
   basic: 'bg-zinc-900/90 text-zinc-200 border border-white/10',
-  verified: 'bg-emerald-500/90 text-white border border-white/10',
+  verified: 'bg-primary/90 text-white border border-white/10',
   inspected: 'bg-amber-500/90 text-white border border-white/10',
   certified: 'bg-purple-600/90 text-white border border-white/10',
 } as const;
 
 const listingTypeChips = {
   rent: 'bg-sky-500/90 text-white border border-white/10',
-  sale: 'bg-emerald-500/90 text-white border border-white/10',
+  sale: 'bg-primary/90 text-white border border-white/10',
   short_let: 'bg-teal-500/90 text-white border border-white/10',
-  share: 'bg-emerald-500/90 text-white border border-white/10',
+  share: 'bg-primary/90 text-white border border-white/10',
   commercial: 'bg-amber-600/90 text-white border border-white/10',
 } as const;
 
@@ -61,7 +61,7 @@ const listingTypeLabels = {
 } as const;
 
 const typeColors: Record<string, string> = {
-  residential: '#10b981',
+  residential: '#006c49',
   commercial: '#c9952a',
   short_let: '#f59e0b',
 };
@@ -147,7 +147,7 @@ export function PropertyCard({
         <div className="absolute top-3 left-3 flex gap-2">
           <span
             className="px-2 py-0.5 text-xs font-semibold rounded text-white capitalize"
-            style={{ background: typeColors[category] || '#10b981' }}
+            style={{ background: typeColors[category] || '#006c49' }}
           >
             {listingTypeLabels[listingType] || category.replace('_', ' ')}
           </span>

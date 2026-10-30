@@ -37,7 +37,7 @@ interface Invoice {
 }
 
 const statusConfig: Record<string, { label: string; cls: string }> = {
-  paid: { label: 'Paid & Escrowed', cls: 'bg-emerald-600 text-white border-emerald-600' },
+  paid: { label: 'Paid & Escrowed', cls: 'bg-primary text-white border-primary' },
   overdue: { label: 'Overdue', cls: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' },
   pending: { label: 'Pending', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
   sent: { label: 'Sent', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
@@ -189,7 +189,7 @@ export default function LandlordInvoicesClient() {
           <nav className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
             <span>Financials &amp; Payouts</span>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
-            <span className="text-emerald-600 font-semibold">Invoices &amp; Billings</span>
+            <span className="text-primary font-semibold">Invoices &amp; Billings</span>
           </nav>
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Institutional Invoices</h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
@@ -198,13 +198,13 @@ export default function LandlordInvoicesClient() {
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] text-xs text-zinc-600 dark:text-zinc-400">
-            <Receipt className="w-4 h-4 text-emerald-600" />
+            <Receipt className="w-4 h-4 text-primary" />
             Escrow Node: Active
           </div>
           <Button variant="outline" size="sm" onClick={exportCsv}>
             <Download className="w-4 h-4 mr-1" /> Export CSV
           </Button>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => toast({ title: 'Generate Invoice', description: 'Invoice builder coming soon — use POST /api/invoices' })}>
+          <Button size="sm" className="bg-primary hover:bg-[var(--sovereign-hover)] text-white" onClick={() => toast({ title: 'Generate Invoice', description: 'Invoice builder coming soon — use POST /api/invoices' })}>
             <Plus className="w-4 h-4 mr-1" /> Generate Invoice
           </Button>
         </div>
@@ -215,7 +215,7 @@ export default function LandlordInvoicesClient() {
         <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Total Invoiced</span>
-            <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-white/[0.04] flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-white/[0.04] flex items-center justify-center text-primary">
               <Receipt className="w-5 h-5" />
             </div>
           </div>
@@ -235,11 +235,11 @@ export default function LandlordInvoicesClient() {
         <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Settled to Escrow</span>
-            <div className="w-9 h-9 rounded-lg bg-emerald-600/10 flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
               <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-emerald-600">{'₦' + totals.paid.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          <div className="text-2xl font-bold text-primary">{'₦' + totals.paid.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Cleared settlements</div>
         </div>
         <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
@@ -306,7 +306,7 @@ export default function LandlordInvoicesClient() {
               onClick={() => setStatusFilter(p.key)}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
                 statusFilter === p.key
-                  ? 'bg-emerald-600 text-white'
+                  ? 'bg-primary text-white'
                   : 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-white/[0.08]'
               }`}
             >
@@ -330,7 +330,7 @@ export default function LandlordInvoicesClient() {
             <Button variant="outline" size="sm" onClick={() => { setQuery(''); setStatusFilter('all'); }}>
               Reset Filters
             </Button>
-            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => toast({ title: 'Generate Invoice', description: 'Modal not yet wired' })}>
+            <Button size="sm" className="bg-primary hover:bg-[var(--sovereign-hover)] text-white" onClick={() => toast({ title: 'Generate Invoice', description: 'Modal not yet wired' })}>
               <Plus className="w-4 h-4 mr-1" /> Generate New Invoice
             </Button>
           </div>
@@ -339,7 +339,7 @@ export default function LandlordInvoicesClient() {
         <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-sm overflow-hidden">
           <div className="px-6 py-3 bg-zinc-50 dark:bg-white/[0.04] border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-primary" />
               Direct Interbank &amp; NIBSS Auto-Reconciled
             </div>
             <div className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -364,8 +364,8 @@ export default function LandlordInvoicesClient() {
                 {filtered.map((inv) => {
                   const cfg = statusConfig[inv.status || 'draft'] || statusConfig.draft;
                   return (
-                    <tr key={inv.id} className="hover:bg-emerald-600/[0.04] transition-colors">
-                      <td className="py-3 px-6 font-mono text-sm font-bold text-emerald-600">
+                    <tr key={inv.id} className="hover:bg-primary/[0.04] transition-colors">
+                      <td className="py-3 px-6 font-mono text-sm font-bold text-primary">
                         <Link href="#" className="hover:underline flex items-center gap-1">
                           {inv.invoiceNumber || inv.id.slice(0, 8)}
                           <FileText className="w-3 h-3 opacity-60" />
@@ -403,21 +403,21 @@ export default function LandlordInvoicesClient() {
                       <td className="py-3 px-6 text-right" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-end gap-1">
                           <button
-                            className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"
+                            className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-primary hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"
                             title="View Invoice"
                             onClick={() => toast({ title: 'View invoice', description: inv.invoiceNumber || inv.id })}
                           >
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
-                            className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"
+                            className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-primary hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"
                             title="Download PDF"
                             onClick={() => downloadPdf(inv.id)}
                           >
                             <Download className="w-4 h-4" />
                           </button>
                           <button
-                            className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"
+                            className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-primary hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"
                             title="Send Receipt"
                             onClick={() => downloadReceipt(inv.id)}
                           >
@@ -426,7 +426,7 @@ export default function LandlordInvoicesClient() {
                           {inv.status !== 'paid' && (
                             <>
                               <button
-                                className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors disabled:opacity-50"
+                                className="p-1 rounded text-zinc-500 dark:text-zinc-400 hover:text-primary hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors disabled:opacity-50"
                                 title="Send"
                                 disabled={actionId === inv.id}
                                 onClick={() => sendInvoice(inv.id)}

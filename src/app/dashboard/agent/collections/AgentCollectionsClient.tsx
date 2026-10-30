@@ -235,7 +235,7 @@ export default function AgentCollectionsClient({
         title="Rent & Payments Clearing Hub"
         description="Wallet engine, multi-channel NGN settlement and escrow clearing across every mandate under your agency."
         badges={
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             Tier-4 Institutional
           </span>
         }
@@ -255,7 +255,7 @@ export default function AgentCollectionsClient({
       <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-1.5">
         <Link
           href="/dashboard/agent/payments"
-          className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm"
+          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm"
         >
           <Wallet className="h-4 w-4" /> Overview
         </Link>
@@ -303,7 +303,7 @@ export default function AgentCollectionsClient({
               </span>
               <Link
                 href="/dashboard/agent/withdrawals"
-                className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-primary dark:text-[#4edea3] hover:underline"
               >
                 Withdraw Funds <ChevronRight className="h-3 w-3" />
               </Link>
@@ -338,7 +338,7 @@ export default function AgentCollectionsClient({
               <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-600 dark:bg-white/[0.06] dark:text-zinc-400">
                 Paystack &amp; NIBSS Instant
               </span>
-              <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              <Shield className="h-4 w-4 text-primary dark:text-[#4edea3]" />
             </div>
           }
         />
@@ -351,7 +351,7 @@ export default function AgentCollectionsClient({
           icon={<ArrowUpRight className="h-4 w-4" />}
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 Settled to date
               </span>
               <Clock className="h-4 w-4 text-zinc-500" />
@@ -363,7 +363,7 @@ export default function AgentCollectionsClient({
       {/* Settlement & channel authority strip */}
       <div className="grid grid-cols-1 divide-y divide-zinc-200 rounded-xl border border-zinc-200 dark:divide-white/[0.08] dark:border-white/[0.08] bg-white dark:bg-zinc-900 lg:grid-cols-3 lg:divide-y-0">
         <div className="flex items-center gap-3.5 p-5">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600 dark:bg-white/[0.06] dark:text-emerald-400">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-primary dark:bg-white/[0.06] dark:text-[#4edea3]">
             <Landmark className="h-5 w-5" />
           </div>
           <div className="min-w-0">
@@ -377,7 +377,7 @@ export default function AgentCollectionsClient({
           </div>
         </div>
         <div className="flex items-center gap-3.5 p-5 lg:border-x lg:border-zinc-200 dark:lg:border-white/[0.08]">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600 dark:bg-white/[0.06] dark:text-emerald-400">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-primary dark:bg-white/[0.06] dark:text-[#4edea3]">
             <Scale className="h-5 w-5" />
           </div>
           <div className="min-w-0">
@@ -391,7 +391,7 @@ export default function AgentCollectionsClient({
           </div>
         </div>
         <div className="flex items-center gap-3.5 p-5">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600 dark:bg-white/[0.06] dark:text-emerald-400">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-primary dark:bg-white/[0.06] dark:text-[#4edea3]">
             <Gauge className="h-5 w-5" />
           </div>
           <div className="min-w-0">
@@ -513,13 +513,13 @@ export default function AgentCollectionsClient({
             </span>
             <span className="text-zinc-500 dark:text-zinc-400">
               Cleared:{' '}
-              <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
                 {naira(clearedVolume)}
               </span>{' '}
               ({clearedCount})
             </span>
             <span className="ml-auto inline-flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400">
-              <Shield className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <Shield className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
               Syncing live Paystack webhook feed
             </span>
           </div>
@@ -575,13 +575,13 @@ export default function AgentCollectionsClient({
                           </div>
                         </FinanceTd>
                         <FinanceTd>
-                          <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                          <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                             {row.category}
                           </span>
                         </FinanceTd>
                         <FinanceTd>
                           <div className="flex items-center gap-1.5">
-                            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                            <span className="h-2 w-2 rounded-full bg-primary" />
                             <span className="font-mono text-[11px] text-zinc-700 dark:text-zinc-300">
                               {row.channel}
                             </span>
@@ -599,7 +599,7 @@ export default function AgentCollectionsClient({
                           <span
                             className={
                               row.isCredit
-                                ? 'font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400'
+                                ? 'font-mono text-sm font-bold text-primary dark:text-[#4edea3]'
                                 : 'font-mono text-sm font-bold text-zinc-900 dark:text-white'
                             }
                           >

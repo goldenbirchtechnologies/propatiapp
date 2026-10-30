@@ -92,24 +92,24 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Breadcrumb */}
       <nav className="flex flex-wrap items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-        <Link href="/dashboard/landlord" className="hover:text-emerald-600 transition-colors">
+        <Link href="/dashboard/landlord" className="hover:text-primary transition-colors">
           Home
         </Link>
         <ChevronRight className="h-3.5 w-3.5 opacity-40" />
-        <Link href="/dashboard/landlord/financials" className="hover:text-emerald-600 transition-colors">
+        <Link href="/dashboard/landlord/financials" className="hover:text-primary transition-colors">
           Financials &amp; Payouts
         </Link>
         <ChevronRight className="h-3.5 w-3.5 opacity-40" />
-        <Link href="/dashboard/landlord/revenue-forecast" className="hover:text-emerald-600 transition-colors">
+        <Link href="/dashboard/landlord/revenue-forecast" className="hover:text-primary transition-colors">
           Revenue Forecasting
         </Link>
         <ChevronRight className="h-3.5 w-3.5 opacity-40" />
-        <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Scenario Builder</span>
+        <span className="text-primary dark:text-[#4edea3] font-semibold">Scenario Builder</span>
       </nav>
 
       <div className="flex items-center gap-2">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Ledger Node: Lagos Sovereign Core (Active)
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
+          <span className="h-2 w-2 rounded-full bg-primary animate-pulse" /> Ledger Node: Lagos Sovereign Core (Active)
         </span>
         {baseAnnual > 0 && (
           <span className="text-xs text-zinc-500 dark:text-zinc-400">Base YTD {formatNairaFull(baseAnnual)} • live</span>
@@ -142,7 +142,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
           <Button size="sm" className="gap-2 border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-200" variant="outline" onClick={handleSave}>
             <Save className="h-4 w-4" /> Save Scenario
           </Button>
-          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={handleApply}>
+          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={handleApply}>
             <TrendingUp className="h-4 w-4" /> Apply to Forecast
           </Button>
         </div>
@@ -161,7 +161,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
               onClick={() => selectScenario(key)}
               className={`text-left rounded-xl border p-5 shadow-sm flex flex-col justify-between transition-all ${
                 active
-                  ? 'border-emerald-500/30 bg-emerald-500/[0.04] shadow-md ring-1 ring-emerald-500/20 dark:bg-emerald-500/10'
+                  ? 'border-primary/30 bg-primary/[0.04] shadow-md ring-1 ring-primary/20 dark:bg-primary/10'
                   : 'border-zinc-200 bg-white hover:border-zinc-300 hover:shadow-md dark:border-white/[0.08] dark:bg-zinc-900 dark:hover:border-white/[0.12]'
               }`}
             >
@@ -170,13 +170,13 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
                   className={`rounded-full border px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider ${
                     isPessimistic
                       ? 'border-red-500/20 bg-red-500/10 text-red-600 dark:text-red-400'
-                      : 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                      : 'border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]'
                   }`}
                 >
                   {s.label}
                 </span>
                 {active ? (
-                  <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                  <CheckCircle2 className="h-5 w-5 text-primary" />
                 ) : (
                   <div className="h-5 w-5 rounded-full border-2 border-zinc-300 dark:border-white/20" />
                 )}
@@ -188,7 +188,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
                     <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white">{s.occ}%</span>
                   </div>
                   <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
-                    <div className={`h-full rounded-full ${isPessimistic ? 'bg-red-500' : 'bg-emerald-600'}`} style={{ width: `${s.occ}%` }} />
+                    <div className={`h-full rounded-full ${isPessimistic ? 'bg-red-500' : 'bg-primary'}`} style={{ width: `${s.occ}%` }} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -208,7 +208,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
                       className={`rounded-full border px-2 py-0.5 text-xs font-bold ${
                         isPessimistic
                           ? 'border-red-500/20 bg-red-500/10 text-red-600'
-                          : 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                          : 'border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]'
                       }`}
                     >
                       {s.delta}
@@ -218,7 +218,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
               </div>
               <span
                 className={`inline-flex w-full justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
-                  active ? 'bg-emerald-600 text-white hover:bg-emerald-500' : 'bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900'
+                  active ? 'bg-primary text-white hover:bg-primary' : 'bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900'
                 }`}
               >
                 {active ? 'Active Selection' : `Select ${key.charAt(0).toUpperCase() + key.slice(1)}`}
@@ -231,7 +231,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
       {/* Valuation formula */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4">
         <div className="flex flex-col gap-1 max-w-xl">
-          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+          <div className="flex items-center gap-2 text-primary dark:text-[#4edea3]">
             <Calculator className="h-5 w-5" />
             <span className="text-xs font-bold uppercase tracking-wider">Reactive Valuation Formula</span>
           </div>
@@ -251,12 +251,12 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
           <span className="text-zinc-400">×</span>
           <div className="flex flex-col">
             <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Occupancy</span>
-            <span className="font-mono text-lg font-bold text-emerald-600">{occ}%</span>
+            <span className="font-mono text-lg font-bold text-primary">{occ}%</span>
           </div>
           <span className="text-zinc-400">=</span>
-          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 dark:bg-emerald-500/10">
-            <span className="block text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Annualized Run-Rate</span>
-            <span className="font-mono text-lg font-bold text-emerald-600">{formatNairaFull(annualized)}</span>
+          <div className="rounded-xl border border-primary/20 bg-primary/10 px-4 py-2 dark:bg-primary/10">
+            <span className="block text-xs font-bold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Annualized Run-Rate</span>
+            <span className="font-mono text-lg font-bold text-primary">{formatNairaFull(annualized)}</span>
             <span className="ml-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">Net {formatNairaFull(netAnnual)}/yr</span>
           </div>
         </div>
@@ -267,10 +267,10 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col">
           <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 mb-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
             <div className="flex items-center gap-2">
-              <Settings2 className="h-5 w-5 text-emerald-600" />
+              <Settings2 className="h-5 w-5 text-primary" />
               <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">Tenancy &amp; Portfolio Parameters</h2>
             </div>
-            <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+            <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-primary dark:text-[#4edea3]">
               Real-Time Core
             </span>
           </div>
@@ -300,9 +300,9 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
                 <label className="text-sm font-medium text-zinc-900 dark:text-white">Target Occupancy Rate (%)</label>
-                <span className="font-mono text-sm font-bold text-emerald-600">{occ}%</span>
+                <span className="font-mono text-sm font-bold text-primary">{occ}%</span>
               </div>
-              <input type="range" min={30} max={100} value={occ} onChange={(e) => setOcc(Number(e.target.value))} className="w-full accent-emerald-600 h-2 rounded-lg bg-zinc-200 dark:bg-white/[0.08] cursor-pointer" />
+              <input type="range" min={30} max={100} value={occ} onChange={(e) => setOcc(Number(e.target.value))} className="w-full accent-primary h-2 rounded-lg bg-zinc-200 dark:bg-white/[0.08] cursor-pointer" />
               <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
                 <span>Stress Floor (30%)</span>
                 <span>Break-Even (62%)</span>
@@ -327,7 +327,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
             </div>
           </div>
           <div className="mt-4 flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/[0.06] dark:bg-white/[0.04]">
-            <Info className="h-5 w-5 text-emerald-600 shrink-0" />
+            <Info className="h-5 w-5 text-primary shrink-0" />
             <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">Figures anchored to LASRERA statutory caps and active tenancy escrow contracts.</p>
           </div>
         </div>
@@ -335,13 +335,13 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col">
           <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 mb-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
             <div className="flex items-center gap-2">
-              <Wallet className="h-5 w-5 text-emerald-600" />
+              <Wallet className="h-5 w-5 text-primary" />
               <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">Operating Expenses Breakdown</h2>
             </div>
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 gap-1 text-xs font-bold uppercase tracking-wider text-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700"
+              className="h-7 gap-1 text-xs font-bold uppercase tracking-wider text-primary hover:bg-primary/10 hover:text-[var(--sovereign-hover)]"
               onClick={() => {
                 setExpenses((e) => [...e, { title: 'Supplementary Contingency', amount: 1500000, icon: Wrench }]);
                 toast.success('Line item added');
@@ -377,7 +377,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
           <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/[0.06] dark:bg-white/[0.04]">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Monthly Operating Expenses</span>
-              <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-primary dark:text-[#4edea3]">
                 Auto-Summed
               </span>
             </div>
@@ -394,7 +394,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
       {/* Portfolio anchor */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col md:flex-row items-center gap-4">
         <div className="w-full md:w-1/3 h-40 rounded-xl overflow-hidden relative border border-zinc-200 dark:border-white/[0.08] bg-gradient-to-br from-zinc-900 to-zinc-700 flex flex-col justify-end p-4 text-white">
-          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-300">Prime Asset</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#6ffbbe]">Prime Asset</span>
           <span className="text-lg font-bold">Lekki Sovereign Tower 1</span>
           <span className="text-xs text-zinc-300">Vacancy hedge • 68.4% break-even</span>
         </div>
@@ -411,7 +411,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
       {/* Sync bar */}
       <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col xl:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
           All scenario assumptions synchronized.
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -452,7 +452,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
           >
             <Download className="h-4 w-4" /> Export CSV
           </Button>
-          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={handleApply}>
+          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={handleApply}>
             <CheckCircle2 className="h-4 w-4" /> Apply to Financial Forecast
           </Button>
         </div>

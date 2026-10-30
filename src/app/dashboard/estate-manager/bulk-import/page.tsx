@@ -135,7 +135,7 @@ export default function EstateManagerBulkImportPage() {
               ) : status === 'uploaded' ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-[#10b981]" />
+                    <CheckCircle className="w-5 h-5 text-[#006c49]" />
                     <span className="text-sm font-medium text-zinc-900 dark:text-white">File uploaded successfully</span>
                   </div>
                   {rowCount !== null && (
@@ -167,7 +167,7 @@ export default function EstateManagerBulkImportPage() {
               ) : status === 'done' ? (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-[#10b981]" />
+                    <CheckCircle className="w-5 h-5 text-[#006c49]" />
                     <span className="text-sm font-medium text-zinc-900 dark:text-white">Import completed</span>
                   </div>
                   <p className="text-sm text-zinc-600 dark:text-zinc-400">{rowCount || 0} properties loaded. 0 errors.</p>
@@ -197,11 +197,11 @@ export default function EstateManagerBulkImportPage() {
             <div className="glass-card p-6">
               <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white mb-3">Rules</h3>
               <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#10b981]" /> Max file size: 50MB</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#10b981]" /> Headers must match template</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#10b981]" /> Date format: DD/MM/YYYY</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#10b981]" /> Duplicates will be skipped</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#10b981]" /> Emails must be unique</li>
+                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#006c49]" /> Max file size: 50MB</li>
+                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#006c49]" /> Headers must match template</li>
+                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#006c49]" /> Date format: DD/MM/YYYY</li>
+                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#006c49]" /> Duplicates will be skipped</li>
+                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-[#006c49]" /> Emails must be unique</li>
               </ul>
             </div>
           </div>

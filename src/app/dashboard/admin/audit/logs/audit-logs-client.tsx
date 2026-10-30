@@ -38,7 +38,7 @@ function AuditLogsClient({
     const lower = action.toLowerCase();
     if (lower.includes('blocked') || lower.includes('ban') || lower.includes('suspend'))
       return 'text-error';
-    if (lower.includes('approve') || lower.includes('verify')) return 'text-[#10b981]';
+    if (lower.includes('approve') || lower.includes('verify')) return 'text-[#006c49]';
     return 'text-zinc-900 dark:text-white';
   };
 
@@ -136,7 +136,7 @@ function AuditLogsClient({
                     </td>
                     <td className="px-md py-3 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-emerald-500-container flex items-center justify-center text-[14px] text-on-primary-container font-bold shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[14px] text-on-primary-container font-bold shrink-0">
                           {initials(log.admin?.fullName || 'System')}
                         </div>
                         <span className="text-xs text-label-md text-zinc-900 dark:text-white font-semibold">

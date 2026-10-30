@@ -77,13 +77,13 @@ function compactNgn(amount: number): string {
 // ─── Style primitives ───
 const CARD = 'rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900';
 const SELECT =
-  'rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-900 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
+  'rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
 const LABEL = 'text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400';
 const MUTED = 'text-xs text-zinc-500 dark:text-zinc-400';
 const TH = 'p-3 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400';
 
 const STATUS_PILL: Record<string, string> = {
-  AVAILABLE: 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
+  AVAILABLE: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30',
   RENTED: 'bg-sky-50 text-sky-800 border-sky-200 dark:bg-sky-500/10 dark:text-sky-400 dark:border-sky-500/30',
   MAINTENANCE: 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30',
   UNAVAILABLE: 'bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30',
@@ -91,7 +91,7 @@ const STATUS_PILL: Record<string, string> = {
 
 const OCCUPANCY_PILL: Record<string, string> = {
   VACANT: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700',
-  OCCUPIED: 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
+  OCCUPIED: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30',
   NOTICE_GIVEN: 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30',
 };
 
@@ -225,13 +225,13 @@ export default function EstateManagerUnitsPage() {
         <span className={LABEL}>{label}</span>
         <Icon
           className={`h-5 w-5 ${
-            tone === 'emerald' ? 'text-emerald-600 dark:text-emerald-400' : tone === 'amber' ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'
+            tone === 'emerald' ? 'text-primary dark:text-[#4edea3]' : tone === 'amber' ? 'text-amber-600 dark:text-amber-400' : 'text-primary dark:text-[#4edea3]'
           }`}
         />
       </div>
       <div className="mt-2 flex items-baseline gap-2">
         <span className="text-xl font-bold text-zinc-900 dark:text-white">{value}</span>
-        {sub && <span className={`${MUTED} ${tone === 'amber' ? 'text-amber-700 dark:text-amber-400' : tone === 'emerald' ? 'text-emerald-700 dark:text-emerald-400' : ''}`}>{sub}</span>}
+        {sub && <span className={`${MUTED} ${tone === 'amber' ? 'text-amber-700 dark:text-amber-400' : tone === 'emerald' ? 'text-[var(--sovereign-hover)] dark:text-[#4edea3]' : ''}`}>{sub}</span>}
       </div>
     </div>
   );
@@ -244,7 +244,7 @@ export default function EstateManagerUnitsPage() {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Units</h1>
-              <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary dark:text-[#4edea3]">
                 {organization.name}
               </span>
             </div>
@@ -261,7 +261,7 @@ export default function EstateManagerUnitsPage() {
             </Link>
             <Link
               href="/dashboard/estate-manager/units/new"
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] active:scale-[0.98]"
             >
               <Plus className="h-[18px] w-[18px]" /> Add Unit
             </Link>
@@ -284,7 +284,7 @@ export default function EstateManagerUnitsPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search unit number, building, or address..."
-              className="w-full rounded-lg border border-zinc-200 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
+              className="w-full rounded-lg border border-zinc-200 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-zinc-800 dark:bg-zinc-900 dark:text-white"
             />
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -320,7 +320,7 @@ export default function EstateManagerUnitsPage() {
             <div className="mt-6 flex items-center gap-3">
               <Link
                 href="/dashboard/estate-manager/units/new"
-                className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
               >
                 <Plus className="h-[18px] w-[18px]" /> Add your first unit
               </Link>
@@ -371,7 +371,7 @@ export default function EstateManagerUnitsPage() {
                                 {u.listing?.address ?? u.listing?.title ?? 'No address'}
                               </div>
                               {u.currentTenant && (
-                                <div className="mt-0.5 text-[11px] text-emerald-600 dark:text-emerald-400">
+                                <div className="mt-0.5 text-[11px] text-primary dark:text-[#4edea3]">
                                   {u.currentTenant.fullName ?? u.currentTenant.email}
                                 </div>
                               )}
@@ -406,7 +406,7 @@ export default function EstateManagerUnitsPage() {
                         <td className="p-3 text-right">
                           <Link
                             href={`/dashboard/estate-manager/units/${u.id}`}
-                            className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700 dark:text-emerald-400"
+                            className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-[var(--sovereign-hover)] dark:text-[#4edea3]"
                           >
                             View <ChevronRight className="h-4 w-4" />
                           </Link>

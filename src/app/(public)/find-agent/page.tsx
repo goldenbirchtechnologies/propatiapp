@@ -155,13 +155,13 @@ export default function FindAgentPage() {
     <div className="bg-black min-h-screen">
       {/* Hero — Stitch layout, bichrome */}
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.10),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.10),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-10 md:pt-14 md:pb-12">
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-400">
+          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-xs font-semibold text-[#4edea3]">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4edea3] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
             </span>
             Certified NIESV &amp; ERCAHN Network
             <span className="text-white/20">•</span>
@@ -170,7 +170,7 @@ export default function FindAgentPage() {
 
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight max-w-3xl">
             A great agent makes{' '}
-            <span className="text-emerald-400">all the difference</span>.
+            <span className="text-[#4edea3]">all the difference</span>.
           </h1>
           <p className="mt-3 text-sm md:text-base text-zinc-400 max-w-2xl leading-relaxed">
             Connect with vetted, licensed estate surveyors and corporate property brokers across Nigeria. Backed by C&nbsp;of&nbsp;O verification audits, biometric identity vetting, and bank-held escrow custody.
@@ -181,13 +181,13 @@ export default function FindAgentPage() {
             <div className="flex items-center gap-6 pb-3 border-b border-white/[0.06] text-xs font-semibold">
               <button
                 onClick={() => setActiveTab('location')}
-                className={`inline-flex items-center gap-1.5 pb-1 border-b-2 transition-colors ${activeTab === 'location' ? 'text-emerald-400 border-emerald-400' : 'text-zinc-500 border-transparent hover:text-zinc-300'}`}
+                className={`inline-flex items-center gap-1.5 pb-1 border-b-2 transition-colors ${activeTab === 'location' ? 'text-[#4edea3] border-primary' : 'text-zinc-500 border-transparent hover:text-zinc-300'}`}
               >
                 Location / Jurisdiction
               </button>
               <button
                 onClick={() => setActiveTab('name')}
-                className={`inline-flex items-center gap-1.5 pb-1 border-b-2 transition-colors ${activeTab === 'name' ? 'text-emerald-400 border-emerald-400' : 'text-zinc-500 border-transparent hover:text-zinc-300'}`}
+                className={`inline-flex items-center gap-1.5 pb-1 border-b-2 transition-colors ${activeTab === 'name' ? 'text-[#4edea3] border-primary' : 'text-zinc-500 border-transparent hover:text-zinc-300'}`}
               >
                 Agent / Firm Name
               </button>
@@ -216,7 +216,7 @@ export default function FindAgentPage() {
                   key={f}
                   onClick={() => setFilter(f)}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${
-                    filter === f ? 'bg-emerald-500 text-black border-emerald-500' : 'bg-white/[0.06] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
+                    filter === f ? 'bg-primary text-black border-primary' : 'bg-white/[0.06] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/20'
                   }`}
                 >
                   {f}
@@ -238,13 +238,13 @@ export default function FindAgentPage() {
               { icon: Award, label: 'Caution Disputes', value: '0', badge: 'Escrow Protected' },
             ].map((m) => (
               <div key={m.label} className="glass-card p-4 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3] shrink-0">
                   <m.icon className="h-6 w-6" />
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-lg font-bold text-white">{m.value}</span>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">{m.badge}</span>
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/15 text-[#4edea3] border border-primary/20">{m.badge}</span>
                   </div>
                   <p className="text-xs text-zinc-500 truncate">{m.label}</p>
                 </div>
@@ -272,14 +272,14 @@ export default function FindAgentPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {results.map((agent) => (
               agent.id === '6' ? (
-                <div key={agent.id} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-950 via-emerald-900/40 to-black border border-emerald-500/20 p-6 flex flex-col justify-between min-h-[280px]">
-                  <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-emerald-500/10 blur-2xl pointer-events-none" />
+                <div key={agent.id} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#002113] via-[var(--sovereign-hover)]/40 to-black border border-primary/20 p-6 flex flex-col justify-between min-h-[280px]">
+                  <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-primary/10 blur-2xl pointer-events-none" />
                   <div className="flex items-start gap-3">
                     <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
                       <Users className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">PropatiBox Concierge Desk</p>
+                      <p className="text-xs font-bold uppercase tracking-wider text-[#4edea3]">PropatiBox Concierge Desk</p>
                       <h3 className="text-lg font-bold text-white">Get institutional agent placement</h3>
                     </div>
                   </div>
@@ -287,20 +287,20 @@ export default function FindAgentPage() {
                     Need bespoke representation for commercial portfolios, diplomatic leasing, or multi-hectare acquisitions? Our Senior Advisory Desk pairs you with a Premier Accredited Broker.
                   </p>
                   <div className="mt-4 grid grid-cols-2 gap-2">
-                    <div className="rounded-lg bg-white/10 border border-white/10 px-3 py-2 text-xs text-white flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> Zero illegal fees</div>
-                    <div className="rounded-lg bg-white/10 border border-white/10 px-3 py-2 text-xs text-white flex items-center gap-2"><Lock className="h-4 w-4 text-emerald-400" /> Trustee Escrow</div>
+                    <div className="rounded-lg bg-white/10 border border-white/10 px-3 py-2 text-xs text-white flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[#4edea3]" /> Zero illegal fees</div>
+                    <div className="rounded-lg bg-white/10 border border-white/10 px-3 py-2 text-xs text-white flex items-center gap-2"><Lock className="h-4 w-4 text-[#4edea3]" /> Trustee Escrow</div>
                   </div>
                   <Button className="mt-5 w-full gap-2" asChild>
                     <Link href="/contact-us">Connect with a local agent <ArrowRight className="h-4 w-4" /></Link>
                   </Button>
                 </div>
               ) : (
-                <div key={agent.id} className="glass-card p-5 hover:border-emerald-500/20 transition-colors flex flex-col">
+                <div key={agent.id} className="glass-card p-5 hover:border-primary/20 transition-colors flex flex-col">
                   <div className="flex items-start gap-4">
                     <div className="relative flex-shrink-0">
                       <img src={agent.photo} alt={agent.name} className="w-20 h-20 rounded-xl object-cover border border-white/[0.08]" />
                       {agent.isTopAgent && (
-                        <span className="absolute -bottom-1.5 -right-1.5 bg-emerald-500 text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-0.5 shadow">
+                        <span className="absolute -bottom-1.5 -right-1.5 bg-primary text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-0.5 shadow">
                           <ShieldCheck className="h-3 w-3" /> Top
                         </span>
                       )}
@@ -327,14 +327,14 @@ export default function FindAgentPage() {
                     </div>
                     <div className="text-right">
                       <p className="text-[11px] uppercase tracking-wider text-zinc-500">12-Mo. Proven</p>
-                      <p className="text-xs font-semibold text-emerald-400">{agent.salesLabel}</p>
+                      <p className="text-xs font-semibold text-[#4edea3]">{agent.salesLabel}</p>
                     </div>
                   </div>
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {agent.badges.map((b) => (
                       <span key={b} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-xs text-zinc-300">
-                        <FileCheck className="h-3 w-3 text-emerald-400" /> {b}
+                        <FileCheck className="h-3 w-3 text-[#4edea3]" /> {b}
                       </span>
                     ))}
                   </div>
@@ -360,7 +360,7 @@ export default function FindAgentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="glass-card overflow-hidden flex flex-col lg:flex-row">
             <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-xs font-semibold text-emerald-400 w-fit">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 border border-primary/20 text-xs font-semibold text-[#4edea3] w-fit">
                 <ShieldCheck className="h-3.5 w-3.5" /> Direct Broker Pairing
               </span>
               <h2 className="mt-3 text-2xl font-bold text-white">Get help finding an accredited agent</h2>
@@ -374,7 +374,7 @@ export default function FindAgentPage() {
                 <span className="text-xs text-zinc-500">No advance inspection surcharges</span>
               </div>
             </div>
-            <div className="w-full lg:w-5/12 min-h-[260px] bg-gradient-to-br from-emerald-900/30 via-zinc-900 to-black relative overflow-hidden flex items-center justify-center border-t lg:border-t-0 lg:border-l border-white/[0.06]">
+            <div className="w-full lg:w-5/12 min-h-[260px] bg-gradient-to-br from-[var(--sovereign-hover)]/30 via-zinc-900 to-black relative overflow-hidden flex items-center justify-center border-t lg:border-t-0 lg:border-l border-white/[0.06]">
               <Building2 className="h-24 w-24 text-white/10" />
             </div>
           </div>
@@ -409,7 +409,7 @@ export default function FindAgentPage() {
       {/* Broker Enterprise Network */}
       <section className="pb-10 md:pb-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-600 p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div className="rounded-2xl bg-gradient-to-br from-[var(--sovereign-hover)] to-primary p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 relative overflow-hidden">
             <div className="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
             <div className="max-w-2xl relative z-10">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-semibold">
@@ -421,7 +421,7 @@ export default function FindAgentPage() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 relative z-10 shrink-0">
-              <Button variant="secondary" className="bg-white text-emerald-700 hover:bg-zinc-100" asChild>
+              <Button variant="secondary" className="bg-white text-[var(--sovereign-hover)] hover:bg-zinc-100" asChild>
                 <Link href="/contact-us">Apply for Accreditation</Link>
               </Button>
               <Button variant="ghost" className="text-white hover:bg-white/10 border border-white/20" asChild>
@@ -439,31 +439,31 @@ export default function FindAgentPage() {
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Verified Lagos Surveyors</h4>
               <ul className="space-y-1.5 text-zinc-400">
-                <li><Link href="/find-agent?location=Victoria+Island" className="hover:text-emerald-400">Victoria Island Real Estate Brokers</Link></li>
-                <li><Link href="/find-agent?location=Ikoyi" className="hover:text-emerald-400">Ikoyi Prime Property Consultants</Link></li>
-                <li><Link href="/find-agent?location=Lekki" className="hover:text-emerald-400">Lekki Phase 1 Commercial Surveyors</Link></li>
-                <li><Link href="/find-agent?location=Ikeja" className="hover:text-emerald-400">Ikeja GRA Corporate Leasing Agents</Link></li>
-                <li><Link href="/find-agent" className="text-emerald-400 font-semibold">+ Explore 28 Lagos Districts</Link></li>
+                <li><Link href="/find-agent?location=Victoria+Island" className="hover:text-[#4edea3]">Victoria Island Real Estate Brokers</Link></li>
+                <li><Link href="/find-agent?location=Ikoyi" className="hover:text-[#4edea3]">Ikoyi Prime Property Consultants</Link></li>
+                <li><Link href="/find-agent?location=Lekki" className="hover:text-[#4edea3]">Lekki Phase 1 Commercial Surveyors</Link></li>
+                <li><Link href="/find-agent?location=Ikeja" className="hover:text-[#4edea3]">Ikeja GRA Corporate Leasing Agents</Link></li>
+                <li><Link href="/find-agent" className="text-[#4edea3] font-semibold">+ Explore 28 Lagos Districts</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Verified Abuja FCT Brokers</h4>
               <ul className="space-y-1.5 text-zinc-400">
-                <li><Link href="/find-agent?location=Maitama" className="hover:text-emerald-400">Maitama Diplomatic Property Desk</Link></li>
-                <li><Link href="/find-agent?location=Asokoro" className="hover:text-emerald-400">Asokoro Estate Advisors</Link></li>
-                <li><Link href="/find-agent?location=Wuse" className="hover:text-emerald-400">Wuse II Commercial Agency Group</Link></li>
-                <li><Link href="/find-agent?location=Guzape" className="hover:text-emerald-400">Guzape Cadastral Zone Specialists</Link></li>
-                <li><Link href="/find-agent" className="text-emerald-400 font-semibold">+ Explore 16 FCT Zones</Link></li>
+                <li><Link href="/find-agent?location=Maitama" className="hover:text-[#4edea3]">Maitama Diplomatic Property Desk</Link></li>
+                <li><Link href="/find-agent?location=Asokoro" className="hover:text-[#4edea3]">Asokoro Estate Advisors</Link></li>
+                <li><Link href="/find-agent?location=Wuse" className="hover:text-[#4edea3]">Wuse II Commercial Agency Group</Link></li>
+                <li><Link href="/find-agent?location=Guzape" className="hover:text-[#4edea3]">Guzape Cadastral Zone Specialists</Link></li>
+                <li><Link href="/find-agent" className="text-[#4edea3] font-semibold">+ Explore 16 FCT Zones</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Regional Hubs &amp; Industrial</h4>
               <ul className="space-y-1.5 text-zinc-400">
-                <li><Link href="/find-agent?location=Port+Harcourt" className="hover:text-emerald-400">Port Harcourt GRA Phase 2 Brokers</Link></li>
-                <li><Link href="/find-agent?location=Trans-Amadi" className="hover:text-emerald-400">Trans-Amadi Industrial Surveyors</Link></li>
-                <li><Link href="/find-agent?location=Ibadan" className="hover:text-emerald-400">Ibadan Bodija Residential Advisors</Link></li>
-                <li><Link href="/find-agent?location=Enugu" className="hover:text-emerald-400">Enugu Independence Layout Partners</Link></li>
-                <li><Link href="/find-agent" className="text-emerald-400 font-semibold">+ View Nationwide Cadre</Link></li>
+                <li><Link href="/find-agent?location=Port+Harcourt" className="hover:text-[#4edea3]">Port Harcourt GRA Phase 2 Brokers</Link></li>
+                <li><Link href="/find-agent?location=Trans-Amadi" className="hover:text-[#4edea3]">Trans-Amadi Industrial Surveyors</Link></li>
+                <li><Link href="/find-agent?location=Ibadan" className="hover:text-[#4edea3]">Ibadan Bodija Residential Advisors</Link></li>
+                <li><Link href="/find-agent?location=Enugu" className="hover:text-[#4edea3]">Enugu Independence Layout Partners</Link></li>
+                <li><Link href="/find-agent" className="text-[#4edea3] font-semibold">+ View Nationwide Cadre</Link></li>
               </ul>
             </div>
           </div>

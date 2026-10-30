@@ -33,7 +33,7 @@ export default function AuditEventDetailClient({ displayName = 'Administrator' }
             <AppIcon name="download" className="lucide" />
             Export JSON
           </button>
-          <button className="flex items-center gap-sm px-6 h-11 bg-emerald-500 text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-emerald-500/90 shadow-none transition-all active:scale-95">
+          <button className="flex items-center gap-sm px-6 h-11 bg-primary text-zinc-900 dark:text-white font-label-sm rounded-xl hover:bg-primary/90 shadow-none transition-all active:scale-95">
             <AppIcon name="flag" className="lucide" />
             Flag for Review
           </button>
@@ -45,7 +45,7 @@ export default function AuditEventDetailClient({ displayName = 'Administrator' }
         <div className="flex flex-col gap-xs">
           <span className="text-label-sm text-zinc-600 dark:text-zinc-400">Administrator</span>
           <div className="flex items-center gap-sm mt-xs">
-            <span className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold"><AppIcon name="verified_user" className="lucide" /></span>
+            <span className="w-10 h-10 rounded-full bg-primary/10 text-primary dark:text-[#4edea3] flex items-center justify-center font-bold"><AppIcon name="verified_user" className="lucide" /></span>
             <span className="font-body-md font-bold">{displayName}</span>
           </div>
         </div>
@@ -139,11 +139,11 @@ export default function AuditEventDetailClient({ displayName = 'Administrator' }
               </div>
               {/* Timeline Item 2 (Current) */}
               <div className="relative">
-                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-surface-container-lowest"></div>
+                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest"></div>
                 <div className="flex flex-col gap-1 p-md bg-primary-fixed/30 rounded-lg -mx-2 border border-zinc-200 dark:border-white/[0.08]-fixed">
                   <div className="flex justify-between items-start">
                     <span className="text-label-sm font-bold text-zinc-900 dark:text-white">14:22:10 WAT</span>
-                    <span className="px-xs py-[2px] bg-emerald-500 text-zinc-900 dark:text-white text-[10px] rounded uppercase font-bold">Current</span>
+                    <span className="px-xs py-[2px] bg-primary text-zinc-900 dark:text-white text-[10px] rounded uppercase font-bold">Current</span>
                   </div>
                   <p className="text-body-sm text-zinc-900 dark:text-white">Modified &quot;Verification Officer&quot; Role Permissions</p>
                 </div>

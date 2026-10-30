@@ -265,7 +265,7 @@ export function OwnerCard({
               {isAgent && <AppIcon name="Verified Agent" className="lucide" />}
               {!isAgent && <AppIcon name="Property Owner" className="lucide" />}
               {isVerified && (
-                <CheckCircle className="h-3 w-3 text-emerald-500 ml-1" />
+                <CheckCircle className="h-3 w-3 text-primary ml-1" />
               )}
             </div>
           </div>
@@ -482,7 +482,7 @@ export function ListingDetailContent({ id }: { id: string }) {
                         className="flex items-center gap-2 text-sm"
                         style={{ color: 'var(--text)' }}
                       >
-                        <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
                         <span className="capitalize">{amenity.replace(/_/g, ' ')}</span>
                       </div>
                     ))}

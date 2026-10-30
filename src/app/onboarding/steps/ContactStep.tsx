@@ -72,7 +72,7 @@ export default function ContactStep() {
               {...requestForm.register('phone')}
             />
           </div>
-          <Button onClick={handleRequest} disabled={saving} className="w-full bg-[#10b981] hover:bg-[#006c49] mt-4">
+          <Button onClick={handleRequest} disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49] mt-4">
             {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Send verification code
           </Button>
@@ -86,7 +86,7 @@ export default function ContactStep() {
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
           />
-          <Button type="submit" disabled={saving || code.length !== 6} className="w-full bg-[#10b981] hover:bg-[#006c49]">
+          <Button type="submit" disabled={saving || code.length !== 6} className="w-full bg-[#006c49] hover:bg-[#006c49]">
             {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Verify
           </Button>

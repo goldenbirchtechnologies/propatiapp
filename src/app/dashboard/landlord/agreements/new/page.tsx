@@ -183,7 +183,7 @@ export default function NewAgreementPage() {
           {/* Header Block */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold uppercase tracking-wider">
+              <div className="flex items-center gap-1 text-primary dark:text-[#4edea3] text-[11px] font-semibold uppercase tracking-wider">
                 <BadgeCheck className="h-[16px] w-[16px]" />
                 <span>LASRERA &amp; CAC Compliant Framework</span>
               </div>
@@ -194,7 +194,7 @@ export default function NewAgreementPage() {
             </div>
             <div className="flex items-center gap-2 self-start md:self-auto">
               <div className="flex items-center gap-1 px-2 py-1.5 bg-zinc-50 dark:bg-white/[0.04] rounded-lg text-zinc-600 dark:text-zinc-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 <span className="text-[11px] font-medium">Draft Autosaved (14:32 WAT)</span>
               </div>
               <button type="button" className="px-3 py-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] text-zinc-900 dark:text-white text-sm font-semibold flex items-center gap-1 transition-colors">
@@ -208,10 +208,10 @@ export default function NewAgreementPage() {
           <div className="w-full bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.08]">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center relative">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-semibold shrink-0 shadow-sm">1</div>
+                <div className="w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center font-semibold shrink-0 shadow-sm">1</div>
                 <div className="flex flex-col">
                   <span className="text-sm font-semibold text-zinc-900 dark:text-white">Tenant &amp; Property</span>
-                  <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                  <span className="text-[11px] text-primary dark:text-[#4edea3] font-medium flex items-center gap-1">
                     <Pencil className="h-[14px] w-[14px]" /> In Progress
                   </span>
                 </div>
@@ -232,7 +232,7 @@ export default function NewAgreementPage() {
               </div>
             </div>
             <div className="mt-4 w-full h-1.5 bg-zinc-100 dark:bg-white/[0.06] rounded-full overflow-hidden flex">
-              <div className="h-full bg-emerald-500 w-1/3 transition-all duration-300" />
+              <div className="h-full bg-primary w-1/3 transition-all duration-300" />
               <div className="h-full bg-transparent w-2/3" />
             </div>
           </div>
@@ -250,13 +250,13 @@ export default function NewAgreementPage() {
                   <div className="flex flex-col gap-2 pb-4 border-b border-zinc-200 dark:border-white/[0.08]">
                     <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center justify-between">
                       <span>Agreement Creation Method <span className="text-red-500">*</span></span>
-                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                      <span className="text-[11px] text-primary dark:text-[#4edea3] font-medium flex items-center gap-1">
                         <BadgeCheck className="h-[14px] w-[14px]" /> Electronic Evidence Act Ready
                       </span>
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <button type="button" className="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 text-left transition-all">
-                        <div className="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0"><Upload className="h-[20px] w-[20px]" /></div>
+                      <button type="button" className="flex items-center gap-2 p-2 rounded-lg border-2 border-primary bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-left transition-all">
+                        <div className="w-9 h-9 rounded-lg bg-primary text-white flex items-center justify-center shrink-0"><Upload className="h-[20px] w-[20px]" /></div>
                         <div className="flex flex-col">
                           <span className="text-sm font-semibold text-zinc-900 dark:text-white">Upload Custom Agreement</span>
                           <span className="text-[11px] text-zinc-600 dark:text-zinc-400">PDF or DOCX for binding E-Sign</span>
@@ -273,10 +273,10 @@ export default function NewAgreementPage() {
                     <div className="mt-1 flex flex-col gap-1">
                       <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center justify-between">
                         <span>Contract Document (PDF/DOCX) <span className="text-red-500">*</span></span>
-                        <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Max 25MB</span>
+                        <span className="text-[11px] text-primary dark:text-[#4edea3] font-medium">Max 25MB</span>
                       </label>
-                      <div className="border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:border-emerald-500 bg-zinc-50/50 dark:bg-white/[0.02] hover:bg-zinc-50 dark:hover:bg-white/[0.04] rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all gap-1">
-                        <div className="w-11 h-11 rounded-full bg-zinc-100 dark:bg-white/[0.06] flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                      <div className="border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:border-primary bg-zinc-50/50 dark:bg-white/[0.02] hover:bg-zinc-50 dark:hover:bg-white/[0.04] rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all gap-1">
+                        <div className="w-11 h-11 rounded-full bg-zinc-100 dark:bg-white/[0.06] flex items-center justify-center text-primary dark:text-[#4edea3]">
                           <UploadCloud className="h-[24px] w-[24px]" />
                         </div>
                         <div className="flex flex-col">
@@ -290,7 +290,7 @@ export default function NewAgreementPage() {
                           <div className="flex flex-col">
                             <div className="flex items-center gap-1.5">
                               <span className="text-sm font-semibold text-zinc-900 dark:text-white">Tenancy_Contract_VictoriaCrest_2025.pdf</span>
-                              <span className="px-1.5 py-0.5 rounded text-[11px] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold">E-Sign Fields Ready</span>
+                              <span className="px-1.5 py-0.5 rounded text-[11px] bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] font-semibold">E-Sign Fields Ready</span>
                             </div>
                             <span className="text-xs text-zinc-600 dark:text-zinc-400">2.4 MB • 8 Pages • 2 Signatories detected (Landlord, Tenant)</span>
                           </div>
@@ -311,7 +311,7 @@ export default function NewAgreementPage() {
                   <div className="flex flex-col gap-1">
                     <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center justify-between" htmlFor="property-select">
                       <span>Managed Property &amp; Unit <span className="text-red-500">*</span></span>
-                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
+                      <span className="text-[11px] text-primary dark:text-[#4edea3] flex items-center gap-0.5">
                         <CheckCircle2 className="h-[14px] w-[14px]" /> 42 Active Units
                       </span>
                     </label>
@@ -349,7 +349,7 @@ export default function NewAgreementPage() {
                     <div className="relative">
                       <BadgeCheck className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400 h-[20px] w-[20px] pointer-events-none" />
                       <Input id="tenant-identifier" className="w-full h-11 pl-10 pr-28" placeholder="e.g. tenant@domain.ng or RC-1892834" {...register('tenantId')} />
-                      <span className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 rounded text-[11px] font-semibold flex items-center gap-1">
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] rounded text-[11px] font-semibold flex items-center gap-1">
                         <BadgeCheck className="h-[14px] w-[14px]" /> CAC VALID
                       </span>
                     </div>
@@ -370,7 +370,7 @@ export default function NewAgreementPage() {
                         { value: 'short_let', label: 'Institutional Short-Let', sub: 'Flexible rolling quarterly terms' },
                       ].map((opt) => (
                         <label key={opt.value} className="flex items-center gap-2 p-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] cursor-pointer transition-colors">
-                          <input type="radio" name="type" value={opt.value} checked={watchedValues.type === opt.value} onChange={() => setValue('type', opt.value as never)} className="w-4 h-4 text-emerald-600 focus:ring-emerald-500" />
+                          <input type="radio" name="type" value={opt.value} checked={watchedValues.type === opt.value} onChange={() => setValue('type', opt.value as never)} className="w-4 h-4 text-primary focus:ring-primary" />
                           <div className="flex flex-col">
                             <span className="text-sm font-semibold text-zinc-900 dark:text-white leading-tight">{opt.label}</span>
                             <span className="text-[11px] text-zinc-600 dark:text-zinc-400">{opt.sub}</span>
@@ -387,7 +387,7 @@ export default function NewAgreementPage() {
                       <label className="text-sm font-semibold text-zinc-900 dark:text-white" htmlFor="tenancy-duration">Tenancy Duration</label>
                       <div className="relative">
                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400 h-[20px] w-[20px] pointer-events-none" />
-                        <select id="tenancy-duration" className="w-full h-11 pl-10 pr-8 bg-white dark:bg-zinc-900 rounded-lg text-sm text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer transition-all appearance-none border border-zinc-200 dark:border-white/[0.08]">
+                        <select id="tenancy-duration" className="w-full h-11 pl-10 pr-8 bg-white dark:bg-zinc-900 rounded-lg text-sm text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer transition-all appearance-none border border-zinc-200 dark:border-white/[0.08]">
                           <option value="1yr">1 Year (Standard Annual)</option>
                           <option value="2yr">2 Years (Locked Fixed Rate)</option>
                           <option value="3yr">3 Years (Corporate Triennial)</option>
@@ -407,7 +407,7 @@ export default function NewAgreementPage() {
 
                   {/* Corporate Guarantor */}
                   <div className="bg-zinc-50 dark:bg-white/[0.04] p-4 rounded-lg flex items-start gap-2 mt-1">
-                    <input type="checkbox" id="legal-guarantor" defaultChecked className="mt-1 w-4 h-4 text-emerald-600 focus:ring-emerald-500 rounded" />
+                    <input type="checkbox" id="legal-guarantor" defaultChecked className="mt-1 w-4 h-4 text-primary focus:ring-primary rounded" />
                     <div className="flex flex-col">
                       <label className="text-sm font-semibold text-zinc-900 dark:text-white cursor-pointer" htmlFor="legal-guarantor">Enforce Corporate Guarantor &amp; Legal Co-Signer</label>
                       <span className="text-xs text-zinc-600 dark:text-zinc-400">
@@ -424,7 +424,7 @@ export default function NewAgreementPage() {
                 <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col gap-4 overflow-hidden relative">
                   <div className="flex items-center justify-between pb-1">
                     <span className="text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400 uppercase">Property Specification</span>
-                    <span className="px-1.5 py-0.5 rounded text-[11px] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold">Ready for Lease</span>
+                    <span className="px-1.5 py-0.5 rounded text-[11px] bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] font-semibold">Ready for Lease</span>
                   </div>
                   <div className="relative rounded-lg overflow-hidden h-44 w-full bg-zinc-100 dark:bg-white/[0.04]">
                     {selectedListing?.coverImage ? (
@@ -450,7 +450,7 @@ export default function NewAgreementPage() {
                   <div className="grid grid-cols-2 gap-2 bg-zinc-50 dark:bg-white/[0.04] p-2 rounded-lg">
                     <div className="flex flex-col">
                       <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Base Rent (Annual)</span>
-                      <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                      <span className="text-xl font-bold text-primary dark:text-[#4edea3] font-mono">
                         {selectedListing ? `₦${selectedListing.price.toLocaleString()}` : '—'}
                       </span>
                     </div>
@@ -471,12 +471,12 @@ export default function NewAgreementPage() {
                   <div className="p-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex flex-col gap-1">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold text-zinc-900 dark:text-white">Prospective Tenant Identity</span>
-                      <span className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                      <span className="flex items-center gap-1 text-[11px] text-primary dark:text-[#4edea3] font-medium">
                         <Shield className="h-[14px] w-[14px]" /> Pre-screened
                       </span>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
-                      <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">
+                      <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
                         {(watchedValues.tenantId || '?').toString().slice(0, 2).toUpperCase()}
                       </div>
                       <div className="flex min-w-0 flex-col">
@@ -493,7 +493,7 @@ export default function NewAgreementPage() {
                   </div>
                   {/* Statutory */}
                   <div className="flex items-start gap-2 p-2 bg-zinc-100 dark:bg-white/[0.06] rounded-lg">
-                    <Scale className="text-emerald-600 dark:text-emerald-400 h-[20px] w-[20px] shrink-0 mt-0.5" />
+                    <Scale className="text-primary dark:text-[#4edea3] h-[20px] w-[20px] shrink-0 mt-0.5" />
                     <div className="flex flex-col text-zinc-900 dark:text-white">
                       <span className="text-sm font-semibold leading-tight">Statutory Lagos Tenancy Law 2011</span>
                       <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
@@ -507,18 +507,18 @@ export default function NewAgreementPage() {
                 <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400 uppercase">E-Sign Flow &amp; Execution</span>
-                    <span className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                    <span className="flex items-center gap-1 text-[11px] text-primary dark:text-[#4edea3] font-medium">
                       <BadgeCheck className="h-[14px] w-[14px]" /> 2-Party Flow
                     </span>
                   </div>
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2 p-1 rounded-lg bg-zinc-50 dark:bg-white/[0.04]">
-                      <div className="w-6 h-6 rounded-full bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center shrink-0">1</div>
+                      <div className="w-6 h-6 rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center shrink-0">1</div>
                       <div className="flex flex-col flex-1">
                         <span className="text-sm font-semibold text-zinc-900 dark:text-white leading-tight">Landlord E-Signature</span>
                         <span className="text-xs text-zinc-600 dark:text-zinc-400">Executes upon review with RC seal</span>
                       </div>
-                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">You First</span>
+                      <span className="text-[11px] text-primary dark:text-[#4edea3] font-medium">You First</span>
                     </div>
                     <div className="flex items-center gap-2 p-1 rounded-lg bg-zinc-50 dark:bg-white/[0.04]">
                       <div className="w-6 h-6 rounded-full bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 text-[11px] font-bold flex items-center justify-center shrink-0">2</div>
@@ -529,8 +529,8 @@ export default function NewAgreementPage() {
                       <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Second</span>
                     </div>
                   </div>
-                  <div className="flex items-start gap-1 p-1 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg text-emerald-700 dark:text-emerald-400">
-                    <Shield className="text-emerald-600 dark:text-emerald-400 h-[18px] w-[18px] shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-1 p-1 bg-[var(--sovereign-container-bg)] dark:bg-primary/10 rounded-lg text-[var(--sovereign-hover)] dark:text-[#4edea3]">
+                    <Shield className="text-primary dark:text-[#4edea3] h-[18px] w-[18px] shrink-0 mt-0.5" />
                     <p className="text-[11px]">Admissible in Nigerian courts per Evidence Act 2011 §93 &amp; Lagos State Tenancy Law digital audit log.</p>
                   </div>
                 </div>
@@ -543,7 +543,7 @@ export default function NewAgreementPage() {
                       <span className="text-xs text-zinc-600 dark:text-zinc-400">Request Sovereign Legal Counsel review</span>
                     </div>
                   </div>
-                  <button type="button" className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline uppercase">Consult Legal</button>
+                  <button type="button" className="text-[11px] font-semibold text-primary dark:text-[#4edea3] hover:underline uppercase">Consult Legal</button>
                 </div>
               </div>
             </div>
@@ -613,7 +613,7 @@ export default function NewAgreementPage() {
               <button type="button" className="w-full sm:w-auto px-4 py-2.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white text-sm font-semibold transition-colors text-center">
                 Save Draft Only
               </button>
-              <button type="button" onClick={proceedToStepTwo} disabled={proceeding} className="w-full sm:w-auto px-8 py-2.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 text-sm font-semibold flex items-center justify-center gap-1 transition-all shadow-md active:scale-[0.99] disabled:opacity-60">
+              <button type="button" onClick={proceedToStepTwo} disabled={proceeding} className="w-full sm:w-auto px-8 py-2.5 rounded-lg bg-primary text-white hover:bg-primary text-sm font-semibold flex items-center justify-center gap-1 transition-all shadow-md active:scale-[0.99] disabled:opacity-60">
                 {proceeding ? (<><Loader2 className="h-[18px] w-[18px] animate-spin" /> Validating...</>) : (<>Proceed to Signature Fields <ArrowRight className="h-[18px] w-[18px]" /></>)}
               </button>
             </div>

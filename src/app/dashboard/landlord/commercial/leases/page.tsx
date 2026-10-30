@@ -27,7 +27,7 @@ export const metadata = {
 function statusConfig(status: string | null) {
   const s = (status || '').toLowerCase();
   if (s === 'active') {
-    return { label: 'Active', dot: 'bg-emerald-600', badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' };
+    return { label: 'Active', dot: 'bg-primary', badge: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] dark:bg-primary/40 dark:text-[#6ffbbe]' };
   }
   if (s === 'expired' || s === 'terminated') {
     return { label: s === 'terminated' ? 'Terminated' : 'Expired', dot: 'bg-red-500', badge: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' };
@@ -81,16 +81,16 @@ export default async function CommercialLeasesPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
             <div className="flex flex-col gap-1">
               <nav className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-xs uppercase tracking-wider">
-                <a className="hover:text-emerald-600 transition-colors" href="#">Home</a>
+                <a className="hover:text-primary transition-colors" href="#">Home</a>
                 <ChevronRight className="h-3.5 w-3.5" />
-                <a className="hover:text-emerald-600 transition-colors" href="#">Portfolio</a>
+                <a className="hover:text-primary transition-colors" href="#">Portfolio</a>
                 <ChevronRight className="h-3.5 w-3.5" />
                 <span className="text-zinc-900 dark:text-white font-semibold">Commercial Leases</span>
               </nav>
               <div className="flex flex-wrap items-center gap-2 mt-1">
                 <h1 className="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Commercial Lease Management</h1>
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-xs">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                   <span>Lagos Commercial Portfolio</span>
                 </div>
               </div>
@@ -103,7 +103,7 @@ export default async function CommercialLeasesPage() {
                 <Download className="h-4 w-4" />
                 <span>Export Schedule</span>
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 h-10 rounded-lg bg-emerald-600 text-white shadow-sm hover:brightness-105 active:scale-95 transition-all text-sm font-medium">
+              <button className="flex items-center gap-2 px-4 py-2 h-10 rounded-lg bg-primary text-white shadow-sm hover:brightness-105 active:scale-95 transition-all text-sm font-medium">
                 <Plus className="h-4 w-4" />
                 <span>New Commercial Agreement</span>
               </button>
@@ -121,7 +121,7 @@ export default async function CommercialLeasesPage() {
                     <span className="text-sm text-zinc-500 dark:text-zinc-400">Covenants</span>
                   </div>
                 </div>
-                <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600">
+                <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary">
                   <Building2 className="h-5 w-5" />
                 </div>
               </div>
@@ -136,16 +136,16 @@ export default async function CommercialLeasesPage() {
                 <div className="flex flex-col">
                   <span className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Active Leases</span>
                   <div className="flex items-baseline gap-2 mt-1">
-                    <span className="text-4xl font-bold text-emerald-600">{activeCount}</span>
+                    <span className="text-4xl font-bold text-primary">{activeCount}</span>
                     <span className="text-sm text-zinc-500 dark:text-zinc-400">Enforced</span>
                   </div>
                 </div>
-                <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600">
+                <div className="w-10 h-10 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/40 flex items-center justify-center text-primary">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
               </div>
               <div className="flex items-center justify-between mt-4 pt-2">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/40 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs font-semibold">
                   {total > 0 ? Math.round((activeCount / total) * 1000) / 10 : 0}% Occupancy
                 </span>
                 <span className="text-xs text-zinc-500 dark:text-zinc-400">compliant</span>
@@ -197,15 +197,15 @@ export default async function CommercialLeasesPage() {
           <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm overflow-hidden border border-zinc-200 dark:border-zinc-800">
             <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <Gavel className="h-5 w-5 text-emerald-600" />
+                <Gavel className="h-5 w-5 text-primary" />
                 <h2 className="text-base font-bold text-zinc-900 dark:text-white">Commercial Covenant Ledger</h2>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                <span className="px-2 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/40 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs font-semibold">
                   Prisma Decrypted
                 </span>
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400">
                 <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600" /> Synchronized
+                  <span className="w-2 h-2 rounded-full bg-primary" /> Synchronized
                 </span>
                 <span>UTC+1 Lagos Node</span>
               </div>
@@ -243,7 +243,7 @@ export default async function CommercialLeasesPage() {
                         <tr key={agr.id} className="group hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
                           <td className="py-3.5 px-4 min-w-[240px]">
                             <div className="flex items-start gap-3">
-                              <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 dark:text-zinc-400 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                              <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 dark:text-zinc-400 shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
                                 <Building2 className="h-4 w-4" />
                               </div>
                               <div className="flex flex-col min-w-0">
@@ -317,14 +317,14 @@ export default async function CommercialLeasesPage() {
               <div className="flex items-start justify-between gap-2">
                 <div className="flex flex-col">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-5 w-5 text-emerald-600" />
+                    <ShieldCheck className="h-5 w-5 text-primary" />
                     <span className="text-base font-semibold text-zinc-900 dark:text-white">FIRS &amp; Lagos State Compliance Status</span>
                   </div>
                   <span className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
                     Automated withholding tax (WHT) ledger and Lagos Commercial Land Bureau index.
                   </span>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-semibold shrink-0">
+                <span className="px-2.5 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/40 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs font-semibold shrink-0">
                   100% Compliant
                 </span>
               </div>
@@ -334,7 +334,7 @@ export default async function CommercialLeasesPage() {
                   <span className="font-mono text-zinc-900 dark:text-white font-semibold">{total} / {total} Registered</span>
                 </div>
                 <div className="w-full bg-zinc-100 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
-                  <div className="bg-emerald-600 h-full rounded-full w-full" />
+                  <div className="bg-primary h-full rounded-full w-full" />
                 </div>
               </div>
             </div>
@@ -343,14 +343,14 @@ export default async function CommercialLeasesPage() {
               <div className="flex items-start justify-between gap-2">
                 <div className="flex flex-col">
                   <div className="flex items-center gap-2">
-                    <Lock className="h-5 w-5 text-emerald-600" />
+                    <Lock className="h-5 w-5 text-primary" />
                     <span className="text-base font-semibold text-zinc-900 dark:text-white">Corporate Custody</span>
                   </div>
                   <span className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
                     Commercial lease cautionary &amp; service charge deposits are segregated in escrow.
                   </span>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600">
+                <div className="w-8 h-8 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/40 flex items-center justify-center text-primary">
                   <Lock className="h-4 w-4" />
                 </div>
               </div>
@@ -361,7 +361,7 @@ export default async function CommercialLeasesPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xs text-zinc-500 dark:text-zinc-400 uppercase">Deposit Escrow Total</span>
-                  <span className="text-sm font-mono text-emerald-600 font-bold">{formatNaira(cumulativeRent)}</span>
+                  <span className="text-sm font-mono text-primary font-bold">{formatNaira(cumulativeRent)}</span>
                 </div>
               </div>
             </div>

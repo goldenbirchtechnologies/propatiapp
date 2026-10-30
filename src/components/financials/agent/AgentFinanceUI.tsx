@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
  *   borders      border-zinc-200  dark:border-white/[0.08]
  *   text         text-zinc-900   dark:text-white
  *   muted        text-zinc-600   dark:text-zinc-400
- *   primary      emerald-600/400
+ *   primary      primary/400
  *   tertiary     amber
  *   error        red
  */
@@ -60,7 +60,7 @@ export function FinanceBreadcrumb({ items }: { items: string[] }) {
         return (
           <span key={`${item}-${i}`} className="flex items-center gap-1.5">
             {i > 0 && <span className="text-zinc-300 dark:text-zinc-700">/</span>}
-            <span className={last ? 'text-emerald-600 dark:text-emerald-400' : undefined}>{item}</span>
+            <span className={last ? 'text-primary dark:text-[#4edea3]' : undefined}>{item}</span>
           </span>
         );
       })}
@@ -114,7 +114,7 @@ export function FinanceButton({
 }) {
   const variants = {
     primary:
-      'bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-600 shadow-sm shadow-emerald-600/20',
+      'bg-primary hover:bg-primary text-white border border-primary shadow-sm shadow-primary/20',
     outline:
       'border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/[0.06]',
     ghost:
@@ -157,7 +157,7 @@ export function FinanceStatCard({
   className?: string;
 }) {
   const toneClasses = {
-    primary: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400',
+    primary: 'bg-primary/10 border-primary/20 text-primary dark:text-[#4edea3]',
     amber: 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400',
     red: 'bg-red-500/10 border-red-500/20 text-red-600 dark:text-red-400',
     blue: 'bg-blue-500/10 border-blue-500/20 text-blue-600 dark:text-blue-400',
@@ -166,7 +166,7 @@ export function FinanceStatCard({
   } as const;
 
   const topBar = {
-    primary: 'bg-emerald-500',
+    primary: 'bg-primary',
     amber: 'bg-amber-500',
     red: 'bg-red-500',
     blue: 'bg-blue-500',
@@ -216,7 +216,7 @@ export function FinanceProgress({
 }) {
   const clamped = Math.max(0, Math.min(100, value));
   const fill = {
-    primary: 'bg-emerald-500',
+    primary: 'bg-primary',
     amber: 'bg-amber-500',
     red: 'bg-red-500',
   } as const;
@@ -250,7 +250,7 @@ export function FinanceStatus({
   className?: string;
 }) {
   const tones = {
-    success: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20',
+    success: 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] border-primary/20',
     pending: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20',
     escrow: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20',
     error: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
@@ -324,7 +324,7 @@ export function FinanceSearch({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         aria-label={placeholder}
-        className="h-10 w-full rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800/50 pl-9 pr-3 text-xs text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+        className="h-10 w-full rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800/50 pl-9 pr-3 text-xs text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/30"
       />
     </div>
   );
@@ -349,7 +349,7 @@ export function FinanceSelect({
       onChange={(e) => onChange(e.target.value)}
       aria-label={ariaLabel}
       className={cn(
-        'h-10 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800/50 px-3 pr-8 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30',
+        'h-10 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800/50 px-3 pr-8 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/30',
         className,
       )}
     >
@@ -405,7 +405,7 @@ export function FinanceTabs({
                 className={cn(
                   'rounded-full px-1.5 py-0.5 font-mono text-[10px] font-semibold',
                   selected
-                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                    ? 'bg-primary/10 text-primary dark:text-[#4edea3]'
                     : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400',
                 )}
               >
@@ -565,7 +565,7 @@ export function FinanceComplianceBanner({
     >
       <div className="flex min-w-0 items-start gap-4">
         {icon ? (
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]">
             {icon}
           </div>
         ) : null}
@@ -633,7 +633,7 @@ export function FinancePagination({
               aria-current={p === page ? 'page' : undefined}
               className={
                 p === page
-                  ? 'rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white'
+                  ? 'rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'
                   : 'rounded-md px-2.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-white/[0.06]'
               }
             >

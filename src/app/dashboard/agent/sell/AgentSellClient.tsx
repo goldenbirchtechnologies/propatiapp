@@ -175,7 +175,7 @@ export default function AgentSellClient({
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
               Sell Pipeline — Property Disposals &amp; Vendor Representation
             </h1>
-            <span className="inline-flex items-center rounded-full bg-emerald-600/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               Institutional Sell-Side
             </span>
           </div>
@@ -198,7 +198,7 @@ export default function AgentSellClient({
           </SecondaryAction>
           <Link
             href="/dashboard/agent/listings/new"
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
           >
             <Plus className="h-4 w-4" />
             <span>+ New Sale Mandate</span>
@@ -214,7 +214,7 @@ export default function AgentSellClient({
           icon={<Building2 className="h-5 w-5" />}
           sublabel={
             <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               Disposal mandates
             </span>
           }
@@ -227,7 +227,7 @@ export default function AgentSellClient({
           sublabel={
             <div className="flex items-center justify-between gap-2">
               <span>Gross listing</span>
-              <span className="font-medium text-emerald-700 dark:text-emerald-400">
+              <span className="font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {formatNairaCompact(
                   Math.round(stats.grossValue * 0.05)
                 )}{' '}
@@ -242,7 +242,7 @@ export default function AgentSellClient({
           icon={<History className="h-5 w-5" />}
           sublabel={
             <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               In escrow &amp; vetting
             </span>
           }
@@ -255,7 +255,7 @@ export default function AgentSellClient({
           sublabel={
             <div className="flex items-center justify-between gap-2">
               <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4edea3]" />
                 Escrow disbursed
               </span>
               <span className="font-mono-numeric text-[11px] text-zinc-500">
@@ -272,7 +272,7 @@ export default function AgentSellClient({
           <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             Sell Conveyancing Milestones
           </span>
-          <span className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+          <span className="text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             Alausa Lands Registry Active Link
           </span>
         </div>
@@ -285,7 +285,7 @@ export default function AgentSellClient({
                 key={m.key}
                 className={`flex flex-col rounded-lg p-2 ${
                   isLast
-                    ? 'bg-emerald-600/10 ring-1 ring-emerald-600/20'
+                    ? 'bg-primary/10 ring-1 ring-primary/20'
                     : 'bg-zinc-50 dark:bg-zinc-800/50'
                 }`}
               >
@@ -293,7 +293,7 @@ export default function AgentSellClient({
                 <div className="mt-1 flex items-center justify-between gap-1">
                   <span
                     className={`font-mono-numeric text-sm font-semibold ${
-                      isLast ? 'text-emerald-700 dark:text-emerald-400' : 'text-zinc-900 dark:text-white'
+                      isLast ? 'text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'text-zinc-900 dark:text-white'
                     }`}
                   >
                     {stat.units} {stat.units === 1 ? 'Unit' : 'Units'}
@@ -432,7 +432,7 @@ export default function AgentSellClient({
                         <div className="flex min-w-0 flex-col">
                           <Link
                             href={`/dashboard/agent/deals/${d.id}`}
-                            className="truncate font-semibold text-zinc-900 hover:text-emerald-700 dark:text-white dark:hover:text-emerald-400"
+                            className="truncate font-semibold text-zinc-900 hover:text-[var(--sovereign-hover)] dark:text-white dark:hover:text-[#4edea3]"
                           >
                             {d.property?.title ?? 'Untitled listing'}
                           </Link>
@@ -440,7 +440,7 @@ export default function AgentSellClient({
                             {d.property?.address ?? '—'}
                           </span>
                           <span className="mt-0.5 flex items-center gap-1 text-[11px] text-zinc-500">
-                            <BadgeCheck className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                            <BadgeCheck className="h-3 w-3 text-primary dark:text-[#4edea3]" />
                             {d.reference}
                             {d.property?.area ? ` • ${d.property.area}` : ''}
                           </span>
@@ -455,7 +455,7 @@ export default function AgentSellClient({
                           </span>
                           <div className="mt-0.5 flex items-center gap-1">
                             {d.tenant.email ? (
-                              <span className="inline-flex items-center gap-1 rounded bg-emerald-600/10 px-1.5 py-0.2 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+                              <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.2 text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                 <CheckCircle2 className="h-3 w-3" />
                                 {d.tenant.email.split('@')[1] ?? 'Verified'}
                               </span>
@@ -499,7 +499,7 @@ export default function AgentSellClient({
                         <span className="font-mono-numeric text-sm font-bold text-zinc-900 dark:text-white">
                           {formatNairaValue(d.consideration)}
                         </span>
-                        <span className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+                        <span className="text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                           {formatNairaValue(fee)} Fee (5%)
                         </span>
                       </div>
@@ -513,7 +513,7 @@ export default function AgentSellClient({
                       <div className="flex items-center justify-end gap-1">
                         <Link
                           href={`/dashboard/agent/deals/${d.id}`}
-                          className="inline-flex h-8 items-center gap-1 rounded bg-zinc-100 px-2.5 text-[13px] font-medium text-zinc-900 transition-colors hover:bg-emerald-600 hover:text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-emerald-500 dark:hover:text-zinc-900"
+                          className="inline-flex h-8 items-center gap-1 rounded bg-zinc-100 px-2.5 text-[13px] font-medium text-zinc-900 transition-colors hover:bg-primary hover:text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-primary dark:hover:text-zinc-900"
                         >
                           File
                           <ChevronRight className="h-4 w-4" />

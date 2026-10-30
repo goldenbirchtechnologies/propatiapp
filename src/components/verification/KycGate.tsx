@@ -31,7 +31,7 @@ export default function KycGate({ status = 'not_started', forbiddenAction, child
       <CardContent className="p-6">
         <div className="flex items-center gap-4">
           <div className="rounded-full p-2 bg-zinc-900 border border-zinc-800">
-            <ShieldQuestion className="h-5 w-5 text-emerald-400" />
+            <ShieldQuestion className="h-5 w-5 text-[#4edea3]" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-slate-100">Identity verification required</p>

@@ -76,7 +76,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 08 / Architectural Gallery</span>
+          <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 08 / Architectural Gallery</span>
           <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Media & High-Resolution Asset Library</h2>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">Arrange gallery order and designate primary hero syndicate thumbnail.</p>
         </div>
@@ -91,16 +91,16 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
         onDragLeave={() => setDragOver(false)}
         onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
         className={`w-full p-10 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer transition-all border-2 border-dashed ${
-          dragOver ? 'border-emerald-600 bg-emerald-600/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04]'
+          dragOver ? 'border-primary bg-primary/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.04]'
         }`}
         onClick={openFilePicker}
       >
-        <div className="w-16 h-16 rounded-full bg-emerald-600/10 text-emerald-600 flex items-center justify-center mb-3">
+        <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3">
           <CloudUpload className="size-8" />
         </div>
         <div className="font-semibold text-zinc-900 dark:text-white">Drag & Drop Architectural High-Resolution RAW/JPEG</div>
         <p className="text-xs text-zinc-600 dark:text-zinc-400 max-w-md mt-1">Minimum 2400x1600px. High dynamic range photos. Max 25MB per asset.</p>
-        <span className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium shadow-sm">Select From Computer</span>
+        <span className="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium shadow-sm">Select From Computer</span>
         <input ref={inputRef} type="file" multiple accept="image/*" className="sr-only" onChange={(e) => processFiles(e.target.files)} />
       </div>
 
@@ -116,7 +116,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
                 <img src={photo.url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
               </div>
               {photo.is_cover && (
-                <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-semibold">COVER HERO</div>
+                <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-primary text-white text-xs font-semibold">COVER HERO</div>
               )}
               {!photo.is_cover && (
                 <button type="button" onClick={() => setCover(photo.photo_id)} className="absolute top-2 left-2 px-2 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-xs font-medium text-zinc-700 dark:text-zinc-300 opacity-0 group-hover:opacity-100 transition">Set cover</button>

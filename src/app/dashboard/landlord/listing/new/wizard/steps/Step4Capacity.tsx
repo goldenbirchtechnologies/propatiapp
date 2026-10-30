@@ -53,7 +53,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   }) => (
     <div className="flex items-center justify-between p-4 bg-zinc-50 dark:bg-white/[0.04] rounded-xl">
       <div className="flex items-center gap-3">
-        <div className="text-emerald-600">{icon}</div>
+        <div className="text-primary">{icon}</div>
         <Label className="text-sm font-medium text-zinc-900 dark:text-white">{label}</Label>
       </div>
       <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 04 / Spatial Capacity & Footprint</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 04 / Spatial Capacity & Footprint</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Capacity Matrix & Lagos GIS Coordinates</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Input floor dimension ratios, parking allocations, and cadastral spatial metrics.</p>
       </div>
@@ -104,9 +104,9 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
       <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-semibold text-zinc-900 dark:text-white">Maximum Authorized Occupancy Cap</span>
-          <span className="font-mono text-emerald-600 font-bold">{guests} Persons</span>
+          <span className="font-mono text-primary font-bold">{guests} Persons</span>
         </div>
-        <input className="w-full accent-emerald-600" type="range" min={1} max={12} value={Math.min(guests, 12)} onChange={(e) => { setGuests(parseInt(e.target.value)); sync({ guests_count: parseInt(e.target.value) }); }} />
+        <input className="w-full accent-primary" type="range" min={1} max={12} value={Math.min(guests, 12)} onChange={(e) => { setGuests(parseInt(e.target.value)); sync({ guests_count: parseInt(e.target.value) }); }} />
         <div className="flex justify-between text-xs text-zinc-600 dark:text-zinc-400 mt-1">
           <span>Single Executive (1)</span>
           <span>Family Standard (4-6)</span>

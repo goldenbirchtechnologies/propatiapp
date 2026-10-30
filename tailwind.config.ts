@@ -92,34 +92,34 @@ const config: Config = {
         'inverse-surface': 'var(--inverse-surface)',
         'inverse-on-surface': 'var(--inverse-on-surface)',
 
-        // Reference primary / dark shell
-        'primary-dark': '#000f22',
-        'primary-container': '#0a2540',
+        // Sovereign — single green: primary #006c49, container #006c49
+        'primary-dark': '#002113',
+        'primary-container': 'var(--primary-container)',
 
         // Reference indicator / gold
         'secondary-amber': '#F5A623',
         'secondary-container': '#feae2c',
         'on-secondary-container': '#725000',
 
-        // Legacy role colors (kept for backward compat during migration)
+        // Sovereign — legacy greens unified to one green
         'residential-teal': {
-          DEFAULT: '#0e7c6a',
-          soft: 'rgba(14, 124, 106, 0.1)',
-          container: '#0e7c6a',
-          'on-container': '#bdffed',
-          fixed: '#98f4dd',
-          'fixed-dim': '#7bd7c2',
-          'on-fixed': '#00201a',
-          'on-fixed-variant': '#005144',
+          DEFAULT: 'var(--sovereign)',
+          soft: 'rgba(0, 108, 73, 0.1)',
+          container: 'var(--sovereign)',
+          'on-container': '#ffffff',
+          fixed: '#6ffbbe',
+          'fixed-dim': '#4edea3',
+          'on-fixed': '#002113',
+          'on-fixed-variant': '#005236',
         },
         // Dark-mode extended palette
         blackCanvas: '#0a0a0a',
         cardDark: '#121214',
         cardDarker: '#0a0a0b',
         grayMuted: '#6b7280',
-        accentGreen: '#22c55e',
+        accentGreen: 'var(--sovereign)',
         accentBlue: '#3b82f6',
-        'inverse-primary': '#7bd7c2',
+        'inverse-primary': '#4edea3',
 
         // Commercial gold
         'commercial-gold': {
@@ -136,7 +136,7 @@ const config: Config = {
         // Listing types
         'type-rent': '#3b82f6',
         'type-lease': '#8b5cf6',
-        'type-sale': '#10b981',
+        'type-sale': '#006c49',
         'type-shortlet': '#f59e0b',
         'type-roomshare': '#ec4899',
 
@@ -167,16 +167,19 @@ const config: Config = {
           'on-fixed-variant': '#005144',
         },
       },
+      // Sovereign Estate — DESIGN.md single source (shapes L2: 0.25/0.5/1/1.5/9999)
       borderRadius: {
+        sm: '0.25rem',
+        DEFAULT: '0.5rem',
+        md: '0.75rem',
+        lg: '1rem',
+        xl: '1.5rem',
+        full: '9999px',
         tag: 'var(--radius-tag)',
-        sm: 'var(--radius-sm)',
         btn: 'var(--radius-btn)',
         btnSm: 'var(--radius-btn-sm)',
-        DEFAULT: 'var(--radius-card)',
-        lg: 'var(--radius-card-lg)',
+        card: 'var(--radius-card)',
         modal: 'var(--radius-modal)',
-        xl: 'var(--radius-modal-mobile)',
-        full: 'var(--radius-full)',
         inherit: 'inherit',
       },
       // Custom typography tokens
@@ -195,25 +198,39 @@ const config: Config = {
         display: ['var(--font-heading)', 'var(--font-body-fallback)', 'system-ui', 'sans-serif'],
         inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
+      // Sovereign Estate typography — DESIGN.md single source
       fontSize: {
-        'display-lg': ['48px', { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '800' }],
-        'headline-xl': ['36px', { lineHeight: '44px', letterSpacing: '-0.01em', fontWeight: '700' }],
-        'headline-lg': ['32px', { lineHeight: '40px', fontWeight: '700' }],
-        'headline-lg-mobile': ['24px', { lineHeight: '32px', fontWeight: '600' }],
-        'title-md': ['20px', { lineHeight: '28px', fontWeight: '600' }],
-        'body-lg': ['18px', { lineHeight: '28px', fontWeight: '400' }],
-        'body-lg-mono': ['14px', { lineHeight: '20px', fontWeight: '500', letterSpacing: '0.02em' }],
-        'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
-        'body-sm': ['14px', { lineHeight: '20px', fontWeight: '400' }],
-        'label-caps': ['12px', { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '500' }],
-        'label-sm': ['12px', { lineHeight: '16px', fontWeight: '500' }],
-        'label-md': ['14px', { lineHeight: '20px', fontWeight: '500' }],
-        'headline-sm': ['20px', { lineHeight: '28px', fontWeight: '600' }],
+        display: ['40px', { lineHeight: '48px', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'display-mobile': ['30px', { lineHeight: '38px', letterSpacing: '-0.015em', fontWeight: '700' }],
+        'headline-lg': ['32px', { lineHeight: '40px', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'headline-lg-mobile': ['24px', { lineHeight: '32px', letterSpacing: '-0.01em', fontWeight: '700' }],
+        'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.015em', fontWeight: '600' }],
+        'headline-sm': ['20px', { lineHeight: '28px', letterSpacing: '-0.01em', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '24px', letterSpacing: '-0.005em', fontWeight: '600' }],
+        'title-sm': ['14px', { lineHeight: '20px', fontWeight: '600' }],
+        'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '16px', fontWeight: '400' }],
+        'label-md': ['13px', { lineHeight: '18px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.04em', fontWeight: '600' }],
+        'mono-numeric': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+        // legacy aliases
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'headline-xl': ['32px', { lineHeight: '40px', letterSpacing: '-0.02em', fontWeight: '700' }],
       },
+      // Sovereign Estate — DESIGN.md single source (gutter 1.5/1, margin 2/1)
       spacing: {
-        gutter: '24px',
-        'margin-desktop': '64px',
-        'margin-mobile': '16px',
+        gutter: '1.5rem',
+        'gutter-mobile': '1rem',
+        margin: '2rem',
+        'margin-mobile': '1rem',
+        'space-xs': '0.25rem',
+        'space-sm': '0.5rem',
+        'space-md': '1rem',
+        'space-lg': '1.5rem',
+        'space-xl': '2rem',
+        'margin-desktop': '2rem',
+        'margin-mobile': '1rem',
         tight: 'var(--space-tight)',
         vs: 'var(--space-vs)',
         'sm-gap': 'var(--space-sm-gap)',

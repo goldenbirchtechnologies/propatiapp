@@ -59,8 +59,8 @@ const ROWS: StatementRow[] = [
 const STATUS_META: Record<ReconStatus, { label: string; pill: string; dot: string }> = {
   SETTLED: {
     label: 'Fully Settled',
-    pill: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-    dot: 'bg-emerald-500',
+    pill: 'bg-primary/10 text-primary dark:text-[#4edea3]',
+    dot: 'bg-primary',
   },
   PARTIAL: {
     label: 'Grace Period',
@@ -167,7 +167,7 @@ export default function EstateManagerStatementsClient() {
           toast ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-24 opacity-0'
         )}
       >
-        <BadgeCheck className="h-5 w-5 text-emerald-500" />
+        <BadgeCheck className="h-5 w-5 text-primary" />
         <div className="flex flex-col">
           <span className="text-sm font-semibold">{toast?.title ?? ''}</span>
           <span className="text-xs opacity-70">{toast?.message ?? ''}</span>
@@ -177,13 +177,13 @@ export default function EstateManagerStatementsClient() {
       <header className="flex flex-col justify-between gap-6 border-b border-zinc-200 pb-6 dark:border-white/[0.08] lg:flex-row lg:items-end">
         <div className="flex max-w-2xl flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            <span className="transition-colors hover:text-emerald-600">Home</span>
+            <span className="transition-colors hover:text-primary">Home</span>
             <span>/</span>
-            <span className="transition-colors hover:text-emerald-600">Rent &amp; Payments</span>
+            <span className="transition-colors hover:text-primary">Rent &amp; Payments</span>
             <span>/</span>
             <span className="text-zinc-900 dark:text-white">Monthly Statements</span>
             <span className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-0.5 normal-case tracking-normal dark:bg-zinc-800">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
               <span className="font-mono text-[11px]">Engine Active • Audited via NIBSS/Paystack</span>
             </span>
           </div>
@@ -211,7 +211,7 @@ export default function EstateManagerStatementsClient() {
             type="button"
             onClick={handleGenerate}
             disabled={generating}
-            className="flex h-10 items-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-500 active:scale-95 disabled:opacity-75"
+            className="flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-white shadow-sm transition-all hover:bg-primary active:scale-95 disabled:opacity-75"
           >
             <FileText className="h-4 w-4" />
             <span>{generating ? 'Compiling Statement…' : 'Generate Statement (PDF)'}</span>
@@ -270,8 +270,8 @@ export default function EstateManagerStatementsClient() {
                 MANDATE: <strong className="text-zinc-900 dark:text-white">STMT-2024-11-EM902</strong>
               </span>
             </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary dark:text-[#4edea3]">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               Auto-Generated
             </span>
           </div>
@@ -290,7 +290,7 @@ export default function EstateManagerStatementsClient() {
                 className={cn(
                   'rounded-md px-3 py-1 text-xs font-medium transition-all',
                   preset === p
-                    ? 'bg-emerald-600 text-white'
+                    ? 'bg-primary text-white'
                     : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
                 )}
               >
@@ -314,12 +314,12 @@ export default function EstateManagerStatementsClient() {
                 {naira(totals.rent)}
               </span>
             </div>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600 dark:bg-zinc-800">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-primary dark:bg-zinc-800">
               <Landmark className="h-5 w-5" />
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
-            <div className="flex items-center gap-1 font-mono text-xs text-emerald-600">
+            <div className="flex items-center gap-1 font-mono text-xs text-primary">
               <TrendingUp className="h-3.5 w-3.5 font-bold" />
               <span>+8.2% vs prev. month</span>
             </div>
@@ -334,13 +334,13 @@ export default function EstateManagerStatementsClient() {
                 {naira(totals.service)}
               </span>
             </div>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600 dark:bg-zinc-800">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-primary dark:bg-zinc-800">
               <Zap className="h-5 w-5" />
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
             <span className="text-xs text-zinc-600 dark:text-zinc-400">Diesel Escrow / FM Pool</span>
-            <span className="font-mono text-xs text-emerald-600">96.4% Recovery</span>
+            <span className="font-mono text-xs text-primary">96.4% Recovery</span>
           </div>
         </div>
         <div className="flex flex-col justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-white/[0.08] dark:bg-zinc-900">
@@ -372,13 +372,13 @@ export default function EstateManagerStatementsClient() {
                 {naira(totals.net)}
               </span>
             </div>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600 dark:bg-zinc-800">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-primary dark:bg-zinc-800">
               <Wallet className="h-5 w-5" />
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
             <span className="text-xs text-zinc-500">Less 5% EM + 2.5% WHT</span>
-            <span className="font-mono text-xs text-emerald-600">NIBSS Ready</span>
+            <span className="font-mono text-xs text-primary">NIBSS Ready</span>
           </div>
         </div>
       </section>
@@ -444,7 +444,7 @@ export default function EstateManagerStatementsClient() {
                 setPortfolio('ALL');
                 setPage(1);
               }}
-              className="mt-4 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500"
+              className="mt-4 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary"
             >
               Reset Filters
             </button>
@@ -476,7 +476,7 @@ export default function EstateManagerStatementsClient() {
                               ? 'bg-red-500/10 text-red-600 dark:text-red-400'
                               : row.status === 'PARTIAL'
                                 ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400'
-                                : 'bg-zinc-100 text-emerald-600 dark:bg-zinc-800 dark:text-emerald-400'
+                                : 'bg-zinc-100 text-primary dark:bg-zinc-800 dark:text-[#4edea3]'
                           )}
                         >
                           {initials(row.tenant)}
@@ -500,7 +500,7 @@ export default function EstateManagerStatementsClient() {
                     <td className={cn('px-4 py-3.5 text-right font-mono', row.arrears > 0 ? 'font-semibold text-red-600 dark:text-red-400' : 'text-zinc-500')}>
                       {naira(row.arrears)}
                     </td>
-                    <td className="px-4 py-3.5 text-right font-mono font-semibold text-emerald-600">
+                    <td className="px-4 py-3.5 text-right font-mono font-semibold text-primary">
                       {naira(row.totalPaid)}
                     </td>
                     <td className="px-4 py-3.5 text-center">
@@ -515,7 +515,7 @@ export default function EstateManagerStatementsClient() {
                           type="button"
                           title="Download Single PDF"
                           onClick={() => notify('Downloading PDF', `${row.tenant} statement downloaded.`)}
-                          className="rounded p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:hover:bg-zinc-800"
+                          className="rounded p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                         >
                           <Download className="h-4 w-4" />
                         </button>
@@ -543,7 +543,7 @@ export default function EstateManagerStatementsClient() {
               {portfolio !== 'ALL' ? ` • ${PORTFOLIO_LABELS[portfolio]}` : ''}
             </span>
             <span>•</span>
-            <span className="font-medium text-emerald-600">All bank settlements cleared</span>
+            <span className="font-medium text-primary">All bank settlements cleared</span>
           </div>
           <div className="flex items-center gap-1">
             <button
@@ -562,7 +562,7 @@ export default function EstateManagerStatementsClient() {
                 className={cn(
                   'rounded px-2.5 py-1',
                   n === safePage
-                    ? 'bg-emerald-600 text-white'
+                    ? 'bg-primary text-white'
                     : 'bg-white text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700'
                 )}
               >
@@ -583,7 +583,7 @@ export default function EstateManagerStatementsClient() {
 
       <section className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 lg:flex-row lg:items-center">
         <div className="flex max-w-2xl items-start gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]">
             <BadgeCheck className="h-6 w-6" />
           </div>
           <div className="flex flex-col gap-1">

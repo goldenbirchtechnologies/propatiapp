@@ -94,7 +94,7 @@ export default function TenantSearchClient({
             <Button
               variant={viewMode === 'grid' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
+              className={viewMode === 'grid' ? 'bg-primary hover:bg-primary text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
               onClick={() => setViewMode('grid')}
             >
               <Grid className="h-4 w-4" />
@@ -102,7 +102,7 @@ export default function TenantSearchClient({
             <Button
               variant={viewMode === 'list' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
+              className={viewMode === 'list' ? 'bg-primary hover:bg-primary text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}
               onClick={() => setViewMode('list')}
             >
               <LayoutList className="h-4 w-4" />
@@ -118,7 +118,7 @@ export default function TenantSearchClient({
               className={cn(
                 'cursor-pointer',
                 searchQuery.toLowerCase() === city.toLowerCase()
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  ? 'bg-primary/10 text-[#4edea3] border-primary/20'
                   : 'border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'
               )}
               onClick={() => setSearchQuery(city)}
@@ -207,7 +207,7 @@ export default function TenantSearchClient({
                     name={property.landlord?.fullName || 'L'}
                     size="sm"
                   />
-                  <Button asChild variant="ghost" size="sm" className="text-emerald-400 hover:text-emerald-300">
+                  <Button asChild variant="ghost" size="sm" className="text-[#4edea3] hover:text-[#6ffbbe]">
                     <Link href={`/listings/${property.id}`}>View Details</Link>
                   </Button>
                 </div>

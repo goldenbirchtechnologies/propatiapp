@@ -46,8 +46,8 @@ const PRIORITY_PILL: Record<string, string> = {
 const STATUS_PILL: Record<string, string> = {
   open: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30',
   assigned: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-500/10 dark:text-sky-400 dark:border-sky-500/30',
-  in_progress: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
-  resolved: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
+  in_progress: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30',
+  resolved: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/30',
   closed: 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700',
 };
 
@@ -233,11 +233,11 @@ export default function MaintenanceTicketDetailPage() {
         {/* Breadcrumb */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6">
           <nav className="flex items-center gap-2">
-            <Link href="/dashboard/estate-manager" className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-emerald-600 dark:text-zinc-400">
+            <Link href="/dashboard/estate-manager" className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-primary dark:text-zinc-400">
               Home
             </Link>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
-            <Link href="/dashboard/estate-manager/maintenance" className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-emerald-600 dark:text-zinc-400">
+            <Link href="/dashboard/estate-manager/maintenance" className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-primary dark:text-zinc-400">
               Maintenance
             </Link>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
@@ -250,7 +250,7 @@ export default function MaintenanceTicketDetailPage() {
               {ticket.id.slice(0, 8).toUpperCase()}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               {titleize(ticket.status)}
             </span>
           </div>
@@ -258,12 +258,12 @@ export default function MaintenanceTicketDetailPage() {
 
         {/* Header */}
         <div className={`${CARD} relative mb-8 overflow-hidden p-6 sm:p-8`}>
-          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
           <div className="relative z-10 flex flex-col justify-between gap-6 xl:flex-row xl:items-center">
             <div className="space-y-3">
               <button
                 onClick={() => router.back()}
-                className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-emerald-600 dark:text-zinc-400"
+                className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-primary dark:text-zinc-400"
               >
                 <ArrowLeft className="h-[18px] w-[18px] transition-transform group-hover:-translate-x-1" />
                 Back to Tickets
@@ -272,7 +272,7 @@ export default function MaintenanceTicketDetailPage() {
                 {ticket.title}
               </h1>
               <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                <MapPin className="h-[18px] w-[18px] shrink-0 text-emerald-600 dark:text-emerald-400" />
+                <MapPin className="h-[18px] w-[18px] shrink-0 text-primary dark:text-[#4edea3]" />
                 <span className="font-medium text-zinc-900 dark:text-white">{ticket.listing?.title ?? 'Unassigned property'}</span>
                 {ticket.listing?.address && (
                   <>
@@ -291,8 +291,8 @@ export default function MaintenanceTicketDetailPage() {
                 <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider ${STATUS_PILL[ticket.status] ?? STATUS_PILL.open}`}>
                   {ticket.status === 'in_progress' && (
                     <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
                     </span>
                   )}
                   {STATUS_LABELS[ticket.status] ?? titleize(ticket.status)}
@@ -305,7 +305,7 @@ export default function MaintenanceTicketDetailPage() {
                   <button
                     onClick={(e) => { e.stopPropagation(); setMenuOpen((v) => !v); }}
                     disabled={updating}
-                    className="inline-flex h-10 items-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700 disabled:opacity-60"
+                    className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] disabled:opacity-60"
                   >
                     {updating ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <Wrench className="h-[18px] w-[18px]" />}
                     Update Status
@@ -321,7 +321,7 @@ export default function MaintenanceTicketDetailPage() {
                           className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
                         >
                           {STATUS_LABELS[s]}
-                          {STATUSES.indexOf(s) > currentIndex ? <CheckCircle2 className="h-4 w-4 text-emerald-500" /> : null}
+                          {STATUSES.indexOf(s) > currentIndex ? <CheckCircle2 className="h-4 w-4 text-primary" /> : null}
                         </button>
                       ))}
                     </div>
@@ -353,10 +353,10 @@ export default function MaintenanceTicketDetailPage() {
             <div className={`${CARD} overflow-hidden`}>
               <div className={CARD_HEAD}>
                 <div className="flex items-center gap-2.5">
-                  <Wrench className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <Wrench className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                   <h2 className={CARD_TITLE}>Ticket Details &amp; Request Info</h2>
                 </div>
-                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                <span className="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
                   {titleize(ticket.category)}
                 </span>
               </div>
@@ -393,19 +393,19 @@ export default function MaintenanceTicketDetailPage() {
                 </div>
 
                 {ticket.resolutionNote && (
-                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-500/30 dark:bg-emerald-500/10">
+                  <div className="rounded-xl border border-primary bg-[var(--sovereign-container-bg)] p-4 dark:border-primary/30 dark:bg-primary/10">
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                      <h3 className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Resolution Note</h3>
+                      <CheckCircle2 className="h-4 w-4 text-primary dark:text-[#4edea3]" />
+                      <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">Resolution Note</h3>
                     </div>
-                    <p className="mt-1.5 whitespace-pre-wrap text-sm text-emerald-800 dark:text-emerald-300">{ticket.resolutionNote}</p>
+                    <p className="mt-1.5 whitespace-pre-wrap text-sm text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">{ticket.resolutionNote}</p>
                   </div>
                 )}
 
                 {/* Tenant strip */}
                 <div className={`${SUBPANEL} flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center`}>
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/20 text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/20 text-sm font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                       {initials(ticket.tenant?.fullName, ticket.tenant?.email)}
                     </div>
                     <div>
@@ -442,7 +442,7 @@ export default function MaintenanceTicketDetailPage() {
                 {/* Timestamps */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className={`${SUBPANEL} flex items-start gap-3`}>
-                    <Calendar className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                    <Calendar className="mt-0.5 h-5 w-5 shrink-0 text-primary dark:text-[#4edea3]" />
                     <div>
                       <p className={LABEL}>Reported</p>
                       <p className="text-sm font-medium text-zinc-900 dark:text-white">{formatDateTime(ticket.createdAt)}</p>
@@ -450,7 +450,7 @@ export default function MaintenanceTicketDetailPage() {
                   </div>
                   {ticket.resolvedAt && (
                     <div className={`${SUBPANEL} flex items-start gap-3`}>
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary dark:text-[#4edea3]" />
                       <div>
                         <p className={LABEL}>Resolved</p>
                         <p className="text-sm font-medium text-zinc-900 dark:text-white">{formatDateTime(ticket.resolvedAt)}</p>
@@ -499,7 +499,7 @@ export default function MaintenanceTicketDetailPage() {
               <div className="px-6 py-5" style={{ background: 'transparent', borderBottom: '1px solid var(--border)' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <UserCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                    <UserCheck className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                     <h2 className={CARD_TITLE}>Assigned Technician</h2>
                   </div>
                 </div>
@@ -515,21 +515,21 @@ export default function MaintenanceTicketDetailPage() {
                           className="mb-3 h-16 w-16 rounded-full object-cover shadow-md"
                         />
                       ) : (
-                        <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-600 text-lg font-bold text-white shadow-md">
+                        <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-lg font-bold text-white shadow-md">
                           {initials(ticket.assignedToUser.fullName, ticket.assignedToUser.email)}
                         </div>
                       )}
                       <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
                         {ticket.assignedToUser.fullName ?? 'Team member'}
                       </h3>
-                      <p className="mt-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">Maintenance Staff</p>
+                      <p className="mt-0.5 text-xs font-medium text-primary dark:text-[#4edea3]">Maintenance Staff</p>
                     </div>
                     <div className="space-y-3">
                       <div className="flex items-center gap-3 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-800/40">
                         <Mail className="h-5 w-5 shrink-0 text-zinc-400" />
                         <div className="min-w-0">
                           <p className={LABEL}>Email</p>
-                          <a href={`mailto:${ticket.assignedToUser.email}`} className="block truncate text-xs text-zinc-700 transition-colors hover:text-emerald-600 dark:text-zinc-300">
+                          <a href={`mailto:${ticket.assignedToUser.email}`} className="block truncate text-xs text-zinc-700 transition-colors hover:text-primary dark:text-zinc-300">
                             {ticket.assignedToUser.email}
                           </a>
                         </div>
@@ -560,7 +560,7 @@ export default function MaintenanceTicketDetailPage() {
                   return (
                     <li key={s} className="flex items-center gap-2.5 text-sm">
                       {done || isCurrent ? (
-                        <CheckCircle2 className={`h-[18px] w-[18px] shrink-0 ${isCurrent ? 'text-emerald-600 dark:text-emerald-400' : 'text-emerald-500'}`} />
+                        <CheckCircle2 className={`h-[18px] w-[18px] shrink-0 ${isCurrent ? 'text-primary dark:text-[#4edea3]' : 'text-primary'}`} />
                       ) : (
                         <Circle className="h-[18px] w-[18px] shrink-0 text-zinc-300 dark:text-zinc-600" />
                       )}
@@ -568,7 +568,7 @@ export default function MaintenanceTicketDetailPage() {
                         {STATUS_LABELS[s]}
                       </span>
                       {isCurrent && (
-                        <span className="ml-auto rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-600 dark:text-emerald-400">
+                        <span className="ml-auto rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-primary dark:text-[#4edea3]">
                           Current
                         </span>
                       )}
@@ -584,7 +584,7 @@ export default function MaintenanceTicketDetailPage() {
         <div className={`${CARD} mb-8 overflow-hidden`}>
           <div className={CARD_HEAD}>
             <div className="flex items-center gap-2.5">
-              <Clock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <Clock className="h-5 w-5 text-primary dark:text-[#4edea3]" />
               <h2 className={CARD_TITLE}>Ticket Lifecycle &amp; Audit Trail</h2>
             </div>
           </div>
@@ -592,7 +592,7 @@ export default function MaintenanceTicketDetailPage() {
             <div className="relative mx-auto max-w-4xl">
               <div className="absolute left-5 right-6 top-5 -z-0 hidden h-1 bg-zinc-200 md:block dark:bg-zinc-800">
                 <div
-                  className="h-full rounded-full bg-emerald-500 transition-all"
+                  className="h-full rounded-full bg-primary transition-all"
                   style={{ width: `${(currentIndex / (statusOrder.length - 1)) * 100}%` }}
                 />
               </div>
@@ -606,16 +606,16 @@ export default function MaintenanceTicketDetailPage() {
                       <div
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-sm ${
                           done
-                            ? 'border-2 border-emerald-500 bg-white text-emerald-600 dark:bg-zinc-900'
+                            ? 'border-2 border-primary bg-white text-primary dark:bg-zinc-900'
                             : isCurrent
-                              ? 'bg-emerald-600 text-white ring-4 ring-emerald-500/20'
+                              ? 'bg-primary text-white ring-4 ring-primary/20'
                               : 'border-2 border-zinc-200 bg-white text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900'
                         }`}
                       >
                         {done ? <CheckCircle2 className="h-5 w-5" /> : isCurrent ? <Wrench className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
                       </div>
                       <div>
-                        <p className={`text-[11px] font-semibold uppercase tracking-wider ${done ? 'text-emerald-600 dark:text-emerald-400' : isCurrent ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-400 dark:text-zinc-500'}`}>
+                        <p className={`text-[11px] font-semibold uppercase tracking-wider ${done ? 'text-primary dark:text-[#4edea3]' : isCurrent ? 'text-primary dark:text-[#4edea3]' : 'text-zinc-400 dark:text-zinc-500'}`}>
                           {done ? 'Completed' : isCurrent ? 'Current' : 'Upcoming'}
                         </p>
                         <h4 className="mt-1 text-sm font-medium text-zinc-900 dark:text-white">{STATUS_LABELS[s]}</h4>

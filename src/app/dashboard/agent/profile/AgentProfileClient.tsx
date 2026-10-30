@@ -237,7 +237,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
     <div className="space-y-6">
       {/* ---------------- Identity header ---------------- */}
       <StandingCard className="overflow-hidden">
-        <div className="border-b border-zinc-100 bg-gradient-to-br from-emerald-50/60 via-white to-white dark:border-white/[0.06] dark:from-emerald-500/[0.07] dark:via-zinc-900 dark:to-zinc-900">
+        <div className="border-b border-zinc-100 bg-gradient-to-br from-primary/60 via-white to-white dark:border-white/[0.06] dark:from-primary/[0.07] dark:via-zinc-900 dark:to-zinc-900">
           <div className="flex flex-col gap-6 p-6 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
               <div className="relative shrink-0">
@@ -252,7 +252,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
                     {user.fullName.slice(0, 2).toUpperCase()}
                   </div>
                 )}
-                <span className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-white dark:border-zinc-900">
+                <span className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-primary text-white dark:border-zinc-900">
                   <Shield className="h-3.5 w-3.5" />
                 </span>
               </div>
@@ -380,7 +380,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
               <Eyebrow>Account Role &amp; Clearance</Eyebrow>
               <p className="mt-1 text-sm font-semibold text-zinc-900 dark:text-white">{tierLabel}</p>
               <p className="mt-0.5 flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" />
                 Level {kycLevel} Sovereign Access
               </p>
             </div>
@@ -481,8 +481,8 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
               Real-time cryptographic audit trail verified by Dojah Identity Engine
             </p>
 
-            <div className="mt-5 flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-500/25 dark:bg-emerald-500/[0.07]">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white dark:bg-emerald-500 dark:text-zinc-950">
+            <div className="mt-5 flex items-center gap-4 rounded-xl border border-primary bg-primary/70 p-4 dark:border-primary/25 dark:bg-primary/[0.07]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-white dark:bg-primary dark:text-zinc-950">
                 <Shield className="h-6 w-6" />
               </div>
               <div className="min-w-0 flex-1">
@@ -494,7 +494,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
                 </p>
               </div>
               <div className="shrink-0 text-right">
-                <p className="text-2xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
+                <p className="text-2xl font-bold tracking-tight text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                   {auditScore}%
                 </p>
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
@@ -541,7 +541,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
                 <button
                   type="button"
                   onClick={() => setShowAllVectors((v) => !v)}
-                  className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:underline dark:text-emerald-400"
+                  className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[var(--sovereign-hover)] hover:underline dark:text-[#4edea3]"
                 >
                   {showAllVectors ? 'Show fewer vectors' : `Show all ${vectors.length} identity vectors`}
                   <ChevronRight className={cn('h-3.5 w-3.5 transition-transform', showAllVectors && 'rotate-90')} />
@@ -635,7 +635,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
               </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2.5 text-xs text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300">
+            <div className="mt-4 flex items-center gap-2 rounded-lg bg-[var(--sovereign-container-bg)] px-3 py-2.5 text-xs text-[var(--sovereign-hover)] dark:bg-primary/10 dark:text-[#6ffbbe]">
               <Sparkles className="h-3.5 w-3.5 shrink-0" />
               Two-factor hardware tokens must be registered from your Clerk account — PropatiBox does
               not hold credential material.

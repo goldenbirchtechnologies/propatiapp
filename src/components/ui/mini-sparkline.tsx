@@ -8,7 +8,7 @@ interface MiniSparklineProps {
   className?: string
 }
 
-function MiniSparkline({ data, color = "#10b981", className }: MiniSparklineProps) {
+function MiniSparkline({ data, color = "#006c49", className }: MiniSparklineProps) {
   const max = Math.max(...data)
   const min = Math.min(...data)
   const range = max - min || 1

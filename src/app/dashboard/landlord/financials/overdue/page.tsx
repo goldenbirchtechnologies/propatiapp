@@ -112,7 +112,7 @@ export default async function LandlordOverduePaymentsPage() {
                 <Bell className="w-4 h-4 text-red-500" />
                 Send Bulk Reminders
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm">
+              <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-[var(--sovereign-hover)] transition-colors shadow-sm">
                 <Gavel className="w-4 h-4" />
                 Notice of Intent to Recover
               </button>
@@ -162,12 +162,12 @@ export default async function LandlordOverduePaymentsPage() {
             <div className="relative overflow-hidden bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
               <div className="flex items-center justify-between">
                 <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Legal Recovery Pipeline</span>
-                <div className="w-8 h-8 rounded-lg bg-emerald-600/10 flex items-center justify-center text-emerald-600">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   <Scale className="w-5 h-5" />
                 </div>
               </div>
               <div className="mt-4">
-                <div className="text-2xl font-bold text-emerald-600 font-mono">0 Cases</div>
+                <div className="text-2xl font-bold text-primary font-mono">0 Cases</div>
                 <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Legal retainers pending activation</div>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default async function LandlordOverduePaymentsPage() {
               <div className="md:col-span-5 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                 <input
-                  className="w-full pl-10 pr-4 py-2 bg-zinc-50 dark:bg-white/[0.04] rounded-lg text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-600/20 border border-zinc-200 dark:border-white/[0.08]"
+                  className="w-full pl-10 pr-4 py-2 bg-zinc-50 dark:bg-white/[0.04] rounded-lg text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20 border border-zinc-200 dark:border-white/[0.08]"
                   placeholder="Search tenant entity, CAC/RC, or property suite..."
                 />
               </div>
@@ -224,10 +224,10 @@ export default async function LandlordOverduePaymentsPage() {
 
             {rows.length === 0 ? (
               <div className="p-12 flex flex-col items-center justify-center text-center">
-                <div className="w-16 h-16 rounded-full bg-emerald-600/10 flex items-center justify-center text-emerald-600 mb-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <p className="text-emerald-600 font-medium">No overdue payments</p>
+                <p className="text-primary font-medium">No overdue payments</p>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">All rent schedules and invoices are up to date.</p>
               </div>
             ) : (
@@ -245,7 +245,7 @@ export default async function LandlordOverduePaymentsPage() {
                   </thead>
                   <tbody className="divide-y divide-zinc-100 dark:divide-white/[0.06]">
                     {rows.map((row) => (
-                      <tr key={row.id} className="hover:bg-emerald-600/[0.04] transition-colors">
+                      <tr key={row.id} className="hover:bg-primary/[0.04] transition-colors">
                         <td className="py-3 px-5 text-sm font-medium text-zinc-900 dark:text-white">{row.tenant}</td>
                         <td className="py-3 px-5 text-sm text-zinc-600 dark:text-zinc-400">{row.unit}</td>
                         <td className="py-3 px-5 text-sm">
@@ -254,7 +254,7 @@ export default async function LandlordOverduePaymentsPage() {
                         <td className="py-3 px-5 text-sm font-medium text-red-600 font-mono">{fmt(row.amount)}</td>
                         <td className={`py-3 px-5 text-sm font-bold font-mono ${row.days >= 30 ? 'text-red-600' : 'text-amber-600'}`}>{row.days} days</td>
                         <td className="py-3 px-5">
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium border ${row.noticeSent ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20'}`}>
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium border ${row.noticeSent ? 'bg-primary text-white border-primary' : 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20'}`}>
                             {row.noticeSent ? 'Sent' : 'Pending'}
                           </span>
                         </td>

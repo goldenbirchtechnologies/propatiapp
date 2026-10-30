@@ -107,7 +107,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <div className="bg-success/10 rounded-full p-2 mt-1">
-                <CheckCircle className="h-4 w-4 text-[#10b981]" />
+                <CheckCircle className="h-4 w-4 text-[#006c49]" />
               </div>
               <div className="flex-1">
                 <p className="font-semibold">Payment Initiated</p>
@@ -134,7 +134,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             {(transaction.status === 'released' || transaction.status === 'completed') && (
               <div className="flex items-start gap-3">
                 <div className="bg-success/10 rounded-full p-2 mt-1">
-                  <CheckCircle className="h-4 w-4 text-[#10b981]" />
+                  <CheckCircle className="h-4 w-4 text-[#006c49]" />
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold">Payment Released</p>

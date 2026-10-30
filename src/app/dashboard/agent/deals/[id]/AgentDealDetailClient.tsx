@@ -112,7 +112,7 @@ export default function AgentDealDetailClient({
         >
           <Link
             href="/dashboard/agent/deals"
-            className="inline-flex items-center gap-1.5 font-semibold text-emerald-700 transition-colors hover:text-emerald-800 dark:text-emerald-400"
+            className="inline-flex items-center gap-1.5 font-semibold text-[var(--sovereign-hover)] transition-colors hover:text-[var(--sovereign-hover)] dark:text-[#4edea3]"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Deal Pipeline
@@ -163,12 +163,12 @@ export default function AgentDealDetailClient({
 
       {/* ── Hero dossier header ────────────────────────────────────────── */}
       <AgentCard className="relative overflow-hidden p-6">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 max-w-4xl space-y-3">
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
                 {status.label}
               </span>
               <span className="inline-flex items-center rounded-md bg-zinc-100 px-2.5 py-1 text-[11px] font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
@@ -176,12 +176,12 @@ export default function AgentDealDetailClient({
               </span>
               {deal.cautionDeposit > 0 ? (
                 <span className="inline-flex items-center gap-1 rounded-md bg-zinc-50 px-2.5 py-1 font-mono-numeric text-[13px] font-medium text-zinc-600 dark:bg-zinc-800/50 dark:text-zinc-400">
-                  <Wallet className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <Wallet className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
                   {formatNairaCompact(deal.cautionDeposit)} caution
                 </span>
               ) : null}
               {deal.lockStatus !== 'mutable' ? (
-                <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:bg-zinc-800 dark:text-emerald-400">
+                <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:bg-zinc-800 dark:text-[#4edea3]">
                   <BadgeCheck className="h-3.5 w-3.5" />
                   Integrity locked
                 </span>
@@ -211,7 +211,7 @@ export default function AgentDealDetailClient({
             <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
               Total Deal Value
             </span>
-            <span className="font-mono-numeric text-3xl font-bold leading-none tracking-tight text-emerald-700 dark:text-emerald-400">
+            <span className="font-mono-numeric text-3xl font-bold leading-none tracking-tight text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               {formatNairaValue(consideration)}
             </span>
             <span className="text-xs text-zinc-500">
@@ -225,14 +225,14 @@ export default function AgentDealDetailClient({
         <div className="relative space-y-3 pt-4">
           <div className="flex items-center justify-between px-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             <span>Cadastral Transaction Progress</span>
-            <span className="font-mono-numeric text-emerald-700 dark:text-emerald-400">
+            <span className="font-mono-numeric text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               Stage {stageIndex + 1} of {STEPS.length} (
               {Math.round((progress / 100) * 100)}% Complete)
             </span>
           </div>
           <div className="relative h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
             <div
-              className="absolute bottom-0 left-0 top-0 rounded-full bg-emerald-500 transition-all duration-700"
+              className="absolute bottom-0 left-0 top-0 rounded-full bg-primary transition-all duration-700"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -248,9 +248,9 @@ export default function AgentDealDetailClient({
                   <div
                     className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
                       done
-                        ? 'bg-emerald-500 text-white dark:bg-emerald-500 dark:text-zinc-900'
+                        ? 'bg-primary text-white dark:bg-primary dark:text-zinc-900'
                         : current
-                          ? 'bg-emerald-600 text-white animate-pulse dark:bg-emerald-500 dark:text-zinc-900'
+                          ? 'bg-primary text-white animate-pulse dark:bg-primary dark:text-zinc-900'
                           : 'bg-zinc-200 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400'
                     }`}
                   >
@@ -266,7 +266,7 @@ export default function AgentDealDetailClient({
                     <p
                       className={`truncate text-sm font-semibold ${
                         current
-                          ? 'text-emerald-700 dark:text-emerald-400'
+                          ? 'text-[var(--sovereign-hover)] dark:text-[#4edea3]'
                           : 'text-zinc-900 dark:text-white'
                       }`}
                     >
@@ -287,7 +287,7 @@ export default function AgentDealDetailClient({
       <AgentCard className="space-y-5 bg-gradient-to-r from-white via-zinc-50 to-white p-6 shadow-md dark:from-zinc-900 dark:via-zinc-800/60 dark:to-zinc-900">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-3 sm:items-center">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600/10 text-emerald-600 shadow-sm dark:text-emerald-400">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary shadow-sm dark:text-[#4edea3]">
               <Landmark className="h-6 w-6" />
             </div>
             <div>
@@ -295,7 +295,7 @@ export default function AgentDealDetailClient({
                 <h2 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white">
                   Escrow &amp; Settlement Operations (Paystack Clearing Hub)
                 </h2>
-                <span className="rounded bg-emerald-600 px-2 py-0.5 text-[11px] font-semibold uppercase text-white dark:bg-emerald-500 dark:text-zinc-900">
+                <span className="rounded bg-primary px-2 py-0.5 text-[11px] font-semibold uppercase text-white dark:bg-primary dark:text-zinc-900">
                   Statutory
                 </span>
               </div>
@@ -314,16 +314,16 @@ export default function AgentDealDetailClient({
               <span className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                 Escrow Vault Liquidity
               </span>
-              <span className="font-mono-numeric text-lg font-bold text-emerald-700 dark:text-emerald-400">
+              <span className="font-mono-numeric text-lg font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {formatNairaValue(escrowTotal)}
               </span>
             </div>
-            <BadgeCheck className="h-6 w-6 text-emerald-500" />
+            <BadgeCheck className="h-6 w-6 text-primary" />
           </div>
         </div>
 
         <div className="flex items-start gap-3 rounded-lg bg-zinc-50 p-3.5 dark:bg-zinc-800/60">
-          <Info className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+          <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary dark:text-[#4edea3]" />
           <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
             {deal.cautionDeposit > 0 ? (
               <>
@@ -348,7 +348,7 @@ export default function AgentDealDetailClient({
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Link
             href="/dashboard/agent/agreements"
-            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-[13px] font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
           >
             <CheckSquare className="h-4 w-4" />
             Manage Execution
@@ -357,9 +357,9 @@ export default function AgentDealDetailClient({
             href="/dashboard/agent/commission-ledger"
             className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-[13px] font-medium text-zinc-900 shadow-sm transition-colors hover:bg-zinc-50 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800"
           >
-            <CircleDollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+            <CircleDollarSign className="h-5 w-5 text-primary dark:text-[#4edea3]" />
             Release Commission (
-            <strong className="font-mono-numeric font-bold text-emerald-700 dark:text-emerald-400">
+            <strong className="font-mono-numeric font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               {formatNairaValue(commission)}
             </strong>
             )
@@ -410,7 +410,7 @@ export default function AgentDealDetailClient({
               onClick={() => setTab(t.key)}
               className={`inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2 text-[13px] font-medium transition-all sm:flex-none ${
                 active
-                  ? 'bg-white text-emerald-700 shadow-sm dark:bg-zinc-900 dark:text-emerald-400'
+                  ? 'bg-white text-[var(--sovereign-hover)] shadow-sm dark:bg-zinc-900 dark:text-[#4edea3]'
                   : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
               }`}
             >
@@ -492,7 +492,7 @@ function OverviewTab({
         <AgentCard className="space-y-6 p-6 lg:col-span-7">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <Building2 className="h-5 w-5 text-primary dark:text-[#4edea3]" />
               <h3 className="text-base font-semibold text-zinc-900 dark:text-white">
                 Transaction Parameters &amp; Counterparties
               </h3>
@@ -543,7 +543,7 @@ function OverviewTab({
 
           <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-zinc-50 p-3 text-xs text-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-400">
             <span className="inline-flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              <span className="h-2.5 w-2.5 rounded-full bg-primary" />
               Last Secure Activity:{' '}
               <strong className="font-medium text-zinc-900 dark:text-white">
                 {formatDateTime(deal.updatedAt)} via Portal Encrypted Messaging
@@ -551,7 +551,7 @@ function OverviewTab({
             </span>
             <Link
               href="/dashboard/agent/commission-ledger"
-              className="font-semibold text-emerald-700 hover:underline dark:text-emerald-400"
+              className="font-semibold text-[var(--sovereign-hover)] hover:underline dark:text-[#4edea3]"
             >
               View Audit Trail
             </Link>
@@ -565,7 +565,7 @@ function OverviewTab({
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/75 via-black/20 to-transparent p-4 text-white">
-                <span className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#6ffbbe]">
                   Listing Dossier Preview
                 </span>
                 <p className="text-sm font-semibold">{deal.property.title}</p>
@@ -579,12 +579,12 @@ function OverviewTab({
         <AgentCard className="space-y-6 p-6 lg:col-span-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Receipt className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <Receipt className="h-5 w-5 text-primary dark:text-[#4edea3]" />
               <h3 className="text-base font-semibold text-zinc-900 dark:text-white">
                 Escrow Clearing Ledger
               </h3>
             </div>
-            <span className="rounded bg-emerald-600/10 px-2 py-0.5 font-mono-numeric text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+            <span className="rounded bg-primary/10 px-2 py-0.5 font-mono-numeric text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               {deal.stampDutyStatus ? `Stamp duty: ${humanise(deal.stampDutyStatus)}` : 'Paystack Verified'}
             </span>
           </div>
@@ -628,14 +628,14 @@ function OverviewTab({
               <span className="text-sm font-semibold text-zinc-900 dark:text-white">
                 Total Escrow Vault
               </span>
-              <span className="font-mono-numeric text-xl font-bold text-emerald-700 dark:text-emerald-400">
+              <span className="font-mono-numeric text-xl font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {formatNairaValue(escrowTotalValue(consideration, deal.cautionDeposit, stampDuty))}
               </span>
             </div>
             <div className="h-px bg-zinc-200 dark:bg-white/[0.08]" />
             <div className="flex items-center justify-between text-[11px]">
               <span className="text-zinc-500">Paystack Balance Verified:</span>
-              <span className="font-mono-numeric font-bold text-emerald-700 dark:text-emerald-400">
+              <span className="font-mono-numeric font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {deal.cautionDeposit > 0
                   ? `${formatNairaValue(deal.cautionDeposit)} CLEARED`
                   : 'AWAITING FUNDING'}
@@ -760,7 +760,7 @@ function TimelineTab({ deal, entries }: { deal: DetailDeal; entries: TimelineEnt
             payment providers.
           </p>
         </div>
-        <span className="self-start rounded-full bg-emerald-600/10 px-3 py-1 font-mono-numeric text-xs font-semibold text-emerald-700 dark:text-emerald-400 sm:self-auto">
+        <span className="self-start rounded-full bg-primary/10 px-3 py-1 font-mono-numeric text-xs font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3] sm:self-auto">
           {entries.length} Events Recorded
         </span>
       </div>
@@ -776,9 +776,9 @@ function TimelineTab({ deal, entries }: { deal: DetailDeal; entries: TimelineEnt
           {entries.map((entry) => {
             const dot =
               entry.tone === 'active'
-                ? 'bg-emerald-600 text-white'
+                ? 'bg-primary text-white'
                 : entry.tone === 'complete'
-                  ? 'bg-emerald-500 text-white dark:text-zinc-900'
+                  ? 'bg-primary text-white dark:text-zinc-900'
                   : 'bg-zinc-200 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400';
             const Icon =
               entry.icon === 'payment'
@@ -936,7 +936,7 @@ function DocumentsTab({ deal }: { deal: DetailDeal }) {
             Authenticated and tamper-proof legal deeds, KYC records, and clearing receipts.
           </p>
         </div>
-        <span className="self-start rounded-full bg-emerald-600/10 px-3 py-1 font-mono-numeric text-xs font-semibold text-emerald-700 dark:text-emerald-400 sm:self-auto">
+        <span className="self-start rounded-full bg-primary/10 px-3 py-1 font-mono-numeric text-xs font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3] sm:self-auto">
           {available.length} Document{available.length === 1 ? '' : 's'} Available
         </span>
       </div>
@@ -1032,7 +1032,7 @@ function InfoTile({
           <div className="flex items-center gap-1.5">
             <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">{title}</h4>
             {verified ? (
-              <BadgeCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              <BadgeCheck className="h-4 w-4 text-primary dark:text-[#4edea3]" />
             ) : null}
           </div>
           {body ? (
@@ -1054,10 +1054,10 @@ function InfoTile({
       ) : null}
       {badge ? (
         <div className="flex items-center justify-between gap-2 pt-1 text-xs">
-          <span className="truncate font-mono-numeric text-emerald-700 dark:text-emerald-400">
+          <span className="truncate font-mono-numeric text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             {badge}
           </span>
-          <span className="shrink-0 rounded bg-emerald-600/10 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+          <span className="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             Verified
           </span>
         </div>
@@ -1072,7 +1072,7 @@ function InfoTile({
               <span className="font-mono-numeric text-sm font-bold text-zinc-900 dark:text-white">
                 {formatNairaValue(f.value)}
               </span>
-              <span className="mt-0.5 block text-[10px] text-emerald-700 dark:text-emerald-400">
+              <span className="mt-0.5 block text-[10px] text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {f.note}
               </span>
             </div>
@@ -1124,13 +1124,13 @@ function ActionCard({
       className="group flex flex-col justify-between rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md dark:border-white/[0.08] dark:bg-zinc-900"
     >
       <div className="space-y-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 text-emerald-600 transition-colors group-hover:bg-emerald-600 group-hover:text-white dark:bg-zinc-800 dark:text-emerald-400">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 text-primary transition-colors group-hover:bg-primary group-hover:text-white dark:bg-zinc-800 dark:text-[#4edea3]">
           {icon}
         </div>
         <h3 className="text-base font-semibold text-zinc-900 dark:text-white">{title}</h3>
         <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">{description}</p>
       </div>
-      <span className="mt-4 flex items-center justify-between gap-2 border-t border-zinc-100 pt-3 text-[13px] font-semibold text-emerald-700 transition-transform group-hover:translate-x-1 dark:border-white/[0.08] dark:text-emerald-400">
+      <span className="mt-4 flex items-center justify-between gap-2 border-t border-zinc-100 pt-3 text-[13px] font-semibold text-[var(--sovereign-hover)] transition-transform group-hover:translate-x-1 dark:border-white/[0.08] dark:text-[#4edea3]">
         <span className="truncate">{meta}</span>
         <ArrowRight className="h-4 w-4 shrink-0" />
       </span>
@@ -1159,7 +1159,7 @@ function ActionRow({
       className="flex w-full items-center justify-between gap-3 rounded-lg bg-zinc-50 p-3.5 text-left transition-colors hover:bg-zinc-100 dark:bg-zinc-800/60 dark:hover:bg-zinc-800"
     >
       <div className="flex min-w-0 items-center gap-3">
-        <span className={danger ? 'text-red-500' : 'text-emerald-600 dark:text-emerald-400'}>
+        <span className={danger ? 'text-red-500' : 'text-primary dark:text-[#4edea3]'}>
           {icon}
         </span>
         <div className="min-w-0">

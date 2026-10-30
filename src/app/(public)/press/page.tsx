@@ -15,14 +15,14 @@ export default function PressPage() {
   return (
     <div className="bg-black min-h-screen pt-16">
       <section className="relative overflow-hidden border-b border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 relative">
           <SectionLabel>Press</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">Newsroom</h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
             The latest from PropatiBox — boilerplate, press kit, and coverage. For media enquiries, reach{' '}
-            <a href="mailto:press@propati.ng" className="text-emerald-400 hover:text-emerald-300">
+            <a href="mailto:press@propati.ng" className="text-[#4edea3] hover:text-[#6ffbbe]">
               press@propati.ng
             </a>
             .
@@ -68,7 +68,7 @@ export default function PressPage() {
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-zinc-500 leading-relaxed list-disc list-inside">
                   <li>Use PropatiBox in all caps. Do not write &quot;Propati&quot; or &quot;Propatibox&quot;.</li>
-                  <li>Primary color is emerald (#10b981). Do not recolor the wordmark.</li>
+                  <li>Primary color is emerald (#006c49). Do not recolor the wordmark.</li>
                   <li>Minimum clear space around the logo is the height of the &quot;P&quot;.</li>
                 </ul>
               </div>

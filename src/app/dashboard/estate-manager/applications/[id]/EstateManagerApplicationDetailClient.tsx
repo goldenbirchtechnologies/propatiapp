@@ -99,16 +99,16 @@ interface Application {
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
   under_review: { label: 'Under Review', className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
-  accepted: { label: 'Accepted', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  accepted: { label: 'Accepted', className: 'bg-primary/10 text-[#4edea3] border-primary/20' },
   rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
   withdrawn: { label: 'Withdrawn', className: 'bg-white dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
 };
 
 const stageConfig: Record<ApplicationStage, { label: string; className: string }> = {
   submitted: { label: 'Submitted', className: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-700' },
-  screening: { label: 'Screening', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  screening: { label: 'Screening', className: 'bg-primary/10 text-[#4edea3] border-primary/20' },
   guarantor_pending: { label: 'Guarantor Pending', className: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
-  approved: { label: 'Approved', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  approved: { label: 'Approved', className: 'bg-primary/10 text-[#4edea3] border-primary/20' },
   rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
 };
 
@@ -117,7 +117,7 @@ function screeningPill(value: string) {
   if (!normalized || normalized === 'not_started' || normalized === 'none' || normalized === 'false')
     return <span className="text-xs text-red-400 border border-red-500/20 rounded-full px-2 py-0.5">Not Verified</span>;
   if (normalized === 'approved' || normalized === 'verified' || normalized === 'true')
-    return <span className="text-xs text-emerald-400 border border-emerald-500/20 rounded-full px-2 py-0.5">Verified</span>;
+    return <span className="text-xs text-[#4edea3] border border-primary/20 rounded-full px-2 py-0.5">Verified</span>;
   return <span className="text-xs text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5">Pending</span>;
 }
 
@@ -219,7 +219,7 @@ export default function EstateManagerApplicationDetailClient({
         <div className="glass-card lg:col-span-2 glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-emerald-400" />
+              <Building2 className="w-5 h-5 text-[#4edea3]" />
               Property
             </h3>
           </div>
@@ -261,7 +261,7 @@ export default function EstateManagerApplicationDetailClient({
                   {application.listing.amenities.map((a) => (
                     <span
                       key={a}
-                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-emerald-500/20"
+                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-primary/20"
                     >
                       {a}
                     </span>
@@ -269,7 +269,7 @@ export default function EstateManagerApplicationDetailClient({
                 </div>
               </div>
             )}
-            <Link href={`/properties/${application.listing.id}`} className="inline-flex items-center gap-1 text-sm text-emerald-400 hover:text-emerald-300">
+            <Link href={`/properties/${application.listing.id}`} className="inline-flex items-center gap-1 text-sm text-[#4edea3] hover:text-[#6ffbbe]">
               <ExternalLink className="w-3 h-3" /> View Listing
             </Link>
           </div>
@@ -279,7 +279,7 @@ export default function EstateManagerApplicationDetailClient({
         <div className="glass-card glass-card">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-              <Users className="w-5 h-5 text-emerald-400" />
+              <Users className="w-5 h-5 text-[#4edea3]" />
               Applicant
             </h3>
           </div>
@@ -325,7 +325,7 @@ export default function EstateManagerApplicationDetailClient({
 
             <div className="flex flex-wrap gap-2">
               {application.tenant.idVerified && (
-                <span className="inline-flex items-center gap-1 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
+                <span className="inline-flex items-center gap-1 text-xs text-[#4edea3] bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
                   <BadgeCheck className="w-3 h-3" /> ID Verified
                 </span>
               )}
@@ -351,7 +351,7 @@ export default function EstateManagerApplicationDetailClient({
         <div className="glass-card glass-card">
           <div className="p-6 p-6">
             <div className="flex items-start gap-3">
-              <MessageSquare className="w-5 h-5 mt-0.5 text-emerald-400" />
+              <MessageSquare className="w-5 h-5 mt-0.5 text-[#4edea3]" />
               <div>
                 <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">Applicant Message</p>
                 <p className="text-sm p-3 rounded-lg bg-white dark:bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white">{application.message}</p>
@@ -368,21 +368,21 @@ export default function EstateManagerApplicationDetailClient({
             <button
               type="button"
               onClick={() => setDetailTab('applicant')}
-              className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-emerald-500 text-zinc-900 dark:text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'}`}
+              className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-primary text-zinc-900 dark:text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'}`}
             >
               Applicant
             </button>
             <button
               type="button"
               onClick={() => setDetailTab('guarantor')}
-              className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-emerald-500 text-zinc-900 dark:text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'}`}
+              className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-primary text-zinc-900 dark:text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'}`}
             >
               Guarantor
             </button>
             <button
               type="button"
               onClick={() => setDetailTab('decision')}
-              className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-emerald-500 text-zinc-900 dark:text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'}`}
+              className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-primary text-zinc-900 dark:text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white'}`}
             >
               Decision
             </button>
@@ -435,7 +435,7 @@ export default function EstateManagerApplicationDetailClient({
               <div className="pt-2">
                 <p className="text-xs font-medium text-zinc-900 dark:text-white mb-2">Guarantor Verification</p>
                 {(application.guarantorData as any)?.verified ? (
-                  <span className="inline-flex items-center gap-1 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
+                  <span className="inline-flex items-center gap-1 text-xs text-[#4edea3] bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
                     <BadgeCheck className="w-3 h-3" /> Verified
                   </span>
                 ) : (
@@ -452,7 +452,7 @@ export default function EstateManagerApplicationDetailClient({
               <div>
                 <label className="text-sm font-medium block mb-1.5 text-zinc-900 dark:text-white">Notes (visible to the tenant)</label>
                 <Textarea
-                  className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-500/50"
+                  className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-primary/50"
                   rows={3}
                   placeholder="Add a note visible to the tenant..."
                   value={notes}
@@ -503,7 +503,7 @@ export default function EstateManagerApplicationDetailClient({
                   size="sm"
                   onClick={() => handleAction('accept')}
                   disabled={isLoading || !isActionable}
-                  className="bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white"
+                  className="bg-primary hover:bg-primary text-zinc-900 dark:text-white"
                 >
                   {actionType === 'accept' && isLoading ? (
                     <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -518,7 +518,7 @@ export default function EstateManagerApplicationDetailClient({
                 <div>
                   <label className="text-sm font-medium block mb-1.5 text-zinc-900 dark:text-white">Rejection reason</label>
                   <Textarea
-                    className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-500/50"
+                    className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-primary/50"
                     rows={2}
                     placeholder="Reason for rejection..."
                     value={rejectionReason}
@@ -528,11 +528,11 @@ export default function EstateManagerApplicationDetailClient({
               )}
 
               {application.agreement && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-emerald-500/20">
-                  <FileText className="w-4 h-4 text-emerald-400" />
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-primary/20">
+                  <FileText className="w-4 h-4 text-[#4edea3]" />
                   <span className="text-sm text-zinc-900 dark:text-white">
                     Agreement {application.agreement.status} —{' '}
-                    <Link href="/dashboard/estate-manager/agreements" className="underline font-medium text-emerald-400">
+                    <Link href="/dashboard/estate-manager/agreements" className="underline font-medium text-[#4edea3]">
                       View agreement
                     </Link>
                   </span>

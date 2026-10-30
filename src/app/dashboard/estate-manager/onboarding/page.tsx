@@ -43,7 +43,7 @@ function getStepStatus(v: Verification | undefined): 'cleared' | 'action_require
 
 function statusBadge(status: string) {
   switch (status) {
-    case 'cleared': return { label: 'Verified Authentic', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+    case 'cleared': return { label: 'Verified Authentic', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary', dot: 'bg-primary' };
     case 'action_required': return { label: 'In Progress', cls: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
     case 'next_up': return { label: 'Next Up', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200', dot: 'bg-zinc-400' };
     case 'locked': return { label: 'Locked', cls: 'bg-zinc-100 text-zinc-500 border-zinc-200', dot: 'bg-zinc-400' };
@@ -142,9 +142,9 @@ export default function EstateManagerOnboardingPage() {
         <div className="min-h-screen bg-[#fbf8fc] p-4 md:p-6 lg:p-8">
           {/* Compliance Trust Badges */}
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-[var(--sovereign-container-bg)] px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-[#006c49] animate-pulse" />
-              <span className="text-[11px] font-semibold tracking-wider uppercase text-emerald-800">LASRERA CERTIFIED FACILITY MANAGER PROTOCOL</span>
+              <span className="text-[11px] font-semibold tracking-wider uppercase text-[var(--sovereign-hover)]">LASRERA CERTIFIED FACILITY MANAGER PROTOCOL</span>
             </div>
             <div className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1">
               <ShieldCheck className="h-3.5 w-3.5 text-[#006c49]" />
@@ -154,9 +154,9 @@ export default function EstateManagerOnboardingPage() {
               <Lock className="h-3.5 w-3.5 text-zinc-400" />
               <span className="text-[11px] font-semibold tracking-wider uppercase text-zinc-600">NDPR COMPLIANT</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-[var(--sovereign-container-bg)] px-3 py-1">
               <Lock className="h-3.5 w-3.5 text-[#006c49]" />
-              <span className="text-[11px] font-semibold tracking-wider uppercase text-emerald-800">ZERO SERVICE CHARGE DIVERSION ESCROW</span>
+              <span className="text-[11px] font-semibold tracking-wider uppercase text-[var(--sovereign-hover)]">ZERO SERVICE CHARGE DIVERSION ESCROW</span>
             </div>
           </div>
 
@@ -180,7 +180,7 @@ export default function EstateManagerOnboardingPage() {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="truncate text-sm font-semibold text-zinc-900">ESV Gbenga Adeleke-Johnson, FNIVS</span>
-                      <span className="rounded bg-[#10b981] px-1.5 py-0.5 text-[10px] font-bold text-[#00422b]">PARTNER</span>
+                      <span className="rounded bg-[#006c49] px-1.5 py-0.5 text-[10px] font-bold text-[#00422b]">PARTNER</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-zinc-500">
                       <span>Braidwood & Shield Facility Partners Ltd</span>
@@ -222,7 +222,7 @@ export default function EstateManagerOnboardingPage() {
                   <span className="flex items-center gap-1.5 font-semibold">
                     <span className="h-2 w-2 rounded-full bg-[#006c49] animate-pulse" /> Facility Practice License
                   </span>
-                  <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800">IN PROGRESS</span>
+                  <span className="rounded bg-[var(--sovereign-container-bg)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--sovereign-hover)]">IN PROGRESS</span>
                 </div>
                 <div className="flex items-center justify-between text-zinc-500 opacity-75">
                   <span className="flex items-center gap-1.5">
@@ -249,13 +249,13 @@ export default function EstateManagerOnboardingPage() {
                 return (
                   <div
                     key={step.id}
-                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 flex flex-col gap-3 ${step.status === 'action_required' ? 'ring-2 ring-[#10b981]/30' : ''}`}
+                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 flex flex-col gap-3 ${step.status === 'action_required' ? 'ring-2 ring-[#006c49]/30' : ''}`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div className={`flex h-8 w-8 items-center justify-center rounded-full font-bold ${
-                          step.status === 'cleared' ? 'bg-emerald-100 text-emerald-700' :
-                          step.status === 'action_required' ? 'bg-[#10b981]/20 text-[#00422b]' :
+                          step.status === 'cleared' ? 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)]' :
+                          step.status === 'action_required' ? 'bg-[#006c49]/20 text-[#00422b]' :
                           'bg-zinc-100 text-zinc-500'
                         }`}>
                           {step.status === 'cleared' ? <Check className="h-4 w-4" /> : step.icon}
@@ -291,7 +291,7 @@ export default function EstateManagerOnboardingPage() {
                   <ShieldCheck className="h-5 w-5 text-[#006c49]" />
                   <h3 className="text-base font-semibold text-zinc-900">Institutional Sovereign Guarantees</h3>
                 </div>
-                <span className="inline-block rounded bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 mb-3">LEVEL 3 ENTERPRISE CLEARANCE</span>
+                <span className="inline-block rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] mb-3">LEVEL 3 ENTERPRISE CLEARANCE</span>
                 <div className="flex flex-col gap-2 pt-2">
                   <div className="flex items-start gap-2.5">
                     <Check className="h-4 w-4 text-[#006c49] mt-0.5" />
@@ -328,7 +328,7 @@ export default function EstateManagerOnboardingPage() {
               <div className="rounded-xl bg-white p-5 shadow-sm border border-zinc-100">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Assigned Cadastral Officer</span>
                 <div className="flex items-center gap-3 mt-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-lg">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] font-bold text-lg">
                     ML
                   </div>
                   <div>
@@ -435,7 +435,7 @@ export default function EstateManagerOnboardingPage() {
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">Q-NIMC-88192-LAG</td>
                     <td className="py-2.5 px-4">
-                      <span className="rounded bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">200 OK_VERIFIED</span>
+                      <span className="rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">200 OK_VERIFIED</span>
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">SHA256: 8fbc•••902a</td>
                     <td className="py-2.5 px-4 text-right font-mono text-zinc-500">Today 09:14:02</td>
@@ -446,7 +446,7 @@ export default function EstateManagerOnboardingPage() {
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">Q-CAC-RC1694208</td>
                     <td className="py-2.5 px-4">
-                      <span className="rounded bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">200 OK_GOOD_STANDING</span>
+                      <span className="rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">200 OK_GOOD_STANDING</span>
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">SHA256: 31e8•••ff12</td>
                     <td className="py-2.5 px-4 text-right font-mono text-zinc-500">Today 09:14:18</td>
@@ -457,7 +457,7 @@ export default function EstateManagerOnboardingPage() {
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">ESV-REG-4419-LGS</td>
                     <td className="py-2.5 px-4">
-                      <span className="rounded bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">200 OK_ACTIVE_PRACTICE</span>
+                      <span className="rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">200 OK_ACTIVE_PRACTICE</span>
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">SHA256: 77a0•••4419</td>
                     <td className="py-2.5 px-4 text-right font-mono text-zinc-500">Today 09:15:40</td>
@@ -468,7 +468,7 @@ export default function EstateManagerOnboardingPage() {
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">Q-NIBSS-BVN-9921</td>
                     <td className="py-2.5 px-4">
-                      <span className="rounded bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">200 OK_MATCHED</span>
+                      <span className="rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">200 OK_MATCHED</span>
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">SHA256: 12de•••9921</td>
                     <td className="py-2.5 px-4 text-right font-mono text-zinc-500">Today 09:16:01</td>
@@ -479,7 +479,7 @@ export default function EstateManagerOnboardingPage() {
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">SCUML-RN-8812</td>
                     <td className="py-2.5 px-4">
-                      <span className="rounded bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800">200 OK_CLEARED</span>
+                      <span className="rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)]">200 OK_CLEARED</span>
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">SHA256: ee02•••bb44</td>
                     <td className="py-2.5 px-4 text-right font-mono text-zinc-500">Today 09:17:11</td>

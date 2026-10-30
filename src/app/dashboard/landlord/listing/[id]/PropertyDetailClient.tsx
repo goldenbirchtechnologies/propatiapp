@@ -215,7 +215,7 @@ export default function PropertyDetailClient({ listing }: { listing: ListingData
                         <td className="py-2 pr-4 text-zinc-900 dark:text-white">{u.label}</td>
                         <td className="py-2 pr-4 text-zinc-900 dark:text-white">₦{u.price.toLocaleString()}</td>
                         <td className="py-2 pr-4">
-                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${u.available ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>
+                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${u.available ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>
                             {u.available ? 'Available' : 'Occupied'}
                           </span>
                         </td>

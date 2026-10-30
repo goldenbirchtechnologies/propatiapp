@@ -63,9 +63,9 @@ const CARD = 'rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-z
 const LABEL = 'mb-1 block text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400';
 const MUTED = 'text-xs text-zinc-500 dark:text-zinc-400';
 const INPUT =
-  'w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
+  'w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
 const BTN_PRIMARY =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 disabled:opacity-50 active:scale-[0.98]';
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] disabled:opacity-50 active:scale-[0.98]';
 const BTN_GHOST =
   'inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800';
 
@@ -278,13 +278,13 @@ export default function AddPropertyAndUnitsPage() {
         <div className="mb-6">
           <Link
             href="/dashboard/estate-manager/units"
-            className="group mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-emerald-600 dark:text-zinc-400"
+            className="group mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 transition-colors hover:text-primary dark:text-zinc-400"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Back to Units
           </Link>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
               Portfolio Onboarding
             </span>
             <span className="text-zinc-300 dark:text-zinc-600">•</span>
@@ -304,9 +304,9 @@ export default function AddPropertyAndUnitsPage() {
               <div
                 className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold shadow-sm ${
                   s.done
-                    ? 'bg-emerald-600 text-white'
+                    ? 'bg-primary text-white'
                     : step === s.n
-                      ? 'bg-emerald-600 text-white ring-4 ring-emerald-500/20'
+                      ? 'bg-primary text-white ring-4 ring-primary/20'
                       : 'bg-zinc-200 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400'
                 }`}
               >
@@ -316,10 +316,10 @@ export default function AddPropertyAndUnitsPage() {
                 <span className={`text-xs font-semibold ${step === s.n ? 'text-zinc-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400'}`}>
                   {s.n}. {s.label}
                 </span>
-                {s.done && <span className="text-[10px] text-emerald-600 dark:text-emerald-400">Completed</span>}
+                {s.done && <span className="text-[10px] text-primary dark:text-[#4edea3]">Completed</span>}
               </div>
               {i < steps.length - 1 && (
-                <div className={`mx-3 h-0.5 w-8 sm:w-16 ${s.done ? 'bg-emerald-500' : 'bg-zinc-200 dark:bg-zinc-700'}`} />
+                <div className={`mx-3 h-0.5 w-8 sm:w-16 ${s.done ? 'bg-primary' : 'bg-zinc-200 dark:bg-zinc-700'}`} />
               )}
             </div>
           ))}
@@ -338,7 +338,7 @@ export default function AddPropertyAndUnitsPage() {
             <div>
               <div className="flex items-center justify-between">
                 <h2 className="flex items-center gap-2 text-lg font-semibold text-zinc-900 dark:text-white">
-                  <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <Building2 className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                   Step 1: Property Identification
                 </h2>
                 <span className="rounded bg-zinc-100 px-2 py-0.5 font-mono text-[11px] text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
@@ -443,13 +443,13 @@ export default function AddPropertyAndUnitsPage() {
             {/* Context banner */}
             <div className="flex flex-col items-start justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 sm:flex-row sm:items-center dark:border-zinc-800 dark:bg-zinc-800/40">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]">
                   <Building2 className="h-5 w-5" />
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-semibold text-zinc-900 dark:text-white">{title}</span>
-                    <span className="rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                    <span className="rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--sovereign-hover)] dark:bg-primary/10 dark:text-[#4edea3]">
                       Property created
                     </span>
                   </div>
@@ -474,7 +474,7 @@ export default function AddPropertyAndUnitsPage() {
                 <div key={u.key} className="rounded-xl border border-zinc-200 bg-zinc-50/50 p-4 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-800/30">
                   <div className="mb-3 flex items-center justify-between border-b border-zinc-200 pb-3 dark:border-zinc-800">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-600 text-xs font-bold text-white">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-xs font-bold text-white">
                         {idx + 1}
                       </span>
                       <span className="text-sm font-medium text-zinc-900 dark:text-white">
@@ -562,7 +562,7 @@ export default function AddPropertyAndUnitsPage() {
 
             <button
               onClick={addUnit}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white py-3 text-sm font-medium text-emerald-600 transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-emerald-400 dark:hover:bg-zinc-800"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white py-3 text-sm font-medium text-primary transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-[#4edea3] dark:hover:bg-zinc-800"
             >
               <Plus className="h-4 w-4" /> Add another unit
             </button>
@@ -591,13 +591,13 @@ export default function AddPropertyAndUnitsPage() {
         {step === 3 && (
           <div className={`${CARD} space-y-5 p-6`}>
             <div className="flex flex-col items-start gap-4 rounded-xl border border-zinc-200 bg-zinc-50 p-5 sm:flex-row sm:items-center dark:border-zinc-800 dark:bg-zinc-800/40">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]">
                 <Check className="h-7 w-7" strokeWidth={2.5} />
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Property &amp; Units Configured</h3>
-                  <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                  <span className="rounded-full bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--sovereign-hover)] dark:bg-primary/10 dark:text-[#4edea3]">
                     {createdUnits.length} Unit{createdUnits.length === 1 ? '' : 's'} Created
                   </span>
                 </div>
@@ -618,7 +618,7 @@ export default function AddPropertyAndUnitsPage() {
                 </div>
                 <div className="text-right">
                   <span className={`block ${LABEL}`}>Total Monthly Revenue</span>
-                  <span className="font-mono text-base font-bold text-emerald-600 dark:text-emerald-400">
+                  <span className="font-mono text-base font-bold text-primary dark:text-[#4edea3]">
                     {ngn(createdUnits.reduce((s, u) => s + u.rent, 0))}
                   </span>
                 </div>
@@ -630,7 +630,7 @@ export default function AddPropertyAndUnitsPage() {
                     className="flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 dark:border-zinc-800 dark:bg-zinc-800/40"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-xs font-bold text-primary dark:text-[#4edea3]">
                         {u.unitNumber.slice(0, 2).toUpperCase()}
                       </div>
                       <span className="text-sm font-medium text-zinc-900 dark:text-white">{u.unitNumber}</span>

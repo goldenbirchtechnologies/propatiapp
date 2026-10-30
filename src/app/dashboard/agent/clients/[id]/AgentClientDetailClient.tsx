@@ -143,19 +143,19 @@ export default function AgentClientDetailClient({
         >
           <Link
             href="/dashboard/agent"
-            className="transition-colors hover:text-emerald-700 dark:hover:text-emerald-400"
+            className="transition-colors hover:text-[var(--sovereign-hover)] dark:hover:text-[#4edea3]"
           >
             Sales &amp; CRM
           </Link>
           <span className="text-zinc-400">/</span>
           <Link
             href="/dashboard/agent/clients"
-            className="transition-colors hover:text-emerald-700 dark:hover:text-emerald-400"
+            className="transition-colors hover:text-[var(--sovereign-hover)] dark:hover:text-[#4edea3]"
           >
             Clients
           </Link>
           <span className="text-zinc-400">/</span>
-          <span className="max-w-xs truncate font-mono-numeric font-semibold text-emerald-700 dark:text-emerald-400 md:max-w-md">
+          <span className="max-w-xs truncate font-mono-numeric font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3] md:max-w-md">
             {client.id.toUpperCase()} · {client.name}
           </span>
         </nav>
@@ -168,7 +168,7 @@ export default function AgentClientDetailClient({
             Back to Clients
           </Link>
           <span className="inline-flex items-center gap-1 rounded bg-zinc-100 px-2.5 py-1 font-mono-numeric text-[13px] font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             {metrics.activeDeals > 0 ? 'Active Mandate File' : 'Dormant Mandate File'}
           </span>
         </div>
@@ -176,11 +176,11 @@ export default function AgentClientDetailClient({
 
       {/* ── Client header card ─────────────────────────────────────────── */}
       <AgentCard className="relative overflow-hidden p-6">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex min-w-0 flex-col items-start gap-4 sm:flex-row sm:items-center">
             <div className="relative shrink-0">
-              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-emerald-600 text-xl font-bold tracking-tight text-white shadow-md dark:text-zinc-900">
+              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary text-xl font-bold tracking-tight text-white shadow-md dark:text-zinc-900">
                 {client.avatarUrl ? (
                   <img
                     src={client.avatarUrl}
@@ -194,7 +194,7 @@ export default function AgentClientDetailClient({
               {verified ? (
                 <span
                   title="KYC verified entity"
-                  className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-emerald-600 shadow-sm dark:bg-zinc-900"
+                  className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-primary shadow-sm dark:bg-zinc-900"
                 >
                   <BadgeCheck className="h-4 w-4" />
                 </span>
@@ -206,7 +206,7 @@ export default function AgentClientDetailClient({
                 <h1 className="truncate text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
                   {client.name}
                 </h1>
-                <span className="inline-flex items-center gap-1 rounded bg-emerald-600/10 px-2 py-0.5 font-mono-numeric text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 font-mono-numeric text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                   <ShieldCheck className="h-3 w-3" />
                   {verified ? 'CAC Verified' : 'Verification pending'}
                 </span>
@@ -226,7 +226,7 @@ export default function AgentClientDetailClient({
                   <History className="h-3.5 w-3.5" />
                   Client since {formatDate(client.clientSince)}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600/10 px-2 py-0.5 font-semibold text-emerald-700 dark:text-emerald-400">
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                   <Scale className="h-3.5 w-3.5" />
                   {verified
                     ? 'KYC · NDPR & NFIU status on file'
@@ -254,7 +254,7 @@ export default function AgentClientDetailClient({
             </button>
             <Link
               href={`/dashboard/agent/agreements/new?clientId=${client.id}`}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
             >
               <Plus className="h-4 w-4" />
               + New Agreement
@@ -263,7 +263,7 @@ export default function AgentClientDetailClient({
         </div>
 
         {noteSaved ? (
-          <p className="relative mt-4 rounded-lg bg-emerald-600/10 px-3 py-2 text-xs font-medium text-emerald-700 dark:text-emerald-400">
+          <p className="relative mt-4 rounded-lg bg-primary/10 px-3 py-2 text-xs font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             Note recorded against this client file.
           </p>
         ) : null}
@@ -272,7 +272,7 @@ export default function AgentClientDetailClient({
           <div className="relative mt-4 rounded-xl bg-zinc-50 p-4 shadow-md dark:bg-zinc-800/60">
             <div className="mb-2 flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-sm font-semibold text-zinc-900 dark:text-white">
-                <NotebookPen className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <NotebookPen className="h-4 w-4 text-primary dark:text-[#4edea3]" />
                 Record Institutional Memorandum / Executive Note
               </span>
               <button
@@ -288,7 +288,7 @@ export default function AgentClientDetailClient({
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Enter sensitive deal notes, board approvals, or escrow compliance directives…"
-              className="h-20 w-full resize-none rounded-lg bg-white p-2.5 text-xs text-zinc-900 outline-none ring-1 ring-zinc-200 placeholder:text-zinc-500 focus:ring-emerald-600 dark:bg-zinc-900 dark:text-white dark:ring-white/[0.08]"
+              className="h-20 w-full resize-none rounded-lg bg-white p-2.5 text-xs text-zinc-900 outline-none ring-1 ring-zinc-200 placeholder:text-zinc-500 focus:ring-primary dark:bg-zinc-900 dark:text-white dark:ring-white/[0.08]"
             />
             <div className="mt-2 flex items-center justify-end gap-2">
               <button
@@ -302,7 +302,7 @@ export default function AgentClientDetailClient({
                 type="button"
                 onClick={saveNote}
                 disabled={!note.trim()}
-                className="rounded-lg bg-emerald-600 px-4 py-1.5 text-[13px] font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-emerald-500 dark:text-zinc-900"
+                className="rounded-lg bg-primary px-4 py-1.5 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sovereign-hover)] disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary dark:text-zinc-900"
               >
                 Save to Client Ledger
               </button>
@@ -318,10 +318,10 @@ export default function AgentClientDetailClient({
           <AgentCard className="space-y-4 p-5">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white">
-                <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                <Building2 className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                 Entity &amp; Contact Record
               </span>
-              <span className="inline-flex items-center gap-1 rounded bg-emerald-600/10 px-2 py-0.5 font-mono-numeric text-[10px] font-semibold uppercase text-emerald-700 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 font-mono-numeric text-[10px] font-semibold uppercase text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {verified ? 'Verified' : 'Pending'}
               </span>
             </div>
@@ -330,7 +330,7 @@ export default function AgentClientDetailClient({
               <div className="flex flex-col gap-1 rounded-lg bg-zinc-50 p-2.5 dark:bg-zinc-800/60">
                 <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-zinc-500">
                   <span>Official Contact Desk</span>
-                  <span className="flex items-center gap-0.5 text-emerald-700 dark:text-emerald-400">
+                  <span className="flex items-center gap-0.5 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     {client.phoneVerified ? 'Phone verified' : 'Email on file'}
                   </span>
@@ -344,7 +344,7 @@ export default function AgentClientDetailClient({
                     type="button"
                     title="Copy email"
                     onClick={() => navigator.clipboard?.writeText(client.email)}
-                    className="shrink-0 rounded p-1 text-zinc-500 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+                    className="shrink-0 rounded p-1 text-zinc-500 transition-colors hover:text-primary dark:hover:text-[#4edea3]"
                   >
                     <Copy className="h-4 w-4" />
                   </button>
@@ -363,7 +363,7 @@ export default function AgentClientDetailClient({
                     </span>
                     <a
                       href={`tel:${client.phone}`}
-                      className="shrink-0 rounded p-1 text-zinc-500 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+                      className="shrink-0 rounded p-1 text-zinc-500 transition-colors hover:text-primary dark:hover:text-[#4edea3]"
                     >
                       <Phone className="h-4 w-4" />
                     </a>
@@ -377,11 +377,11 @@ export default function AgentClientDetailClient({
                 </span>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1 rounded bg-zinc-200 px-2 py-0.5 text-[11px] font-semibold text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
-                    <BadgeCheck className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                    <BadgeCheck className="h-3 w-3 text-primary dark:text-[#4edea3]" />
                     NIN {client.ninVerified ? 'Verified' : 'Pending'}
                   </span>
                   <span className="inline-flex items-center gap-1 rounded bg-zinc-200 px-2 py-0.5 text-[11px] font-semibold text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
-                    <BadgeCheck className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                    <BadgeCheck className="h-3 w-3 text-primary dark:text-[#4edea3]" />
                     BVN {client.bvnVerified ? 'Verified' : 'Pending'}
                   </span>
                 </div>
@@ -397,7 +397,7 @@ export default function AgentClientDetailClient({
                   </span>
                 </div>
                 <span className="inline-flex items-center gap-1 rounded bg-zinc-200 px-2 py-0.5 text-[11px] font-medium text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
-                  <MapPin className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                  <MapPin className="h-3 w-3 text-primary dark:text-[#4edea3]" />
                   Lagos, NG
                 </span>
               </div>
@@ -407,7 +407,7 @@ export default function AgentClientDetailClient({
           <AgentCard className="space-y-4 p-5">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white">
-                <FileText className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                <FileText className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                 Mandate Bio &amp; Appetite
               </span>
               <span className="font-mono-numeric text-[11px] font-semibold text-zinc-500">
@@ -456,7 +456,7 @@ export default function AgentClientDetailClient({
           <AgentCard className="space-y-4 p-5">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white">
-                <History className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                <History className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                 Audit Trail &amp; Activity
               </span>
               <span className="text-[11px] uppercase text-zinc-500">Real-time Log</span>
@@ -471,7 +471,7 @@ export default function AgentClientDetailClient({
                   <div key={d.id} className="flex items-start gap-3">
                     <span
                       className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${
-                        i === 0 ? 'bg-emerald-500 ring-4 ring-emerald-500/20' : 'bg-zinc-300 dark:bg-zinc-600'
+                        i === 0 ? 'bg-primary ring-4 ring-primary/20' : 'bg-zinc-300 dark:bg-zinc-600'
                       }`}
                     />
                     <div className="flex min-w-0 flex-col">
@@ -501,7 +501,7 @@ export default function AgentClientDetailClient({
               icon={<FolderOpen className="h-5 w-5" />}
               sublabel={
                 <span className="mt-0.5">
-                  <span className="font-medium text-emerald-700 dark:text-emerald-400">
+                  <span className="font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                     {metrics.activeDeals} Active
                   </span>{' '}
                   · {metrics.closedDeals} Executed
@@ -523,7 +523,7 @@ export default function AgentClientDetailClient({
               icon={<Lock className="h-5 w-5" />}
               accent="amber"
               sublabel={
-                <span className="mt-0.5 block font-medium text-emerald-700 dark:text-emerald-400">
+                <span className="mt-0.5 block font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                   Paystack Escrow Locked
                 </span>
               }
@@ -534,7 +534,7 @@ export default function AgentClientDetailClient({
               icon={<ShieldCheck className="h-5 w-5" />}
               accent="neutral"
               sublabel={
-                <span className="mt-0.5 block font-medium text-emerald-700 dark:text-emerald-400">
+                <span className="mt-0.5 block font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                   Institutional Representation
                 </span>
               }
@@ -548,7 +548,7 @@ export default function AgentClientDetailClient({
                 <h2 className="text-base font-semibold text-zinc-900 dark:text-white">
                   Related Agreements &amp; Transaction Ledgers
                 </h2>
-                <span className="rounded-full bg-emerald-600 px-2 py-0.5 font-mono-numeric text-xs font-semibold text-white dark:bg-emerald-500 dark:text-zinc-900">
+                <span className="rounded-full bg-primary px-2 py-0.5 font-mono-numeric text-xs font-semibold text-white dark:bg-primary dark:text-zinc-900">
                   {deals.length} Records
                 </span>
               </div>
@@ -584,7 +584,7 @@ export default function AgentClientDetailClient({
                 action={
                   <Link
                     href={`/dashboard/agent/agreements/new?clientId=${client.id}`}
-                    className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900"
+                    className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900"
                   >
                     <Plus className="h-4 w-4" />
                     + New Agreement
@@ -650,7 +650,7 @@ export default function AgentClientDetailClient({
                         <AgentTd className="text-right">
                           <Link
                             href={`/dashboard/agent/deals/${d.id}`}
-                            className="inline-flex items-center gap-1 rounded-lg bg-zinc-100 px-2.5 py-1.5 font-semibold text-emerald-700 transition-colors hover:bg-emerald-600 hover:text-white dark:bg-zinc-800 dark:text-emerald-400 dark:hover:bg-emerald-500 dark:hover:text-zinc-900"
+                            className="inline-flex items-center gap-1 rounded-lg bg-zinc-100 px-2.5 py-1.5 font-semibold text-[var(--sovereign-hover)] transition-colors hover:bg-primary hover:text-white dark:bg-zinc-800 dark:text-[#4edea3] dark:hover:bg-primary dark:hover:text-zinc-900"
                           >
                             View Deal
                             <ArrowRight className="h-3.5 w-3.5" />
@@ -679,12 +679,12 @@ export default function AgentClientDetailClient({
           <AgentCard className="space-y-4 p-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-white">
-                <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                <Building2 className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                 Featured Asset Portfolios Under Inspection
               </span>
               <Link
                 href="/dashboard/agent/listings"
-                className="inline-flex items-center gap-0.5 text-[13px] font-medium text-emerald-700 hover:underline dark:text-emerald-400"
+                className="inline-flex items-center gap-0.5 text-[13px] font-medium text-[var(--sovereign-hover)] hover:underline dark:text-[#4edea3]"
               >
                 View Directory
                 <ExternalLink className="h-3.5 w-3.5" />
@@ -719,7 +719,7 @@ export default function AgentClientDetailClient({
                           </p>
                         </div>
                         <div className="mt-2 flex items-center justify-between gap-2">
-                          <span className="font-mono-numeric text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                          <span className="font-mono-numeric text-sm font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                             {formatNairaCompact(asset.value)}
                           </span>
                           <span className="text-[11px] text-zinc-500">
@@ -739,7 +739,7 @@ export default function AgentClientDetailClient({
           <AgentCard className="space-y-4 p-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-white">
-                <MessageSquare className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                <MessageSquare className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                 Direct Executive Dispatch
               </span>
               <span className="font-mono-numeric text-[11px] text-zinc-500">
@@ -750,7 +750,7 @@ export default function AgentClientDetailClient({
             <div className="space-y-3 rounded-lg bg-zinc-50 p-4 dark:bg-zinc-800/60">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white dark:text-zinc-900">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-white dark:text-zinc-900">
                     {initials(client.name)}
                   </div>
                   <div>
@@ -776,7 +776,7 @@ export default function AgentClientDetailClient({
                 <input
                   type="text"
                   placeholder={`Type direct update to ${client.name}…`}
-                  className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3.5 text-[13px] text-zinc-900 outline-none transition-colors placeholder:text-zinc-500 focus:border-emerald-600 focus:bg-white focus:ring-1 focus:ring-emerald-600 dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white dark:focus:border-emerald-500 dark:focus:bg-zinc-900"
+                  className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3.5 text-[13px] text-zinc-900 outline-none transition-colors placeholder:text-zinc-500 focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary dark:border-white/[0.08] dark:bg-zinc-800/50 dark:text-white dark:focus:border-primary dark:focus:bg-zinc-900"
                 />
               </div>
               <div className="flex shrink-0 items-center gap-2">
@@ -789,7 +789,7 @@ export default function AgentClientDetailClient({
                 </Link>
                 <Link
                   href={`/dashboard/agent/messages?recipientId=${client.id}`}
-                  className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+                  className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
                 >
                   Reply via Portal
                   <ArrowRight className="h-4 w-4" />

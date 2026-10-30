@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
  * (profile, verifications, professional licence, reputation).
  *
  * Palette follows the Stitch token set — bichrome surfaces (white / zinc-900)
- * with emerald-600 as the primary accent, amber for tertiary/pending and red
+ * with primary as the primary accent, amber for tertiary/pending and red
  * for error states.
  */
 
@@ -17,8 +17,8 @@ export const SURFACE_MUTED = 'bg-zinc-50 dark:bg-zinc-800/50';
 export const BORDER = 'border-zinc-200 dark:border-white/[0.08]';
 export const TEXT = 'text-zinc-900 dark:text-white';
 export const TEXT_MUTED = 'text-zinc-600 dark:text-zinc-400';
-export const PRIMARY = 'text-emerald-600 dark:text-emerald-400';
-export const PRIMARY_BG = 'bg-emerald-600 dark:bg-emerald-500';
+export const PRIMARY = 'text-primary dark:text-[#4edea3]';
+export const PRIMARY_BG = 'bg-primary dark:bg-primary';
 
 /** Bordered card surface used across every panel on these screens. */
 export function StandingCard({
@@ -86,7 +86,7 @@ export function StatusChip({
 }) {
   const tones: Record<string, string> = {
     positive:
-      'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/25',
+      'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border border-primary dark:bg-primary/10 dark:text-[#4edea3] dark:border-primary/25',
     warning:
       'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/25',
     critical:
@@ -123,7 +123,7 @@ export function StandingButton({
 }) {
   const variants: Record<string, string> = {
     primary:
-      'bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-950 dark:hover:bg-emerald-400',
+      'bg-primary text-white hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-950 dark:hover:bg-[#4edea3]',
     outline:
       'border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800',
     ghost:
@@ -187,7 +187,7 @@ export function Meter({
   return (
     <div className={cn('h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800', className)}>
       <div
-        className={cn('h-full rounded-full bg-emerald-600 transition-all dark:bg-emerald-500', barClassName)}
+        className={cn('h-full rounded-full bg-primary transition-all dark:bg-primary', barClassName)}
         style={{ width: `${pct}%` }}
       />
     </div>

@@ -72,7 +72,7 @@ function ResetPasswordForm() {
   if (isValidating) {
     return (
       <div className="min-h-screen bg-[#09090b] text-white flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#10b981]/30 border-t-[#10b981] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[#006c49]/30 border-t-[#006c49] rounded-full animate-spin" />
       </div>
     );
   }
@@ -80,15 +80,15 @@ function ResetPasswordForm() {
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-[#09090b] text-white flex items-center justify-center p-4">
-        <div className="w-full max-w-md rounded-xl bg-[#10b981]/10 border border-[#10b981]/20 p-8 text-center">
-          <CheckCircle className="h-12 w-12 text-[#10b981] mx-auto mb-4" />
+        <div className="w-full max-w-md rounded-xl bg-[#006c49]/10 border border-[#006c49]/20 p-8 text-center">
+          <CheckCircle className="h-12 w-12 text-[#006c49] mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-2">Password reset successful</h2>
           <p className="text-zinc-400 mb-6">
             Your password has been updated. You can now sign in with your new password.
           </p>
           <button
             onClick={() => router.push('/sign-in')}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#006c49] hover:bg-[#006c49] text-white font-medium transition-colors"
           >
             Go to Sign In
             <ArrowLeft className="h-4 w-4 rotate-180" />
@@ -110,7 +110,7 @@ function ResetPasswordForm() {
         </button>
 
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-[#10b981]/15 flex items-center justify-center text-[#10b981]">
+          <div className="w-12 h-12 rounded-xl bg-[#006c49]/15 flex items-center justify-center text-[#006c49]">
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
             </svg>
@@ -141,7 +141,7 @@ function ResetPasswordForm() {
                 placeholder="Min. 8 characters"
                 required
                 minLength={8}
-                className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors pr-12"
+                className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#006c49]/50 focus:ring-1 focus:ring-[#006c49]/50 transition-colors pr-12"
               />
               <button
                 type="button"
@@ -164,14 +164,14 @@ function ResetPasswordForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm your password"
               required
-              className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
+              className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#006c49]/50 focus:ring-1 focus:ring-[#006c49]/50 transition-colors"
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoading || !isLoaded}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#006c49] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -189,7 +189,7 @@ export default function ResetPasswordPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-[#09090b] text-white flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#10b981]/30 border-t-[#10b981] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[#006c49]/30 border-t-[#006c49] rounded-full animate-spin" />
       </div>
     }>
       <ResetPasswordForm />

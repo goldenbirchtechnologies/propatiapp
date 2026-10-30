@@ -155,7 +155,7 @@ export default function SubscriptionPage() {
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-emerald-500 transition-all"
+                    className="h-full bg-primary transition-all"
                     style={{ width: `${Math.min(stat.percentage, 100)}%` }}
                   />
                 </div>
@@ -203,7 +203,7 @@ export default function SubscriptionPage() {
                 <div className="space-y-2">
                   {plan.features.map((feature) => (
                     <div key={feature} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+                      <Check className="h-4 w-4 text-primary shrink-0" />
                       <span className="text-sm">{feature}</span>
                     </div>
                   ))}

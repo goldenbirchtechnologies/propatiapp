@@ -57,7 +57,7 @@ export default function AutomatedMonthlyStatementClient() {
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="text-zinc-600 dark:text-zinc-400 hover:text-emerald-600">Payments</Link>
+        <Link href="/dashboard/tenant/payments" className="text-zinc-600 dark:text-zinc-400 hover:text-primary">Payments</Link>
         <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
         <span className="font-semibold text-zinc-900 dark:text-white">Statement Details</span>
       </nav>
@@ -116,12 +116,12 @@ export default function AutomatedMonthlyStatementClient() {
                     <td className="py-2 px-3 font-mono text-zinc-900 dark:text-white">{inv.dueDate ? new Date(inv.dueDate).toLocaleDateString('en-NG') : '—'}</td>
                     <td className="py-2 px-3 text-right font-mono font-semibold text-zinc-900 dark:text-white">₦ {Number(inv.amount).toLocaleString('en-NG', { minimumFractionDigits: 2 })}</td>
                     <td className="py-2 px-3 text-center">
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${inv.status === 'paid' ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' : inv.status === 'overdue' ? 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400' : 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-400'}`}>
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${inv.status === 'paid' ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : inv.status === 'overdue' ? 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400' : 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-400'}`}>
                         {inv.status}
                       </span>
                     </td>
                     <td className="py-2 px-3 text-right">
-                      <button onClick={() => handleDownload(inv.id)} className="text-emerald-600 hover:text-emerald-700 text-xs font-semibold">Download</button>
+                      <button onClick={() => handleDownload(inv.id)} className="text-primary hover:text-[var(--sovereign-hover)] text-xs font-semibold">Download</button>
                     </td>
                   </tr>
                 ))}
@@ -137,7 +137,7 @@ export default function AutomatedMonthlyStatementClient() {
           <h3 className="font-semibold text-zinc-900 dark:text-white">Auto-Pay Enrollment</h3>
           <label className="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" className="sr-only peer" checked={enrolled} onChange={(e) => setEnrolled(e.target.checked)} />
-            <div className="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600" />
+            <div className="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
           </label>
         </div>
         {enrolled && (
@@ -158,7 +158,7 @@ export default function AutomatedMonthlyStatementClient() {
             <Button
               disabled={!agreed}
               onClick={() => toast.success('Auto-pay enrollment saved.')}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              className="bg-primary hover:bg-[var(--sovereign-hover)] text-white"
             >
               Enroll
             </Button>

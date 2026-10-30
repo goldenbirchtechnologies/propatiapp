@@ -62,7 +62,7 @@ export default function OnboardingPage() {
   if (!isLoaded) {
     return (
       <div className="min-h-screen bg-[#09090b] text-white flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#10b981]/30 border-t-[#10b981] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[#006c49]/30 border-t-[#006c49] rounded-full animate-spin" />
       </div>
     );
   }
@@ -75,7 +75,7 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen bg-[#09090b] text-white flex flex-col items-center justify-center p-4 sm:p-8">
       {/* Ambient Glow */}
-      <div className="fixed -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#10b981]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#006c49]/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Progress Indicator */}
       <div className="w-full max-w-xl mb-8">
@@ -83,15 +83,15 @@ export default function OnboardingPage() {
           <span className="text-sm text-zinc-500">
             Step <span className="text-white font-semibold">{step}</span> of 3
           </span>
-          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#10b981]/15 text-[#6ffbbe] text-[11px] tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#006c49]/15 text-[#6ffbbe] text-[11px] tracking-wider">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#006c49] animate-pulse" />
             {step === 1 ? '33% COMPLETED' : step === 2 ? '66% COMPLETED' : '100% READY'}
           </div>
         </div>
         <div className="relative flex items-center justify-between w-full">
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-[#27272a]/20 rounded-full z-0" />
           <div
-            className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-[#10b981] rounded-full transition-all duration-500 ease-out z-0"
+            className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-[#006c49] rounded-full transition-all duration-500 ease-out z-0"
             style={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
           />
           {STEPS.map((s) => (
@@ -103,9 +103,9 @@ export default function OnboardingPage() {
               <div
                 className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                   s.id < step
-                    ? 'bg-[#10b981] text-white'
+                    ? 'bg-[#006c49] text-white'
                     : s.id === step
-                      ? 'bg-[#10b981] text-white ring-4 ring-[#10b981]/20 shadow-md'
+                      ? 'bg-[#006c49] text-white ring-4 ring-[#006c49]/20 shadow-md'
                       : 'bg-[#27272a]/30 text-zinc-500'
                 }`}
               >
@@ -126,7 +126,7 @@ export default function OnboardingPage() {
       {/* STEP 1: Welcome */}
       {step === 1 && (
         <div className="w-full max-w-md flex flex-col items-center text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#10b981]/15 flex items-center justify-center text-[#6ffbbe] mb-4">
+          <div className="w-14 h-14 rounded-2xl bg-[#006c49]/15 flex items-center justify-center text-[#6ffbbe] mb-4">
             <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
             </svg>
@@ -139,7 +139,7 @@ export default function OnboardingPage() {
           <div className="w-full text-left rounded-lg bg-[#27272a]/10 p-4 mb-6 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[11px] uppercase tracking-wider text-zinc-500">Verified Account Role</span>
-              <span className="px-2 py-0.5 rounded text-[#6ffbbe] bg-[#10b981]/15 text-[11px] flex items-center gap-1">
+              <span className="px-2 py-0.5 rounded text-[#6ffbbe] bg-[#006c49]/15 text-[11px] flex items-center gap-1">
                 <CheckCircle className="h-3 w-3" /> CAC Certified
               </span>
             </div>
@@ -157,7 +157,7 @@ export default function OnboardingPage() {
             <div className="pt-2 grid grid-cols-1 gap-2 text-sm text-white">
               {['C of O, Deed of Assignment & Cadastral listing registry', 'Direct CBN compliant lease escrow', 'Automated BVN & NIN tenant background verification'].map((item) => (
                 <div key={item} className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-[#10b981]" />
+                  <CheckCircle className="h-4 w-4 text-[#006c49]" />
                   <span>{item}</span>
                 </div>
               ))}
@@ -166,7 +166,7 @@ export default function OnboardingPage() {
 
           <button
             onClick={() => setStep(2)}
-            className="w-full py-2.5 px-4 rounded-lg bg-[#10b981] text-white text-sm font-semibold hover:opacity-90 active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-md"
+            className="w-full py-2.5 px-4 rounded-lg bg-[#006c49] text-white text-sm font-semibold hover:opacity-90 active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-md"
           >
             Continue to Profile Setup
             <ArrowRight className="h-4 w-4" />
@@ -200,7 +200,7 @@ export default function OnboardingPage() {
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   placeholder="First name"
-                  className="w-full h-10 px-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#10b981]"
+                  className="w-full h-10 px-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#006c49]"
                 />
               </div>
               <div>
@@ -210,7 +210,7 @@ export default function OnboardingPage() {
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   placeholder="Last name"
-                  className="w-full h-10 px-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#10b981]"
+                  className="w-full h-10 px-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#006c49]"
                 />
               </div>
             </div>
@@ -219,7 +219,7 @@ export default function OnboardingPage() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-[11px] uppercase tracking-wider text-zinc-500">Nigerian GSM Contact</label>
-                <span className="px-2 py-0.5 rounded-full bg-[#10b981]/15 text-[#6ffbbe] text-[11px] flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-full bg-[#006c49]/15 text-[#6ffbbe] text-[11px] flex items-center gap-1">
                   <Phone className="h-3 w-3" /> WhatsApp 2FA
                 </span>
               </div>
@@ -233,7 +233,7 @@ export default function OnboardingPage() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder="800 000 0000"
-                  className="w-full h-10 px-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#10b981]"
+                  className="w-full h-10 px-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#006c49]"
                 />
               </div>
               <p className="text-xs text-zinc-500 mt-1">Used for high-value tenancy disbursements and lease authorizations.</p>
@@ -250,7 +250,7 @@ export default function OnboardingPage() {
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value.slice(0, 200) })}
                 placeholder="Briefly state your managed estate coverage..."
                 rows={3}
-                className="w-full p-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#10b981] resize-none"
+                className="w-full p-3 rounded-lg bg-[#27272a]/15 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-[#006c49] resize-none"
               />
             </div>
 
@@ -266,7 +266,7 @@ export default function OnboardingPage() {
               <button
                 onClick={handleSaveProfile}
                 disabled={isLoading}
-                className="flex-1 h-10 px-4 rounded-lg bg-[#10b981] text-white hover:opacity-90 active:scale-[0.99] text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-md disabled:opacity-50"
+                className="flex-1 h-10 px-4 rounded-lg bg-[#006c49] text-white hover:opacity-90 active:scale-[0.99] text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-md disabled:opacity-50"
               >
                 {isLoading ? (
                   <>
@@ -289,10 +289,10 @@ export default function OnboardingPage() {
       {step === 3 && (
         <div className="w-full max-w-md flex flex-col items-center text-center">
           <div className="relative my-4">
-            <div className="w-20 h-20 rounded-full bg-[#10b981]/20 flex items-center justify-center text-[#6ffbbe] shadow-lg mx-auto">
+            <div className="w-20 h-20 rounded-full bg-[#006c49]/20 flex items-center justify-center text-[#6ffbbe] shadow-lg mx-auto">
               <PartyPopper className="h-10 w-10" />
             </div>
-            <div className="absolute inset-0 rounded-full bg-[#10b981]/20 animate-ping pointer-events-none" />
+            <div className="absolute inset-0 rounded-full bg-[#006c49]/20 animate-ping pointer-events-none" />
           </div>
           <h2 className="text-xl font-bold mb-1">Configuration Complete</h2>
           <p className="text-sm text-zinc-400 max-w-sm mb-6">
@@ -308,7 +308,7 @@ export default function OnboardingPage() {
             ].map((item) => (
               <div key={item.api} className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2 text-white">
-                  <CheckCircle className="h-4 w-4 text-[#10b981]" />
+                  <CheckCircle className="h-4 w-4 text-[#006c49]" />
                   <span>{item.api}</span>
                 </div>
                 <span className="text-[#6ffbbe] font-bold">{item.status}</span>
@@ -320,7 +320,7 @@ export default function OnboardingPage() {
             onClick={() => {
               window.location.href = '/dashboard';
             }}
-            className="w-full py-3 px-6 rounded-lg bg-[#10b981] text-white hover:opacity-90 active:scale-[0.99] text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+            className="w-full py-3 px-6 rounded-lg bg-[#006c49] text-white hover:opacity-90 active:scale-[0.99] text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
           >
             Go to Dashboard
             <ArrowRight className="h-5 w-5" />

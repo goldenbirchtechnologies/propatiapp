@@ -170,7 +170,7 @@ export default function MFASettingsPage() {
                 <div
                   className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                     mfaStatus.totpEnabled
-                      ? 'bg-emerald-500/10 text-emerald-500'
+                      ? 'bg-primary/10 text-primary'
                       : 'bg-zinc-500/10 text-zinc-500'
                   }`}
                 >
@@ -214,7 +214,7 @@ export default function MFASettingsPage() {
                 <div
                   className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                     mfaStatus.smsBackupEnabled
-                      ? 'bg-emerald-500/10 text-emerald-500'
+                      ? 'bg-primary/10 text-primary'
                       : 'bg-zinc-500/10 text-zinc-500'
                   }`}
                 >
@@ -270,7 +270,7 @@ export default function MFASettingsPage() {
           <CardContent>
             {showRecoveryCodes ? (
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                <div className="flex items-center gap-2 text-primary dark:text-[#4edea3]">
                   <CheckCircle className="w-5 h-5" />
                   <p className="font-medium">MFA enabled successfully!</p>
                 </div>
@@ -335,7 +335,7 @@ export default function MFASettingsPage() {
                     value={totpCode}
                     onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     placeholder="000000"
-                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-center text-2xl font-mono tracking-[0.5em] text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-center text-2xl font-mono tracking-[0.5em] text-zinc-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                   />
                   {verifyError && (
                     <p className="mt-2 text-sm text-red-500 text-center">{verifyError}</p>
@@ -371,7 +371,7 @@ export default function MFASettingsPage() {
             ) : mfaStatus.totpEnabled ? (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
                     <CheckCircle className="w-5 h-5" />
                   </div>
                   <div>

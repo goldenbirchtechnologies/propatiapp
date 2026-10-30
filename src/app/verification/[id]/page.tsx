@@ -41,7 +41,7 @@ function layerBadge(status: VerificationLayerStatus | null) {
   if (!status) return <span className="text-zinc-400">—</span>;
   const colors: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800',
-    approved: 'bg-green-100 text-emerald-800',
+    approved: 'bg-green-100 text-[var(--sovereign-hover)]',
     rejected: 'bg-red-100 text-red-800',
   };
   return (
@@ -58,7 +58,7 @@ function StepIcon({ index, layerStatus }: { index: number; layerStatus: Verifica
   const num = index + 1;
   const bg =
     layerStatus === 'approved'
-      ? 'bg-emerald-500/100 text-white'
+      ? 'bg-primary/100 text-white'
       : layerStatus === 'rejected'
       ? 'bg-red-500 text-white'
       : layerStatus === 'pending'
@@ -222,7 +222,7 @@ function TimelineTab({ verification }: { verification: unknown }) {
       {events.map((e, idx) => (
         <div className="flex items-center gap-2 pb-3">
           <div className="mt-1.5 hidden flex-col items-center sm:flex">
-            <div className="h-2 w-2 rounded-full bg-emerald-400" />
+            <div className="h-2 w-2 rounded-full bg-[#4edea3]" />
             {idx < events.length - 1 && <div className="mt-1 h-full w-px bg-zinc-800" />}
           </div>
           <div>
@@ -305,11 +305,11 @@ export default async function VerificationDetailPage({ params }: { params: Promi
             </Button>
             {statusBadge(verification.overallStatus)}
           </div>
-          <div className="rounded-lg border border-green-200 bg-emerald-500/10 p-6 text-center dark:border-green-800 dark:bg-green-950">
-            <h2 className="text-xl font-semibold text-emerald-800 dark:text-emerald-200">
+          <div className="rounded-lg border border-green-200 bg-primary/10 p-6 text-center dark:border-green-800 dark:bg-green-950">
+            <h2 className="text-xl font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               🎉 Fully Certified
             </h2>
-            <p className="mt-2 text-sm text-emerald-400 dark:text-emerald-300">
+            <p className="mt-2 text-sm text-[#4edea3] dark:text-[#6ffbbe]">
               {verification.listing?.title ?? 'This property'} has completed all 5 layers and
               received admin certification. It will display the Certified badge and receive
               priority placement in search results.

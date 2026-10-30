@@ -134,7 +134,7 @@ export default async function AdminOverviewPage() {
                 <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   Revenue tracked to date includes{' '}
                   <span className="font-semibold text-zinc-900 dark:text-white">released</span> and{' '}
-                  <span className="font-semibold text-emerald-400">in-escrow</span> transactions.
+                  <span className="font-semibold text-[#4edea3]">in-escrow</span> transactions.
                   {disputeCount > 0 && <> <span className="text-red-400 font-bold">{disputeCount}</span> open disputes require attention.</>}
                 </p>
               </div>

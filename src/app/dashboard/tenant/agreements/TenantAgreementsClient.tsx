@@ -90,10 +90,10 @@ export default function TenantAgreementsClient() {
         <div className="flex items-center gap-2 font-mono text-[11px] tracking-widest text-zinc-500 dark:text-zinc-500">
           <span>DASHBOARD</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
           <span>DOCUMENTS &amp; LEASES</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
-          <span className="font-semibold text-emerald-600 dark:text-emerald-400">MY AGREEMENTS</span>
+          <span className="font-semibold text-primary dark:text-[#4edea3]">MY AGREEMENTS</span>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 px-3 py-1 text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400">
-          <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> CAC &amp; LASRERA REGISTERED • STAMP DUTY VERIFIED
+          <ShieldCheck className="h-3.5 w-3.5 text-primary" /> CAC &amp; LASRERA REGISTERED • STAMP DUTY VERIFIED
         </span>
       </div>
 
@@ -105,7 +105,7 @@ export default function TenantAgreementsClient() {
             <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
               <Link href="/dashboard/tenant/agreements">Upload Executed Deed</Link>
             </Button>
-            <Button asChild size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white">
+            <Button asChild size="sm" className="bg-primary hover:bg-primary text-white">
               <Link href="/listings">Browse Listings</Link>
             </Button>
           </div>
@@ -120,11 +120,11 @@ export default function TenantAgreementsClient() {
               <p className="text-[11px] font-semibold tracking-widest text-zinc-500">ACTIVE AGREEMENTS</p>
               <p className="mt-1 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">{counts.active} Active</p>
             </div>
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><Gavel className="h-5 w-5" /></span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]"><Gavel className="h-5 w-5" /></span>
           </div>
           <div className="mt-4 flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2 text-xs">
             <span className="text-zinc-600 dark:text-zinc-400">{counts.active} enforceable</span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> In Legal Standing</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><span className="h-1.5 w-1.5 rounded-full bg-primary" /> In Legal Standing</span>
           </div>
         </div>
         <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
@@ -168,7 +168,7 @@ export default function TenantAgreementsClient() {
                 <button
                   key={k}
                   onClick={() => setTab(k)}
-                  className={`rounded-md px-3 py-1.5 capitalize ${tab === k ? 'bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
+                  className={`rounded-md px-3 py-1.5 capitalize ${tab === k ? 'bg-white dark:bg-zinc-800 text-primary dark:text-[#4edea3] shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
                 >
                   {k} ({k === 'all' ? counts.total : k === 'active' ? counts.active : k === 'pending' ? counts.pending : counts.past})
                 </button>
@@ -236,7 +236,7 @@ export default function TenantAgreementsClient() {
                           <div className="min-w-0">
                             <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">{a.listing?.title ?? '—'}</p>
                             <p className="truncate text-xs text-zinc-600 dark:text-zinc-400">{a.listing?.address ?? ''}{a.listing?.area ? ` • ${a.listing.area}` : ''}</p>
-                            <p className="font-mono text-[11px] font-medium tracking-tight text-emerald-600 dark:text-emerald-400">Ref: {deedRef(a.id)}</p>
+                            <p className="font-mono text-[11px] font-medium tracking-tight text-primary dark:text-[#4edea3]">Ref: {deedRef(a.id)}</p>
                           </div>
                         </div>
                       </td>
@@ -248,7 +248,7 @@ export default function TenantAgreementsClient() {
                       <td className="whitespace-nowrap px-4 py-3">
                         <p className="font-mono text-sm text-zinc-900 dark:text-white">{a.endDate ? formatDateLong(a.endDate) : '—'}</p>
                         {dl !== null && a.status === 'fully_signed' && dl >= 0 && dl <= 90 && (
-                          <span className="mt-1 inline-flex rounded bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{dl} days left</span>
+                          <span className="mt-1 inline-flex rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">{dl} days left</span>
                         )}
                       </td>
                       <td className="whitespace-nowrap px-4 py-3 text-right font-mono text-sm font-semibold text-zinc-900 dark:text-white">{formatNairaFull(a.rentAmount)}</td>
@@ -285,16 +285,16 @@ export default function TenantAgreementsClient() {
       <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><Scale className="h-5 w-5" /></span>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]"><Scale className="h-5 w-5" /></span>
             <div>
-              <p className="text-sm font-semibold text-zinc-900 dark:text-white">Lagos State Tenancy Law &amp; E-Signature Legal Enforceability <span className="ml-2 rounded bg-emerald-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">Evidence Act Sec 93 &amp; 94</span></p>
+              <p className="text-sm font-semibold text-zinc-900 dark:text-white">Lagos State Tenancy Law &amp; E-Signature Legal Enforceability <span className="ml-2 rounded bg-primary/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Evidence Act Sec 93 &amp; 94</span></p>
               <p className="mt-1 max-w-3xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">All digital tenancy deeds executed on PropatiBox comply with the Nigerian Evidence Act (Sections 93 &amp; 94) and LASRERA. Documents bear tamper-proof SHA-256 timestamps and are registered for Stamp Duty attestation.</p>
             </div>
           </div>
           <div className="shrink-0 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-4 py-3 text-xs">
             <p className="font-semibold tracking-widest text-zinc-500">STATUTORY INQUIRIES DESK</p>
             <p className="mt-1 font-semibold text-zinc-900 dark:text-white">Barrister T. Adegbenro (LL.B, BL)</p>
-            <a href="mailto:legal@propatibox.ng" className="text-emerald-600 hover:underline dark:text-emerald-400">legal@propatibox.ng</a>
+            <a href="mailto:legal@propatibox.ng" className="text-primary hover:underline dark:text-[#4edea3]">legal@propatibox.ng</a>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Step 13 / Discounts</span>
+        <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 13 / Discounts</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Discounts</h2>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">Offer discounts to attract more bookings.</p>
       </div>
@@ -56,7 +56,7 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
               key={option.key}
               className={`flex items-center justify-between gap-4 p-5 rounded-xl border transition-all ${
                 checked
-                  ? 'bg-white dark:bg-zinc-900 border-emerald-600 dark:border-emerald-500'
+                  ? 'bg-white dark:bg-zinc-900 border-primary dark:border-primary'
                   : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]'
               }`}
             >
@@ -72,7 +72,7 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
                     }}
                   />
                   <Label htmlFor={option.key} className="text-sm font-medium text-zinc-900 dark:text-white flex items-center gap-2">
-                    <Tag className="size-4 text-emerald-600" /> {option.label}
+                    <Tag className="size-4 text-primary" /> {option.label}
                   </Label>
                 </div>
                 <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 ml-6">{option.description}</p>

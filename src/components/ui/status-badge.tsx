@@ -18,14 +18,14 @@ const statusBadgeVariants = cva(
     variants: {
       status: {
         // Success family
-        Active: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
-        Verified: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
-        Approved: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
-        Completed: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
-        Paid: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
-        Resolved: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
-        Closed: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
-        Occupied: "border-transparent bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40",
+        Active: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
+        Verified: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
+        Approved: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
+        Completed: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
+        Paid: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
+        Resolved: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
+        Closed: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
+        Occupied: "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#4edea3] dark:border-primary/40",
         // Destructive family
         Overdue: "border-transparent bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 dark:border-red-500/40",
         Rejected: "border-transparent bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 dark:border-red-500/40",

@@ -41,8 +41,8 @@ export default function IdentityStep() {
 
   return (
     <div className="space-y-5">
-      <div className="rounded-lg border border-[#10b981]/20 bg-[#10b981]/5 p-3 flex items-start gap-3">
-        <ShieldCheck className="h-5 w-5 text-[#10b981] shrink-0 mt-0.5" />
+      <div className="rounded-lg border border-[#006c49]/20 bg-[#006c49]/5 p-3 flex items-start gap-3">
+        <ShieldCheck className="h-5 w-5 text-[#006c49] shrink-0 mt-0.5" />
         <div>
           <p className="text-sm font-medium text-[#6ffbbe]">Identity verification</p>
           <p className="text-xs text-zinc-500 mt-1">
@@ -84,12 +84,12 @@ export default function IdentityStep() {
         </div>
 
         {verified ? (
-          <div className="flex items-center gap-2 text-sm text-emerald-400 bg-emerald-900/20 rounded-lg px-4 py-3">
+          <div className="flex items-center gap-2 text-sm text-[#4edea3] bg-primary/20 rounded-lg px-4 py-3">
             <ShieldCheck className="h-4 w-4" />
             Verified — your profile is verified.
           </div>
         ) : (
-          <Button type="submit" disabled={saving} className="w-full bg-[#10b981] hover:bg-[#006c49]">
+          <Button type="submit" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49]">
             {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             {verified ? 'Verified' : 'Verify identity'}
           </Button>

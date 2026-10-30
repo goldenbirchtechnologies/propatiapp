@@ -175,7 +175,7 @@ export default function LandlordDashboardClient({
           </span>
           <button
             onClick={() => router.push(isEmptyAccount ? '/dashboard/landlord/properties/new' : '/dashboard/landlord/listing/new')}
-            className="inline-flex h-9 items-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-500"
+            className="inline-flex h-9 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary"
           >
             <Plus className="h-4 w-4" />
             <span>{isEmptyAccount ? 'Add Property' : 'Add Listing'}</span>
@@ -195,7 +195,7 @@ export default function LandlordDashboardClient({
               <h3 className="font-semibold text-zinc-900 dark:text-white">Portfolio Activation</h3>
               <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">Complete these steps to activate your portfolio.</p>
             </div>
-            <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary dark:text-[#4edea3]">
               Step 1 of 3
             </span>
           </div>
@@ -210,18 +210,18 @@ export default function LandlordDashboardClient({
                 href={step.href}
                 className={`flex items-center gap-3 rounded-lg border p-3 transition-colors ${
                   step.done
-                    ? 'border-emerald-500/30 bg-emerald-500/5'
+                    ? 'border-primary/30 bg-primary/5'
                     : 'border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-zinc-600'
                 }`}
               >
                 <span
                   className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                    step.done ? 'bg-emerald-500 text-white' : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300'
+                    step.done ? 'bg-primary text-white' : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300'
                   }`}
                 >
                   {step.done ? <CheckCircle size={14} /> : step.num}
                 </span>
-                <span className={`text-sm ${step.done ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-700 dark:text-zinc-300'}`}>
+                <span className={`text-sm ${step.done ? 'text-primary dark:text-[#4edea3]' : 'text-zinc-700 dark:text-zinc-300'}`}>
                   {step.label}
                 </span>
               </Link>
@@ -269,7 +269,7 @@ export default function LandlordDashboardClient({
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.06]">
               <Wallet className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
             </span>
-            <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="flex items-center gap-1 text-xs font-semibold text-primary dark:text-[#4edea3]">
               <TrendingUp className="h-3.5 w-3.5" /> 12%
             </span>
           </div>
@@ -315,7 +315,7 @@ export default function LandlordDashboardClient({
             <Link
               key={a.label}
               href={a.href}
-              className="group relative flex flex-col items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white p-4 text-center transition-all hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700 dark:border-white/[0.08] dark:bg-zinc-900 dark:hover:border-emerald-500/50 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-300"
+              className="group relative flex flex-col items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white p-4 text-center transition-all hover:border-primary hover:bg-[var(--sovereign-container-bg)] hover:text-[var(--sovereign-hover)] dark:border-white/[0.08] dark:bg-zinc-900 dark:hover:border-primary/50 dark:hover:bg-primary/10 dark:hover:text-[#6ffbbe]"
             >
               <a.icon className="h-6 w-6 transition-transform group-hover:scale-110" />
               <span className="text-xs font-semibold leading-tight">{a.label}</span>
@@ -333,7 +333,7 @@ export default function LandlordDashboardClient({
               <h3 className="font-semibold text-zinc-900 dark:text-white">Revenue Trend</h3>
               <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">Monthly gross collection</p>
             </div>
-            <Link href="/dashboard/landlord/financials" className="flex items-center gap-1 text-xs font-medium text-emerald-600 hover:underline dark:text-emerald-400">
+            <Link href="/dashboard/landlord/financials" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline dark:text-[#4edea3]">
               View all <ChevronRight className="h-3 w-3" />
             </Link>
           </div>
@@ -356,10 +356,10 @@ export default function LandlordDashboardClient({
                       </span>
                     )}
                     <span
-                      className={`w-full rounded-t transition-all duration-300 ${isCurrent ? 'bg-emerald-500 shadow-md' : 'bg-zinc-200 group-hover:bg-emerald-500/50 dark:bg-zinc-700'}`}
+                      className={`w-full rounded-t transition-all duration-300 ${isCurrent ? 'bg-primary shadow-md' : 'bg-zinc-200 group-hover:bg-primary/50 dark:bg-zinc-700'}`}
                       style={{ height: `${heightPct}%` }}
                     />
-                    <span className={`mt-2 text-[10px] ${isCurrent ? 'font-bold text-emerald-600 dark:text-emerald-400' : 'text-zinc-500 dark:text-zinc-400'}`}>
+                    <span className={`mt-2 text-[10px] ${isCurrent ? 'font-bold text-primary dark:text-[#4edea3]' : 'text-zinc-500 dark:text-zinc-400'}`}>
                       {isCurrent ? `${month.label} (Cur)` : month.label}
                     </span>
                   </span>
@@ -387,7 +387,7 @@ export default function LandlordDashboardClient({
               </span>
               <span className="flex flex-col">
                 <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Pending</span>
-                <span className="mt-0.5 font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(totalRevenue * 0.05)}</span>
+                <span className="mt-0.5 font-mono text-sm font-bold text-primary dark:text-[#4edea3]">{formatCurrency(totalRevenue * 0.05)}</span>
               </span>
             </div>
           )}
@@ -403,13 +403,13 @@ export default function LandlordDashboardClient({
                 </span>
               )}
             </span>
-            <Zap className="h-4 w-4 text-emerald-500" />
+            <Zap className="h-4 w-4 text-primary" />
           </div>
           <div className="space-y-2">
             {insights.length === 0 ? (
               <span className="flex flex-col items-center justify-center py-8 text-center">
-                <span className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
-                  <CheckCircle className="h-5 w-5 text-emerald-500" />
+                <span className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                  <CheckCircle className="h-5 w-5 text-primary" />
                 </span>
                 <p className="text-sm font-medium text-zinc-900 dark:text-white">All caught up!</p>
                 <p className="mt-1 max-w-xs text-xs text-zinc-500 dark:text-zinc-400">Your portfolio is running at optimal efficiency.</p>
@@ -424,7 +424,7 @@ export default function LandlordDashboardClient({
                   <span className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5 text-sm font-semibold text-zinc-900 dark:text-white">
                       <span
-                        className={`h-2 w-2 rounded-full ${insight.type === 'urgent' ? 'bg-red-500' : insight.type === 'pending' ? 'bg-emerald-500' : 'bg-zinc-400'}`}
+                        className={`h-2 w-2 rounded-full ${insight.type === 'urgent' ? 'bg-red-500' : insight.type === 'pending' ? 'bg-primary' : 'bg-zinc-400'}`}
                       />
                       {insight.title}
                     </span>
@@ -433,7 +433,7 @@ export default function LandlordDashboardClient({
                         insight.type === 'urgent'
                           ? 'bg-red-500/10 text-red-500'
                           : insight.type === 'pending'
-                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                            ? 'bg-primary/10 text-primary dark:text-[#4edea3]'
                             : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-400'
                       }`}
                     >
@@ -441,7 +441,7 @@ export default function LandlordDashboardClient({
                     </span>
                   </span>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">{insight.description}</p>
-                  <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:underline dark:text-emerald-400">
+                  <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline dark:text-[#4edea3]">
                     {insight.action} →
                   </span>
                 </Link>
@@ -471,7 +471,7 @@ export default function LandlordDashboardClient({
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
                 <input
                   placeholder="Search portfolio..."
-                  className="h-9 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-9 pr-3 text-sm placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-white"
+                  className="h-9 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-9 pr-3 text-sm placeholder:text-zinc-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-white"
                 />
               </span>
               <Link
@@ -509,7 +509,7 @@ export default function LandlordDashboardClient({
                     return (
                       <tr key={l.id} className="transition-colors hover:bg-zinc-50 dark:hover:bg-white/[0.04]">
                         <td className="px-6 py-4">
-                          <Link href={`/dashboard/landlord/properties/${l.id}`} className="font-semibold text-zinc-900 hover:text-emerald-600 dark:text-white dark:hover:text-emerald-400">
+                          <Link href={`/dashboard/landlord/properties/${l.id}`} className="font-semibold text-zinc-900 hover:text-primary dark:text-white dark:hover:text-[#4edea3]">
                             {l.title}
                           </Link>
                           <p className="text-xs text-zinc-500 dark:text-zinc-400">{l.listingType || '—'}</p>
@@ -522,7 +522,7 @@ export default function LandlordDashboardClient({
                         </td>
                         <td className="px-6 py-4">
                           <span
-                            className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${isOccupied ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' : 'bg-zinc-100 text-zinc-600 dark:bg-white/[0.06] dark:text-zinc-400'}`}
+                            className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${isOccupied ? 'bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' : 'bg-zinc-100 text-zinc-600 dark:bg-white/[0.06] dark:text-zinc-400'}`}
                           >
                             {isOccupied ? 'Occupied' : l.status || 'Draft'}
                           </span>
@@ -542,7 +542,7 @@ export default function LandlordDashboardClient({
           </div>
           {recentListings.length > 5 && (
             <div className="flex justify-center border-t border-zinc-200 bg-zinc-50 p-3 dark:border-white/[0.08] dark:bg-white/[0.04]">
-              <Link href="/dashboard/landlord/properties" className="text-sm font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+              <Link href="/dashboard/landlord/properties" className="text-sm font-semibold text-primary hover:underline dark:text-[#4edea3]">
                 View All {listingCount} Properties
               </Link>
             </div>
@@ -562,7 +562,7 @@ export default function LandlordDashboardClient({
                 </span>
                 <p className="text-sm leading-snug text-zinc-700 dark:text-zinc-300">
                   <span className="font-bold text-zinc-900 dark:text-white">{t.tenant?.fullName || 'Tenant'}</span> inquiry for{' '}
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{t.listing?.title || 'listing'}</span>.
+                  <span className="font-bold text-primary dark:text-[#4edea3]">{t.listing?.title || 'listing'}</span>.
                 </p>
                 <p className="mt-1 text-[10px] text-zinc-500 dark:text-zinc-400">{t.status}</p>
               </div>
@@ -590,20 +590,20 @@ export default function LandlordDashboardClient({
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 lg:col-span-4">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="font-semibold text-zinc-900 dark:text-white">Portfolio Health</h3>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Lagos Zone A</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-primary dark:text-[#4edea3]">Lagos Zone A</span>
           </div>
           <div className="mb-3 rounded-lg bg-zinc-50 p-3 dark:bg-white/[0.04]">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-sm font-semibold text-zinc-900 dark:text-white">Occupancy Efficiency</span>
-              <span className="font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400">{occupancyRate}%</span>
+              <span className="font-mono text-sm font-bold text-primary dark:text-[#4edea3]">{occupancyRate}%</span>
             </div>
             <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
-              <span className="h-full bg-emerald-500 transition-all" style={{ width: `${occupancyRate}%` }} />
+              <span className="h-full bg-primary transition-all" style={{ width: `${occupancyRate}%` }} />
               <span className="h-full bg-red-500/40" style={{ width: `${100 - occupancyRate}%` }} />
             </div>
             <div className="mt-2 flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400">
               <span className="flex items-center gap-1 font-medium text-zinc-700 dark:text-zinc-300">
-                <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" /> {activeListingCount} Leased
+                <span className="inline-block h-2 w-2 rounded-full bg-primary" /> {activeListingCount} Leased
               </span>
               <span className="flex items-center gap-1">
                 <span className="inline-block h-2 w-2 rounded-full bg-red-500/40" /> {vacantCount} Vacant
@@ -620,8 +620,8 @@ export default function LandlordDashboardClient({
               <p className="mt-1 text-sm font-bold text-zinc-900 dark:text-white">—</p>
             </span>
           </div>
-          <div className="mt-3 flex items-center gap-2 rounded-lg bg-emerald-500/5 p-2.5">
-            <ShieldCheck className="h-[18px] w-[18px] text-emerald-600 dark:text-emerald-400" />
+          <div className="mt-3 flex items-center gap-2 rounded-lg bg-primary/5 p-2.5">
+            <ShieldCheck className="h-[18px] w-[18px] text-primary dark:text-[#4edea3]" />
             <span className="flex flex-col">
               <span className="text-xs font-semibold text-zinc-900 dark:text-white">Compliance</span>
               <span className="text-[10px] text-zinc-500 dark:text-zinc-400">LASRERA registered</span>
@@ -637,7 +637,7 @@ export default function LandlordDashboardClient({
                 <span className="rounded-full bg-red-500/10 px-2 py-0.5 text-[10px] font-bold text-red-500">{openMaintenanceCount} Open</span>
               )}
             </span>
-            <Link href="/dashboard/landlord/maintenance" className="flex items-center gap-1 text-xs font-medium text-emerald-600 hover:underline dark:text-emerald-400">
+            <Link href="/dashboard/landlord/maintenance" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline dark:text-[#4edea3]">
               View all <ChevronRight className="h-3 w-3" />
             </Link>
           </div>
@@ -686,7 +686,7 @@ export default function LandlordDashboardClient({
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 lg:col-span-4">
           <div className="mb-3 flex items-center justify-between">
             <h3 className="font-semibold text-zinc-900 dark:text-white">Recent Tenancies</h3>
-            <Link href="/dashboard/landlord/tenants" className="flex items-center gap-1 text-xs font-medium text-emerald-600 hover:underline dark:text-emerald-400">
+            <Link href="/dashboard/landlord/tenants" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline dark:text-[#4edea3]">
               Directory <ChevronRight className="h-3 w-3" />
             </Link>
           </div>

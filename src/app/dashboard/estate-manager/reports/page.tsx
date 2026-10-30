@@ -180,11 +180,11 @@ export default function EstateManagerReportsPage() {
     return pl.revenueBreakdown.map((r: { label: string; amount: number }) => ({ name: r.label, value: r.amount }));
   }, [pl]);
 
-  const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];
+  const COLORS = ['#006c49', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];
 
   const statusIcon = (s: TxnStatus) => {
     switch (s) {
-      case 'completed': case 'paid': case 'released': return <CheckCircle2 className="h-4 w-4 text-emerald-500" />;
+      case 'completed': case 'paid': case 'released': return <CheckCircle2 className="h-4 w-4 text-primary" />;
       case 'pending': case 'in_escrow': return <Hourglass className="h-4 w-4 text-amber-500" />;
       case 'failed': case 'cancelled': case 'refunded': return <AlertCircle className="h-4 w-4 text-rose-500" />;
       default: return <AlertCircle className="h-4 w-4 text-zinc-400" />;
@@ -229,13 +229,13 @@ export default function EstateManagerReportsPage() {
               <p className="mt-1 text-2xl font-bold font-mono text-zinc-900 dark:text-white">{pl ? `₦${Math.round(pl.totalRevenue).toLocaleString('en-NG')}` : '—'}</p>
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-              <p className="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Collections</p>
-              <p className="mt-1 text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">{pl ? `₦${Math.round(pl.totalRevenue).toLocaleString('en-NG')}` : '—'}</p>
+              <p className="text-xs uppercase tracking-wider text-primary dark:text-[#4edea3]">Collections</p>
+              <p className="mt-1 text-2xl font-bold font-mono text-primary dark:text-[#4edea3]">{pl ? `₦${Math.round(pl.totalRevenue).toLocaleString('en-NG')}` : '—'}</p>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{pl ? `${pl.unitCount || 0} units` : '—'}</p>
             </div>
             <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Net Profit</p>
-              <p className={`mt-1 text-2xl font-bold font-mono ${pl && pl.netProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+              <p className={`mt-1 text-2xl font-bold font-mono ${pl && pl.netProfit >= 0 ? 'text-primary dark:text-[#4edea3]' : 'text-rose-600 dark:text-rose-400'}`}>
                 {pl ? `${pl.netProfit >= 0 ? '+' : ''}₦${Math.round(pl.netProfit).toLocaleString('en-NG')}` : '—'}
               </p>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{pl ? `${pl.margin ?? 0}% margin` : '—'}</p>
@@ -265,7 +265,7 @@ export default function EstateManagerReportsPage() {
                     <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'currentColor' }} tickLine={false} />
                     <YAxis tick={{ fontSize: 10 }} tickLine={false} />
                     <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }} />
-                    <Line type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
+                    <Line type="monotone" dataKey="revenue" stroke="#006c49" strokeWidth={2} dot={{ r: 3 }} />
                     <Line type="monotone" dataKey="expenses" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
                     <Line type="monotone" dataKey="profit" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} />
                   </LineChart>

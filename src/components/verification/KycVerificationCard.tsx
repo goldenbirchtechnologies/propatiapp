@@ -35,7 +35,7 @@ const statusConfig: Record<KycStatus, { title: string; description: string; icon
     description: 'You have completed identity verification.',
     icon: <ShieldCheck className="h-5 w-5" />,
     accent: 'bg-zinc-900 border-zinc-800',
-    iconColor: 'text-emerald-400',
+    iconColor: 'text-[#4edea3]',
   },
   rejected: {
     title: 'Verification not approved',

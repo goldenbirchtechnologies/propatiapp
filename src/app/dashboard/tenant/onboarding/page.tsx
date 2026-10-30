@@ -52,7 +52,7 @@ function getStepStatus(v: Verification | undefined): 'cleared' | 'action_require
 function statusBadge(status: string) {
   switch (status) {
     case 'cleared':
-      return { label: 'Cleared', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+      return { label: 'Cleared', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary', dot: 'bg-primary' };
     case 'action_required':
       return { label: 'Action Required', cls: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
     case 'next_up':
@@ -144,7 +144,7 @@ export default function TenantOnboardingPage() {
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006c49] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
                 <BadgeCheck className="h-3.5 w-3.5" /> Bonded Tenant Protocol
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-800">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--sovereign-container-bg)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--sovereign-hover)]">
                 <ShieldCheck className="h-3.5 w-3.5" /> LASRERA
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-zinc-600">
@@ -168,7 +168,7 @@ export default function TenantOnboardingPage() {
             </div>
             <div className="h-2 w-full rounded-full bg-zinc-100 overflow-hidden">
               <div
-                className="h-full rounded-full bg-[#10b981] transition-all duration-500"
+                className="h-full rounded-full bg-[#006c49] transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -190,13 +190,13 @@ export default function TenantOnboardingPage() {
                 return (
                   <div
                     key={step.id}
-                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 transition hover:shadow-md ${step.status === 'action_required' ? 'ring-2 ring-[#10b981]/30' : ''}`}
+                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 transition hover:shadow-md ${step.status === 'action_required' ? 'ring-2 ring-[#006c49]/30' : ''}`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-start gap-3">
                         <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
-                          step.status === 'cleared' ? 'bg-emerald-100 text-emerald-700' :
-                          step.status === 'action_required' ? 'bg-[#10b981]/20 text-[#00422b]' :
+                          step.status === 'cleared' ? 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)]' :
+                          step.status === 'action_required' ? 'bg-[#006c49]/20 text-[#00422b]' :
                           'bg-zinc-100 text-zinc-500'
                         }`}>
                           {step.status === 'cleared' ? <Check className="h-5 w-5" /> : step.icon}
@@ -280,7 +280,7 @@ export default function TenantOnboardingPage() {
                     <h4 className="text-sm font-semibold text-zinc-900 truncate">Tunde Bakare</h4>
                     <span className="text-xs text-zinc-500">Senior Leasing & Verification Lead</span>
                     <span className="flex items-center gap-1 text-[11px] text-[#006c49] font-medium mt-0.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#10b981]" /> Online • Victoria Island Hub
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#006c49]" /> Online • Victoria Island Hub
                     </span>
                   </div>
                 </div>
@@ -323,7 +323,7 @@ export default function TenantOnboardingPage() {
                           <span className="truncate text-xs text-zinc-700">{v.listing?.title || v.type}</span>
                         </div>
                         <span className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold ${
-                          v.overallStatus === 'verified' ? 'bg-emerald-100 text-emerald-700' :
+                          v.overallStatus === 'verified' ? 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)]' :
                           v.overallStatus === 'in_progress' ? 'bg-amber-100 text-amber-700' :
                           'bg-zinc-100 text-zinc-500'
                         }`}>

@@ -89,9 +89,9 @@ function FieldError({ id, message }: { id: string; message: string }) {
 
 const inputBase =
   'w-full h-11 rounded-lg border bg-white px-3 pr-10 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all ' +
-  'focus:outline-none focus:ring-2 focus:ring-emerald-500/30 ' +
+  'focus:outline-none focus:ring-2 focus:ring-primary/30 ' +
   'dark:bg-zinc-900 dark:text-white ' +
-  'border-zinc-200 focus:border-emerald-500 dark:border-zinc-800';
+  'border-zinc-200 focus:border-primary dark:border-zinc-800';
 const labelBase = 'mb-1.5 flex items-center justify-between text-sm font-medium text-zinc-900 dark:text-white';
 const hintBase = 'mt-1.5 text-xs text-zinc-500 dark:text-zinc-400';
 const iconBase = 'absolute right-3 top-3 h-5 w-5 text-zinc-400 pointer-events-none';
@@ -160,23 +160,23 @@ export default function CreateOrganizationPage() {
         <div className="mb-6 flex items-center justify-between">
           <Link
             href="/dashboard/estate-manager"
-            className="group inline-flex items-center gap-2 rounded-lg px-2 py-1 text-sm text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-emerald-600 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            className="group inline-flex items-center gap-2 rounded-lg px-2 py-1 text-sm text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
             Back to Dashboard
           </Link>
           <div className="hidden items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 sm:flex dark:border-zinc-800 dark:bg-zinc-900">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
             <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Compliance Step 1 of 2</span>
           </div>
         </div>
 
         {/* Editorial header */}
         <div className="relative mb-6 overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8 dark:border-zinc-800 dark:bg-zinc-900">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
           <div className="relative z-10 flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div className="max-w-xl">
-              <div className="mb-1 flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+              <div className="mb-1 flex items-center gap-2 text-primary dark:text-[#4edea3]">
                 <Building2 className="h-5 w-5" />
                 <span className="text-xs font-semibold uppercase tracking-wider">Institutional Entity Onboarding</span>
               </div>
@@ -187,7 +187,7 @@ export default function CreateOrganizationPage() {
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-800/50">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]">
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <div className="flex flex-col">
@@ -212,7 +212,7 @@ export default function CreateOrganizationPage() {
             <div className="flex items-start justify-between border-b border-zinc-200 pb-3 dark:border-zinc-800">
               <div>
                 <div className="flex items-center gap-2 text-zinc-900 dark:text-white">
-                  <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <Building2 className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                   <h2 className="text-lg font-semibold">Organization Details</h2>
                 </div>
                 <p className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400">
@@ -252,7 +252,7 @@ export default function CreateOrganizationPage() {
               <div className="flex flex-col md:col-span-2">
                 <label className={labelBase} htmlFor="cacNumber">
                   <span>CAC / RC Number</span>
-                  <span className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">Optional verification</span>
+                  <span className="text-xs font-semibold uppercase text-primary dark:text-[#4edea3]">Optional verification</span>
                 </label>
                 <div className="relative">
                   <input
@@ -299,7 +299,7 @@ export default function CreateOrganizationPage() {
             <div className="flex items-start justify-between border-b border-zinc-200 pb-3 dark:border-zinc-800">
               <div>
                 <div className="flex items-center gap-2 text-zinc-900 dark:text-white">
-                  <Receipt className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <Receipt className="h-5 w-5 text-primary dark:text-[#4edea3]" />
                   <h2 className="text-lg font-semibold">Billing &amp; Plan Tier</h2>
                 </div>
                 <p className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400">
@@ -344,7 +344,7 @@ export default function CreateOrganizationPage() {
                       key={plan.id}
                       className={`relative flex cursor-pointer select-none flex-col justify-between rounded-xl border-2 p-4 transition-all ${
                         active
-                          ? 'border-emerald-500 bg-emerald-50/50 ring-2 ring-emerald-500/20 dark:bg-emerald-500/5'
+                          ? 'border-primary bg-primary/50 ring-2 ring-primary/20 dark:bg-primary/5'
                           : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800/50'
                       }`}
                     >
@@ -364,8 +364,8 @@ export default function CreateOrganizationPage() {
                               <span
                                 className={`rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wide ${
                                   plan.badgeTone === 'primary'
-                                    ? 'bg-emerald-600 text-white'
-                                    : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400'
+                                    ? 'bg-primary text-white'
+                                    : 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] dark:bg-primary/15 dark:text-[#4edea3]'
                                 }`}
                               >
                                 {plan.badge}
@@ -374,7 +374,7 @@ export default function CreateOrganizationPage() {
                           </div>
                           <span
                             className={`flex h-5 w-5 items-center justify-center rounded-full ${
-                              active ? 'bg-emerald-600 text-white' : 'border border-zinc-300 text-transparent dark:border-zinc-700'
+                              active ? 'bg-primary text-white' : 'border border-zinc-300 text-transparent dark:border-zinc-700'
                             }`}
                           >
                             <Check className="h-3.5 w-3.5" strokeWidth={3} />
@@ -389,7 +389,7 @@ export default function CreateOrganizationPage() {
                       <div className="flex flex-col gap-1.5 border-t border-zinc-200 pt-3 text-sm text-zinc-700 dark:border-zinc-800 dark:text-zinc-300">
                         {plan.perks.map((perk) => (
                           <div key={perk.text} className="flex items-center gap-2">
-                            <perk.icon className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                            <perk.icon className="h-4 w-4 shrink-0 text-primary dark:text-[#4edea3]" />
                             <span>{perk.text}</span>
                           </div>
                         ))}
@@ -402,18 +402,18 @@ export default function CreateOrganizationPage() {
 
             {/* Provisions notice — mirrors real backend side effects */}
             <div className="mt-2 flex items-start gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-800/40">
-              <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
+              <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
                 <Landmark className="h-5 w-5" />
               </div>
               <div className="flex flex-col gap-1.5">
                 <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Important Billing &amp; Member Provisions</h4>
                 <ul className="flex flex-col gap-1 text-sm text-zinc-500 dark:text-zinc-400">
                   <li className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                     <span>You will immediately become the verified <strong className="font-semibold text-zinc-700 dark:text-zinc-300">Organization Owner</strong> and primary estate operations manager.</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                     <span>Unit capacity and member allocation quotas are bound immediately upon provisioning.</span>
                   </li>
                   <li className="flex items-center gap-2">
@@ -436,7 +436,7 @@ export default function CreateOrganizationPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex h-11 w-full min-w-[200px] items-center justify-center gap-2 rounded-lg bg-emerald-600 px-6 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-60 sm:w-auto"
+              className="inline-flex h-11 w-full min-w-[200px] items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-60 sm:w-auto"
             >
               {submitting ? (
                 <>

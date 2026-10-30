@@ -63,7 +63,7 @@ export default async function EstateManagerListingsPage() {
             actions={
               <Link
                 href="/dashboard/estate-manager/listings/new"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary text-white text-sm font-medium rounded-lg transition-colors"
               >
                 <Plus size={14} /> New Listing
               </Link>
@@ -85,7 +85,7 @@ export default async function EstateManagerListingsPage() {
               </p>
               <Link
                 href="/dashboard/estate-manager/listings/new"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary text-white text-sm font-medium rounded-lg transition-colors"
               >
                 <Plus size={14} /> Create Listing
               </Link>
@@ -130,7 +130,7 @@ export default async function EstateManagerListingsPage() {
                       </Link>
                       <Link
                         href="/dashboard/estate-manager/applications"
-                        className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-500"
+                        className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-white hover:bg-primary"
                       >
                         Applications <ArrowRight size={12} />
                       </Link>

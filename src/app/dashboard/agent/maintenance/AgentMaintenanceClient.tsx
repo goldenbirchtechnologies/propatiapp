@@ -177,7 +177,7 @@ export default function AgentMaintenanceClient({
             ]}
           />
           <div className="flex flex-wrap items-center gap-2">
-            <OpsBadge tone="success" icon={<span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}>
+            <OpsBadge tone="success" icon={<span className="w-1.5 h-1.5 rounded-full bg-primary" />}>
               FM-SLA Active
             </OpsBadge>
             <OpsBadge tone="neutral" icon={<Gauge className="h-3 w-3" />}>
@@ -326,7 +326,7 @@ export default function AgentMaintenanceClient({
               }}
               className={
                 statusTab === tab.key
-                  ? 'px-4 py-1.5 rounded-lg bg-emerald-600 text-white text-[13px] font-semibold whitespace-nowrap shadow-sm'
+                  ? 'px-4 py-1.5 rounded-lg bg-primary text-white text-[13px] font-semibold whitespace-nowrap shadow-sm'
                   : 'px-4 py-1.5 rounded-lg text-[13px] font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 whitespace-nowrap transition-colors'
               }
             >
@@ -346,7 +346,7 @@ export default function AgentMaintenanceClient({
             icon={<Wrench className="h-4 w-4" />}
             action={
               <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+                <span className="w-2 h-2 rounded-full bg-primary inline-block" />
                 {pageRows.length} of {filtered.length} shown
               </span>
             }
@@ -392,12 +392,12 @@ export default function AgentMaintenanceClient({
                         onClick={() => setSelectedId(t.id)}
                         className={
                           isSelected
-                            ? 'bg-emerald-50/70 dark:bg-emerald-500/10 transition-colors cursor-pointer'
+                            ? 'bg-primary/70 dark:bg-primary/10 transition-colors cursor-pointer'
                             : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors cursor-pointer'
                         }
                       >
                         <td className="py-3 px-4 align-top whitespace-nowrap">
-                          <span className="font-mono text-[12px] font-semibold text-emerald-600 dark:text-emerald-400">
+                          <span className="font-mono text-[12px] font-semibold text-primary dark:text-[#4edea3]">
                             #{t.id.slice(-12).toUpperCase()}
                           </span>
                           <div className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -421,7 +421,7 @@ export default function AgentMaintenanceClient({
                           <div className="font-medium text-zinc-900 dark:text-white line-clamp-1">
                             {t.title}
                           </div>
-                          <div className="text-[11px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-medium">
+                          <div className="text-[11px] uppercase tracking-wider text-primary dark:text-[#4edea3] font-medium">
                             {CATEGORY_LABEL[t.category] ?? t.category}
                           </div>
                         </td>
@@ -437,7 +437,7 @@ export default function AgentMaintenanceClient({
                               <div className="font-medium text-zinc-900 dark:text-white">
                                 {t.assignedTo.fullName}
                               </div>
-                              <div className="text-[11px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                              <div className="text-[11px] uppercase tracking-wider text-primary dark:text-[#4edea3]">
                                 On assignment
                               </div>
                             </>
@@ -499,7 +499,7 @@ export default function AgentMaintenanceClient({
                         onClick={() => setPage(n)}
                         className={
                           n === safePage
-                            ? 'w-8 h-8 rounded-lg bg-emerald-600 text-white text-sm font-semibold flex items-center justify-center'
+                            ? 'w-8 h-8 rounded-lg bg-primary text-white text-sm font-semibold flex items-center justify-center'
                             : 'w-8 h-8 rounded-lg bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-sm font-medium hover:bg-zinc-300 dark:hover:bg-zinc-700 flex items-center justify-center'
                         }
                       >
@@ -527,7 +527,7 @@ export default function AgentMaintenanceClient({
             <OpsCard className="overflow-hidden flex flex-col">
               <OpsCardHeader
                 eyebrow={
-                  <span className="font-mono text-emerald-600 dark:text-emerald-400">
+                  <span className="font-mono text-primary dark:text-[#4edea3]">
                     #{selected.id.slice(-12).toUpperCase()}
                   </span> as unknown as string
                 }
@@ -552,7 +552,7 @@ export default function AgentMaintenanceClient({
                         {selected.listing?.address ?? 'No mandate address recorded'}
                       </p>
                     </div>
-                    <span className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+                    <span className="w-8 h-8 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/10 flex items-center justify-center text-primary dark:text-[#4edea3] shrink-0">
                       <Building2 className="h-4 w-4" />
                     </span>
                   </div>
@@ -565,7 +565,7 @@ export default function AgentMaintenanceClient({
                     </div>
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-zinc-600 dark:text-zinc-400">Verified Contact:</span>
-                      <span className="font-mono text-emerald-600 dark:text-emerald-400 truncate">
+                      <span className="font-mono text-primary dark:text-[#4edea3] truncate">
                         {selected.raisedBy?.phone ?? selected.raisedBy?.email ?? '—'}
                       </span>
                     </div>
@@ -593,7 +593,7 @@ export default function AgentMaintenanceClient({
                     <span className="font-semibold text-zinc-900 dark:text-white">
                       Target {PRIORITY_META[selected.priority].slaHours}h Resolution
                     </span>
-                    <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                    <span className="font-mono font-bold text-primary dark:text-[#4edea3]">
                       {selected.status === 'resolved' || selected.status === 'closed'
                         ? 'Closed'
                         : 'Active'}
@@ -601,7 +601,7 @@ export default function AgentMaintenanceClient({
                   </div>
                   <div className="w-full bg-zinc-200 dark:bg-zinc-800 rounded-full h-2 overflow-hidden">
                     <div
-                      className="bg-emerald-500 h-full rounded-full transition-all"
+                      className="bg-primary h-full rounded-full transition-all"
                       style={{
                         width:
                           selected.status === 'resolved' || selected.status === 'closed'
@@ -683,7 +683,7 @@ export default function AgentMaintenanceClient({
           {/* Regulatory footer */}
           <OpsCard className="p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div className="flex items-start md:items-center gap-3">
-              <span className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+              <span className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary dark:text-[#4edea3] shrink-0">
                 <ShieldCheck className="h-5 w-5" />
               </span>
               <div>

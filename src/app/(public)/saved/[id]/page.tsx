@@ -246,7 +246,7 @@ function ContactInquiryForm({ listingTitle }: { listingTitle: string }) {
     return (
       <Card>
         <CardContent className="pt-6 text-center">
-          <Send className="mx-auto h-10 w-10 text-emerald-400 mb-3" />
+          <Send className="mx-auto h-10 w-10 text-[#4edea3] mb-3" />
           <h3 className="text-lg font-semibold text-white mb-2">Inquiry Sent</h3>
           <p className="text-sm text-white-variant">
             Thank you! A representative will get back to you shortly regarding &ldquo;{listingTitle}&rdquo;.
@@ -481,7 +481,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                         className="flex items-center gap-2 text-sm"
                         style={{ color: 'var(--text)' }}
                       >
-                        <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
                         <span className="capitalize">{amenity.replace(/_/g, ' ')}</span>
                       </div>
                     ))}
@@ -549,7 +549,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                   <div className="flex items-center gap-2">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={ownerContact.profileImage || undefined} alt={ownerContact.fullName || ''} />
-                      <AvatarFallback className="bg-gradient-to-br from-accent to-emerald-4002 text-white font-bold">
+                      <AvatarFallback className="bg-gradient-to-br from-accent to-[#4edea3]2 text-white font-bold">
                         {getInitials(ownerContact.fullName || '')}
                       </AvatarFallback>
                     </Avatar>

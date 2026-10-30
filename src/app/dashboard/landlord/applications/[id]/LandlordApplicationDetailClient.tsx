@@ -97,16 +97,16 @@ interface Application {
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-amber-100 text-amber-800 border-amber-200' },
   under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
-  accepted: { label: 'Accepted', className: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
+  accepted: { label: 'Accepted', className: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary' },
   rejected: { label: 'Rejected', className: 'bg-red-100 text-red-800 border-red-200' },
   withdrawn: { label: 'Withdrawn', className: 'bg-zinc-100 text-zinc-600 border-zinc-200' },
 };
 
 const stageConfig: Record<ApplicationStage, { label: string; className: string }> = {
   submitted: { label: 'Submitted', className: 'bg-zinc-100 text-zinc-600 border-zinc-200' },
-  screening: { label: 'Screening', className: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
+  screening: { label: 'Screening', className: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary' },
   guarantor_pending: { label: 'Guarantor Pending', className: 'bg-amber-100 text-amber-800 border-amber-200' },
-  approved: { label: 'Approved', className: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
+  approved: { label: 'Approved', className: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary' },
   rejected: { label: 'Rejected', className: 'bg-red-100 text-red-800 border-red-200' },
 };
 
@@ -115,7 +115,7 @@ function screeningPill(value: string) {
   if (!normalized || normalized === 'not_started' || normalized === 'none' || normalized === 'false')
     return <span className="text-xs text-red-700 border border-red-200 rounded-full px-2 py-0.5">Not Verified</span>;
   if (normalized === 'approved' || normalized === 'verified' || normalized === 'true')
-    return <span className="text-xs text-emerald-700 border border-emerald-200 rounded-full px-2 py-0.5">Verified</span>;
+    return <span className="text-xs text-[var(--sovereign-hover)] border border-primary rounded-full px-2 py-0.5">Verified</span>;
   return <span className="text-xs text-amber-700 border border-amber-200 rounded-full px-2 py-0.5">Pending</span>;
 }
 
@@ -204,18 +204,18 @@ export default function LandlordApplicationDetailClient({
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-        <Link href="/dashboard/landlord" className="hover:text-emerald-600 transition-colors flex items-center gap-1">
+        <Link href="/dashboard/landlord" className="hover:text-primary transition-colors flex items-center gap-1">
           <ArrowLeft className="w-4 h-4" /> Dashboard
         </Link>
         <span>/</span>
-        <Link href="/dashboard/landlord/applications" className="hover:text-emerald-600 transition-colors">Applications</Link>
+        <Link href="/dashboard/landlord/applications" className="hover:text-primary transition-colors">Applications</Link>
         <span>/</span>
         <span className="font-medium text-zinc-900 dark:text-white">{application.listing.title}</span>
       </nav>
 
       {/* Header card with status pill */}
       <div className="relative overflow-hidden bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-white/[0.08]">
-        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
         <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center overflow-hidden shrink-0">
@@ -228,7 +228,7 @@ export default function LandlordApplicationDetailClient({
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{application.tenant.fullName}</h1>
-                {application.tenant.idVerified && <BadgeCheck className="w-5 h-5 text-emerald-600" />}
+                {application.tenant.idVerified && <BadgeCheck className="w-5 h-5 text-primary" />}
               </div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
                 {application.tenant.jobTitle || application.tenant.employmentStatus?.replace('_', ' ') || 'Applicant'}
@@ -236,7 +236,7 @@ export default function LandlordApplicationDetailClient({
               </p>
               <div className="flex flex-wrap items-center gap-2 pt-1 text-sm text-zinc-500 dark:text-zinc-400">
                 <span className="inline-flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-md font-mono text-xs">
-                  <Tag className="w-3.5 h-3.5 text-emerald-600" />
+                  <Tag className="w-3.5 h-3.5 text-primary" />
                   APP-{application.id.slice(0, 8).toUpperCase()}
                 </span>
                 <span className="text-zinc-300 dark:text-zinc-600">•</span>
@@ -265,7 +265,7 @@ export default function LandlordApplicationDetailClient({
             </div>
             <Link
               href={`/dashboard/landlord/properties/${application.listing.id}`}
-              className="w-full sm:w-auto h-10 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium flex items-center justify-center gap-2 shadow-sm transition-colors"
+              className="w-full sm:w-auto h-10 px-4 rounded-lg bg-primary hover:bg-[var(--sovereign-hover)] text-white text-sm font-medium flex items-center justify-center gap-2 shadow-sm transition-colors"
             >
               <KeyRound className="w-4 h-4" /> Manage Unit
             </Link>
@@ -276,17 +276,17 @@ export default function LandlordApplicationDetailClient({
         <div className="mt-4 pt-4 border-t border-zinc-200 dark:border-white/[0.08] flex flex-wrap items-center gap-2">
           <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold mr-1">Compliance:</span>
           {application.tenant.idVerified && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] text-xs font-medium">
               <ShieldCheck className="w-3.5 h-3.5" /> Tier 3 Identity Verified
             </span>
           )}
           {application.tenant.ninVerified && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] text-xs font-medium">
               <Shield className="w-3.5 h-3.5" /> NIN Verified
             </span>
           )}
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs font-medium">
-            <BadgeCheck className="w-3.5 h-3.5 text-emerald-600" /> 2FA OTP Verified
+            <BadgeCheck className="w-3.5 h-3.5 text-primary" /> 2FA OTP Verified
           </span>
           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${cfg.className}`}>
             {cfg.label}
@@ -314,7 +314,7 @@ export default function LandlordApplicationDetailClient({
         <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
           <CardHeader className="border-b border-zinc-200 dark:border-white/[0.08]">
             <CardTitle className="flex items-center gap-2 text-zinc-900 dark:text-white">
-              <ClipboardList className="w-5 h-5 text-emerald-600" /> Application Details
+              <ClipboardList className="w-5 h-5 text-primary" /> Application Details
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6 space-y-4">
@@ -357,7 +357,7 @@ export default function LandlordApplicationDetailClient({
               </div>
             )}
 
-            <Link href={`/properties/${application.listing.id}`} className="inline-flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700">
+            <Link href={`/properties/${application.listing.id}`} className="inline-flex items-center gap-1 text-sm text-primary hover:text-[var(--sovereign-hover)]">
               <ExternalLink className="w-3 h-3" /> View Listing
             </Link>
 
@@ -374,7 +374,7 @@ export default function LandlordApplicationDetailClient({
         <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
           <CardHeader className="border-b border-zinc-200 dark:border-white/[0.08]">
             <CardTitle className="flex items-center gap-2 text-zinc-900 dark:text-white">
-              <Users className="w-5 h-5 text-emerald-600" /> Tenant Profile
+              <Users className="w-5 h-5 text-primary" /> Tenant Profile
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6 space-y-4">
@@ -398,7 +398,7 @@ export default function LandlordApplicationDetailClient({
               <div className="flex items-center gap-2 text-sm">
                 <Mail className="w-4 h-4 text-zinc-400" />
                 <span className="text-zinc-900 dark:text-white">{application.tenant.email}</span>
-                <button type="button" className="text-zinc-400 hover:text-emerald-600" onClick={() => { navigator.clipboard.writeText(application.tenant.email); toast.success('Email copied'); }}>
+                <button type="button" className="text-zinc-400 hover:text-primary" onClick={() => { navigator.clipboard.writeText(application.tenant.email); toast.success('Email copied'); }}>
                   <Copy className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -424,12 +424,12 @@ export default function LandlordApplicationDetailClient({
 
             <div className="flex flex-wrap gap-2">
               {application.tenant.idVerified && (
-                <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-100 border border-emerald-200 rounded-full px-2 py-0.5">
+                <span className="inline-flex items-center gap-1 text-xs text-[var(--sovereign-hover)] bg-[var(--sovereign-container-bg)] border border-primary rounded-full px-2 py-0.5">
                   <BadgeCheck className="w-3 h-3" /> ID Verified
                 </span>
               )}
               {application.tenant.ninVerified && (
-                <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-100 border border-emerald-200 rounded-full px-2 py-0.5">
+                <span className="inline-flex items-center gap-1 text-xs text-[var(--sovereign-hover)] bg-[var(--sovereign-container-bg)] border border-primary rounded-full px-2 py-0.5">
                   <ShieldCheck className="w-3 h-3" /> NIN Verified
                 </span>
               )}
@@ -478,7 +478,7 @@ export default function LandlordApplicationDetailClient({
       <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
         <CardHeader className="border-b border-zinc-200 dark:border-white/[0.08]">
           <CardTitle className="flex items-center gap-2 text-zinc-900 dark:text-white">
-            <DollarSign className="w-5 h-5 text-emerald-600" /> Financial Breakdown
+            <DollarSign className="w-5 h-5 text-primary" /> Financial Breakdown
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
@@ -491,9 +491,9 @@ export default function LandlordApplicationDetailClient({
               <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Stamp Duty (0.78%)</p>
               <p className="text-lg font-bold text-zinc-900 dark:text-white mt-1">{formatNaira(stampDuty)}</p>
             </div>
-            <div className="bg-emerald-50 dark:bg-emerald-950/30 p-4 rounded-lg border border-emerald-200 dark:border-emerald-800">
-              <p className="text-xs text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">Total</p>
-              <p className="text-lg font-bold text-emerald-700 dark:text-emerald-400 mt-1">{formatNaira(total)}</p>
+            <div className="bg-[var(--sovereign-container-bg)] dark:bg-primary/30 p-4 rounded-lg border border-primary dark:border-primary">
+              <p className="text-xs text-[var(--sovereign-hover)] dark:text-[#4edea3] uppercase tracking-wider">Total</p>
+              <p className="text-lg font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3] mt-1">{formatNaira(total)}</p>
             </div>
           </div>
         </CardContent>
@@ -508,7 +508,7 @@ export default function LandlordApplicationDetailClient({
                 key={t}
                 type="button"
                 onClick={() => setDetailTab(t)}
-                className={`px-3 py-1.5 text-sm capitalize ${detailTab === t ? 'bg-emerald-600 text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
+                className={`px-3 py-1.5 text-sm capitalize ${detailTab === t ? 'bg-primary text-white' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
               >
                 {t}
               </button>
@@ -537,7 +537,7 @@ export default function LandlordApplicationDetailClient({
               <div className="pt-2">
                 <p className="text-xs font-medium text-zinc-900 dark:text-white mb-2">Guarantor Verification</p>
                 {(application.guarantorData as any)?.verified ? (
-                  <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-100 border border-emerald-200 rounded-full px-2 py-0.5">
+                  <span className="inline-flex items-center gap-1 text-xs text-[var(--sovereign-hover)] bg-[var(--sovereign-container-bg)] border border-primary rounded-full px-2 py-0.5">
                     <BadgeCheck className="w-3 h-3" /> Verified
                   </span>
                 ) : (
@@ -554,7 +554,7 @@ export default function LandlordApplicationDetailClient({
               <div>
                 <label className="text-sm font-medium block mb-1.5 text-zinc-900 dark:text-white">Notes (visible to the tenant)</label>
                 <Textarea
-                  className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-600"
+                  className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-primary"
                   rows={3}
                   placeholder="Add a note visible to the tenant..."
                   value={notes}
@@ -605,7 +605,7 @@ export default function LandlordApplicationDetailClient({
                   size="sm"
                   onClick={() => handleAction('accept')}
                   disabled={isLoading || !isActionable}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="bg-primary hover:bg-[var(--sovereign-hover)] text-white"
                 >
                   {actionType === 'accept' && isLoading ? (
                     <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -620,7 +620,7 @@ export default function LandlordApplicationDetailClient({
                 <div>
                   <label className="text-sm font-medium block mb-1.5 text-zinc-900 dark:text-white">Rejection reason</label>
                   <Textarea
-                    className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-600"
+                    className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-primary"
                     rows={2}
                     placeholder="Reason for rejection..."
                     value={rejectionReason}
@@ -630,11 +630,11 @@ export default function LandlordApplicationDetailClient({
               )}
 
               {application.agreement && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-emerald-200 dark:border-emerald-800">
-                  <FileText className="w-4 h-4 text-emerald-600" />
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-primary dark:border-primary">
+                  <FileText className="w-4 h-4 text-primary" />
                   <span className="text-sm text-zinc-900 dark:text-white">
                     Agreement {application.agreement.status} —{' '}
-                    <Link href="/dashboard/landlord/agreements" className="underline font-medium text-emerald-600">
+                    <Link href="/dashboard/landlord/agreements" className="underline font-medium text-primary">
                       View agreement
                     </Link>
                   </span>
@@ -649,14 +649,14 @@ export default function LandlordApplicationDetailClient({
       <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
         <CardHeader className="border-b border-zinc-200 dark:border-white/[0.08]">
           <CardTitle className="flex items-center gap-2 text-zinc-900 dark:text-white">
-            <Clock className="w-5 h-5 text-emerald-600" /> Timeline
+            <Clock className="w-5 h-5 text-primary" /> Timeline
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <ol className="relative border-l border-zinc-200 dark:border-white/[0.08] space-y-4 ml-2">
             {timeline.map((t, i) => (
               <li key={i} className="ml-4">
-                <span className={`absolute -left-1.5 mt-1.5 w-3 h-3 rounded-full border-2 ${t.done ? 'bg-emerald-600 border-emerald-600' : 'bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600'}`} />
+                <span className={`absolute -left-1.5 mt-1.5 w-3 h-3 rounded-full border-2 ${t.done ? 'bg-primary border-primary' : 'bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600'}`} />
                 <p className={`text-sm font-medium ${t.done ? 'text-zinc-900 dark:text-white' : 'text-zinc-400'}`}>{t.label}</p>
                 {t.date && (
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -673,7 +673,7 @@ export default function LandlordApplicationDetailClient({
       <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm">
         <CardHeader className="border-b border-zinc-200 dark:border-white/[0.08]">
           <CardTitle className="flex items-center gap-2 text-zinc-900 dark:text-white">
-            <AlertCircle className="w-5 h-5 text-emerald-600" /> Landlord Notes
+            <AlertCircle className="w-5 h-5 text-primary" /> Landlord Notes
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">

@@ -115,10 +115,10 @@ function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className={`text-xs font-medium ${trendPositive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-400'}`}>
+          <span className={`text-xs font-medium ${trendPositive ? 'text-[#006c49]' : 'text-zinc-600 dark:text-zinc-400'}`}>
             {trendPositive ? '✓' : ''}
           </span>
-          <span className={`text-xs ${trendPositive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-400'}`}>
+          <span className={`text-xs ${trendPositive ? 'text-[#006c49]' : 'text-zinc-600 dark:text-zinc-400'}`}>
             {trend}
           </span>
         </div>
@@ -143,10 +143,10 @@ function VerificationCard({ listing }: { listing: unknown }) {
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-transparent text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started', icon: null },
     in_progress: { class: 'bg-amber-500/15 text-amber-400 border-amber-500/20', label: 'In Review', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
-    certified: { class: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', label: 'Verified', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    certified: { class: 'bg-primary/15 text-[#4edea3] border-primary/20', label: 'Verified', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-transparent text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started', icon: null },
-    approved: { class: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', label: 'Verified', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    approved: { class: 'bg-primary/15 text-[#4edea3] border-primary/20', label: 'Verified', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
   };
 
   const overallConfig = statusColors[overallStatus] || statusColors.not_started;
@@ -160,7 +160,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
   return (
     <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950">
       {isCertified ? (
-        <div className="flex items-center gap-2 bg-emerald-500/15 px-4 py-2.5 text-sm font-medium text-emerald-400">
+        <div className="flex items-center gap-2 bg-primary/15 px-4 py-2.5 text-sm font-medium text-[#4edea3]">
           <ShieldCheckIcon className="h-4 w-4 shrink-0" />
           Certified — this property is fully verified
         </div>
@@ -171,7 +171,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
             <span className="text-zinc-600 dark:text-zinc-400">{progress}%</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-white dark:bg-zinc-900">
-            <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${progress}%` }} />
+            <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />
           </div>
         </div>
       )}
@@ -206,7 +206,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
               className="flex flex-col gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-3 sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400'}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-primary/30 bg-primary/15 text-[#4edea3]' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400'}`}>
                   {isApproved ? <CheckIcon className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
                 </div>
                 <div className="min-w-0">
@@ -220,7 +220,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
                   {config.label}
                 </span>
                 {!isApproved && !isCertified && (
-                  <Link href={`/dashboard/landlord/verify?listingId=${listing.id}`} className="inline-flex shrink-0 items-center justify-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-zinc-900 dark:text-white hover:bg-emerald-500">
+                  <Link href={`/dashboard/landlord/verify?listingId=${listing.id}`} className="inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-zinc-900 dark:text-white hover:bg-primary">
                     {layer.cta}
                   </Link>
                 )}
@@ -242,7 +242,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
         ) : (
           <Link
             href={`/dashboard/landlord/verify?listingId=${listing.id}`}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:bg-emerald-500"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:bg-primary"
           >
             {overallStatus === 'not_started' ? 'Start Verification' : 'Continue Verification'}
             <ArrowRightIcon className="h-4 w-4" />

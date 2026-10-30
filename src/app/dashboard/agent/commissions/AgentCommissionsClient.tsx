@@ -192,7 +192,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
         title="Brokerage Commissions & Retainers"
         description="Immutable commission accounting ledger, statutory 5% agency entitlement tracking, and payout status across every mandated conveyancing deal."
         badges={
-          <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+          <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             Statutory Ledger
           </span>
         }
@@ -205,7 +205,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
               href="/dashboard/agent/pipeline"
               className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-white/[0.06]"
             >
-              <Briefcase className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> View Deal Pipeline
+              <Briefcase className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" /> View Deal Pipeline
             </Link>
             <FinanceButton variant="primary" onClick={exportCsv}>
               <Download className="h-3.5 w-3.5" /> Export CSV
@@ -216,7 +216,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
 
       {/* Settlement target card */}
       <div className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/[0.08] dark:bg-zinc-900">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary dark:text-[#4edea3]">
           <Landmark className="h-5 w-5" />
         </div>
         <div className="flex flex-col">
@@ -224,8 +224,8 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
           <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">
             Trust wallet · {naira(summary.walletBalance)} available
           </span>
-          <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Auto-disbursement active
+          <span className="flex items-center gap-1 text-xs text-primary dark:text-[#4edea3]">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Auto-disbursement active
           </span>
         </div>
       </div>
@@ -233,7 +233,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
       {/* Statutory regulatory pill */}
       <div className="flex flex-col items-start justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 md:flex-row md:items-center dark:border-white/[0.08] dark:bg-zinc-800/50">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:text-[#4edea3]">
             <Scale className="h-4 w-4" />
           </div>
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
@@ -242,7 +242,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
             and Lagos State Tenancy Law (Cap. L25, 2015).
           </p>
         </div>
-        <span className="inline-flex items-center self-end rounded-full bg-emerald-500/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 md:self-auto">
+        <span className="inline-flex items-center self-end rounded-full bg-primary/15 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3] md:self-auto">
           Scale 1A Standard
         </span>
       </div>
@@ -257,7 +257,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
           icon={<Percent className="h-4 w-4" />}
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary dark:text-[#4edea3]">
                 <TrendingUp className="h-3.5 w-3.5" /> Live from released deals
               </span>
               <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
@@ -276,7 +276,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
             <div className="space-y-2 border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
               <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-400">
                 <span className="inline-flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  <span className="h-2 w-2 rounded-full bg-primary" />
                   NIBSS / Mandate
                 </span>
                 <span className="font-mono">
@@ -359,7 +359,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
             action={
               <Link
                 href="/dashboard/agent/pipeline"
-                className="inline-flex h-9 items-center gap-2 rounded-lg bg-emerald-600 px-3.5 text-xs font-medium text-white"
+                className="inline-flex h-9 items-center gap-2 rounded-lg bg-primary px-3.5 text-xs font-medium text-white"
               >
                 <Briefcase className="h-3.5 w-3.5" /> View Deal Pipeline
               </Link>
@@ -401,7 +401,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
                         </span>
                       </FinanceTd>
                       <FinanceTd align="right">
-                        <span className="font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                        <span className="font-mono text-sm font-bold text-primary dark:text-[#4edea3]">
                           {naira(r.amount)}
                         </span>
                       </FinanceTd>
@@ -462,7 +462,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span>
             Realized:{' '}
-            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="font-mono font-semibold text-primary dark:text-[#4edea3]">
               {naira(summary.commissionReleased)}
             </span>
           </span>
@@ -476,7 +476,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
         </div>
         <Link
           href="/dashboard/agent/commission-ledger"
-          className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-primary dark:text-[#4edea3] hover:underline"
         >
           Open commission ledger <ArrowRight className="h-3 w-3" />
         </Link>

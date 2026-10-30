@@ -41,7 +41,7 @@ function getStepStatus(v: Verification | undefined): 'cleared' | 'action_require
 
 function statusBadge(status: string) {
   switch (status) {
-    case 'cleared': return { label: 'NIMC / NIBSS Verified', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+    case 'cleared': return { label: 'NIMC / NIBSS Verified', cls: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary', dot: 'bg-primary' };
     case 'action_required': return { label: 'Action Required', cls: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
     case 'next_up': return { label: 'Next Up', cls: 'bg-zinc-100 text-zinc-600 border-zinc-200', dot: 'bg-zinc-400' };
     case 'locked': return { label: 'Locked', cls: 'bg-zinc-100 text-zinc-500 border-zinc-200', dot: 'bg-zinc-400' };
@@ -138,13 +138,13 @@ export default function AgentOnboardingPage() {
             <span className="inline-flex items-center gap-1.5 rounded bg-[#006c49] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
               <BadgeCheck className="h-3.5 w-3.5" /> LASRERA Certified Agent Protocol
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-800">
+            <span className="inline-flex items-center gap-1.5 rounded bg-[var(--sovereign-container-bg)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--sovereign-hover)]">
               <Landmark className="h-3.5 w-3.5" /> Alausa Real Estate Broker Clearance v4.2
             </span>
             <span className="inline-flex items-center gap-1.5 rounded bg-zinc-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-zinc-600">
               <ShieldCheck className="h-3.5 w-3.5" /> NDPR Compliant
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#006c49]">
+            <span className="inline-flex items-center gap-1.5 rounded bg-[var(--sovereign-container-bg)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#006c49]">
               <Lock className="h-3.5 w-3.5" /> Zero Omonile Escrow Bonded
             </span>
           </div>
@@ -186,7 +186,7 @@ export default function AgentOnboardingPage() {
                   <span className="font-mono text-sm font-bold text-[#006c49]">Step {clearedCount + 1} of {steps.length} ({progress}%)</span>
                 </div>
                 <div className="h-2 w-full rounded-full bg-zinc-200 overflow-hidden mb-3">
-                  <div className="h-full rounded-full bg-[#10b981] transition-all duration-500" style={{ width: `${progress}%` }} />
+                  <div className="h-full rounded-full bg-[#006c49] transition-all duration-500" style={{ width: `${progress}%` }} />
                 </div>
                 <div className="space-y-1.5 text-xs">
                   <div className="flex items-center justify-between text-zinc-500">
@@ -203,9 +203,9 @@ export default function AgentOnboardingPage() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5 text-zinc-900 font-semibold">
-                      <span className="h-2 w-2 rounded-full bg-[#10b981] animate-pulse" /> LASRERA Accreditation
+                      <span className="h-2 w-2 rounded-full bg-[#006c49] animate-pulse" /> LASRERA Accreditation
                     </span>
-                    <span className="rounded bg-emerald-100/40 px-1.5 py-0.5 font-mono text-[10px] text-emerald-800">IN PROGRESS</span>
+                    <span className="rounded bg-primary/40 px-1.5 py-0.5 font-mono text-[10px] text-[var(--sovereign-hover)]">IN PROGRESS</span>
                   </div>
                   <div className="flex items-center justify-between text-zinc-400">
                     <span className="flex items-center gap-1.5">
@@ -233,12 +233,12 @@ export default function AgentOnboardingPage() {
                 return (
                   <div
                     key={step.id}
-                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 transition-all hover:shadow-md ${step.status === 'action_required' ? 'ring-2 ring-[#10b981]/30' : ''}`}
+                    className={`rounded-xl bg-white p-5 shadow-sm border border-zinc-100 transition-all hover:shadow-md ${step.status === 'action_required' ? 'ring-2 ring-[#006c49]/30' : ''}`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-3">
                         <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-                          step.status === 'cleared' ? 'bg-emerald-100 text-emerald-700' :
+                          step.status === 'cleared' ? 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)]' :
                           step.status === 'action_required' ? 'bg-[#006c49] text-white' :
                           'bg-zinc-100 text-zinc-500'
                         }`}>
@@ -275,7 +275,7 @@ export default function AgentOnboardingPage() {
                   <h3 className="flex items-center gap-1.5 text-sm font-semibold text-zinc-900">
                     <ShieldCheck className="h-5 w-5 text-[#006c49]" /> Accredited Broker Guarantees
                   </h3>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Level 3 Clearance</span>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--sovereign-hover)]">Level 3 Clearance</span>
                 </div>
                 <p className="text-xs text-zinc-500 mb-4">
                   Once your LASRERA credentials pass cadastral verification, your brokerage profile unlocks institutional listing rights across the federation.
@@ -317,12 +317,12 @@ export default function AgentOnboardingPage() {
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Institutional Support</span>
                   <span className="flex items-center gap-1 text-xs text-[#006c49]">
-                    <span className="h-2 w-2 rounded-full bg-[#10b981]" /> On Duty (Alausa)
+                    <span className="h-2 w-2 rounded-full bg-[#006c49]" /> On Duty (Alausa)
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-14 w-14 rounded-full bg-zinc-100 shrink-0 flex items-center justify-center ring-2 ring-[#10b981]/30">
-                    <ShieldCheck className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  <div className="h-14 w-14 rounded-full bg-zinc-100 shrink-0 flex items-center justify-center ring-2 ring-[#006c49]/30">
+                    <ShieldCheck className="h-6 w-6 text-primary dark:text-[#4edea3]" />
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold text-zinc-900">Regulatory Compliance Desk</h4>
@@ -369,7 +369,7 @@ export default function AgentOnboardingPage() {
                         </div>
                         <span className={`shrink-0 text-[11px] font-semibold uppercase ${
                           v.overallStatus === 'verified' ? 'text-[#006c49]' :
-                          v.overallStatus === 'in_progress' ? 'text-emerald-700' :
+                          v.overallStatus === 'in_progress' ? 'text-[var(--sovereign-hover)]' :
                           'text-zinc-400'
                         }`}>
                           {v.overallStatus === 'verified' ? 'Verified' : v.overallStatus === 'in_progress' ? 'Under Review' : 'Pending'}
@@ -379,7 +379,7 @@ export default function AgentOnboardingPage() {
                   </div>
                 )}
                 <div className="mt-4 space-y-2">
-                  <button className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#10b981] hover:bg-[#006c49] text-sm font-semibold text-white shadow-sm transition-colors">
+                  <button className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#006c49] hover:bg-[#006c49] text-sm font-semibold text-white shadow-sm transition-colors">
                     Submit Accreditation Docket
                   </button>
                   <button className="flex h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-zinc-50 hover:bg-zinc-100 text-sm font-semibold text-zinc-700 transition-colors">
@@ -401,7 +401,7 @@ export default function AgentOnboardingPage() {
                 <p className="text-xs text-zinc-500">Real-time asynchronous cryptographic checks with Federal and Lagos State identity registries.</p>
               </div>
               <span className="flex items-center gap-1 self-start sm:self-auto rounded bg-zinc-100 px-2 py-1 font-mono text-xs text-zinc-500">
-                <span className="h-2 w-2 rounded-full bg-[#10b981]" /> Ledger Block #882190-LGS
+                <span className="h-2 w-2 rounded-full bg-[#006c49]" /> Ledger Block #882190-LGS
               </span>
             </div>
             <div className="overflow-x-auto">
@@ -462,12 +462,12 @@ export default function AgentOnboardingPage() {
                   </tr>
                   <tr className="hover:bg-zinc-50/50 transition-colors">
                     <td className="py-2.5 px-4 flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> <span className="font-semibold text-zinc-900">LASRERA Alausa Central Server</span>
+                      <span className="h-2 w-2 rounded-full bg-primary animate-pulse" /> <span className="font-semibold text-zinc-900">LASRERA Alausa Central Server</span>
                     </td>
                     <td className="py-2.5 px-4 font-mono text-zinc-500">LSR-AGT-8842-PEND</td>
                     <td className="py-2.5 px-4 text-zinc-600">Awaiting Step 03 Practitioner Form Submission</td>
                     <td className="py-2.5 px-4">
-                      <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold text-xs"><RefreshCw className="h-3 w-3" /> 102 SYNC_WAITING</span>
+                      <span className="inline-flex items-center gap-1 text-[var(--sovereign-hover)] font-semibold text-xs"><RefreshCw className="h-3 w-3" /> 102 SYNC_WAITING</span>
                     </td>
                     <td className="py-2.5 px-4 text-right font-mono text-zinc-500">Listening...</td>
                   </tr>

@@ -76,7 +76,7 @@ export default async function EstateManagerTurnoverPage() {
             </div>
             <div className="glass-card p-4">
               <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Avg Checklist</p>
-              <p className="text-2xl font-bold text-emerald-500">{avgScore}%</p>
+              <p className="text-2xl font-bold text-primary">{avgScore}%</p>
             </div>
             <div className="glass-card p-4">
               <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">High Priority</p>
@@ -134,7 +134,7 @@ export default async function EstateManagerTurnoverPage() {
                               {t.scheduledStart ? new Date(t.scheduledStart).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' }) : 'No date'}
                             </p>
                           </div>
-                          <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', score >= 80 ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-amber-500/10 text-amber-500 border-amber-500/20')}>
+                          <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', score >= 80 ? 'bg-primary/10 text-primary border-primary/20' : 'bg-amber-500/10 text-amber-500 border-amber-500/20')}>
                             {score >= 80 ? 'Passed' : 'Conditional'}
                           </span>
                         </div>

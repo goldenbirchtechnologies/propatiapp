@@ -165,11 +165,11 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
       <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-widest text-zinc-500">
         <span>DASHBOARD</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
         <span>ACCOUNT &amp; SETTINGS</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
-        <span className="text-emerald-600 dark:text-emerald-400">TENANT PROFILE</span>
+        <span className="text-primary dark:text-[#4edea3]">TENANT PROFILE</span>
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300"><Shield className="h-3 w-3" /> NDPR CERTIFIED DATA VAULT</span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300"><CheckCircle2 className="h-3 w-3 text-emerald-500" /> LASRERA REGISTERED</span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><Shield className="h-3 w-3" /> NDPR CERTIFIED DATA VAULT</span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300"><CheckCircle2 className="h-3 w-3 text-primary" /> LASRERA REGISTERED</span>
         <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-zinc-500"><Lock className="h-3 w-3" /> 256-BIT IDENTITY ENCRYPTED</span>
       </div>
 
@@ -185,7 +185,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`inline-flex items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-3 text-sm font-medium transition-colors ${activeTab === tab.value ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
+              className={`inline-flex items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-3 text-sm font-medium transition-colors ${activeTab === tab.value ? 'border-primary text-primary dark:text-[#4edea3]' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
             >
               <Icon className="h-4 w-4" /> {tab.label}
             </button>
@@ -204,28 +204,28 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
                   {initialUser.fullName.charAt(0).toUpperCase()}
                 </div>
               )}
-              <span className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-white shadow"><Camera className="h-4 w-4" /></span>
+              <span className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white shadow"><Camera className="h-4 w-4" /></span>
             </div>
             <h3 className="mt-4 font-semibold text-zinc-900 dark:text-white">{initialUser.fullName}</h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">{initialUser.email}</p>
             {initialUser.phone && <p className="text-sm text-zinc-600 dark:text-zinc-400">{initialUser.phone}</p>}
             <div className="mt-4 flex flex-wrap justify-center gap-2">
-              <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${verifiedCount === 3 ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-300'}`}>
+              <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${verifiedCount === 3 ? 'border-primary/20 bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' : 'border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-300'}`}>
                 {verifiedCount === 3 ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertCircle className="h-3.5 w-3.5" />} {verifiedCount}/3 Verified
               </span>
               {(initialUser.guarantorName || initialUser.guarantorPhone) && (
-                <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">Guarantor Added</span>
+                <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Guarantor Added</span>
               )}
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
-              <span className={`rounded-lg px-2 py-2 font-medium ${initialUser.idVerified ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>ID {initialUser.idVerified ? '✓' : '—'}</span>
-              <span className={`rounded-lg px-2 py-2 font-medium ${initialUser.ninVerified ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>NIN {initialUser.ninVerified ? '✓' : '—'}</span>
-              <span className={`rounded-lg px-2 py-2 font-medium ${initialUser.phoneVerified ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>Phone {initialUser.phoneVerified ? '✓' : '—'}</span>
+              <span className={`rounded-lg px-2 py-2 font-medium ${initialUser.idVerified ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>ID {initialUser.idVerified ? '✓' : '—'}</span>
+              <span className={`rounded-lg px-2 py-2 font-medium ${initialUser.ninVerified ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>NIN {initialUser.ninVerified ? '✓' : '—'}</span>
+              <span className={`rounded-lg px-2 py-2 font-medium ${initialUser.phoneVerified ? 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400'}`}>Phone {initialUser.phoneVerified ? '✓' : '—'}</span>
             </div>
           </div>
 
           <div className="mt-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white"><Shield className="h-4 w-4 text-emerald-500" /> Compliance</h4>
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white"><Shield className="h-4 w-4 text-primary" /> Compliance</h4>
             <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">KYC and guarantor data are required for tenancy agreements. Complete verification to unlock payments and signing.</p>
           </div>
         </div>
@@ -288,11 +288,11 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
                   </div>
                   <div className="space-y-1.5 md:col-span-2">
                     <Label>Bio</Label>
-                    <textarea value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} rows={3} maxLength={500} className="w-full rounded-md border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20" placeholder="Tell landlords about yourself…" />
+                    <textarea value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} rows={3} maxLength={500} className="w-full rounded-md border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Tell landlords about yourself…" />
                     <p className="text-right font-mono text-xs text-zinc-500">{form.bio.length}/500</p>
                   </div>
                 </div>
-                <Button onClick={onPersonalSave} disabled={saving} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+                <Button onClick={onPersonalSave} disabled={saving} className="bg-primary hover:bg-primary text-white">
                   {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                   {saving ? 'Saving…' : 'Save Changes'}
                 </Button>
@@ -376,14 +376,14 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
                   </div>
                   <div className="space-y-1.5 md:col-span-2">
                     <Label>Reason for Moving</Label>
-                    <textarea value={rentalForm.reasonForMoving} onChange={(e) => setRentalForm({ ...rentalForm, reasonForMoving: e.target.value })} rows={3} className="w-full rounded-md border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20" />
+                    <textarea value={rentalForm.reasonForMoving} onChange={(e) => setRentalForm({ ...rentalForm, reasonForMoving: e.target.value })} rows={3} className="w-full rounded-md border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" />
                   </div>
                   <div className="space-y-1.5 md:col-span-2">
                     <Label>Emergency Contact</Label>
                     <Input value={rentalForm.emergencyContact} onChange={(e) => setRentalForm({ ...rentalForm, emergencyContact: e.target.value })} placeholder="Name — Phone" />
                   </div>
                 </div>
-                <Button onClick={onRentalSave} disabled={saving} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+                <Button onClick={onRentalSave} disabled={saving} className="bg-primary hover:bg-primary text-white">
                   {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                   {saving ? 'Saving…' : 'Save Application Details'}
                 </Button>
@@ -423,7 +423,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
           {activeTab === 'security' && (
             <div className="space-y-4">
               <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
-                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><KeyRound className="h-5 w-5 text-emerald-500" /> Two-Factor Authentication</h3>
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><KeyRound className="h-5 w-5 text-primary" /> Two-Factor Authentication</h3>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Add an extra layer of security via Clerk — authenticator app or SMS. When enabled, you’ll be prompted for a code on new devices.</p>
                 <div className="mt-4 flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4">
                   <div>
@@ -439,7 +439,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
               </div>
 
               <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
-                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Smartphone className="h-5 w-5 text-emerald-500" /> Sessions &amp; Devices</h3>
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Smartphone className="h-5 w-5 text-primary" /> Sessions &amp; Devices</h3>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Active Clerk sessions for this account. Revoke any you don’t recognize from the Clerk Dashboard.</p>
                 <div className="mt-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] p-4 text-sm">
                   <p className="font-medium text-zinc-900 dark:text-white">Current session</p>
@@ -458,7 +458,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
           {activeTab === 'preferences' && (
             <div className="space-y-4">
               <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
-                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Bell className="h-5 w-5 text-emerald-500" /> Notification Preferences</h3>
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Bell className="h-5 w-5 text-primary" /> Notification Preferences</h3>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Choose how you want to be notified — saved to /api/users/notification-preferences</p>
                 {!notifPrefs ? (
                   <p className="mt-4 flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400"><Loader2 className="h-4 w-4 animate-spin" /> Loading preferences…</p>
@@ -483,7 +483,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
                         ))}
                       </div>
                     </div>
-                    <Button onClick={handleNotifSave} disabled={notifSaving} className="mt-4 bg-emerald-600 hover:bg-emerald-500 text-white">
+                    <Button onClick={handleNotifSave} disabled={notifSaving} className="mt-4 bg-primary hover:bg-primary text-white">
                       {notifSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                       {notifSaving ? 'Saving…' : 'Save Preferences'}
                     </Button>
@@ -492,7 +492,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
               </div>
 
               <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-6">
-                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Settings className="h-5 w-5 text-emerald-500" /> Account</h3>
+                <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Settings className="h-5 w-5 text-primary" /> Account</h3>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Button asChild variant="outline" size="sm"><a href="/dashboard/tenant/messages"><Bell className="mr-1 h-4 w-4" /> Messages</a></Button>
                   <Button asChild variant="outline" size="sm"><a href="/dashboard/tenant/receipts">Receipts</a></Button>

@@ -102,7 +102,7 @@ function Step4InspectionClient(props: Props) {
       ) : props.inspection.l4Status === 'approved' ? (
         <div className="glass-card">
           <div className="p-6 space-y-4">
-            <div className="flex items-center gap-2 text-[#10b981]">
+            <div className="flex items-center gap-2 text-[#006c49]">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-medium">Inspection completed successfully</p>
             </div>

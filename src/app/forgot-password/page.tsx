@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
         </a>
 
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-[#10b981]/15 flex items-center justify-center text-[#10b981]">
+          <div className="w-12 h-12 rounded-xl bg-[#006c49]/15 flex items-center justify-center text-[#006c49]">
             <Mail className="h-6 w-6" />
           </div>
           <div>
@@ -60,8 +60,8 @@ export default function ForgotPasswordPage() {
         </div>
 
         {isSuccess ? (
-          <div className="rounded-xl bg-[#10b981]/10 border border-[#10b981]/20 p-6 text-center">
-            <CheckCircle className="h-10 w-10 text-[#10b981] mx-auto mb-3" />
+          <div className="rounded-xl bg-[#006c49]/10 border border-[#006c49]/20 p-6 text-center">
+            <CheckCircle className="h-10 w-10 text-[#006c49] mx-auto mb-3" />
             <h2 className="text-lg font-semibold mb-2">Check your email</h2>
             <p className="text-zinc-400 text-sm">
               If an account exists for <strong className="text-white">{email}</strong>, we&apos;ve sent a password reset link.
@@ -86,14 +86,14 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#10b981]/50 focus:ring-1 focus:ring-[#10b981]/50 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-[#18181b] border border-white/[0.07] text-white placeholder-zinc-600 focus:outline-none focus:border-[#006c49]/50 focus:ring-1 focus:ring-[#006c49]/50 transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoading || !isLoaded}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#10b981] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#006c49] hover:bg-[#006c49] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

@@ -55,12 +55,12 @@ function statusLabel(status: string) {
 function statusBadgeClass(status: string) {
   switch (status) {
     case 'fully_signed':
-      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400';
+      return 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] dark:bg-primary/30 dark:text-[#4edea3]';
     case 'pending_landlord':
     case 'draft':
       return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
     default:
-      return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400';
+      return 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#4edea3]';
   }
 }
 
@@ -101,13 +101,13 @@ export default async function CommercialLeaseNegotiationPage() {
           {/* Breadcrumbs & header */}
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-              <span className="hover:text-emerald-600 cursor-pointer transition-colors">Home</span>
+              <span className="hover:text-primary cursor-pointer transition-colors">Home</span>
               <span>/</span>
-              <span className="hover:text-emerald-600 cursor-pointer transition-colors">Portfolio</span>
+              <span className="hover:text-primary cursor-pointer transition-colors">Portfolio</span>
               <span>/</span>
-              <span className="hover:text-emerald-600 cursor-pointer transition-colors">Commercial Leases</span>
+              <span className="hover:text-primary cursor-pointer transition-colors">Commercial Leases</span>
               <span>/</span>
-              <span className="font-semibold text-emerald-600">Negotiation</span>
+              <span className="font-semibold text-primary">Negotiation</span>
             </div>
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mt-2">
               <div>
@@ -119,8 +119,8 @@ export default async function CommercialLeaseNegotiationPage() {
                 </p>
               </div>
               <div className="flex items-center gap-3 flex-wrap">
-                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="inline-flex items-center gap-2 rounded-full bg-[var(--sovereign-container-bg)] px-3 py-1.5 text-xs font-semibold text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#4edea3]">
+                  <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                   {counts.all} Active Negotiations
                 </span>
                 <button className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-200">
@@ -142,7 +142,7 @@ export default async function CommercialLeaseNegotiationPage() {
                   key={t.label}
                   className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                     i === 0
-                      ? 'bg-white text-emerald-700 shadow-sm dark:bg-zinc-900 dark:text-emerald-400'
+                      ? 'bg-white text-[var(--sovereign-hover)] shadow-sm dark:bg-zinc-900 dark:text-[#4edea3]'
                       : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
                   }`}
                 >
@@ -161,7 +161,7 @@ export default async function CommercialLeaseNegotiationPage() {
                   <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
                     <input
-                      className="w-full rounded-lg bg-zinc-50 py-2 pl-9 pr-3 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:bg-zinc-800 dark:text-white"
+                      className="w-full rounded-lg bg-zinc-50 py-2 pl-9 pr-3 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary/20 dark:bg-zinc-800 dark:text-white"
                       placeholder="Search company, RC number, asset..."
                       type="text"
                     />
@@ -173,7 +173,7 @@ export default async function CommercialLeaseNegotiationPage() {
                 </div>
                 <div className="flex items-center justify-between pt-3 text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                   <span>Commercial Covenant Inquiries</span>
-                  <span className="font-semibold text-emerald-600">Portfolio Ledger</span>
+                  <span className="font-semibold text-primary">Portfolio Ledger</span>
                 </div>
 
                 <div className="mt-3 flex flex-col gap-3">
@@ -207,7 +207,7 @@ export default async function CommercialLeaseNegotiationPage() {
                             <span className="block text-[10px] uppercase text-zinc-500 dark:text-zinc-400">
                               {a.status === 'fully_signed' ? 'Agreed Base' : 'Proposed Base'}
                             </span>
-                            <span className="font-mono text-sm font-bold text-emerald-600">
+                            <span className="font-mono text-sm font-bold text-primary">
                               {naira(a.rentAmount)}
                             </span>
                             <span className="block text-xs text-zinc-500 dark:text-zinc-400">/year</span>
@@ -249,7 +249,7 @@ export default async function CommercialLeaseNegotiationPage() {
                           </span>
                           <div className="flex items-center gap-2">
                             {a.status === 'fully_signed' ? (
-                              <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600">
+                              <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
                                 <CheckCircle2 className="h-3.5 w-3.5" />
                                 Ready for Stamping
                               </span>
@@ -258,7 +258,7 @@ export default async function CommercialLeaseNegotiationPage() {
                                 <button className="rounded bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200">
                                   Counter
                                 </button>
-                                <button className="rounded bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-emerald-700">
+                                <button className="rounded bg-primary px-2.5 py-1 text-xs font-semibold text-white hover:bg-[var(--sovereign-hover)]">
                                   Review Terms
                                 </button>
                               </>
@@ -289,7 +289,7 @@ export default async function CommercialLeaseNegotiationPage() {
                     <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/[0.08] dark:bg-zinc-800">
                       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-600 text-lg font-bold text-white shadow-sm">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white shadow-sm">
                             {(agr.tenant.fullName || '?')
                               .split(' ')
                               .map((p) => p[0])
@@ -302,7 +302,7 @@ export default async function CommercialLeaseNegotiationPage() {
                               <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
                                 {agr.tenant.fullName}
                               </h3>
-                              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+                              <span className="rounded-full bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--sovereign-hover)] dark:bg-primary/30 dark:text-[#4edea3]">
                                 {agr.riskTier === 'review_required' ? 'Risk Tier B' : 'Risk Tier A (Institutional)'}
                               </span>
                             </div>
@@ -321,7 +321,7 @@ export default async function CommercialLeaseNegotiationPage() {
                           </div>
                           <div className="mt-0.5 font-mono text-xs text-zinc-500 dark:text-zinc-400">
                             Asking: <span className="line-through">{naira(agreements[1]?.rentAmount ?? agr.rentAmount)}</span>{' '}
-                            → <span className="font-bold text-emerald-600">{naira(agr.rentAmount)}</span>
+                            → <span className="font-bold text-primary">{naira(agr.rentAmount)}</span>
                           </div>
                         </div>
                       </div>
@@ -331,7 +331,7 @@ export default async function CommercialLeaseNegotiationPage() {
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center justify-between">
                         <h4 className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-white">
-                          <PaymentsIcon className="h-5 w-5 text-emerald-600" />
+                          <PaymentsIcon className="h-5 w-5 text-primary" />
                           Financial Covenant &amp; Escalations
                         </h4>
                         <span className="text-[10px] uppercase text-zinc-500 dark:text-zinc-400">Currency: NGN</span>
@@ -429,7 +429,7 @@ export default async function CommercialLeaseNegotiationPage() {
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center justify-between">
                         <h4 className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-white">
-                          <Gavel className="h-5 w-5 text-emerald-600" />
+                          <Gavel className="h-5 w-5 text-primary" />
                           Tenancy Governance &amp; Covenants
                         </h4>
                         <span className="text-[10px] uppercase text-zinc-500 dark:text-zinc-400">Lagos Tenancy Law 2011</span>
@@ -441,7 +441,7 @@ export default async function CommercialLeaseNegotiationPage() {
                               Lease Duration &amp; Term Window
                             </label>
                             <div className="flex items-center gap-2 rounded-lg bg-white p-2 shadow-sm dark:bg-zinc-900">
-                              <Calendar className="h-5 w-5 text-emerald-600" />
+                              <Calendar className="h-5 w-5 text-primary" />
                               <input
                                 className="w-full bg-transparent text-sm font-semibold text-zinc-900 focus:outline-none dark:text-white"
                                 readOnly
@@ -479,7 +479,7 @@ export default async function CommercialLeaseNegotiationPage() {
                             <label key={label} className="flex cursor-pointer items-start gap-2 select-none">
                               <input
                                 checked
-                                className="mt-1 h-4 w-4 rounded text-emerald-600 focus:ring-emerald-500"
+                                className="mt-1 h-4 w-4 rounded text-primary focus:ring-primary"
                                 readOnly
                                 type="checkbox"
                               />
@@ -499,10 +499,10 @@ export default async function CommercialLeaseNegotiationPage() {
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center justify-between">
                         <h4 className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-white">
-                          <FileText className="h-5 w-5 text-emerald-600" />
+                          <FileText className="h-5 w-5 text-primary" />
                           Special Clauses &amp; Addenda
                         </h4>
-                        <span className="cursor-pointer text-xs font-semibold text-emerald-600 hover:underline">
+                        <span className="cursor-pointer text-xs font-semibold text-primary hover:underline">
                           + Insert Boilerplate Clause
                         </span>
                       </div>
@@ -514,7 +514,7 @@ export default async function CommercialLeaseNegotiationPage() {
                           rows={4}
                         />
                         <p className="mt-2 flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
-                          <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                          <ShieldCheck className="h-4 w-4 text-primary" />
                           Legally drafted for institutional enforceability.
                         </p>
                       </div>
@@ -531,7 +531,7 @@ export default async function CommercialLeaseNegotiationPage() {
                           <Send className="h-4 w-4" />
                           Send Counter Offer
                         </button>
-                        <button className="flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-emerald-700">
+                        <button className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white hover:bg-[var(--sovereign-hover)]">
                           <CheckCircle2 className="h-4 w-4" />
                           Accept Offer
                         </button>

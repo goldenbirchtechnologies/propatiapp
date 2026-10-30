@@ -84,7 +84,7 @@ function rentBadge(tenant: Tenant) {
   switch (s) {
     case 'paid':
       return (
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">
+        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-primary/10 text-primary dark:text-[#4edea3] border-primary/20">
           Paid
         </span>
       );
@@ -236,15 +236,15 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col">
           <nav className="flex items-center gap-1 text-sm text-zinc-500 dark:text-zinc-400 mb-1">
-            <span className="hover:text-emerald-600 transition-colors cursor-pointer">Home</span>
+            <span className="hover:text-primary transition-colors cursor-pointer">Home</span>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
-            <span className="hover:text-emerald-600 transition-colors cursor-pointer">Portfolio</span>
+            <span className="hover:text-primary transition-colors cursor-pointer">Portfolio</span>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
             <span className="text-zinc-900 dark:text-white font-semibold">Tenants</span>
           </nav>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Tenants</h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-600/10 text-emerald-600">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary">
               {tenants.length} Lease{tenants.length === 1 ? '' : 's'}
             </span>
           </div>
@@ -262,7 +262,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
             <span>Export CSV</span>
           </Button>
           <Link href="/dashboard/landlord/agreements">
-            <Button className="inline-flex items-center gap-1.5 bg-emerald-600 text-white hover:bg-emerald-700">
+            <Button className="inline-flex items-center gap-1.5 bg-primary text-white hover:bg-[var(--sovereign-hover)]">
               <Plus className="w-4 h-4" />
               <span>Add Tenant</span>
             </Button>
@@ -275,7 +275,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
         <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium uppercase tracking-wider">Total Active Tenants</span>
-            <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600/10 transition-colors">
+            <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
               <Users className="w-5 h-5" />
             </div>
           </div>
@@ -283,13 +283,13 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
             <div className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">
               {stats.total} <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Tenants</span>
             </div>
-            <div className="flex items-center gap-1.5 mt-1 text-xs text-emerald-600">
+            <div className="flex items-center gap-1.5 mt-1 text-xs text-primary">
               <TrendingUp className="w-4 h-4" />
               <span className="font-semibold">{stats.active} active</span>
               <span className="text-zinc-500 dark:text-zinc-400">leases in force</span>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-600 to-transparent opacity-40" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-transparent opacity-40" />
         </div>
 
         <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
@@ -315,7 +315,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
         <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium uppercase tracking-wider">Rent Collection Rate</span>
-            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-500/20 transition-colors">
+            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
               <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
@@ -326,7 +326,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
               <span>active leases tracked</span>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-transparent opacity-40" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-transparent opacity-40" />
         </div>
 
         <div className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
@@ -465,7 +465,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
                                 </span>
                               )}
                               {tenant.ninVerified && (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-primary/10 text-primary dark:text-[#4edea3]">
                                   NIN Verified
                                 </span>
                               )}
@@ -510,19 +510,19 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
                       <TableCell className="text-center">
                         <div className="flex items-center justify-center gap-2">
                           <Link href={`/dashboard/landlord/messages?tenant=${tenant.id}`}>
-                            <Button variant="ghost" size="sm" title="Message Tenant" className="text-zinc-600 dark:text-zinc-400 hover:text-emerald-600">
+                            <Button variant="ghost" size="sm" title="Message Tenant" className="text-zinc-600 dark:text-zinc-400 hover:text-primary">
                               <MessageSquare className="w-4 h-4" />
                             </Button>
                           </Link>
                           {tenant.agreementId && (
                             <Link href={`/dashboard/landlord/agreements/${tenant.agreementId}`}>
-                              <Button variant="ghost" size="sm" title="View Agreement" className="text-zinc-600 dark:text-zinc-400 hover:text-emerald-600">
+                              <Button variant="ghost" size="sm" title="View Agreement" className="text-zinc-600 dark:text-zinc-400 hover:text-primary">
                                 <FileText className="w-4 h-4" />
                               </Button>
                             </Link>
                           )}
                           <Link href={`/dashboard/landlord/tenants/${tenant.id}`}>
-                            <Button variant="ghost" size="sm" title="View Profile" className="text-zinc-600 dark:text-zinc-400 hover:text-emerald-600">
+                            <Button variant="ghost" size="sm" title="View Profile" className="text-zinc-600 dark:text-zinc-400 hover:text-primary">
                               <Eye className="w-4 h-4" />
                             </Button>
                           </Link>

@@ -100,7 +100,7 @@ const SORT_OPTIONS = [
 ];
 
 const selectClass =
-  'h-10 w-full appearance-none rounded-lg bg-zinc-50 pl-3 pr-8 text-[13px] leading-[18px] text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-600 dark:bg-zinc-800/50 dark:text-white dark:focus:ring-emerald-500';
+  'h-10 w-full appearance-none rounded-lg bg-zinc-50 pl-3 pr-8 text-[13px] leading-[18px] text-zinc-900 focus:outline-none focus:ring-1 focus:ring-primary dark:bg-zinc-800/50 dark:text-white dark:focus:ring-primary';
 
 /** Segment a listing into a market segment key for the composition bar. */
 function segmentFor(listing: AgentMarketListing): {
@@ -115,24 +115,24 @@ function segmentFor(listing: AgentMarketListing): {
     return {
       key: 'commercial',
       label: 'Commercial',
-      colorClass: 'bg-emerald-700 dark:bg-emerald-500',
-      barClass: 'bg-emerald-700 dark:bg-emerald-500',
+      colorClass: 'bg-[var(--sovereign-hover)] dark:bg-primary',
+      barClass: 'bg-[var(--sovereign-hover)] dark:bg-primary',
     };
   }
   if (lt === 'sale' && pt === 'land') {
     return {
       key: 'land',
       label: 'Freehold Land',
-      colorClass: 'bg-emerald-400 dark:bg-emerald-300',
-      barClass: 'bg-emerald-400 dark:bg-emerald-300',
+      colorClass: 'bg-[#4edea3] dark:bg-[var(--sovereign-container-bg)]',
+      barClass: 'bg-[#4edea3] dark:bg-[var(--sovereign-container-bg)]',
     };
   }
   if (lt === 'sale') {
     return {
       key: 'residential',
       label: 'Luxury Residential',
-      colorClass: 'bg-emerald-600 dark:bg-emerald-400',
-      barClass: 'bg-emerald-600 dark:bg-emerald-400',
+      colorClass: 'bg-primary dark:bg-[#4edea3]',
+      barClass: 'bg-primary dark:bg-[#4edea3]',
     };
   }
   if (pt === 'warehouse' || pt === 'land') {
@@ -146,8 +146,8 @@ function segmentFor(listing: AgentMarketListing): {
   return {
     key: 'lease',
     label: 'Residential Lease',
-    colorClass: 'bg-emerald-200 dark:bg-emerald-600',
-    barClass: 'bg-emerald-200 dark:bg-emerald-600',
+    colorClass: 'bg-[var(--sovereign-container-bg)] dark:bg-primary',
+    barClass: 'bg-[var(--sovereign-container-bg)] dark:bg-primary',
   };
 }
 
@@ -291,7 +291,7 @@ export default function AgentMarketClient({
       {/* ============ HEADER SECTION ============ */}
       <div className="flex flex-col gap-2">
         <nav className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.04em] text-zinc-500 dark:text-zinc-500">
-          <Link href="/dashboard/agent" className="transition-colors hover:text-emerald-700 dark:hover:text-emerald-400">
+          <Link href="/dashboard/agent" className="transition-colors hover:text-[var(--sovereign-hover)] dark:hover:text-[#4edea3]">
             Market &amp; Leads
           </Link>
           <ChevronRight size={14} />
@@ -306,11 +306,11 @@ export default function AgentMarketClient({
                 Market Overview &amp; Real-Time Listings
               </h1>
               <span
-                className={`inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-800 shadow-sm dark:bg-emerald-500/20 dark:text-emerald-300`}
+                className={`inline-flex items-center gap-1.5 rounded-full bg-[var(--sovereign-container-bg)] px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] shadow-sm dark:bg-primary/20 dark:text-[#6ffbbe]`}
               >
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-700 dark:bg-emerald-400" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--sovereign-hover)] dark:bg-[#4edea3]" />
                 </span>
                 Live Platform MLS Feed
               </span>
@@ -331,7 +331,7 @@ export default function AgentMarketClient({
             </button>
             <Link
               href="/dashboard/agent/invites"
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-[13px] leading-[18px] text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-400 dark:text-emerald-950 dark:hover:bg-emerald-500"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-[13px] leading-[18px] text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-[#4edea3] dark:text-primary dark:hover:bg-primary"
             >
               <Handshake size={18} />
               <span>Request Mandate Co-brokerage</span>
@@ -348,20 +348,20 @@ export default function AgentMarketClient({
             <span className={`${LABEL_SM} uppercase text-zinc-500 dark:text-zinc-500`}>
               Active Listings
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <Building2 size={20} />
             </div>
           </div>
           <div className="flex items-baseline gap-2.5">
             <span className={`${HEADLINE_LG} ${ON_SURFACE}`}>{totalActive.toLocaleString()}</span>
             <span
-              className={`rounded bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300`}
+              className={`rounded bg-[var(--sovereign-container-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#6ffbbe]`}
             >
               {initialListings.length} in batch
             </span>
           </div>
           <p className={`flex items-center gap-1.5 pt-1 ${BODY_SM} ${MUTED}`}>
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             {stats.stateSummary}
           </p>
         </div>
@@ -372,7 +372,7 @@ export default function AgentMarketClient({
             <span className={`${LABEL_SM} uppercase text-zinc-500 dark:text-zinc-500`}>
               Avg Market Price
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <Wallet size={20} />
             </div>
           </div>
@@ -393,7 +393,7 @@ export default function AgentMarketClient({
             <span className={`${LABEL_SM} uppercase text-zinc-500 dark:text-zinc-500`}>
               Total Shown in Batch
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <Table2 size={20} />
             </div>
           </div>
@@ -419,7 +419,7 @@ export default function AgentMarketClient({
             <span className={`${LABEL_SM} uppercase text-zinc-500 dark:text-zinc-500`}>
               Market Segments
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-emerald-700 dark:bg-zinc-800/50 dark:text-emerald-400">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <PieChart size={20} />
             </div>
           </div>
@@ -469,7 +469,7 @@ export default function AgentMarketClient({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search active marketplace by title, street address, LGA or cadastral ID..."
-              className="h-10 w-full rounded-lg bg-zinc-50 pl-9 pr-4 text-[12px] leading-4 text-zinc-900 placeholder:text-zinc-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-800 dark:focus:ring-emerald-500"
+              className="h-10 w-full rounded-lg bg-zinc-50 pl-9 pr-4 text-[12px] leading-4 text-zinc-900 placeholder:text-zinc-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-primary dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-800 dark:focus:ring-primary"
             />
           </div>
           {/* Filter Selects */}
@@ -544,7 +544,7 @@ export default function AgentMarketClient({
             aria-pressed={verifiedOnly}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold shadow-sm transition-colors ${
               verifiedOnly
-                ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300'
+                ? 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#6ffbbe]'
                 : 'bg-zinc-50 text-zinc-900 hover:bg-zinc-100 dark:bg-zinc-800/50 dark:text-white dark:hover:bg-zinc-800'
             }`}
           >
@@ -644,7 +644,7 @@ export default function AgentMarketClient({
                           )}
                           <div className="flex min-w-0 flex-col">
                             <span
-                              className={`${TITLE_SM} truncate transition-colors group-hover:text-emerald-700 dark:group-hover:text-emerald-400`}
+                              className={`${TITLE_SM} truncate transition-colors group-hover:text-[var(--sovereign-hover)] dark:group-hover:text-[#4edea3]`}
                             >
                               {l.title}
                             </span>
@@ -659,7 +659,7 @@ export default function AgentMarketClient({
                                 CAD: {l.id.slice(-8).toUpperCase()}
                               </span>
                               {l.verificationTier !== 'basic' ? (
-                                <span className="flex items-center gap-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
+                                <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                   <BadgeCheck size={12} />
                                   {humanise(l.verificationTier)} Title
                                 </span>
@@ -725,7 +725,7 @@ export default function AgentMarketClient({
                         <div className="flex items-center justify-end gap-1.5">
                           <Link
                             href={`/dashboard/agent/listings/${l.id}`}
-                            className={`rounded-lg bg-zinc-100 px-3 py-1.5 text-[13px] leading-[18px] text-zinc-900 transition-colors hover:bg-emerald-500 hover:text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-emerald-500`}
+                            className={`rounded-lg bg-zinc-100 px-3 py-1.5 text-[13px] leading-[18px] text-zinc-900 transition-colors hover:bg-primary hover:text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-primary`}
                           >
                             View
                           </Link>
@@ -809,7 +809,7 @@ export default function AgentMarketClient({
         </div>
         <Link
           href="/dashboard/agent/agreements/new"
-          className={`inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg bg-white px-3 py-1.5 text-[13px] leading-[18px] font-semibold shadow-sm transition-colors hover:bg-emerald-700 hover:text-white md:self-auto dark:bg-zinc-900 dark:text-emerald-400 dark:hover:bg-emerald-500 dark:hover:text-emerald-950`}
+          className={`inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg bg-white px-3 py-1.5 text-[13px] leading-[18px] font-semibold shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] hover:text-white md:self-auto dark:bg-zinc-900 dark:text-[#4edea3] dark:hover:bg-primary dark:hover:text-primary`}
         >
           <span>Review Co-Brokerage Guidelines</span>
           <ChevronRight size={16} />

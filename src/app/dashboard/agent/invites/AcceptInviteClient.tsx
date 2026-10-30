@@ -62,8 +62,8 @@ export default function AcceptInviteClient({ invites, email }: Props) {
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2 min-w-0 flex-1">
               <div className="flex items-center gap-2 min-w-0">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400 flex-shrink-0" />
-                <p className="font-semibold text-emerald-400 truncate" title={invite.sender?.fullName || 'a landlord'}>
+                <CheckCircle2 className="h-4 w-4 text-[#4edea3] flex-shrink-0" />
+                <p className="font-semibold text-[#4edea3] truncate" title={invite.sender?.fullName || 'a landlord'}>
                   Invitation from {invite.sender?.fullName || 'a landlord'}
                 </p>
               </div>

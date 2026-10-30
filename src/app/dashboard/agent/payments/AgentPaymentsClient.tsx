@@ -287,7 +287,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
         description="Live trust wallet balances, escrow clearing, disbursements and a strict transaction ledger for every mandate under your agency."
         badges={
           <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-[11px] font-semibold text-zinc-600 dark:text-zinc-400">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
             Live ledger sync
           </span>
         }
@@ -313,13 +313,13 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
           icon={<Wallet className="h-4 w-4" />}
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 dark:border-white/[0.08] pt-3">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary dark:text-[#4edea3]">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                 {summary.walletLocked ? 'Locked' : 'Ready for settlement'}
               </span>
               <Link
                 href="/dashboard/agent/withdrawals"
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary dark:text-[#4edea3] hover:underline"
               >
                 Withdraw Funds <ArrowRight className="h-3 w-3" />
               </Link>
@@ -381,7 +381,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
       {/* Custody / compliance banner */}
       <div className="flex flex-col items-center justify-between gap-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800/50 p-4 lg:flex-row">
         <div className="flex items-center gap-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-sm">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-sm">
             <Shield className="h-5 w-5" />
           </div>
           <div>
@@ -557,7 +557,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
                       <FinanceTableRow key={row.key}>
                         <FinanceTd>
                           <div className="flex flex-col">
-                            <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                            <span className="font-mono text-xs font-semibold text-primary dark:text-[#4edea3]">
                               #{row.reference}
                             </span>
                             <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
@@ -582,7 +582,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
                         </FinanceTd>
                         <FinanceTd>
                           <div className="flex items-center gap-1.5">
-                            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                            <span className="h-2 w-2 rounded-full bg-primary" />
                             <span className="font-mono text-[11px] text-zinc-700 dark:text-zinc-300">
                               {row.channel}
                             </span>
@@ -592,7 +592,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
                           <div
                             className={
                               isCredit
-                                ? 'font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400'
+                                ? 'font-mono text-sm font-bold text-primary dark:text-[#4edea3]'
                                 : 'font-mono text-sm font-bold text-zinc-900 dark:text-white'
                             }
                           >

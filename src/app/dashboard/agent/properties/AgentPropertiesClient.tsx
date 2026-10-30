@@ -128,7 +128,7 @@ const JURISDICTION_OPTIONS = [
 ];
 
 const selectClass =
-  'h-8 appearance-none rounded-lg bg-zinc-50 pl-3 pr-8 text-[12px] font-medium text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-600 dark:bg-zinc-800/50 dark:text-white dark:focus:ring-emerald-500';
+  'h-8 appearance-none rounded-lg bg-zinc-50 pl-3 pr-8 text-[12px] font-medium text-zinc-900 focus:outline-none focus:ring-1 focus:ring-primary dark:bg-zinc-800/50 dark:text-white dark:focus:ring-primary';
 
 export default function AgentPropertiesClient({ listings }: AgentPropertiesClientProps) {
   const [query, setQuery] = useState('');
@@ -214,7 +214,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
             <span
               className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 ${LABEL_SM} ${SECONDARY_CONTAINER_BG} ${SECONDARY_CONTAINER_TEXT}`}
             >
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-700 dark:bg-emerald-400" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--sovereign-hover)] dark:bg-[#4edea3]" />
               {stats.totalProperties} {stats.totalProperties === 1 ? 'Estate' : 'Estates'} Mandated
             </span>
           </div>
@@ -233,7 +233,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
           </button>
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 dark:bg-emerald-400 dark:text-emerald-950 dark:hover:bg-emerald-500"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] dark:bg-[#4edea3] dark:text-primary dark:hover:bg-primary"
           >
             <Plus size={18} />
             <span>+ Add Property Assignment</span>
@@ -259,7 +259,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                 </span>
               </div>
             </div>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-emerald-700 dark:bg-zinc-800 dark:text-emerald-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-[var(--sovereign-hover)] dark:bg-zinc-800 dark:text-[#4edea3]">
               <Building2 size={20} />
             </div>
           </div>
@@ -303,7 +303,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
             className={`-mx-4 -mb-4 mt-3 flex items-center justify-between rounded-b-xl bg-zinc-50/60 px-4 py-2 dark:bg-zinc-800/50`}
           >
             <span className={`${BODY_SM} ${MUTED}`}>Portfolio Occupancy</span>
-            <span className={`${MONO_NUMERIC} text-[12px] font-bold text-emerald-700 dark:text-emerald-400`}>
+            <span className={`${MONO_NUMERIC} text-[12px] font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]`}>
               {stats.occupancyRate}%
             </span>
           </div>
@@ -320,13 +320,13 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                 <span className={`${HEADLINE_MD} ${ON_SURFACE} font-bold`}>
                   {stats.activeInventory} Units
                 </span>
-                <span className={`${BODY_SM} font-semibold text-emerald-700 dark:text-emerald-400`}>
+                <span className={`${BODY_SM} font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]`}>
                   Active
                 </span>
               </div>
             </div>
             <div
-              className={`flex h-9 w-9 items-center justify-center rounded-lg ${SECONDARY_CONTAINER_BG} text-emerald-800 dark:text-emerald-300`}
+              className={`flex h-9 w-9 items-center justify-center rounded-lg ${SECONDARY_CONTAINER_BG} text-[var(--sovereign-hover)] dark:text-[#6ffbbe]`}
             >
               <Tag size={20} />
             </div>
@@ -356,7 +356,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                 </span>
               </div>
             </div>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-emerald-700 dark:bg-zinc-800 dark:text-emerald-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-100 text-[var(--sovereign-hover)] dark:bg-zinc-800 dark:text-[#4edea3]">
               <Wallet size={20} />
             </div>
           </div>
@@ -386,7 +386,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by estate name, street address, or Land Title / C of O reference..."
-              className="h-10 w-full rounded-lg bg-zinc-50 pl-9 pr-4 text-[12px] leading-4 text-zinc-900 placeholder:text-zinc-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-800 dark:focus:ring-emerald-500"
+              className="h-10 w-full rounded-lg bg-zinc-50 pl-9 pr-4 text-[12px] leading-4 text-zinc-900 placeholder:text-zinc-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-primary dark:bg-zinc-800/50 dark:text-white dark:focus:bg-zinc-800 dark:focus:ring-primary"
             />
           </div>
           {/* View Controls & Counter */}
@@ -402,7 +402,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                 aria-pressed={view === 'hybrid'}
                 className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[14px] font-semibold transition-colors ${
                   view === 'hybrid'
-                    ? 'bg-white text-emerald-700 shadow-sm dark:bg-zinc-900 dark:text-emerald-400'
+                    ? 'bg-white text-[var(--sovereign-hover)] shadow-sm dark:bg-zinc-900 dark:text-[#4edea3]'
                     : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
@@ -415,7 +415,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                 aria-pressed={view === 'grid'}
                 className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[14px] font-semibold transition-colors ${
                   view === 'grid'
-                    ? 'bg-white text-emerald-700 shadow-sm dark:bg-zinc-900 dark:text-emerald-400'
+                    ? 'bg-white text-[var(--sovereign-hover)] shadow-sm dark:bg-zinc-900 dark:text-[#4edea3]'
                     : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
@@ -572,10 +572,10 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                     </div>
                     <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between rounded bg-black/60 px-2.5 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm">
                       <span className="flex items-center gap-1">
-                        <Building2 size={14} className="text-emerald-300" />
+                        <Building2 size={14} className="text-[#6ffbbe]" />
                         {humanise(listing.propertyType ?? listing.listingType)}
                       </span>
-                      <span className="text-[11px] text-emerald-200">
+                      <span className="text-[11px] text-[#4edea3]">
                         {listing.mandateType === 'direct' ? 'Full Mandate' : 'Co-brokered'}
                       </span>
                     </div>
@@ -630,7 +630,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                               className="h-9 w-9 rounded-full object-cover ring-2 ring-white dark:ring-zinc-900"
                             />
                           ) : (
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 font-bold text-[12px] text-emerald-700 ring-2 ring-white dark:bg-zinc-700 dark:text-emerald-400 dark:ring-zinc-900">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 font-bold text-[12px] text-[var(--sovereign-hover)] ring-2 ring-white dark:bg-zinc-700 dark:text-[#4edea3] dark:ring-zinc-900">
                               {initials(listing.owner?.fullName)}
                             </div>
                           )}
@@ -676,7 +676,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                           className={`flex flex-col rounded-lg p-2 ${SECONDARY_CONTAINER_BG}`}
                         >
                           <span
-                            className={`${LABEL_SM} font-medium text-emerald-800 dark:text-emerald-300`}
+                            className={`${LABEL_SM} font-medium text-[var(--sovereign-hover)] dark:text-[#6ffbbe]`}
                           >
                             Occupied
                           </span>
@@ -685,7 +685,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                               {occupied} Units
                             </span>
                             <span
-                              className={`${MONO_NUMERIC} text-[12px] font-bold text-emerald-700 dark:text-emerald-400`}
+                              className={`${MONO_NUMERIC} text-[12px] font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]`}
                             >
                               {occupancyPct}%
                             </span>
@@ -702,7 +702,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                                 Immediate
                               </span>
                             ) : (
-                              <span className="text-[10px] font-bold uppercase text-emerald-700 dark:text-emerald-400">
+                              <span className="text-[10px] font-bold uppercase text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                 Full
                               </span>
                             )}
@@ -738,7 +738,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                         </button>
                         <Link
                           href="/dashboard/agent/inspections/new"
-                          className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-700 px-3 py-1.5 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-600 dark:bg-emerald-500 dark:text-emerald-950 dark:hover:bg-emerald-400"
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--sovereign-hover)] px-3 py-1.5 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-primary dark:bg-primary dark:text-primary dark:hover:bg-[#4edea3]"
                         >
                           <CalendarClock size={16} />
                           <span>Schedule Inspection</span>
@@ -823,7 +823,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                               </span>
                               <Link
                                 href={`/dashboard/agent/listings/${listing.id}`}
-                                className={`rounded px-2.5 py-1 text-[12px] font-semibold ${PRIMARY_CONTAINER_BG} ${PRIMARY_CONTAINER_TEXT} transition-colors hover:bg-emerald-700 hover:text-white`}
+                                className={`rounded px-2.5 py-1 text-[12px] font-semibold ${PRIMARY_CONTAINER_BG} ${PRIMARY_CONTAINER_TEXT} transition-colors hover:bg-[var(--sovereign-hover)] hover:text-white`}
                               >
                                 Generate Offer
                               </Link>
@@ -837,7 +837,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                           >
                             <div className="flex items-center gap-2">
                               <span
-                                className={`flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-200/60 font-mono text-[12px] font-bold text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300`}
+                                className={`flex h-8 w-8 items-center justify-center rounded-lg bg-primary/60 font-mono text-[12px] font-bold text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#6ffbbe]`}
                               >
                                 {occupiedUnits.length}U
                               </span>
@@ -848,7 +848,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                                     {occupiedUnits.length === 1 ? '' : 's'}
                                   </span>
                                   <span
-                                    className={`rounded bg-emerald-200/60 px-1.5 py-0.5 text-[10px] font-bold uppercase text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300`}
+                                    className={`rounded bg-primary/60 px-1.5 py-0.5 text-[10px] font-bold uppercase text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#6ffbbe]`}
                                   >
                                     OCCUPIED
                                   </span>
@@ -897,7 +897,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
           className={`${CARD} flex flex-col items-center justify-between gap-4 p-4 sm:flex-row`}
         >
           <div className={`flex items-center gap-2 ${BODY_SM} ${MUTED}`}>
-            <span className="h-2 w-2 rounded-full bg-emerald-700 dark:bg-emerald-400" />
+            <span className="h-2 w-2 rounded-full bg-[var(--sovereign-hover)] dark:bg-[#4edea3]" />
             <span>
               Showing <strong className={`font-semibold ${ON_SURFACE}`}>{filtered.length}</strong> of{' '}
               <strong className={`font-semibold ${ON_SURFACE}`}>{stats.totalProperties}</strong>{' '}
@@ -909,7 +909,7 @@ export default function AgentPropertiesClient({ listings }: AgentPropertiesClien
                 {stats.vacant} Total Vacant Units available for prospective client showing
               </span>
             ) : (
-              <span className="font-medium text-emerald-700 dark:text-emerald-400">
+              <span className="font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 Fully allocated portfolio
               </span>
             )}

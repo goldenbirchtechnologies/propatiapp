@@ -119,7 +119,7 @@ export default function RevenueForecastClient() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={handleGenerate}>
+          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={handleGenerate}>
             <TrendingUp className="h-4 w-4" /> Generate Forecast
           </Button>
           <Button variant="outline" size="sm" className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" asChild>
@@ -141,11 +141,11 @@ export default function RevenueForecastClient() {
               <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Revenue (YTD)</span>
               <span className="mt-1.5 font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(totalRevenue)}</span>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]">
               <Wallet className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+          <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-primary dark:text-[#4edea3]">
             <TrendingUp className="h-4 w-4" /> Live from transactions
           </div>
         </div>
@@ -175,12 +175,12 @@ export default function RevenueForecastClient() {
                 <span className="text-sm text-zinc-500 dark:text-zinc-400">Transactions</span>
               </div>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-emerald-600 dark:border-white/[0.08] dark:bg-white/[0.04]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-primary dark:border-white/[0.08] dark:bg-white/[0.04]">
               <Receipt className="h-5 w-5" />
             </div>
           </div>
           <div className="mt-3 flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
-            <CheckCircle2 className="h-4 w-4 text-emerald-500" /> Auto-cleared via Paystack
+            <CheckCircle2 className="h-4 w-4 text-primary" /> Auto-cleared via Paystack
           </div>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
@@ -191,12 +191,12 @@ export default function RevenueForecastClient() {
                 <span className="font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(avgRevenue)}</span>
               </div>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary dark:text-[#4edea3]">
               <BarChart3 className="h-5 w-5" />
             </div>
           </div>
           <div className="mt-3 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-            <span className="h-1.5 w-6 rounded-full bg-emerald-500" /> YTD run-rate
+            <span className="h-1.5 w-6 rounded-full bg-primary" /> YTD run-rate
           </div>
         </div>
       </div>
@@ -212,7 +212,7 @@ export default function RevenueForecastClient() {
         <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">Dual-stream comparison: Contracted Actuals vs Algorithmic Forecast</p>
         <div className="mt-3 flex flex-wrap gap-4 text-xs text-zinc-600 dark:text-zinc-400">
           <span className="flex items-center gap-2">
-            <span className="h-3.5 w-3.5 rounded bg-emerald-600" /> FY Actuals
+            <span className="h-3.5 w-3.5 rounded bg-primary" /> FY Actuals
           </span>
           <span className="flex items-center gap-2">
             <span className="h-3.5 w-3.5 rounded bg-zinc-300 dark:bg-zinc-700" /> FY Projected
@@ -236,7 +236,7 @@ export default function RevenueForecastClient() {
                 return (
                   <div key={m} className="flex flex-1 flex-col items-center gap-1">
                     <div className="flex w-full max-w-[48px] items-end gap-1" style={{ height: 200 }}>
-                      <div className="flex-1 rounded-t bg-emerald-600 transition-all" style={{ height: `${Math.max(4, h)}%` }} title={`${m} actual: ${formatNairaFull(monthlyTotals[i])}`} />
+                      <div className="flex-1 rounded-t bg-primary transition-all" style={{ height: `${Math.max(4, h)}%` }} title={`${m} actual: ${formatNairaFull(monthlyTotals[i])}`} />
                       <div
                         className="flex-1 rounded-t bg-zinc-300 dark:bg-zinc-600 opacity-60"
                         style={{ height: `${Math.max(4, projH)}%` }}
@@ -251,7 +251,7 @@ export default function RevenueForecastClient() {
           )}
           <div className="mt-3 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 border-t border-zinc-200 dark:border-white/[0.06] pt-3">
             <span>Live aggregates • YTD {formatNairaFull(totalRevenue)} across {transactionCount} tx</span>
-            <Link href="/dashboard/landlord/revenue-forecast/report" className="inline-flex items-center gap-1 font-semibold text-emerald-600 hover:text-emerald-500">
+            <Link href="/dashboard/landlord/revenue-forecast/report" className="inline-flex items-center gap-1 font-semibold text-primary hover:text-primary">
               View full report <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -272,7 +272,7 @@ export default function RevenueForecastClient() {
                 <div className="text-sm font-semibold text-zinc-900 dark:text-white">{d.label}</div>
                 <div className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">{d.sub}</div>
               </div>
-              <span className="font-mono text-sm font-bold text-emerald-600">{d.val}</span>
+              <span className="font-mono text-sm font-bold text-primary">{d.val}</span>
             </div>
           ))}
         </div>
@@ -294,7 +294,7 @@ export default function RevenueForecastClient() {
                 <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white">12.0% Buffer</span>
               </div>
               <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-white/[0.08]">
-                <div className="h-full rounded-full bg-emerald-600" style={{ width: '65%' }} />
+                <div className="h-full rounded-full bg-primary" style={{ width: '65%' }} />
               </div>
             </div>
             <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/[0.06] dark:bg-white/[0.04]">
@@ -302,7 +302,7 @@ export default function RevenueForecastClient() {
                 <span className="text-sm font-medium text-zinc-900 dark:text-white">Monte Carlo Simulation Score</span>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">10,000 stress runs</p>
               </div>
-              <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400">A+ AAA Grade</span>
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-mono text-xs font-bold text-primary dark:text-[#4edea3]">A+ AAA Grade</span>
             </div>
           </div>
         </div>

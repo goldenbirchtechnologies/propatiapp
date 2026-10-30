@@ -13,7 +13,7 @@ export default function GlobalError({ error, reset }: { error?: Error & { digest
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-6 py-16">
       <div className="w-full max-w-lg rounded-3xl glass-card p-8 text-center">
-        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400">
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-[#4edea3]">
           <svg
             className="h-8 w-8"
             fill="none"

@@ -103,7 +103,7 @@ const SORT_OPTIONS = [
 ];
 
 const selectClass =
-  'h-10 appearance-none rounded-lg bg-zinc-50 pl-3 pr-8 text-[13px] leading-[18px] text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-600 dark:bg-zinc-800/50 dark:text-white dark:focus:ring-emerald-500';
+  'h-10 appearance-none rounded-lg bg-zinc-50 pl-3 pr-8 text-[13px] leading-[18px] text-zinc-900 focus:outline-none focus:ring-1 focus:ring-primary dark:bg-zinc-800/50 dark:text-white dark:focus:ring-primary';
 
 export default function AgentListingsClient({
   initialListings,
@@ -213,7 +213,7 @@ export default function AgentListingsClient({
             <div
               className={`hidden items-center gap-1.5 rounded px-2 py-1 sm:flex ${CARD_SOFT} ${BODY_SM} ${MUTED}`}
             >
-              <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+              <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-primary" />
               <span className={`${MONO_NUMERIC}`}>Lands Bureau Sync: Synchronized</span>
             </div>
             <button
@@ -225,7 +225,7 @@ export default function AgentListingsClient({
             </button>
             <Link
               href="/dashboard/agent/listings/new"
-              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-emerald-500 px-4 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 dark:bg-emerald-400 dark:text-emerald-950 dark:hover:bg-emerald-500"
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-4 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)] dark:bg-[#4edea3] dark:text-primary dark:hover:bg-primary"
             >
               <Plus size={18} />
               <span>Create New Listing</span>
@@ -282,7 +282,7 @@ export default function AgentListingsClient({
                 </span>
               </div>
             </div>
-            <div className="rounded-lg bg-zinc-100 p-2.5 text-emerald-700 dark:bg-zinc-800 dark:text-emerald-400">
+            <div className="rounded-lg bg-zinc-100 p-2.5 text-[var(--sovereign-hover)] dark:bg-zinc-800 dark:text-[#4edea3]">
               <Building2 size={24} />
             </div>
           </div>
@@ -302,12 +302,12 @@ export default function AgentListingsClient({
         >
           <div
             aria-hidden
-            className="pointer-events-none absolute right-0 top-0 h-24 w-24 -translate-x-3 -translate-y-3 rounded-full bg-emerald-200/40 opacity-60 dark:bg-emerald-500/10"
+            className="pointer-events-none absolute right-0 top-0 h-24 w-24 -translate-x-3 -translate-y-3 rounded-full bg-primary/40 opacity-60 dark:bg-primary/10"
           />
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
               <span
-                className={`${LABEL_SM} uppercase text-emerald-800 dark:text-emerald-300`}
+                className={`${LABEL_SM} uppercase text-[var(--sovereign-hover)] dark:text-[#6ffbbe]`}
               >
                 Syndicated Real-Time
               </span>
@@ -323,7 +323,7 @@ export default function AgentListingsClient({
               </div>
             </div>
             <div
-              className={`rounded-lg p-2.5 ${SECONDARY_CONTAINER_BG} text-emerald-800 dark:text-emerald-300`}
+              className={`rounded-lg p-2.5 ${SECONDARY_CONTAINER_BG} text-[var(--sovereign-hover)] dark:text-[#6ffbbe]`}
             >
               <TrendingUp size={24} />
             </div>
@@ -429,7 +429,7 @@ export default function AgentListingsClient({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by title, cadastral street address, LGA, or listing ID..."
-              className="h-10 w-full rounded-lg bg-zinc-50 pl-9 pr-4 text-[12px] leading-4 text-zinc-900 shadow-inner placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-emerald-600 dark:bg-zinc-800/50 dark:text-white dark:focus:ring-emerald-500"
+              className="h-10 w-full rounded-lg bg-zinc-50 pl-9 pr-4 text-[12px] leading-4 text-zinc-900 shadow-inner placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-primary dark:bg-zinc-800/50 dark:text-white dark:focus:ring-primary"
             />
           </div>
 
@@ -550,7 +550,7 @@ export default function AgentListingsClient({
                     checked={allSelected}
                     onChange={toggleAll}
                     aria-label="Select all listings"
-                    className="h-4 w-4 cursor-pointer rounded accent-emerald-500 focus:ring-emerald-500"
+                    className="h-4 w-4 cursor-pointer rounded accent-primary focus:ring-primary"
                   />
                 </th>
                 <th className="min-w-[280px] px-4 py-3">Property Asset</th>
@@ -606,7 +606,7 @@ export default function AgentListingsClient({
                           checked={selected.has(l.id)}
                           onChange={() => toggleOne(l.id)}
                           aria-label={`Select ${l.title}`}
-                          className="h-4 w-4 cursor-pointer accent-emerald-500 focus:ring-emerald-500"
+                          className="h-4 w-4 cursor-pointer accent-primary focus:ring-primary"
                         />
                       </td>
                       <td className="px-4 py-2">
@@ -630,7 +630,7 @@ export default function AgentListingsClient({
                           <div className="flex min-w-0 flex-col">
                             <Link
                               href={`/dashboard/agent/listings/${l.id}`}
-                              className={`${TITLE_SM} truncate transition-colors hover:text-emerald-700 dark:hover:text-emerald-400`}
+                              className={`${TITLE_SM} truncate transition-colors hover:text-[var(--sovereign-hover)] dark:hover:text-[#4edea3]`}
                             >
                               {l.title}
                             </Link>
@@ -647,7 +647,7 @@ export default function AgentListingsClient({
                                 className={`text-[11px] font-medium ${
                                   isFlagged
                                     ? TERTIARY_TEXT
-                                    : 'text-emerald-700 dark:text-emerald-400'
+                                    : 'text-[var(--sovereign-hover)] dark:text-[#4edea3]'
                                 }`}
                               >
                                 · {l.mandateType === 'direct' ? 'Direct Exclusive' : 'Co-brokered'}
@@ -685,13 +685,13 @@ export default function AgentListingsClient({
                           >
                             <span>{l.viewsCount.toLocaleString()}</span>
                             {l.viewsCount > 0 ? (
-                              <TrendingUp size={16} className="text-emerald-700 dark:text-emerald-400" />
+                              <TrendingUp size={16} className="text-[var(--sovereign-hover)] dark:text-[#4edea3]" />
                             ) : null}
                           </div>
                           <div
                             className={`flex items-center gap-1 text-[11px] ${
                               l.viewsCount > 0
-                                ? 'font-medium text-emerald-700 dark:text-emerald-400'
+                                ? 'font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]'
                                 : 'text-zinc-500 dark:text-zinc-500'
                             }`}
                           >
@@ -712,7 +712,7 @@ export default function AgentListingsClient({
                         <div
                           className={`inline-flex items-center gap-1 rounded px-2 py-0.5 ${
                             tier.icon === 'verified'
-                              ? 'bg-emerald-200/60 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300'
+                              ? 'bg-primary/60 text-[var(--sovereign-hover)] dark:bg-primary/20 dark:text-[#6ffbbe]'
                               : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'
                           }`}
                         >
@@ -848,7 +848,7 @@ export default function AgentListingsClient({
         </div>
         <div className={`flex items-center gap-4 font-mono text-[11px]`}>
           <span>API: v2.4-LAG-PROD</span>
-          <span className="font-medium text-emerald-700 dark:text-emerald-400">
+          <span className="font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
             SSL ENCRYPTED (EAL6+)
           </span>
         </div>

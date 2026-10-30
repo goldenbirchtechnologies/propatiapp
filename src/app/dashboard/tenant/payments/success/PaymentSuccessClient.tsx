@@ -87,8 +87,8 @@ export default function PaymentSuccessClient() {
 
       {/* Success Hero */}
       <section className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-emerald-100 dark:bg-emerald-500/20 mb-4 shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
-          <CheckCircle2 className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
+        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/20 mb-4 shadow-[0_20px_50px_rgba(0, 108, 73,0.2)]">
+          <CheckCircle2 className="w-12 h-12 text-primary dark:text-[#4edea3]" />
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 dark:text-white mb-2">Payment Successful</h1>
         <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto">
@@ -107,7 +107,7 @@ export default function PaymentSuccessClient() {
                   {loading ? '—' : `₦ ${amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`}
                 </h3>
               </div>
-              <div className="bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+              <div className="bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3] px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Verified
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function PaymentSuccessClient() {
                 <span className="text-zinc-500 dark:text-zinc-400">Reference</span>
                 <span className="font-mono text-zinc-900 dark:text-white flex items-center gap-2">
                   {reference}
-                  <button onClick={copyRef} className="text-zinc-400 hover:text-emerald-600"><Copy className="w-3.5 h-3.5" /></button>
+                  <button onClick={copyRef} className="text-zinc-400 hover:text-primary"><Copy className="w-3.5 h-3.5" /></button>
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -137,7 +137,7 @@ export default function PaymentSuccessClient() {
             <Button variant="outline" className="flex-1 gap-2" onClick={() => window.print()}>
               <Printer className="w-4 h-4" /> Print
             </Button>
-            <Button className="flex-1 gap-2 bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => toast.info('Receipt download started.')}>
+            <Button className="flex-1 gap-2 bg-primary hover:bg-[var(--sovereign-hover)] text-white" onClick={() => toast.info('Receipt download started.')}>
               <Download className="w-4 h-4" /> Download Receipt
             </Button>
           </div>
@@ -154,7 +154,7 @@ export default function PaymentSuccessClient() {
               { label: 'Property Verified', done: false },
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-3">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${s.done ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-400'}`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${s.done ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-primary' : 'bg-zinc-100 dark:bg-white/[0.06] text-zinc-400'}`}>
                   {s.done ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                 </div>
                 <span className={`text-sm ${s.done ? 'text-zinc-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400'}`}>{s.label}</span>
@@ -162,7 +162,7 @@ export default function PaymentSuccessClient() {
             ))}
           </div>
           <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-white/[0.08]">
-            <Link href="/dashboard/tenant/payments" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+            <Link href="/dashboard/tenant/payments" className="text-sm font-semibold text-primary hover:text-[var(--sovereign-hover)]">
               Back to Rent &amp; Payments →
             </Link>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Auto-redirect in {countdown}s</p>

@@ -25,13 +25,13 @@ function StatCard({
   trend,
   trendValue,
   icon,
-  accentColor = "#10b981",
+  accentColor = "#006c49",
   className,
   href,
 }: StatCardProps) {
   const isDirection = trend === "up" || trend === "down" || trend === "flat"
   const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus
-  const trendColor = trend === "up" ? "text-emerald-400" : trend === "down" ? "text-red-400" : "text-zinc-500 dark:text-zinc-400"
+  const trendColor = trend === "up" ? "text-[#4edea3]" : trend === "down" ? "text-red-400" : "text-zinc-500 dark:text-zinc-400"
 
   // Accept both `icon={Users}` (component) and `icon={<Users />}` (element) —
   // call sites use both, and the element form is not a valid component.

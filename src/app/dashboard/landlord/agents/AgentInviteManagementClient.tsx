@@ -273,8 +273,8 @@ export default function AgentInviteManagementClient({
     switch (st) {
       case 'accepted':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Active Mandate
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Active Mandate
           </span>
         );
       case 'pending':
@@ -304,14 +304,14 @@ export default function AgentInviteManagementClient({
       className={cn(
         'px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2',
         tab === key
-          ? 'bg-white dark:bg-zinc-900 text-emerald-600 shadow-sm'
+          ? 'bg-white dark:bg-zinc-900 text-primary shadow-sm'
           : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800'
       )}
     >
       {icon}
       <span>{label}</span>
       {count !== undefined && (
-        <span className="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 text-xs font-mono">{count}</span>
+        <span className="ml-1 px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-mono">{count}</span>
       )}
     </button>
   );
@@ -323,7 +323,7 @@ export default function AgentInviteManagementClient({
         <div>
           <nav className="flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1">
             <span>Home</span><span>/</span><span>Team &amp; Agents</span><span>/</span>
-            <span className="text-emerald-600 font-bold">Agent Management</span>
+            <span className="text-primary font-bold">Agent Management</span>
           </nav>
           <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Agent Management</h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl">
@@ -334,7 +334,7 @@ export default function AgentInviteManagementClient({
           <Button variant="outline" size="sm" className="gap-1" onClick={() => toast({ title: 'Exported', description: 'Agent roster exported to CSV.' })}>
             <Download className="w-4 h-4" /> Export Roster (CSV)
           </Button>
-          <Button size="sm" className="gap-1 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => setTab('invite')}>
+          <Button size="sm" className="gap-1 bg-primary hover:bg-primary text-white" onClick={() => setTab('invite')}>
             <UserPlus className="w-4 h-4" /> + Invite Agent
           </Button>
         </div>
@@ -342,9 +342,9 @@ export default function AgentInviteManagementClient({
 
       {/* Trust bar */}
       <div className="flex flex-wrap items-center gap-3 p-3 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400">
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /><span className="font-semibold uppercase tracking-wider text-zinc-900 dark:text-white">Mandates:</span> {acceptedAgents.length} Active</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-primary animate-pulse" /><span className="font-semibold uppercase tracking-wider text-zinc-900 dark:text-white">Mandates:</span> {acceptedAgents.length} Active</span>
         <span className="h-3 w-px bg-zinc-200 dark:bg-zinc-700" />
-        <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> CAC / NIESV Verified Intermediaries Only</span>
+        <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> CAC / NIESV Verified Intermediaries Only</span>
         <span className="h-3 w-px bg-zinc-200 dark:bg-zinc-700" />
         <span className="flex items-center gap-1.5"><RefreshCw className="w-3.5 h-3.5 text-zinc-400" /> Auto-Sync with Escrow Ledger</span>
       </div>
@@ -362,10 +362,10 @@ export default function AgentInviteManagementClient({
           {/* Metrics strip */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: 'Total Assigned Agents', value: String(acceptedAgents.length).padStart(2, '0'), sub: '100% Identity Cleared', icon: <Users className="w-5 h-5" />, color: 'text-emerald-600' },
+              { label: 'Total Assigned Agents', value: String(acceptedAgents.length).padStart(2, '0'), sub: '100% Identity Cleared', icon: <Users className="w-5 h-5" />, color: 'text-primary' },
               { label: 'Managed Units / Wings', value: String(managedUnits), sub: `Across ${properties.length} properties`, icon: <Building2 className="w-5 h-5" />, color: 'text-zinc-700 dark:text-zinc-200' },
               { label: 'Pending Onboarding', value: String(pendingCount).padStart(2, '0'), sub: 'Awaiting acceptance', icon: <Clock className="w-5 h-5" />, color: 'text-amber-600' },
-              { label: 'Avg Inquiry Response', value: '—', sub: 'Not tracked yet', icon: <CheckCircle2 className="w-5 h-5" />, color: 'text-emerald-600' },
+              { label: 'Avg Inquiry Response', value: '—', sub: 'Not tracked yet', icon: <CheckCircle2 className="w-5 h-5" />, color: 'text-primary' },
             ].map((m) => (
               <div key={m.label} className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 flex items-start justify-between">
                 <div>
@@ -416,7 +416,7 @@ export default function AgentInviteManagementClient({
                 <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md">
                   You haven't assigned external brokers or property managers. Send an official institutional invitation to delegate inspections and rent tracking.
                 </p>
-                <Button onClick={() => setTab('invite')} className="bg-emerald-600 hover:bg-emerald-500 text-white gap-2">
+                <Button onClick={() => setTab('invite')} className="bg-primary hover:bg-primary text-white gap-2">
                   <UserPlus className="w-4 h-4" /> Invite your first agent
                 </Button>
               </div>
@@ -442,13 +442,13 @@ export default function AgentInviteManagementClient({
                         <tr key={inv.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
                           <td className="py-3 px-5">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-sm font-bold shrink-0">
+                              <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-bold shrink-0">
                                 {initials(recipientName)}
                               </div>
                               <div>
                                 <div className="flex items-center gap-1.5">
                                   <span className="text-sm font-semibold text-zinc-900 dark:text-white">{recipientName}</span>
-                                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                                  <CheckCircle2 className="w-4 h-4 text-primary" />
                                 </div>
                                 <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">{inv.email}</span>
                               </div>
@@ -469,7 +469,7 @@ export default function AgentInviteManagementClient({
                               <Info className="w-3.5 h-3.5 text-zinc-400" />
                               {assigned.length > 0 && (
                                 <div className="absolute left-0 bottom-full mb-2 hidden group-hover:flex flex-col w-64 p-3 bg-zinc-900 dark:bg-zinc-950 text-white rounded-lg shadow-xl z-20 pointer-events-none">
-                                  <span className="text-[10px] uppercase text-emerald-400 mb-1 font-bold">Assigned Listings:</span>
+                                  <span className="text-[10px] uppercase text-[#4edea3] mb-1 font-bold">Assigned Listings:</span>
                                   {assigned.map((t, i) => (
                                     <span key={i} className="text-xs">• {t}</span>
                                   ))}
@@ -524,18 +524,18 @@ export default function AgentInviteManagementClient({
                       className={cn(
                         'relative p-4 rounded-xl cursor-pointer transition-all flex flex-col justify-between border',
                         role === r.key
-                          ? 'bg-emerald-500/10 border-emerald-500/40'
+                          ? 'bg-primary/10 border-primary/40'
                           : 'bg-zinc-100 dark:bg-zinc-800 border-transparent hover:bg-zinc-200 dark:hover:bg-zinc-700'
                       )}
                     >
                       <div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-bold text-zinc-900 dark:text-white">{r.title}</span>
-                          <CheckCircle2 className={cn('w-4 h-4', role === r.key ? 'text-emerald-600' : 'text-zinc-400 opacity-30')} />
+                          <CheckCircle2 className={cn('w-4 h-4', role === r.key ? 'text-primary' : 'text-zinc-400 opacity-30')} />
                         </div>
                         <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{r.desc}</p>
                       </div>
-                      <span className={cn('text-[10px] font-bold mt-2 uppercase', role === r.key ? 'text-emerald-600' : 'text-zinc-400')}>{r.tag}</span>
+                      <span className={cn('text-[10px] font-bold mt-2 uppercase', role === r.key ? 'text-primary' : 'text-zinc-400')}>{r.tag}</span>
                     </label>
                   ))}
                 </div>
@@ -571,7 +571,7 @@ export default function AgentInviteManagementClient({
                     const isSelected = selectedPermissions.includes(permission.id);
                     const isManageTeam = permission.id === 'manage_team';
                     return (
-                      <label key={permission.id} className={cn('flex items-start gap-3 rounded-xl border p-3 transition-all cursor-pointer select-none', isSelected ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600', (isManageTeam && !canManageTeam) && 'opacity-50 cursor-not-allowed')}>
+                      <label key={permission.id} className={cn('flex items-start gap-3 rounded-xl border p-3 transition-all cursor-pointer select-none', isSelected ? 'border-primary/30 bg-primary/5' : 'border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600', (isManageTeam && !canManageTeam) && 'opacity-50 cursor-not-allowed')}>
                         <Checkbox checked={isSelected} onCheckedChange={() => togglePermission(permission.id)} disabled={isManageTeam && !canManageTeam} className="mt-0.5" />
                         <div>
                           <p className="text-sm font-medium text-zinc-900 dark:text-white">{permission.label}</p>
@@ -587,15 +587,15 @@ export default function AgentInviteManagementClient({
               <div>
                 <Label className="text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-200 mb-2 block">Property Scope</Label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <label className={cn('flex items-start gap-3 rounded-xl border p-3 cursor-pointer', scopeType === 'all' ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-700')}>
-                    <input type="radio" name="scope" checked={scopeType === 'all'} onChange={() => setScopeType('all')} className="mt-1 accent-emerald-600" />
+                  <label className={cn('flex items-start gap-3 rounded-xl border p-3 cursor-pointer', scopeType === 'all' ? 'border-primary/30 bg-primary/5' : 'border-zinc-200 dark:border-zinc-700')}>
+                    <input type="radio" name="scope" checked={scopeType === 'all'} onChange={() => setScopeType('all')} className="mt-1 accent-primary" />
                     <div>
                       <p className="text-sm font-medium text-zinc-900 dark:text-white">All Current &amp; Future Properties</p>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400">Agent automatically gets access to all present and future properties.</p>
                     </div>
                   </label>
-                  <label className={cn('flex items-start gap-3 rounded-xl border p-3 cursor-pointer', scopeType === 'specific' ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-700')}>
-                    <input type="radio" name="scope" checked={scopeType === 'specific'} onChange={() => setScopeType('specific')} className="mt-1 accent-emerald-600" />
+                  <label className={cn('flex items-start gap-3 rounded-xl border p-3 cursor-pointer', scopeType === 'specific' ? 'border-primary/30 bg-primary/5' : 'border-zinc-200 dark:border-zinc-700')}>
+                    <input type="radio" name="scope" checked={scopeType === 'specific'} onChange={() => setScopeType('specific')} className="mt-1 accent-primary" />
                     <div>
                       <p className="text-sm font-medium text-zinc-900 dark:text-white">Specific Properties Only</p>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400">Restrict agent access strictly to selected properties.</p>
@@ -623,7 +623,7 @@ export default function AgentInviteManagementClient({
                         {filteredProperties.map((prop) => {
                           const isSelected = selectedListingIds.includes(prop.id);
                           return (
-                            <label key={prop.id} className={cn('flex items-start gap-3 rounded-lg border p-3 cursor-pointer', isSelected ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-700 hover:border-zinc-300')}>
+                            <label key={prop.id} className={cn('flex items-start gap-3 rounded-lg border p-3 cursor-pointer', isSelected ? 'border-primary/30 bg-primary/5' : 'border-zinc-200 dark:border-zinc-700 hover:border-zinc-300')}>
                               <Checkbox checked={isSelected} onCheckedChange={() => toggleListing(prop.id)} className="mt-0.5 shrink-0" />
                               <div className="min-w-0 flex-1">
                                 <p className="truncate text-sm font-medium text-zinc-900 dark:text-white">{prop.title}</p>
@@ -667,9 +667,9 @@ export default function AgentInviteManagementClient({
 
               <div className="pt-2 flex items-center justify-between">
                 <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Invites dispatched via encrypted SMTP &amp; SMS token.
+                  <CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Invites dispatched via encrypted SMTP &amp; SMS token.
                 </span>
-                <Button type="submit" disabled={sending} className="bg-emerald-600 hover:bg-emerald-500 text-white gap-2">
+                <Button type="submit" disabled={sending} className="bg-primary hover:bg-primary text-white gap-2">
                   <Send className="w-4 h-4" /> {sending ? 'Sending…' : 'Send Mandate Invite'}
                 </Button>
               </div>
@@ -679,7 +679,7 @@ export default function AgentInviteManagementClient({
           {/* Right bento */}
           <div className="lg:col-span-4 space-y-4">
             <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800">
-              <div className="flex items-center gap-2 mb-2 text-emerald-600">
+              <div className="flex items-center gap-2 mb-2 text-primary">
                 <CheckCircle2 className="w-5 h-5" />
                 <h4 className="text-sm font-bold text-zinc-900 dark:text-white">Lagos State LASRETR Compliance</h4>
               </div>
@@ -691,7 +691,7 @@ export default function AgentInviteManagementClient({
               <h4 className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 mb-2">Invitation Preview Card</h4>
               <div className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">SE</div>
+                  <div className="w-7 h-7 rounded bg-primary text-white flex items-center justify-center text-xs font-bold">SE</div>
                   <div>
                     <p className="text-sm font-semibold text-zinc-900 dark:text-white leading-tight">PropatiBox Mandate</p>
                     <p className="text-[10px] text-zinc-500 dark:text-zinc-400">Lekki Commercial Hub</p>
@@ -702,7 +702,7 @@ export default function AgentInviteManagementClient({
                   <p className="text-xs font-mono text-zinc-900 dark:text-white font-medium">
                     {selectedListingIds.length === 0 ? 'All listings' : selectedListingIds.length === 1 ? properties.find((p) => p.id === selectedListingIds[0])?.title : `${properties.find((p) => p.id === selectedListingIds[0])?.title} + ${selectedListingIds.length - 1} more`}
                   </p>
-                  <span className="inline-flex items-center gap-1 text-emerald-600 text-[10px] font-bold uppercase"><CheckCircle2 className="w-3 h-3" /> Instant Escrow Allocation</span>
+                  <span className="inline-flex items-center gap-1 text-primary text-[10px] font-bold uppercase"><CheckCircle2 className="w-3 h-3" /> Instant Escrow Allocation</span>
                 </div>
               </div>
             </div>
@@ -834,7 +834,7 @@ export default function AgentInviteManagementClient({
               {filteredReassignProperties.map((prop) => {
                 const isSelected = reassignListingIds.includes(prop.id);
                 return (
-                  <label key={prop.id} className={cn('flex items-start gap-3 rounded-lg border p-3 cursor-pointer', isSelected ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-700')}>
+                  <label key={prop.id} className={cn('flex items-start gap-3 rounded-lg border p-3 cursor-pointer', isSelected ? 'border-primary/30 bg-primary/5' : 'border-zinc-200 dark:border-zinc-700')}>
                     <Checkbox checked={isSelected} onCheckedChange={() => setReassignListingIds((prev) => (prev.includes(prop.id) ? prev.filter((x) => x !== prop.id) : [...prev, prop.id]))} className="mt-0.5 shrink-0" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-zinc-900 dark:text-white">{prop.title}</p>
@@ -847,7 +847,7 @@ export default function AgentInviteManagementClient({
           </div>
           <DialogFooter className="gap-2">
             <Button type="button" variant="ghost" onClick={() => setReassignOpen(false)}>Cancel</Button>
-            <Button onClick={saveReassign} disabled={reassignSaving} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+            <Button onClick={saveReassign} disabled={reassignSaving} className="bg-primary hover:bg-primary text-white">
               {reassignSaving ? 'Saving…' : 'Save'}
             </Button>
           </DialogFooter>

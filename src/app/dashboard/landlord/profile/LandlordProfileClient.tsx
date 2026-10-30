@@ -201,10 +201,10 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
         <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
           <span>Institutional Account</span>
           <span>›</span>
-          <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Profile</span>
+          <span className="text-primary dark:text-[#4edea3] font-semibold">Profile</span>
         </div>
         <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
           <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Synced</span>
         </div>
       </div>
@@ -247,25 +247,25 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <Avatar src={user?.avatarUrl || undefined} name={user?.fullName || 'User'} size="xl" className="h-20 w-20 ring-2 ring-emerald-500/30" />
+                <Avatar src={user?.avatarUrl || undefined} name={user?.fullName || 'User'} size="xl" className="h-20 w-20 ring-2 ring-primary/30" />
                 <label className="absolute bottom-0 right-0 w-7 h-7 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full shadow-md flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors cursor-pointer">
-                  <Camera size={14} className="text-emerald-600 dark:text-emerald-400" />
+                  <Camera size={14} className="text-primary dark:text-[#4edea3]" />
                   <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
                 </label>
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-xl font-bold text-zinc-900 dark:text-white">{user?.fullName || 'My Profile'}</h2>
-                  <span className="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full text-xs font-medium">
+                  <span className="inline-flex items-center gap-1 bg-primary/10 text-primary dark:text-[#4edea3] px-2 py-0.5 rounded-full text-xs font-medium">
                     <ShieldCheck size={12} />
                     Landlord
                   </span>
                 </div>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">{user?.email}</p>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">
-                  <span className="flex items-center gap-1"><Building2 size={12} className="text-emerald-600 dark:text-emerald-400" /> Landlord</span>
+                  <span className="flex items-center gap-1"><Building2 size={12} className="text-primary dark:text-[#4edea3]" /> Landlord</span>
                   <span>•</span>
-                  <span className="flex items-center gap-1"><Monitor size={12} className="text-emerald-600 dark:text-emerald-400" /> Active</span>
+                  <span className="flex items-center gap-1"><Monitor size={12} className="text-primary dark:text-[#4edea3]" /> Active</span>
                 </div>
               </div>
             </div>
@@ -283,21 +283,21 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Properties</span>
               <div className="flex items-baseline justify-between mt-1">
                 <span className="text-xl font-bold text-zinc-900 dark:text-white">—</span>
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Portfolio</span>
+                <span className="text-xs text-primary dark:text-[#4edea3] font-medium">Portfolio</span>
               </div>
             </div>
             <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
               <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Monthly Lease Flow</span>
               <div className="flex items-baseline justify-between mt-1">
                 <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">—</span>
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Escrow</span>
+                <span className="text-xs text-primary dark:text-[#4edea3] font-medium">Escrow</span>
               </div>
             </div>
             <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
               <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Title Audit Rating</span>
               <div className="flex items-baseline justify-between mt-1">
-                <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">—</span>
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Verification</span>
+                <span className="text-xl font-bold text-primary dark:text-[#4edea3]">—</span>
+                <span className="text-xs text-primary dark:text-[#4edea3] font-medium">Verification</span>
               </div>
             </div>
           </div>
@@ -316,7 +316,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Legal Full Name</Label>
                 <div className="relative">
                   <Input value={profileData.fullName} onChange={(e) => setProfileData({ ...profileData, fullName: e.target.value })} />
-                  <BadgeCheck size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-500" />
+                  <BadgeCheck size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-primary" />
                 </div>
               </div>
               <div className="space-y-1.5">
@@ -324,7 +324,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <div className="flex gap-2">
                   <Input value={profileData.phone} onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })} placeholder="+234 800 000 0000" />
                   {user?.phoneVerified ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1 px-2.5 rounded-lg bg-primary/10 text-primary dark:text-[#4edea3] text-xs font-medium whitespace-nowrap">
                       <ShieldCheck size={14} /> Verified
                     </span>
                   ) : (
@@ -376,7 +376,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary dark:text-[#4edea3]">
                   <BadgeCheck size={20} />
                 </span>
                 <span className="text-lg font-bold text-zinc-900 dark:text-white">
@@ -390,10 +390,10 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             <div className="flex flex-col items-end w-full md:w-48">
               <div className="flex items-center justify-between w-full mb-1.5 text-xs">
                 <span className="text-zinc-500 dark:text-zinc-400 font-medium">Verification Score</span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono">{profileProgress}%</span>
+                <span className="text-primary dark:text-[#4edea3] font-bold font-mono">{profileProgress}%</span>
               </div>
               <div className="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
-                <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${profileProgress}%` }} />
+                <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${profileProgress}%` }} />
               </div>
             </div>
           </div>
@@ -406,14 +406,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               {kycLayers.map((layer) => (
                 <div key={layer.layer} className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
                   <div className="flex items-start gap-3">
-                    <span className="w-8 h-8 rounded-lg bg-zinc-200 dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 font-bold text-xs flex items-center justify-center shrink-0">
+                    <span className="w-8 h-8 rounded-lg bg-zinc-200 dark:bg-zinc-700 text-primary dark:text-[#4edea3] font-bold text-xs flex items-center justify-center shrink-0">
                       {layer.layer}
                     </span>
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-semibold text-zinc-900 dark:text-white">{layer.label}</span>
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          layer.status === 'CERTIFIED' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-amber-500/10 text-amber-500'
+                          layer.status === 'CERTIFIED' ? 'bg-primary/10 text-primary dark:text-[#4edea3]' : 'bg-amber-500/10 text-amber-500'
                         }`}>
                           {layer.status}
                         </span>
@@ -472,10 +472,10 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm flex flex-col gap-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <Wallet size={20} className="text-emerald-600 dark:text-emerald-400" />
+                <Wallet size={20} className="text-primary dark:text-[#4edea3]" />
                 <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Rent Collection & Settlement Banking</h2>
               </div>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wide">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary dark:text-[#4edea3] text-xs font-semibold uppercase tracking-wide">
                 <ShieldCheck size={14} /> CBN / NIBSS Verified
               </span>
             </div>
@@ -484,7 +484,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             <div className="p-6 rounded-xl bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-white/[0.04] dark:to-white/[0.08] flex flex-col gap-4 relative overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center text-primary dark:text-[#4edea3]">
                     <Building2 size={28} />
                   </div>
                   <div className="flex flex-col">
@@ -492,8 +492,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">Corporate Commercial Current • Lagos Corporate Branch</span>
                   </div>
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600 text-white text-xs font-semibold tracking-wide">
-                  <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary text-white text-xs font-semibold tracking-wide">
+                  <span className="w-2 h-2 rounded-full bg-[var(--sovereign-container-bg)] animate-pulse" />
                   PRIMARY ESCROW
                 </span>
               </div>
@@ -514,19 +514,19 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               {/* Direct Split Escrow Rule */}
               <div className="p-4 rounded-lg bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-between gap-3 border border-zinc-200 dark:border-white/[0.08]">
                 <div className="flex items-center gap-3">
-                  <Split size={20} className="text-emerald-600 dark:text-emerald-400" />
+                  <Split size={20} className="text-primary dark:text-[#4edea3]" />
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold text-zinc-900 dark:text-white">Automated Facility Escrow Split</span>
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">Auto-split 10% statutory maintenance escrow to reserve wallet upon rent clearance</span>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">ACTIVE (10%)</span>
+                <span className="text-xs font-semibold text-primary dark:text-[#4edea3] bg-primary/10 px-2 py-1 rounded">ACTIVE (10%)</span>
               </div>
               <div className="flex items-center justify-between pt-1">
                 <button
                   type="button"
                   onClick={() => toast({ title: 'Edit bank account', description: 'Bank edit flow coming soon.' })}
-                  className="text-emerald-600 dark:text-emerald-400 text-sm font-medium hover:underline flex items-center gap-1"
+                  className="text-primary dark:text-[#4edea3] text-sm font-medium hover:underline flex items-center gap-1"
                 >
                   <FileText size={14} /> Edit Bank Account
                 </button>
@@ -543,7 +543,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             {/* Gateway Toggles */}
             <div className="flex flex-col divide-y divide-zinc-200 dark:divide-white/[0.08] pt-2">
               {[
-                { key: 'paystack', icon: <CreditCard size={20} />, title: 'Paystack Direct Invoicing & Virtual Accounts', desc: 'Generates dedicated virtual bank accounts for each tenant. Supports USSD, Cards, and Instant Bank Transfers.', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' },
+                { key: 'paystack', icon: <CreditCard size={20} />, title: 'Paystack Direct Invoicing & Virtual Accounts', desc: 'Generates dedicated virtual bank accounts for each tenant. Supports USSD, Cards, and Instant Bank Transfers.', color: 'bg-primary/10 text-primary dark:text-[#4edea3]' },
                 { key: 'sms', icon: <MessageSquare size={20} />, title: 'Automated SMS & WhatsApp Payment Reminders', desc: 'Dispatches formal renewal prompts directly to corporate and residential tenants at 30 days, 14 days, and 3 days before expiry.', color: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300' },
                 { key: 'stampDuty', icon: <Receipt size={20} />, title: 'Tenant Invoicing Stamp Duty Surcharge (Ad Valorem 0.75%)', desc: 'Automatically calculates and itemizes statutory FIRS/LIRS electronic stamp duty on generated tenant proforma invoices.', color: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300' },
               ].map((g) => (
@@ -567,7 +567,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                         toast({ title: 'Preference saved', description: `${g.title} ${e.target.checked ? 'enabled' : 'disabled'}.` });
                       }}
                     />
-                    <div className="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600" />
+                    <div className="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
                   </label>
                 </div>
               ))}
@@ -623,7 +623,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
 function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
   return (
-    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900')}>
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-primary/30 bg-primary/5' : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900')}>
       <div className="flex items-center gap-3">
         <div className="bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
           <Monitor className="h-5 w-5" />

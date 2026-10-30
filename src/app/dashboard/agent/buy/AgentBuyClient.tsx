@@ -171,7 +171,7 @@ export default function AgentBuyClient({
           </SecondaryAction>
           <Link
             href="/dashboard/agent/agreements/new?type=sale"
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-emerald-600 px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-900 dark:hover:bg-emerald-400"
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] dark:bg-primary dark:text-zinc-900 dark:hover:bg-[#4edea3]"
           >
             <Plus className="h-4 w-4" />
             <span>New Sale Agreement</span>
@@ -187,7 +187,7 @@ export default function AgentBuyClient({
           icon={<Package className="h-5 w-5" />}
           sublabel={
             <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               {stats.active} in progress
             </span>
           }
@@ -199,7 +199,7 @@ export default function AgentBuyClient({
           sublabel={
             <div className="flex items-center justify-between gap-2">
               <span>Gross capital transactions</span>
-              <span className="font-mono-numeric text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+              <span className="font-mono-numeric text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {formatNairaCompact(stats.commissionValue)} Comm. Pool
               </span>
             </div>
@@ -224,8 +224,8 @@ export default function AgentBuyClient({
           icon={<BadgeCheck className="h-5 w-5" />}
           sublabel={
             <div className="flex items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="inline-flex items-center gap-1 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                 Escrow settled
               </span>
               <span className="font-mono-numeric text-[11px] text-zinc-500">
@@ -361,7 +361,7 @@ export default function AgentBuyClient({
                         <div className="flex min-w-0 flex-col">
                           <Link
                             href={`/dashboard/agent/deals/${d.id}`}
-                            className="truncate font-semibold text-zinc-900 hover:text-emerald-700 dark:text-white dark:hover:text-emerald-400"
+                            className="truncate font-semibold text-zinc-900 hover:text-[var(--sovereign-hover)] dark:text-white dark:hover:text-[#4edea3]"
                           >
                             {d.property?.title ?? 'Untitled listing'}
                           </Link>
@@ -373,7 +373,7 @@ export default function AgentBuyClient({
                               {d.reference}
                             </span>
                             {d.property?.area ? (
-                              <span className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+                              <span className="text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                                 {d.property.area}
                               </span>
                             ) : null}
@@ -391,7 +391,7 @@ export default function AgentBuyClient({
                           {d.landlord?.email ? (
                             <span
                               title={`CAC verified: ${d.landlord.email}`}
-                              className="text-emerald-600 dark:text-emerald-400"
+                              className="text-primary dark:text-[#4edea3]"
                             >
                               <BadgeCheck className="h-3.5 w-3.5" />
                             </span>
@@ -405,7 +405,7 @@ export default function AgentBuyClient({
                           {d.tenant?.email ? (
                             <span
                               title={`CAC verified: ${d.tenant.email}`}
-                              className="text-emerald-600 dark:text-emerald-400"
+                              className="text-primary dark:text-[#4edea3]"
                             >
                               <BadgeCheck className="h-3.5 w-3.5" />
                             </span>
@@ -448,7 +448,7 @@ export default function AgentBuyClient({
                         <span className="font-mono-numeric text-sm font-semibold text-zinc-900 dark:text-white">
                           {formatNairaValue(d.consideration)}
                         </span>
-                        <span className="mt-0.5 inline-flex items-center rounded bg-zinc-100 px-1.5 py-0.2 font-mono-numeric text-[11px] font-medium text-emerald-700 dark:bg-zinc-800 dark:text-emerald-400">
+                        <span className="mt-0.5 inline-flex items-center rounded bg-zinc-100 px-1.5 py-0.2 font-mono-numeric text-[11px] font-medium text-[var(--sovereign-hover)] dark:bg-zinc-800 dark:text-[#4edea3]">
                           {formatNairaValue(fee)} Fee (10%)
                         </span>
                       </div>
@@ -473,7 +473,7 @@ export default function AgentBuyClient({
                       <div className="flex items-center justify-center gap-1">
                         <Link
                           href={`/dashboard/agent/deals/${d.id}`}
-                          className="inline-flex h-8 items-center gap-1 rounded bg-zinc-100 px-2.5 text-[13px] font-medium text-zinc-900 transition-colors hover:bg-emerald-600 hover:text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-emerald-500 dark:hover:text-zinc-900"
+                          className="inline-flex h-8 items-center gap-1 rounded bg-zinc-100 px-2.5 text-[13px] font-medium text-zinc-900 transition-colors hover:bg-primary hover:text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-primary dark:hover:text-zinc-900"
                         >
                           File
                           <ChevronRight className="h-4 w-4" />
@@ -509,7 +509,7 @@ export default function AgentBuyClient({
       {/* ── Footer banner ───────────────────────────────────────────────── */}
       <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-start gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600/10 text-emerald-600 dark:text-emerald-400">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:text-[#4edea3]">
             <BadgeCheck className="h-4 w-4" />
           </div>
           <div>
@@ -524,7 +524,7 @@ export default function AgentBuyClient({
           </div>
         </div>
         <span className="inline-flex shrink-0 items-center gap-2 rounded bg-zinc-100 px-2.5 py-1 font-mono-numeric text-[11px] text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+          <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
           Lands Bureau Gateway Connected
         </span>
       </div>

@@ -22,7 +22,7 @@ export default function TenantOverdueClient({ rows, totalOverdue }: { rows: Row[
     <div className="space-y-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="inline-flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 transition-colors">
+        <Link href="/dashboard/tenant/payments" className="inline-flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-primary transition-colors">
           <ArrowLeft className="h-4 w-4" /> Back to Rent &amp; Payments
         </Link>
         <span className="text-zinc-400">/</span>
@@ -81,7 +81,7 @@ export default function TenantOverdueClient({ rows, totalOverdue }: { rows: Row[
 
       {/* Actions */}
       <div className="flex flex-wrap gap-2">
-        <Button onClick={handlePayPlan} className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
+        <Button onClick={handlePayPlan} className="bg-primary hover:bg-[var(--sovereign-hover)] text-white gap-2">
           <Bolt className="h-4 w-4" /> Request Payment Plan
         </Button>
         <Button variant="outline" onClick={handleSupport} className="gap-2">
@@ -136,7 +136,7 @@ export default function TenantOverdueClient({ rows, totalOverdue }: { rows: Row[
                   </td>
                   <td className="py-3 px-4 text-right whitespace-nowrap">
                     <div className="flex items-center justify-end gap-1">
-                      <Button size="sm" className="h-8 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs gap-1">
+                      <Button size="sm" className="h-8 px-3 bg-primary hover:bg-[var(--sovereign-hover)] text-white text-xs gap-1">
                         <Bolt className="w-3.5 h-3.5" /> Pay Now
                       </Button>
                       <a href={`/api/invoices/${r.id}/receipt`} className="p-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors" title="Download">

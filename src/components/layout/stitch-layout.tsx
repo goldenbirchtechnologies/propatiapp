@@ -80,7 +80,7 @@ export function StitchHeader() {
       >
         <div className="h-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center group">
-            <PropatiBoxLogo size="sm" />
+            <PropatiBoxLogo size="sm" href={null} />
           </Link>
 
           <nav className="hidden xl:flex items-center gap-3 sm:gap-6 2xl:gap-8">

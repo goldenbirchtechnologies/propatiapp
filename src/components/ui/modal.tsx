@@ -60,9 +60,8 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       }
     };
 
-    if (!open) return null;
-
     return (
+      <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
@@ -127,6 +126,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
     );
   }
 );
@@ -211,12 +211,11 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
       }
     };
 
-    if (!open) return null;
-
     const currentHeight = snapPointHeights[snapPoint];
     const transform = isDragging ? `translateY(${dragOffset}px)` : '';
 
     return (
+      <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
@@ -295,6 +294,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
           </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
     );
   }
 );
@@ -314,8 +314,6 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
       }
     };
 
-    if (!open) return null;
-
     const sizeClasses = {
       sm: 'w-72',
       md: 'w-96',
@@ -325,6 +323,7 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
     };
 
     return (
+      <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
@@ -386,6 +385,7 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
           </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
     );
   }
 );

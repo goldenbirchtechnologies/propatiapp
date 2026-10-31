@@ -65,7 +65,7 @@ export default function PublicNav() {
         <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
           {/* Left: PropatiBox */}
           <Link href="/" className="flex items-center shrink-0 group">
-            <PropatiBoxLogo size="sm" variant="horizontal" />
+            <PropatiBoxLogo size="sm" variant="horizontal" href={null} />
           </Link>
 
           {/* Center: text nav — underline active, CTA reserved for List Property */}

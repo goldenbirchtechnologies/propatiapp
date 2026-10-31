@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    let dojahData = null;
+    let dojahData: Record<string, unknown> | null = null;
     if (kyc.dojahRef && kyc.status !== 'not_started') {
       const appId = process.env.NEXT_PUBLIC_DOJAH_APP_ID;
       const publicKey = process.env.NEXT_PUBLIC_DOJAH_PUBLIC_KEY;

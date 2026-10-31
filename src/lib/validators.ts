@@ -372,7 +372,14 @@ export const getMyVerificationsSchema = z.object({
 });
 
 // Transaction schemas
-export const transactionTypeSchema = z.enum(['rent', 'caution', 'sale', 'short_let', 'subscription']);
+export const transactionTypeSchema = z.enum([
+  'rent',
+  'caution',
+  'sale',
+  'short_let',
+  'subscription',
+  'service_charge',
+]);
 export const transactionStatusSchema = z.enum(['pending', 'in_escrow', 'released', 'failed', 'refunded']);
 
 export const initiatePaymentSchema = z.object({

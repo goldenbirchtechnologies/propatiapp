@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { initiatePaymentSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
-import { paystack } from '@/lib/paystack';
+import { paystack, PaystackApiError } from '@/lib/paystack';
+import { getAppUrl } from '@/lib/urls';
 import { computeFees } from '@/lib/fees';
 import { TransactionType } from '@prisma/client';
 import { notificationService } from '@/lib/notification-service';
@@ -86,8 +87,11 @@ export async function POST(request: NextRequest) {
     const randomStr = randomBytes(4).toString('hex');
     const reference = `PROPATI_${validated.type}_${timestamp}_${randomStr}`.toUpperCase();
 
-    const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/payments/callback?reference=${reference}`;
-    const paystackResponse = await paystack.initializeTransaction({
+    // The callback page lives under the role segment — the un-segmented
+    // /dashboard/payments/callback path has no route and 404s after checkout.
+    const roleSlug = user.role === 'estate_manager' ? 'estate-manager' : user.role;
+    const callbackUrl = `${getAppUrl()}/dashboard/${roleSlug}/payments/callback?reference=${reference}`;
+    const paystackResponse = await paystack.initializePayment({
       email: validated.email,
       amount: amountKobo,
       reference,
@@ -112,7 +116,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to initialize payment' }, { status: 502 });
     }
 
-    const transaction = await prisma.$transaction(async (tx) => {
+    const transactionResult = await prisma.$transaction(async (tx) => {
       const newTransaction = await tx.transaction.create({
         data: {
           reference,
@@ -167,6 +171,11 @@ export async function POST(request: NextRequest) {
       return newTransaction;
     });
 
+    // The callback can bail out with a response (invalid agreement) instead of a
+    // transaction, so pass that through rather than treating it as one.
+    if (transactionResult instanceof NextResponse) return transactionResult;
+    const transaction = transactionResult;
+
     const payeeName = transaction.payee?.fullName || 'Landlord';
     const managerNote = isManaged ? ` Funds will be held under manager (${managerId}) until disbursed.` : '';
     const agentNote = agentId && fees.agentCommission ? ` Agent commission: ₦${(fees.agentCommission / 100).toLocaleString()} pending payout.` : '';
@@ -209,6 +218,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'PAYMENTS_UNAVAILABLE', message: error.message },
         { status: 503 }
+      );
+    }
+
+    // Paystack itself rejected the call (bad key, disabled business, invalid
+    // amount): that is a provider problem, so report it as a gateway failure
+    // with the provider's own words instead of a generic 400.
+    if (error instanceof PaystackApiError) {
+      return NextResponse.json(
+        {
+          error: 'PAYSTACK_ERROR',
+          message: error.paystackMessage || error.message,
+          providerStatus: error.status ?? null,
+        },
+        { status: 502 }
       );
     }
 

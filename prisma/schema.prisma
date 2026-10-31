@@ -137,6 +137,8 @@ enum TransactionType {
   sale
   short_let
   subscription
+  /// Recurring/one-off estate service charge billed to a tenant or unit owner.
+  service_charge
 }
 
 enum TransactionStatus {
@@ -2319,6 +2321,11 @@ model UserPaystackAccount {
   accountName        String?               @map("account_name")
   dedicatedAccountId String?               @unique @map("dedicated_account_id")
   recipientCode      String?               @unique @map("recipient_code")
+  /// Paystack subaccount this user's collections route into, when they settle
+  /// through a split rather than straight into the platform balance.
+  subaccountCode     String?               @unique @map("subaccount_code")
+  /// Platform's share of each split sent to `subaccountCode`, in percent.
+  percentageCharge   Decimal?              @db.Decimal(5, 2) @map("percentage_charge")
   collectBelow       Decimal?              @db.Decimal(12, 2)
   currency           String                @default("NGN")
   createdAt          DateTime              @default(now()) @map("created_at")

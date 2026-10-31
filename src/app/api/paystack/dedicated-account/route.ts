@@ -12,12 +12,21 @@ export async function POST(request: NextRequest) {
     const customerCode = account?.customerCode;
     if (!customerCode) return NextResponse.json({ error: 'Missing Paystack customer' }, { status: 400 });
 
-    const result = await paystack.createDedicatedAccount(customerCode);
-    if (!result.status) return NextResponse.json({ error: result.message || 'Failed to create dedicated account' }, { status: 400 });
+    // Route collections into the user's subaccount when they settle through a
+    // split, so the account number and the ledger agree.
+    const result = await paystack.createDedicatedAccount(customerCode, {
+      subaccount: account?.subaccountCode ?? undefined,
+    });
+    if (!result?.status || !result.data?.account_number) {
+      return NextResponse.json(
+        { error: result?.message || 'Failed to create dedicated account' },
+        { status: 400 }
+      );
+    }
 
     const saved = await prisma.userPaystackAccount.update({
       where: { userId: user.id },
-      data: { status: result.data.active ? 'active' : 'pending', bankName: result.data.bank.name, accountNumber: result.data.account_number, accountName: result.data.account_name, dedicatedAccountId: String(result.data.id), currency: result.data.currency },
+      data: { status: result.data.active ? 'active' : 'pending', bankName: result.data.bank?.name, accountNumber: result.data.account_number, accountName: result.data.account_name, dedicatedAccountId: String(result.data.id), currency: result.data.currency },
     });
     return NextResponse.json({ success: true, data: saved });
   } catch {

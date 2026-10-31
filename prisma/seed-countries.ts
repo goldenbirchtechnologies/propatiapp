@@ -1,15 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { NIGERIAN_STATES } from '../src/lib/locations/nigeria-states';
+import { PLATFORM_COUNTRIES } from '../src/lib/locations/platform-countries';
 
 const prisma = new PrismaClient();
 
-const COUNTRIES = [
-  { code: 'NG', name: 'Nigeria', currency: 'NGN', locale: 'en-NG', timezone: 'Africa/Lagos', active: true },
-  { code: 'GH', name: 'Ghana', currency: 'GHS', locale: 'en-GH', timezone: 'Africa/Accra', active: false },
-  { code: 'GB', name: 'United Kingdom', currency: 'GBP', locale: 'en-GB', timezone: 'Europe/London', active: false },
-  { code: 'BJ', name: 'Benin', currency: 'XOF', locale: 'fr-BJ', timezone: 'Africa/Porto-Novo', active: false },
-  { code: 'IT', name: 'Italy', currency: 'EUR', locale: 'it-IT', timezone: 'Europe/Rome', active: false },
-];
+// Shared with the onboarding options route and location validation so the seed
+// and the runtime fallback can never drift apart.
+const COUNTRIES = PLATFORM_COUNTRIES;
 
 export async function seedCountriesAndJurisdictions(client: PrismaClient = prisma) {
   for (const country of COUNTRIES) {

@@ -229,8 +229,8 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
   // never gated, and their derived status does not matter.
   const required = user.onboardingRequired && user.role !== 'admin';
 
-  // Steps are always returned so `/onboarding` can render for any signed-in
-  // account. `required` stays the flag that forces the flow from the dashboard.
+  // Steps are always returned so the dashboard overlay can open the wizard for
+  // any signed-in account. `required` stays the flag that forces the flow.
   return {
     role: user.role,
     status: required ? derived.status : 'completed',

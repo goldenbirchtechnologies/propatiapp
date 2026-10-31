@@ -41,6 +41,28 @@ export async function GET(request: NextRequest) {
           skippable: step.skippable,
           skipped: step.skipped,
         })),
+        // Read-only display facts for the wizard rail. Encrypted identifiers
+        // and ID numbers never leave the server, and the bigint income is
+        // narrowed to a JSON-safe number.
+        facts: {
+          fullName: snapshot.facts.fullName,
+          email: snapshot.facts.email,
+          countryCode: snapshot.facts.countryCode,
+          countryName: snapshot.facts.countryName,
+          jurisdictionName: snapshot.facts.jurisdictionName,
+          city: snapshot.facts.city,
+          phone: snapshot.facts.phone,
+          phoneVerified: snapshot.facts.phoneVerified,
+          idType: snapshot.facts.idType,
+          idVerified: snapshot.facts.idVerified,
+          employmentStatus: snapshot.facts.employmentStatus,
+          employerName: snapshot.facts.employerName,
+          jobTitle: snapshot.facts.jobTitle,
+          yearlyIncome:
+            snapshot.facts.yearlyIncome == null ? null : Number(snapshot.facts.yearlyIncome),
+          guarantorName: snapshot.facts.guarantorName,
+          guarantorRelationship: snapshot.facts.guarantorRelationship,
+        },
       },
     });
   } catch (error) {

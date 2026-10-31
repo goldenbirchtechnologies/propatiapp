@@ -65,3 +65,6 @@ tsc.log
 # Stitch temp dumps (local only)
 .claude/tmp_stitch_*.html
 .claude/tmp_stitch_home.html
+
+# Claude Code agent worktrees (local only)
+.claude/worktrees/

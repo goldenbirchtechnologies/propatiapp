@@ -160,18 +160,7 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
     { value: 'linked', label: 'Linked Accounts', icon: Link },
   ];
 
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-widest text-zinc-500">
-        <span>DASHBOARD</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
-        <span>ACCOUNT &amp; SETTINGS</span><span className="text-zinc-300 dark:text-zinc-700">/</span>
-        <span className="text-primary dark:text-[#4edea3]">TENANT PROFILE</span>
-      </div>
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><Shield className="h-3 w-3" /> NDPR CERTIFIED DATA VAULT</span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300"><CheckCircle2 className="h-3 w-3 text-primary" /> LASRERA REGISTERED</span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-zinc-500"><Lock className="h-3 w-3" /> 256-BIT IDENTITY ENCRYPTED</span>
-      </div>
+  
 
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">My Profile</h1>
@@ -443,16 +432,12 @@ export default function TenantProfileClient({ initialUser }: { initialUser: Init
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Active Clerk sessions for this account. Revoke any you don’t recognize from the Clerk Dashboard.</p>
                 <div className="mt-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] p-4 text-sm">
                   <p className="font-medium text-zinc-900 dark:text-white">Current session</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">This browser • Last active: now • Managed by Clerk</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">This browser • Last active: </p>
                 </div>
-                <Button asChild variant="outline" size="sm" className="mt-3"><a href="/sign-in">Manage sessions in Clerk</a></Button>
+                <Button asChild variant="outline" size="sm" className="mt-3"><a href="/sign-in">Manage sessions</a></Button>
               </div>
 
-              <div className="rounded-xl border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 p-5">
-                <h3 className="flex items-center gap-2 text-sm font-semibold text-amber-800 dark:text-amber-300"><Lock className="h-4 w-4" /> Security note</h3>
-                <p className="mt-1 text-xs leading-relaxed text-zinc-700 dark:text-zinc-300">PropatiBox delegates authentication to Clerk. Password resets, MFA, and session revocation are handled in Clerk’s hosted UI. This tab is a convenience surface — the source of truth is Clerk.</p>
-              </div>
-            </div>
+              
           )}
 
           {activeTab === 'preferences' && (

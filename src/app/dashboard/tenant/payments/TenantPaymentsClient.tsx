@@ -100,15 +100,15 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">Institutional Financial Management</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]"> Financial Management</span>
             <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600" />
             <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
-              <BadgeCheck className="w-3 h-3 text-primary" /> FIRS &amp; CAC Audited
+              <BadgeCheck className="w-3 h-3 text-primary" /> 
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Payments &amp; Ledger</h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl mt-1">
-            Manage lease commitments, inspect official e-receipts with FIRS-compliant tax stamps, and execute instant verified settlements via Paystack.
+            Manage lease commitments, inspect official e-receipts, and execute instant verified settlements.
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -169,7 +169,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
             </div>
           </div>
           <div className="mt-3 pt-2 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.04] -mx-4 -mb-4 px-4 py-2 rounded-b-xl">
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">NIBSS / Interswitch</span>
+            <span className="text-xs text-zinc-500 dark:text-zinc-400"></span>
             <span className="text-xs text-primary font-medium">Zero chargebacks</span>
           </div>
         </div>

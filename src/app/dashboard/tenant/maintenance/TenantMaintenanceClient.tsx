@@ -98,8 +98,8 @@ export default function TenantMaintenanceClient({ tickets }: { tickets: Ticket[]
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4edea3] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-primary" /></span> 24/7 Facility Response Desk</span>
-          <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> SLA Guaranteed</span>
-          <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400">Service Charge Covered</span>
+          <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> </span>
+          <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400"></span>
         </div>
       </div>
 
@@ -110,8 +110,7 @@ export default function TenantMaintenanceClient({ tickets }: { tickets: Ticket[]
           <p className="mt-1 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">View, track, and manage all facility repairs and MEP engineering requests across your registered properties.</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Button asChild variant="outline" size="sm"><a href="tel:+23412908820"><Phone className="mr-1 h-4 w-4 text-primary" /> Call 24/7 Facility Desk</a></Button>
-          <Button asChild size="sm" className="bg-primary hover:bg-primary text-white"><Link href="/dashboard/tenant/maintenance/new">New Maintenance Request</Link></Button>
+                    <Button asChild size="sm" className="bg-primary hover:bg-primary text-white"><Link href="/dashboard/tenant/maintenance/new">New Maintenance Request</Link></Button>
         </div>
       </div>
 
@@ -268,44 +267,11 @@ export default function TenantMaintenanceClient({ tickets }: { tickets: Ticket[]
         </div>
         <div className="flex flex-col items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.03] px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400 sm:flex-row">
           <span>Showing {filtered.length} of {tickets.length} maintenance requests</span>
-          <span className="hidden sm:inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> ISO-9001 Facility Standards</span>
+          <span className="hidden sm:inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-primary" /></span>
         </div>
       </div>
 
-      {/* SLA + Hotline */}
-      <div className="grid gap-4 lg:grid-cols-12">
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5 lg:col-span-7">
-          <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><ShieldCheck className="h-5 w-5 text-primary" /> Estate Service Level Agreement (SLA) &amp; Escalation Matrix</h2>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Pursuant to Tenant Covenant &amp; CAC Bylaws Section 14 — guaranteed resolution turnaround tiers.</p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><div className="flex items-center justify-between"><span className="text-[11px] font-bold tracking-widest text-red-700 dark:text-red-300">EMERGENCY (P1)</span><span className="h-2 w-2 rounded-full bg-red-600" /></div><p className="mt-1 text-lg font-bold text-zinc-900 dark:text-white">&lt; 2 Hours</p><p className="text-xs leading-tight text-zinc-600 dark:text-zinc-400">Total power blackout, gas alert, fire sensor, elevator stall.</p></div>
-            <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><div className="flex items-center justify-between"><span className="text-[11px] font-bold tracking-widest text-amber-700 dark:text-amber-300">HIGH (P2)</span><span className="h-2 w-2 rounded-full bg-amber-500" /></div><p className="mt-1 text-lg font-bold text-zinc-900 dark:text-white">&lt; 6 Hours</p><p className="text-xs leading-tight text-zinc-600 dark:text-zinc-400">HVAC failure, primary pump trip, water pressure loss.</p></div>
-            <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><div className="flex items-center justify-between"><span className="text-[11px] font-bold tracking-widest text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">ROUTINE (P3/P4)</span><span className="h-2 w-2 rounded-full bg-primary" /></div><p className="mt-1 text-lg font-bold text-zinc-900 dark:text-white">&lt; 24 Hours</p><p className="text-xs leading-tight text-zinc-600 dark:text-zinc-400">General plumbing, carpentry, access card sync.</p></div>
-          </div>
-          <div className="mt-4 flex items-center justify-between border-t border-zinc-100 dark:border-white/[0.06] pt-4 text-xs">
-            <span className="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400"><ShieldCheck className="h-4 w-4 text-primary" /> Verified under ISO-9001 Facility Standards</span>
-            <Link href="/dashboard/tenant/maintenance/protocol" className="font-medium text-primary hover:underline dark:text-[#4edea3]">Read Full Service Accord →</Link>
-          </div>
-        </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5 lg:col-span-5">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Phone className="h-5 w-5 text-primary" /> 24/7 Estate Control Room</h2>
-              <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Direct emergency dispatch for security, power grid, or flooding response.</p>
-            </div>
-            <span className="rounded bg-red-500 px-2 py-0.5 text-[11px] font-bold tracking-widest text-white">Priority Line</span>
-          </div>
-          <div className="mt-4 space-y-2">
-            <a href="tel:+23412908820" className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3 hover:bg-zinc-100 dark:hover:bg-white/[0.06]">
-              <span className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white dark:bg-zinc-900 shadow-sm text-primary dark:text-[#4edea3]"><Phone className="h-5 w-5" /></span><span><span className="block text-sm font-semibold text-zinc-900 dark:text-white">+234 1 290 8820 Ext. 1</span><span className="text-xs text-zinc-600 dark:text-zinc-400">Master Control Console (Lagos HQ)</span></span></span>
-              <span className="text-zinc-400">›</span>
-            </a>
-            <a href="https://wa.me/2348000000000" target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3 hover:bg-zinc-100 dark:hover:bg-white/[0.06]">
-              <span className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white dark:bg-zinc-900 shadow-sm text-primary dark:text-[#4edea3]"><Phone className="h-5 w-5" /></span><span><span className="block text-sm font-semibold text-zinc-900 dark:text-white">WhatsApp Facility Dispatch</span><span className="text-xs text-zinc-600 dark:text-zinc-400">Direct MEP Engineer on Duty</span></span></span>
-              <span className="text-zinc-400">›</span>
-            </a>
-          </div>
-          <p className="mt-3 flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400"><span className="h-2 w-2 rounded-full bg-primary" /> Average call pickup latency: <strong className="text-zinc-900 dark:text-white">8 seconds</strong></p>
+      
         </div>
       </div>
     </div>

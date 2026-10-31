@@ -267,7 +267,9 @@
   --primary-foreground: #ffffff;
   --secondary: var(--surface);
   --secondary-foreground: var(--text);
-  --muted-foreground: #475569;
+  --muted-foreground: #a1a1aa;
+  --on-surface: var(--theme-landing-text);
+  --on-surface-variant: #d4d4d8;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -626,6 +628,8 @@ html.dark,
   --grayMuted: #9ca3af;
   --accentGreen: var(--sovereign);
   --accentBlue: #3b82f6;
+  --on-surface: #ededed;
+  --on-surface-variant: #d4d4d8;
 }
 
 html {
@@ -1075,6 +1079,8 @@ a:hover {
   .dark {
     --background: #000000;
     --foreground: #ededed;
+    --on-surface: #ededed;
+    --on-surface-variant: #d4d4d8;
     --card: #09090b;
     --card-foreground: #ededed;
     --popover: #09090b;

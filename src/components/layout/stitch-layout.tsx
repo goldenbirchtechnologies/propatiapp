@@ -74,8 +74,8 @@ export function StitchHeader() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 border-b transition-shadow duration-300 ${
           scrolled
-            ? 'bg-background/95 backdrop-blur border-outline-variant/60 shadow-[0_1px_4px_rgba(0,0,0,0.03)]'
-            : 'bg-background/95 backdrop-blur border-outline-variant/40'
+            ? 'bg-background border-outline-variant/60 shadow-[0_1px_4px_rgba(0,0,0,0.03)]'
+            : 'bg-background border-outline-variant/40'
         }`}
       >
         <div className="h-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
@@ -90,10 +90,10 @@ export function StitchHeader() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={`text-on-surface-variant hover:text-on-surface transition-colors py-2.5 font-body-md text-body-md ${
+                  className={`transition-colors py-2.5 text-sm font-medium ${
                     active
-                      ? 'font-title-sm text-primary font-semibold border-b-2 border-primary'
-                      : ''
+                      ? 'text-primary font-semibold border-b-2 border-primary'
+                      : 'text-foreground hover:text-primary'
                   }`}
                 >
                   {link.label}
@@ -107,14 +107,14 @@ export function StitchHeader() {
               onClick={toggleTheme}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-xl border border-outline-variant bg-background text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+              className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-xl border border-outline-variant bg-background text-foreground hover:text-primary hover:bg-surface-container transition-colors"
               type="button"
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             <Link
               href="/sign-up?role=landlord"
-              className="hidden sm:inline-flex items-center justify-center h-10 px-3.5 rounded-xl border border-outline-variant bg-background text-on-surface-variant hover:text-on-surface text-xs font-semibold transition-colors"
+              className="hidden sm:inline-flex items-center justify-center h-10 px-3.5 rounded-xl border border-outline-variant bg-background text-foreground hover:text-primary text-xs font-semibold transition-colors"
             >
               Switch Role
             </Link>
@@ -152,7 +152,7 @@ export function StitchHeader() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 text-on-surface-variant hover:text-on-surface"
+              className="xl:hidden p-2 text-foreground hover:text-primary"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (

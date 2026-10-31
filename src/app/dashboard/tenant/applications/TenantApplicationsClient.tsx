@@ -113,11 +113,11 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
           <span className="text-zinc-900 dark:text-white">My Applications</span>
         </div>
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-medium">
-          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-zinc-600 dark:text-zinc-400"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> </span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-zinc-600 dark:text-zinc-400"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> CAC Verified Tenants</span>
           <span className="hidden text-zinc-300 dark:text-zinc-700 sm:inline">•</span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-zinc-600 dark:text-zinc-400"></span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-zinc-600 dark:text-zinc-400">LASRERA Leasing Framework</span>
           <span className="hidden text-zinc-300 dark:text-zinc-700 sm:inline">•</span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-zinc-600 dark:text-zinc-400"></span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-zinc-600 dark:text-zinc-400">Credit &amp; KYC Vetted</span>
         </div>
       </div>
 
@@ -286,7 +286,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
         </div>
         <div className="flex flex-col items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white/[0.03] px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400 sm:flex-row">
           <span>Showing {filtered.length} of {applications.length} entries • <span className="inline-flex items-center gap-1 font-medium text-primary dark:text-[#4edea3]"><ShieldCheck className="h-3.5 w-3.5" /> Paystack Escrow Protection Active</span></span>
-          <span className="font-mono text-[11px] text-zinc-500"> </span>
+          <span className="font-mono text-[11px] text-zinc-500">LASRERA • NDPR • NIBSS</span>
         </div>
       </div>
 
@@ -296,24 +296,24 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
           <div className="flex gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]"><ShieldCheck className="h-5 w-5" /></span>
             <div>
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Nigerian Real Estate Tenancy &amp; Screening Standards  &amp; </h3>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400"> &amp; Data Protection Framework</p>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">All tenancy applications adhere to biometric BVN and NIN KYC compliance. Caution deposits are retained in audited escrow and released within 60 minutes if an application is closed or withdrawn.</p>
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Nigerian Real Estate Tenancy &amp; Screening Standards (LASRERA &amp; NDPR)</h3>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400">Regulated under Lagos State Real Estate Regulatory Authority Law &amp; Data Protection Framework</p>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">All tenancy applications adhere to biometric BVN and NIN KYC compliance. Caution deposits are retained in audited NIBSS escrow and released within 60 minutes if an application is closed or withdrawn.</p>
               <div className="mt-4 grid gap-2 sm:grid-cols-3 text-xs">
-                <span className="flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5"><ShieldCheck className="h-4 w-4 text-primary" /> </span>
-                <span className="flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5"><Building2 className="h-4 w-4 text-primary" /> </span>
-                <span className="flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5"><Filter className="h-4 w-4 text-primary" /> </span>
+                <span className="flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5"><ShieldCheck className="h-4 w-4 text-primary" /> NIBSS / CBN Escrow</span>
+                <span className="flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5"><Building2 className="h-4 w-4 text-primary" /> LASRERA Tenancy Bill</span>
+                <span className="flex items-center gap-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5"><Filter className="h-4 w-4 text-primary" /> NDPR Protected</span>
               </div>
             </div>
           </div>
         </div>
         <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
-          <p className="flex items-center gap-2 text-[11px] font-bold tracking-widest text-primary dark:text-[#4edea3]"><span className="h-2 w-2 animate-pulse rounded-full bg-primary" /> Help Desk Online</p>
+          <p className="flex items-center gap-2 text-[11px] font-bold tracking-widest text-primary dark:text-[#4edea3]"><span className="h-2 w-2 animate-pulse rounded-full bg-primary" /> Estate Screening Desk Online</p>
           <h3 className="mt-2 font-semibold text-zinc-900 dark:text-white">Need help with your application?</h3>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Speak with our compliance liaison officers regarding document verification or guarantor requirements.</p>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Speak with our compliance liaison officers regarding document verification or CAC guarantor requirements.</p>
           <div className="mt-4 space-y-2 text-sm">
             <a href="mailto:support@propatibox.ng" className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5 hover:bg-zinc-100 dark:hover:bg-white/[0.06]"><span className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> support@propatibox.ng</span><ArrowUpRight className="h-4 w-4 text-zinc-500" /></a>
-            <a href="tel:+23412908820" className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5 hover:bg-zinc-100 dark:hover:bg-white/[0.06]"><span className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /></span><span className="text-[11px] font-semibold text-primary dark:text-[#4edea3]"></span></a>
+            <a href="tel:+23412908820" className="flex items-center justify-between rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-3 py-2.5 hover:bg-zinc-100 dark:hover:bg-white/[0.06]"><span className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> +234 1 290 8820 (Ext. 4)</span><span className="text-[11px] font-semibold text-primary dark:text-[#4edea3]">24/7 Desk</span></a>
           </div>
         </div>
       </div>

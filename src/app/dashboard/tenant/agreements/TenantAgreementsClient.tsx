@@ -93,7 +93,7 @@ export default function TenantAgreementsClient() {
           <span className="font-semibold text-primary dark:text-[#4edea3]">MY AGREEMENTS</span>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 px-3 py-1 text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400">
-          <ShieldCheck className="h-3.5 w-3.5 text-primary" /> 
+          <ShieldCheck className="h-3.5 w-3.5 text-primary" /> CAC &amp; LASRERA REGISTERED • STAMP DUTY VERIFIED
         </span>
       </div>
 
@@ -287,13 +287,13 @@ export default function TenantAgreementsClient() {
           <div className="flex gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#4edea3]"><Scale className="h-5 w-5" /></span>
             <div>
-              <p className="text-sm font-semibold text-zinc-900 dark:text-white"> Tenancy Law &amp; E-Signature Legal Enforceability <span className="ml-2 rounded bg-primary/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Evidence Act Sec 93 &amp; 94</span></p>
-              <p className="mt-1 max-w-3xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">All digital tenancy deeds executed on PropatiBox comply with the Nigerian Evidence Act (Sections 93 &amp; 94) . Documents bear tamper-proof SHA-256 timestamps and are registered for Stamp Duty attestation.</p>
+              <p className="text-sm font-semibold text-zinc-900 dark:text-white">Lagos State Tenancy Law &amp; E-Signature Legal Enforceability <span className="ml-2 rounded bg-primary/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Evidence Act Sec 93 &amp; 94</span></p>
+              <p className="mt-1 max-w-3xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">All digital tenancy deeds executed on PropatiBox comply with the Nigerian Evidence Act (Sections 93 &amp; 94) and LASRERA. Documents bear tamper-proof SHA-256 timestamps and are registered for Stamp Duty attestation.</p>
             </div>
           </div>
           <div className="shrink-0 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-4 py-3 text-xs">
             <p className="font-semibold tracking-widest text-zinc-500">STATUTORY INQUIRIES DESK</p>
-            <p className="mt-1 font-semibold text-zinc-900 dark:text-white">
+            <p className="mt-1 font-semibold text-zinc-900 dark:text-white">Barrister T. Adegbenro (LL.B, BL)</p>
             <a href="mailto:legal@propatibox.ng" className="text-primary hover:underline dark:text-[#4edea3]">legal@propatibox.ng</a>
           </div>
         </div>

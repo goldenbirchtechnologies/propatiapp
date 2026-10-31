@@ -1,98 +1,170 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Receipt, Landmark } from 'lucide-react';
 import { onboardingEstateRemittanceSchema } from '@/lib/validators';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Loader2 } from 'lucide-react';
-import type { OnboardingEstateRemittanceInput } from '@/lib/validators';
+import {
+  DCallout,
+  DCheckboxRow,
+  DField,
+  DGrid,
+  DInput,
+  DSelect,
+} from '@/components/onboarding/dossier/primitives';
+import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import type { StepProps } from './types';
 
-export default function EstateRemittanceStep() {
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+const CYCLES = [
+  { value: 'instant', label: 'Instant split transfer' },
+  { value: 'monthly', label: 'Monthly cycle' },
+  { value: 'annual', label: 'Annual disbursement' },
+] as const;
 
-  const form = useForm<OnboardingEstateRemittanceInput>({
-    resolver: zodResolver(onboardingEstateRemittanceSchema),
-    defaultValues: { remittanceCycle: 'monthly' },
-  });
+const FEE_TYPES = [
+  { value: 'percent', label: 'Percentage of rent' },
+  { value: 'flat', label: 'Flat fee per tenancy' },
+] as const;
 
-  async function onSubmit(values: OnboardingEstateRemittanceInput) {
-    setSaving(true);
-    setMessage(null);
-    try {
-      const res = await fetch('/api/onboarding/estate/remittance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message || json.error || 'Could not save');
-      setMessage('Remittance & trust account saved.');
-    } catch (e: unknown) {
-      setMessage(e instanceof Error ? e.message : 'Could not save');
-    } finally {
-      setSaving(false);
+/**
+ * The client trust account. Tenant money is held here rather than in the
+ * firm's operating account, and the remittance cycle decides when the owner
+ * is paid net of management fee and withholding tax.
+ */
+export default function EstateRemittanceStep({ onSaved }: StepProps) {
+  const [trustBankName, setTrustBankName] = useState('');
+  const [trustAccountName, setTrustAccountName] = useState('');
+  const [trustAccountNumber, setTrustAccountNumber] = useState('');
+  const [remittanceCycle, setRemittanceCycle] = useState('monthly');
+  const [managementFeeType, setManagementFeeType] = useState('percent');
+  const [managementFeeValue, setManagementFeeValue] = useState('');
+  const [whtInstructionAcknowledged, setWhtInstructionAcknowledged] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const { saving, error, saved, run, setError } = useStepSave(onSaved);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFieldErrors({});
+
+    const parsed = onboardingEstateRemittanceSchema.safeParse({
+      trustBankName,
+      trustAccountName,
+      trustAccountNumber,
+      remittanceCycle,
+      managementFeeType,
+      managementFeeValue: managementFeeValue === '' ? undefined : Number(managementFeeValue),
+      whtInstructionAcknowledged,
+    });
+
+    if (!parsed.success) {
+      setFieldErrors(issuesOf(parsed.error));
+      setError(firstIssue(parsed.error));
+      return;
     }
+
+    await run('/api/onboarding/estate/remittance', parsed.data);
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Trust bank name</Label>
-          <Input placeholder="GTBank" {...form.register('trustBankName')} />
-        </div>
-        <div className="space-y-2">
-          <Label>Trust account name</Label>
-          <Input placeholder="Golden Birch Client Trust" {...form.register('trustAccountName')} />
-        </div>
+    <form onSubmit={handleSubmit}>
+      <DCallout icon={<Landmark className="h-4 w-4" />} title="Client trust account" className="mb-5">
+        Tenant money must land in a designated client trust account, never an operating account.
+        Rent is remitted to owners net of the management fee and any withholding tax.
+      </DCallout>
+
+      <DGrid cols={2}>
+        <DField label="Trust bank name" required error={fieldErrors.trustBankName}>
+          <DInput
+            value={trustBankName}
+            onChange={(e) => setTrustBankName(e.target.value)}
+            placeholder="e.g. GTBank"
+          />
+        </DField>
+
+        <DField label="Trust account name" required error={fieldErrors.trustAccountName}>
+          <DInput
+            value={trustAccountName}
+            onChange={(e) => setTrustAccountName(e.target.value)}
+            placeholder="Golden Birch Client Trust"
+          />
+        </DField>
+
+        <DField
+          label="Trust account number"
+          required
+          note="NUBAN · 10–12 digits"
+          error={fieldErrors.trustAccountNumber}
+        >
+          <DInput
+            value={trustAccountNumber}
+            onChange={(e) => setTrustAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 12))}
+            placeholder="0123456789"
+            inputMode="numeric"
+            mono
+          />
+        </DField>
+
+        <DField label="Remittance cycle" required error={fieldErrors.remittanceCycle}>
+          <DSelect
+            value={remittanceCycle}
+            onChange={(e) => setRemittanceCycle(e.target.value)}
+          >
+            {CYCLES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </DSelect>
+        </DField>
+      </DGrid>
+
+      <div className="my-5 h-px w-full bg-[var(--surface-container-high)]" />
+
+      <p className="dossier-eyebrow mb-3 flex items-center gap-1.5 text-[var(--on-surface-variant)]">
+        <Receipt className="h-3.5 w-3.5" /> Management fee
+      </p>
+
+      <DGrid cols={2}>
+        <DField label="Fee type" error={fieldErrors.managementFeeType}>
+          <DSelect
+            value={managementFeeType}
+            onChange={(e) => setManagementFeeType(e.target.value)}
+          >
+            {FEE_TYPES.map((f) => (
+              <option key={f.value} value={f.value}>
+                {f.label}
+              </option>
+            ))}
+          </DSelect>
+        </DField>
+
+        <DField
+          label="Fee value"
+          note={managementFeeType === 'percent' ? '%' : '₦'}
+          error={fieldErrors.managementFeeValue}
+          hint="Deducted before remittance, never added to the tenant's rent."
+        >
+          <DInput
+            value={managementFeeValue}
+            onChange={(e) => setManagementFeeValue(e.target.value.replace(/[^\d.]/g, ''))}
+            placeholder={managementFeeType === 'percent' ? '10' : '50,000.00'}
+            inputMode="decimal"
+            mono
+          />
+        </DField>
+      </DGrid>
+
+      <div className="mt-4">
+        <DCheckboxRow
+          id="estate-wht"
+          checked={whtInstructionAcknowledged}
+          onCheckedChange={setWhtInstructionAcknowledged}
+        >
+          I acknowledge withholding-tax protocols on rental income where applicable.
+        </DCheckboxRow>
       </div>
-      <div className="space-y-2">
-        <Label>Trust account number (NUBAN)</Label>
-        <Input placeholder="0123456789" {...form.register('trustAccountNumber')} />
-      </div>
-      <div className="space-y-2">
-        <Label>Remittance cycle</Label>
-        <Select value={form.watch('remittanceCycle')} onValueChange={(v) => form.setValue('remittanceCycle', v as OnboardingEstateRemittanceInput['remittanceCycle'])}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="instant">Instant split transfer</SelectItem>
-            <SelectItem value="monthly">Monthly cycle</SelectItem>
-            <SelectItem value="annual">Annual disbursement</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Management fee type (optional)</Label>
-          <Select onValueChange={(v) => form.setValue('managementFeeType', v as OnboardingEstateRemittanceInput['managementFeeType'])}>
-            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="percent">Percentage</SelectItem>
-              <SelectItem value="flat">Flat rate</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <Label>Management fee value</Label>
-          <Input type="number" placeholder="10 or 50000" {...form.register('managementFeeValue')} />
-        </div>
-      </div>
-      <div className="flex items-start gap-2">
-        <Checkbox id="whtInstructionAcknowledged" onCheckedChange={(v) => form.setValue('whtInstructionAcknowledged', v === true)} />
-        <Label htmlFor="whtInstructionAcknowledged" className="text-sm font-normal leading-tight">
-          I acknowledge tax withholding (WHT) protocols on rental income where applicable.
-        </Label>
-      </div>
-      {message && <p className={`text-sm p-3 rounded-lg ${message.includes('saved') ? 'bg-primary/20 text-[#4edea3]' : 'bg-red-900/20 text-red-400'}`}>{message}</p>}
-      <Button type="submit" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49]">
-        {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null} Save remittance details
-      </Button>
+
+      <StepActions saving={saving} error={error} saved={saved} label="Save remittance & finish" />
     </form>
   );
 }

@@ -1293,3 +1293,130 @@ a:hover {
 
 /* Focus ring — Sovereign */
 :focus-visible { outline: 2px solid var(--sovereign); outline-offset: 2px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Dossier theme — scoped LIGHT Sovereign Estate surface
+   ───────────────────────────────────────────────────────────────────────────
+   The SaaS shell is dark-first: every `.app-layout.theme-*` class remaps the
+   Sovereign palette to near-black. `/onboarding` is the one surface designed
+   from the Stitch "Sovereign Estate" light references, so it declares its own
+   token contract here instead of inheriting a dashboard theme.
+
+   Declarations live on the wrapper element, so they win over `html.dark` by
+   inheritance (a declaration on the element always beats an inherited value,
+   whatever the specificity of the ancestor rule). The `dark:` Tailwind
+   variants inside shadcn primitives are neutralised by the explicit
+   `[data-slot]` rules at the end of this block.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dossier-theme {
+  /* Canvas & surfaces */
+  --bg: #fbf8fc;
+  --text: #1b1b1e;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-variant: #e4e1e6;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f6f2f7;
+  --surface-container: #f0edf1;
+  --surface-container-high: #eae7eb;
+  --surface-container-highest: #e4e1e6;
+  --surface-dim: #dcd9dd;
+  --surface-bright: #fbf8fc;
+  --on-surface: #1b1b1e;
+  --on-surface-variant: #3c4a42;
+  --inverse-surface: #303033;
+  --inverse-on-surface: #f3f0f4;
+  --outline: #6c7a71;
+  --outline-variant: #bbcabf;
+
+  /* Accent + semantic */
+  --accent: #006c49;
+  --accent2: #00422b;
+  --accent-bg: rgba(0, 108, 73, 0.1);
+  --primary: #006c49;
+  --primary-foreground: #ffffff;
+  --primary-container: #10b981;
+  --on-primary-container: #00422b;
+  --secondary: #006c4a;
+  --secondary-foreground: #ffffff;
+  --secondary-container: #82f5c1;
+  --on-secondary-container: #00714e;
+  --border: #e4e1e6;
+  --input: #e4e1e6;
+  --ring: #006c49;
+  --muted: #f6f2f7;
+  --muted-foreground: #52525b;
+  --card: #ffffff;
+  --card-foreground: #1b1b1e;
+  --popover: #ffffff;
+  --popover-foreground: #1b1b1e;
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+
+  /* Shapes — Stitch overrides the scale: cards 12px, controls 8px */
+  --radius-card: 12px;
+  --radius-card-lg: 12px;
+  --radius-btn: 8px;
+  --radius-btn-sm: 8px;
+
+  background-color: #fbf8fc;
+  color: #1b1b1e;
+  color-scheme: light;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Re-assert the light palette inside the scope for shadcn primitives whose
+   `dark:` variants would otherwise repaint them from `html.dark`. */
+.dossier-theme [data-slot='input'],
+.dossier-theme [data-slot='textarea'],
+.dossier-theme [data-slot='select-trigger'] {
+  background-color: #ffffff;
+  border-color: #e4e1e6;
+  color: #1b1b1e;
+}
+
+.dossier-theme [data-slot='input']::placeholder,
+.dossier-theme [data-slot='textarea']::placeholder {
+  color: #71717a;
+  opacity: 1;
+}
+
+.dossier-theme [data-slot='input']:focus-visible,
+.dossier-theme [data-slot='textarea']:focus-visible,
+.dossier-theme [data-slot='select-trigger']:focus-visible {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.dossier-theme input[type='checkbox'],
+.dossier-theme input[type='radio'] {
+  accent-color: #006c49;
+}
+
+/* Legal/statutory prose blocks reuse the design's uppercase micro-label scale */
+.dossier-theme .dossier-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 14px;
+}
+
+/* Data readouts align column-to-column, as DESIGN.md requires */
+.dossier-theme .dossier-mono {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+@keyframes dossier-pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.dossier-pulse {
+  animation: dossier-pulse-dot 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dossier-pulse { animation: none; }
+}

@@ -1,88 +1,157 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Smartphone, Wallet } from 'lucide-react';
 import { onboardingAgentSettlementSchema } from '@/lib/validators';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader2 } from 'lucide-react';
-import type { OnboardingAgentSettlementInput } from '@/lib/validators';
+import {
+  DCallout,
+  DField,
+  DGrid,
+  DInput,
+  DSelect,
+  DTextarea,
+} from '@/components/onboarding/dossier/primitives';
+import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import type { StepProps } from './types';
 
-export default function AgentSettlementStep() {
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+const DEVICES = [
+  { value: 'ios', label: 'iOS' },
+  { value: 'android', label: 'Android' },
+  { value: 'both', label: 'Both' },
+] as const;
 
-  const form = useForm<OnboardingAgentSettlementInput>({
-    resolver: zodResolver(onboardingAgentSettlementSchema),
-  });
+export default function AgentSettlementStep({ onSaved }: StepProps) {
+  const [bankName, setBankName] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [commissionSplitPercent, setCommissionSplitPercent] = useState('');
+  const [subscriptionTier, setSubscriptionTier] = useState('');
+  const [primaryDeviceOs, setPrimaryDeviceOs] = useState('android');
+  const [crmNotes, setCrmNotes] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  async function onSubmit(values: OnboardingAgentSettlementInput) {
-    setSaving(true);
-    setMessage(null);
-    try {
-      const res = await fetch('/api/onboarding/agent/settlement', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message || json.error || 'Could not save');
-      setMessage('Settlement & commission saved.');
-    } catch (e: unknown) {
-      setMessage(e instanceof Error ? e.message : 'Could not save');
-    } finally {
-      setSaving(false);
+  const { saving, error, saved, run, setError } = useStepSave(onSaved);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFieldErrors({});
+
+    const parsed = onboardingAgentSettlementSchema.safeParse({
+      bankName,
+      accountName,
+      accountNumber,
+      commissionSplitPercent:
+        commissionSplitPercent === '' ? undefined : Number(commissionSplitPercent),
+      subscriptionTier: subscriptionTier || undefined,
+      primaryDeviceOs,
+      crmNotes: crmNotes || undefined,
+    });
+
+    if (!parsed.success) {
+      setFieldErrors(issuesOf(parsed.error));
+      setError(firstIssue(parsed.error));
+      return;
     }
+
+    await run('/api/onboarding/agent/settlement', parsed.data);
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Bank name</Label>
-          <Input placeholder="GTBank" {...form.register('bankName')} />
-        </div>
-        <div className="space-y-2">
-          <Label>Account name</Label>
-          <Input placeholder="T. Balogun / Balogun Realty Ltd." {...form.register('accountName')} />
-        </div>
+    <form onSubmit={handleSubmit}>
+      <DCallout icon={<Wallet className="h-4 w-4" />} title="Commission escrow" className="mb-5">
+        Commission settles to this NUBAN the moment a tenancy payment clears — not at the end of the
+        month. Multi-party splits are distributed in the same transaction.
+      </DCallout>
+
+      <DGrid cols={2}>
+        <DField label="Bank name" required error={fieldErrors.bankName}>
+          <DInput
+            value={bankName}
+            onChange={(e) => setBankName(e.target.value)}
+            placeholder="e.g. GTBank"
+          />
+        </DField>
+
+        <DField label="Account name" required error={fieldErrors.accountName}>
+          <DInput
+            value={accountName}
+            onChange={(e) => setAccountName(e.target.value)}
+            placeholder="T. Balogun / Balogun Realty Ltd."
+          />
+        </DField>
+
+        <DField
+          label="Account number"
+          required
+          note="NUBAN · 10–12 digits"
+          error={fieldErrors.accountNumber}
+        >
+          <DInput
+            value={accountNumber}
+            onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 12))}
+            placeholder="0123456789"
+            inputMode="numeric"
+            mono
+          />
+        </DField>
+
+        <DField
+          label="Commission split"
+          note="% · optional"
+          error={fieldErrors.commissionSplitPercent}
+          hint="Your share of the agency commission."
+        >
+          <DInput
+            value={commissionSplitPercent}
+            onChange={(e) => setCommissionSplitPercent(e.target.value.replace(/[^\d.]/g, ''))}
+            placeholder="10"
+            inputMode="decimal"
+            mono
+          />
+        </DField>
+      </DGrid>
+
+      <div className="my-5 h-px w-full bg-[var(--surface-container-high)]" />
+
+      <p className="dossier-eyebrow mb-3 flex items-center gap-1.5 text-[var(--on-surface-variant)]">
+        <Smartphone className="h-3.5 w-3.5" /> Field workflow
+      </p>
+
+      <DGrid cols={2}>
+        <DField label="Subscription tier" note="Optional" error={fieldErrors.subscriptionTier}>
+          <DInput
+            value={subscriptionTier}
+            onChange={(e) => setSubscriptionTier(e.target.value)}
+            placeholder="Premium lead generation"
+          />
+        </DField>
+
+        <DField label="Primary device" error={fieldErrors.primaryDeviceOs}>
+          <DSelect
+            value={primaryDeviceOs}
+            onChange={(e) => setPrimaryDeviceOs(e.target.value)}
+          >
+            {DEVICES.map((d) => (
+              <option key={d.value} value={d.value}>
+                {d.label}
+              </option>
+            ))}
+          </DSelect>
+        </DField>
+      </DGrid>
+
+      <div className="mt-4">
+        <DField label="CRM / field tool notes" note="Optional" error={fieldErrors.crmNotes}>
+          <DTextarea
+            value={crmNotes}
+            onChange={(e) => setCrmNotes(e.target.value)}
+            placeholder="e.g. Zoho CRM; inspection photos captured in-app."
+            rows={2}
+          />
+        </DField>
       </div>
-      <div className="space-y-2">
-        <Label>Account number (NUBAN)</Label>
-        <Input placeholder="0123456789" {...form.register('accountNumber')} />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Commission split % (optional)</Label>
-          <Input type="number" placeholder="10" {...form.register('commissionSplitPercent')} />
-        </div>
-        <div className="space-y-2">
-          <Label>Subscription tier (optional)</Label>
-          <Input placeholder="Premium lead gen" {...form.register('subscriptionTier')} />
-        </div>
-      </div>
-      <div className="space-y-2">
-        <Label>Primary device OS</Label>
-        <Select onValueChange={(v) => form.setValue('primaryDeviceOs', v as OnboardingAgentSettlementInput['primaryDeviceOs'])}>
-          <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ios">iOS</SelectItem>
-            <SelectItem value="android">Android</SelectItem>
-            <SelectItem value="both">Both</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <Label>CRM / field tool notes (optional)</Label>
-        <Input placeholder="e.g. Zoho CRM, iPhone 15 — field workflow: inspection photos via app" {...form.register('crmNotes')} />
-      </div>
-      {message && <p className={`text-sm p-3 rounded-lg ${message.includes('saved') ? 'bg-primary/20 text-[#4edea3]' : 'bg-red-900/20 text-red-400'}`}>{message}</p>}
-      <Button type="submit" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49]">
-        {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null} Save settlement & commission
-      </Button>
+
+      <StepActions saving={saving} error={error} saved={saved} label="Save settlement" />
     </form>
   );
 }

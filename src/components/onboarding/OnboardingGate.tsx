@@ -18,6 +18,7 @@ interface OnboardingSnapshot {
     description: string;
     done: boolean;
     skippable: boolean;
+    skipped?: boolean;
   }>;
 }
 
@@ -117,11 +118,15 @@ export function OnboardingGate({ snapshot: providedSnapshot }: OnboardingGatePro
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-white">{step.title}</h4>
                 <p className="text-sm text-zinc-400 mt-0.5">{step.description}</p>
-                {step.skippable && !step.done && (
+                {step.skipped ? (
                   <span className="inline-block mt-2 text-xs text-amber-400 bg-amber-900/30 px-2 py-0.5 rounded">
-                    Skippable — dashboard available
+                    Deferred — finish it to unlock agreements and payments
                   </span>
-                )}
+                ) : step.skippable && !step.done ? (
+                  <span className="inline-block mt-2 text-xs text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded">
+                    Optional
+                  </span>
+                ) : null}
               </div>
             </div>
           </div>

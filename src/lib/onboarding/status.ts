@@ -69,6 +69,32 @@ export interface OnboardingStepState {
   description: string;
   done: boolean;
   skippable: boolean;
+  /** Deferred: the user set this optional step aside without completing it. */
+  skipped: boolean;
+}
+
+/**
+ * The subset of the user's own record the wizard echoes back in the step
+ * pipeline and the right-hand rail. Read-only display facts — nothing here is
+ * ever written back, and nothing sensitive (NIN/BVN) leaves the database.
+ */
+export interface OnboardingDisplayFacts {
+  fullName: string;
+  email: string;
+  countryCode: string | null;
+  countryName: string | null;
+  jurisdictionName: string | null;
+  city: string | null;
+  phone: string | null;
+  phoneVerified: boolean;
+  idType: string | null;
+  idVerified: boolean;
+  employmentStatus: string | null;
+  employerName: string | null;
+  jobTitle: string | null;
+  yearlyIncome: number | null;
+  guarantorName: string | null;
+  guarantorRelationship: string | null;
 }
 
 export interface OnboardingSnapshot {
@@ -81,6 +107,7 @@ export interface OnboardingSnapshot {
   canComplete: boolean;
   /** True when a soft-required step was skipped and blocks completion. */
   blocked: boolean;
+  facts: OnboardingDisplayFacts;
 }
 
 export function deriveStepStates(
@@ -88,13 +115,20 @@ export function deriveStepStates(
   facts: UserOnboardingFacts,
   skippedSteps: string[] = []
 ): OnboardingStepState[] {
-  return getStepsForRole(role).map((step) => ({
-    id: step.id,
-    title: step.title,
-    description: step.description,
-    done: STEP_PREDICATES[step.id](facts) || skippedSteps.includes(step.id),
-    skippable: step.skippable,
-  }));
+  return getStepsForRole(role).map((step) => {
+    const done = STEP_PREDICATES[step.id](facts);
+    return {
+      id: step.id,
+      title: step.title,
+      description: step.description,
+      done,
+      skippable: step.skippable,
+      // Deferral and completion are different states: a skipped step stays
+      // open so the gate can show it as outstanding. Once the underlying data
+      // is present the predicate wins and the deferral is spent.
+      skipped: !done && step.skippable && skippedSteps.includes(step.id),
+    };
+  });
 }
 
 export function deriveStatus(
@@ -108,21 +142,20 @@ export function deriveStatus(
     return { status: 'completed', currentStep: null, canComplete: true, blocked: false };
   }
 
-  const incomplete = steps.filter((s) => !s.done);
-  const blockedBySkip = incomplete.some((s) => s.skippable && skippedSteps.includes(s.id));
-
-  if (incomplete.length === 0) {
-    return { status: 'completed', currentStep: null, canComplete: true, blocked: false };
-  }
-
-  if (blockedBySkip) {
-    const firstBlocked = incomplete.find((s) => skippedSteps.includes(s.id));
+  // A deferred optional step holds the account open rather than completing it.
+  const deferred = steps.find((s) => s.skipped);
+  if (deferred) {
     return {
       status: 'blocked',
-      currentStep: firstBlocked?.id ?? incomplete[0].id,
+      currentStep: deferred.id,
       canComplete: false,
       blocked: true,
     };
+  }
+
+  const incomplete = steps.filter((s) => !s.done);
+  if (incomplete.length === 0) {
+    return { status: 'completed', currentStep: null, canComplete: true, blocked: false };
   }
 
   return {
@@ -139,6 +172,10 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
     select: {
       role: true,
       onboardingRequired: true,
+      fullName: true,
+      email: true,
+      country: { select: { code: true, name: true } },
+      jurisdiction: { select: { name: true } },
       countryId: true,
       jurisdictionId: true,
       city: true,
@@ -163,7 +200,7 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
   if (!user) return null;
 
   const skippedSteps = user.onboardingRequired
-    ? await getSkippedSteps(userId)
+    ? await getSkippedSteps(userId, user.role)
     : [];
 
   const facts: UserOnboardingFacts = {
@@ -202,6 +239,24 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
     steps,
     canComplete: required ? derived.canComplete : true,
     blocked: required ? derived.blocked : false,
+    facts: {
+      fullName: user.fullName,
+      email: user.email,
+      countryCode: user.country?.code ?? null,
+      countryName: user.country?.name ?? null,
+      jurisdictionName: user.jurisdiction?.name ?? null,
+      city: user.city,
+      phone: user.phone,
+      phoneVerified: user.phoneVerified,
+      idType: user.idType,
+      idVerified: user.idVerified,
+      employmentStatus: user.employmentStatus,
+      employerName: user.employerName,
+      jobTitle: user.jobTitle,
+      yearlyIncome: user.yearlyIncome == null ? null : Number(user.yearlyIncome),
+      guarantorName: user.guarantorName,
+      guarantorRelationship: user.guarantorRelationship,
+    },
   };
 }
 
@@ -248,12 +303,16 @@ async function roleProfileFacts(
  * because "skipped" and "done" are different: a skipped identity step leaves
  * onboarding blocked rather than complete.
  */
-async function getSkippedSteps(userId: string): Promise<string[]> {
+async function getSkippedSteps(userId: string, role: UserRole): Promise<string[]> {
   const row = await prisma.userOnboarding.findUnique({
     where: { userId },
     select: { status: true, currentStep: true },
   });
-  if (!row) return [];
-  // A blocked onboarding row records the step the user skipped as currentStep.
-  return row.status === 'blocked' ? [row.currentStep] : [];
+  if (!row || row.status !== 'blocked' || !row.currentStep) return [];
+
+  // A blocked row records the deferred step as currentStep. Only a step that is
+  // genuinely optional for this role may hold the account open: a stale value
+  // must not block a user on a step they were never allowed to defer.
+  const deferred = getStepsForRole(role).find((s) => s.id === row.currentStep);
+  return deferred?.skippable ? [deferred.id] : [];
 }

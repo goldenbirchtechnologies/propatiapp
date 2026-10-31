@@ -1,110 +1,194 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Building2, FileText } from 'lucide-react';
 import { onboardingLandlordProfileSchema } from '@/lib/validators';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader2 } from 'lucide-react';
-import type { OnboardingLandlordProfileInput } from '@/lib/validators';
+import {
+  DCallout,
+  DField,
+  DGrid,
+  DInput,
+  DSelect,
+  DToggleChip,
+} from '@/components/onboarding/dossier/primitives';
+import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import type { StepProps } from './types';
 
-export default function LandlordProfileStep() {
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+const ENTITY_TYPES = [
+  { value: 'individual', label: 'Individual' },
+  { value: 'joint', label: 'Joint owners' },
+  { value: 'company', label: 'Company' },
+] as const;
 
-  const form = useForm<OnboardingLandlordProfileInput>({
-    resolver: zodResolver(onboardingLandlordProfileSchema),
-    defaultValues: { legalEntityType: 'individual' },
-  });
+/**
+ * Ownership entity decides what documentation the asset register demands: a
+ * CAC number for a company, co-owner names for a joint holding, a NIN for an
+ * individual.
+ */
+export default function LandlordProfileStep({ facts, onSaved }: StepProps) {
+  const [legalEntityType, setLegalEntityType] = useState<string>('individual');
+  const [legalName, setLegalName] = useState('');
+  const [jointOwnerNames, setJointOwnerNames] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [primaryPhone, setPrimaryPhone] = useState(facts.phone ?? '');
+  const [contactEmail, setContactEmail] = useState(facts.email ?? '');
+  const [mailingAddress, setMailingAddress] = useState('');
+  const [taxIdType, setTaxIdType] = useState<string>('tin');
+  const [taxNumber, setTaxNumber] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const entityType = form.watch('legalEntityType');
+  const { saving, error, saved, run, setError } = useStepSave(onSaved);
 
-  async function onSubmit(values: OnboardingLandlordProfileInput) {
-    setSaving(true);
-    setMessage(null);
-    try {
-      const res = await fetch('/api/onboarding/landlord/profile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message || json.error || 'Could not save');
-      setMessage('Owner profile saved.');
-    } catch (e: unknown) {
-      setMessage(e instanceof Error ? e.message : 'Could not save');
-    } finally {
-      setSaving(false);
+  const isCompany = legalEntityType === 'company';
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFieldErrors({});
+
+    const parsed = onboardingLandlordProfileSchema.safeParse({
+      legalEntityType,
+      legalName,
+      jointOwnerNames: legalEntityType === 'joint' ? jointOwnerNames || undefined : undefined,
+      companyName: isCompany ? companyName || undefined : undefined,
+      primaryPhone,
+      contactEmail,
+      mailingAddress,
+      taxIdType,
+      taxNumber,
+    });
+
+    if (!parsed.success) {
+      setFieldErrors(issuesOf(parsed.error));
+      setError(firstIssue(parsed.error));
+      return;
     }
+
+    await run('/api/onboarding/landlord/profile', parsed.data);
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-      <div className="space-y-2">
-        <Label>Legal ownership entity</Label>
-        <Select value={entityType} onValueChange={(v) => form.setValue('legalEntityType', v as OnboardingLandlordProfileInput['legalEntityType'])}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="individual">Individual owner</SelectItem>
-            <SelectItem value="joint">Joint owners</SelectItem>
-            <SelectItem value="company">Registered company</SelectItem>
-          </SelectContent>
-        </Select>
+    <form onSubmit={handleSubmit}>
+      <DCallout icon={<Building2 className="h-4 w-4" />} title="Asset register" className="mb-5">
+        Whatever entity holds the title is the entity that receives rent. A company must supply its
+        CAC registration; joint owners are all named on the tenancy agreement.
+      </DCallout>
+
+      <DField label="Legal ownership entity" required className="mb-4">
+        <div className="flex flex-wrap gap-2">
+          {ENTITY_TYPES.map((t) => (
+            <DToggleChip
+              key={t.value}
+              active={legalEntityType === t.value}
+              onClick={() => setLegalEntityType(t.value)}
+            >
+              {t.label}
+            </DToggleChip>
+          ))}
+        </div>
+      </DField>
+
+      <DGrid cols={2}>
+        <DField
+          label={isCompany ? 'Registered company name' : 'Full legal name'}
+          required
+          error={fieldErrors.legalName}
+        >
+          <DInput
+            value={legalName}
+            onChange={(e) => setLegalName(e.target.value)}
+            placeholder={isCompany ? 'Golden Birch Holdings Ltd.' : 'Chukwuemeka A. Okafor'}
+            autoComplete={isCompany ? 'organization' : 'name'}
+          />
+        </DField>
+
+        {legalEntityType === 'joint' ? (
+          <DField
+            label="Joint owners"
+            required
+            note="Semicolon separated"
+            error={fieldErrors.jointOwnerNames}
+          >
+            <DInput
+              value={jointOwnerNames}
+              onChange={(e) => setJointOwnerNames(e.target.value)}
+              placeholder="Adaeze N. Okafor; Tunde B. Okafor"
+            />
+          </DField>
+        ) : null}
+
+        {isCompany ? (
+          <DField label="Company name (as on CAC)" required error={fieldErrors.companyName}>
+            <DInput
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              placeholder="Golden Birch Holdings Ltd."
+            />
+          </DField>
+        ) : null}
+
+        <DField label="Primary phone" required note="E.164" error={fieldErrors.primaryPhone}>
+          <DInput
+            value={primaryPhone}
+            onChange={(e) => setPrimaryPhone(e.target.value)}
+            placeholder="+234 801 234 5678"
+            inputMode="tel"
+            mono
+          />
+        </DField>
+
+        <DField label="Contact email" required error={fieldErrors.contactEmail}>
+          <DInput
+            value={contactEmail}
+            onChange={(e) => setContactEmail(e.target.value)}
+            placeholder="owner@example.com"
+            type="email"
+            autoComplete="email"
+          />
+        </DField>
+      </DGrid>
+
+      <div className="mt-4">
+        <DField
+          label="Mailing address for official notices"
+          required
+          error={fieldErrors.mailingAddress}
+          hint="Where statutory notices, demand letters and receipts are served."
+        >
+          <DInput
+            value={mailingAddress}
+            onChange={(e) => setMailingAddress(e.target.value)}
+            placeholder="12 Adeola Odeku St, Victoria Island, Lagos"
+            autoComplete="street-address"
+          />
+        </DField>
       </div>
-      <div className="space-y-2">
-        <Label>{entityType === 'company' ? 'Registered company name' : 'Full legal name'}</Label>
-        <Input placeholder={entityType === 'company' ? 'Golden Birch Technologies Ltd.' : 'Chukwuemeka A. Okafor'} {...form.register('legalName')} />
+
+      <div className="mt-4">
+        <DCallout icon={<FileText className="h-4 w-4" />} title="Tax documentation" tone="neutral">
+          Rental income is reported against this identifier. Propati does not file on your behalf.
+        </DCallout>
       </div>
-      {entityType === 'joint' && (
-        <div className="space-y-2">
-          <Label>Joint owners (names)</Label>
-          <Input placeholder="Adaeze N. Okafor; Tunde B. Okafor" {...form.register('jointOwnerNames')} />
-        </div>
-      )}
-      {entityType === 'company' && (
-        <div className="space-y-2">
-          <Label>Company name (as on CAC)</Label>
-          <Input placeholder="Golden Birch Technologies Ltd." {...form.register('companyName')} />
-        </div>
-      )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Primary phone</Label>
-          <Input placeholder="+2348012345678" {...form.register('primaryPhone')} />
-        </div>
-        <div className="space-y-2">
-          <Label>Contact email</Label>
-          <Input type="email" placeholder="owner@example.com" {...form.register('contactEmail')} />
-        </div>
-      </div>
-      <div className="space-y-2">
-        <Label>Mailing address for official notices</Label>
-        <Input placeholder="12 Adeola Odeku St, Victoria Island, Lagos" {...form.register('mailingAddress')} />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Tax document type</Label>
-          <Select onValueChange={(v) => form.setValue('taxIdType', v as OnboardingLandlordProfileInput['taxIdType'])}>
-            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="tin">TIN</SelectItem>
-              <SelectItem value="nin">NIN</SelectItem>
-              <SelectItem value="other">Other tax code</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <Label>Tax number</Label>
-          <Input placeholder="TIN / NIN" {...form.register('taxNumber')} />
-        </div>
-      </div>
-      {message && <p className={`text-sm p-3 rounded-lg ${message.includes('saved') ? 'bg-primary/20 text-[#4edea3]' : 'bg-red-900/20 text-red-400'}`}>{message}</p>}
-      <Button type="submit" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49]">
-        {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null} Save owner profile
-      </Button>
+
+      <DGrid cols={2} className="mt-4">
+        <DField label="Tax document type" required error={fieldErrors.taxIdType}>
+          <DSelect value={taxIdType} onChange={(e) => setTaxIdType(e.target.value)}>
+            <option value="tin">TIN — Tax Identification Number</option>
+            <option value="nin">NIN — National Identification Number</option>
+            <option value="other">Other tax code</option>
+          </DSelect>
+        </DField>
+
+        <DField label="Tax number" required error={fieldErrors.taxNumber}>
+          <DInput
+            value={taxNumber}
+            onChange={(e) => setTaxNumber(e.target.value)}
+            placeholder="TIN / NIN"
+            mono
+          />
+        </DField>
+      </DGrid>
+
+      <StepActions saving={saving} error={error} saved={saved} label="Save owner profile" />
     </form>
   );
 }

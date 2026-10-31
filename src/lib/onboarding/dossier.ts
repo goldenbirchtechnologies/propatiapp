@@ -154,6 +154,20 @@ export async function markStepDone(
     estateRemittance: 'estateRemittanceDone',
   } as const;
 
+  // A blocked row carries the deferred step in `currentStep`. Saving some other
+  // step must not silently cancel that deferral, so hold both fields until the
+  // deferred step itself lands.
+  const existing = await prisma.userOnboarding.findUnique({
+    where: { userId },
+    select: { status: true, currentStep: true },
+  });
+  const deferralHeld =
+    existing?.status === 'blocked' && !!existing.currentStep && existing.currentStep !== step;
+
+  const progress = deferralHeld
+    ? { status: 'blocked' as const, currentStep: existing.currentStep as string }
+    : { status: 'in_progress' as const, currentStep };
+
   return prisma.userOnboarding.upsert({
     where: { userId },
     create: {
@@ -164,9 +178,24 @@ export async function markStepDone(
       [fieldMap[step]]: true,
     },
     update: {
-      status: 'in_progress',
-      currentStep,
+      ...progress,
       [fieldMap[step]]: true,
     },
+  });
+}
+
+/**
+ * Defers an optional step so the user can reach their dashboard without it.
+ *
+ * The deferred step is stored as `currentStep` on a `blocked` row, which is
+ * exactly what `getSkippedSteps` reads back. Saving that step later flips the
+ * row to `in_progress` and the deferral is spent. The step's own `<step>Done`
+ * boolean is deliberately left untouched — deferred is not done.
+ */
+export async function markStepSkipped(userId: string, role: UserRole, step: StepId) {
+  return prisma.userOnboarding.upsert({
+    where: { userId },
+    create: { userId, role, status: 'blocked', currentStep: step },
+    update: { status: 'blocked', currentStep: step },
   });
 }

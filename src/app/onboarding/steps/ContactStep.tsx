@@ -1,100 +1,199 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, MessageSquare, Phone, ShieldCheck } from 'lucide-react';
 import { onboardingContactSchema, onboardingPhoneVerifySchema } from '@/lib/validators';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Loader2 } from 'lucide-react';
+import {
+  DCallout,
+  DField,
+  DGrid,
+  DInput,
+  DPill,
+} from '@/components/onboarding/dossier/primitives';
+import { maskPhone } from '@/components/onboarding/dossier/role-meta';
+import { issuesOf, firstIssue, StepActions } from './_shared';
+import type { StepProps } from './types';
 
-export default function ContactStep() {
-  const [mode, setMode] = useState<'request' | 'verify'>('request');
-  const [saving, setSaving] = useState(false);
+/**
+ * Two-phase GSM verification: request a code, then prove receipt.
+ *
+ * The API echoes the code in development (`devCode`) so the flow can be
+ * exercised without an SMS provider; that value is only ever shown when
+ * `NODE_ENV !== 'production'`.
+ */
+export default function ContactStep({ facts, onSaved }: StepProps) {
+  const [phase, setPhase] = useState<'request' | 'verify' | 'done'>(
+    facts.phoneVerified ? 'done' : 'request'
+  );
+  const [phone, setPhone] = useState(facts.phone ?? '');
   const [code, setCode] = useState('');
-  const [message, setMessage] = useState('');
+  const [devCode, setDevCode] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldError, setFieldError] = useState<string | null>(null);
 
-  const requestForm = useForm({ resolver: zodResolver(onboardingContactSchema) });
+  async function requestCode() {
+    setError(null);
+    setFieldError(null);
 
-  async function handleRequest() {
-    const values = requestForm.getValues();
+    const parsed = onboardingContactSchema.safeParse({ phone });
+    if (!parsed.success) {
+      setFieldError(issuesOf(parsed.error).phone ?? firstIssue(parsed.error));
+      return;
+    }
+
     setSaving(true);
     try {
       const res = await fetch('/api/onboarding/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify(parsed.data),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error || 'Failed');
-      setMessage('A 6-digit code has been sent. Check your messages.');
-      setMode('verify');
-    } catch (e: any) {
-      setMessage(e.message || 'Could not send code');
+      if (!res.ok) throw new Error(json.message || json.error || 'Could not send the code.');
+      setDevCode(json.data?.devCode ?? null);
+      setPhase('verify');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not send the code.');
     } finally {
       setSaving(false);
     }
   }
 
-  async function handleVerify(e: React.FormEvent) {
+  async function verify(e: React.FormEvent) {
     e.preventDefault();
+    setError(null);
+
+    const parsed = onboardingPhoneVerifySchema.safeParse({ code });
+    if (!parsed.success) {
+      setError(firstIssue(parsed.error));
+      return;
+    }
+
     setSaving(true);
     try {
       const res = await fetch('/api/onboarding/phone/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify(parsed.data),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.message || 'That code did not work');
-      setMessage('Phone verified successfully.');
-      window.location.hash = '#step-complete';
-    } catch (e: any) {
-      setMessage(e.message || 'Something went wrong');
+      if (!res.ok) throw new Error(json.message || json.error || 'That code did not work.');
+      setPhase('done');
+      await onSaved();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'That code did not work.');
     } finally {
       setSaving(false);
     }
   }
 
+  if (phase === 'done') {
+    return (
+      <div className="flex flex-col items-start gap-3">
+        <DCallout icon={<ShieldCheck className="h-4 w-4" />} title="Number verified">
+          {maskPhone(phone || facts.phone)} can now receive agreements, rent notices and payment
+          receipts from Propati.
+        </DCallout>
+        <DPill tone="mint">Verified</DPill>
+        <button
+          type="button"
+          onClick={() => {
+            setPhase('request');
+            setCode('');
+          }}
+          className="text-[12px] font-semibold text-[var(--accent)] underline-offset-2 hover:underline"
+        >
+          Use a different number
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-5">
-      {mode === 'request' ? (
-        <>
-          <p className="text-sm text-zinc-400 mb-4">
-            Add a Nigerian phone number in E.164 format (+234...). We will send a short code to confirm it.
-          </p>
-          <div className="space-y-3">
-            <Label htmlFor="contact-phone">Phone number</Label>
-            <Input
-              id="contact-phone"
-              placeholder="+234 801 234 5678"
-              {...requestForm.register('phone')}
-            />
-          </div>
-          <Button onClick={handleRequest} disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49] mt-4">
-            {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            Send verification code
-          </Button>
-        </>
-      ) : (
-        <form onSubmit={handleVerify} className="space-y-4">
-          <Label htmlFor="contact-code">6-digit code</Label>
-          <Input
-            id="contact-code"
-            placeholder="123456"
-            value={code}
-            onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+    <form onSubmit={verify}>
+      <DCallout icon={<MessageSquare className="h-4 w-4" />} title="SMS + WhatsApp" className="mb-5">
+        A six-digit code is sent to your GSM number. It expires in five minutes, and three codes may
+        be requested per fifteen.
+      </DCallout>
+
+      <DGrid cols={2}>
+        <DField
+          label="GSM number"
+          required
+          note="E.164"
+          error={fieldError ?? undefined}
+          hint="Nigerian numbers only for now — +234 prefix."
+        >
+          <DInput
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="+234 801 234 5678"
+            inputMode="tel"
+            autoComplete="tel"
+            disabled={phase === 'verify'}
+            mono
           />
-          <Button type="submit" disabled={saving || code.length !== 6} className="w-full bg-[#006c49] hover:bg-[#006c49]">
-            {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            Verify
-          </Button>
-        </form>
+        </DField>
+
+        {phase === 'verify' ? (
+          <DField
+            label="Six-digit code"
+            required
+            note="Expires in 5 min"
+            error={error ?? undefined}
+            hint={
+              devCode
+                ? `Development mode — your code is ${devCode}.`
+                : 'Check your SMS inbox.'
+            }
+          >
+            <DInput
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              placeholder="123456"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              mono
+              autoFocus
+            />
+          </DField>
+        ) : null}
+      </DGrid>
+
+      {phase === 'request' ? (
+        <StepActions
+          saving={saving}
+          error={error}
+          saved={false}
+          label="Send verification code"
+          hint="We never share your number with other users."
+        />
+      ) : (
+        <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--surface-container-high)] pt-4">
+          <button
+            type="submit"
+            disabled={saving || code.length !== 6}
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[8px] bg-[var(--primary-container)] px-4 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--primary)] disabled:pointer-events-none disabled:opacity-50"
+          >
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Phone className="h-4 w-4" />}
+            Verify number
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setPhase('request');
+              setCode('');
+              setError(null);
+              setDevCode(null);
+            }}
+            className="text-[12px] font-semibold text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
+          >
+            Resend code
+          </button>
+          {error ? <p className="text-[12px] font-medium text-[#ba1a1a]">{error}</p> : null}
+        </div>
       )}
-      {message && (
-        <p className="text-sm p-3 rounded-lg bg-[#27272a]/20 text-zinc-300">{message}</p>
-      )}
-    </div>
+    </form>
   );
 }

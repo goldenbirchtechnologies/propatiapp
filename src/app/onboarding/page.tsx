@@ -17,15 +17,8 @@ export default async function OnboardingPage() {
     redirect(getRoleRedirectPath(user.role));
   }
 
-  return (
-    <div className="min-h-screen bg-[#09090b] text-white">
-      <div className="mx-auto w-full max-w-5xl px-6 py-10">
-        <div className="mb-8 flex items-baseline gap-2">
-          <span className="text-sm font-semibold tracking-tight text-white">Propati</span>
-          <span className="text-xs text-zinc-500">Account setup</span>
-        </div>
-        <OnboardingWizard initialStatus={snapshot} />
-      </div>
-    </div>
-  );
+  // The wizard paints its own `.dossier-theme` canvas: `/onboarding` is the one
+  // surface designed from the light "Sovereign Estate" references, not the
+  // dark dashboard shell.
+  return <OnboardingWizard initialStatus={snapshot} />;
 }

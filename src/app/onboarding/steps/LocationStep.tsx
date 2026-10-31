@@ -1,25 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, MapPin } from 'lucide-react';
 import { onboardingLocationSchema } from '@/lib/validators';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Loader2 } from 'lucide-react';
+  DCallout,
+  DField,
+  DGrid,
+  DInput,
+  DSelect,
+} from '@/components/onboarding/dossier/primitives';
+import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import type { StepProps } from './types';
 
 interface Country {
   code: string;
   name: string;
-  currency: string;
 }
 
 interface Jurisdiction {
@@ -28,43 +24,35 @@ interface Jurisdiction {
   code: string;
 }
 
-interface Props {
-  stepId: string;
-}
-
-export default function LocationStep({ stepId }: Props) {
+/**
+ * Jurisdiction decides which covenant pack, stamp-duty band and eviction
+ * protocol apply, so it is captured before anything else and every role shares
+ * the same two-level country → state cascade.
+ */
+export default function LocationStep({ facts, onSaved }: StepProps) {
   const [countries, setCountries] = useState<Country[]>([]);
   const [jurisdictions, setJurisdictions] = useState<Jurisdiction[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
+  const [countryCode, setCountryCode] = useState(facts.countryCode ?? '');
+  const [jurisdictionId, setJurisdictionId] = useState('');
+  const [city, setCity] = useState(facts.city ?? '');
+  const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const form = useForm({
-    resolver: zodResolver(onboardingLocationSchema),
-    defaultValues: {
-      countryCode: '',
-      jurisdictionId: '',
-      jurisdictionCode: '',
-      city: '',
-      addressLine1: '',
-      addressLine2: '',
-    },
-  });
-
-  const watchedCountry = form.watch('countryCode');
+  const { saving, error, saved, run, setError } = useStepSave(onSaved);
 
   useEffect(() => {
     let cancelled = false;
     fetch('/api/onboarding/location/options')
       .then((r) => r.json())
       .then((json) => {
-        if (!cancelled) {
-          setCountries(json.data?.countries ?? []);
-          setJurisdictions(json.data?.jurisdictions ?? []);
-          setLoading(false);
-        }
+        if (cancelled) return;
+        setCountries(json.data?.countries ?? []);
+        setJurisdictions(json.data?.jurisdictions ?? []);
       })
-      .catch(() => {
+      .catch(() => undefined)
+      .finally(() => {
         if (!cancelled) setLoading(false);
       });
     return () => {
@@ -73,152 +61,125 @@ export default function LocationStep({ stepId }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!watchedCountry) {
-      setJurisdictions([]);
-      return;
-    }
+    if (!countryCode) return;
     let cancelled = false;
-    fetch(`/api/onboarding/location/options?countryCode=${watchedCountry}`)
+    fetch(`/api/onboarding/location/options?countryCode=${countryCode}`)
       .then((r) => r.json())
       .then((json) => {
         if (!cancelled) setJurisdictions(json.data?.jurisdictions ?? []);
-      });
+      })
+      .catch(() => undefined);
     return () => {
       cancelled = true;
     };
-  }, [watchedCountry]);
+  }, [countryCode]);
 
-  async function onSubmit(values: any) {
-    setSaving(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/onboarding/location', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        setError(json.error || 'Could not save location');
-        return;
-      }
-      window.location.hash = `step-${stepId}`;
-    } finally {
-      setSaving(false);
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFieldErrors({});
+
+    // Validate with the same schema the route uses so the user sees the same
+    // message before a round trip.
+    const parsed = onboardingLocationSchema.safeParse({
+      countryCode: countryCode || undefined,
+      jurisdictionId: jurisdictionId || undefined,
+      city,
+      addressLine1: addressLine1 || undefined,
+      addressLine2: addressLine2 || undefined,
+    });
+
+    if (!parsed.success) {
+      setFieldErrors(issuesOf(parsed.error));
+      setError(firstIssue(parsed.error));
+      return;
     }
+
+    await run('/api/onboarding/location', parsed.data);
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+        <Loader2 className="h-5 w-5 animate-spin text-[var(--accent)]" />
       </div>
     );
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <FormField
-          control={form.control}
-          name="countryCode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Country</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value}
-                defaultValue={field.value}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries.map((c) => (
-                    <SelectItem key={c.code} value={c.code}>
-                      {c.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form onSubmit={handleSubmit}>
+      <DCallout icon={<MapPin className="h-4 w-4" />} title="Statutory residence" className="mb-5">
+        Nigerian tenancy law is state-specific. The state you choose here sets the covenant pack,
+        the stamp-duty band and the eviction protocol that will govern your agreements.
+      </DCallout>
 
-        <FormField
-          control={form.control}
-          name="jurisdictionId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>State / Region</FormLabel>
-              <Select
-                onValueChange={(value) => {
-                  field.onChange(value);
-                  form.setValue('jurisdictionCode', '');
-                }}
-                value={field.value}
-                defaultValue={field.value}
-                disabled={!watchedCountry}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a state" />
-                </SelectTrigger>
-                <SelectContent>
-                  {jurisdictions.map((j) => (
-                    <SelectItem key={j.id} value={j.id}>
-                      {j.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <DGrid cols={2}>
+        <DField label="Country" required error={fieldErrors.countryCode}>
+          <DSelect
+            value={countryCode}
+            onChange={(e) => {
+              setCountryCode(e.target.value);
+              setJurisdictionId('');
+            }}
+            placeholder="Select a country"
+          >
+            {countries.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.name}
+              </option>
+            ))}
+          </DSelect>
+        </DField>
 
-        <FormField
-          control={form.control}
-          name="city"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>City</FormLabel>
-              <Input placeholder="e.g. Lekki" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <DField label="State / region" required error={fieldErrors.jurisdictionId}>
+          <DSelect
+            value={jurisdictionId}
+            onChange={(e) => setJurisdictionId(e.target.value)}
+            placeholder={countryCode ? 'Select a state' : 'Choose a country first'}
+            disabled={!countryCode}
+          >
+            {jurisdictions.map((j) => (
+              <option key={j.id} value={j.id}>
+                {j.name}
+              </option>
+            ))}
+          </DSelect>
+        </DField>
 
-        <FormField
-          control={form.control}
-          name="addressLine1"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address line 1</FormLabel>
-              <Input placeholder="e.g. 12A Main Street" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <DField label="City" required error={fieldErrors.city}>
+          <DInput
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="e.g. Lekki"
+            autoComplete="address-level2"
+          />
+        </DField>
 
-        <FormField
-          control={form.control}
-          name="addressLine2"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address line 2</FormLabel>
-              <Input placeholder="Optional" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <DField label="Address line 1" error={fieldErrors.addressLine1}>
+          <DInput
+            value={addressLine1}
+            onChange={(e) => setAddressLine1(e.target.value)}
+            placeholder="e.g. 12A Admiralty Way"
+            autoComplete="address-line1"
+          />
+        </DField>
 
-        {error && <p className="text-sm text-destructive">{error}</p>}
+        <DField label="Address line 2" note="Optional" error={fieldErrors.addressLine2}>
+          <DInput
+            value={addressLine2}
+            onChange={(e) => setAddressLine2(e.target.value)}
+            placeholder="Flat, estate or landmark"
+            autoComplete="address-line2"
+          />
+        </DField>
+      </DGrid>
 
-        <Button type="submit" disabled={saving} className="bg-[#006c49] hover:bg-[#006c49]">
-          {saving ? 'Saving...' : 'Save &amp; continue'}
-        </Button>
-      </form>
-    </Form>
+      <StepActions
+        saving={saving}
+        error={error}
+        saved={saved}
+        label="Save jurisdiction"
+        hint="Applies to every agreement and payment you make on Propati."
+      />
+    </form>
   );
 }

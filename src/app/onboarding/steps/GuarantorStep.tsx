@@ -1,78 +1,122 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Handshake } from 'lucide-react';
 import { onboardingGuarantorSchema } from '@/lib/validators';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
+import {
+  DCallout,
+  DField,
+  DGrid,
+  DInput,
+  DTextarea,
+} from '@/components/onboarding/dossier/primitives';
+import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import type { StepProps } from './types';
 
-export default function GuarantorStep() {
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
+/**
+ * The guarantor deed is the last thing that makes a rental dossier admissible
+ * for stamp duty, so the relationship and contact are both required.
+ */
+export default function GuarantorStep({ facts, onSaved }: StepProps) {
+  const [guarantorName, setGuarantorName] = useState(facts.guarantorName ?? '');
+  const [guarantorPhone, setGuarantorPhone] = useState('');
+  const [guarantorRelationship, setGuarantorRelationship] = useState(
+    facts.guarantorRelationship ?? ''
+  );
+  const [guarantorAddress, setGuarantorAddress] = useState('');
+  const [guarantorOccupation, setGuarantorOccupation] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const form = useForm({
-    resolver: zodResolver(onboardingGuarantorSchema),
-    defaultValues: {},
-  });
+  const { saving, error, saved, run, setError } = useStepSave(onSaved);
 
-  async function onSubmit(values: any) {
-    setSaving(true);
-    setMessage('');
-    try {
-      const res = await fetch('/api/onboarding/guarantor', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || 'Could not save guarantor');
-      setMessage('Guarantor details saved.');
-      window.location.hash = '#step-guarantor';
-    } catch (e: any) {
-      setMessage(e.message || 'Something went wrong');
-    } finally {
-      setSaving(false);
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFieldErrors({});
+
+    const parsed = onboardingGuarantorSchema.safeParse({
+      guarantorName,
+      guarantorPhone,
+      guarantorRelationship,
+      guarantorAddress: guarantorAddress || undefined,
+      guarantorOccupation: guarantorOccupation || undefined,
+    });
+
+    if (!parsed.success) {
+      setFieldErrors(issuesOf(parsed.error));
+      setError(firstIssue(parsed.error));
+      return;
     }
+
+    await run('/api/onboarding/guarantor', parsed.data);
   }
 
   return (
-    <div className="space-y-5">
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <div className="space-y-2">
-          <Label>Full name</Label>
-          <Input {...form.register('guarantorName')} placeholder="Full name of guarantor" />
-        </div>
-        <div className="space-y-2">
-          <Label>Phone number</Label>
-          <Input {...form.register('guarantorPhone')} placeholder="+234 801 234 5678" />
-        </div>
-        <div className="space-y-2">
-          <Label>Relationship</Label>
-          <Input {...form.register('guarantorRelationship')} placeholder="e.g. parent, uncle" />
-        </div>
-        <div className="space-y-2">
-          <Label>Address (optional)</Label>
-          <Input {...form.register('guarantorAddress')} placeholder="e.g. 10 Main Street, Lagos" />
-        </div>
-        <div className="space-y-2">
-          <Label>Occupation (optional)</Label>
-          <Input {...form.register('guarantorOccupation')} placeholder="e.g. Engineer" />
-        </div>
+    <form onSubmit={handleSubmit}>
+      <DCallout icon={<Handshake className="h-4 w-4" />} title="Guarantor deed" className="mb-5">
+        Your guarantor is contacted once, by SMS, to confirm the relationship. They are not shown
+        your income, your identity numbers or your tenancy terms.
+      </DCallout>
 
-        {message && (
-          <p className={`text-sm p-3 rounded-lg ${message.startsWith('Guarantor') ? 'bg-primary/20 text-[#4edea3]' : 'bg-[#27272a]/20 text-zinc-300'}`}>
-            {message}
-          </p>
-        )}
+      <DGrid cols={2}>
+        <DField label="Guarantor full name" required error={fieldErrors.guarantorName}>
+          <DInput
+            value={guarantorName}
+            onChange={(e) => setGuarantorName(e.target.value)}
+            placeholder="e.g. Adaeze N. Okafor"
+            autoComplete="name"
+          />
+        </DField>
 
-        <Button type="submit" disabled={saving} className="w-full bg-[#006c49] hover:bg-[#006c49]">
-          {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-          Save guarantor details
-        </Button>
-      </form>
-    </div>
+        <DField
+          label="Guarantor phone"
+          required
+          note="E.164"
+          error={fieldErrors.guarantorPhone}
+        >
+          <DInput
+            value={guarantorPhone}
+            onChange={(e) => setGuarantorPhone(e.target.value)}
+            placeholder="+234 801 234 5678"
+            inputMode="tel"
+            mono
+          />
+        </DField>
+
+        <DField label="Relationship" required error={fieldErrors.guarantorRelationship}>
+          <DInput
+            value={guarantorRelationship}
+            onChange={(e) => setGuarantorRelationship(e.target.value)}
+            placeholder="e.g. Parent, uncle, employer"
+          />
+        </DField>
+
+        <DField label="Occupation" note="Optional" error={fieldErrors.guarantorOccupation}>
+          <DInput
+            value={guarantorOccupation}
+            onChange={(e) => setGuarantorOccupation(e.target.value)}
+            placeholder="e.g. Civil servant"
+          />
+        </DField>
+      </DGrid>
+
+      <div className="mt-4">
+        <DField label="Guarantor address" note="Optional" error={fieldErrors.guarantorAddress}>
+          <DTextarea
+            value={guarantorAddress}
+            onChange={(e) => setGuarantorAddress(e.target.value)}
+            placeholder="Street, city, state"
+            rows={2}
+          />
+        </DField>
+      </div>
+
+      <StepActions
+        saving={saving}
+        error={error}
+        saved={saved}
+        label="Save guarantor & finish"
+        hint="This is the last section of your tenant dossier."
+      />
+    </form>
   );
 }

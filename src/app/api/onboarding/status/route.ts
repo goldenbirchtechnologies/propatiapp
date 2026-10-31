@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
           description: step.description,
           done: step.done,
           skippable: step.skippable,
+          skipped: step.skipped,
         })),
       },
     });

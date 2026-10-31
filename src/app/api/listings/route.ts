@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { randomBytes } from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
+import { assertOnboarded } from '@/lib/onboarding/guard';
 import { listingFilterSchema } from '@/lib/validators';
 import { formatCurrencyKobo } from '@/lib/fees';
 import { withRateLimit, apiRateLimiter, getRateLimitHeaders } from '@/lib/rate-limit';
@@ -152,6 +153,9 @@ export async function POST(request: NextRequest) {
   try {
     const auth = await withAuth(request, ['landlord', 'estate_manager']);
     if (auth instanceof NextResponse) return auth;
+
+    const gate = await assertOnboarded(auth.user);
+    if (gate) return gate;
 
     const body = await request.json();
     const { createListingSchema, createShortletListingSchema } = await import('@/lib/validators');

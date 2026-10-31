@@ -1,6 +1,17 @@
 import { OnboardingStatus, UserRole } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { getStepsForRole, StepId } from './steps';
+import {
+  isAgentLicenseDone,
+  isAgentProfileDone,
+  isAgentSettlementDone,
+  isAgentTerritoryDone,
+  isEstateAuthorityDone,
+  isEstateProfileDone,
+  isEstateRemittanceDone,
+  isLandlordProfileDone,
+  isLandlordSettlementDone,
+} from './profiles';
 
 export interface UserOnboardingFacts {
   countryId: string | null;
@@ -18,7 +29,7 @@ export interface UserOnboardingFacts {
   guarantorName: string | null;
   guarantorPhone: string | null;
   guarantorRelationship: string | null;
-  landlordLegalName?: string | null;
+  landlordProfileComplete?: boolean;
   landlordSettlementComplete?: boolean;
   agentProfileComplete?: boolean;
   agentLicenseComplete?: boolean;
@@ -41,7 +52,7 @@ export const STEP_PREDICATES: Record<StepId, (u: UserOnboardingFacts) => boolean
   employment: (u) =>
     !!u.employmentStatus && !!u.employerName && !!u.jobTitle && u.yearlyIncome != null,
   guarantor: (u) => !!u.guarantorName && !!u.guarantorPhone && !!u.guarantorRelationship,
-  landlordProfile: (u) => !!u.landlordLegalName,
+  landlordProfile: (u) => !!u.landlordProfileComplete,
   landlordSettlement: (u) => !!u.landlordSettlementComplete,
   agentProfile: (u) => !!u.agentProfileComplete,
   agentLicense: (u) => !!u.agentLicenseComplete,
@@ -171,6 +182,7 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
     guarantorName: user.guarantorName,
     guarantorPhone: user.guarantorPhone,
     guarantorRelationship: user.guarantorRelationship,
+    ...(await roleProfileFacts(user.role, userId)),
   };
 
   const derived = deriveStatus(user.role, facts, skippedSteps);
@@ -180,15 +192,55 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
   // never gated, and their derived status does not matter.
   const required = user.onboardingRequired && user.role !== 'admin';
 
+  // Steps are always returned so `/onboarding` can render for any signed-in
+  // account. `required` stays the flag that forces the flow from the dashboard.
   return {
     role: user.role,
     status: required ? derived.status : 'completed',
     required,
-    currentStep: required ? derived.currentStep : null,
-    steps: required ? steps : [],
+    currentStep: derived.currentStep,
+    steps,
     canComplete: required ? derived.canComplete : true,
     blocked: required ? derived.blocked : false,
   };
+}
+
+/**
+ * Loads the role's profile row and reduces it to the completion facts the
+ * predicates above read. Only the signed-in user's own role is ever queried.
+ */
+async function roleProfileFacts(
+  role: UserRole,
+  userId: string
+): Promise<Partial<UserOnboardingFacts>> {
+  if (role === 'landlord') {
+    const row = await prisma.landlordProfile.findUnique({ where: { userId } });
+    return {
+      landlordProfileComplete: isLandlordProfileDone(row),
+      landlordSettlementComplete: isLandlordSettlementDone(row),
+    };
+  }
+
+  if (role === 'agent') {
+    const row = await prisma.agentProfile.findUnique({ where: { userId } });
+    return {
+      agentProfileComplete: isAgentProfileDone(row),
+      agentLicenseComplete: isAgentLicenseDone(row),
+      agentTerritoryComplete: isAgentTerritoryDone(row),
+      agentSettlementComplete: isAgentSettlementDone(row),
+    };
+  }
+
+  if (role === 'estate_manager') {
+    const row = await prisma.estateManagerProfile.findUnique({ where: { userId } });
+    return {
+      estateProfileComplete: isEstateProfileDone(row),
+      estateAuthorityComplete: isEstateAuthorityDone(row),
+      estateRemittanceComplete: isEstateRemittanceDone(row),
+    };
+  }
+
+  return {};
 }
 
 /**

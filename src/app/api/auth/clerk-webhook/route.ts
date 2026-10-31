@@ -121,6 +121,7 @@ async function handleUserCreated(data: Record<string, unknown>) {
       role,
       password: 'clerk_managed',
       isActive: true,
+      onboardingRequired: true,
     },
   });
 

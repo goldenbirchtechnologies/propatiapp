@@ -1,5 +1,6 @@
 import { Prisma, UserRole } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
+import { StepId } from './steps';
 
 export interface DossierInput {
   addressLine1?: string | null;
@@ -133,7 +134,7 @@ export async function ensureOnboardingRow(userId: string, role: UserRole, curren
 export async function markStepDone(
   userId: string,
   role: UserRole,
-  step: 'location' | 'contact' | 'identity' | 'employment' | 'guarantor',
+  step: StepId,
   currentStep: string
 ) {
   const fieldMap = {
@@ -142,6 +143,15 @@ export async function markStepDone(
     identity: 'identityDone',
     employment: 'employmentDone',
     guarantor: 'guarantorDone',
+    landlordProfile: 'landlordProfileDone',
+    landlordSettlement: 'landlordSettlementDone',
+    agentProfile: 'agentProfileDone',
+    agentLicense: 'agentLicenseDone',
+    agentTerritory: 'agentTerritoryDone',
+    agentSettlement: 'agentSettlementDone',
+    estateProfile: 'estateProfileDone',
+    estateAuthority: 'estateAuthorityDone',
+    estateRemittance: 'estateRemittanceDone',
   } as const;
 
   return prisma.userOnboarding.upsert({

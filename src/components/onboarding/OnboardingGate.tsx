@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Modal } from '@/components/ui/modal';
-import StepProgress from './StepProgress';
 import { SignOutLink } from './SignOutLink';
 
 interface OnboardingSnapshot {
@@ -27,6 +27,7 @@ interface OnboardingGateProps {
 }
 
 export function OnboardingGate({ snapshot: providedSnapshot }: OnboardingGateProps) {
+  const router = useRouter();
   const [snapshot, setSnapshot] = useState<OnboardingSnapshot | null>(
     providedSnapshot ?? null
   );
@@ -68,9 +69,12 @@ export function OnboardingGate({ snapshot: providedSnapshot }: OnboardingGatePro
           <SignOutLink />
           <button
             className="btn btn-primary"
-            disabled={!snapshot.canComplete}
             onClick={() => {
-              setDismissed(true);
+              if (snapshot.blocked) {
+                setDismissed(true);
+                return;
+              }
+              router.push('/onboarding');
             }}
           >
             {snapshot.blocked ? 'Continue to dashboard' : 'Complete onboarding'}

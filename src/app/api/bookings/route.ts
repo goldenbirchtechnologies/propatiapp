@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
+import { assertOnboarded } from '@/lib/onboarding/guard';
 import { createBookingSchema, updateBookingSchema } from '@/lib/validators.short-let';
 
 export async function GET(request: NextRequest) {
@@ -53,6 +54,9 @@ export async function POST(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
+
+  const gate = await assertOnboarded(user);
+  if (gate) return gate;
 
   try {
     const body = await request.json();

@@ -72,7 +72,7 @@ export default function AgentLicenseStep() {
         </div>
       </div>
       <div className="flex items-start gap-2">
-        <Checkbox id="codeOfConduct" onCheckedChange={(v) => form.setValue('codeOfConductConsent', v === true)} />
+        <Checkbox id="codeOfConduct" onCheckedChange={(v) => form.setValue('codeOfConductConsent', (v === true) as true)} />
         <Label htmlFor="codeOfConduct" className="text-sm font-normal leading-tight">
           I confirm background clearance and assent to fair housing guidelines and the ethical code of conduct.
         </Label>

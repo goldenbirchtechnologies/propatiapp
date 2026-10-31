@@ -90,7 +90,7 @@ export default function LandlordSettlementStep() {
       <div className="flex items-start gap-2">
         <Checkbox
           id="commissionConsent"
-          onCheckedChange={(v) => form.setValue('commissionConsent', v === true)}
+          onCheckedChange={(v) => form.setValue('commissionConsent', (v === true) as true)}
         />
         <Label htmlFor="commissionConsent" className="text-sm font-normal leading-tight">
           I acknowledge agency commission percentages, maintenance reserve caps, and onboarding setup fees.

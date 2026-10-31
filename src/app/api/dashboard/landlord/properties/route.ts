@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
+import { assertOnboarded } from '@/lib/onboarding/guard';
 import { createListingSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
@@ -76,6 +77,9 @@ export async function POST(request: NextRequest) {
   const authResult = await withAuth(request, ['landlord', 'admin']);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
+
+  const gate = await assertOnboarded(user);
+  if (gate) return gate;
 
   try {
     const body = await request.json();

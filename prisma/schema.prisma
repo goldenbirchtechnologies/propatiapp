@@ -502,138 +502,141 @@ enum OnboardingStatus {
 // ===========================================================================
 
 model User {
-  id                    String    @id @default(cuid()) @map("id") // 'usr_' + 16 chars
-  countryId             String?   @map("country_id")
-  clerkId               String    @unique @map("clerk_id")
-  email                 String    @unique
-  phone                 String?   @unique
-  password              String?   // legacy field — Clerk handles auth, never write to this
-  role                  UserRole
-  fullName              String    @map("full_name")
-  avatarUrl             String?   @map("avatar_url")
+  id        String   @id @default(cuid()) @map("id") // 'usr_' + 16 chars
+  countryId String?  @map("country_id")
+  clerkId   String   @unique @map("clerk_id")
+  email     String   @unique
+  phone     String?  @unique
+  password  String? // legacy field — Clerk handles auth, never write to this
+  role      UserRole
+  fullName  String   @map("full_name")
+  avatarUrl String?  @map("avatar_url")
 
   // NIN/BVN Encryption (AES-256-GCM)
-  ninEncrypted          String?   @map("nin_encrypted")
-  ninHash               String?   @unique @map("nin_hash")
-  ninVerified           Boolean   @default(false) @map("nin_verified")
-  bvnEncrypted          String?   @map("bvn_encrypted")
-  idType                IdType?   @map("id_type")
-  idNumberEnc           String?   @map("id_number_enc")
-  idNumberHash          String?   @unique @map("id_number_hash")
-  emailVerified         Boolean   @default(false) @map("email_verified")
-  idVerified            Boolean   @default(false) @map("id_verified")
-  idDocUrl              String?   @map("id_doc_url")
-  phoneVerified         Boolean   @default(false) @map("phone_verified")
+  ninEncrypted  String? @map("nin_encrypted")
+  ninHash       String? @unique @map("nin_hash")
+  ninVerified   Boolean @default(false) @map("nin_verified")
+  bvnEncrypted  String? @map("bvn_encrypted")
+  idType        IdType? @map("id_type")
+  idNumberEnc   String? @map("id_number_enc")
+  idNumberHash  String? @unique @map("id_number_hash")
+  emailVerified Boolean @default(false) @map("email_verified")
+  idVerified    Boolean @default(false) @map("id_verified")
+  idDocUrl      String? @map("id_doc_url")
+  phoneVerified Boolean @default(false) @map("phone_verified")
 
   // Tenant Screening Profile
-  employmentStatus      EmploymentStatus?   @map("employment_status")
-  employmentType        EmploymentType?     @map("employment_type")
-  employerName          String?             @map("employer_name")
-  jobTitle              String?             @map("job_title")
-  yearlyIncome          BigInt?             @map("yearly_income")
-  incomeVerified        Boolean   @default(false) @map("income_verified")
-  profileBio            String?             @map("profile_bio")
-  profileCompleted      Boolean   @default(false) @map("profile_completed")
-  guarantorName         String?             @map("guarantor_name")
-  guarantorPhone        String?             @map("guarantor_phone")
-  guarantorRelationship String?             @map("guarantor_relationship")
+  employmentStatus      EmploymentStatus? @map("employment_status")
+  employmentType        EmploymentType?   @map("employment_type")
+  employerName          String?           @map("employer_name")
+  jobTitle              String?           @map("job_title")
+  yearlyIncome          BigInt?           @map("yearly_income")
+  incomeVerified        Boolean           @default(false) @map("income_verified")
+  profileBio            String?           @map("profile_bio")
+  profileCompleted      Boolean           @default(false) @map("profile_completed")
+  guarantorName         String?           @map("guarantor_name")
+  guarantorPhone        String?           @map("guarantor_phone")
+  guarantorRelationship String?           @map("guarantor_relationship")
 
   // Status Flags
-  isActive              Boolean   @default(true) @map("is_active")
-  isBanned              Boolean   @default(false) @map("is_banned")
-  banReason             String?   @map("ban_reason")
+  isActive  Boolean @default(true) @map("is_active")
+  isBanned  Boolean @default(false) @map("is_banned")
+  banReason String? @map("ban_reason")
 
   // Location / Jurisdiction
-  city                  String?   @map("city")
-  jurisdictionId        String?   @map("jurisdiction_id")
-  addressLine1          String?   @map("address_line_1")
-  addressLine2          String?   @map("address_line_2")
+  city           String? @map("city")
+  jurisdictionId String? @map("jurisdiction_id")
+  addressLine1   String? @map("address_line_1")
+  addressLine2   String? @map("address_line_2")
 
   // Onboarding
   // onboardingRequired defaults to false so pre-existing accounts are never
   // gated by the onboarding overlay. Only accounts created through the Clerk
   // signup webhook set it to true.
-  onboardingRequired    Boolean   @default(false) @map("onboarding_required")
+  onboardingRequired    Boolean          @default(false) @map("onboarding_required")
   onboardingStatus      OnboardingStatus @default(not_started) @map("onboarding_status")
-  onboardingCompletedAt DateTime? @map("onboarding_completed_at")
+  onboardingCompletedAt DateTime?        @map("onboarding_completed_at")
 
   // Agent Specific
-  agentTier             AgentTier @default(standard) @map("agent_tier")
-  agentApproved         Boolean   @default(true) @map("agent_approved")
-  agentBio              String?   @map("agent_bio")
-  agentAreas            Json?     @map("agent_areas")
+  agentTier     AgentTier @default(standard) @map("agent_tier")
+  agentApproved Boolean   @default(true) @map("agent_approved")
+  agentBio      String?   @map("agent_bio")
+  agentAreas    Json?     @map("agent_areas")
 
   // Notification Preferences
-  notificationPreferences Json?   @default("{\"email\":true,\"sms\":true,\"whatsapp\":false,\"inapp\":true,\"types\":{\"verification\":true,\"agreement\":true,\"payment\":true,\"message\":true,\"rent_due\":true,\"maintenance\":true,\"screening\":true,\"system\":true}}") @map("notification_preferences")
+  notificationPreferences Json? @default("{\"email\":true,\"sms\":true,\"whatsapp\":false,\"inapp\":true,\"types\":{\"verification\":true,\"agreement\":true,\"payment\":true,\"message\":true,\"rent_due\":true,\"maintenance\":true,\"screening\":true,\"system\":true}}") @map("notification_preferences")
 
   // Push Notifications
-  pushSubscription       Json?     @map("push_subscription")
+  pushSubscription Json? @map("push_subscription")
 
   // Timestamps
-  createdAt             DateTime  @default(now()) @map("created_at")
-  updatedAt             DateTime  @updatedAt @map("updated_at")
-  lastLogin             DateTime? @map("last_login")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  lastLogin DateTime? @map("last_login")
 
   // Relations
-  refreshTokens         RefreshToken[]
-  passwordResets        PasswordReset?
-  phoneOtps             PhoneOtp[]
-  ownedListings         Listing[]    @relation("ListingOwner")
-  managedListings       Listing[]    @relation("ListingAgent")
-  sentTransactions      Transaction[] @relation("TransactionPayer")
-  receivedTransactions  Transaction[] @relation("TransactionPayee")
-  agentTransactions     Transaction[] @relation("TransactionAgent")
-  landlordAgreements    Agreement[]  @relation("AgreementLandlord")
-  tenantAgreements      Agreement[]  @relation("AgreementTenant")
-  agentAgreements       Agreement[]  @relation("AgreementAgent")
-  landlordConversations Conversation[] @relation("ConversationLandlord")
-  tenantConversations   Conversation[] @relation("ConversationTenant")
-  sentMessages          Message[]    @relation("MessageSender")
-  notifications         Notification[]
-  ownedOrganisations    Organisation[] @relation("OrganisationOwner")
-  orgMemberships        OrgMember[]  @relation("OrgMemberUser")
-  raisedTickets         MaintenanceTicket[] @relation("MaintenanceRaisedBy")
-  assignedTickets       MaintenanceTicket[] @relation("MaintenanceAssignedTo")
-  maintenanceInspections Verification[] @relation("InspectionAgent")
-  scheduledScreenings   ScreeningCall[] @relation("ScreeningLandlord")
-  tenantScreenings      ScreeningCall[] @relation("ScreeningTenant")
-  verifications         Verification[] @relation("VerificationOwner")
-  reviewedVerifications Verification[] @relation("VerificationReviewer")
-  signatureRecords      AgreementSignature[]
-  disputes              Dispute[]    @relation("DisputeRaisedBy")
-  adminDisputes         Dispute[]    @relation("DisputeAdmin")
-  emailLogs             EmailLog[]   @relation("UserEmailLogs")
-  savedListings         SavedListing[] @relation("UserSavedListings")
-  flaggedListings       ListingFlag[]  @relation("FlaggedByUser")
-  maintenanceTickets    MaintenanceTicket[] @relation("MaintenanceTenant")
-  tenantApplications    Application[]  @relation("TenantApplications")
-  landlordApplications  Application[]  @relation("LandlordApplications")
-  currentlyRentingUnits Unit[]       @relation("UnitCurrentTenant")
-  adminAuditLogs        AdminAuditLog[] @relation("AdminAuditLogs")
-  guestBookings         Booking[]    @relation("BookingGuest")
-  managedServiceCharges ServiceCharge[] @relation("ServiceChargeManager")
-  businessProfiles      BusinessProfile[]
-  documents             Document[]
-  subscriptions         UserSubscription[]
-  assignedTurnoverTasks TurnoverTask[] @relation("TurnoverTaskAssignee")
-  sentAgentInvites      AgentInvite[]  @relation("AgentInviteSender")
-  receivedAgentInvites  AgentInvite[]  @relation("AgentInviteRecipient")
-  sentOwnerInvites      OwnerInvite[]  @relation("OwnerInviteSender")
-  receivedOwnerInvites  OwnerInvite[]  @relation("OwnerInvitedRecipient")
-  agentAssignments      AgentAssignment[] @relation("AgentAssignments")
-  agentConversations    Conversation[] @relation("ConversationAgent")
-  licenses              AgentLicense[]  @relation("AgentLicenseHolder")
-  reviewsReceived       AgentReview[]   @relation("AgentReviewAgent")
-  reviewsWritten        AgentReview[]   @relation("AgentReviewReviewer")
-  sentInvoices          Invoice[]      @relation("InvoiceLandlord")
-  receivedInvoices      Invoice[]      @relation("InvoiceTenant")
-  wallet                Wallet?
-  paystackAccount       UserPaystackAccount?
-  userKyc               UserKyc?
-  country               Country?      @relation(fields: [countryId], references: [code])
-  jurisdiction          Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
-  userOnboarding        UserOnboarding?
-  rentalDossiers        RentalApplicationDossier[]
+  refreshTokens          RefreshToken[]
+  passwordResets         PasswordReset?
+  phoneOtps              PhoneOtp[]
+  ownedListings          Listing[]                  @relation("ListingOwner")
+  managedListings        Listing[]                  @relation("ListingAgent")
+  sentTransactions       Transaction[]              @relation("TransactionPayer")
+  receivedTransactions   Transaction[]              @relation("TransactionPayee")
+  agentTransactions      Transaction[]              @relation("TransactionAgent")
+  landlordAgreements     Agreement[]                @relation("AgreementLandlord")
+  tenantAgreements       Agreement[]                @relation("AgreementTenant")
+  agentAgreements        Agreement[]                @relation("AgreementAgent")
+  landlordConversations  Conversation[]             @relation("ConversationLandlord")
+  tenantConversations    Conversation[]             @relation("ConversationTenant")
+  sentMessages           Message[]                  @relation("MessageSender")
+  notifications          Notification[]
+  ownedOrganisations     Organisation[]             @relation("OrganisationOwner")
+  orgMemberships         OrgMember[]                @relation("OrgMemberUser")
+  raisedTickets          MaintenanceTicket[]        @relation("MaintenanceRaisedBy")
+  assignedTickets        MaintenanceTicket[]        @relation("MaintenanceAssignedTo")
+  maintenanceInspections Verification[]             @relation("InspectionAgent")
+  scheduledScreenings    ScreeningCall[]            @relation("ScreeningLandlord")
+  tenantScreenings       ScreeningCall[]            @relation("ScreeningTenant")
+  verifications          Verification[]             @relation("VerificationOwner")
+  reviewedVerifications  Verification[]             @relation("VerificationReviewer")
+  signatureRecords       AgreementSignature[]
+  disputes               Dispute[]                  @relation("DisputeRaisedBy")
+  adminDisputes          Dispute[]                  @relation("DisputeAdmin")
+  emailLogs              EmailLog[]                 @relation("UserEmailLogs")
+  savedListings          SavedListing[]             @relation("UserSavedListings")
+  flaggedListings        ListingFlag[]              @relation("FlaggedByUser")
+  maintenanceTickets     MaintenanceTicket[]        @relation("MaintenanceTenant")
+  tenantApplications     Application[]              @relation("TenantApplications")
+  landlordApplications   Application[]              @relation("LandlordApplications")
+  currentlyRentingUnits  Unit[]                     @relation("UnitCurrentTenant")
+  adminAuditLogs         AdminAuditLog[]            @relation("AdminAuditLogs")
+  guestBookings          Booking[]                  @relation("BookingGuest")
+  managedServiceCharges  ServiceCharge[]            @relation("ServiceChargeManager")
+  businessProfiles       BusinessProfile[]
+  documents              Document[]
+  subscriptions          UserSubscription[]
+  assignedTurnoverTasks  TurnoverTask[]             @relation("TurnoverTaskAssignee")
+  sentAgentInvites       AgentInvite[]              @relation("AgentInviteSender")
+  receivedAgentInvites   AgentInvite[]              @relation("AgentInviteRecipient")
+  sentOwnerInvites       OwnerInvite[]              @relation("OwnerInviteSender")
+  receivedOwnerInvites   OwnerInvite[]              @relation("OwnerInvitedRecipient")
+  agentAssignments       AgentAssignment[]          @relation("AgentAssignments")
+  agentConversations     Conversation[]             @relation("ConversationAgent")
+  licenses               AgentLicense[]             @relation("AgentLicenseHolder")
+  reviewsReceived        AgentReview[]              @relation("AgentReviewAgent")
+  reviewsWritten         AgentReview[]              @relation("AgentReviewReviewer")
+  sentInvoices           Invoice[]                  @relation("InvoiceLandlord")
+  receivedInvoices       Invoice[]                  @relation("InvoiceTenant")
+  wallet                 Wallet?
+  paystackAccount        UserPaystackAccount?
+  userKyc                UserKyc?
+  country                Country?                   @relation(fields: [countryId], references: [code])
+  jurisdiction           Jurisdiction?              @relation(fields: [jurisdictionId], references: [id])
+  userOnboarding         UserOnboarding?
+  rentalDossiers         RentalApplicationDossier[]
+  landlordProfile        LandlordProfile?           @relation("LandlordProfileOwner")
+  agentOnboardingProfile AgentProfile?              @relation("AgentProfileOwner")
+  estateManagerProfile   EstateManagerProfile?      @relation("EstateManagerProfileOwner")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -641,20 +644,20 @@ model User {
 }
 
 model UserKyc {
-  id               String    @id @default(cuid()) @map("id") // 'kyc_' + 16 chars
-  userId           String    @unique @map("user_id")
-  role             String    @db.VarChar(50)
-  status           KycStatus @default(not_started)
-  level            Int       @default(1)
-  dojahRef         String?   @unique @map("dojah_ref")
-  verifiedAt       DateTime? @map("verified_at")
-  rejectedAt       DateTime? @map("rejected_at")
-  rejectionReason  String?   @map("rejection_reason")
-  metadata         Json?     @map("metadata")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @updatedAt @map("updated_at")
+  id              String    @id @default(cuid()) @map("id") // 'kyc_' + 16 chars
+  userId          String    @unique @map("user_id")
+  role            String    @db.VarChar(50)
+  status          KycStatus @default(not_started)
+  level           Int       @default(1)
+  dojahRef        String?   @unique @map("dojah_ref")
+  verifiedAt      DateTime? @map("verified_at")
+  rejectedAt      DateTime? @map("rejected_at")
+  rejectionReason String?   @map("rejection_reason")
+  metadata        Json?     @map("metadata")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "idx_user_kyc_user")
   @@map("user_kyc")
@@ -669,21 +672,30 @@ model UserKyc {
 // table holds the step-by-step breakdown used to resume a partially
 // completed wizard and to report where users are dropping out.
 model UserOnboarding {
-  id              String           @id @default(cuid()) @map("id")
-  userId          String           @unique @map("user_id")
-  role            UserRole         @map("role")
-  status          OnboardingStatus @default(not_started) @map("status")
-  currentStep     String           @default("location") @map("current_step")
-  locationDone    Boolean          @default(false) @map("location_done")
-  contactDone     Boolean          @default(false) @map("contact_done")
-  identityDone    Boolean          @default(false) @map("identity_done")
-  employmentDone  Boolean          @default(false) @map("employment_done")
-  guarantorDone   Boolean          @default(false) @map("guarantor_done")
-  completedAt     DateTime?        @map("completed_at")
-  createdAt       DateTime         @default(now()) @map("created_at")
-  updatedAt       DateTime         @updatedAt @map("updated_at")
+  id                     String           @id @default(cuid()) @map("id")
+  userId                 String           @unique @map("user_id")
+  role                   UserRole         @map("role")
+  status                 OnboardingStatus @default(not_started) @map("status")
+  currentStep            String           @default("location") @map("current_step")
+  locationDone           Boolean          @default(false) @map("location_done")
+  contactDone            Boolean          @default(false) @map("contact_done")
+  identityDone           Boolean          @default(false) @map("identity_done")
+  employmentDone         Boolean          @default(false) @map("employment_done")
+  guarantorDone          Boolean          @default(false) @map("guarantor_done")
+  landlordProfileDone    Boolean          @default(false) @map("landlord_profile_done")
+  landlordSettlementDone Boolean          @default(false) @map("landlord_settlement_done")
+  agentProfileDone       Boolean          @default(false) @map("agent_profile_done")
+  agentLicenseDone       Boolean          @default(false) @map("agent_license_done")
+  agentTerritoryDone     Boolean          @default(false) @map("agent_territory_done")
+  agentSettlementDone    Boolean          @default(false) @map("agent_settlement_done")
+  estateProfileDone      Boolean          @default(false) @map("estate_profile_done")
+  estateAuthorityDone    Boolean          @default(false) @map("estate_authority_done")
+  estateRemittanceDone   Boolean          @default(false) @map("estate_remittance_done")
+  completedAt            DateTime?        @map("completed_at")
+  createdAt              DateTime         @default(now()) @map("created_at")
+  updatedAt              DateTime         @updatedAt @map("updated_at")
 
-  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_onboardings")
 }
@@ -693,24 +705,24 @@ model UserOnboarding {
 // property attached: it is the tenant's own standing profile, captured during
 // onboarding and later copied into an Application when they apply for a home.
 model RentalApplicationDossier {
-  id             String   @id @default(cuid()) @map("id")
-  userId         String   @unique @map("user_id")
-  status         String   @default("draft") @map("status")
+  id     String @id @default(cuid()) @map("id")
+  userId String @unique @map("user_id")
+  status String @default("draft") @map("status")
 
   // Address
-  addressLine1   String?  @map("address_line_1")
-  addressLine2   String?  @map("address_line_2")
-  city           String?  @map("city")
-  countryId      String?  @map("country_id")
-  jurisdictionId String?  @map("jurisdiction_id")
+  addressLine1   String? @map("address_line_1")
+  addressLine2   String? @map("address_line_2")
+  city           String? @map("city")
+  countryId      String? @map("country_id")
+  jurisdictionId String? @map("jurisdiction_id")
 
   // Employment
   employmentStatus  EmploymentStatus? @map("employment_status")
   employmentType    EmploymentType?   @map("employment_type")
-  employerName      String?  @map("employer_name")
-  jobTitle          String?  @map("job_title")
-  yearlyIncome      BigInt?  @map("yearly_income")
-  yearsInEmployment String?  @map("years_in_employment")
+  employerName      String?           @map("employer_name")
+  jobTitle          String?           @map("job_title")
+  yearlyIncome      BigInt?           @map("yearly_income")
+  yearsInEmployment String?           @map("years_in_employment")
 
   // Guarantor
   guarantorName         String? @map("guarantor_name")
@@ -727,7 +739,7 @@ model RentalApplicationDossier {
 
   // Property preferences
   preferredListingType ListingType? @map("preferred_listing_type")
-  monthlyBudget         BigInt?     @map("monthly_budget")
+  monthlyBudget        BigInt?      @map("monthly_budget")
 
   submittedAt   DateTime? @map("submitted_at")
   reviewedAt    DateTime? @map("reviewed_at")
@@ -735,8 +747,8 @@ model RentalApplicationDossier {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  country     Country?     @relation(fields: [countryId], references: [code])
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country      Country?      @relation(fields: [countryId], references: [code])
   jurisdiction Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
 
   @@index([status], map: "idx_rental_dossier_status")
@@ -744,13 +756,13 @@ model RentalApplicationDossier {
 }
 
 model RefreshToken {
-  id         String   @id @default(cuid()) @map("id") // 'rft_' + 16 chars
-  userId     String   @map("user_id")
-  tokenHash  String   @map("token_hash")
-  expiresAt  DateTime @map("expires_at")
-  createdAt  DateTime @default(now()) @map("created_at")
+  id        String   @id @default(cuid()) @map("id") // 'rft_' + 16 chars
+  userId    String   @map("user_id")
+  tokenHash String   @map("token_hash")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("refresh_tokens")
 }
@@ -762,7 +774,7 @@ model PasswordReset {
   expiresAt DateTime @map("expires_at")
   createdAt DateTime @default(now()) @map("created_at")
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("password_resets")
 }
@@ -774,7 +786,7 @@ model PhoneOtp {
   expiresAt DateTime @map("expires_at")
   createdAt DateTime @default(now()) @map("created_at")
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("phone_otps")
 }
@@ -784,82 +796,82 @@ model PhoneOtp {
 // ===========================================================================
 
 model Listing {
-  id                   String            @id @default(cuid()) @map("id") // 'lst_' + 12 chars
-  countryId             String?           @map("country_id")
-  jurisdictionId        String?           @map("jurisdiction_id")
-  ownerId              String            @map("owner_id")
-  agentId              String?           @map("agent_id")
-  title                String
-  description          String?
-  listingType          ListingType       @map("listing_type")
-  propertyType         PropertyType?     @map("property_type")
-  address              String
-  area                 String
-  state                String            @default("Lagos")
-  city                 String?
-  postalCode           String?           @map("postal_code")
-  floors               Int?
-  price                Decimal           @db.Decimal(15, 2) // Naira for display
-  pricePeriod          String?           @map("price_period") // night, month, year, total
-  cautionDeposit       Decimal?          @db.Decimal(15, 2) @map("caution_deposit")
-  serviceCharge        Decimal?          @db.Decimal(15, 2) @map("service_charge")
-  bedrooms             Int?
-  bathrooms            Int?
-  toilets              Int?
-  sizeSqm              Decimal?          @db.Decimal(10, 2) @map("size_sqm")
-  floorLevel           Int?              @map("floor_level")
-  furnished            Boolean           @default(false)
-  parkingSpaces        Int               @default(0) @map("parking_spaces")
-  amenities            Json?
-  availableFrom        DateTime?         @map("available_from")
-  minimumStay          Int?              @map("minimum_stay")
-  status               ListingStatus     @default(draft)
-  allowShortlet        Boolean           @default(false) @map("allow_shortlet")
+  id             String        @id @default(cuid()) @map("id") // 'lst_' + 12 chars
+  countryId      String?       @map("country_id")
+  jurisdictionId String?       @map("jurisdiction_id")
+  ownerId        String        @map("owner_id")
+  agentId        String?       @map("agent_id")
+  title          String
+  description    String?
+  listingType    ListingType   @map("listing_type")
+  propertyType   PropertyType? @map("property_type")
+  address        String
+  area           String
+  state          String        @default("Lagos")
+  city           String?
+  postalCode     String?       @map("postal_code")
+  floors         Int?
+  price          Decimal       @db.Decimal(15, 2) // Naira for display
+  pricePeriod    String?       @map("price_period") // night, month, year, total
+  cautionDeposit Decimal?      @map("caution_deposit") @db.Decimal(15, 2)
+  serviceCharge  Decimal?      @map("service_charge") @db.Decimal(15, 2)
+  bedrooms       Int?
+  bathrooms      Int?
+  toilets        Int?
+  sizeSqm        Decimal?      @map("size_sqm") @db.Decimal(10, 2)
+  floorLevel     Int?          @map("floor_level")
+  furnished      Boolean       @default(false)
+  parkingSpaces  Int           @default(0) @map("parking_spaces")
+  amenities      Json?
+  availableFrom  DateTime?     @map("available_from")
+  minimumStay    Int?          @map("minimum_stay")
+  status         ListingStatus @default(draft)
+  allowShortlet  Boolean       @default(false) @map("allow_shortlet")
 
   // Shortlet-specific fields
-  guestsCount          Int?              @default(1) @map("guests_count")
-  bedsCount            Int?              @default(1) @map("beds_count")
-  privacyType          PrivacyType?      @map("privacy_type")
-  propertyStructure    PropertyStructure? @map("property_structure")
-  bookingModel         BookingModel?      @map("booking_model")
-  weekendPricing       Decimal?          @db.Decimal(5, 2) @map("weekend_pricing")
-  discounts            Json?
-  highlights           Json?
-  houseRules           Json?             @map("house_rules")
-  safetyDisclosures    Json?             @map("safety_disclosures")
-  kycCompliance        Json?             @map("kyc_compliance")
-  verificationTier     VerificationTier  @default(basic) @map("verification_tier")
-  isFeatured           Boolean           @default(false) @map("is_featured")
-  viewsCount           Int               @default(0) @map("views_count")
-  createdAt            DateTime          @default(now()) @map("created_at")
-  updatedAt            DateTime          @updatedAt @map("updated_at")
+  guestsCount       Int?               @default(1) @map("guests_count")
+  bedsCount         Int?               @default(1) @map("beds_count")
+  privacyType       PrivacyType?       @map("privacy_type")
+  propertyStructure PropertyStructure? @map("property_structure")
+  bookingModel      BookingModel?      @map("booking_model")
+  weekendPricing    Decimal?           @map("weekend_pricing") @db.Decimal(5, 2)
+  discounts         Json?
+  highlights        Json?
+  houseRules        Json?              @map("house_rules")
+  safetyDisclosures Json?              @map("safety_disclosures")
+  kycCompliance     Json?              @map("kyc_compliance")
+  verificationTier  VerificationTier   @default(basic) @map("verification_tier")
+  isFeatured        Boolean            @default(false) @map("is_featured")
+  viewsCount        Int                @default(0) @map("views_count")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
 
-  owner                User              @relation("ListingOwner", fields: [ownerId], references: [id])
-  agent                User?             @relation("ListingAgent", fields: [agentId], references: [id])
-  assignments          AgentAssignment[] @relation("ListingAssignments")
-  images               ListingImage[]
-  savedBy              SavedListing[]
-  flags                ListingFlag[]
-  verification         Verification?
-  transactions         Transaction[]
-  agreements           Agreement[]
-  conversations        Conversation[]
-  screeningCalls       ScreeningCall[]
-  maintenanceTickets   MaintenanceTicket[]
-  orgListings          OrgListing[]
-  disputes             Dispute[]
-  units                Unit[]
-  applications         Application[]
-  calendarSlots        CalendarSlot[]
-  pricingRules         PricingRule[]
-  bookings             Booking[]
-  tenantShortlets      TenantShortlet[]
-  serviceCharges       ServiceCharge[]
-  documents           Document[]
-  turnoverTasks       TurnoverTask[]
-  invoices            Invoice[]
-  country              Country?       @relation(fields: [countryId], references: [code])
-  jurisdiction         Jurisdiction?  @relation(fields: [jurisdictionId], references: [id])
+  owner              User                @relation("ListingOwner", fields: [ownerId], references: [id])
+  agent              User?               @relation("ListingAgent", fields: [agentId], references: [id])
+  assignments        AgentAssignment[]   @relation("ListingAssignments")
+  images             ListingImage[]
+  savedBy            SavedListing[]
+  flags              ListingFlag[]
+  verification       Verification?
+  transactions       Transaction[]
+  agreements         Agreement[]
+  conversations      Conversation[]
+  screeningCalls     ScreeningCall[]
+  maintenanceTickets MaintenanceTicket[]
+  orgListings        OrgListing[]
+  disputes           Dispute[]
+  units              Unit[]
+  applications       Application[]
+  calendarSlots      CalendarSlot[]
+  pricingRules       PricingRule[]
+  bookings           Booking[]
+  tenantShortlets    TenantShortlet[]
+  serviceCharges     ServiceCharge[]
+  documents          Document[]
+  turnoverTasks      TurnoverTask[]
+  invoices           Invoice[]
+  country            Country?            @relation(fields: [countryId], references: [code])
+  jurisdiction       Jurisdiction?       @relation(fields: [jurisdictionId], references: [id])
   legalMatters       LegalMatter[]
   ownerInvites       OwnerInvite[]
   agentReviews       AgentReview[]
@@ -873,111 +885,111 @@ model Listing {
 }
 
 model ListingImage {
-  id           String   @id @default(cuid()) @map("id") // 'img_' + 12 chars
-  listingId    String   @map("listing_id")
-  url          String
-  publicId     String?  @map("public_id")
-  isCover      Boolean  @default(false) @map("is_cover")
-  sortOrder    Int      @default(0) @map("sort_order")
-  createdAt    DateTime @default(now()) @map("created_at")
+  id        String   @id @default(cuid()) @map("id") // 'img_' + 12 chars
+  listingId String   @map("listing_id")
+  url       String
+  publicId  String?  @map("public_id")
+  isCover   Boolean  @default(false) @map("is_cover")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  listing      Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
   @@map("listing_images")
 }
 
 model SavedListing {
-  id         String   @id @default(cuid()) @map("id") // 'sav_' + 12 chars
-  userId     String   @map("user_id")
-  listingId  String   @map("listing_id")
-  createdAt  DateTime @default(now()) @map("created_at")
+  id        String   @id @default(cuid()) @map("id") // 'sav_' + 12 chars
+  userId    String   @map("user_id")
+  listingId String   @map("listing_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  user       User     @relation("UserSavedListings", fields: [userId], references: [id], onDelete: Cascade)
-  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  user    User    @relation("UserSavedListings", fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
   @@unique([userId, listingId])
   @@map("saved_listings")
 }
 
 model ListingFlag {
-  id           String    @id @default(cuid()) @map("id") // 'flg_' + 12 chars
-  listingId    String    @map("listing_id")
-  flaggedBy    String    @map("flagged_by")
-  type         FlagType
-  description  String?
-  status       FlagStatus @default(open)
-  createdAt    DateTime  @default(now()) @map("created_at")
+  id          String     @id @default(cuid()) @map("id") // 'flg_' + 12 chars
+  listingId   String     @map("listing_id")
+  flaggedBy   String     @map("flagged_by")
+  type        FlagType
+  description String?
+  status      FlagStatus @default(open)
+  createdAt   DateTime   @default(now()) @map("created_at")
 
-  listing      Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listing       Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   flaggedByUser User    @relation("FlaggedByUser", fields: [flaggedBy], references: [id])
 
   @@map("listing_flags")
 }
 
 model Verification {
-  id                String              @id @default(cuid()) @map("id") // 'ver_' + 12 chars
-  type              VerificationType   @default(property) @map("type")
-  listingId         String?             @unique @map("listing_id")
-  ownerId           String              @map("owner_id")
+  id        String           @id @default(cuid()) @map("id") // 'ver_' + 12 chars
+  type      VerificationType @default(property) @map("type")
+  listingId String?          @unique @map("listing_id")
+  ownerId   String           @map("owner_id")
 
   // Layer 1: Documents
-  l1Status          VerificationLayerStatus  @default(pending) @map("l1_status")
-  l1DocUrl          String?                  @map("l1_doc_url")
-  l1SubmittedAt     DateTime?                @map("l1_submitted_at")
+  l1Status      VerificationLayerStatus @default(pending) @map("l1_status")
+  l1DocUrl      String?                 @map("l1_doc_url")
+  l1SubmittedAt DateTime?               @map("l1_submitted_at")
 
   // Layer 2: Identity Match
-  l2Status          VerificationLayerStatus  @default(pending) @map("l2_status")
-  l2IdType          IdType?                  @map("l2_id_type")
-  l2VerifiedAt      DateTime?                @map("l2_verified_at")
+  l2Status     VerificationLayerStatus @default(pending) @map("l2_status")
+  l2IdType     IdType?                 @map("l2_id_type")
+  l2VerifiedAt DateTime?               @map("l2_verified_at")
 
   // Layer 3: Live Video
-  l3Status          VerificationLayerStatus  @default(pending) @map("l3_status")
-  l3VideoUrl        String?                  @map("l3_video_url")
-  l3QrCode          String?                  @map("l3_qr_code")
+  l3Status   VerificationLayerStatus @default(pending) @map("l3_status")
+  l3VideoUrl String?                 @map("l3_video_url")
+  l3QrCode   String?                 @map("l3_qr_code")
 
   // Layer 4: Physical Inspection
-  l4Status          VerificationLayerStatus  @default(pending) @map("l4_status")
-  l4AgentId         String?                  @map("l4_agent_id")
-  l4ScheduledAt     DateTime?                @map("l4_scheduled_at")
-  l4CompletedAt     DateTime?                @map("l4_completed_at")
-  l4ReportUrl       String?                  @map("l4_report_url")
+  l4Status      VerificationLayerStatus @default(pending) @map("l4_status")
+  l4AgentId     String?                 @map("l4_agent_id")
+  l4ScheduledAt DateTime?               @map("l4_scheduled_at")
+  l4CompletedAt DateTime?               @map("l4_completed_at")
+  l4ReportUrl   String?                 @map("l4_report_url")
 
   // Layer 5: Admin Certification
-  l5Status          VerificationLayerStatus  @default(pending) @map("l5_status")
-  currentLayer      Int                      @default(1) @map("current_layer")
-  overallStatus     VerificationOverallStatus @default(not_started) @map("overall_status")
-  adminNotes        String?                  @map("admin_notes")
-  reviewedBy        String?                  @map("reviewed_by")
-  reviewedAt        DateTime?                @map("reviewed_at")
-  frozenReason      String?                  @map("frozen_reason")
-  frozenAt          DateTime?                @map("frozen_at")
-  frozenBy          String?                  @map("frozen_by")
-  updatedAt         DateTime                 @updatedAt @map("updated_at")
+  l5Status      VerificationLayerStatus   @default(pending) @map("l5_status")
+  currentLayer  Int                       @default(1) @map("current_layer")
+  overallStatus VerificationOverallStatus @default(not_started) @map("overall_status")
+  adminNotes    String?                   @map("admin_notes")
+  reviewedBy    String?                   @map("reviewed_by")
+  reviewedAt    DateTime?                 @map("reviewed_at")
+  frozenReason  String?                   @map("frozen_reason")
+  frozenAt      DateTime?                 @map("frozen_at")
+  frozenBy      String?                   @map("frozen_by")
+  updatedAt     DateTime                  @updatedAt @map("updated_at")
 
-  listing           Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  owner             User                     @relation("VerificationOwner", fields: [ownerId], references: [id])
-  reviewer          User?                    @relation("VerificationReviewer", fields: [reviewedBy], references: [id])
-  l4Agent           User?                    @relation("InspectionAgent", fields: [l4AgentId], references: [id])
-  documents         VerificationDocument[]
+  listing   Listing?               @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  owner     User                   @relation("VerificationOwner", fields: [ownerId], references: [id])
+  reviewer  User?                  @relation("VerificationReviewer", fields: [reviewedBy], references: [id])
+  l4Agent   User?                  @relation("InspectionAgent", fields: [l4AgentId], references: [id])
+  documents VerificationDocument[]
 
   @@index([ownerId], map: "idx_verification_owner")
   @@map("verifications")
 }
 
 model VerificationDocument {
-  id               String      @id @default(cuid()) @map("id") // 'vdoc_' + 12 chars
-  verificationId   String      @map("verification_id")
-  listingId        String?     @map("listing_id")
-  documentType     String      @map("document_type") // 'ownership', 'id', 'photos', 'utility', 'cac', 'tin', 'license', 'professional'
-  url              String
-  publicId         String      @map("public_id") // Cloudinary public_id
-  fileName         String?     @map("file_name")
-  fileSize         Int?        @map("file_size") // bytes
-  mimeType         String?     @map("mime_type")
-  uploadedAt       DateTime    @default(now()) @map("uploaded_at")
-  deletedAt        DateTime?   @map("deleted_at") // Soft delete
+  id             String    @id @default(cuid()) @map("id") // 'vdoc_' + 12 chars
+  verificationId String    @map("verification_id")
+  listingId      String?   @map("listing_id")
+  documentType   String    @map("document_type") // 'ownership', 'id', 'photos', 'utility', 'cac', 'tin', 'license', 'professional'
+  url            String
+  publicId       String    @map("public_id") // Cloudinary public_id
+  fileName       String?   @map("file_name")
+  fileSize       Int?      @map("file_size") // bytes
+  mimeType       String?   @map("mime_type")
+  uploadedAt     DateTime  @default(now()) @map("uploaded_at")
+  deletedAt      DateTime? @map("deleted_at") // Soft delete
 
-  verification     Verification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
+  verification Verification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
 
   @@index([verificationId], map: "idx_verification_docs_verification")
   @@index([listingId], map: "idx_verification_docs_listing")
@@ -990,129 +1002,130 @@ model VerificationDocument {
 // ===========================================================================
 
 model Transaction {
-  id               String           @id @default(cuid()) @map("id") // 'txn_' + 12 chars
-  reference        String?          @unique @map("reference") // Paystack reference
-  listingId        String?          @map("listing_id")
-  payerId          String           @map("payer_id")
-  payeeId          String           @map("payee_id")
-  agentId          String?          @map("agent_id")
-  type             TransactionType
-  status           TransactionStatus @default(pending)
-  amount           BigInt           // kobo (integer)
-  currency         String?          @default("NGN") // ISO-4217 currency code (for display)
-  platformFee      BigInt           @default(0) @map("platform_fee")
-  agentCommission  BigInt           @default(0) @map("agent_commission")
-  payeeAmount      BigInt?          @map("payee_amount")
-  paystackRef      String?          @map("paystack_ref") // Paystack transaction reference id
-  agentCommissionStatus String?      @default("pending") @map("agent_commission_status") // pending | held | released | forfeited
-  commissionHoldReason String?       @map("commission_hold_reason")
-  agentCommissionReleasedAt DateTime? @map("agent_commission_released_at")
-  buyerConfirmedAt       DateTime?    @map("buyer_confirmed_at")
-  sellerConfirmedAt      DateTime?    @map("seller_confirmed_at")
-  confirmationStatus     String?      @default("pending") @map("confirmation_status") // pending | partially_confirmed | fully_confirmed | disputed
-  description      String?
-  paystackData     Json?            @map("paystack_data")
-  paidAt           DateTime?        @map("paid_at")
-  createdAt        DateTime         @default(now()) @map("created_at")
-  updatedAt        DateTime         @updatedAt @map("updated_at")
+  id                        String            @id @default(cuid()) @map("id") // 'txn_' + 12 chars
+  reference                 String?           @unique @map("reference") // Paystack reference
+  listingId                 String?           @map("listing_id")
+  payerId                   String            @map("payer_id")
+  payeeId                   String            @map("payee_id")
+  agentId                   String?           @map("agent_id")
+  type                      TransactionType
+  status                    TransactionStatus @default(pending)
+  amount                    BigInt // kobo (integer)
+  currency                  String?           @default("NGN") // ISO-4217 currency code (for display)
+  platformFee               BigInt            @default(0) @map("platform_fee")
+  agentCommission           BigInt            @default(0) @map("agent_commission")
+  payeeAmount               BigInt?           @map("payee_amount")
+  paystackRef               String?           @map("paystack_ref") // Paystack transaction reference id
+  agentCommissionStatus     String?           @default("pending") @map("agent_commission_status") // pending | held | released | forfeited
+  commissionHoldReason      String?           @map("commission_hold_reason")
+  agentCommissionReleasedAt DateTime?         @map("agent_commission_released_at")
+  buyerConfirmedAt          DateTime?         @map("buyer_confirmed_at")
+  sellerConfirmedAt         DateTime?         @map("seller_confirmed_at")
+  confirmationStatus        String?           @default("pending") @map("confirmation_status") // pending | partially_confirmed | fully_confirmed | disputed
+  description               String?
+  paystackData              Json?             @map("paystack_data")
+  paidAt                    DateTime?         @map("paid_at")
+  createdAt                 DateTime          @default(now()) @map("created_at")
+  updatedAt                 DateTime          @updatedAt @map("updated_at")
 
-  listing          Listing?         @relation(fields: [listingId], references: [id])
-  payer            User             @relation("TransactionPayer", fields: [payerId], references: [id])
-  payee            User             @relation("TransactionPayee", fields: [payeeId], references: [id])
-  agent            User?            @relation("TransactionAgent", fields: [agentId], references: [id])
-  agreements       Agreement[]      @relation("TransactionAgreements")
-  rentSchedule     RentSchedule?
-  bookings         Booking[]
-  serviceCharges   ServiceCharge[]
+  listing            Listing?            @relation(fields: [listingId], references: [id])
+  payer              User                @relation("TransactionPayer", fields: [payerId], references: [id])
+  payee              User                @relation("TransactionPayee", fields: [payeeId], references: [id])
+  agent              User?               @relation("TransactionAgent", fields: [agentId], references: [id])
+  agreements         Agreement[]         @relation("TransactionAgreements")
+  rentSchedule       RentSchedule?
+  bookings           Booking[]
+  serviceCharges     ServiceCharge[]
   utilityAllocations UtilityAllocation[]
 
   @@map("transactions")
 }
 
 model Agreement {
-  id                  String           @id @default(cuid()) @map("id") // 'agr_' + 12 chars
-  countryId            String?          @map("country_id")
-  jurisdictionId       String?          @map("jurisdiction_id")
-  listingId           String           @map("listing_id")
-  landlordId          String           @map("landlord_id")
-  tenantId            String           @map("tenant_id")
-  agentId             String?          @map("agent_id")
-  type                AgreementType
-  status              AgreementStatus  @default(draft)
-  startDate           DateTime?        @map("start_date")
-  endDate             DateTime?        @map("end_date")
-  rentAmount          Decimal?         @db.Decimal(15, 2) @map("rent_amount")
-  rentPeriod          String?          @map("rent_period") // monthly, yearly
-  cautionDeposit      Decimal?         @db.Decimal(15, 2) @map("caution_deposit")
-  serviceCharge       Decimal?         @db.Decimal(15, 2) @map("service_charge")
-  noticePeriodDays    Int              @default(30) @map("notice_period_days")
-  specialClauses      String?          @map("special_clauses")
-  landlordSignedAt    DateTime?        @map("landlord_signed_at")
-  tenantSignedAt      DateTime?        @map("tenant_signed_at")
-  pdfUrl              String?          @map("pdf_url") // Cloudinary PDF URL for download
-  templateVars        Json?            @map("template_vars")
-  riskTier            String?          @default("review_required") @map("risk_tier") // self_serve | review_required
-  jurisdictionState   String?          @map("jurisdiction_state") // default from listing state
-  governingStatute    String?          @map("governing_statute")
-  headTenantVerified  Boolean?         @default(false) @map("head_tenant_verified")
-  createdAt           DateTime         @default(now()) @map("created_at")
-  updatedAt           DateTime         @updatedAt @map("updated_at")
+  id                 String          @id @default(cuid()) @map("id") // 'agr_' + 12 chars
+  countryId          String?         @map("country_id")
+  jurisdictionId     String?         @map("jurisdiction_id")
+  listingId          String          @map("listing_id")
+  landlordId         String          @map("landlord_id")
+  tenantId           String          @map("tenant_id")
+  agentId            String?         @map("agent_id")
+  type               AgreementType
+  status             AgreementStatus @default(draft)
+  startDate          DateTime?       @map("start_date")
+  endDate            DateTime?       @map("end_date")
+  rentAmount         Decimal?        @map("rent_amount") @db.Decimal(15, 2)
+  rentPeriod         String?         @map("rent_period") // monthly, yearly
+  cautionDeposit     Decimal?        @map("caution_deposit") @db.Decimal(15, 2)
+  serviceCharge      Decimal?        @map("service_charge") @db.Decimal(15, 2)
+  noticePeriodDays   Int             @default(30) @map("notice_period_days")
+  specialClauses     String?         @map("special_clauses")
+  landlordSignedAt   DateTime?       @map("landlord_signed_at")
+  tenantSignedAt     DateTime?       @map("tenant_signed_at")
+  pdfUrl             String?         @map("pdf_url") // Cloudinary PDF URL for download
+  templateVars       Json?           @map("template_vars")
+  riskTier           String?         @default("review_required") @map("risk_tier") // self_serve | review_required
+  jurisdictionState  String?         @map("jurisdiction_state") // default from listing state
+  governingStatute   String?         @map("governing_statute")
+  headTenantVerified Boolean?        @default(false) @map("head_tenant_verified")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
 
   // Integrity / legal-hold fields
-  pdfContentHash       String?          @map("pdf_content_hash")
-  finalizedAt          DateTime?        @map("finalized_at")
-  lockStatus           AgreementLockStatus @default(mutable) @map("lock_status")
-  integrityChainHash   String?          @map("integrity_chain_hash")
-  lockedBy             String?          @map("locked_by")
+  pdfContentHash     String?             @map("pdf_content_hash")
+  finalizedAt        DateTime?           @map("finalized_at")
+  lockStatus         AgreementLockStatus @default(mutable) @map("lock_status")
+  integrityChainHash String?             @map("integrity_chain_hash")
+  lockedBy           String?             @map("locked_by")
 
-  listing             Listing          @relation(fields: [listingId], references: [id])
-  landlord            User             @relation("AgreementLandlord", fields: [landlordId], references: [id])
-  tenant              User             @relation("AgreementTenant", fields: [tenantId], references: [id])
-  agent               User?            @relation("AgreementAgent", fields: [agentId], references: [id])
-  signatures          AgreementSignature[]
-  transactions        Transaction[]    @relation("TransactionAgreements")
-  rentSchedule        RentSchedule[]
-  stampDuty           StampDuty?
-  invoices            Invoice[]
-  country             Country?      @relation(fields: [countryId], references: [code])
-  jurisdiction        Jurisdiction?  @relation(fields: [jurisdictionId], references: [id])
-  legalMatters      LegalMatter[]
-  agentReviews      AgentReview[]
+  listing      Listing              @relation(fields: [listingId], references: [id])
+  landlord     User                 @relation("AgreementLandlord", fields: [landlordId], references: [id])
+  tenant       User                 @relation("AgreementTenant", fields: [tenantId], references: [id])
+  agent        User?                @relation("AgreementAgent", fields: [agentId], references: [id])
+  signatures   AgreementSignature[]
+  transactions Transaction[]        @relation("TransactionAgreements")
+  rentSchedule RentSchedule[]
+  stampDuty    StampDuty?
+  invoices     Invoice[]
+  country      Country?             @relation(fields: [countryId], references: [code])
+  jurisdiction Jurisdiction?        @relation(fields: [jurisdictionId], references: [id])
+  legalMatters LegalMatter[]
+  agentReviews AgentReview[]
+
   @@map("agreements")
 }
 
 model AgreementSignature {
-  id              String   @id @default(cuid()) @map("id") // 'sig_' + 12 chars
-  agreementId     String   @map("agreement_id")
-  signerId        String   @map("signer_id")
-  role            String   // 'landlord' | 'tenant' | 'agent'
-  ipAddress       String?  @map("ip_address")
-  userAgent       String?  @map("user_agent")
-  consentText     String?  @map("consent_text")
-  signedAt        DateTime @default(now()) @map("signed_at")
-  checksum        String?  // SHA256(doc_url + signer_id + signed_at)
+  id           String   @id @default(cuid()) @map("id") // 'sig_' + 12 chars
+  agreementId  String   @map("agreement_id")
+  signerId     String   @map("signer_id")
+  role         String // 'landlord' | 'tenant' | 'agent'
+  ipAddress    String?  @map("ip_address")
+  userAgent    String?  @map("user_agent")
+  consentText  String?  @map("consent_text")
+  signedAt     DateTime @default(now()) @map("signed_at")
+  checksum     String? // SHA256(doc_url + signer_id + signed_at)
   // Cryptographic binding to document content at signing time
-  documentHash    String?  @map("document_hash")
-  bindingHash     String?  @map("binding_hash")
+  documentHash String?  @map("document_hash")
+  bindingHash  String?  @map("binding_hash")
 
-  agreement       Agreement @relation(fields: [agreementId], references: [id], onDelete: Cascade)
-  signer          User     @relation(fields: [signerId], references: [id])
+  agreement Agreement @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  signer    User      @relation(fields: [signerId], references: [id])
 
   @@map("agreement_signatures")
 }
 
 model RentSchedule {
-  id               String        @id @default(cuid()) @map("id") // 'rnt_' + 12 chars
-  agreementId      String        @map("agreement_id")
-  dueDate          String        @map("due_date") // 'YYYY-MM-DD'
-  amount           Decimal       @db.Decimal(15, 2)
-  status           String        @default("upcoming") // upcoming, paid, overdue
-  paidAt           DateTime?     @map("paid_at")
-  transactionId    String?       @unique @map("transaction_id")
-  reminderSent     Int           @default(0) @map("reminder_sent") // bitmask: 1=7days, 2=3days, 4=1day
+  id            String    @id @default(cuid()) @map("id") // 'rnt_' + 12 chars
+  agreementId   String    @map("agreement_id")
+  dueDate       String    @map("due_date") // 'YYYY-MM-DD'
+  amount        Decimal   @db.Decimal(15, 2)
+  status        String    @default("upcoming") // upcoming, paid, overdue
+  paidAt        DateTime? @map("paid_at")
+  transactionId String?   @unique @map("transaction_id")
+  reminderSent  Int       @default(0) @map("reminder_sent") // bitmask: 1=7days, 2=3days, 4=1day
 
-  agreement        Agreement     @relation(fields: [agreementId], references: [id], onDelete: Cascade)
-  transaction      Transaction?  @relation(fields: [transactionId], references: [id])
+  agreement   Agreement    @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
 
   @@map("rent_schedule")
 }
@@ -1122,27 +1135,27 @@ model RentSchedule {
 // ===========================================================================
 
 model Conversation {
-  id               String             @id @default(cuid()) @map("id") // 'cnv_' + 12 chars
-  listingId        String?            @map("listing_id")
-  propertyId       String?            @map("property_id")
-  orgId            String?            @map("org_id")
-  landlordId       String?            @map("landlord_id")
-  tenantId         String?            @map("tenant_id")
-  agentId          String?            @map("agent_id")
-  participants     Json?              @default("[]")
-  subject          String?
-  lastMessage      String?            @map("last_message")
-  lastMessageAt    DateTime?          @map("last_message_at")
-  unreadCounts     Json?              @default("{}") @map("unread_counts")
-  status           ConversationStatus @default(active)
-  createdAt        DateTime           @default(now()) @map("created_at")
-  updatedAt        DateTime           @updatedAt @map("updated_at")
+  id            String             @id @default(cuid()) @map("id") // 'cnv_' + 12 chars
+  listingId     String?            @map("listing_id")
+  propertyId    String?            @map("property_id")
+  orgId         String?            @map("org_id")
+  landlordId    String?            @map("landlord_id")
+  tenantId      String?            @map("tenant_id")
+  agentId       String?            @map("agent_id")
+  participants  Json?              @default("[]")
+  subject       String?
+  lastMessage   String?            @map("last_message")
+  lastMessageAt DateTime?          @map("last_message_at")
+  unreadCounts  Json?              @default("{}") @map("unread_counts")
+  status        ConversationStatus @default(active)
+  createdAt     DateTime           @default(now()) @map("created_at")
+  updatedAt     DateTime           @updatedAt @map("updated_at")
 
-  listing          Listing?           @relation(fields: [listingId], references: [id], onDelete: SetNull)
-  landlord         User?              @relation("ConversationLandlord", fields: [landlordId], references: [id])
-  tenant           User?              @relation("ConversationTenant", fields: [tenantId], references: [id])
-  agent            User?              @relation("ConversationAgent", fields: [agentId], references: [id])
-  messages         Message[]
+  listing  Listing?  @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  landlord User?     @relation("ConversationLandlord", fields: [landlordId], references: [id])
+  tenant   User?     @relation("ConversationTenant", fields: [tenantId], references: [id])
+  agent    User?     @relation("ConversationAgent", fields: [agentId], references: [id])
+  messages Message[]
 
   @@index([listingId], map: "idx_conversations_listing")
   @@index([landlordId], map: "idx_conversations_landlord")
@@ -1154,18 +1167,18 @@ model Conversation {
 }
 
 model Message {
-  id               String                @id @default(cuid()) @map("id") // 'msg_' + 12 chars
-  conversationId   String                @map("conversation_id")
-  senderId         String                @map("sender_id")
-  content          String
-  attachmentUrl    String?               @map("attachment_url")
-  attachmentType   MessageAttachmentType? @map("attachment_type")
-  isRead           Boolean               @default(false) @map("is_read")
-  readAt           DateTime?             @map("read_at")
-  createdAt        DateTime              @default(now()) @map("created_at")
+  id             String                 @id @default(cuid()) @map("id") // 'msg_' + 12 chars
+  conversationId String                 @map("conversation_id")
+  senderId       String                 @map("sender_id")
+  content        String
+  attachmentUrl  String?                @map("attachment_url")
+  attachmentType MessageAttachmentType? @map("attachment_type")
+  isRead         Boolean                @default(false) @map("is_read")
+  readAt         DateTime?              @map("read_at")
+  createdAt      DateTime               @default(now()) @map("created_at")
 
-  conversation     Conversation          @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  sender           User                  @relation("MessageSender", fields: [senderId], references: [id])
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation("MessageSender", fields: [senderId], references: [id])
 
   @@index([conversationId, createdAt], map: "idx_messages_conv")
   @@index([senderId], map: "idx_messages_sender")
@@ -1182,7 +1195,7 @@ model Notification {
   read      Boolean          @default(false)
   createdAt DateTime         @default(now()) @map("created_at")
 
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, read], map: "idx_notifications_user")
   @@map("notifications")
@@ -1193,49 +1206,49 @@ model Notification {
 // ===========================================================================
 
 model Organisation {
-  id                  String          @id @default(cuid()) @map("id") // 'org_' + 12 chars
-  countryId            String?         @map("country_id")
-  name                String
-  ownerId             String          @map("owner_id")
-  billingEmail        String?         @map("billing_email")
-  address             String?
-  cacNumber           String?         @map("cac_number")
-  verified            Boolean         @default(false)
-  verifiedAt          DateTime?       @map("verified_at")
-  planTier            OrgPlanTier     @default(starter) @map("plan_tier")
-  maxUnits            Int             @default(20) @map("max_units")
-  maxSeats            Int             @default(1) @map("max_seats")
-  paystackCustomerId  String?         @map("paystack_customer_id")
-  createdAt           DateTime        @default(now()) @map("created_at")
-  updatedAt           DateTime        @updatedAt @map("updated_at")
+  id                 String      @id @default(cuid()) @map("id") // 'org_' + 12 chars
+  countryId          String?     @map("country_id")
+  name               String
+  ownerId            String      @map("owner_id")
+  billingEmail       String?     @map("billing_email")
+  address            String?
+  cacNumber          String?     @map("cac_number")
+  verified           Boolean     @default(false)
+  verifiedAt         DateTime?   @map("verified_at")
+  planTier           OrgPlanTier @default(starter) @map("plan_tier")
+  maxUnits           Int         @default(20) @map("max_units")
+  maxSeats           Int         @default(1) @map("max_seats")
+  paystackCustomerId String?     @map("paystack_customer_id")
+  createdAt          DateTime    @default(now()) @map("created_at")
+  updatedAt          DateTime    @updatedAt @map("updated_at")
 
-  owner               User            @relation("OrganisationOwner", fields: [ownerId], references: [id])
-  members             OrgMember[]
-  listings            OrgListing[]
-  maintenanceTickets  MaintenanceTicket[]
-  subscription        OrgSubscription?
-  units               Unit[]
-  serviceCharges      ServiceCharge[]
-  country             Country?      @relation(fields: [countryId], references: [code])
-  ownerInvites        OwnerInvite[]
+  owner              User                @relation("OrganisationOwner", fields: [ownerId], references: [id])
+  members            OrgMember[]
+  listings           OrgListing[]
+  maintenanceTickets MaintenanceTicket[]
+  subscription       OrgSubscription?
+  units              Unit[]
+  serviceCharges     ServiceCharge[]
+  country            Country?            @relation(fields: [countryId], references: [code])
+  ownerInvites       OwnerInvite[]
 
   @@map("organisations")
 }
 
 model OrgMember {
-  id           String            @id @default(cuid()) @map("id") // 'mem_' + 12 chars
-  orgId        String            @map("org_id")
-  userId       String?           @map("user_id")
-  email        String?           // for pending invites
-  role         OrgMemberRole
-  status       OrgMemberStatus   @default(pending)
-  invitedBy    String?           @map("invited_by")
-  inviteToken  String?           @unique @map("invite_token")
-  joinedAt     DateTime?         @map("joined_at")
-  createdAt    DateTime          @default(now()) @map("created_at")
+  id          String          @id @default(cuid()) @map("id") // 'mem_' + 12 chars
+  orgId       String          @map("org_id")
+  userId      String?         @map("user_id")
+  email       String? // for pending invites
+  role        OrgMemberRole
+  status      OrgMemberStatus @default(pending)
+  invitedBy   String?         @map("invited_by")
+  inviteToken String?         @unique @map("invite_token")
+  joinedAt    DateTime?       @map("joined_at")
+  createdAt   DateTime        @default(now()) @map("created_at")
 
-  org          Organisation      @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  user         User?             @relation("OrgMemberUser", fields: [userId], references: [id])
+  org  Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user User?        @relation("OrgMemberUser", fields: [userId], references: [id])
 
   @@unique([orgId, userId])
   @@map("org_members")
@@ -1255,10 +1268,10 @@ model OwnerInvite {
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
 
-  org             Organisation?     @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  listing         Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  estateManager   User              @relation("OwnerInviteSender", fields: [estateManagerId], references: [id])
-  owner           User?             @relation("OwnerInvitedRecipient", fields: [ownerId], references: [id])
+  org           Organisation? @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  listing       Listing       @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  estateManager User          @relation("OwnerInviteSender", fields: [estateManagerId], references: [id])
+  owner         User?         @relation("OwnerInvitedRecipient", fields: [ownerId], references: [id])
 
   @@index([orgId], map: "idx_owner_invites_org")
   @@index([listingId], map: "idx_owner_invites_listing")
@@ -1269,59 +1282,59 @@ model OwnerInvite {
 }
 
 model OrgListing {
-  id        String         @id @default(cuid()) @map("id")
-  orgId     String         @map("org_id")
-  listingId String         @map("listing_id")
-  createdAt DateTime       @default(now()) @map("created_at")
+  id        String   @id @default(cuid()) @map("id")
+  orgId     String   @map("org_id")
+  listingId String   @map("listing_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  org       Organisation   @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  listing   Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  org     Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  listing Listing      @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
   @@unique([orgId, listingId])
   @@map("org_listings")
 }
 
 model MaintenanceTicket {
-  id              String              @id @default(cuid()) @map("id") // 'tkt_' + 12 chars
-  orgId           String?             @map("org_id")
-  listingId       String?             @map("listing_id")
-  tenantId        String?             @map("tenant_id")
-  raisedBy        String              @map("raised_by")
-  title           String
-  description     String?
-  category        MaintenanceCategory
-  priority        MaintenancePriority @default(medium)
-  status          MaintenanceStatus   @default(open)
-  assignedTo      String?             @map("assigned_to")
-  photoUrls       String[]            @map("photo_urls")
-  resolutionNote  String?             @map("resolution_note")
-  resolvedAt      DateTime?           @map("resolved_at")
-  closedAt        DateTime?           @map("closed_at")
-  createdAt       DateTime            @default(now()) @map("created_at")
-  updatedAt       DateTime            @updatedAt @map("updated_at")
+  id             String              @id @default(cuid()) @map("id") // 'tkt_' + 12 chars
+  orgId          String?             @map("org_id")
+  listingId      String?             @map("listing_id")
+  tenantId       String?             @map("tenant_id")
+  raisedBy       String              @map("raised_by")
+  title          String
+  description    String?
+  category       MaintenanceCategory
+  priority       MaintenancePriority @default(medium)
+  status         MaintenanceStatus   @default(open)
+  assignedTo     String?             @map("assigned_to")
+  photoUrls      String[]            @map("photo_urls")
+  resolutionNote String?             @map("resolution_note")
+  resolvedAt     DateTime?           @map("resolved_at")
+  closedAt       DateTime?           @map("closed_at")
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
 
-  org             Organisation?       @relation(fields: [orgId], references: [id])
-  listing         Listing?            @relation(fields: [listingId], references: [id])
-  tenant          User?               @relation("MaintenanceTenant", fields: [tenantId], references: [id])
-  raisedByUser    User                @relation("MaintenanceRaisedBy", fields: [raisedBy], references: [id])
-  assignedToUser  User?               @relation("MaintenanceAssignedTo", fields: [assignedTo], references: [id])
+  org            Organisation? @relation(fields: [orgId], references: [id])
+  listing        Listing?      @relation(fields: [listingId], references: [id])
+  tenant         User?         @relation("MaintenanceTenant", fields: [tenantId], references: [id])
+  raisedByUser   User          @relation("MaintenanceRaisedBy", fields: [raisedBy], references: [id])
+  assignedToUser User?         @relation("MaintenanceAssignedTo", fields: [assignedTo], references: [id])
 
   @@map("maintenance_tickets")
 }
 
 model OrgSubscription {
-  id                    String            @id @default(cuid()) @map("id")
-  orgId                 String            @unique @map("org_id")
-  paystackSubId         String            @unique @map("paystack_sub_id")
-  plan                  String
-  status                SubscriptionStatus @default(active)
-  amount                BigInt            // kobo
-  currentPeriodStart    DateTime          @map("current_period_start")
-  currentPeriodEnd      DateTime          @map("current_period_end")
-  nextBillingDate       DateTime          @map("next_billing_date")
-  createdAt             DateTime          @default(now()) @map("created_at")
+  id                 String             @id @default(cuid()) @map("id")
+  orgId              String             @unique @map("org_id")
+  paystackSubId      String             @unique @map("paystack_sub_id")
+  plan               String
+  status             SubscriptionStatus @default(active)
+  amount             BigInt // kobo
+  currentPeriodStart DateTime           @map("current_period_start")
+  currentPeriodEnd   DateTime           @map("current_period_end")
+  nextBillingDate    DateTime           @map("next_billing_date")
+  createdAt          DateTime           @default(now()) @map("created_at")
 
-  org                   Organisation      @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  org Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   @@map("org_subscriptions")
 }
@@ -1331,70 +1344,70 @@ model OrgSubscription {
 // ===========================================================================
 
 model Dispute {
-  id          String         @id @default(cuid()) @map("id") // 'dsp_' + 12 chars
-  listingId   String?        @map("listing_id")
-  raisedBy    String         @map("raised_by")
+  id          String        @id @default(cuid()) @map("id") // 'dsp_' + 12 chars
+  listingId   String?       @map("listing_id")
+  raisedBy    String        @map("raised_by")
   type        DisputeType
-  status      DisputeStatus  @default(open)
+  status      DisputeStatus @default(open)
   description String
   resolution  String?
-  adminId     String?        @map("admin_id")
-  createdAt   DateTime       @default(now()) @map("created_at")
-  resolvedAt  DateTime?      @map("resolved_at")
+  adminId     String?       @map("admin_id")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  resolvedAt  DateTime?     @map("resolved_at")
 
-  listing     Listing?       @relation(fields: [listingId], references: [id])
+  listing      Listing?      @relation(fields: [listingId], references: [id])
   raisedByUser User          @relation("DisputeRaisedBy", fields: [raisedBy], references: [id])
-  admin       User?          @relation("DisputeAdmin", fields: [adminId], references: [id])
-  lawFirmCase LawFirmCase?   @relation("DisputeLawFirmCase")
+  admin        User?         @relation("DisputeAdmin", fields: [adminId], references: [id])
+  lawFirmCase  LawFirmCase?  @relation("DisputeLawFirmCase")
   evidencePack EvidencePack?
 
   @@map("disputes")
 }
 
 model ScreeningCall {
-  id            String                @id @default(cuid()) @map("id") // 'scr_' + 12 chars
-  listingId     String                @map("listing_id")
-  landlordId    String                @map("landlord_id")
-  tenantId      String                @map("tenant_id")
-  scheduledAt   DateTime              @map("scheduled_at")
-  status        ScreeningCallStatus   @default(scheduled)
-  notes         String?
-  createdAt     DateTime              @default(now()) @map("created_at")
+  id          String              @id @default(cuid()) @map("id") // 'scr_' + 12 chars
+  listingId   String              @map("listing_id")
+  landlordId  String              @map("landlord_id")
+  tenantId    String              @map("tenant_id")
+  scheduledAt DateTime            @map("scheduled_at")
+  status      ScreeningCallStatus @default(scheduled)
+  notes       String?
+  createdAt   DateTime            @default(now()) @map("created_at")
 
-  listing       Listing               @relation(fields: [listingId], references: [id])
-  landlord      User                  @relation("ScreeningLandlord", fields: [landlordId], references: [id])
-  tenant        User                  @relation("ScreeningTenant", fields: [tenantId], references: [id])
+  listing  Listing @relation(fields: [listingId], references: [id])
+  landlord User    @relation("ScreeningLandlord", fields: [landlordId], references: [id])
+  tenant   User    @relation("ScreeningTenant", fields: [tenantId], references: [id])
 
   @@map("screening_calls")
 }
 
 model EmailLog {
-  id        String       @id @default(cuid()) @map("id") // 'eml_' + 12 chars
-  toEmail   String       @map("to_email")
+  id        String      @id @default(cuid()) @map("id") // 'eml_' + 12 chars
+  toEmail   String      @map("to_email")
   subject   String
   status    EmailStatus
   error     String?
-  createdAt DateTime     @default(now()) @map("created_at")
-  user      User?        @relation("UserEmailLogs", fields: [userId], references: [id])
-  userId    String?      @map("user_id")
+  createdAt DateTime    @default(now()) @map("created_at")
+  user      User?       @relation("UserEmailLogs", fields: [userId], references: [id])
+  userId    String?     @map("user_id")
 
   @@map("email_log")
 }
 
 model AdminAuditLog {
-  id            String   @id @default(cuid()) @map("id") // 'aud_' + 12 chars
-  adminId       String   @map("admin_id")
-  admin         User     @relation("AdminAuditLogs", fields: [adminId], references: [id])
+  id      String @id @default(cuid()) @map("id") // 'aud_' + 12 chars
+  adminId String @map("admin_id")
+  admin   User   @relation("AdminAuditLogs", fields: [adminId], references: [id])
 
-  action        String   // approve_verification, reject_verification, suspend_user, etc.
-  targetType    String   @map("target_type") // verification, listing, user, etc.
-  targetId      String   @map("target_id")
+  action     String // approve_verification, reject_verification, suspend_user, etc.
+  targetType String @map("target_type") // verification, listing, user, etc.
+  targetId   String @map("target_id")
 
-  details       Json?
-  ipAddress     String?  @map("ip_address")
-  userAgent     String?  @map("user_agent")
+  details   Json?
+  ipAddress String? @map("ip_address")
+  userAgent String? @map("user_agent")
 
-  createdAt     DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@index([adminId], map: "idx_audit_logs_admin")
   @@index([targetType, targetId], map: "idx_audit_logs_target")
@@ -1407,59 +1420,59 @@ model AdminAuditLog {
 // ===========================================================================
 
 model Unit {
-  id                String        @id @default(cuid()) @map("id") // 'unt_' + 12 chars
-  organizationId    String        @map("organization_id")
-  organization      Organisation  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  id             String       @id @default(cuid()) @map("id") // 'unt_' + 12 chars
+  organizationId String       @map("organization_id")
+  organization   Organisation @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   // Location
-  listingId         String        @map("listing_id")
-  listing           Listing       @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  buildingName      String?       @map("building_name")
-  unitNumber        String        @map("unit_number")
+  listingId    String  @map("listing_id")
+  listing      Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buildingName String? @map("building_name")
+  unitNumber   String  @map("unit_number")
 
   // Details
-  type              PropertyType
-  bedrooms          Int
-  bathrooms         Int
-  sizeSqm           Decimal?      @db.Decimal(10, 2) @map("size_sqm")
+  type      PropertyType
+  bedrooms  Int
+  bathrooms Int
+  sizeSqm   Decimal?     @map("size_sqm") @db.Decimal(10, 2)
 
   // Listing strategy at unit level
-  listingType       ListingType   @map("listing_type")
+  listingType ListingType @map("listing_type")
 
   // Unit-level pricing
-  pricePeriod       String?       @map("price_period") // night | month | year | total
-  minimumStay       Int?          @map("minimum_stay")
-  isListed          Boolean       @default(false) @map("is_listed")
+  pricePeriod String? @map("price_period") // night | month | year | total
+  minimumStay Int?    @map("minimum_stay")
+  isListed    Boolean @default(false) @map("is_listed")
 
   // Financial
-  rent              Decimal       @db.Decimal(10, 2)
-  cautionDeposit    Decimal?      @db.Decimal(10, 2) @map("caution_deposit")
-  serviceCharge     Decimal?      @db.Decimal(10, 2) @map("service_charge")
+  rent           Decimal  @db.Decimal(10, 2)
+  cautionDeposit Decimal? @map("caution_deposit") @db.Decimal(10, 2)
+  serviceCharge  Decimal? @map("service_charge") @db.Decimal(10, 2)
 
   // Status
-  status            UnitStatus    @default(AVAILABLE)
-  occupancy         UnitOccupancy @default(VACANT)
+  status    UnitStatus    @default(AVAILABLE)
+  occupancy UnitOccupancy @default(VACANT)
 
   // Tenant
-  currentTenantId   String?       @map("current_tenant_id")
-  currentTenant     User?         @relation("UnitCurrentTenant", fields: [currentTenantId], references: [id], onDelete: SetNull)
-  leaseStartDate    DateTime?     @map("lease_start_date")
-  leaseEndDate      DateTime?     @map("lease_end_date")
+  currentTenantId String?   @map("current_tenant_id")
+  currentTenant   User?     @relation("UnitCurrentTenant", fields: [currentTenantId], references: [id], onDelete: SetNull)
+  leaseStartDate  DateTime? @map("lease_start_date")
+  leaseEndDate    DateTime? @map("lease_end_date")
 
   // Maintenance
-  lastMaintenanceDate DateTime?   @map("last_maintenance_date")
-  nextMaintenanceDate DateTime?   @map("next_maintenance_date")
+  lastMaintenanceDate DateTime? @map("last_maintenance_date")
+  nextMaintenanceDate DateTime? @map("next_maintenance_date")
 
-  utilityAllocations  UtilityAllocation[]
+  utilityAllocations UtilityAllocation[]
 
-  createdAt         DateTime      @default(now()) @map("created_at")
-  updatedAt         DateTime      @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@unique([organizationId, buildingName, unitNumber])
   @@index([organizationId], map: "idx_units_org")
   @@index([status], map: "idx_units_status")
   @@index([occupancy], map: "idx_units_occupancy")
   @@index([listingId], map: "idx_units_listing")
-  @@unique([organizationId, buildingName, unitNumber])
   @@map("units")
 }
 
@@ -1468,10 +1481,10 @@ model Unit {
 // ===========================================================================
 
 model Application {
-  id             String            @id @default(cuid())
-  listingId      String            @map("listing_id")
-  tenantId       String            @map("tenant_id")
-  landlordId     String            @map("landlord_id")
+  id                 String            @id @default(cuid())
+  listingId          String            @map("listing_id")
+  tenantId           String            @map("tenant_id")
+  landlordId         String            @map("landlord_id")
   status             ApplicationStatus @default(pending)
   message            String?
   landlordNotes      String?           @map("landlord_notes")
@@ -1481,13 +1494,13 @@ model Application {
   stage              String?           @default("submitted") // submitted | screening | guarantor_pending | approved | rejected
   screeningStatus    Json?             @default("{}") @map("screening_status") // {nin, bvn, credit, references}
   guarantorData      Json?             @default("{}") @map("guarantor_data") // {name, relationship, occupation, phone, email, address, verified}
-  applicantDocuments Json?            @default("[]") @map("applicant_documents") // [{name, url, type, uploadedAt}]
+  applicantDocuments Json?             @default("[]") @map("applicant_documents") // [{name, url, type, uploadedAt}]
   createdAt          DateTime          @default(now()) @map("created_at")
   updatedAt          DateTime          @updatedAt @map("updated_at")
 
-  listing        Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  tenant         User              @relation("TenantApplications", fields: [tenantId], references: [id])
-  landlord       User              @relation("LandlordApplications", fields: [landlordId], references: [id])
+  listing  Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  tenant   User    @relation("TenantApplications", fields: [tenantId], references: [id])
+  landlord User    @relation("LandlordApplications", fields: [landlordId], references: [id])
 
   @@index([tenantId])
   @@index([landlordId])
@@ -1501,42 +1514,42 @@ model Application {
 // ===========================================================================
 
 model StampDuty {
-  id                String             @id @default(cuid())
-  agreementId       String             @unique @map("agreement_id")
-  amount            Decimal            @db.Decimal(15, 2)
-  remitaRrr         String?            @map("remita_rrr")
-  transactionId     String?            @map("transaction_id")
-  certificateNumber String?            @map("certificate_number")
-  certificateUrl    String?            @map("certificate_url")
-  status            StampDutyStatus    @default(pending)
-  paidAt            DateTime?          @map("paid_at")
-  issuedAt          DateTime?          @map("issued_at")
-  createdAt         DateTime           @default(now()) @map("created_at")
-  updatedAt         DateTime           @updatedAt @map("updated_at")
+  id                String          @id @default(cuid())
+  agreementId       String          @unique @map("agreement_id")
+  amount            Decimal         @db.Decimal(15, 2)
+  remitaRrr         String?         @map("remita_rrr")
+  transactionId     String?         @map("transaction_id")
+  certificateNumber String?         @map("certificate_number")
+  certificateUrl    String?         @map("certificate_url")
+  status            StampDutyStatus @default(pending)
+  paidAt            DateTime?       @map("paid_at")
+  issuedAt          DateTime?       @map("issued_at")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
 
   // ── Assessment basis (what was stamped, on what, at what rate) ──────────
-  instrument        StampDutyInstrument? @map("instrument")
-  basis             StampDutyBasis?      @map("basis")
+  instrument      StampDutyInstrument? @map("instrument")
+  basis           StampDutyBasis?      @map("basis")
   /// The amount the duty was computed on (annual rent or total term rent).
-  taxableAmount     Decimal?           @db.Decimal(15, 2) @map("taxable_amount")
+  taxableAmount   Decimal?             @map("taxable_amount") @db.Decimal(15, 2)
   /// Applied ad valorem rate, e.g. 0.0078.
-  rate              Decimal?           @db.Decimal(8, 6) @map("rate")
-  leaseTermMonths   Int?               @map("lease_term_months")
+  rate            Decimal?             @map("rate") @db.Decimal(8, 6)
+  leaseTermMonths Int?                 @map("lease_term_months")
 
   // ── Remitting authority & payer identity ────────────────────────────────
-  authority         RemittingAuthority? @map("authority")
-  authorityState    String?            @map("authority_state")
-  payerType         PayerEntityType?   @map("payer_type")
-  payerName         String?            @map("payer_name")
+  authority      RemittingAuthority? @map("authority")
+  authorityState String?             @map("authority_state")
+  payerType      PayerEntityType?    @map("payer_type")
+  payerName      String?             @map("payer_name")
   /// CAC RC number, required when the payer is a registered company.
-  payerRcNumber     String?            @map("payer_rc_number")
+  payerRcNumber  String?             @map("payer_rc_number")
 
   // Legal integrity linkage
-  agreementPdfHash  String?            @map("agreement_pdf_hash")
-  certificateHash   String?            @map("certificate_hash")
-  linkageHash       String?            @map("linkage_hash")
+  agreementPdfHash String? @map("agreement_pdf_hash")
+  certificateHash  String? @map("certificate_hash")
+  linkageHash      String? @map("linkage_hash")
 
-  agreement         Agreement          @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  agreement Agreement @relation(fields: [agreementId], references: [id], onDelete: Cascade)
 
   @@index([status])
   @@index([remitaRrr])
@@ -1549,16 +1562,16 @@ model StampDuty {
 // ===========================================================================
 
 model CalendarSlot {
-  id         String    @id @default(cuid()) @map("id") // 'csl_' + 12 chars
-  listingId  String    @map("listing_id")
-  date       String    @map("date") // 'YYYY-MM-DD'
-  status     String    @default("available") // available, booked, blocked
-  price      Decimal?  @db.Decimal(12, 2) // override price for this date
-  reason     String?   // e.g. maintenance, owner block
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime  @updatedAt @map("updated_at")
+  id        String   @id @default(cuid()) @map("id") // 'csl_' + 12 chars
+  listingId String   @map("listing_id")
+  date      String   @map("date") // 'YYYY-MM-DD'
+  status    String   @default("available") // available, booked, blocked
+  price     Decimal? @db.Decimal(12, 2) // override price for this date
+  reason    String? // e.g. maintenance, owner block
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  listing    Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
   @@unique([listingId, date])
   @@index([listingId], map: "idx_calendar_listing")
@@ -1566,24 +1579,24 @@ model CalendarSlot {
 }
 
 model PricingRule {
-  id            String    @id @default(cuid()) @map("id") // 'pri_' + 12 chars
-  listingId     String    @map("listing_id")
-  name          String?   // e.g. "Weekend markup", "Last minute discount"
-  ruleType      String    @map("rule_type") // seasonal, weekend, last_minute, early_bird, custom
-  priority      Int       @default(0)
-  multiplier    Decimal?  @db.Decimal(5, 2) // e.g. 1.2 (+20%), 0.8 (-20%)
-  fixedPrice    Decimal?  @db.Decimal(12, 2) @map("fixed_price")
-  dayOfWeek     Int?      @map("day_of_week") // 0-6 for weekend rules
-  minNights     Int?      @map("min_nights")
-  maxNights     Int?      @map("max_nights")
-  advanceDays   Int?      @map("advance_days") // for last_minute / early_bird
-  startDate     String?   @map("start_date")
-  endDate       String?   @map("end_date")
-  isActive      Boolean   @default(true) @map("is_active")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  id          String   @id @default(cuid()) @map("id") // 'pri_' + 12 chars
+  listingId   String   @map("listing_id")
+  name        String? // e.g. "Weekend markup", "Last minute discount"
+  ruleType    String   @map("rule_type") // seasonal, weekend, last_minute, early_bird, custom
+  priority    Int      @default(0)
+  multiplier  Decimal? @db.Decimal(5, 2) // e.g. 1.2 (+20%), 0.8 (-20%)
+  fixedPrice  Decimal? @map("fixed_price") @db.Decimal(12, 2)
+  dayOfWeek   Int?     @map("day_of_week") // 0-6 for weekend rules
+  minNights   Int?     @map("min_nights")
+  maxNights   Int?     @map("max_nights")
+  advanceDays Int?     @map("advance_days") // for last_minute / early_bird
+  startDate   String?  @map("start_date")
+  endDate     String?  @map("end_date")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
-  listing    Listing    @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
   @@index([listingId], map: "idx_pricing_listing")
   @@index([ruleType], map: "idx_pricing_rule_type")
@@ -1591,30 +1604,30 @@ model PricingRule {
 }
 
 model Booking {
-  id            String         @id @default(cuid()) @map("id") // 'bok_' + 12 chars
-  listingId     String         @map("listing_id")
-  guestId       String         @map("guest_id")
-  checkIn       String         @map("check_in") // 'YYYY-MM-DD'
-  checkOut      String         @map("check_out") // 'YYYY-MM-DD'
-  nights        Int
-  basePrice     Decimal        @db.Decimal(12, 2) @map("base_price")
-  totalPrice    Decimal        @db.Decimal(12, 2) @map("total_price")
-  status        String         @default("pending") // pending, confirmed, cancelled, completed
-  paymentStatus String         @default("pending") @map("payment_status") // pending, paid, refunded
-  transactionId String?        @unique @map("transaction_id") // reference to Transaction
-  guestName     String?        @map("guest_name")
-  guestPhone    String?        @map("guest_phone")
-  guestEmail    String?        @map("guest_email")
-  specialRequests String?      @map("special_requests")
-  cancelledAt   DateTime?      @map("cancelled_at")
-  checkedInAt   DateTime?      @map("checked_in_at")
-  checkedOutAt  DateTime?      @map("checked_out_at")
-  createdAt     DateTime       @default(now()) @map("created_at")
-  updatedAt     DateTime       @updatedAt @map("updated_at")
+  id              String    @id @default(cuid()) @map("id") // 'bok_' + 12 chars
+  listingId       String    @map("listing_id")
+  guestId         String    @map("guest_id")
+  checkIn         String    @map("check_in") // 'YYYY-MM-DD'
+  checkOut        String    @map("check_out") // 'YYYY-MM-DD'
+  nights          Int
+  basePrice       Decimal   @map("base_price") @db.Decimal(12, 2)
+  totalPrice      Decimal   @map("total_price") @db.Decimal(12, 2)
+  status          String    @default("pending") // pending, confirmed, cancelled, completed
+  paymentStatus   String    @default("pending") @map("payment_status") // pending, paid, refunded
+  transactionId   String?   @unique @map("transaction_id") // reference to Transaction
+  guestName       String?   @map("guest_name")
+  guestPhone      String?   @map("guest_phone")
+  guestEmail      String?   @map("guest_email")
+  specialRequests String?   @map("special_requests")
+  cancelledAt     DateTime? @map("cancelled_at")
+  checkedInAt     DateTime? @map("checked_in_at")
+  checkedOutAt    DateTime? @map("checked_out_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  listing    Listing       @relation(fields: [listingId], references: [id])
-  guest      User          @relation("BookingGuest", fields: [guestId], references: [id])
-  transaction Transaction? @relation(fields: [transactionId], references: [id])
+  listing       Listing        @relation(fields: [listingId], references: [id])
+  guest         User           @relation("BookingGuest", fields: [guestId], references: [id])
+  transaction   Transaction?   @relation(fields: [transactionId], references: [id])
   turnoverTasks TurnoverTask[]
 
   @@index([listingId], map: "idx_bookings_listing")
@@ -1658,60 +1671,60 @@ enum LawFirmCaseStatus {
 }
 
 model LawFirm {
-  id                    String                @id @default(cuid()) @map("id") // 'lf_' + 12 chars
-  name                  String
-  cacNumber             String                @unique @map("cac_number")
-  email                 String
-  phone                 String?
-  address               String?
-  billingEmail          String?               @map("billing_email")
-  jurisdiction          Json                  // ["Lagos", "Ogun", "Oyo", ...]
-  verified              Boolean               @default(false)
-  verificationStatus    LawyerVerificationStatus @default(pending) @map("verification_status")
-  callToBarNumber       String?               @unique @map("call_to_bar_number")
-  yearOfCall            Int?
-  nbaEnrollmentNumber   String?               @unique @map("nba_enrollment_number")
-  nbaEnrollmentYear     Int?                   @map("nba_enrollment_year")
-  principalPartnerName  String?                @map("principal_partner_name")
-  principalPartnerCall  String?                @map("principal_partner_call_number")
-  specializations       Json?                  // ["tenancy", "land_sale", "commercial"]
-  feeStructure          Json?                  // default hourly/fixed rates per practice area
-  rating                Decimal?               @db.Decimal(3, 2)
-  reviewCount           Int                    @default(0) @map("review_count")
-  createdAt             DateTime               @default(now()) @map("created_at")
-  updatedAt             DateTime               @updatedAt @map("updated_at")
+  id                   String                   @id @default(cuid()) @map("id") // 'lf_' + 12 chars
+  name                 String
+  cacNumber            String                   @unique @map("cac_number")
+  email                String
+  phone                String?
+  address              String?
+  billingEmail         String?                  @map("billing_email")
+  jurisdiction         Json // ["Lagos", "Ogun", "Oyo", ...]
+  verified             Boolean                  @default(false)
+  verificationStatus   LawyerVerificationStatus @default(pending) @map("verification_status")
+  callToBarNumber      String?                  @unique @map("call_to_bar_number")
+  yearOfCall           Int?
+  nbaEnrollmentNumber  String?                  @unique @map("nba_enrollment_number")
+  nbaEnrollmentYear    Int?                     @map("nba_enrollment_year")
+  principalPartnerName String?                  @map("principal_partner_name")
+  principalPartnerCall String?                  @map("principal_partner_call_number")
+  specializations      Json? // ["tenancy", "land_sale", "commercial"]
+  feeStructure         Json? // default hourly/fixed rates per practice area
+  rating               Decimal?                 @db.Decimal(3, 2)
+  reviewCount          Int                      @default(0) @map("review_count")
+  createdAt            DateTime                 @default(now()) @map("created_at")
+  updatedAt            DateTime                 @updatedAt @map("updated_at")
 
-  cases                 LawFirmCase[]
-  engagements           Engagement[]
-  conflictChecks        ConflictCheck[]
-  evidencePacks         EvidencePack[] @relation("EvidencePackLawFirm")
-  lawyerProfiles        LawyerProfile[]
+  cases          LawFirmCase[]
+  engagements    Engagement[]
+  conflictChecks ConflictCheck[]
+  evidencePacks  EvidencePack[]  @relation("EvidencePackLawFirm")
+  lawyerProfiles LawyerProfile[]
 
-  @@index([verificationStatus], map:"idx_law_firms_verification")
-  @@index([callToBarNumber], map:"idx_law_firms_call_to_bar")
+  @@index([verificationStatus], map: "idx_law_firms_verification")
+  @@index([callToBarNumber], map: "idx_law_firms_call_to_bar")
   @@map("law_firms")
 }
 
 model LawFirmCase {
-  id              String          @id @default(cuid()) @map("id") // 'lfc_' + 12 chars
-  disputeId       String          @unique @map("dispute_id")
-  firmId          String          @map("firm_id")
+  id              String            @id @default(cuid()) @map("id") // 'lfc_' + 12 chars
+  disputeId       String            @unique @map("dispute_id")
+  firmId          String            @map("firm_id")
   status          LawFirmCaseStatus @default(assigned)
-  engagementType  EngagementType  @default(limited_scope) @map("engagement_type")
-  engagementId    String?         @unique @map("engagement_id")
-  feeModel        Json            // {"type":"fixed|hourly|retainer","amount":...,"currency":"NGN","scope":"..."}
-  conflictCheckId String?         @unique @map("conflict_check_id")
-  fee             Decimal?        @db.Decimal(12, 2)
-  feeCurrency     String?         @default("NGN") @map("fee_currency")
-  assignedAt      DateTime        @default(now()) @map("assigned_at")
-  resolvedAt      DateTime?       @map("resolved_at")
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
+  engagementType  EngagementType    @default(limited_scope) @map("engagement_type")
+  engagementId    String?           @unique @map("engagement_id")
+  feeModel        Json // {"type":"fixed|hourly|retainer","amount":...,"currency":"NGN","scope":"..."}
+  conflictCheckId String?           @unique @map("conflict_check_id")
+  fee             Decimal?          @db.Decimal(12, 2)
+  feeCurrency     String?           @default("NGN") @map("fee_currency")
+  assignedAt      DateTime          @default(now()) @map("assigned_at")
+  resolvedAt      DateTime?         @map("resolved_at")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
 
-  firm            LawFirm         @relation(fields: [firmId], references: [id])
-  dispute         Dispute         @relation("DisputeLawFirmCase", fields: [disputeId], references: [id])
-  engagement      Engagement?
-  conflictCheck   ConflictCheck?
+  firm          LawFirm        @relation(fields: [firmId], references: [id])
+  dispute       Dispute        @relation("DisputeLawFirmCase", fields: [disputeId], references: [id])
+  engagement    Engagement?
+  conflictCheck ConflictCheck?
 
   @@index([firmId], map: "idx_law_firm_cases_firm")
   @@index([status], map: "idx_law_firm_cases_status")
@@ -1747,25 +1760,25 @@ enum UtilityType {
 }
 
 model ServiceCharge {
-  id             String          @id @default(cuid()) @map("id") // 'svc_' + 12 chars
-  listingId      String          @map("listing_id")
-  organizationId String          @map("organization_id")
-  estateManagerId String?        @map("estate_manager_id")
-  period         String          // e.g., "2024-Q1", "2024-01"
-  amount         Decimal         @db.Decimal(12, 2)
-  currency       String          @default("NGN")
-  dueDate        DateTime        @map("due_date")
-  status         InvoiceStatus   @default(draft)
-  description    String?
-  paidAt         DateTime?       @map("paid_at")
-  transactionId  String?         @unique @map("transaction_id")
-  createdAt      DateTime        @default(now()) @map("created_at")
-  updatedAt      DateTime        @updatedAt @map("updated_at")
+  id              String        @id @default(cuid()) @map("id") // 'svc_' + 12 chars
+  listingId       String        @map("listing_id")
+  organizationId  String        @map("organization_id")
+  estateManagerId String?       @map("estate_manager_id")
+  period          String // e.g., "2024-Q1", "2024-01"
+  amount          Decimal       @db.Decimal(12, 2)
+  currency        String        @default("NGN")
+  dueDate         DateTime      @map("due_date")
+  status          InvoiceStatus @default(draft)
+  description     String?
+  paidAt          DateTime?     @map("paid_at")
+  transactionId   String?       @unique @map("transaction_id")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
 
-  listing         Listing         @relation(fields: [listingId], references: [id])
-  organization    Organisation    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  estateManager   User?           @relation("ServiceChargeManager", fields: [estateManagerId], references: [id], onDelete: SetNull)
-  transaction     Transaction?    @relation(fields: [transactionId], references: [id], onDelete: SetNull)
+  listing       Listing      @relation(fields: [listingId], references: [id])
+  organization  Organisation @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  estateManager User?        @relation("ServiceChargeManager", fields: [estateManagerId], references: [id], onDelete: SetNull)
+  transaction   Transaction? @relation(fields: [transactionId], references: [id], onDelete: SetNull)
 
   @@index([organizationId], map: "idx_service_charges_org")
   @@index([listingId], map: "idx_service_charges_listing")
@@ -1774,22 +1787,22 @@ model ServiceCharge {
 }
 
 model UtilityAllocation {
-  id             String          @id @default(cuid()) @map("id") // 'utt_' + 12 chars
-  unitId         String          @map("unit_id")
-  type           UtilityType
-  reading        Decimal?        @db.Decimal(10, 2)
-  amount         Decimal         @db.Decimal(12, 2)
-  currency       String          @default("NGN")
-  billingPeriod  String          @map("billing_period") // e.g., "2024-01"
-  dueDate        DateTime        @map("due_date")
-  status         InvoiceStatus   @default(draft)
-  paidAt         DateTime?       @map("paid_at")
-  transactionId  String?         @unique @map("transaction_id")
-  createdAt      DateTime        @default(now()) @map("created_at")
-  updatedAt      DateTime        @updatedAt @map("updated_at")
+  id            String        @id @default(cuid()) @map("id") // 'utt_' + 12 chars
+  unitId        String        @map("unit_id")
+  type          UtilityType
+  reading       Decimal?      @db.Decimal(10, 2)
+  amount        Decimal       @db.Decimal(12, 2)
+  currency      String        @default("NGN")
+  billingPeriod String        @map("billing_period") // e.g., "2024-01"
+  dueDate       DateTime      @map("due_date")
+  status        InvoiceStatus @default(draft)
+  paidAt        DateTime?     @map("paid_at")
+  transactionId String?       @unique @map("transaction_id")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
 
-  unit           Unit            @relation(fields: [unitId], references: [id], onDelete: Cascade)
-  transaction    Transaction?    @relation(fields: [transactionId], references: [id], onDelete: SetNull)
+  unit        Unit         @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  transaction Transaction? @relation(fields: [transactionId], references: [id], onDelete: SetNull)
 
   @@index([unitId], map: "idx_utility_allocations_unit")
   @@index([status], map: "idx_utility_allocations_status")
@@ -1816,26 +1829,26 @@ enum TurnoverTaskPriority {
 // ===========================================================================
 
 model TurnoverTask {
-  id               String              @id @default(cuid()) @map("id") // 'trn_' + 12 chars
-  bookingId        String?             @map("booking_id")
-  propertyId       String?             @map("property_id")
-  listingId        String?             @map("listing_id")
-  assignedToUserId String?             @map("assigned_to_user_id")
-  status           TurnoverTaskStatus  @default(pending)
+  id               String               @id @default(cuid()) @map("id") // 'trn_' + 12 chars
+  bookingId        String?              @map("booking_id")
+  propertyId       String?              @map("property_id")
+  listingId        String?              @map("listing_id")
+  assignedToUserId String?              @map("assigned_to_user_id")
+  status           TurnoverTaskStatus   @default(pending)
   priority         TurnoverTaskPriority @default(medium)
-  scheduledStart   DateTime?           @map("scheduled_start")
-  scheduledEnd     DateTime?           @map("scheduled_end")
-  actualStart      DateTime?           @map("actual_start")
-  actualEnd        DateTime?           @map("actual_end")
+  scheduledStart   DateTime?            @map("scheduled_start")
+  scheduledEnd     DateTime?            @map("scheduled_end")
+  actualStart      DateTime?            @map("actual_start")
+  actualEnd        DateTime?            @map("actual_end")
   notes            String?
   checklist        Json?
   photos           Json?
-  createdAt        DateTime            @default(now()) @map("created_at")
-  updatedAt        DateTime            @updatedAt @map("updated_at")
+  createdAt        DateTime             @default(now()) @map("created_at")
+  updatedAt        DateTime             @updatedAt @map("updated_at")
 
-  booking         Booking?      @relation(fields: [bookingId], references: [id], onDelete: SetNull)
-  listing         Listing?      @relation(fields: [listingId], references: [id], onDelete: SetNull)
-  assignedToUser  User?         @relation("TurnoverTaskAssignee", fields: [assignedToUserId], references: [id], onDelete: SetNull)
+  booking        Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  listing        Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  assignedToUser User?    @relation("TurnoverTaskAssignee", fields: [assignedToUserId], references: [id], onDelete: SetNull)
 
   @@index([bookingId], map: "idx_turnover_tasks_booking")
   @@index([listingId], map: "idx_turnover_tasks_listing")
@@ -1846,15 +1859,15 @@ model TurnoverTask {
 }
 
 model BusinessProfile {
-  id           String    @id @default(cuid()) @map("id") // 'biz_' + 12 chars
-  userId       String    @unique @map("user_id")
-  cacNumber    String    @unique @map("cac_number")
-  rcNumber     String?   @unique @map("rc_number")
-  companyName  String?   @map("company_name")
-  verified     Boolean   @default(false)
-  verifiedAt   DateTime? @map("verified_at")
-  createdAt    DateTime  @default(now()) @map("created_at")
-  updatedAt    DateTime  @updatedAt @map("updated_at")
+  id          String    @id @default(cuid()) @map("id") // 'biz_' + 12 chars
+  userId      String    @unique @map("user_id")
+  cacNumber   String    @unique @map("cac_number")
+  rcNumber    String?   @unique @map("rc_number")
+  companyName String?   @map("company_name")
+  verified    Boolean   @default(false)
+  verifiedAt  DateTime? @map("verified_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -1863,22 +1876,22 @@ model BusinessProfile {
 }
 
 model BusinessVerification {
-  id            String                 @id @default(cuid()) @map("id") // 'bvr_' + 12 chars
-  entityType    String                 @map("entity_type") // 'law_firm' | 'organisation' | 'business_profile'
-  entityId      String                 @map("entity_id")
-  status        BusinessVerificationStatus @default(pending) @map("status")
-  cacNumber     String                 @map("cac_number")
-  companyName   String?                @map("company_name")
-  contactEmail  String?                @map("contact_email")
-  contactPhone  String?                @map("contact_phone")
-  address       String?
-  documents     Json?                  // [{name, url, type}]
-  submittedAt   DateTime               @default(now()) @map("submitted_at")
-  reviewedBy    String?                @map("reviewed_by")
-  reviewedAt    DateTime?              @map("reviewed_at")
-  adminNotes    String?                @map("admin_notes")
-  createdAt     DateTime               @default(now()) @map("created_at")
-  updatedAt     DateTime               @updatedAt @map("updated_at")
+  id           String                     @id @default(cuid()) @map("id") // 'bvr_' + 12 chars
+  entityType   String                     @map("entity_type") // 'law_firm' | 'organisation' | 'business_profile'
+  entityId     String                     @map("entity_id")
+  status       BusinessVerificationStatus @default(pending) @map("status")
+  cacNumber    String                     @map("cac_number")
+  companyName  String?                    @map("company_name")
+  contactEmail String?                    @map("contact_email")
+  contactPhone String?                    @map("contact_phone")
+  address      String?
+  documents    Json? // [{name, url, type}]
+  submittedAt  DateTime                   @default(now()) @map("submitted_at")
+  reviewedBy   String?                    @map("reviewed_by")
+  reviewedAt   DateTime?                  @map("reviewed_at")
+  adminNotes   String?                    @map("admin_notes")
+  createdAt    DateTime                   @default(now()) @map("created_at")
+  updatedAt    DateTime                   @updatedAt @map("updated_at")
 
   @@index([entityType, entityId], map: "idx_business_verifications_entity")
   @@index([status], map: "idx_business_verifications_status")
@@ -1887,17 +1900,17 @@ model BusinessVerification {
 }
 
 model EvidencePack {
-  id            String    @id @default(cuid()) @map("id") // 'evp_' + 12 chars
-  disputeId     String    @unique @map("dispute_id")
-  lawFirmId     String?   @map("law_firm_id")
-  status        String    @default("draft") @map("status") // draft | final | sealed | revoked
-  fileUrls      Json      // URLs + checksums
-  payments      Json
-  messages      Json
-  auditLogs     Json
-  metadata      Json?
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  id        String   @id @default(cuid()) @map("id") // 'evp_' + 12 chars
+  disputeId String   @unique @map("dispute_id")
+  lawFirmId String?  @map("law_firm_id")
+  status    String   @default("draft") @map("status") // draft | final | sealed | revoked
+  fileUrls  Json // URLs + checksums
+  payments  Json
+  messages  Json
+  auditLogs Json
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   // Typed exhibit + seal fields
   exhibitPrefix String?   @default("EX") @map("exhibit_prefix")
@@ -1907,39 +1920,39 @@ model EvidencePack {
   sealedBy      String?   @map("sealed_by")
   chainHash     String?   @map("chain_hash")
 
-  dispute       Dispute   @relation(fields: [disputeId], references: [id], onDelete: Cascade)
-  lawFirm       LawFirm?  @relation("EvidencePackLawFirm", fields: [lawFirmId], references: [id], onDelete: SetNull)
-  exhibits      EvidenceExhibit[]
+  dispute        Dispute                @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+  lawFirm        LawFirm?               @relation("EvidencePackLawFirm", fields: [lawFirmId], references: [id], onDelete: SetNull)
+  exhibits       EvidenceExhibit[]
   custodyEntries EvidenceCustodyEntry[]
 
   @@map("evidence_packs")
 }
 
 model Document {
-  id            String    @id @default(cuid()) @map("id") // 'doc_' + 12 chars
-  listingId     String?   @map("listing_id")
-  uploadedById  String    @map("uploaded_by_id")
-  type          String    // agreement, receipt, verification, other
-  version       Int       @default(1)
+  id            String   @id @default(cuid()) @map("id") // 'doc_' + 12 chars
+  listingId     String?  @map("listing_id")
+  uploadedById  String   @map("uploaded_by_id")
+  type          String // agreement, receipt, verification, other
+  version       Int      @default(1)
   url           String
   name          String
-  mimeType      String?   @map("mime_type")
-  sizeBytes     BigInt?   @map("size_bytes")
-  accessControl String    @default("private") @map("access_control")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  mimeType      String?  @map("mime_type")
+  sizeBytes     BigInt?  @map("size_bytes")
+  accessControl String   @default("private") @map("access_control")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
-  listing         Listing?  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  uploadedBy      User      @relation(fields: [uploadedById], references: [id])
-  versions        DocumentVersion[]
-  accessLogs      DocumentAccessLog[]
+  listing    Listing?            @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  uploadedBy User                @relation(fields: [uploadedById], references: [id])
+  versions   DocumentVersion[]
+  accessLogs DocumentAccessLog[]
 
   // Integrity / legal-hold fields
-  currentVersion  Int?      @default(1) @map("current_version")
-  legalHold       Boolean   @default(false) @map("legal_hold")
-  chainHash       String?   @map("chain_hash")
-  lockedBy        String?   @map("locked_by")
-  lockedAt        DateTime? @map("locked_at")
+  currentVersion Int?      @default(1) @map("current_version")
+  legalHold      Boolean   @default(false) @map("legal_hold")
+  chainHash      String?   @map("chain_hash")
+  lockedBy       String?   @map("locked_by")
+  lockedAt       DateTime? @map("locked_at")
 
   @@index([listingId], map: "idx_documents_listing")
   @@index([type], map: "idx_documents_type")
@@ -1947,19 +1960,19 @@ model Document {
 }
 
 model DocumentVersion {
-  id            String    @id @default(cuid()) @map("id") // 'dv_' + 12 chars
-  documentId    String    @map("document_id")
-  version       Int
-  url           String
-  sizeBytes     BigInt?   @map("size_bytes")
-  mimeType      String?   @map("mime_type")
-  contentHash   String    @map("content_hash")
-  chainHash     String?   @map("chain_hash")
-  approvedBy    String?   @map("approved_by")
-  approvedAt    DateTime? @map("approved_at")
-  createdAt     DateTime  @default(now()) @map("created_at")
+  id          String    @id @default(cuid()) @map("id") // 'dv_' + 12 chars
+  documentId  String    @map("document_id")
+  version     Int
+  url         String
+  sizeBytes   BigInt?   @map("size_bytes")
+  mimeType    String?   @map("mime_type")
+  contentHash String    @map("content_hash")
+  chainHash   String?   @map("chain_hash")
+  approvedBy  String?   @map("approved_by")
+  approvedAt  DateTime? @map("approved_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
 
-  document      Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@unique([documentId, version])
   @@index([documentId], map: "idx_doc_versions_document")
@@ -1968,15 +1981,15 @@ model DocumentVersion {
 }
 
 model DocumentAccessLog {
-  id            String               @id @default(cuid()) @map("id") // 'dal_' + 12 chars
-  documentId    String               @map("document_id")
-  userId        String               @map("user_id")
-  action        DocumentAccessAction
-  ipAddress     String?              @map("ip_address")
-  userAgent     String?              @map("user_agent")
-  createdAt     DateTime             @default(now()) @map("created_at")
+  id         String               @id @default(cuid()) @map("id") // 'dal_' + 12 chars
+  documentId String               @map("document_id")
+  userId     String               @map("user_id")
+  action     DocumentAccessAction
+  ipAddress  String?              @map("ip_address")
+  userAgent  String?              @map("user_agent")
+  createdAt  DateTime             @default(now()) @map("created_at")
 
-  document      Document             @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@index([documentId, userId], map: "idx_doc_access_doc_user")
   @@index([documentId], map: "idx_doc_access_document")
@@ -1984,21 +1997,21 @@ model DocumentAccessLog {
 }
 
 model EvidenceExhibit {
-  id             String    @id @default(cuid()) @map("id") // 'exh_' + 12 chars
-  packId         String    @map("pack_id")
-  exhibitNumber  String    @map("exhibit_number")
-  category       String    // 'agreement' | 'signature' | 'stamp_certificate' | 'payment' | 'message' | 'audit_log' | 'other'
-  contentHash    String?   @map("content_hash")
+  id             String   @id @default(cuid()) @map("id") // 'exh_' + 12 chars
+  packId         String   @map("pack_id")
+  exhibitNumber  String   @map("exhibit_number")
+  category       String // 'agreement' | 'signature' | 'stamp_certificate' | 'payment' | 'message' | 'audit_log' | 'other'
+  contentHash    String?  @map("content_hash")
   title          String
   description    String?
   url            String?
-  sourceRecordId String?   @map("source_record_id")
-  sourceTable    String?   @map("source_table")
-  sortOrder      Int       @default(0) @map("sort_order")
-  createdAt      DateTime  @default(now()) @map("created_at")
-  createdBy      String?   @map("created_by")
+  sourceRecordId String?  @map("source_record_id")
+  sourceTable    String?  @map("source_table")
+  sortOrder      Int      @default(0) @map("sort_order")
+  createdAt      DateTime @default(now()) @map("created_at")
+  createdBy      String?  @map("created_by")
 
-  pack           EvidencePack @relation(fields: [packId], references: [id], onDelete: Cascade)
+  pack EvidencePack @relation(fields: [packId], references: [id], onDelete: Cascade)
 
   @@unique([packId, exhibitNumber])
   @@index([packId, sortOrder], map: "idx_exhibits_pack_order")
@@ -2006,73 +2019,73 @@ model EvidenceExhibit {
 }
 
 model EvidenceCustodyEntry {
-  id          String              @id @default(cuid()) @map("id") // 'ece_' + 12 chars
-  packId      String              @map("pack_id")
-  actorId     String?             @map("actor_id")
-  actorType   String              @default("user") @map("actor_type") // user | system
-  action      String              // created | updated | sealed | revoked | exported
-  stateHash   String              @map("state_hash")
-  exhibitRef  String?             @map("exhibit_ref")
-  note        String?
-  ipAddress   String?             @map("ip_address")
-  createdAt   DateTime            @default(now()) @map("created_at")
+  id         String   @id @default(cuid()) @map("id") // 'ece_' + 12 chars
+  packId     String   @map("pack_id")
+  actorId    String?  @map("actor_id")
+  actorType  String   @default("user") @map("actor_type") // user | system
+  action     String // created | updated | sealed | revoked | exported
+  stateHash  String   @map("state_hash")
+  exhibitRef String?  @map("exhibit_ref")
+  note       String?
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now()) @map("created_at")
 
-  pack        EvidencePack        @relation(fields: [packId], references: [id], onDelete: Cascade)
+  pack EvidencePack @relation(fields: [packId], references: [id], onDelete: Cascade)
 
   @@index([packId], map: "idx_custody_pack")
   @@map("evidence_custody_entries")
 }
 
 model Engagement {
-  id                     String            @id @default(cuid()) @map("id") // 'eng_' + 12 chars
-  caseId                 String            @unique @map("case_id")
+  id                     String           @id @default(cuid()) @map("id") // 'eng_' + 12 chars
+  caseId                 String           @unique @map("case_id")
   type                   EngagementType
   status                 EngagementStatus @default(draft)
-  scopeOfWork            String            @map("scope_of_work")
-  feeModel               Json              // {"type":"fixed|hourly|retainer","amount":...,"currency":"NGN"}
+  scopeOfWork            String           @map("scope_of_work")
+  feeModel               Json // {"type":"fixed|hourly|retainer","amount":...,"currency":"NGN"}
   disbursements          Json?
-  estimatedDuration      String?           @map("estimated_duration")
-  advancePaymentRequired Boolean           @default(false) @map("advance_payment_required")
-  advancePaymentAmount   Decimal?          @db.Decimal(12,2) @map("advance_payment_amount")
-  clientConsentText      String            @map("client_consent_text")
-  clientConsentedAt      DateTime?         @map("client_consented_at")
-  clientConsentIp        String?           @map("client_consent_ip")
-  clientConsentUserAgent String?           @map("client_consent_user_agent")
-  lawyerReviewStatus     String            @default("pending") @map("lawyer_review_status")
-  lawyerReviewNotes      String?           @map("lawyer_review_notes")
-  lawyerReviewedAt       DateTime?         @map("lawyer_reviewed_at")
-  firmId                 String            @map("firm_id")
-  createdAt              DateTime          @default(now()) @map("created_at")
-  updatedAt              DateTime          @updatedAt @map("updated_at")
+  estimatedDuration      String?          @map("estimated_duration")
+  advancePaymentRequired Boolean          @default(false) @map("advance_payment_required")
+  advancePaymentAmount   Decimal?         @map("advance_payment_amount") @db.Decimal(12, 2)
+  clientConsentText      String           @map("client_consent_text")
+  clientConsentedAt      DateTime?        @map("client_consented_at")
+  clientConsentIp        String?          @map("client_consent_ip")
+  clientConsentUserAgent String?          @map("client_consent_user_agent")
+  lawyerReviewStatus     String           @default("pending") @map("lawyer_review_status")
+  lawyerReviewNotes      String?          @map("lawyer_review_notes")
+  lawyerReviewedAt       DateTime?        @map("lawyer_reviewed_at")
+  firmId                 String           @map("firm_id")
+  createdAt              DateTime         @default(now()) @map("created_at")
+  updatedAt              DateTime         @updatedAt @map("updated_at")
 
-  case      LawFirmCase   @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  firm      LawFirm       @relation(fields: [firmId], references: [id])
+  case      LawFirmCase      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  firm      LawFirm          @relation(fields: [firmId], references: [id])
   documents LawyerDocument[]
 
   @@map("engagements")
 }
 
 model ConflictCheck {
-  id                  String              @id @default(cuid()) @map("id") // 'cck_' + 12 chars
-  caseId              String              @unique @map("case_id")
-  lawFirmId           String              @map("law_firm_id")
-  lawyerProfileId     String?             @map("lawyer_profile_id")
-  status              ConflictCheckStatus @default(not_checked)
-  adversePartyType    String              @map("adverse_party_type") // landlord|tenant|organisation|user
-  adversePartyId      String              @map("adverse_party_id")
-  adversePartyName    String              @map("adverse_party_name")
-  previousWork        Json?               // prior engagements with adverse party
-  conflictRationale   String?             @map("conflict_rationale")
-  reviewedByAdminId   String?             @map("reviewed_by_admin_id")
-  reviewedAt          DateTime?
-  waiverApproved      Boolean             @default(false) @map("waiver_approved")
-  waiverApprovedBy    String?             @map("waiver_approved_by")
-  createdAt           DateTime            @default(now()) @map("created_at")
-  updatedAt           DateTime            @updatedAt @map("updated_at")
+  id                String              @id @default(cuid()) @map("id") // 'cck_' + 12 chars
+  caseId            String              @unique @map("case_id")
+  lawFirmId         String              @map("law_firm_id")
+  lawyerProfileId   String?             @map("lawyer_profile_id")
+  status            ConflictCheckStatus @default(not_checked)
+  adversePartyType  String              @map("adverse_party_type") // landlord|tenant|organisation|user
+  adversePartyId    String              @map("adverse_party_id")
+  adversePartyName  String              @map("adverse_party_name")
+  previousWork      Json? // prior engagements with adverse party
+  conflictRationale String?             @map("conflict_rationale")
+  reviewedByAdminId String?             @map("reviewed_by_admin_id")
+  reviewedAt        DateTime?
+  waiverApproved    Boolean             @default(false) @map("waiver_approved")
+  waiverApprovedBy  String?             @map("waiver_approved_by")
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
 
-  case           LawFirmCase     @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  lawFirm        LawFirm         @relation(fields: [lawFirmId], references: [id])
-  lawyerProfile  LawyerProfile? @relation(fields: [lawyerProfileId], references: [id])
+  case          LawFirmCase    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  lawFirm       LawFirm        @relation(fields: [lawFirmId], references: [id])
+  lawyerProfile LawyerProfile? @relation(fields: [lawyerProfileId], references: [id])
 
   @@index([lawFirmId], map: "idx_conflict_checks_firm")
   @@index([status], map: "idx_conflict_checks_status")
@@ -2080,60 +2093,60 @@ model ConflictCheck {
 }
 
 model LawyerProfile {
-  id                  String    @id @default(cuid()) @map("id") // 'lwp_' + 12 chars
-  userId              String    @unique @map("user_id")
-  lawFirmId           String    @map("law_firm_id")
-  fullName            String    @map("full_name")
+  id                  String   @id @default(cuid()) @map("id") // 'lwp_' + 12 chars
+  userId              String   @unique @map("user_id")
+  lawFirmId           String   @map("law_firm_id")
+  fullName            String   @map("full_name")
   email               String
-  callToBarNumber     String    @unique @map("call_to_bar_number")
+  callToBarNumber     String   @unique @map("call_to_bar_number")
   yearOfCall          Int
-  nbaNumber           String?   @unique @map("nba_number")
+  nbaNumber           String?  @unique @map("nba_number")
   nbaYear             Int?
   specializationAreas Json
-  isPrincipalPartner  Boolean   @default(false) @map("is_principal_partner")
-  isActive            Boolean   @default(true) @map("is_active")
-  createdAt           DateTime  @default(now()) @map("created_at")
-  updatedAt           DateTime  @updatedAt @map("updated_at")
+  isPrincipalPartner  Boolean  @default(false) @map("is_principal_partner")
+  isActive            Boolean  @default(true) @map("is_active")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
 
-  lawFirm             LawFirm   @relation(fields: [lawFirmId], references: [id], onDelete: Cascade)
-  conflictChecks      ConflictCheck[]
+  lawFirm        LawFirm         @relation(fields: [lawFirmId], references: [id], onDelete: Cascade)
+  conflictChecks ConflictCheck[]
 
   @@index([lawFirmId], map: "idx_lawyer_profiles_firm")
   @@map("lawyer_profiles")
 }
 
 model LawyerDocument {
-  id            String    @id @default(cuid()) @map("id") // 'lwd_' + 12 chars
-  engagementId  String    @map("engagement_id")
-  documentId    String    @map("document_id")
-  reviewStatus  String    @default("pending") @map("review_status") // pending|approved|rejected|amended
-  lawyerNotes   String?   @map("lawyer_notes")
-  redlinedUrl   String?   @map("redlined_url")
-  approvedAt    DateTime? @map("approved_at")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  id           String    @id @default(cuid()) @map("id") // 'lwd_' + 12 chars
+  engagementId String    @map("engagement_id")
+  documentId   String    @map("document_id")
+  reviewStatus String    @default("pending") @map("review_status") // pending|approved|rejected|amended
+  lawyerNotes  String?   @map("lawyer_notes")
+  redlinedUrl  String?   @map("redlined_url")
+  approvedAt   DateTime? @map("approved_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
 
-  engagement    Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+  engagement Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
 
   @@unique([engagementId, documentId])
   @@map("lawyer_documents")
 }
 
 model SubscriptionPlan {
-  id            String    @id @default(cuid()) @map("id") // 'sub_' + 12 chars
-  name          String    @unique
+  id            String   @id @default(cuid()) @map("id") // 'sub_' + 12 chars
+  name          String   @unique
   description   String?
-  priceMonthly  Decimal   @db.Decimal(10, 2) @map("price_monthly")
-  priceYearly   Decimal   @db.Decimal(10, 2) @map("price_yearly")
-  currency      String    @default("NGN")
+  priceMonthly  Decimal  @map("price_monthly") @db.Decimal(10, 2)
+  priceYearly   Decimal  @map("price_yearly") @db.Decimal(10, 2)
+  currency      String   @default("NGN")
   features      Json
-  maxListings   Int       @default(0) @map("max_listings")
-  maxUsers      Int       @default(1) @map("max_users")
-  maxProperties Int       @default(0) @map("max_properties")
-  supportLevel  String?   @map("support_level")
-  isActive      Boolean   @default(true) @map("is_active")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  maxListings   Int      @default(0) @map("max_listings")
+  maxUsers      Int      @default(1) @map("max_users")
+  maxProperties Int      @default(0) @map("max_properties")
+  supportLevel  String?  @map("support_level")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   subscriptions UserSubscription[]
 
@@ -2142,22 +2155,22 @@ model SubscriptionPlan {
 }
 
 model UserSubscription {
-  id                      String    @id @default(cuid()) @map("id") // 'usb_' + 12 chars
-  userId                  String    @map("user_id")
-  planId                  String    @map("plan_id")
-  status                  SubscriptionStatus @default(active)
-  currentPeriodStart      DateTime  @default(now()) @map("current_period_start")
-  currentPeriodEnd        DateTime  @map("current_period_end")
-  cancelAtPeriodEnd       Boolean   @default(false) @map("cancel_at_period_end")
-  cancelledAt             DateTime? @map("cancelled_at")
-  endedAt                 DateTime? @map("ended_at")
-  paystackCustomerId      String?   @unique @map("paystack_customer_id")
-  paystackSubscriptionCode String?  @map("paystack_subscription_code")
-  createdAt               DateTime  @default(now()) @map("created_at")
-  updatedAt               DateTime  @updatedAt @map("updated_at")
+  id                       String             @id @default(cuid()) @map("id") // 'usb_' + 12 chars
+  userId                   String             @map("user_id")
+  planId                   String             @map("plan_id")
+  status                   SubscriptionStatus @default(active)
+  currentPeriodStart       DateTime           @default(now()) @map("current_period_start")
+  currentPeriodEnd         DateTime           @map("current_period_end")
+  cancelAtPeriodEnd        Boolean            @default(false) @map("cancel_at_period_end")
+  cancelledAt              DateTime?          @map("cancelled_at")
+  endedAt                  DateTime?          @map("ended_at")
+  paystackCustomerId       String?            @unique @map("paystack_customer_id")
+  paystackSubscriptionCode String?            @map("paystack_subscription_code")
+  createdAt                DateTime           @default(now()) @map("created_at")
+  updatedAt                DateTime           @updatedAt @map("updated_at")
 
-  user   User            @relation(fields: [userId], references: [id])
-  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+  user User             @relation(fields: [userId], references: [id])
+  plan SubscriptionPlan @relation(fields: [planId], references: [id])
 
   @@index([userId], map: "idx_user_subscriptions_user")
   @@index([planId], map: "idx_user_subscriptions_plan")
@@ -2165,25 +2178,25 @@ model UserSubscription {
 }
 
 model AgentInvite {
-  id           String            @id @default(cuid()) @map("id") // 'agt_' + 12 chars
-  landlordId   String            @map("landlord_id")
-  agentId      String?           @map("agent_id")
-  email        String            @db.Text
-  token        String            @unique @db.Text
-  status       AgentInviteStatus @default(pending) @map("status")
-  acceptedAt   DateTime?         @map("accepted_at")
-  revokedAt    DateTime?         @map("revoked_at")
-  createdAt    DateTime          @default(now()) @map("created_at")
-  updatedAt    DateTime          @updatedAt @map("updated_at")
+  id         String            @id @default(cuid()) @map("id") // 'agt_' + 12 chars
+  landlordId String            @map("landlord_id")
+  agentId    String?           @map("agent_id")
+  email      String            @db.Text
+  token      String            @unique @db.Text
+  status     AgentInviteStatus @default(pending) @map("status")
+  acceptedAt DateTime?         @map("accepted_at")
+  revokedAt  DateTime?         @map("revoked_at")
+  createdAt  DateTime          @default(now()) @map("created_at")
+  updatedAt  DateTime          @updatedAt @map("updated_at")
 
-  permissions  Json?             @default("[]")
-  scope        String?
-  listingIds   Json?             @default("[]")
-  message      String?           @db.Text
+  permissions Json?   @default("[]")
+  scope       String?
+  listingIds  Json?   @default("[]")
+  message     String? @db.Text
 
-  sender       User              @relation("AgentInviteSender", fields: [landlordId], references: [id])
-  recipient    User?             @relation("AgentInviteRecipient", fields: [agentId], references: [id])
-  assignments  AgentAssignment[]
+  sender      User              @relation("AgentInviteSender", fields: [landlordId], references: [id])
+  recipient   User?             @relation("AgentInviteRecipient", fields: [agentId], references: [id])
+  assignments AgentAssignment[]
 
   @@index([landlordId], map: "idx_agent_invites_landlord")
   @@index([agentId], map: "idx_agent_invites_agent")
@@ -2191,50 +2204,52 @@ model AgentInvite {
   @@index([status], map: "idx_agent_invites_status")
   @@map("agent_invites")
 }
+
 model AgentAssignment {
-  id           String   @id @default(cuid()) @map("id") // 'asn_' + 12 chars
-  inviteId     String   @map("invite_id")
-  agentId      String   @map("agent_id")
-  listingId    String   @map("listing_id")
-  permissions  Json     @default("[]")
-  scope        String
-  status       String   @default("active")
-  createdAt    DateTime @default(now()) @map("created_at")
+  id          String   @id @default(cuid()) @map("id") // 'asn_' + 12 chars
+  inviteId    String   @map("invite_id")
+  agentId     String   @map("agent_id")
+  listingId   String   @map("listing_id")
+  permissions Json     @default("[]")
+  scope       String
+  status      String   @default("active")
+  createdAt   DateTime @default(now()) @map("created_at")
 
-  invite       AgentInvite @relation(fields: [inviteId], references: [id], onDelete: Cascade)
-  agent        User        @relation("AgentAssignments", fields: [agentId], references: [id])
-  listing      Listing     @relation("ListingAssignments", fields: [listingId], references: [id], onDelete: Cascade)
+  invite  AgentInvite @relation(fields: [inviteId], references: [id], onDelete: Cascade)
+  agent   User        @relation("AgentAssignments", fields: [agentId], references: [id])
+  listing Listing     @relation("ListingAssignments", fields: [listingId], references: [id], onDelete: Cascade)
 
+  @@unique([agentId, listingId], map: "uq_agent_assignments_agent_listing")
   @@index([agentId], map: "idx_agent_assignments_agent")
   @@index([listingId], map: "idx_agent_assignments_listing")
-  @@unique([agentId, listingId], map: "uq_agent_assignments_agent_listing")
   @@map("agent_assignments")
 }
-model Invoice {
-  id             String        @id @default(cuid()) @map("id") // 'inv_' + 12 chars
-  countryId       String?       @map("country_id")
-  invoiceNumber  String        @unique @map("invoice_number")
-  landlordId     String        @map("landlord_id")
-  tenantId       String?       @map("tenant_id")
-  listingId      String?       @map("listing_id")
-  agreementId    String?       @unique @map("agreement_id")
-  type           InvoiceType   @default(rent) @map("type")
-  amount         Decimal       @db.Decimal(14, 2)
-  currency       String        @default("NGN")
-  status         InvoiceStatus @default(draft) @map("status")
-  dueDate        DateTime      @map("due_date")
-  paidAt         DateTime?     @map("paid_at")
-  items          Json          @default("[]")
-  notes          String?
-  pdfUrl         String?       @map("pdf_url")
-  createdAt      DateTime      @default(now()) @map("created_at")
-  updatedAt      DateTime      @updatedAt @map("updated_at")
 
-  landlord       User          @relation("InvoiceLandlord", fields: [landlordId], references: [id])
-  tenant         User?         @relation("InvoiceTenant", fields: [tenantId], references: [id])
-  listing        Listing?      @relation(fields: [listingId], references: [id])
-  agreement      Agreement?    @relation(fields: [agreementId], references: [id])
-  country        Country?      @relation(fields: [countryId], references: [code])
+model Invoice {
+  id            String        @id @default(cuid()) @map("id") // 'inv_' + 12 chars
+  countryId     String?       @map("country_id")
+  invoiceNumber String        @unique @map("invoice_number")
+  landlordId    String        @map("landlord_id")
+  tenantId      String?       @map("tenant_id")
+  listingId     String?       @map("listing_id")
+  agreementId   String?       @unique @map("agreement_id")
+  type          InvoiceType   @default(rent) @map("type")
+  amount        Decimal       @db.Decimal(14, 2)
+  currency      String        @default("NGN")
+  status        InvoiceStatus @default(draft) @map("status")
+  dueDate       DateTime      @map("due_date")
+  paidAt        DateTime?     @map("paid_at")
+  items         Json          @default("[]")
+  notes         String?
+  pdfUrl        String?       @map("pdf_url")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  landlord  User       @relation("InvoiceLandlord", fields: [landlordId], references: [id])
+  tenant    User?      @relation("InvoiceTenant", fields: [tenantId], references: [id])
+  listing   Listing?   @relation(fields: [listingId], references: [id])
+  agreement Agreement? @relation(fields: [agreementId], references: [id])
+  country   Country?   @relation(fields: [countryId], references: [code])
 
   @@index([landlordId], map: "idx_invoices_landlord")
   @@index([tenantId], map: "idx_invoices_tenant")
@@ -2245,44 +2260,44 @@ model Invoice {
 }
 
 model Wallet {
-  id               String    @id @default(cuid()) @map("id")
-  userId           String    @unique @map("user_id")
-  balance          Decimal   @default(0) @db.Decimal(14, 2)
-  currency         String    @default("NGN")
-  version          Int       @default(1) @map("lock_version")
-  isLocked         Boolean   @default(false) @map("is_locked")
-  lockedAt         DateTime? @map("locked_at")
-  lockedReason     String?
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @updatedAt @map("updated_at")
+  id           String    @id @default(cuid()) @map("id")
+  userId       String    @unique @map("user_id")
+  balance      Decimal   @default(0) @db.Decimal(14, 2)
+  currency     String    @default("NGN")
+  version      Int       @default(1) @map("lock_version")
+  isLocked     Boolean   @default(false) @map("is_locked")
+  lockedAt     DateTime? @map("locked_at")
+  lockedReason String?
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
 
-  user             User              @relation(fields: [userId], references: [id])
-  transactions     WalletTransaction[]
+  user         User                @relation(fields: [userId], references: [id])
+  transactions WalletTransaction[]
 
   @@index([userId], map: "idx_wallets_user")
   @@map("wallets")
 }
 
 model WalletTransaction {
-  id               String                  @id @default(cuid()) @map("id")
-  walletId         String                  @map("wallet_id")
-  userId           String                  @map("user_id")
-  reference        String?                 @unique @map("reference")
-  type             WalletTransactionType
-  status           WalletTransactionStatus @default(pending)
-  amount           Decimal                 @db.Decimal(14, 2)
-  currency         String                  @default("NGN")
-  fee              Decimal?                @default(0) @db.Decimal(14, 2)
-  channel          String?                 @default("paystack")
-  providerRef      String?                 @map("provider_ref")
-  description      String?
-  meta             Json?
-  openingBalance   Decimal                 @map("opening_balance") @db.Decimal(14, 2)
-  closingBalance   Decimal                 @map("closing_balance") @db.Decimal(14, 2)
-  createdAt        DateTime                @default(now()) @map("created_at")
-  updatedAt        DateTime                @updatedAt @map("updated_at")
+  id             String                  @id @default(cuid()) @map("id")
+  walletId       String                  @map("wallet_id")
+  userId         String                  @map("user_id")
+  reference      String?                 @unique @map("reference")
+  type           WalletTransactionType
+  status         WalletTransactionStatus @default(pending)
+  amount         Decimal                 @db.Decimal(14, 2)
+  currency       String                  @default("NGN")
+  fee            Decimal?                @default(0) @db.Decimal(14, 2)
+  channel        String?                 @default("paystack")
+  providerRef    String?                 @map("provider_ref")
+  description    String?
+  meta           Json?
+  openingBalance Decimal                 @map("opening_balance") @db.Decimal(14, 2)
+  closingBalance Decimal                 @map("closing_balance") @db.Decimal(14, 2)
+  createdAt      DateTime                @default(now()) @map("created_at")
+  updatedAt      DateTime                @updatedAt @map("updated_at")
 
-  wallet           Wallet @relation(fields: [walletId], references: [id])
+  wallet Wallet @relation(fields: [walletId], references: [id])
 
   @@index([walletId], map: "idx_wallet_txns_wallet")
   @@index([userId], map: "idx_wallet_txns_user")
@@ -2291,25 +2306,25 @@ model WalletTransaction {
 }
 
 model UserPaystackAccount {
-  id                  String               @id @default(cuid()) @map("id")
-  userId              String               @unique @map("user_id")
-  customerCode        String?              @unique @map("customer_code")
-  email               String               @map("email")
-  firstName           String?              @map("first_name")
-  lastName            String?              @map("last_name")
-  phone               String?              @map("phone")
-  status              PaystackAccountStatus @default(pending) @map("status")
-  bankName            String?               @map("bank_name")
-  accountNumber       String?               @map("account_number")
-  accountName         String?               @map("account_name")
-  dedicatedAccountId  String?               @unique @map("dedicated_account_id")
-  recipientCode       String?               @unique @map("recipient_code")
-  collectBelow        Decimal?              @db.Decimal(12, 2)
-  currency            String                @default("NGN")
-  createdAt           DateTime              @default(now()) @map("created_at")
-  updatedAt           DateTime              @updatedAt @map("updated_at")
+  id                 String                @id @default(cuid()) @map("id")
+  userId             String                @unique @map("user_id")
+  customerCode       String?               @unique @map("customer_code")
+  email              String                @map("email")
+  firstName          String?               @map("first_name")
+  lastName           String?               @map("last_name")
+  phone              String?               @map("phone")
+  status             PaystackAccountStatus @default(pending) @map("status")
+  bankName           String?               @map("bank_name")
+  accountNumber      String?               @map("account_number")
+  accountName        String?               @map("account_name")
+  dedicatedAccountId String?               @unique @map("dedicated_account_id")
+  recipientCode      String?               @unique @map("recipient_code")
+  collectBelow       Decimal?              @db.Decimal(12, 2)
+  currency           String                @default("NGN")
+  createdAt          DateTime              @default(now()) @map("created_at")
+  updatedAt          DateTime              @updatedAt @map("updated_at")
 
-  user                User                  @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@index([userId], map: "idx_paystack_account_user")
   @@map("paystack_accounts")
@@ -2320,20 +2335,20 @@ model UserPaystackAccount {
 // ===========================================================================
 
 model Country {
-  code      String   @id @map("code")
-  name      String
-  currency  String   @map("currency")
-  locale    String   @default("en")
-  timezone  String   @default("UTC")
-  active    Boolean  @default(false) @map("active")
+  code     String  @id @map("code")
+  name     String
+  currency String  @map("currency")
+  locale   String  @default("en")
+  timezone String  @default("UTC")
+  active   Boolean @default(false) @map("active")
 
-  jurisdictions  Jurisdiction[]
-  users          User[]
-  organisations  Organisation[]
-  listings       Listing[]
-  agreements     Agreement[]
-  invoices       Invoice[]
-  legalMatters   LegalMatter[]
+  jurisdictions     Jurisdiction[]
+  users             User[]
+  organisations     Organisation[]
+  listings          Listing[]
+  agreements        Agreement[]
+  invoices          Invoice[]
+  legalMatters      LegalMatter[]
   jurisdictionRules JurisdictionRule[]
   documentTemplates DocumentTemplate[]
   rentalDossiers    RentalApplicationDossier[]
@@ -2342,22 +2357,23 @@ model Country {
 }
 
 model Jurisdiction {
-  id        String   @id @default(cuid()) @map("id")
-  countryId String   @map("country_id")
+  id        String  @id @default(cuid()) @map("id")
+  countryId String  @map("country_id")
   name      String
-  level     String   @default("state")
+  level     String  @default("state")
   code      String?
   metadata  Json?
-  active    Boolean  @default(true) @map("active")
+  active    Boolean @default(true) @map("active")
 
-  country      Country       @relation(fields: [countryId], references: [code])
-  listings     Listing[]
-  agreements   Agreement[]
+  country           Country                    @relation(fields: [countryId], references: [code])
+  listings          Listing[]
+  agreements        Agreement[]
   legalMatters      LegalMatter[]
   jurisdictionRules JurisdictionRule[]
   documentTemplates DocumentTemplate[]
-  users          User[]
+  users             User[]
   rentalDossiers    RentalApplicationDossier[]
+
   @@index([countryId], map: "idx_jurisdictions_country")
   @@map("jurisdictions")
 }
@@ -2378,9 +2394,9 @@ model LegalMatter {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  jurisdiction   Jurisdiction @relation(fields: [jurisdictionId], references: [id])
-  country        Country      @relation(fields: [countryId], references: [code])
-  listing        Listing?     @relation(fields: [listingId], references: [id])
+  jurisdiction     Jurisdiction      @relation(fields: [jurisdictionId], references: [id])
+  country          Country           @relation(fields: [countryId], references: [code])
+  listing          Listing?          @relation(fields: [listingId], references: [id])
   agreement        Agreement?        @relation(fields: [agreementId], references: [id])
   complianceEvents ComplianceEvent[]
 
@@ -2396,23 +2412,23 @@ model LegalMatter {
 // ===========================================================================
 
 model JurisdictionRule {
-  id            String   @id @default(cuid()) @map("id")
-  jurisdictionId String? @map("jurisdiction_id")
-  countryId     String   @map("country_id")
-  ruleType      String   @map("rule_type")
-  name          String
-  description   String?
-  conditions    Json     @default("{}")
-  actions       Json     @default("{}")
-  priority      Int      @default(0)
-  effectiveDate DateTime? @map("effective_date")
-  expiryDate    DateTime? @map("expiry_date")
-  active        Boolean  @default(true)
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  id             String    @id @default(cuid()) @map("id")
+  jurisdictionId String?   @map("jurisdiction_id")
+  countryId      String    @map("country_id")
+  ruleType       String    @map("rule_type")
+  name           String
+  description    String?
+  conditions     Json      @default("{}")
+  actions        Json      @default("{}")
+  priority       Int       @default(0)
+  effectiveDate  DateTime? @map("effective_date")
+  expiryDate     DateTime? @map("expiry_date")
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
 
-  jurisdiction  Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
-  country       Country      @relation(fields: [countryId], references: [code])
+  jurisdiction Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
+  country      Country       @relation(fields: [countryId], references: [code])
 
   @@index([countryId], map: "idx_jurisdiction_rules_country")
   @@index([jurisdictionId], map: "idx_jurisdiction_rules_jurisdiction")
@@ -2421,21 +2437,21 @@ model JurisdictionRule {
 }
 
 model ComplianceEvent {
-  id            String   @id @default(cuid()) @map("id")
-  legalMatterId String   @map("legal_matter_id")
-  eventType     String   @map("event_type")
+  id            String    @id @default(cuid()) @map("id")
+  legalMatterId String    @map("legal_matter_id")
+  eventType     String    @map("event_type")
   title         String
   description   String?
   deadline      DateTime
-  status        String   @default("pending")
-  assignedTo    String?  @map("assigned_to")
+  status        String    @default("pending")
+  assignedTo    String?   @map("assigned_to")
   completedAt   DateTime? @map("completed_at")
-  completedBy   String?  @map("completed_by")
-  metadata      Json?    @default("{}")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  completedBy   String?   @map("completed_by")
+  metadata      Json?     @default("{}")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  legalMatter   LegalMatter @relation(fields: [legalMatterId], references: [id])
+  legalMatter LegalMatter @relation(fields: [legalMatterId], references: [id])
 
   @@index([legalMatterId], map: "idx_compliance_events_matter")
   @@index([status], map: "idx_compliance_events_status")
@@ -2444,25 +2460,25 @@ model ComplianceEvent {
 }
 
 model DocumentTemplate {
-  id              String   @id @default(cuid()) @map("id")
-  countryId       String   @map("country_id")
-  jurisdictionId  String?  @map("jurisdiction_id")
-  propertyType    String?  @map("property_type")
-  tenancyType     String?  @map("tenancy_type")
-  name            String
-  version         Int      @default(1)
-  templateSchema  Json     @map("template_schema")
-  mandatoryClauses Json?   @map("mandatory_clauses")
-  content         String   @db.Text
-  language        String   @default("en")
-  active          Boolean  @default(true)
-  effectiveDate   DateTime? @map("effective_date")
-  expiryDate      DateTime? @map("expiry_date")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  id               String    @id @default(cuid()) @map("id")
+  countryId        String    @map("country_id")
+  jurisdictionId   String?   @map("jurisdiction_id")
+  propertyType     String?   @map("property_type")
+  tenancyType      String?   @map("tenancy_type")
+  name             String
+  version          Int       @default(1)
+  templateSchema   Json      @map("template_schema")
+  mandatoryClauses Json?     @map("mandatory_clauses")
+  content          String    @db.Text
+  language         String    @default("en")
+  active           Boolean   @default(true)
+  effectiveDate    DateTime? @map("effective_date")
+  expiryDate       DateTime? @map("expiry_date")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
 
-  country         Country      @relation(fields: [countryId], references: [code])
-  jurisdiction    Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
+  country      Country       @relation(fields: [countryId], references: [code])
+  jurisdiction Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
 
   @@index([countryId], map: "idx_doc_templates_country")
   @@index([jurisdictionId], map: "idx_doc_templates_jurisdiction")
@@ -2493,34 +2509,34 @@ enum AgentReviewStatus {
 }
 
 model AgentLicense {
-  id               String             @id @default(cuid()) @map("id") // 'lic_' + 12 chars
-  agentId          String             @map("agent_id")
-  board            AgentLicenseBoard  @map("board")
-  licenseType      String             @map("license_type")
-  registrationNo   String             @map("registration_no")
-  issuingBody      String             @map("issuing_body")
-  validUntil       DateTime?          @map("valid_until")
-  status           AgentLicenseStatus @default(draft) @map("status")
+  id             String             @id @default(cuid()) @map("id") // 'lic_' + 12 chars
+  agentId        String             @map("agent_id")
+  board          AgentLicenseBoard  @map("board")
+  licenseType    String             @map("license_type")
+  registrationNo String             @map("registration_no")
+  issuingBody    String             @map("issuing_body")
+  validUntil     DateTime?          @map("valid_until")
+  status         AgentLicenseStatus @default(draft) @map("status")
 
   // Stable docket reference shown in the UI (VER-LIC-XXXX-XXXX)
-  referenceId      String?            @map("reference_id")
+  referenceId String? @map("reference_id")
 
   // Supporting evidence
-  documentUrl      String?            @db.Text @map("document_url")
-  documentName     String?            @map("document_name")
-  documentBytes    Int?               @map("document_bytes")
+  documentUrl   String? @map("document_url") @db.Text
+  documentName  String? @map("document_name")
+  documentBytes Int?    @map("document_bytes")
 
-  channel          String?            @map("channel")
-  entityName       String?            @map("entity_name")
-  entityRcNumber   String?            @map("entity_rc_number")
-  reviewerNotes    String?            @db.Text @map("reviewer_notes")
+  channel        String? @map("channel")
+  entityName     String? @map("entity_name")
+  entityRcNumber String? @map("entity_rc_number")
+  reviewerNotes  String? @map("reviewer_notes") @db.Text
 
-  submittedAt      DateTime           @default(now()) @map("submitted_at")
-  reviewedAt       DateTime?          @map("reviewed_at")
-  createdAt        DateTime           @default(now()) @map("created_at")
-  updatedAt        DateTime           @updatedAt @map("updated_at")
+  submittedAt DateTime  @default(now()) @map("submitted_at")
+  reviewedAt  DateTime? @map("reviewed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
 
-  agent            User               @relation("AgentLicenseHolder", fields: [agentId], references: [id], onDelete: Cascade)
+  agent User @relation("AgentLicenseHolder", fields: [agentId], references: [id], onDelete: Cascade)
 
   @@index([agentId], map: "idx_agent_licenses_agent")
   @@index([status], map: "idx_agent_licenses_status")
@@ -2529,29 +2545,160 @@ model AgentLicense {
 }
 
 model AgentReview {
-  id           String            @id @default(cuid()) @map("id") // 'rev_' + 12 chars
-  agentId      String            @map("agent_id")
-  reviewerId   String            @map("reviewer_id")
-  rating       Int               // 1..5 stars
-  status       AgentReviewStatus @default(pending) @map("status")
-  comment      String?           @db.Text
+  id         String            @id @default(cuid()) @map("id") // 'rev_' + 12 chars
+  agentId    String            @map("agent_id")
+  reviewerId String            @map("reviewer_id")
+  rating     Int // 1..5 stars
+  status     AgentReviewStatus @default(pending) @map("status")
+  comment    String?           @db.Text
 
   // What the review is anchored to, when known
-  agreementId  String?           @map("agreement_id")
-  listingId    String?           @map("listing_id")
+  agreementId String? @map("agreement_id")
+  listingId   String? @map("listing_id")
 
-  verifiedAt   DateTime?         @map("verified_at")
-  createdAt    DateTime          @default(now()) @map("created_at")
-  updatedAt    DateTime          @updatedAt @map("updated_at")
+  verifiedAt DateTime? @map("verified_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
 
-  agent        User              @relation("AgentReviewAgent", fields: [agentId], references: [id], onDelete: Cascade)
-  reviewer     User              @relation("AgentReviewReviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
-  agreement    Agreement?        @relation(fields: [agreementId], references: [id], onDelete: SetNull)
-  listing      Listing?          @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  agent     User       @relation("AgentReviewAgent", fields: [agentId], references: [id], onDelete: Cascade)
+  reviewer  User       @relation("AgentReviewReviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  agreement Agreement? @relation(fields: [agreementId], references: [id], onDelete: SetNull)
+  listing   Listing?   @relation(fields: [listingId], references: [id], onDelete: SetNull)
 
+  @@unique([agreementId, reviewerId], map: "uq_agent_reviews_agreement_reviewer")
   @@index([agentId], map: "idx_agent_reviews_agent")
   @@index([reviewerId], map: "idx_agent_reviews_reviewer")
   @@index([status], map: "idx_agent_reviews_status")
-  @@unique([agreementId, reviewerId], map: "uq_agent_reviews_agreement_reviewer")
   @@map("agent_reviews")
+}
+
+// ===========================================================================
+// ONBOARDING PROFILES (role-specific step detail)
+// ===========================================================================
+// The onboarding wizard collects a different profile per role. Each model
+// below backs one role's steps: presence of the required fields for a section
+// is what marks that step done, so the gate never depends on a separate
+// progress flag that could drift from the data.
+
+model LandlordProfile {
+  id     String @id @default(cuid()) @map("id")
+  userId String @unique @map("user_id")
+
+  // Step: landlordProfile
+  legalEntityType String? @map("legal_entity_type")
+  legalName       String? @map("legal_name")
+  jointOwnerNames String? @map("joint_owner_names")
+  companyName     String? @map("company_name")
+  primaryPhone    String? @map("primary_phone")
+  contactEmail    String? @map("contact_email")
+  mailingAddress  String? @map("mailing_address")
+  taxIdType       String? @map("tax_id_type")
+  taxNumber       String? @map("tax_number")
+
+  // Step: landlordSettlement
+  accountName            String? @map("account_name")
+  bankName               String? @map("bank_name")
+  accountNumberEnc       String? @map("account_number_enc")
+  bvnEnc                 String? @map("bvn_enc")
+  targetMonthlyRent      BigInt? @map("target_monthly_rent")
+  targetAnnualRent       BigInt? @map("target_annual_rent")
+  securityDeposit        BigInt? @map("security_deposit")
+  preferredLeaseDuration String? @map("preferred_lease_duration")
+  commissionConsent      Boolean @default(false) @map("commission_consent")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation("LandlordProfileOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("landlord_profiles")
+}
+
+model AgentProfile {
+  id     String @id @default(cuid()) @map("id")
+  userId String @unique @map("user_id")
+
+  // Step: agentProfile
+  legalName                    String? @map("legal_name")
+  dateOfBirth                  String? @map("date_of_birth")
+  homeAddress                  String? @map("home_address")
+  businessPhone                String? @map("business_phone")
+  corporateEmail               String? @map("corporate_email")
+  ninOrBvnOrTinEnc             String? @map("nin_or_bvn_or_tin_enc")
+  emergencyContactName         String? @map("emergency_contact_name")
+  emergencyContactPhone        String? @map("emergency_contact_phone")
+  emergencyContactRelationship String? @map("emergency_contact_relationship")
+
+  // Step: agentLicense
+  board                 String? @map("board")
+  licenseNumber         String? @map("license_number")
+  certificateFileName   String? @map("certificate_file_name")
+  isAgency              Boolean @default(false) @map("is_agency")
+  cacDocumentFileName   String? @map("cac_document_file_name")
+  indemnityPolicyNumber String? @map("indemnity_policy_number")
+  indemnityExpiryDate   String? @map("indemnity_expiry_date")
+  codeOfConductConsent  Boolean @default(false) @map("code_of_conduct_consent")
+
+  // Step: agentTerritory
+  operationalTerritories Json? @map("operational_territories")
+  focusAreas             Json? @map("focus_areas")
+  activeListingsCount    Int?  @map("active_listings_count")
+
+  // Step: agentSettlement
+  bankName               String? @map("bank_name")
+  accountName            String? @map("account_name")
+  accountNumberEnc       String? @map("account_number_enc")
+  commissionSplitPercent Int?    @map("commission_split_percent")
+  subscriptionTier       String? @map("subscription_tier")
+  primaryDeviceOs        String? @map("primary_device_os")
+  crmNotes               String? @map("crm_notes")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation("AgentProfileOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("agent_profiles")
+}
+
+model EstateManagerProfile {
+  id     String @id @default(cuid()) @map("id")
+  userId String @unique @map("user_id")
+
+  // Step: estateProfile
+  legalEntityName              String? @map("legal_entity_name")
+  isCorporate                  Boolean @default(false) @map("is_corporate")
+  cacTinNumber                 String? @map("cac_tin_number")
+  professionalCredentialNumber String? @map("professional_credential_number")
+  professionalCredentialBoard  String? @map("professional_credential_board")
+  officeAddress                String? @map("office_address")
+  businessPhone                String? @map("business_phone")
+  emergencyHotline             String? @map("emergency_hotline")
+
+  // Step: estateAuthority
+  hasManagementAgreement   Boolean   @default(false) @map("has_management_agreement")
+  agreementFileName        String?   @map("agreement_file_name")
+  evictionAuthority        Boolean   @default(false) @map("eviction_authority")
+  evictionAuthorityNote    String?   @map("eviction_authority_note")
+  minIncomeThreshold       BigInt?   @map("min_income_threshold")
+  guarantorRequirementNote String?   @map("guarantor_requirement_note")
+  // Both answers above are booleans, so `false` cannot be told apart from
+  // "never answered". This marks the section as deliberately submitted.
+  authoritySubmittedAt     DateTime? @map("authority_submitted_at")
+
+  // Step: estateRemittance
+  trustBankName              String? @map("trust_bank_name")
+  trustAccountName           String? @map("trust_account_name")
+  trustAccountNumberEnc      String? @map("trust_account_number_enc")
+  remittanceCycle            String? @map("remittance_cycle")
+  managementFeeType          String? @map("management_fee_type")
+  managementFeeValue         Int?    @map("management_fee_value")
+  whtInstructionAcknowledged Boolean @default(false) @map("wht_instruction_acknowledged")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation("EstateManagerProfileOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("estate_manager_profiles")
 }

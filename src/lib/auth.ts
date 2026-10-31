@@ -55,6 +55,7 @@ async function ensurePrismaUserFromClerk() {
       role,
       isActive: true,
       isBanned: false,
+      onboardingRequired: true,
     },
   });
 }

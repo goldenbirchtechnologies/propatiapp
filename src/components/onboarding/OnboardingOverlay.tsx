@@ -88,15 +88,17 @@ export function OnboardingOverlay() {
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center sm:p-4 lg:p-6"
+      className="fixed inset-0 z-[80] flex items-center justify-center p-0 sm:p-8 lg:p-12"
       role="dialog"
       aria-modal="true"
       aria-label="Complete your onboarding dossier"
     >
-      {/* Blurred dashboard scrim — the shell stays legible behind the dossier. */}
-      <div aria-hidden className="absolute inset-0 bg-zinc-950/45 backdrop-blur-md" />
+      {/* Blurred dashboard scrim. Light enough that the shell stays readable
+          behind the card — a heavier scrim hid the dashboard completely and the
+          overlay read as a full page rather than a panel over one. */}
+      <div aria-hidden className="absolute inset-0 bg-zinc-950/50 backdrop-blur-[6px]" />
 
-      <div className="relative z-10 flex max-h-[100dvh] w-full flex-col overflow-hidden border border-white/40 bg-[#fbf8fc] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.6)] sm:max-h-[92vh] sm:max-w-[1180px] sm:rounded-2xl">
+      <div className="relative z-10 flex max-h-[100dvh] w-full flex-col overflow-hidden bg-[#fbf8fc] shadow-[0_32px_80px_-24px_rgba(0,0,0,0.55)] sm:max-h-[84vh] sm:max-w-[1000px] sm:rounded-2xl sm:border sm:border-white/40 sm:ring-1 sm:ring-black/10">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           <OnboardingWizard
             initialStatus={status}

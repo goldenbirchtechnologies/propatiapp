@@ -18,6 +18,7 @@ export const FEE_RATES: Record<string, FeeRates> = {
   short_let: { platform: 0.10, agent: 0.10 },      // 10% platform, 10% of platform to agent
   subscription: { platform: 0, agent: 0 },         // No fees for subscriptions
   caution: { platform: 0.10, agent: 0.10 },        // Same as rent
+  service_charge: { platform: 0.05, agent: 0.10 }, // Recovers the estate's cost, so a lighter fee
 };
 
 /**

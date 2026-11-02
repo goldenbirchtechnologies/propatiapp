@@ -122,6 +122,12 @@ export interface CreateCustomerParams {
   first_name?: string;
   last_name?: string;
   phone?: string;
+  /**
+   * Bank Verification Number. Required before Paystack will issue a dedicated
+   * virtual account in live mode — pass the BVN the identity provider verified,
+   * never one the user merely typed.
+   */
+  bvn?: string;
   metadata?: Record<string, unknown>;
 }
 
@@ -153,11 +159,55 @@ export interface DedicatedAccountResponse {
     assigned: boolean;
     currency: string;
     active: boolean;
+    /** Present on accounts Paystack has flagged for a minimum balance. */
+    collectBelow?: number;
     customer: {
       id: number;
       customer_code: string;
     };
   };
+}
+
+export interface CreateSubaccountParams {
+  /** Trading name shown on splits and settlement reports. */
+  business_name: string;
+  settlement_bank: string;
+  account_number: string;
+  /** Percent of each split that stays with the platform. */
+  percentage_charge: number;
+  description?: string;
+  primary_contact_email?: string;
+  primary_contact_name?: string;
+  primary_contact_phone?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface SubaccountResponse {
+  status: boolean;
+  message: string;
+  data: {
+    subaccount_code: string;
+    business_name: string;
+    settlement_bank: string | { id: number; name: string; slug: string };
+    account_number: string | null;
+    percentage_charge: number;
+    active: boolean;
+    currency: string;
+    is_verified?: boolean;
+  };
+}
+
+/** Error carrying Paystack's own message and HTTP status, so callers can surface the real reason. */
+export class PaystackApiError extends Error {
+  readonly status?: number;
+  readonly paystackMessage?: string;
+
+  constructor(message: string, options?: { status?: number; paystackMessage?: string }) {
+    super(message);
+    this.name = 'PaystackApiError';
+    this.status = options?.status;
+    this.paystackMessage = options?.paystackMessage;
+  }
 }
 
 class PaystackClient {
@@ -201,6 +251,19 @@ class PaystackClient {
     );
   }
 
+  /** Turns an axios failure into an error that keeps Paystack's own explanation. */
+  private failure(operation: string, error: unknown): PaystackApiError {
+    const response = (error as { response?: { status?: number; data?: { message?: string } } })?.response;
+    console.error(`[Paystack] ${operation} error:`, error);
+    const paystackMessage = response?.data?.message;
+    return new PaystackApiError(
+      paystackMessage
+        ? `Paystack: ${paystackMessage}`
+        : `Failed to ${operation}. Please try again.`,
+      { status: response?.status, paystackMessage }
+    );
+  }
+
   async initializePayment(params: InitializePaymentParams): Promise<InitializePaymentResponse> {
     if (!this.isConfigured()) {
       if (!this.allowMock) this.unavailable('initialize payment');
@@ -217,8 +280,7 @@ class PaystackClient {
       });
       return response.data;
     } catch (error) {
-      console.error('[Paystack] Initialize payment error:', error);
-      throw new Error('Failed to initialize payment. Please try again.');
+      throw this.failure('initialize payment', error);
     }
   }
 
@@ -231,8 +293,7 @@ class PaystackClient {
       const response = await this.client.get(`/transaction/verify/${reference}`);
       return response.data;
     } catch (error) {
-      console.error('[Paystack] Verify payment error:', error);
-      throw new Error('Failed to verify payment. Please try again.');
+      throw this.failure('verify payment', error);
     }
   }
 
@@ -250,17 +311,80 @@ class PaystackClient {
     }
   }
 
-  async createDedicatedAccount(customerCode: string): Promise<DedicatedAccountResponse> {
+  /**
+   * Issue a dedicated virtual account for a customer.
+   *
+   * `subaccount` routes collections into that subaccount's split, which is how
+   * a DVA and a per-agent split coexist: the account number still belongs to the
+   * user, but the money lands on the right ledger.
+   *
+   * Returns null rather than throwing when Paystack refuses (most often a
+   * customer with no validated BVN, which it reports as a 400). Callers treat a
+   * missing DVA as "not provisioned yet", not as a fatal error — KYC must not
+   * fail because an account number could not be minted.
+   */
+  async createDedicatedAccount(
+    customerCode: string,
+    opts?: { subaccount?: string; preferredBank?: string; splitCode?: string }
+  ): Promise<DedicatedAccountResponse | null> {
     if (!this.isConfigured()) {
       if (!this.allowMock) this.unavailable('call Paystack');
       return this.mockDedicatedAccount(customerCode);
     }
     try {
-      const response = await this.client.post('/dedicated_account', { customer: customerCode, currency: 'NGN' });
+      const response = await this.client.post('/dedicated_account', {
+        customer: customerCode,
+        currency: 'NGN',
+        ...(opts?.preferredBank ? { preferred_bank: opts.preferredBank } : {}),
+        ...(opts?.subaccount ? { subaccount: opts.subaccount } : {}),
+        ...(opts?.splitCode ? { split_code: opts.splitCode } : {}),
+      });
       return response.data;
     } catch (error) {
-      console.error('[Paystack] Create dedicated account error:', error);
-      throw new Error('Failed to create dedicated account.');
+      const response = (error as { response?: { status?: number; data?: { message?: string } } })?.response;
+      console.error(
+        '[Paystack] Create dedicated account failed:',
+        response?.status,
+        response?.data?.message ?? error
+      );
+      // A refusal is a provisioning problem, not an outage: let the caller
+      // record the customer and retry the account later.
+      if (response?.status === 400 || response?.status === 422) return null;
+      throw this.failure('create a dedicated account', error);
+    }
+  }
+
+  /**
+   * Create a subaccount: a settlement destination that collects its share of
+   * every split routed to it.
+   */
+  async createSubaccount(params: CreateSubaccountParams): Promise<SubaccountResponse | null> {
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('create a subaccount');
+      return null;
+    }
+    try {
+      const response = await this.client.post('/subaccount', params);
+      return response.data;
+    } catch (error) {
+      const response = (error as { response?: { status?: number; data?: { message?: string } } })?.response;
+      // Paystack rejects a subaccount whose account name does not match the
+      // resolved bank account; that is the caller's input, not our outage.
+      if (response?.status === 400 || response?.status === 422) {
+        console.error('[Paystack] Subaccount rejected:', response.data?.message);
+        return null;
+      }
+      throw this.failure('create a subaccount', error);
+    }
+  }
+
+  async fetchSubaccount(subaccountCode: string): Promise<SubaccountResponse> {
+    if (!this.isConfigured()) this.unavailable('fetch a subaccount');
+    try {
+      const response = await this.client.get(`/subaccount/${encodeURIComponent(subaccountCode)}`);
+      return response.data;
+    } catch (error) {
+      throw this.failure('fetch a subaccount', error);
     }
   }
 
@@ -296,7 +420,9 @@ class PaystackClient {
     }
   }
 
-  // Legacy methods (backward compatibility)
+  // Legacy wrappers — kept for their looser signatures, but routed through the
+  // guarded methods above so an unconfigured key fails loudly (or mocks in
+  // development) instead of firing a bare request that Paystack answers 401.
   async initializeTransaction(data: {
     email: string;
     amount: number;
@@ -305,13 +431,18 @@ class PaystackClient {
     metadata?: Record<string, unknown>;
     channels?: string[];
   }) {
-    const response = await this.client.post('/transaction/initialize', data);
-    return response.data;
+    return this.initializePayment({
+      email: data.email,
+      amount: data.amount,
+      reference: data.reference || this.generatePaymentReference(),
+      metadata: data.metadata || {},
+      callback_url: data.callback_url,
+      channels: data.channels,
+    });
   }
 
   async verifyTransaction(reference: string) {
-    const response = await this.client.get(`/transaction/verify/${reference}`);
-    return response.data;
+    return this.verifyPayment(reference);
   }
 
   async createTransfer(data: { source?: 'balance'; amount: number; recipient: string; reference?: string; reason?: string }) {

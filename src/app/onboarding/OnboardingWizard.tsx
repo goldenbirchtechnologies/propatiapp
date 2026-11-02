@@ -52,6 +52,15 @@ export interface OnboardingStatus {
 
 interface OnboardingWizardProps {
   initialStatus: OnboardingStatus;
+  /**
+   * `page` renders the standalone `/onboarding` canvas; `modal` is the same
+   * wizard framed inside the dashboard overlay (no full-viewport chrome).
+   */
+  variant?: 'page' | 'modal';
+  /** Called instead of navigating when the user saves and exits. */
+  onExit?: () => void;
+  /** Called after the dossier is completed, instead of navigating. */
+  onComplete?: () => void;
 }
 
 const COMPONENT_MAP: Record<string, React.ComponentType<StepProps>> = {
@@ -119,12 +128,18 @@ function firstOpenIndex(status: OnboardingStatus) {
  * holds. Steps are never advanced optimistically — "Continue" re-checks the
  * saved state, so a partially written form can't slip past the gate.
  */
-export default function OnboardingWizard({ initialStatus }: OnboardingWizardProps) {
+export default function OnboardingWizard({
+  initialStatus,
+  variant = 'page',
+  onExit,
+  onComplete,
+}: OnboardingWizardProps) {
   const router = useRouter();
   const [status, setStatus] = useState<OnboardingStatus>(initialStatus);
   const [stepIndex, setStepIndex] = useState(() => firstOpenIndex(initialStatus));
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const isModal = variant === 'modal';
 
   /*
    * Facts come from the server-rendered snapshot only. `/api/onboarding/status`
@@ -232,6 +247,10 @@ export default function OnboardingWizard({ initialStatus }: OnboardingWizardProp
       }
       const res = await fetch('/api/onboarding/complete', { method: 'POST' });
       if (!res.ok) throw new Error('Could not complete onboarding.');
+      if (onComplete) {
+        onComplete();
+        return;
+      }
       router.push(dashboardFor(fresh.role ?? status.role));
       router.refresh();
     } catch (e) {
@@ -242,6 +261,10 @@ export default function OnboardingWizard({ initialStatus }: OnboardingWizardProp
   }
 
   function exitToDashboard() {
+    if (onExit) {
+      onExit();
+      return;
+    }
     router.push(dashboardFor(status.role));
     router.refresh();
   }
@@ -250,7 +273,13 @@ export default function OnboardingWizard({ initialStatus }: OnboardingWizardProp
 
   if (!status) {
     return (
-      <div className="dossier-theme flex min-h-screen items-center justify-center">
+      <div
+        className={
+          isModal
+            ? 'dossier-theme flex items-center justify-center py-16'
+            : 'dossier-theme flex min-h-screen items-center justify-center'
+        }
+      >
         <Loader2 className="h-6 w-6 animate-spin text-[var(--accent)]" />
       </div>
     );
@@ -263,6 +292,7 @@ export default function OnboardingWizard({ initialStatus }: OnboardingWizardProp
   if (status.status === 'completed' || steps.length === 0) {
     return (
       <DossierComplete
+        variant={isModal ? 'modal' : 'page'}
         role={status.role}
         fullName={facts.fullName}
         onContinue={async () => {
@@ -283,6 +313,7 @@ export default function OnboardingWizard({ initialStatus }: OnboardingWizardProp
     const blockedStep = steps.find((s) => s.id === status.currentStep) ?? steps.find((s) => !s.done);
     return (
       <DossierBlocked
+        variant={isModal ? 'modal' : 'page'}
         role={status.role}
         blockedStepTitle={blockedStep?.title ?? 'Identity'}
         onResume={() => {
@@ -309,6 +340,7 @@ export default function OnboardingWizard({ initialStatus }: OnboardingWizardProp
 
   return (
     <DossierShell
+      variant={isModal ? 'modal' : 'page'}
       role={status.role}
       steps={steps.map((s) => ({ id: s.id, title: s.title, done: s.done, skippable: s.skippable }))}
       activeIndex={activeIndex}
@@ -428,14 +460,22 @@ function DossierBlocked({
   blockedStepTitle,
   onResume,
   onContinueLater,
+  variant = 'page',
 }: {
   role: string;
   blockedStepTitle: string;
   onResume: () => void;
   onContinueLater: () => void;
+  variant?: 'page' | 'modal';
 }) {
   return (
-    <div className="dossier-theme flex min-h-screen items-center justify-center px-5 py-12">
+    <div
+      className={
+        variant === 'modal'
+          ? 'dossier-theme flex items-center justify-center px-5 py-10'
+          : 'dossier-theme flex min-h-screen items-center justify-center px-5 py-12'
+      }
+    >
       <DCard className="w-full max-w-[560px] p-7">
         <div className="flex items-start gap-3">
           <span
@@ -476,13 +516,21 @@ function DossierComplete({
   role,
   fullName,
   onContinue,
+  variant = 'page',
 }: {
   role: string;
   fullName: string;
   onContinue: () => void;
+  variant?: 'page' | 'modal';
 }) {
   return (
-    <div className="dossier-theme flex min-h-screen items-center justify-center px-5 py-12">
+    <div
+      className={
+        variant === 'modal'
+          ? 'dossier-theme flex items-center justify-center px-5 py-10'
+          : 'dossier-theme flex min-h-screen items-center justify-center px-5 py-12'
+      }
+    >
       <DCard className="w-full max-w-[560px] p-7">
         <span
           aria-hidden

@@ -9,6 +9,7 @@ import {
   type AuthorityConfig,
   type PayerIdentity,
 } from '@/lib/stamp-duty';
+import { getVerifiedPayerIdentity } from '@/lib/verified-identity';
 import type { RemittingAuthority } from '@prisma/client';
 
 export interface AgreementStampDutyContext {
@@ -31,6 +32,8 @@ export interface AgreementStampDutyContext {
   payer: PayerIdentity;
   /** Payer for each side, so either party can settle the duty. */
   payers: { landlord: PayerIdentity; tenant: PayerIdentity };
+  /** Whether each side's payer name came from a verified identity. */
+  identityVerified: { landlord: boolean; tenant: boolean };
   propertyAddress: string;
   alreadyStamped: boolean;
   existingStatus: string | null;
@@ -93,14 +96,25 @@ export async function loadStampDutyContext(
   const state = agreement.jurisdictionState || agreement.listing.state;
   const listingType = agreement.listing.listingType;
 
+  // The certificate names a person, so the name on it should be the one the
+  // identity provider confirmed — not whatever was typed into the profile.
+  // Unverified participants fall back to their profile details unchanged.
+  const [landlordIdentity, tenantIdentity] = await Promise.all([
+    getVerifiedPayerIdentity(agreement.landlordId),
+    getVerifiedPayerIdentity(agreement.tenantId),
+  ]);
+
+  const landlordPerson = withVerifiedIdentity(agreement.landlord, landlordIdentity);
+  const tenantPerson = withVerifiedIdentity(agreement.tenant, tenantIdentity);
+
   const landlordPayer = resolvePayerIdentity({
-    person: agreement.landlord,
+    person: landlordPerson,
     businessProfile: agreement.landlord.businessProfiles[0] ?? null,
     agreementType: agreement.type,
     listingType,
   });
   const tenantPayer = resolvePayerIdentity({
-    person: agreement.tenant,
+    person: tenantPerson,
     businessProfile: agreement.tenant.businessProfiles[0] ?? null,
     agreementType: agreement.type,
     listingType,
@@ -141,27 +155,53 @@ export async function loadStampDutyContext(
       listing: agreement.listing,
       landlord: {
         id: agreement.landlord.id,
-        fullName: agreement.landlord.fullName,
-        email: agreement.landlord.email,
-        phone: agreement.landlord.phone,
+        fullName: landlordPerson.fullName,
+        email: landlordPerson.email,
+        phone: landlordPerson.phone,
       },
       tenant: {
         id: agreement.tenant.id,
-        fullName: agreement.tenant.fullName,
-        email: agreement.tenant.email,
-        phone: agreement.tenant.phone,
+        fullName: tenantPerson.fullName,
+        email: tenantPerson.email,
+        phone: tenantPerson.phone,
       },
     },
     assessment,
     authority,
     payer,
     payers: { landlord: landlordPayer, tenant: tenantPayer },
+    identityVerified: {
+      landlord: Boolean(landlordIdentity?.verified),
+      tenant: Boolean(tenantIdentity?.verified),
+    },
     propertyAddress: [agreement.listing.address, agreement.listing.area, agreement.listing.state]
       .filter(Boolean)
       .join(', '),
     alreadyStamped: agreement.stampDuty?.status === 'paid' || agreement.stampDuty?.status === 'issued',
     existingStatus: agreement.stampDuty?.status ?? null,
     existingRrr: agreement.stampDuty?.remitaRrr ?? null,
+  };
+}
+
+type PersonDetails = { fullName: string; email: string; phone: string | null };
+
+/**
+ * Overlay a verified identity onto the profile record.
+ *
+ * Only fields the provider actually confirmed are replaced, so a partial
+ * verification cannot blank out details the user already supplied.
+ */
+function withVerifiedIdentity<T extends PersonDetails>(
+  person: T,
+  identity: Awaited<ReturnType<typeof getVerifiedPayerIdentity>>
+): T {
+  if (!identity?.verified) return person;
+
+  return {
+    ...person,
+    fullName: identity.fullName || person.fullName,
+    email: identity.email || person.email,
+    phone: identity.phone || person.phone,
   };
 }
 
@@ -183,8 +223,18 @@ export function toAssessmentPayload(ctx: AgreementStampDutyContext) {
     payerName: ctx.payer.name,
     payerRcNumber: ctx.payer.rcNumber,
     payers: {
-      landlord: { type: ctx.payers.landlord.type, name: ctx.payers.landlord.name, rcNumber: ctx.payers.landlord.rcNumber },
-      tenant: { type: ctx.payers.tenant.type, name: ctx.payers.tenant.name, rcNumber: ctx.payers.tenant.rcNumber },
+      landlord: {
+        type: ctx.payers.landlord.type,
+        name: ctx.payers.landlord.name,
+        rcNumber: ctx.payers.landlord.rcNumber,
+        verified: ctx.identityVerified.landlord,
+      },
+      tenant: {
+        type: ctx.payers.tenant.type,
+        name: ctx.payers.tenant.name,
+        rcNumber: ctx.payers.tenant.rcNumber,
+        verified: ctx.identityVerified.tenant,
+      },
     },
     propertyAddress: ctx.propertyAddress,
     alreadyStamped: ctx.alreadyStamped,

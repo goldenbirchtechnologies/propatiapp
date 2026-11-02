@@ -31,6 +31,7 @@ interface Jurisdiction {
  */
 export default function LocationStep({ facts, onSaved }: StepProps) {
   const [countries, setCountries] = useState<Country[]>([]);
+  const [comingSoon, setComingSoon] = useState<Country[]>([]);
   const [jurisdictions, setJurisdictions] = useState<Jurisdiction[]>([]);
   const [loading, setLoading] = useState(true);
   const [countryCode, setCountryCode] = useState(facts.countryCode ?? '');
@@ -48,8 +49,14 @@ export default function LocationStep({ facts, onSaved }: StepProps) {
       .then((r) => r.json())
       .then((json) => {
         if (cancelled) return;
-        setCountries(json.data?.countries ?? []);
+        const list: Country[] = json.data?.countries ?? [];
+        setCountries(list);
+        setComingSoon(json.data?.comingSoon ?? []);
         setJurisdictions(json.data?.jurisdictions ?? []);
+        // A single supported country means the placeholder ("Select a country")
+        // is the only thing the user ever sees until they open the menu. Default
+        // to it so the field never reads as blank.
+        if (list.length === 1) setCountryCode((current) => current || list[0].code);
       })
       .catch(() => undefined)
       .finally(() => {
@@ -112,6 +119,13 @@ export default function LocationStep({ facts, onSaved }: StepProps) {
         the stamp-duty band and the eviction protocol that will govern your agreements.
       </DCallout>
 
+      {countries.length === 0 ? (
+        <DCallout tone="danger" title="Country list unavailable" className="mb-5">
+          We could not load the countries PropatiBox supports. Refresh the page — if it persists,
+          contact support.
+        </DCallout>
+      ) : null}
+
       <DGrid cols={2}>
         <DField label="Country" required error={fieldErrors.countryCode}>
           <DSelect
@@ -125,6 +139,11 @@ export default function LocationStep({ facts, onSaved }: StepProps) {
             {countries.map((c) => (
               <option key={c.code} value={c.code}>
                 {c.name}
+              </option>
+            ))}
+            {comingSoon.map((c) => (
+              <option key={c.code} value={c.code} disabled>
+                {c.name} (coming soon)
               </option>
             ))}
           </DSelect>

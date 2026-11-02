@@ -29,12 +29,18 @@ export async function POST(request: NextRequest) {
     if (!customer.status) return NextResponse.json({ error: customer.message || 'Failed to create Paystack customer' }, { status: 400 });
 
     const customerCode = customer.data.customer_code;
-    const accountPayload = await paystack.createDedicatedAccount(customerCode);
+    const accountPayload = await paystack.createDedicatedAccount(customerCode, {
+      subaccount: existing?.subaccountCode ?? undefined,
+    });
+
+    // A refused account is not fatal: the customer still exists, so record it
+    // and leave the number to be minted later.
+    const provisioned = accountPayload?.status ? accountPayload : null;
 
     const saved = await prisma.userPaystackAccount.upsert({
       where: { userId: user.id },
-      update: { customerCode: customerCode, email: customerEmail, firstName: customerPayload.first_name, lastName: customerPayload.last_name, phone: customerPayload.phone, status: accountPayload.status ? 'active' : 'pending', bankName: accountPayload.data?.bank?.name ?? existing?.bankName, accountNumber: accountPayload.data?.account_number ?? existing?.accountNumber, accountName: accountPayload.data?.account_name ?? existing?.accountName, dedicatedAccountId: accountPayload.data?.id ? String(accountPayload.data.id) : existing?.dedicatedAccountId, collectBelow: accountPayload.data?.collectBelow ? Number(accountPayload.data.collectBelow) : undefined },
-      create: { userId: user.id, email: customerEmail, firstName: customerPayload.first_name, lastName: customerPayload.last_name, phone: customerPayload.phone, customerCode, status: accountPayload.status ? 'active' : 'pending', bankName: accountPayload.data?.bank?.name, accountNumber: accountPayload.data?.account_number, accountName: accountPayload.data?.account_name, dedicatedAccountId: accountPayload.data?.id ? String(accountPayload.data.id) : null, currency: 'NGN' },
+      update: { customerCode: customerCode, email: customerEmail, firstName: customerPayload.first_name, lastName: customerPayload.last_name, phone: customerPayload.phone, status: provisioned ? 'active' : 'pending', bankName: provisioned?.data?.bank?.name ?? existing?.bankName, accountNumber: provisioned?.data?.account_number ?? existing?.accountNumber, accountName: provisioned?.data?.account_name ?? existing?.accountName, dedicatedAccountId: provisioned?.data?.id ? String(provisioned.data.id) : existing?.dedicatedAccountId, collectBelow: provisioned?.data?.collectBelow ? Number(provisioned.data.collectBelow) : undefined },
+      create: { userId: user.id, email: customerEmail, firstName: customerPayload.first_name, lastName: customerPayload.last_name, phone: customerPayload.phone, customerCode, status: provisioned ? 'active' : 'pending', bankName: provisioned?.data?.bank?.name, accountNumber: provisioned?.data?.account_number, accountName: provisioned?.data?.account_name, dedicatedAccountId: provisioned?.data?.id ? String(provisioned.data.id) : null, currency: 'NGN' },
     });
 
     return NextResponse.json({ success: true, data: saved });

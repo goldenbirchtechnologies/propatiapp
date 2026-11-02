@@ -2,7 +2,7 @@ import { WebhookEvent } from '@clerk/nextjs/server';
 import type { UserJSON, DeletedObjectJSON } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { paystack } from '@/lib/paystack';
+import { UserRole } from '@prisma/client';
 
 const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
 
@@ -31,7 +31,11 @@ export async function POST(request: NextRequest) {
     const publicRole = (clerkUser.public_metadata?.role as string | undefined) || undefined;
     const rawRole = unsafeRole || publicRole || 'tenant';
     const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
-    const role = allowedRoles.includes(rawRole as (typeof allowedRoles)[number]) ? rawRole : 'tenant';
+    // Anything outside the allowed set (a tampered or stale metadata value)
+    // falls back to the least-privileged role.
+    const role: UserRole = allowedRoles.includes(rawRole as (typeof allowedRoles)[number])
+      ? (rawRole as UserRole)
+      : UserRole.tenant;
 
     const created = await prisma.user.upsert({
       where: { clerkId },
@@ -61,19 +65,14 @@ export async function POST(request: NextRequest) {
       create: { userId: created.id, currency: 'NGN', balance: 0 },
     });
 
-    // Create Paystack customer and dedicated account
-    try {
-      const customer = await paystack.createCustomer({ email: created.email, first_name: clerkUser.first_name || undefined, last_name: clerkUser.last_name || undefined, phone: clerkUser.phone_numbers?.[0]?.phone_number || undefined, metadata: { userId: created.id, clerkId } });
-      if (!customer.status) throw new Error(customer.message || 'Paystack customer creation failed');
-      const dedicated = await paystack.createDedicatedAccount(customer.data.customer_code);
-      await prisma.userPaystackAccount.upsert({
-        where: { userId: created.id },
-        update: { customerCode: customer.data.customer_code, email: created.email, firstName: customer.data.first_name, lastName: customer.data.last_name, phone: clerkUser.phone_numbers?.[0]?.phone_number || null, status: dedicated.status && dedicated.data?.active ? 'active' : 'pending', bankName: dedicated.data?.bank?.name || null, accountNumber: dedicated.data?.account_number || null, accountName: dedicated.data?.account_name || null, dedicatedAccountId: dedicated.data?.id ? String(dedicated.data.id) : null, currency: 'NGN' },
-        create: { userId: created.id, customerCode: customer.data.customer_code, email: created.email, firstName: customer.data.first_name, lastName: customer.data.last_name, phone: clerkUser.phone_numbers?.[0]?.phone_number || null, status: dedicated.status && dedicated.data?.active ? 'active' : 'pending', bankName: dedicated.data?.bank?.name || null, accountNumber: dedicated.data?.account_number || null, accountName: dedicated.data?.account_name || null, dedicatedAccountId: dedicated.data?.id ? String(dedicated.data.id) : null, currency: 'NGN' },
-      });
-    } catch (error) {
-      console.error('[ClerkWebhook] Paystack provisioning failed for user', created.id, error);
-    }
+    // Paystack customer and dedicated account are deliberately NOT created here.
+    //
+    // Signup only has Clerk's self-reported names, and a dedicated account is
+    // minted once: creating it now would tie a permanent account number to an
+    // unverified name, and Paystack will not issue one without a validated BVN
+    // anyway. Provisioning happens in `syncPaystackCustomerFromKyc`, once Dojah
+    // has confirmed the identity, which is also what the webhook retry path and
+    // the verification route call.
 
     console.log(`Created user in Prisma: ${clerkId} (${created.email})`);
     return NextResponse.json({ received: true });

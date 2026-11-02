@@ -33,6 +33,11 @@ export interface DossierShellProps {
   onExit: () => void;
   rail: React.ReactNode;
   children: React.ReactNode;
+  /**
+   * `page` is the standalone `/onboarding` canvas; `modal` drops the
+   * full-viewport frame so the same shell can sit inside the dashboard overlay.
+   */
+  variant?: 'page' | 'modal';
 }
 
 export function DossierShell({
@@ -44,17 +49,24 @@ export function DossierShell({
   onExit,
   rail,
   children,
+  variant = 'page',
 }: DossierShellProps) {
   const meta = ROLE_META[role];
   const total = steps.length;
   const doneCount = steps.filter((s) => s.done).length;
   const progress = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+  const isModal = variant === 'modal';
 
   return (
-    <div className="dossier-theme min-h-screen">
+    <div className={isModal ? 'dossier-theme' : 'dossier-theme min-h-screen'}>
       {/* ── Brand bar ─────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 border-b border-[var(--outline-variant)]/40 bg-[#fbf8fc]/85 backdrop-blur-md">
-        <div className="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-4 px-5 md:px-8">
+      <header className="sticky top-0 z-30 border-b border-[var(--outline-variant)]/40 bg-[#fbf8fc]/90 backdrop-blur-md">
+        <div
+          className={cn(
+            'mx-auto flex w-full max-w-[1240px] items-center justify-between gap-4 px-5 md:px-8',
+            isModal ? 'h-14' : 'h-16'
+          )}
+        >
           <div className="flex min-w-0 items-center gap-3">
             <span
               aria-hidden
@@ -90,7 +102,12 @@ export function DossierShell({
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-[1240px] px-5 pb-16 pt-8 md:px-8 md:pt-10">
+      <div
+        className={cn(
+          'mx-auto w-full max-w-[1240px] px-5 md:px-8',
+          isModal ? 'pb-8 pt-5 md:pt-6' : 'pb-16 pt-8 md:pt-10'
+        )}
+      >
         {/* ── Hero ────────────────────────────────────────────────────── */}
         <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
           <div className="min-w-0 max-w-[62ch]">
@@ -100,12 +117,19 @@ export function DossierShell({
                 <ShieldCheck className="h-3 w-3" /> Statutory intake
               </DPill>
             </div>
-            <h1 className="text-[28px] font-semibold leading-[1.2] tracking-[-0.015em] text-[var(--on-surface)] md:text-[32px] md:tracking-[-0.01em]">
+            <h1
+              className={cn(
+                'font-semibold leading-[1.2] tracking-[-0.015em] text-[var(--on-surface)]',
+                isModal ? 'text-[22px]' : 'text-[28px] md:text-[32px] md:tracking-[-0.01em]'
+              )}
+            >
               {meta?.title ?? 'Account onboarding'}
             </h1>
-            <p className="mt-2 text-[14px] leading-[1.55] text-[var(--on-surface-variant)]">
-              {meta?.subtitle}
-            </p>
+            {isModal ? null : (
+              <p className="mt-2 text-[14px] leading-[1.55] text-[var(--on-surface-variant)]">
+                {meta?.subtitle}
+              </p>
+            )}
           </div>
           <div className="sm:hidden">
             <StepCounter index={activeIndex} total={total} progress={progress} />

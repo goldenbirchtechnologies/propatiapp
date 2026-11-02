@@ -123,6 +123,8 @@ export async function POST(request: NextRequest) {
         payerType: payer.type,
         payerName: payer.name,
         payerRcNumber: payer.rcNumber,
+        /** True when the payer name came from a Dojah-verified identity. */
+        payerVerified: ctx.identityVerified[side],
       },
     });
   } catch (error) {

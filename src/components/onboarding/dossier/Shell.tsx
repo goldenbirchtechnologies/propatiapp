@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { ArrowLeft, ArrowRight, Check, Lock, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 import { DButton, DPill } from './primitives';
 import { ROLE_META } from './role-meta';
 
@@ -68,16 +69,8 @@ export function DossierShell({
           )}
         >
           <div className="flex min-w-0 items-center gap-3">
-            <span
-              aria-hidden
-              className="grid h-8 w-8 shrink-0 place-items-center rounded-[8px] bg-[var(--accent)] text-[14px] font-bold text-white"
-            >
-              P
-            </span>
-            <div className="min-w-0">
-              <p className="truncate text-[13px] font-bold leading-4 tracking-[0.08em] text-[var(--on-surface)]">
-                PROPATI
-              </p>
+            <PropatiBoxLogo size="sm" href={null} />
+            <div className="min-w-0 border-l border-[var(--outline-variant)]/60 pl-3">
               <p className="dossier-eyebrow truncate text-[var(--on-surface-variant)]">
                 {meta?.label ?? 'Account'} intake
               </p>

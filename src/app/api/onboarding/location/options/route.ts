@@ -82,14 +82,30 @@ export async function GET(request: NextRequest) {
     console.error('Onboarding location options: jurisdiction lookup failed', error);
   }
 
-  // Fall back to the static list when the table is empty for this country.
-  if (resolved.length === 0 && countryCode === 'NG') {
-    resolved = NIGERIAN_STATES.map((s) => ({
-      id: `jur_${s.code.toLowerCase()}`,
-      name: s.name,
-      code: s.code,
-      level: 'state',
-    }));
+  // Nigeria's jurisdictions are a fixed list of 36 states plus the FCT, so the
+  // static table is the source of truth and the database only supplies ids.
+  // A partially seeded table (a single state row) used to satisfy the old
+  // "only fall back when empty" check and leave the picker with just that
+  // state, so the two lists are unioned instead of chosen between.
+  if (countryCode === 'NG') {
+    const byState = new Map<string, (typeof resolved)[number]>();
+
+    for (const state of NIGERIAN_STATES) {
+      byState.set(state.code.toUpperCase(), {
+        id: `jur_${state.code.toLowerCase()}`,
+        name: state.name,
+        code: state.code,
+        level: 'state',
+      });
+    }
+
+    // Database rows overwrite their static counterparts: they carry the ids the
+    // foreign key expects, and renames made through the admin UI win.
+    for (const row of resolved) {
+      byState.set((row.code ?? row.id).toUpperCase(), row);
+    }
+
+    resolved = [...byState.values()].sort((a, b) => a.name.localeCompare(b.name));
   }
 
   return NextResponse.json({

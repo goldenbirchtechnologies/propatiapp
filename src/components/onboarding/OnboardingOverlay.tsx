@@ -20,6 +20,12 @@ export function OnboardingOverlay() {
   const [status, setStatus] = useState<OnboardingStatus | null>(null);
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  /**
+   * `?onboarding=1` opens the dossier on demand — the entry point every role
+   * shares. The role onboarding routes forward here, so there is no second,
+   * page-shaped onboarding anywhere in the app.
+   */
+  const [forced, setForced] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -40,8 +46,24 @@ export function OnboardingOverlay() {
     };
   }, []);
 
+  // Read the forced-open flag after mount: the shell is a client component on a
+  // dynamic route, and reading `window` during render would break the SSR pass.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('onboarding') === '1') setForced(true);
+  }, []);
+
+  /** The account genuinely needs onboarding: it is flagged and not yet complete. */
   const required = Boolean(ready && status?.required && status.status !== 'completed');
-  const open = required && !dismissed;
+  const open = Boolean(ready && status && (required || forced) && !dismissed);
+
+  /** Dismissing a forced-open dossier must not reopen it on the next refresh. */
+  const close = useCallback(() => {
+    setDismissed(true);
+    if (!forced) return;
+    const url = new URL(window.location.href);
+    url.searchParams.delete('onboarding');
+    window.history.replaceState({}, '', `${url.pathname}${url.search}`);
+  }, [forced]);
 
   // Freeze the dashboard behind the scrim while the wizard is up.
   useEffect(() => {
@@ -56,21 +78,23 @@ export function OnboardingOverlay() {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setDismissed(true);
+      if (e.key === 'Escape') close();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [open]);
+  }, [open, close]);
 
   const handleComplete = useCallback(() => {
-    setDismissed(true);
+    close();
     router.refresh();
-  }, [router]);
+  }, [close, router]);
 
-  if (!ready) return null;
-  if (!status?.required || status.status === 'completed') return null;
+  if (!ready || !status) return null;
 
   if (!open) {
+    // The pill is the "you still have work outstanding" nudge. A dossier opened
+    // on demand and then dismissed leaves no pill: nothing is outstanding.
+    if (!required) return null;
     const remaining = status.steps.filter((s) => !s.done).length;
     return (
       <button
@@ -103,7 +127,7 @@ export function OnboardingOverlay() {
           <OnboardingWizard
             initialStatus={status}
             variant="modal"
-            onExit={() => setDismissed(true)}
+            onExit={close}
             onComplete={handleComplete}
           />
         </div>

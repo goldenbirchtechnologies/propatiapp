@@ -115,6 +115,7 @@ export const TENANT_NAVIGATION: Array<NavItem | NavSection> = [
   { label: 'Maintenance', href: '/dashboard/tenant/maintenance', icon: <Wrench className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/tenant/messages', icon: <MessageSquare className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
+  { label: 'Onboarding', href: '/dashboard/tenant/onboarding', icon: <BookOpen className="h-5 w-5" /> },
   {
     title: 'Discover & Help',
     items: [
@@ -204,6 +205,7 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
     title: 'Account',
     items: [
       { label: 'Profile', href: '/dashboard/agent/profile', icon: <User className="h-5 w-5" /> },
+      { label: 'Onboarding', href: '/dashboard/agent/onboarding', icon: <BookOpen className="h-5 w-5" /> },
       { label: 'Verifications', href: '/dashboard/agent/verifications', icon: <Shield className="h-5 w-5" /> },
       { label: 'Reputation', href: '/dashboard/agent/reputation', icon: <Star className="h-5 w-5" /> },
     ],
@@ -269,6 +271,7 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Messages', href: '/dashboard/estate-manager/messages', icon: <MessageSquare className="h-5 w-5" /> },
   { label: 'Invitations', href: '/dashboard/estate-manager/invite-property-manager', icon: <Mail className="h-5 w-5" /> },
   { label: 'Verification Center', href: '/dashboard/estate-manager/verification', icon: <ShieldCheck className="h-5 w-5" /> },
+  { label: 'Onboarding', href: '/dashboard/estate-manager/onboarding', icon: <BookOpen className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/estate-manager/profile', icon: <User className="h-5 w-5" /> },
 ];
 

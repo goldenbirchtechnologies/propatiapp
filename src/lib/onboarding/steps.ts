@@ -29,10 +29,10 @@ export interface StepDefinition {
  * Unknown roles fall back to an empty list so the wizard never crashes.
  */
 export const ROLE_STEPS: Record<UserRole, StepId[]> = {
-  tenant: ['location', 'contact', 'identity', 'employment', 'guarantor'],
-  landlord: ['location', 'contact', 'identity', 'landlordProfile', 'landlordSettlement'],
-  agent: ['location', 'contact', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentSettlement'],
-  estate_manager: ['location', 'contact', 'identity', 'estateProfile', 'estateAuthority', 'estateRemittance'],
+  tenant: ['location', 'identity', 'employment', 'guarantor'],
+  landlord: ['location', 'identity', 'landlordProfile', 'landlordSettlement'],
+  agent: ['location', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentSettlement'],
+  estate_manager: ['location', 'identity', 'estateProfile', 'estateAuthority', 'estateRemittance'],
   admin: [],
 };
 

@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    await ensureOnboardingRow(user.id, user.role, 'contact');
-    await markStepDone(user.id, user.role, 'location', 'contact');
+    await ensureOnboardingRow(user.id, user.role, 'identity');
+    await markStepDone(user.id, user.role, 'location', 'identity');
 
     return NextResponse.json({
       success: true,

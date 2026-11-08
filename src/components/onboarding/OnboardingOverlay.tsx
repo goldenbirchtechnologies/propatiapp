@@ -112,17 +112,22 @@ export function OnboardingOverlay() {
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center p-0 sm:p-8 lg:p-12"
+      className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-8 lg:p-12"
       role="dialog"
       aria-modal="true"
       aria-label="Complete your onboarding dossier"
     >
       {/* Blurred dashboard scrim. Light enough that the shell stays readable
           behind the card — a heavier scrim hid the dashboard completely and the
-          overlay read as a full page rather than a panel over one. */}
+          overlay read as a full page rather than a panel over one.
+
+          The gutter is never zero: a card flush to all four edges covers the
+          scrim completely and the overlay reads as a full page. Keeping 12px
+          of blurred dashboard visible at every width is what makes it legible
+          as a panel over the dashboard rather than a route of its own. */}
       <div aria-hidden className="absolute inset-0 bg-zinc-950/50 backdrop-blur-[6px]" />
 
-      <div className="relative z-10 flex max-h-[100dvh] w-full flex-col overflow-hidden bg-[#fbf8fc] shadow-[0_32px_80px_-24px_rgba(0,0,0,0.55)] sm:max-h-[84vh] sm:max-w-[1000px] sm:rounded-2xl sm:border sm:border-white/40 sm:ring-1 sm:ring-black/10">
+      <div className="relative z-10 flex max-h-[calc(100dvh-1.5rem)] w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-[#fbf8fc] shadow-[0_32px_80px_-24px_rgba(0,0,0,0.55)] ring-1 ring-black/10 sm:max-h-[84vh] sm:max-w-[1000px]">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           <OnboardingWizard
             initialStatus={status}

@@ -5,10 +5,15 @@ import { prisma } from '@/lib/prisma';
 import { onboardingEstateRemittanceSchema } from '@/lib/validators';
 import { encryptSensitiveValue } from '@/lib/encryption';
 import { advanceOnboarding } from '@/lib/onboarding/profiles';
+import { verifySettlementAccount } from '@/lib/settlement';
 
 /**
  * POST /api/onboarding/estate/remittance
  * Client trust account, remittance cycle, management fee, and WHT instruction.
+ *
+ * The trust account is resolved with the bank so a typo cannot be stored, but
+ * it is deliberately NOT name-matched: a client trust account carries the
+ * firm's name, not the manager's personal verified name.
  */
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request, ['estate_manager']);
@@ -19,9 +24,18 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const parsed = onboardingEstateRemittanceSchema.parse(body);
 
+    const settlement = await verifySettlementAccount(user.id, {
+      accountNumber: parsed.trustAccountNumber,
+      bankCode: parsed.trustBankCode,
+      bankName: parsed.trustBankName,
+      submittedName: parsed.trustAccountName,
+      requireNameMatch: false,
+      createSubaccount: false,
+    });
+
     const data = {
-      trustBankName: parsed.trustBankName,
-      trustAccountName: parsed.trustAccountName,
+      trustBankName: settlement.bankName,
+      trustAccountName: settlement.storedName,
       trustAccountNumberEnc: encryptSensitiveValue(parsed.trustAccountNumber),
       remittanceCycle: parsed.remittanceCycle,
       managementFeeType: parsed.managementFeeType ?? null,
@@ -40,7 +54,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      data: { id: profile.id, nextStep },
+      data: { id: profile.id, nextStep, settlement },
     });
   } catch (error) {
     if (error instanceof ZodError) {

@@ -56,7 +56,12 @@ export function toVerifiedIdentity(
   };
 }
 
-function normalizeName(value?: string | null): string {
+/**
+ * Reduce a name to comparable letters. Bank records print names in a different
+ * order and casing ("OKAFOR CHINEDU" vs "Chinedu Okafor"), so every name
+ * comparison in the platform goes through this.
+ */
+export function normalizeName(value?: string | null): string {
   return (value || '').toLowerCase().replace(/[^a-z]/g, '');
 }
 

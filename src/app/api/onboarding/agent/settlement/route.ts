@@ -5,10 +5,17 @@ import { prisma } from '@/lib/prisma';
 import { onboardingAgentSettlementSchema } from '@/lib/validators';
 import { encryptSensitiveValue } from '@/lib/encryption';
 import { advanceOnboarding } from '@/lib/onboarding/profiles';
+import { verifySettlementAccount } from '@/lib/settlement';
 
 /**
  * POST /api/onboarding/agent/settlement
+ *
  * Commission payout account, split, and device setup.
+ *
+ * Settling an agent's commission to an account is a money movement, so the
+ * account is resolved and name-matched to the verified identity first. A
+ * pending result still saves the step; `isSettlementReady` keeps the payout
+ * locked until it clears.
  */
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request, ['agent']);
@@ -19,9 +26,18 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const parsed = onboardingAgentSettlementSchema.parse(body);
 
-    const data = {
+    const settlement = await verifySettlementAccount(user.id, {
+      accountNumber: parsed.accountNumber,
+      bankCode: parsed.bankCode,
       bankName: parsed.bankName,
-      accountName: parsed.accountName,
+      submittedName: parsed.accountName,
+      requireNameMatch: true,
+      createSubaccount: true,
+    });
+
+    const data = {
+      bankName: settlement.bankName,
+      accountName: settlement.storedName,
       accountNumberEnc: encryptSensitiveValue(parsed.accountNumber),
       commissionSplitPercent:
         parsed.commissionSplitPercent != null ? Math.round(parsed.commissionSplitPercent) : null,
@@ -40,7 +56,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      data: { id: profile.id, nextStep },
+      data: { id: profile.id, nextStep, settlement },
     });
   } catch (error) {
     if (error instanceof ZodError) {

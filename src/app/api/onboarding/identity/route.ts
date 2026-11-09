@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 import { withAuth } from '@/lib/api-auth';
-import { prisma } from '@/lib/prisma';
 import { onboardingIdentitySchema } from '@/lib/validators';
-import { encryptSensitiveValue, hashSensitiveValue } from '@/lib/encryption';
-import { resolveCountryModule } from '@/lib/countries/resolver';
-import { markStepDone } from '@/lib/onboarding/dossier';
+import { verifyIdentityWithDojah } from '@/lib/identity-verification';
+import { advanceOnboarding } from '@/lib/onboarding/profiles';
+
+export const runtime = 'nodejs';
 
 /**
  * POST /api/onboarding/identity
- * Verifies a user-level identity document (NIN, BVN, ...).
  *
- * This writes the user's own identity fields rather than creating a
- * Verification record: that model is scoped to properties and its identity
- * route is tied to listing verification tiers.
+ * Verifies the user's NIN or BVN through Dojah, records it as the verified
+ * identity the money rails read from, and marks the onboarding step complete.
+ *
+ * The lookup, name match and Paystack sync live in `verifyIdentityWithDojah`,
+ * which the standalone verification route calls too — this route only adds the
+ * onboarding step transition and maps failures onto onboarding vocabulary.
  */
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request);
@@ -24,144 +26,60 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const parsed = onboardingIdentitySchema.parse(body);
 
-    const account = await prisma.user.findUnique({
-      where: { id: user.id },
-      select: { countryId: true, fullName: true },
-    });
-    if (!account) {
-      return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 });
-    }
+    const result = await verifyIdentityWithDojah(
+      { id: user.id, role: user.role, fullName: user.fullName },
+      { idType: parsed.idType, idNumber: parsed.number }
+    );
 
-    const countryModule = resolveCountryModule(account.countryId);
-    if (!countryModule) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'COUNTRY_NOT_CONFIGURED',
-          message: 'Complete your location before verifying your identity.',
-        },
-        { status: 400 }
-      );
-    }
-
-    const supportedTypes = countryModule.verification.getSupportedIdTypes();
-    if (!supportedTypes.includes(parsed.idType)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'UNSUPPORTED_ID_TYPE',
-          message: `We cannot verify a ${parsed.idType.replace('_', ' ')} for your country.`,
-        },
-        { status: 400 }
-      );
-    }
-
-    const [firstName, ...lastNameParts] = account.fullName.split(' ');
-    const lastName = lastNameParts.join(' ');
-
-    let result: Awaited<ReturnType<typeof countryModule.verification.verifyIdentity>>;
-    try {
-      result = await countryModule.verification.verifyIdentity(
-        parsed.idType as 'nin' | 'bvn' | 'passport' | 'drivers_licence' | 'voters_card',
-        parsed.number,
-        firstName,
-        lastName
-      );
-    } catch (verifyError) {
-      console.error('Onboarding identity provider error:', verifyError);
-      await prisma.userKyc.upsert({
-        where: { userId: user.id },
-        create: { userId: user.id, role: user.role, status: 'requires_review' },
-        update: { status: 'requires_review', rejectionReason: 'Verification provider unavailable' },
-      });
+    if (!result.ok) {
+      if (result.error === 'NOT_FOUND' || result.error === 'NAME_MISMATCH') {
+        return NextResponse.json(
+          { success: false, error: 'NOT_VERIFIED', message: result.message },
+          { status: 400 }
+        );
+      }
+      if (result.error === 'DOJAH_ERROR') {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'PROVIDER_REJECTED',
+            message: result.message,
+            providerStatus: result.providerStatus ?? null,
+          },
+          { status: 422 }
+        );
+      }
+      if (result.error === 'IDENTITY_ALREADY_LINKED') {
+        return NextResponse.json(
+          { success: false, error: 'ID_IN_USE', message: result.message },
+          { status: 409 }
+        );
+      }
       return NextResponse.json(
         {
           success: false,
           error: 'VERIFICATION_UNAVAILABLE',
-          message: 'Identity verification is temporarily unavailable. Please try again shortly.',
+          message: result.message,
         },
         { status: 503 }
       );
     }
 
-    if (!result.verified) {
-      await prisma.userKyc.upsert({
-        where: { userId: user.id },
-        create: { userId: user.id, role: user.role, status: 'rejected' },
-        update: { status: 'rejected', rejectionReason: 'Provider returned unverified' },
-      });
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NOT_VERIFIED',
-          message: 'We could not verify those details. Check the number and try again.',
-        },
-        { status: 400 }
-      );
-    }
-
-    const encrypted = encryptSensitiveValue(parsed.number);
-    const hashed = hashSensitiveValue(parsed.number);
-
-    // A NIN reuses the existing unique ninHash constraint so one NIN cannot
-    // be registered to multiple accounts.
-    const conflict = await prisma.user.findFirst({
-      where: {
-        id: { not: user.id },
-        OR: [{ idNumberHash: hashed }, ...(parsed.idType === 'nin' ? [{ ninHash: hashed }] : [])],
-      },
-      select: { id: true },
-    });
-    if (conflict) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'ID_IN_USE',
-          message: 'That ID number is already registered to another account.',
-        },
-        { status: 409 }
-      );
-    }
-
-    await prisma.$transaction([
-      prisma.user.update({
-        where: { id: user.id },
-        data: {
-          idType: parsed.idType,
-          idNumberEnc: encrypted,
-          idNumberHash: hashed,
-          idVerified: true,
-          ...(parsed.idType === 'nin' ? { ninEncrypted: encrypted, ninHash: hashed, ninVerified: true } : {}),
-          ...(parsed.idType === 'bvn' ? { bvnEncrypted: encrypted } : {}),
-          onboardingStatus: 'in_progress',
-        },
-      }),
-      prisma.userKyc.upsert({
-        where: { userId: user.id },
-        create: {
-          userId: user.id,
-          role: user.role,
-          status: 'approved',
-          verifiedAt: new Date(),
-          level: 2,
-        },
-        update: {
-          status: 'approved',
-          verifiedAt: new Date(),
-          rejectionReason: null,
-          level: 2,
-        },
-      }),
-    ]);
-
-    await markStepDone(user.id, user.role, 'identity', 'employment');
+    const nextStep = await advanceOnboarding(user.id, user.role, 'identity');
 
     return NextResponse.json({
       success: true,
       data: {
         verified: true,
-        idType: parsed.idType,
-        fullName: result.fullName ?? account.fullName,
+        idType: result.identity.type,
+        idNumberMasked: result.idNumberMasked,
+        fullName:
+          [result.identity.firstName, result.identity.lastName].filter(Boolean).join(' ') ||
+          user.fullName,
+        nextStep,
+        // Surfaced so the step can tell the user their payout readiness follows
+        // from the identity that was just proven.
+        paystack: result.paystack,
       },
     });
   } catch (error) {

@@ -12,6 +12,12 @@ import {
   DTextarea,
 } from '@/components/onboarding/dossier/primitives';
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import {
+  bankNameForCode,
+  SettlementAccountNote,
+  useAccountResolution,
+  useBankDirectory,
+} from './_settlement';
 import type { StepProps } from './types';
 
 const DEVICES = [
@@ -21,7 +27,7 @@ const DEVICES = [
 ] as const;
 
 export default function AgentSettlementStep({ onSaved }: StepProps) {
-  const [bankName, setBankName] = useState('');
+  const [bankCode, setBankCode] = useState('');
   const [accountName, setAccountName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [commissionSplitPercent, setCommissionSplitPercent] = useState('');
@@ -31,6 +37,15 @@ export default function AgentSettlementStep({ onSaved }: StepProps) {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const { saving, error, saved, run, setError } = useStepSave(onSaved);
+  const { banks, loading: banksLoading, error: banksError } = useBankDirectory();
+
+  const { preview, checking } = useAccountResolution(accountNumber, bankCode, {
+    // Fill the name from the bank's record only while the user has not typed
+    // their own, so a debounced response never overwrites an edit.
+    onResolved: (resolvedName) => setAccountName((current) => current || resolvedName),
+  });
+
+  const bankName = bankNameForCode(banks, bankCode);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -38,6 +53,7 @@ export default function AgentSettlementStep({ onSaved }: StepProps) {
 
     const parsed = onboardingAgentSettlementSchema.safeParse({
       bankName,
+      bankCode: bankCode || undefined,
       accountName,
       accountNumber,
       commissionSplitPercent:
@@ -64,12 +80,25 @@ export default function AgentSettlementStep({ onSaved }: StepProps) {
       </DCallout>
 
       <DGrid cols={2}>
-        <DField label="Bank name" required error={fieldErrors.bankName}>
-          <DInput
-            value={bankName}
-            onChange={(e) => setBankName(e.target.value)}
-            placeholder="e.g. GTBank"
-          />
+        <DField
+          label="Bank"
+          required
+          note={banksLoading ? 'Loading…' : undefined}
+          error={fieldErrors.bankName ?? fieldErrors.bankCode}
+          hint={banksError ?? undefined}
+        >
+          <DSelect
+            value={bankCode}
+            onChange={(e) => setBankCode(e.target.value)}
+            placeholder={banksLoading ? 'Loading banks…' : 'Select your bank'}
+            disabled={banksLoading || banks.length === 0}
+          >
+            {banks.map((b) => (
+              <option key={b.code} value={b.code}>
+                {b.name}
+              </option>
+            ))}
+          </DSelect>
         </DField>
 
         <DField label="Account name" required error={fieldErrors.accountName}>
@@ -110,6 +139,8 @@ export default function AgentSettlementStep({ onSaved }: StepProps) {
           />
         </DField>
       </DGrid>
+
+      <SettlementAccountNote preview={preview} checking={checking} />
 
       <div className="my-5 h-px w-full bg-[var(--surface-container-high)]" />
 

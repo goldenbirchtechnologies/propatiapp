@@ -14,12 +14,14 @@ import {
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
 import type { StepProps } from './types';
 
+/**
+ * Dojah verifies NIN and BVN only. The step previously offered passport,
+ * driver's licence and voter's card as well, but `onboardingIdentitySchema`
+ * accepts nothing but `nin | bvn`, so those three choices could never submit.
+ */
 const ID_TYPES = [
   { value: 'nin', label: 'National Identification Number (NIN)' },
   { value: 'bvn', label: 'Bank Verification Number (BVN)' },
-  { value: 'passport', label: 'International passport' },
-  { value: 'drivers_licence', label: "Driver's licence" },
-  { value: 'voters_card', label: "Voter's card" },
 ] as const;
 
 export default function IdentityStep({ facts, onSaved }: StepProps) {
@@ -48,7 +50,7 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
       <div className="flex flex-col items-start gap-3">
         <DCallout icon={<ShieldCheck className="h-4 w-4" />} title="Identity verified">
           Your {ID_TYPES.find((t) => t.value === facts.idType)?.label ?? 'identity document'} has
-          cleared the Prembly gateway. Listings, agreements and rent collections are unlocked.
+          cleared the Dojah identity check. Listings, agreements and rent collections are unlocked.
         </DCallout>
         <DPill tone="mint">KYC complete</DPill>
       </div>
@@ -59,7 +61,7 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
     <form onSubmit={handleSubmit}>
       <DCallout icon={<Lock className="h-4 w-4" />} title="Encrypted at rest" className="mb-5">
         Your identity number is encrypted and hashed before it is stored, and is never printed back
-        to the browser. Verification runs against the NIMC registry through Prembly.
+        to the browser. Verification runs against the national identity registry through Dojah.
       </DCallout>
 
       <DGrid cols={2}>
@@ -76,12 +78,12 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
         <DField
           label="Document number"
           required
-          note="Never displayed again"
+          note="11 digits · never displayed again"
           error={fieldErrors.number}
         >
           <DInput
             value={number}
-            onChange={(e) => setNumber(e.target.value.replace(/\s/g, '').slice(0, 20))}
+            onChange={(e) => setNumber(e.target.value.replace(/\D/g, '').slice(0, 11))}
             placeholder="e.g. 12345678901"
             inputMode="numeric"
             mono
@@ -94,7 +96,7 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
         error={error}
         saved={saved}
         label="Verify identity"
-        disabled={number.trim().length < 5}
+        disabled={number.trim().length !== 11}
         hint={
           facts.idVerified
             ? 'Verified. Submitting again replaces the stored record.'

@@ -245,8 +245,8 @@ export const listingFilterSchema = paginationSchema.extend({
   propertyType: propertyTypeSchema.optional(),
   area: z.string().optional(),
   state: z.string().optional(),
-  minPrice: z.coerce.number().nonnegative().optional(),
-  maxPrice: z.coerce.number().positive().optional(),
+  minPrice: z.coerce.number().finite().nonnegative().optional(),
+  maxPrice: z.coerce.number().finite().positive().optional(),
   minBedrooms: z.coerce.number().int().nonnegative().optional(),
   maxBedrooms: z.coerce.number().int().positive().optional(),
   verificationTier: verificationTierSchema.optional(),
@@ -988,9 +988,19 @@ export const onboardingPhoneVerifySchema = z.object({
   code: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
 });
 
+/**
+ * Dojah's direct API covers NIN and BVN only, and both are 11 digits. The
+ * passport/licence/voter's-card paths stay on the country module for other
+ * flows; onboarding asks for a number Dojah can actually confirm.
+ */
 export const onboardingIdentitySchema = z.object({
-  idType: idTypeSchema,
-  number: z.string().min(5, 'Enter a valid ID number').max(20),
+  idType: z.enum(['nin', 'bvn'], {
+    errorMap: () => ({ message: 'Choose NIN or BVN' }),
+  }),
+  number: z
+    .string()
+    .regex(/^\d{11}$/, 'Enter the 11-digit number')
+    .transform((value) => value.trim()),
 });
 
 export const onboardingEmploymentSchema = z.object({
@@ -1007,7 +1017,7 @@ export const onboardingEmploymentSchema = z.object({
     .optional(),
   employerName: z.string().min(2, 'Enter your employer').max(120).optional(),
   jobTitle: z.string().min(2, 'Enter your job title').max(120).optional(),
-  yearlyIncome: z.coerce.number().nonnegative().optional(),
+  yearlyIncome: z.coerce.number().finite().nonnegative().optional(),
   yearsInEmployment: z.string().max(20).optional(),
 });
 
@@ -1024,7 +1034,7 @@ export const onboardingRentalApplicationSchema = z.object({
   addressLine2: z.string().max(200).optional(),
   city: z.string().min(2, 'Enter your city').max(100),
   preferredListingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']).optional(),
-  monthlyBudget: z.coerce.number().nonnegative().optional(),
+  monthlyBudget: z.coerce.number().finite().nonnegative().optional(),
 });
 
 export type OnboardingLocationInput = z.infer<typeof onboardingLocationSchema>;
@@ -1052,11 +1062,12 @@ export const onboardingLandlordProfileSchema = z.object({
 export const onboardingLandlordSettlementSchema = z.object({
   accountName: z.string().min(2).max(120),
   bankName: z.string().min(2).max(80),
+  bankCode: z.string().regex(/^\d{3,6}$/, 'Choose your bank from the list').optional(),
   accountNumber: z.string().regex(/^\d{10,12}$/, 'NUBAN must be 10–12 digits'),
   bvn: z.string().regex(/^\d{11}$/, 'BVN must be 11 digits').optional(),
-  targetMonthlyRent: z.coerce.number().nonnegative().optional(),
-  targetAnnualRent: z.coerce.number().nonnegative().optional(),
-  securityDeposit: z.coerce.number().nonnegative().optional(),
+  targetMonthlyRent: z.coerce.number().finite().nonnegative().optional(),
+  targetAnnualRent: z.coerce.number().finite().nonnegative().optional(),
+  securityDeposit: z.coerce.number().finite().nonnegative().optional(),
   preferredLeaseDuration: z.enum(['6m', '12m', '24m', 'flexible']).optional(),
   commissionConsent: z.literal(true, { errorMap: () => ({ message: 'You must acknowledge the fee terms' }) }),
 });
@@ -1094,6 +1105,7 @@ export const onboardingAgentTerritorySchema = z.object({
 
 export const onboardingAgentSettlementSchema = z.object({
   bankName: z.string().min(2).max(80),
+  bankCode: z.string().regex(/^\d{3,6}$/, 'Choose your bank from the list').optional(),
   accountName: z.string().min(2).max(120),
   accountNumber: z.string().regex(/^\d{10,12}$/, 'NUBAN must be 10–12 digits'),
   commissionSplitPercent: z.coerce.number().min(0).max(100).optional(),
@@ -1120,17 +1132,18 @@ export const onboardingEstateAuthoritySchema = z.object({
   agreementFileName: z.string().max(200).optional(),
   evictionAuthority: z.boolean(),
   evictionAuthorityNote: z.string().max(500).optional(),
-  minIncomeThreshold: z.coerce.number().nonnegative().optional(),
+  minIncomeThreshold: z.coerce.number().finite().nonnegative().optional(),
   guarantorRequirementNote: z.string().max(500).optional(),
 });
 
 export const onboardingEstateRemittanceSchema = z.object({
   trustBankName: z.string().min(2).max(80),
+  trustBankCode: z.string().regex(/^\d{3,6}$/, 'Choose the bank from the list').optional(),
   trustAccountName: z.string().min(2).max(120),
   trustAccountNumber: z.string().regex(/^\d{10,12}$/, 'NUBAN must be 10–12 digits'),
   remittanceCycle: z.enum(['instant', 'monthly', 'annual']),
   managementFeeType: z.enum(['percent', 'flat']).optional(),
-  managementFeeValue: z.coerce.number().nonnegative().optional(),
+  managementFeeValue: z.coerce.number().finite().nonnegative().optional(),
   whtInstructionAcknowledged: z.boolean().optional(),
 });
 

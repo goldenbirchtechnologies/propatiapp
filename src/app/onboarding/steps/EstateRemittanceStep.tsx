@@ -12,6 +12,12 @@ import {
   DSelect,
 } from '@/components/onboarding/dossier/primitives';
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import {
+  bankNameForCode,
+  SettlementAccountNote,
+  useAccountResolution,
+  useBankDirectory,
+} from './_settlement';
 import type { StepProps } from './types';
 
 const CYCLES = [
@@ -31,7 +37,7 @@ const FEE_TYPES = [
  * is paid net of management fee and withholding tax.
  */
 export default function EstateRemittanceStep({ onSaved }: StepProps) {
-  const [trustBankName, setTrustBankName] = useState('');
+  const [trustBankCode, setTrustBankCode] = useState('');
   const [trustAccountName, setTrustAccountName] = useState('');
   const [trustAccountNumber, setTrustAccountNumber] = useState('');
   const [remittanceCycle, setRemittanceCycle] = useState('monthly');
@@ -41,6 +47,15 @@ export default function EstateRemittanceStep({ onSaved }: StepProps) {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const { saving, error, saved, run, setError } = useStepSave(onSaved);
+  const { banks, loading: banksLoading, error: banksError } = useBankDirectory();
+
+  // The trust account is corporate, so the server resolves it without
+  // name-matching it to the manager's personal identity.
+  const { preview, checking } = useAccountResolution(trustAccountNumber, trustBankCode, {
+    onResolved: (resolvedName) => setTrustAccountName((current) => current || resolvedName),
+  });
+
+  const trustBankName = bankNameForCode(banks, trustBankCode);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -48,6 +63,7 @@ export default function EstateRemittanceStep({ onSaved }: StepProps) {
 
     const parsed = onboardingEstateRemittanceSchema.safeParse({
       trustBankName,
+      trustBankCode: trustBankCode || undefined,
       trustAccountName,
       trustAccountNumber,
       remittanceCycle,
@@ -73,12 +89,25 @@ export default function EstateRemittanceStep({ onSaved }: StepProps) {
       </DCallout>
 
       <DGrid cols={2}>
-        <DField label="Trust bank name" required error={fieldErrors.trustBankName}>
-          <DInput
-            value={trustBankName}
-            onChange={(e) => setTrustBankName(e.target.value)}
-            placeholder="e.g. GTBank"
-          />
+        <DField
+          label="Trust bank"
+          required
+          note={banksLoading ? 'Loading…' : undefined}
+          error={fieldErrors.trustBankName ?? fieldErrors.trustBankCode}
+          hint={banksError ?? undefined}
+        >
+          <DSelect
+            value={trustBankCode}
+            onChange={(e) => setTrustBankCode(e.target.value)}
+            placeholder={banksLoading ? 'Loading banks…' : 'Select the trust account bank'}
+            disabled={banksLoading || banks.length === 0}
+          >
+            {banks.map((b) => (
+              <option key={b.code} value={b.code}>
+                {b.name}
+              </option>
+            ))}
+          </DSelect>
         </DField>
 
         <DField label="Trust account name" required error={fieldErrors.trustAccountName}>
@@ -117,6 +146,8 @@ export default function EstateRemittanceStep({ onSaved }: StepProps) {
           </DSelect>
         </DField>
       </DGrid>
+
+      <SettlementAccountNote preview={preview} checking={checking} />
 
       <div className="my-5 h-px w-full bg-[var(--surface-container-high)]" />
 

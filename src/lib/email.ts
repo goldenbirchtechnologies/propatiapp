@@ -29,7 +29,7 @@ export interface EmailOptions {
   from?: string;
 }
 
-const DEFAULT_FROM = process.env.EMAIL_FROM || 'PropatiBox <onboarding@resend.dev>';
+const DEFAULT_FROM = process.env.EMAIL_FROM || 'PropatiBox <noreply@resend.dev>';
 
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
   if (MOCK_MODE || !resend) {

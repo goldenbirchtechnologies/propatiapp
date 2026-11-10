@@ -58,37 +58,39 @@ export default async function LandlordPropertiesPage() {
       orderBy: { createdAt: 'desc' },
     });
 
-    normalized = listings
-      .map((listing) => {
-        const totalUnitsForListing = listing.units.length;
-        const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
-        const listedUnits = listing.units.filter((u) => u.isListed).length;
-        const assignedAgent =
-          listing.agent ?? listing.assignments?.[0]?.agent ?? null;
-        return {
-          ...listing,
-          price: Number(listing.price),
-          unitCount: totalUnitsForListing,
-          vacantUnitCount: vacantUnits,
-          listedUnitCount: listedUnits,
-          assignedAgent,
-          units: listing.units.map((unit) => ({
-            id: unit.id,
-            unitNumber: unit.unitNumber,
-            buildingName: unit.buildingName,
-            type: unit.type,
-            listingType: unit.listingType,
-            pricePeriod: unit.pricePeriod,
-            rent: Number(unit.rent),
-            status: unit.status,
-            occupancy: unit.occupancy,
-            isListed: unit.isListed,
-            bedrooms: unit.bedrooms,
-            bathrooms: unit.bathrooms,
-          })),
-        };
-      })
-      .filter((l) => l.units.length > 0);
+    // Every property the landlord owns is listed here, including freshly added
+    // ones that have no units yet. Filtering unit-less buildings out made a
+    // successful save look like a failed one: the property existed but vanished
+    // from the portfolio until its first unit was created.
+    normalized = listings.map((listing) => {
+      const totalUnitsForListing = listing.units.length;
+      const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
+      const listedUnits = listing.units.filter((u) => u.isListed).length;
+      const assignedAgent =
+        listing.agent ?? listing.assignments?.[0]?.agent ?? null;
+      return {
+        ...listing,
+        price: Number(listing.price),
+        unitCount: totalUnitsForListing,
+        vacantUnitCount: vacantUnits,
+        listedUnitCount: listedUnits,
+        assignedAgent,
+        units: listing.units.map((unit) => ({
+          id: unit.id,
+          unitNumber: unit.unitNumber,
+          buildingName: unit.buildingName,
+          type: unit.type,
+          listingType: unit.listingType,
+          pricePeriod: unit.pricePeriod,
+          rent: Number(unit.rent),
+          status: unit.status,
+          occupancy: unit.occupancy,
+          isListed: unit.isListed,
+          bedrooms: unit.bedrooms,
+          bathrooms: unit.bathrooms,
+        })),
+      };
+    });
 
     listingIds = normalized.map((l) => l.id);
     const [

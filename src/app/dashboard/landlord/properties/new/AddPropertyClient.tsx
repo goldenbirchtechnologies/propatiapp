@@ -359,11 +359,24 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
           );
 
           const created = results.filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled').length;
-          const failed = results.filter((r) => r.status === 'rejected');
+          const failed = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
+          const firstFailure = failed[0]?.reason;
 
-          if (created > 0) {
-            toast({ title: `${created} unit${created > 1 ? 's' : ''} linked`, description: failed.length > 0 ? `${failed.length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined });
-          }
+          // Report unit creation even when every attempt failed: the property
+          // is already saved, so a silent skip left an invisible building.
+          toast({
+            title:
+              created > 0
+                ? `${created} unit${created > 1 ? 's' : ''} linked`
+                : 'Property saved without units',
+            description:
+              failed.length > 0
+                ? `${failed.length} unit${failed.length > 1 ? 's' : ''} could not be created: ${
+                    firstFailure instanceof Error ? firstFailure.message : 'unknown error'
+                  }`
+                : undefined,
+            variant: created > 0 ? undefined : 'destructive',
+          });
         } catch (unitError) {
           console.error('Unit creation error:', unitError);
           toast({ title: 'Units pending', description: unitError instanceof Error ? unitError.message : 'Property saved, but some units could not be linked.' });
@@ -381,8 +394,21 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
           const results = await Promise.allSettled(units.map((u) => createUnit.mutateAsync({ orgId: newOrgId, buildingName: data.title, unitNumber: u.unitNumber, type: data.propertyType || 'apartment', listingType: u.listingType, pricePeriod: u.pricePeriod, minimumStay: u.minimumStay, isListed: u.isListed, bedrooms: u.bedrooms, bathrooms: u.bathrooms, sizeSqm: u.sizeSqm, rent: u.price, cautionDeposit: u.cautionDeposit, serviceCharge: u.serviceCharge, status: 'AVAILABLE', occupancy: 'VACANT', listingId: listing.id })));
           const created = results.filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled').length;
-          const failed = results.filter((r) => r.status === 'rejected');
-          if (created > 0) toast({ title: `${created} unit${created > 1 ? 's' : ''} linked`, description: failed.length > 0 ? `${(failed as any[]).length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined });
+          const failed = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
+          const firstFailure = failed[0]?.reason;
+          toast({
+            title:
+              created > 0
+                ? `${created} unit${created > 1 ? 's' : ''} linked`
+                : 'Property saved without units',
+            description:
+              failed.length > 0
+                ? `${failed.length} unit${failed.length > 1 ? 's' : ''} could not be created: ${
+                    firstFailure instanceof Error ? firstFailure.message : 'unknown error'
+                  }`
+                : undefined,
+            variant: created > 0 ? undefined : 'destructive',
+          });
         } catch (orgError) {
           console.error('Auto-org/units error:', orgError);
           toast({ title: 'Units pending', description: orgError instanceof Error ? orgError.message : 'Property saved, but we could not auto-create units.' });

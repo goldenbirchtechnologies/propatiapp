@@ -29,8 +29,19 @@ import {
   DollarSign,
   Megaphone,
 } from 'lucide-react';
-import WizardShell from '@/app/dashboard/landlord/listing/new/wizard/WizardShell';
+import dynamic from 'next/dynamic';
 import { useToast } from '@/hooks/use-toast';
+
+/**
+ * The shortlet wizard pulls in leaflet, which touches `window` while the module
+ * is evaluated. Imported statically it broke the whole route on the server pass
+ * (`ReferenceError: window is not defined`), so it is loaded in the browser
+ * only — the marketplace form above does not need it on first paint.
+ */
+const WizardShell = dynamic(
+  () => import('@/app/dashboard/landlord/listing/new/wizard/WizardShell'),
+  { ssr: false }
+);
 
 type ListingUnit = {
   id: string;
@@ -93,9 +104,11 @@ type Props = {
   newPropertyHref?: string;
   propertiesHref?: string;
   successHref?: string;
+  /** Onboarding is incomplete: the form still saves, but only as a draft. */
+  publishBlocked?: boolean;
 };
 
-export default function AddListingClient({ listings, vacantUnits, basePath = '/dashboard/landlord', newPropertyHref, propertiesHref, successHref }: Props) {
+export default function AddListingClient({ listings, vacantUnits, basePath = '/dashboard/landlord', newPropertyHref, propertiesHref, successHref, publishBlocked = false }: Props) {
   const resolvedNewPropertyHref = newPropertyHref ?? `${basePath}/properties/new`;
   const resolvedPropertiesHref = propertiesHref ?? `${basePath}/properties`;
   const router = useRouter();
@@ -239,18 +252,31 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
       const res = await fetch('/api/listings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, status: 'active', unitId: selectedUnitId }),
+        // Publishing is the gated action. With onboarding unfinished the API
+        // accepts the same payload as a draft, so the landlord does not lose the
+        // form to a 403 and can publish it later from the listing.
+        body: JSON.stringify({
+          ...payload,
+          status: publishBlocked ? 'draft' : 'active',
+          unitId: selectedUnitId,
+        }),
       });
 
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || 'Failed to create listing');
+        // The API answers with JSON ({ error, message, redirect }); showing the
+        // raw body put a JSON blob in the toast.
+        const failure = await res.json().catch(() => null);
+        throw new Error(
+          failure?.message || failure?.error || `Failed to create listing (${res.status})`
+        );
       }
 
       const listing = await res.json();
       toast({
-        title: 'Listed',
-        description: 'Your property is now live on the marketplace.',
+        title: publishBlocked ? 'Saved as draft' : 'Listed',
+        description: publishBlocked
+          ? 'Stored against the unit. Publish it from the listing once your onboarding is complete.'
+          : 'Your property is now live on the marketplace.',
       });
       router.push(successHref ?? `${basePath}/properties/${listing.id}`);
     } catch (error) {
@@ -720,14 +746,18 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
       <div className="fixed bottom-0 left-0 right-0 lg:left-[260px] border-t border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/95 backdrop-blur supports-[backdrop-filter]:bg-white dark:bg-zinc-900/80 p-4 z-20">
         <div className="max-w-7xl mx-auto flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-xs text-zinc-600 dark:text-zinc-400 hidden sm:block">
-            {needsUnit && !selectedUnitId ? 'Select a vacant unit to publish' : `${listingImages.length} photo${listingImages.length === 1 ? '' : 's'} • Ready to publish`}
+            {needsUnit && !selectedUnitId
+              ? 'Select a vacant unit to continue'
+              : publishBlocked
+                ? `${listingImages.length} photo${listingImages.length === 1 ? '' : 's'} • Saves as a draft`
+                : `${listingImages.length} photo${listingImages.length === 1 ? '' : 's'} • Ready to publish`}
           </p>
           <div className="flex items-center gap-2 justify-end">
             <Button type="button" variant="outline" onClick={() => router.back()} className="border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white rounded-lg">
               <ArrowLeft className="mr-2 h-4 w-4" /> Cancel
             </Button>
             <Button type="button" onClick={handleSubmitClick} disabled={submitting || (needsUnit && (!selectedUnitId || safeVacantUnits.length === 0))} className="bg-primary hover:bg-primary text-zinc-900 dark:text-white shadow-lg shadow-primary/20 rounded-lg disabled:opacity-40">
-              {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} <Store className="mr-2 h-4 w-4" /> Publish to Marketplace
+              {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} <Store className="mr-2 h-4 w-4" /> {publishBlocked ? 'Save as Draft' : 'Publish to Marketplace'}
             </Button>
           </div>
         </div>

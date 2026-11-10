@@ -1,9 +1,12 @@
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getOnboardingSnapshot } from '@/lib/onboarding/status';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
+import { ShieldAlert } from 'lucide-react';
 import AddListingClient from './AddListingClient';
 
 export const metadata = {
@@ -18,6 +21,14 @@ export default async function LandlordAddListingPage() {
   if (!user || user.role !== 'landlord') {
     redirect('/dashboard');
   }
+
+  // POST /api/listings gates only publishing (status: 'active') on a completed
+  // dossier; a draft is accepted at any point. The marketplace form stays open
+  // and the banner above it says what publishing is waiting on.
+  const snapshot = await getOnboardingSnapshot(user.id);
+  const onboardingBlocked = Boolean(
+    snapshot?.required && snapshot.status !== 'completed'
+  );
 
   let listings: any[] = [];
   let vacantUnits: any[] = [];
@@ -81,7 +92,31 @@ export default async function LandlordAddListingPage() {
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
-        <AddListingClient listings={listings} vacantUnits={vacantUnits} />
+        {onboardingBlocked ? (
+          <div className="px-6 pt-6">
+            <div className="mx-auto max-w-7xl rounded-xl border border-amber-500/30 bg-amber-50 p-4 dark:bg-amber-500/10">
+              <div className="mb-1 flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                <ShieldAlert className="h-4 w-4" />
+                <h2 className="text-sm font-semibold">Saved as a draft</h2>
+              </div>
+              <p className="text-sm text-zinc-600 dark:text-zinc-300">
+                Finish your onboarding dossier to publish this listing to the
+                marketplace. Until then it is saved as a draft only you can see.
+              </p>
+              <Link
+                href="/dashboard/landlord?onboarding=1"
+                className="mt-3 inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white"
+              >
+                Resume onboarding
+              </Link>
+            </div>
+          </div>
+        ) : null}
+        <AddListingClient
+          listings={listings}
+          vacantUnits={vacantUnits}
+          publishBlocked={onboardingBlocked}
+        />
       </ErrorBoundary>
     </DashboardShell>
   );

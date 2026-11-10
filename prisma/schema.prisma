@@ -1427,8 +1427,11 @@ model Unit {
   organization   Organisation @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   // Location
-  listingId    String  @map("listing_id")
-  listing      Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  // A unit may exist before it is attached to a listing: the column is nullable
+  // in the database (units created before units were scoped to a property stay
+  // null), so the model has to allow it or Prisma throws on every full-row read.
+  listingId    String?  @map("listing_id")
+  listing      Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
   buildingName String? @map("building_name")
   unitNumber   String  @map("unit_number")
 

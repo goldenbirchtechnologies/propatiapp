@@ -1,9 +1,20 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ShieldCheck } from 'lucide-react';
 import OnboardingWizard, { type OnboardingStatus } from '@/app/onboarding/OnboardingWizard';
+
+/**
+ * Routes that save work as a draft rather than refusing it. The scrim locks the
+ * dashboard's scroll, so opening the dossier here would make the form behind it
+ * unusable; the pages carry their own "saved as a draft" banner and the resume
+ * pill instead, and `?onboarding=1` still opens the dossier on demand.
+ */
+const DRAFT_ROUTES = [
+  '/dashboard/landlord/properties/new',
+  '/dashboard/landlord/listing/new',
+];
 
 /**
  * The onboarding dossier as a blurred overlay on top of the dashboard.
@@ -17,6 +28,7 @@ import OnboardingWizard, { type OnboardingStatus } from '@/app/onboarding/Onboar
  */
 export function OnboardingOverlay() {
   const router = useRouter();
+  const pathname = usePathname();
   const [status, setStatus] = useState<OnboardingStatus | null>(null);
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
@@ -54,7 +66,10 @@ export function OnboardingOverlay() {
 
   /** The account genuinely needs onboarding: it is flagged and not yet complete. */
   const required = Boolean(ready && status?.required && status.status !== 'completed');
-  const open = Boolean(ready && status && (required || forced) && !dismissed);
+  const onDraftRoute = DRAFT_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`)
+  );
+  const open = Boolean(ready && status && ((required && !onDraftRoute) || forced) && !dismissed);
 
   /** Dismissing a forced-open dossier must not reopen it on the next refresh. */
   const close = useCallback(() => {

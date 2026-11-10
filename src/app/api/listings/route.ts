@@ -154,10 +154,17 @@ export async function POST(request: NextRequest) {
     const auth = await withAuth(request, ['landlord', 'estate_manager']);
     if (auth instanceof NextResponse) return auth;
 
-    const gate = await assertOnboarded(auth.user);
-    if (gate) return gate;
-
     const body = await request.json();
+
+    // A draft may be saved before onboarding is finished: new landlords need to
+    // register the building and its units first and go live afterwards. Only
+    // publishing (status: 'active') is the gated action.
+    const publishRequested = body?.status === 'active';
+    if (publishRequested) {
+      const gate = await assertOnboarded(auth.user);
+      if (gate) return gate;
+    }
+
     const { createListingSchema, createShortletListingSchema } = await import('@/lib/validators');
 
     let validated;
@@ -198,21 +205,55 @@ export async function POST(request: NextRequest) {
     const unitId = (body as any)?.unitId as string | undefined;
 
     if (unitId) {
+      // `Unit` hangs off `Listing`, not a `property` relation: the parent
+      // building's address and title live on the listing the unit belongs to.
+      // An explicit `select` keeps older units whose `listing_id` is still null
+      // readable — pulling the whole row from those throws in Prisma.
       const unit = await prisma.unit.findUnique({
         where: { id: unitId },
-        include: { property: true },
+        select: {
+          id: true,
+          buildingName: true,
+          unitNumber: true,
+          rent: true,
+          pricePeriod: true,
+          bedrooms: true,
+          bathrooms: true,
+          sizeSqm: true,
+          listingType: true,
+          type: true,
+          cautionDeposit: true,
+          serviceCharge: true,
+          minimumStay: true,
+          listing: {
+            select: { id: true, title: true, address: true, area: true, state: true, ownerId: true },
+          },
+        },
       });
 
       if (!unit) {
         return NextResponse.json({ error: 'Unit not found' }, { status: 404 });
       }
 
+      const parent = unit.listing;
+      if (!parent) {
+        return NextResponse.json(
+          { error: 'This unit is not attached to a property yet. Add it under a property first.' },
+          { status: 400 }
+        );
+      }
+
+      // A landlord may only publish a unit that belongs to one of their own
+      // listings — the wizard sends the id, so it cannot be trusted alone.
+      if (parent.ownerId !== userId && auth.user.role !== 'admin') {
+        return NextResponse.json({ error: 'Forbidden: that unit is not yours to list' }, { status: 403 });
+      }
       const merged = {
         ...(validated as any),
-        title: (validated as any).title || unit.listingTitle || `${unit.buildingName || 'Property'} - Unit ${unit.unitNumber}`,
-        address: (validated as any).address || unit.address,
-        area: (validated as any).area || unit.area || unit.address,
-        state: (validated as any).state || unit.state || 'Lagos',
+        title: (validated as any).title || parent.title || `${unit.buildingName || 'Property'} - Unit ${unit.unitNumber}`,
+        address: (validated as any).address || parent.address,
+        area: (validated as any).area || parent.area || parent.address,
+        state: (validated as any).state || parent.state || 'Lagos',
         price: (validated as any).price || Number(unit.rent || 0),
         pricePeriod: (validated as any).pricePeriod || unit.pricePeriod || 'month',
         bedrooms: (validated as any).bedrooms ?? unit.bedrooms ?? undefined,
@@ -223,9 +264,12 @@ export async function POST(request: NextRequest) {
         cautionDeposit: (validated as any).cautionDeposit ?? (unit.cautionDeposit ? Number(unit.cautionDeposit) : undefined),
         serviceCharge: (validated as any).serviceCharge ?? (unit.serviceCharge ? Number(unit.serviceCharge) : undefined),
         minimumStay: (validated as any).minimumStay ?? unit.minimumStay ?? undefined,
-        description: (validated as any).description || unit.listingTitle || `Unit ${unit.unitNumber}`,
+        description: (validated as any).description || parent.title || `Unit ${unit.unitNumber}`,
       };
 
+      // `createListingSchema` strips unknown keys, so the wizard's request to
+      // publish is read off the raw body (`publishRequested`) rather than off
+      // `validated`, where it would have been dropped.
       listing = await prisma.listing.create({
         data: {
           ...merged,
@@ -233,6 +277,7 @@ export async function POST(request: NextRequest) {
           area: merged.area || merged.address,
           cautionDeposit: merged.cautionDeposit ?? null,
           serviceCharge: merged.serviceCharge ?? null,
+          status: publishRequested ? 'active' : 'draft',
         } as any,
       });
 

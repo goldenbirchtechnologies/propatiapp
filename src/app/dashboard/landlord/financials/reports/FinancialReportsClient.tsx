@@ -29,6 +29,9 @@ const REPORT_TYPES = [
 
 const FORMAT_OPTIONS = ['csv', 'pdf'] as const;
 
+/** Report types with no exporter behind /api/reports/export. */
+const UNSUPPORTED_TYPES: string[] = ['tax_summary', 'rent_roll', 'service_charge'];
+
 const PERIOD_OPTIONS = [
   { value: 'month', label: 'This Month' },
   { value: 'quarter', label: 'This Quarter' },
@@ -94,8 +97,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
     // These three have no exporter behind them. Falling through to the P&L
     // endpoint produced a file named tax_summary-*.csv that actually held a
     // profit-and-loss statement — refuse instead of mislabelling the data.
-    const unsupported = ['tax_summary', 'rent_roll', 'service_charge'];
-    if (unsupported.includes(reportType)) {
+    if (UNSUPPORTED_TYPES.includes(reportType)) {
       toast({
         title: 'Export not available yet',
         description: `${REPORT_TYPES.find((r) => r.value === reportType)?.label} has no exporter yet. Choose P&L, Balance Sheet or Cash Flow.`,
@@ -246,19 +248,25 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
       {/* Filters */}
       <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-white/[0.08] shadow-sm space-y-3">
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          {REPORT_TYPES.map((t) => (
-            <button
-              key={t.value}
-              onClick={() => setReportType(t.value)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap border ${
-                reportType === t.value
-                  ? 'bg-primary text-white border-primary'
-                  : 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.08]'
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
+          {REPORT_TYPES.map((t) => {
+            const available = !UNSUPPORTED_TYPES.includes(t.value);
+            return (
+              <button
+                key={t.value}
+                onClick={() => setReportType(t.value)}
+                disabled={!available}
+                title={available ? undefined : 'No exporter for this report yet'}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap border disabled:cursor-not-allowed disabled:opacity-45 ${
+                  reportType === t.value
+                    ? 'bg-primary text-white border-primary'
+                    : 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.08]'
+                }`}
+              >
+                {t.label}
+                {!available && ' · unavailable'}
+              </button>
+            );
+          })}
         </div>
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap">

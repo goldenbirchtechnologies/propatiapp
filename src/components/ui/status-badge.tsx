@@ -126,6 +126,7 @@ function resolveStatus(status?: string): StatusKey {
 function StatusBadge({
   className,
   status,
+  children,
   ...props
 }: Omit<React.ComponentProps<"span">, 'status'> &
   Omit<VariantProps<typeof statusBadgeVariants>, 'status'> & {
@@ -141,7 +142,9 @@ function StatusBadge({
       data-status={resolvedStatus}
       className={cn(statusBadgeVariants({ status: resolvedStatus }), className)}
       {...props}
-    />
+    >
+      {children}
+    </span>
   )
 }
 

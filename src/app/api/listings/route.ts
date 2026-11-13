@@ -29,13 +29,14 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
     const take = limit;
 
-    // Compare mode: ?ids=id1,id2,id3 fetches those exact listings (max 3)
+    // Compare mode: ?ids=id1,id2,id3,id4 fetches those exact listings.
+    // Keep this cap in sync with MAX_COMPARE in app/(public)/compare/page.tsx.
     const compareIds = rawIds
       ? rawIds
           .split(',')
           .map((s) => s.trim())
           .filter(Boolean)
-          .slice(0, 3)
+          .slice(0, 4)
       : null;
 
     // Build where clause

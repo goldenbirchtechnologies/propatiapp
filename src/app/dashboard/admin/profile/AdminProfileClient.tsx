@@ -6,14 +6,39 @@ import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { User, Camera, Save } from 'lucide-react';
 import { useKycStatus } from '@/lib/dojah-client';
 import KycVerificationCard from '@/components/verification/KycVerificationCard';
+import { useUpdateProfile } from '@/hooks/useUsers';
+import { toast } from 'sonner';
 
-export default function AdminProfileClient({ user }: { user: unknown }) {
+interface AdminProfileUser {
+  fullName: string;
+  email: string;
+  phone?: string | null;
+  role: string;
+}
+
+export default function AdminProfileClient({ user }: { user: AdminProfileUser }) {
+  const updateProfile = useUpdateProfile();
+  // No invented fallbacks: an empty field is honest, a stranger's phone number
+  // presented as the signed-in admin's is not.
   const [form, setForm] = useState({
-    fullName: user.fullName || 'Admin User',
-    email: user.email || 'admin@propati.ng',
-    phone: user.phone || '+234 812 345 6789',
+    fullName: user.fullName ?? '',
+    email: user.email ?? '',
+    phone: user.phone ?? '',
     role: user.role,
   });
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await updateProfile.mutateAsync({
+        fullName: form.fullName,
+        phone: form.phone || undefined,
+      });
+      toast.success('Profile updated');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Could not save your profile');
+    }
+  };
   const { data: kyc, reload } = useKycStatus();
 
   return (
@@ -24,7 +49,7 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
           <p className="text-zinc-600 dark:text-zinc-400">Manage your administrative account settings</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="card-shell p-6">
+          <form className="card-shell p-6" onSubmit={handleSave}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1 block">My Profile</label>
@@ -47,13 +72,14 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
               </div>
               <div>
                 <label className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1 block">Email Address</label>
+                {/* Email is owned by Clerk; an edit here would be silently discarded. */}
                 <input
                   type="email"
                   value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="inp-field w-full"
+                  disabled
+                  className="inp-field w-full opacity-60 cursor-not-allowed"
                 />
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Used for admin alerts and audit logs.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Managed by your sign-in account.</p>
               </div>
               <div>
                 <label className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1 block">Phone Number</label>
@@ -86,7 +112,14 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
                 <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Locked status blocks dashboard access until cleared.</p>
               </div>
             </div>
-          </div>
+            <button
+              type="submit"
+              disabled={updateProfile.isPending}
+              className="btn btn-primary mt-4 inline-flex items-center justify-center gap-2 disabled:opacity-60"
+            >
+              <Save className="w-4 h-4" /> {updateProfile.isPending ? 'Saving…' : 'Save Changes'}
+            </button>
+          </form>
 
           <div className="card-shell p-6 flex flex-col items-center text-center">
             <div className="relative">
@@ -100,10 +133,6 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
               </button>
             </div>
             <p className="mt-4 font-medium text-zinc-900 dark:text-white">{form.fullName}</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400">Admin since 2024</p>
-            <button className="btn btn-primary mt-4 w-full inline-flex items-center justify-center gap-2">
-              <Save className="w-4 h-4" /> Save Changes
-            </button>
           </div>
         </div>
 

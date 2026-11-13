@@ -210,7 +210,7 @@ export default function AgentDashboardClient({
   const tierLabel =
     agentTier === 'senior' ? 'Senior' : agentTier === 'probation' ? 'Probationary' : 'Standard';
   const tierDisplay = `Verified ${tierLabel} Agent`;
-  const areaDisplay = agentAreas.length > 0 ? agentAreas.join(', ') : 'Lagos Metropolitan Branch';
+  const areaDisplay = agentAreas.length > 0 ? agentAreas.join(', ') : null;
 
   const monthDelta = useMemo(() => {
     if (previousMonthEarnings <= 0) return null;
@@ -249,7 +249,8 @@ export default function AgentDashboardClient({
                   className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 ${LABEL_SM} ${SECONDARY_CONTAINER_BG} ${SECONDARY_CONTAINER_TEXT}`}
                 >
                   <BadgeCheck size={15} className="text-[var(--sovereign-hover)] dark:text-[#4edea3]" />
-                  {tierDisplay} • {areaDisplay}
+                  {tierDisplay}
+                  {areaDisplay ? ` • ${areaDisplay}` : ''}
                 </span>
               ) : (
                 <span

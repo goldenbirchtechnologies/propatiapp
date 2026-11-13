@@ -22,7 +22,14 @@ export default async function AdminProfilePage() {
 
       <ErrorBoundary>
 
-      <AdminProfileClient user={user} />
+      <AdminProfileClient
+        user={{
+          fullName: user.fullName ?? '',
+          email: user.email ?? '',
+          phone: user.phone ?? null,
+          role: user.role,
+        }}
+      />
     
       </ErrorBoundary>
 </DashboardShell>

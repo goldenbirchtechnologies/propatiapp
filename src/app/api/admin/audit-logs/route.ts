@@ -29,9 +29,10 @@ export async function GET(request: NextRequest) {
     if (targetType) where.targetType = targetType;
 
     if (startDate || endDate) {
-      where.createdAt = {};
-      if (startDate) where.createdAt.gte = new Date(startDate);
-      if (endDate) where.createdAt.lte = new Date(endDate);
+      where.createdAt = {
+        ...(startDate ? { gte: new Date(startDate) } : {}),
+        ...(endDate ? { lte: new Date(endDate) } : {}),
+      };
     }
 
     const [logs, total] = await Promise.all([

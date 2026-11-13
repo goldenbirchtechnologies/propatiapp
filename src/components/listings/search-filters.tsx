@@ -13,7 +13,7 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { NAIGERIAN_STATES, LAGOS_AREAS } from '@/lib/utils';
+import { NIGERIAN_STATES, LAGOS_AREAS } from '@/lib/locations/nigeria-cities';
 
 
 export interface SearchFiltersData {
@@ -49,7 +49,7 @@ export interface SearchFiltersProps {
   totalResults?: number;
 }
 
-const listingTypeOptions = [
+const listingTypeOptions: { value: NonNullable<SearchFiltersData['listingType']>; label: string }[] = [
   { value: 'all', label: 'All Types' },
   { value: 'rent', label: 'For Rent' },
   { value: 'sale', label: 'For Sale' },
@@ -98,7 +98,7 @@ const amenityOptions = [
   'kitchen_equipment', 'laundry', 'cctv', 'intercom', 'borehole', 'solar_power'
 ];
 
-const sortOptions = [
+const sortOptions: { value: NonNullable<SearchFiltersData['sortBy']>; label: string }[] = [
   { value: 'relevance', label: 'Relevance' },
   { value: 'newest', label: 'Newest First' },
   { value: 'oldest', label: 'Oldest First' },
@@ -110,14 +110,14 @@ const sortOptions = [
 function FilterSection({
   title,
   children,
-  icon,
+  icon: Icon,
   isOpen,
   onToggle,
   className,
 }: {
   title: string;
   children: React.ReactNode;
-  icon?: React.ReactNode;
+  icon?: React.ElementType;
   isOpen: boolean;
   onToggle: () => void;
   className?: string;
@@ -131,7 +131,11 @@ function FilterSection({
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-2">
-          {icon && <span className="text-muted-foreground">{icon}</span>}
+          {Icon && (
+            <span className="text-muted-foreground">
+              <Icon className="h-4 w-4" />
+            </span>
+          )}
           <h3 className="font-semibold text-sm" style={{ color: 'var(--text)' }}>{title}</h3>
         </div>
         <span className={cn('transition-transform', isOpen && 'rotate-180')}>
@@ -370,9 +374,9 @@ export function SearchFilters({
             label="Listing Type"
             options={listingTypeOptions}
             selectedValues={filters.listingType && filters.listingType !== 'all' ? [filters.listingType] : []}
-            onChange={(v) => onChange({ listingType: v[0] as unknown || 'all' })}
+            onChange={(v) => onChange({ listingType: (v[0] ?? 'all') as NonNullable<SearchFiltersData['listingType']> })}
             placeholder="All Types"
-            icon={<Home className="h-4 w-4" /> as unknown}
+            icon={Home}
           />
           <MultiSelectDropdown
             label="Property Type"
@@ -380,7 +384,7 @@ export function SearchFilters({
             selectedValues={filters.propertyType || []}
             onChange={(v) => onChange({ propertyType: v })}
             placeholder="All Types"
-            icon={<Building className="h-4 w-4" /> as unknown}
+            icon={Building}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -396,7 +400,7 @@ export function SearchFilters({
               {sortOptions.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
-                  onSelect={() => onChange({ sortBy: option.value as unknown })}
+                  onSelect={() => onChange({ sortBy: option.value })}
                   className={cn(filters.sortBy === option.value && 'bg-accent/10 text-accent')}
                   inset={false}
                 >
@@ -455,7 +459,7 @@ export function SearchFilters({
         {/* Location Filters */}
         <FilterSection
           title="Location"
-          icon={<MapPin className="h-4 w-4" /> as unknown}
+          icon={MapPin}
           isOpen={expandedSections.location}
           onToggle={() => toggleSection('location')}
         >
@@ -484,7 +488,7 @@ export function SearchFilters({
                   >
                     All States
                   </DropdownMenuItem>
-                  {NAIGERIAN_STATES.map((state) => (
+                  {NIGERIAN_STATES.map((state) => (
                     <DropdownMenuItem
                       key={state}
                       onSelect={() => onChange({ state, city: undefined, area: undefined })}
@@ -527,7 +531,7 @@ export function SearchFilters({
                       >
                         {filters.state === 'Lagos' ? 'All Areas' : 'All Cities'}
                       </DropdownMenuItem>
-                      {(filters.state === 'Lagos' ? LAGOS_AREAS : NAIGERIAN_STATES).map((city) => (
+                      {(filters.state === 'Lagos' ? LAGOS_AREAS : NIGERIAN_STATES).map((city) => (
                         <DropdownMenuItem
                           key={city}
                           onSelect={() => onChange({ city, area: undefined })}
@@ -560,7 +564,7 @@ export function SearchFilters({
         {/* Price Range */}
         <FilterSection
           title="Price Range"
-          icon={<DollarSign className="h-4 w-4" /> as unknown}
+          icon={DollarSign}
           isOpen={expandedSections.price}
           onToggle={() => toggleSection('price')}
         >
@@ -575,7 +579,7 @@ export function SearchFilters({
         {/* Property Type & Listing Type */}
         <FilterSection
           title="Property Type"
-          icon={<Home className="h-4 w-4" /> as unknown}
+          icon={Home}
           isOpen={expandedSections.property}
           onToggle={() => toggleSection('property')}
         >
@@ -584,9 +588,9 @@ export function SearchFilters({
               label="Listing Type"
               options={listingTypeOptions}
               selectedValues={filters.listingType && filters.listingType !== 'all' ? [filters.listingType] : []}
-              onChange={(v) => onChange({ listingType: v[0] as unknown || 'all' })}
+              onChange={(v) => onChange({ listingType: (v[0] ?? 'all') as NonNullable<SearchFiltersData['listingType']> })}
               placeholder="All Types"
-              icon={<Home className="h-4 w-4" /> as unknown}
+              icon={Home}
             />
             <MultiSelectDropdown
               label="Property Type"
@@ -594,7 +598,7 @@ export function SearchFilters({
               selectedValues={filters.propertyType || []}
               onChange={(v) => onChange({ propertyType: v })}
               placeholder="All Types"
-              icon={<Building className="h-4 w-4" /> as unknown}
+              icon={Building}
             />
           </div>
         </FilterSection>
@@ -602,7 +606,7 @@ export function SearchFilters({
         {/* Bedrooms & Bathrooms */}
         <FilterSection
           title="Rooms"
-          icon={<Bed className="h-4 w-4" /> as unknown}
+          icon={Bed}
           isOpen={expandedSections.features}
           onToggle={() => toggleSection('features')}
         >
@@ -709,7 +713,7 @@ export function SearchFilters({
         {/* Verification Tier */}
         <FilterSection
           title="Verification"
-          icon={<Shield className="h-4 w-4" /> as unknown}
+          icon={Shield}
           isOpen={expandedSections.verification}
           onToggle={() => toggleSection('verification')}
         >
@@ -717,16 +721,16 @@ export function SearchFilters({
             label="Verification Tier"
             options={verificationTierOptions}
             selectedValues={filters.verificationTier || []}
-            onChange={(v) => onChange({ verificationTier: v as unknown })}
+            onChange={(v) => onChange({ verificationTier: v as NonNullable<SearchFiltersData['verificationTier']> })}
             placeholder="All Tiers"
-            icon={<Shield className="h-4 w-4" /> as unknown}
+            icon={Shield}
           />
         </FilterSection>
 
         {/* Amenities */}
         <FilterSection
           title="Amenities"
-          icon={<Square className="h-4 w-4" /> as unknown}
+          icon={Square}
           isOpen={expandedSections.more}
           onToggle={() => toggleSection('more')}
         >
@@ -736,7 +740,7 @@ export function SearchFilters({
             selectedValues={filters.amenities || []}
             onChange={(v) => onChange({ amenities: v })}
             placeholder="Select amenities"
-            icon={<Square className="h-4 w-4" /> as unknown}
+            icon={Square}
           />
         </FilterSection>
 

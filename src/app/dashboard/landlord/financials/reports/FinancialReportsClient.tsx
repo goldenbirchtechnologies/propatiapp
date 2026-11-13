@@ -91,9 +91,17 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
   }, [toast]);
 
   const downloadReport = useCallback(async () => {
+    // These three have no exporter behind them. Falling through to the P&L
+    // endpoint produced a file named tax_summary-*.csv that actually held a
+    // profit-and-loss statement — refuse instead of mislabelling the data.
     const unsupported = ['tax_summary', 'rent_roll', 'service_charge'];
     if (unsupported.includes(reportType)) {
-      toast({ title: 'Report export coming soon', description: `${REPORT_TYPES.find((r) => r.value === reportType)?.label} export is not yet wired — downloading P&L preview.` });
+      toast({
+        title: 'Export not available yet',
+        description: `${REPORT_TYPES.find((r) => r.value === reportType)?.label} has no exporter yet. Choose P&L, Balance Sheet or Cash Flow.`,
+        variant: 'destructive',
+      });
+      return;
     }
     setLoading(true);
     try {
@@ -162,7 +170,12 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <Button variant="outline" size="sm" onClick={() => toast({ title: 'Recurring scheduling — coming soon' })}>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled
+            title="Recurring report scheduling is not built yet"
+          >
             <Calendar className="w-4 h-4 mr-1" /> Schedule Recurring
           </Button>
           <Button size="sm" className="bg-primary hover:bg-[var(--sovereign-hover)] text-white" onClick={downloadReport} disabled={loading}>

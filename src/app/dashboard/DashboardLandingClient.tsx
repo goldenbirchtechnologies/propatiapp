@@ -100,13 +100,13 @@ export default function DashboardLandingClient() {
         </p>
         {!sawAuthFailureRef.current && (
           <p className="text-xs text-zinc-400 mt-3 max-w-sm">
-            Check: 1) <code className="text-zinc-600">CLERK_WEBHOOK_SECRET</code> is set in production
-            and Clerk → Webhooks → that endpoint shows <code className="text-zinc-600">200</code> for{' '}
-            <code className="text-zinc-600">user.created</code>; 2){' '}
-            <code className="text-zinc-600">DATABASE_URL</code> is the pooled host (
-            <code className="text-zinc-600">:6543</code>) and{' '}
-            <code className="text-zinc-600">DIRECT_URL</code> is the direct host
-            (<code className="text-zinc-600">db.YOUR_REF.supabase.co:5432</code>); 3) the onboarding
+            Check: 1) <code className="text-muted-foreground">CLERK_WEBHOOK_SECRET</code> is set in production
+            and Clerk → Webhooks → that endpoint shows <code className="text-muted-foreground">200</code> for{' '}
+            <code className="text-muted-foreground">user.created</code>; 2){' '}
+            <code className="text-muted-foreground">DATABASE_URL</code> is the pooled host (
+            <code className="text-muted-foreground">:6543</code>) and{' '}
+            <code className="text-muted-foreground">DIRECT_URL</code> is the direct host
+            (<code className="text-muted-foreground">db.YOUR_REF.supabase.co:5432</code>); 3) the onboarding
             migration has been applied.
           </p>
         )}
@@ -123,7 +123,7 @@ export default function DashboardLandingClient() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-center">
       <Loader2 className="h-8 w-8 animate-spin text-[#006c49] mb-4" />
-      <p className="text-sm text-zinc-600">Setting up your dashboard…</p>
+      <p className="text-sm text-muted-foreground">Setting up your dashboard…</p>
       {errorMessage && <p className="text-xs text-zinc-500 mt-2 max-w-sm">{errorMessage}</p>}
     </div>
   );

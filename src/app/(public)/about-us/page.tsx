@@ -148,7 +148,7 @@ export default function AboutUsPage() {
               </Button>
             </div>
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-4 text-xs text-zinc-600">
+          <div className="mt-8 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1.5"><Building2 className="h-3.5 w-3.5" /> CAC Registered</span>
             <span className="inline-flex items-center gap-1.5"><Scale className="h-3.5 w-3.5" /> Stamp Duties Act, CAP S8</span>
             <span className="inline-flex items-center gap-1.5"><Award className="h-3.5 w-3.5" /> NDPA 2023</span>

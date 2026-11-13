@@ -99,11 +99,11 @@ const statusConfig: Record<ApplicationStatus, { label: string; className: string
   under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
   accepted: { label: 'Accepted', className: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary' },
   rejected: { label: 'Rejected', className: 'bg-red-100 text-red-800 border-red-200' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-100 text-zinc-600 border-zinc-200' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-100 text-muted-foreground border-border' },
 };
 
 const stageConfig: Record<ApplicationStage, { label: string; className: string }> = {
-  submitted: { label: 'Submitted', className: 'bg-zinc-100 text-zinc-600 border-zinc-200' },
+  submitted: { label: 'Submitted', className: 'bg-zinc-100 text-muted-foreground border-border' },
   screening: { label: 'Screening', className: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary' },
   guarantor_pending: { label: 'Guarantor Pending', className: 'bg-amber-100 text-amber-800 border-amber-200' },
   approved: { label: 'Approved', className: 'bg-[var(--sovereign-container-bg)] text-[var(--sovereign-hover)] border-primary' },

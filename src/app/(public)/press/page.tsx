@@ -64,7 +64,7 @@ export default function PressPage() {
 
               <div className="glass-card p-6">
                 <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-                  <ImageIcon className="h-4 w-4 text-zinc-600" /> Brand usage
+                  <ImageIcon className="h-4 w-4 text-muted-foreground" /> Brand usage
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-zinc-500 leading-relaxed list-disc list-inside">
                   <li>Use PropatiBox in all caps. Do not write &quot;Propati&quot; or &quot;Propatibox&quot;.</li>

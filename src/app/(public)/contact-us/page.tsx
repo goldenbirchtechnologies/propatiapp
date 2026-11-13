@@ -109,7 +109,7 @@ export default function ContactUsPage() {
                   </div>
                   <div>
                     <label htmlFor="phone" className="text-xs font-medium text-zinc-400">
-                      Phone <span className="text-zinc-600">(optional)</span>
+                      Phone <span className="text-muted-foreground">(optional)</span>
                     </label>
                     <Input id="phone" name="phone" placeholder="+234 801 234 5678" className="mt-1 bg-card border-border text-foreground" />
                   </div>
@@ -122,7 +122,7 @@ export default function ContactUsPage() {
                 </div>
                 <div>
                   <label htmlFor="subject" className="text-xs font-medium text-zinc-400">
-                    Subject <span className="text-zinc-600">(optional)</span>
+                    Subject <span className="text-muted-foreground">(optional)</span>
                   </label>
                   <Input id="subject" name="subject" placeholder="Rent enquiry · Partnership · Support" className="mt-1 bg-card border-border text-foreground" />
                 </div>
@@ -156,7 +156,7 @@ export default function ContactUsPage() {
                     </>
                   )}
                 </Button>
-                <p className="text-xs text-zinc-600 text-center">
+                <p className="text-xs text-muted-foreground text-center">
                   By sending this message you agree to our <Link href="/privacy-policy" className="underline hover:text-zinc-400">Privacy Policy</Link>.
                 </p>
               </form>
@@ -171,17 +171,17 @@ export default function ContactUsPage() {
                     <div key={o.city} className="border-b border-border pb-5 last:border-0 last:pb-0">
                       <p className="text-sm font-semibold text-foreground">{o.city}</p>
                       <p className="mt-1 flex items-start gap-2 text-sm text-zinc-500 leading-relaxed">
-                        <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-zinc-600" />
+                        <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-muted-foreground" />
                         {o.address}
                       </p>
                       <p className="mt-1.5 flex items-center gap-2 text-sm text-zinc-500">
-                        <Phone className="h-3.5 w-3.5 text-zinc-600" />
+                        <Phone className="h-3.5 w-3.5 text-muted-foreground" />
                         <a href={`tel:${o.phone.replace(/\s/g, '')}`} className="hover:text-foreground">
                           {o.phone}
                         </a>
                       </p>
                       <p className="flex items-center gap-2 text-sm text-zinc-500">
-                        <Mail className="h-3.5 w-3.5 text-zinc-600" />
+                        <Mail className="h-3.5 w-3.5 text-muted-foreground" />
                         <a href={`mailto:${o.email}`} className="hover:text-foreground">
                           {o.email}
                         </a>

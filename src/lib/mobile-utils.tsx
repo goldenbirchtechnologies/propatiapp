@@ -275,14 +275,14 @@ export function BottomSheet({
         {/* Handle */}
         {showHandle && (
           <div className="flex justify-center pt-3 pb-2">
-            <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
+            <div className="w-12 h-1.5 bg-muted rounded-full" />
           </div>
         )}
 
         {/* Title */}
         {title && (
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+          <div className="px-6 py-4 border-b border-border">
+            <h2 className="text-lg font-semibold text-foreground">{title}</h2>
           </div>
         )}
 

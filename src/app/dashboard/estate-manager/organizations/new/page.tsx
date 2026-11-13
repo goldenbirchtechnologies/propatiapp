@@ -88,10 +88,9 @@ function FieldError({ id, message }: { id: string; message: string }) {
 }
 
 const inputBase =
-  'w-full h-11 rounded-lg border bg-white px-3 pr-10 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all ' +
+  'w-full h-11 rounded-lg border bg-card px-3 pr-10 text-sm text-foreground placeholder:text-muted-foreground transition-all ' +
   'focus:outline-none focus:ring-2 focus:ring-primary/30 ' +
-  'dark:bg-zinc-900 dark:text-white ' +
-  'border-zinc-200 focus:border-primary dark:border-zinc-800';
+  'border-border focus:border-primary';
 const labelBase = 'mb-1.5 flex items-center justify-between text-sm font-medium text-zinc-900 dark:text-white';
 const hintBase = 'mt-1.5 text-xs text-zinc-500 dark:text-zinc-400';
 const iconBase = 'absolute right-3 top-3 h-5 w-5 text-zinc-400 pointer-events-none';

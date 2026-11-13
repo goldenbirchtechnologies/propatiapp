@@ -201,7 +201,7 @@ export default function SearchFilters({
   return (
     <div className="bg-surface-elevated rounded-lg shadow-sm border border-zinc-800 p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
+        <h3 className="text-lg font-semibold text-foreground">Filters</h3>
         <button
           onClick={handleClearFilters}
           className="text-sm text-blue-600 hover:text-blue-700 font-medium"
@@ -212,7 +212,7 @@ export default function SearchFilters({
 
       {/* Location Input with Autocomplete */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">Location</label>
+        <label className="block text-sm font-medium text-muted-foreground">Location</label>
         <div className="relative">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -235,7 +235,7 @@ export default function SearchFilters({
                 <button
                   key={location}
                   onClick={() => handleLocationSelect(location)}
-                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none"
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-muted focus:bg-muted focus:outline-none"
                 >
                   {location}
                 </button>
@@ -247,12 +247,12 @@ export default function SearchFilters({
 
       {/* Price Range Dual Slider */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-700">Price Range</label>
+        <label className="block text-sm font-medium text-muted-foreground">Price Range</label>
         <div className="space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-600">Min: {formatNGN(priceMin)}</span>
-              <span className="text-gray-600">Max: {formatNGN(priceMax)}</span>
+              <span className="text-muted-foreground">Min: {formatNGN(priceMin)}</span>
+              <span className="text-muted-foreground">Max: {formatNGN(priceMax)}</span>
             </div>
             <input
               type="range"
@@ -279,7 +279,7 @@ export default function SearchFilters({
       {/* Bedrooms Selector */}
       {category === 'residential' && (
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-gray-700">Bedrooms</label>
+          <label className="block text-sm font-medium text-muted-foreground">Bedrooms</label>
           <div className="flex flex-wrap gap-2">
             {BEDROOM_OPTIONS.map((bedroom) => (
               <button
@@ -288,7 +288,7 @@ export default function SearchFilters({
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   filters.bedrooms?.includes(bedroom)
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-muted text-foreground hover:bg-border'
                 }`}
               >
                 {bedroom}+
@@ -300,7 +300,7 @@ export default function SearchFilters({
 
       {/* Property Type Checkboxes */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-700">Property Type</label>
+        <label className="block text-sm font-medium text-muted-foreground">Property Type</label>
         <div className="space-y-2">
           {propertyTypes.map((type) => (
             <label key={type.value} className="flex items-center space-x-3 cursor-pointer">
@@ -310,7 +310,7 @@ export default function SearchFilters({
                 onChange={() => handlePropertyTypeToggle(type.value)}
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">{type.label}</span>
+              <span className="text-sm text-muted-foreground">{type.label}</span>
             </label>
           ))}
         </div>
@@ -318,7 +318,7 @@ export default function SearchFilters({
 
       {/* Verification Tier Slider */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-700">Verification Level</label>
+        <label className="block text-sm font-medium text-muted-foreground">Verification Level</label>
         <div className="space-y-2">
           {VERIFICATION_TIERS.map((tier) => (
             <label key={tier.value} className="flex items-center space-x-3 cursor-pointer">
@@ -332,7 +332,7 @@ export default function SearchFilters({
                 onChange={() => handleVerificationChange(tier.value)}
                 className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">{tier.label}</span>
+              <span className="text-sm text-muted-foreground">{tier.label}</span>
             </label>
           ))}
         </div>
@@ -340,7 +340,7 @@ export default function SearchFilters({
 
       {/* Amenities Checkboxes with Show More */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-700">Amenities</label>
+        <label className="block text-sm font-medium text-muted-foreground">Amenities</label>
         <div className="space-y-2">
           {displayedAmenities.map((amenity) => (
             <label key={amenity} className="flex items-center space-x-3 cursor-pointer">
@@ -350,7 +350,7 @@ export default function SearchFilters({
                 onChange={() => handleAmenityToggle(amenity)}
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">{amenity}</span>
+              <span className="text-sm text-muted-foreground">{amenity}</span>
             </label>
           ))}
         </div>

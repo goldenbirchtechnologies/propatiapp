@@ -200,7 +200,7 @@ function MapMarker({
       <div className={cn(
         'absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap',
         'bg-surface-elevated px-2 py-1 rounded-md shadow-md text-xs font-semibold',
-        'border border-gray-200',
+        'border border-border',
         isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none',
         'transition-opacity duration-200'
       )}>
@@ -371,7 +371,7 @@ function FilterOverlay({
 
   return (
     <div className="fixed inset-0 bg-black/50 z-[100] animate-fade-in">
-      <div className="absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl animate-slide-in-from-right">
+      <div className="absolute inset-y-0 right-0 w-full max-w-md bg-card text-card-foreground shadow-2xl animate-slide-in-from-right">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">

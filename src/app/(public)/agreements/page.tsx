@@ -103,7 +103,7 @@ export default function AgreementsPage() {
                 placeholder="1,200,000"
                 className="mt-1 bg-card border-border text-foreground"
               />
-              <p className="mt-1.5 text-xs text-zinc-600">Tip: try 10,000 vs 10,001 to see the threshold, or 50,000 to see the ₦500 minimum.</p>
+              <p className="mt-1.5 text-xs text-muted-foreground">Tip: try 10,000 vs 10,001 to see the threshold, or 50,000 to see the ₦500 minimum.</p>
 
               <div className="mt-6 rounded-xl border border-primary/20 bg-primary/20 p-5">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#4edea3]">Stamp duty payable</p>
@@ -190,15 +190,15 @@ export default function AgreementsPage() {
             <h3 className="text-center text-sm font-bold tracking-[0.2em] text-[#1a5276]">ELECTRONIC STAMP DUTY CERTIFICATE — PREVIEW</h3>
             <div className="mt-4 grid gap-2 text-sm" style={{ color: '#1a5276' }}>
               <div className="flex justify-between border-b border-[#1a5276]/10 py-2">
-                <span className="font-semibold text-zinc-600">Certificate Number:</span>
+                <span className="font-semibold text-muted-foreground">Certificate Number:</span>
                 <span className="font-mono font-bold">FIRS-SD-XXXX-XXXX-NG</span>
               </div>
               <div className="flex justify-between py-2">
-                <span className="font-semibold text-zinc-600">Amount Paid:</span>
+                <span className="font-semibold text-muted-foreground">Amount Paid:</span>
                 <span className="font-bold">{duty === 0 ? '₦0' : formatNaira(duty)}</span>
               </div>
               <div className="flex justify-between border-t border-[#1a5276]/10 py-2">
-                <span className="font-semibold text-zinc-600">Verify Online:</span>
+                <span className="font-semibold text-muted-foreground">Verify Online:</span>
                 <span className="text-xs underline">firs.gov.ng/verify</span>
               </div>
             </div>

@@ -90,11 +90,11 @@ const TOGGLES: Array<{ id: keyof NotifTypes; label: string; description: string 
 const CARD =
   'rounded-xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7 dark:border-zinc-800 dark:bg-zinc-900';
 const INPUT =
-  'w-full rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all ' +
+  'w-full rounded-lg border border-border bg-card px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-all ' +
   'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 ' +
   'dark:border-zinc-800 dark:bg-zinc-900 dark:text-white';
 const INPUT_READONLY =
-  'w-full cursor-not-allowed rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-3.5 py-2.5 pr-9 text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-400';
+  'w-full cursor-not-allowed rounded-lg border border-dashed border-border bg-muted/50 px-3.5 py-2.5 pr-9 text-sm text-muted-foreground';
 const LABEL = 'mb-1.5 block text-xs font-medium text-zinc-900 dark:text-white';
 const TITLE = 'text-base font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-lg';
 const SUB = 'mt-0.5 text-xs text-zinc-500 dark:text-zinc-400 sm:text-sm';

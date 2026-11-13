@@ -41,7 +41,7 @@ function DataTable<T extends Record<string, unknown>>({
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="px-4 py-12 text-center text-zinc-600">
+              <td colSpan={columns.length} className="px-4 py-12 text-center text-muted-foreground">
                 {emptyMessage}
               </td>
             </tr>

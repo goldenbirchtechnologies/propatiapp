@@ -111,6 +111,9 @@ export default async function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="PropatiBox" />
+        {/* Render-blocking so the `dark` class lands before first paint and
+            ThemeProvider never has to correct it after hydration. */}
+        <script src="/theme-init.js" />
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col antialiased tracking-body-md">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-foreground focus:text-background focus:rounded-md">Skip to main content</a>

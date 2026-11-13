@@ -647,9 +647,9 @@ export default function AgentListingDetailClient({ listing }: Props) {
                 <input id="gallery-upload" type="file" accept="image/*" multiple className="hidden" onChange={handleUpload} />
                 {listing.images.length === 0 ? (
                   <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/10 p-10 text-center">
-                    <ImageIcon className="size-8 text-zinc-600 mb-3" />
+                    <ImageIcon className="size-8 text-muted-foreground mb-3" />
                     <p className="text-sm text-zinc-600 dark:text-zinc-400">No photos uploaded yet</p>
-                    <p className="text-xs text-zinc-600 mt-1">Upload photos to showcase this property</p>
+                    <p className="text-xs text-muted-foreground mt-1">Upload photos to showcase this property</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -730,7 +730,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                                 <span className="text-xs text-zinc-600 dark:text-zinc-400">{unit.currentTenant.fullName}</span>
                               </div>
                             ) : (
-                              <span className="text-xs text-zinc-600">Vacant</span>
+                              <span className="text-xs text-muted-foreground">Vacant</span>
                             )}
                           </TableCell>
                         </TableRow>
@@ -1019,7 +1019,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                       <p className="text-sm text-zinc-900 dark:text-white truncate">{c.subject}</p>
                       <p className="text-xs text-zinc-600 dark:text-zinc-400 truncate">{c.lastMessage || 'No messages yet'}</p>
                     </div>
-                    <span className="text-[10px] text-zinc-600 whitespace-nowrap">{formatRelativeDate(c.lastMessageAt)}</span>
+                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">{formatRelativeDate(c.lastMessageAt)}</span>
                   </Link>
                 ))}
               </div>
@@ -1043,7 +1043,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                       <FileText className="size-3.5 text-zinc-600 dark:text-zinc-400 flex-shrink-0" />
                       <div className="min-w-0">
                         <p className="text-xs text-zinc-900 dark:text-white truncate">{d.name}</p>
-                        <p className="text-[10px] text-zinc-600 capitalize">{d.type}</p>
+                        <p className="text-[10px] text-muted-foreground capitalize">{d.type}</p>
                       </div>
                     </div>
                     <Download className="size-3.5 text-zinc-600 dark:text-zinc-400 flex-shrink-0" />

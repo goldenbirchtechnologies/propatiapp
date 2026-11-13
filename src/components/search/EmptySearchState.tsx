@@ -50,12 +50,12 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
       </div>
 
       {/* Heading */}
-      <h2 className="text-2xl font-bold text-gray-900 mb-3">
+      <h2 className="text-2xl font-bold text-foreground mb-3">
         No properties found
       </h2>
 
       {/* Description */}
-      <p className="text-gray-600 mb-8 max-w-md">
+      <p className="text-muted-foreground mb-8 max-w-md">
         We couldn&apos;t find any properties matching your current filters. Try adjusting your search criteria or browse all available properties.
       </p>
 
@@ -77,10 +77,10 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
 
       {/* Search Tips */}
       <div className="max-w-2xl">
-        <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wide">
           Search Tips
         </h3>
-        <ul className="text-left text-sm text-gray-600 space-y-2">
+        <ul className="text-left text-sm text-muted-foreground space-y-2">
           <li className="flex items-start">
             <svg
               className="w-5 h-5 text-green-600 mr-2 mt-0.5 flex-shrink-0"

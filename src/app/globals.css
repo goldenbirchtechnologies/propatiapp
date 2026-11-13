@@ -620,6 +620,22 @@ body.em-theme {
   --accentGreen: var(--sovereign);
   --accentBlue: #3b82f6;
 }
+/* Legacy alias bridge — maps the pre-token variable names onto the theme-aware
+   semantic tokens so unlayered legacy CSS (`.card`, `.inp-field`, `a:hover`,
+   `body`) follows light/dark without needing a class-level rewrite. Custom
+   property references resolve at use time, so these inherit the `.dark` values
+   declared in `@layer base`. Role themes (`.app-layout.theme-*`) set these
+   directly and still win by specificity. */
+:root {
+  --bg: var(--background);
+  --text: var(--foreground);
+  --accent: var(--primary);
+  --accent2: var(--sovereign-hover);
+  --accent-bg: rgba(0, 108, 73, 0.1);
+  --surface-elevated: var(--card);
+  --border-subtle: rgba(148, 163, 184, 0.12);
+}
+
 html.dark,
 .dark {
   --blackCanvas: #0a0a0a;
@@ -630,6 +646,28 @@ html.dark,
   --accentBlue: #3b82f6;
   --on-surface: #ededed;
   --on-surface-variant: #d4d4d8;
+
+  /* Legacy surface system — dark counterparts. Declared on `html.dark` so it
+     outranks the unlayered `:root` block above (layers do not apply here). */
+  --surface: #09090b;
+  --surface-dim: #000000;
+  --surface-bright: #121215;
+  --surface-elevated: #121215;
+  --surface-container-lowest: #000000;
+  --surface-container-low: #09090b;
+  --surface-container: #0f0f12;
+  --surface-container-high: #18181b;
+  --surface-container-highest: #1f1f23;
+  --surface-variant: #18181b;
+  --surface-tint: var(--sovereign);
+  --on-surface: #ededed;
+  --on-surface-variant: #a1a1aa;
+  --inverse-surface: #f3f0f4;
+  --inverse-on-surface: #1b1b1e;
+  --outline: #8b8b93;
+  --outline-variant: #3f3f46;
+  --accent2: #4edea3;
+  --border-subtle: rgba(255, 255, 255, 0.08);
 }
 
 html {
@@ -1183,10 +1221,11 @@ a:hover {
 [data-slot="card"],
 .panel,
 .section-panel {
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-card);
   padding: var(--space-xl);
   background: var(--surface);
+  color: var(--on-surface);
 }
 
 /* Consistent inner spacing */
@@ -1210,7 +1249,7 @@ a:hover {
 
 /* Lower emphasis for muted structured borders */
 .border-muted {
-  border-color: rgba(148, 163, 184, 0.12);
+  border-color: var(--border-subtle);
 }
 
 /* Standardize focus rings */

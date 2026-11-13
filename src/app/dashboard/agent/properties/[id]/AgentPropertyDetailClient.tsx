@@ -339,7 +339,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
             <img src={listing.coverImage} alt={listing.title} className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <ImageIcon className="h-10 w-10 text-zinc-600" style={{ opacity: 0.5 }} />
+              <ImageIcon className="h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -502,7 +502,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                                 <span className="text-xs text-zinc-600 dark:text-zinc-400">{unit.currentTenant.fullName}</span>
                               </div>
                             ) : (
-                              <span className="text-xs text-zinc-600">Vacant</span>
+                              <span className="text-xs text-muted-foreground">Vacant</span>
                             )}
                           </TableCell>
                           <TableCell className="py-3 text-right">
@@ -835,7 +835,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       <p className="text-sm text-zinc-900 dark:text-white truncate">{c.subject}</p>
                       <p className="text-xs text-zinc-600 dark:text-zinc-400 truncate">{c.lastMessage || 'No messages yet'}</p>
                     </div>
-                    <span className="text-[10px] text-zinc-600 whitespace-nowrap">{formatRelativeDate(c.lastMessageAt)}</span>
+                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">{formatRelativeDate(c.lastMessageAt)}</span>
                   </Link>
                 ))}
               </div>
@@ -859,7 +859,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                       <FileText className="size-3.5 text-zinc-600 dark:text-zinc-400 flex-shrink-0" />
                       <div className="min-w-0">
                         <p className="text-xs text-zinc-900 dark:text-white truncate">{d.name}</p>
-                        <p className="text-[10px] text-zinc-600 capitalize">{d.type}</p>
+                        <p className="text-[10px] text-muted-foreground capitalize">{d.type}</p>
                       </div>
                     </div>
                     <Download className="size-3.5 text-zinc-600 dark:text-zinc-400 flex-shrink-0" />

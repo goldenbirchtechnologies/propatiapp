@@ -123,7 +123,7 @@ export function ConversationCard({
 
           {/* Property Title */}
           {conversation.listing && (
-            <p className="text-xs text-gray-600 truncate mb-1">
+            <p className="text-xs text-muted-foreground truncate mb-1">
               {conversation.listing.title}
             </p>
           )}
@@ -133,7 +133,7 @@ export function ConversationCard({
             <p
               className={cn(
                 'text-sm truncate flex-1',
-                hasUnread ? 'font-medium text-gray-900' : 'text-gray-600'
+                hasUnread ? 'font-medium text-foreground' : 'text-muted-foreground'
               )}
             >
               {conversation.lastMessage

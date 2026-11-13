@@ -16,7 +16,7 @@ function PageHeader({ title, description, actions, breadcrumb, className }: Page
     <div className={cn("flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6", className)}>
       <div>
         {breadcrumb && (
-          <div className="flex items-center gap-1.5 text-xs text-zinc-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
             {breadcrumb.map((crumb, i) => (
               <span key={i} className="flex items-center gap-1.5">
                 {i > 0 && <span>/</span>}

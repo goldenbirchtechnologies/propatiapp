@@ -484,7 +484,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
               'inline-flex items-center gap-2 px-4 py-2 rounded-lg border-[1.5px] font-bold text-sm transition-colors',
               filterOpen
                 ? 'border-blue-700 bg-blue-50 text-blue-700'
-                : 'border-blue-700 bg-white text-blue-700 hover:bg-blue-50'
+                : 'border-blue-700 bg-card text-blue-700 hover:bg-blue-50 dark:border-blue-500 dark:text-blue-400 dark:hover:bg-blue-500/10'
             )}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -517,14 +517,14 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
                     placeholder="Search by property address"
                     value={propertySearch}
                     onChange={(e) => setPropertySearch(e.target.value)}
-                    className="w-full h-11 pl-4 pr-10 rounded-xl border border-zinc-300 bg-white text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                    className="w-full h-11 pl-4 pr-10 rounded-xl border border-border bg-surface text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                   />
                   <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                 </div>
                 <div className="h-px bg-zinc-200 dark:bg-zinc-800" />
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-bold text-sm text-zinc-900">Status</span>
+                    <span className="font-bold text-sm text-foreground">Status</span>
                     <button
                       onClick={() => setStatusFilter('all')}
                       className="text-sm text-blue-600 hover:text-blue-700 font-medium disabled:text-blue-300"
@@ -541,7 +541,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
                         onChange={() => setStatusFilter('unread')}
                         className="w-5 h-5 accent-blue-700"
                       />
-                      <span className="text-sm text-zinc-900">Show unread only</span>
+                      <span className="text-sm text-foreground">Show unread only</span>
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer">
                       <input
@@ -551,7 +551,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
                         onChange={() => setStatusFilter('notReplied')}
                         className="w-5 h-5 accent-blue-700"
                       />
-                      <span className="text-sm text-zinc-900">Not replied to</span>
+                      <span className="text-sm text-foreground">Not replied to</span>
                     </label>
                   </div>
                 </div>
@@ -564,7 +564,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
           <div className="relative">
             <button
               onClick={() => setInboxOpen(!inboxOpen)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-[1.5px] border-blue-700 bg-white text-blue-700 hover:bg-blue-50 font-bold text-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-[1.5px] border-blue-700 bg-card text-blue-700 hover:bg-blue-50 font-bold text-sm dark:border-blue-500 dark:text-blue-400 dark:hover:bg-blue-500/10"
             >
               {inboxValue === 'inbox' ? 'Inbox' : 'Archived'}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={cn('transition-transform', inboxOpen && 'rotate-180')}>
@@ -575,13 +575,13 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
               <div className="absolute right-0 top-[46px] w-[160px] bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden z-50">
                 <button
                   onClick={() => { setInboxValue('inbox'); setInboxOpen(false); }}
-                  className={cn('w-full text-left px-4 py-2.5 text-sm hover:bg-zinc-50', inboxValue === 'inbox' ? 'font-bold text-blue-700 bg-blue-50' : 'text-zinc-700')}
+                  className={cn('w-full text-left px-4 py-2.5 text-sm hover:bg-muted', inboxValue === 'inbox' ? 'font-bold text-blue-700 bg-blue-50 dark:text-blue-400 dark:bg-blue-500/10' : 'text-muted-foreground')}
                 >
                   Inbox
                 </button>
                 <button
                   onClick={() => { setInboxValue('archived'); setInboxOpen(false); }}
-                  className={cn('w-full text-left px-4 py-2.5 text-sm hover:bg-zinc-50', inboxValue === 'archived' ? 'font-bold text-blue-700 bg-blue-50' : 'text-zinc-700')}
+                  className={cn('w-full text-left px-4 py-2.5 text-sm hover:bg-muted', inboxValue === 'archived' ? 'font-bold text-blue-700 bg-blue-50 dark:text-blue-400 dark:bg-blue-500/10' : 'text-muted-foreground')}
                 >
                   Archived
                 </button>
@@ -601,7 +601,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
               'px-4 py-1.5 rounded-full text-sm font-semibold border transition-colors',
               activePill === pill.id
                 ? 'bg-blue-50 border-blue-700 text-blue-700'
-                : 'bg-white border-zinc-300 text-zinc-900 hover:bg-zinc-50'
+                : 'bg-card border-border text-foreground hover:bg-muted'
             )}
           >
             {pill.label}

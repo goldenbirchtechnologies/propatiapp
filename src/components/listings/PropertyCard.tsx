@@ -126,7 +126,7 @@ export function PropertyCard({
       {/* Image Container */}
       <div className="relative w-full h-48 overflow-hidden bg-zinc-900">
         {showPlaceholder ? (
-          <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-zinc-950 text-zinc-600">
+          <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-zinc-950 text-muted-foreground">
             <Building2 className="h-8 w-8" />
             <span className="text-xs">No image yet</span>
           </div>

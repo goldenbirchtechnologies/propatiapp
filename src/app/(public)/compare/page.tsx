@@ -312,9 +312,9 @@ function ComparePageInner() {
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 flex items-center gap-2 text-xs text-zinc-500">
         <Link href="/" className="hover:text-zinc-300">Home</Link>
-        <span className="text-zinc-600">›</span>
+        <span className="text-muted-foreground">›</span>
         <Link href="/listings" className="hover:text-zinc-300">Properties</Link>
-        <span className="text-zinc-600">›</span>
+        <span className="text-muted-foreground">›</span>
         <span className="text-zinc-300">Compare Properties</span>
       </div>
 

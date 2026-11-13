@@ -22,7 +22,7 @@ export default function RecentUsersTable({ users }: { users: RecentUser[] }) {
               <Avatar name={String(row.fullName || '')} size="sm" />
               <div>
                 <div className="text-zinc-900 dark:text-white text-sm font-medium">{String(row.fullName)}</div>
-                <div className="text-zinc-600 text-xs">{String(row.email)}</div>
+                <div className="text-muted-foreground text-xs">{String(row.email)}</div>
               </div>
             </div>
           ),

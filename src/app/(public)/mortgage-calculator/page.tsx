@@ -75,7 +75,7 @@ export default function MortgageCalculatorPage() {
                 />
                 <div className="mt-2 flex items-center justify-between">
                   <span className="text-sm font-semibold text-white">{formatNaira(price)}</span>
-                  <span className="text-xs text-zinc-600">₦1M — ₦500M</span>
+                  <span className="text-xs text-muted-foreground">₦1M — ₦500M</span>
                 </div>
               </div>
 
@@ -95,7 +95,7 @@ export default function MortgageCalculatorPage() {
                 />
                 <div className="mt-2 flex items-center justify-between">
                   <span className="text-sm font-semibold text-white">{formatNaira(downPayment)}</span>
-                  <span className="text-xs text-zinc-600">{price > 0 ? Math.round((downPayment / price) * 100) : 0}% down</span>
+                  <span className="text-xs text-muted-foreground">{price > 0 ? Math.round((downPayment / price) * 100) : 0}% down</span>
                 </div>
               </div>
 
@@ -134,7 +134,7 @@ export default function MortgageCalculatorPage() {
                 </div>
               </div>
 
-              <p className="text-xs text-zinc-600 leading-relaxed">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 Formula: <code className="px-1 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-zinc-400">M = P·r(1+r)ⁿ / ((1+r)ⁿ − 1)</code> where P is principal, r is monthly
                 rate, n is months. Uses the same math as the archived calculator — no server call.
               </p>
@@ -145,7 +145,7 @@ export default function MortgageCalculatorPage() {
               <div className="glass-card p-6 md:p-8">
                 <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Estimated monthly payment</p>
                 <p className="mt-2 text-3xl font-black tracking-tight text-white">{formatNaira(Math.round(monthlyPayment))}</p>
-                <p className="mt-1 text-xs text-zinc-600">Principal {formatNaira(principal)} · {n} payments</p>
+                <p className="mt-1 text-xs text-muted-foreground">Principal {formatNaira(principal)} · {n} payments</p>
 
                 <div className="mt-6 grid grid-cols-2 gap-3">
                   <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
@@ -177,7 +177,7 @@ export default function MortgageCalculatorPage() {
                   <li>Agency, legal, and valuation fees.</li>
                   <li>NHF / PMB-specific terms — confirm with your lender.</li>
                 </ul>
-                <p className="mt-4 text-xs text-zinc-600">This is an estimate, not a loan offer. PropatiBox does not originate mortgages.</p>
+                <p className="mt-4 text-xs text-muted-foreground">This is an estimate, not a loan offer. PropatiBox does not originate mortgages.</p>
               </div>
 
               <div className="glass-card p-5 flex items-center justify-between">

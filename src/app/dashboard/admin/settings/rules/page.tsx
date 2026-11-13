@@ -113,7 +113,7 @@ export default function RulesEnginePage() {
                         <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">{rule.ruleType} · Priority: {rule.priority}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs px-2 py-1 rounded ${rule.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-gray-600"}`}>
+                        <span className={`text-xs px-2 py-1 rounded ${rule.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-muted-foreground"}`}>
                           {rule.active ? "Active" : "Inactive"}
                         </span>
                         <button onClick={() => toggleRule(rule.id, rule.active)} className="text-sm text-[#4edea3] hover:underline">
@@ -166,7 +166,7 @@ export default function RulesEnginePage() {
                         <h3 className="font-semibold text-zinc-900 dark:text-white">{tpl.name}</h3>
                         <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">v{tpl.version} · {tpl.language}</p>
                       </div>
-                      <span className={`text-xs px-2 py-1 rounded ${tpl.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-gray-600"}`}>
+                      <span className={`text-xs px-2 py-1 rounded ${tpl.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-muted-foreground"}`}>
                         {tpl.active ? "Active" : "Inactive"}
                       </span>
                     </div>

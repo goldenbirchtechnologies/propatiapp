@@ -312,7 +312,7 @@ export default function MFASettingsPage() {
                 <div className="flex flex-col items-center gap-4">
                   <div className="w-48 h-48 rounded-xl bg-white p-4 flex items-center justify-center">
                     <div className="text-center">
-                      <QrCode className="w-24 h-24 text-zinc-900 mx-auto mb-2" />
+                      <QrCode className="w-24 h-24 text-foreground mx-auto mb-2" />
                       <p className="text-xs text-zinc-500">Scan with your authenticator app</p>
                     </div>
                   </div>

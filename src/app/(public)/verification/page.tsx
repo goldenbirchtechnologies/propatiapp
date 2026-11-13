@@ -117,7 +117,7 @@ export default function VerificationPage() {
                   <ul className="space-y-1.5">
                     {layer.requires.map((r) => (
                       <li key={r} className="flex gap-2 text-sm text-zinc-400 leading-relaxed">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-zinc-600 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
                         <span>{r}</span>
                       </li>
                     ))}
@@ -131,7 +131,7 @@ export default function VerificationPage() {
                   <p className="mt-1 text-sm text-zinc-300 leading-relaxed">{layer.proves}</p>
                 </div>
 
-                <p className="mt-3 text-[11px] font-mono text-zinc-600">
+                <p className="mt-3 text-[11px] font-mono text-muted-foreground">
                   {layer.status} · currentLayer {layer.n}
                 </p>
               </div>

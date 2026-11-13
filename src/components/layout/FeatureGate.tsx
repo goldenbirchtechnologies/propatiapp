@@ -27,7 +27,7 @@ export function ComingSoonBadge({ feature, note }: { feature: string; note?: str
 
 export function FeatureDisabledBadge({ feature }: { feature: string }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
+    <div className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-muted-foreground">
       <XCircle className="h-3 w-3" />
       {feature} not available
     </div>

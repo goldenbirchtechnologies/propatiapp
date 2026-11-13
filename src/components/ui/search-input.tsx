@@ -18,7 +18,7 @@ function SearchInput({
   return (
     <div className="relative">
       <svg
-        className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600"
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
         width="14"
         height="14"
         fill="none"

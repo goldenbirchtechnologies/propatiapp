@@ -63,7 +63,7 @@ export default function HowItWorksPage() {
                 <ul className="mt-4 space-y-1.5">
                   {s.bullets.map((b) => (
                     <li key={b} className="flex gap-2 text-sm text-zinc-400">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-zinc-600 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
                       <span>{b}</span>
                     </li>
                   ))}

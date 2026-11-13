@@ -75,6 +75,7 @@ const config: Config = {
           DEFAULT: 'var(--surface)',
           dim: 'var(--surface-dim)',
           bright: 'var(--surface-bright)',
+          elevated: 'var(--surface-elevated)',
           container: {
             lowest: 'var(--surface-container-lowest)',
             low: 'var(--surface-container-low)',
@@ -230,7 +231,6 @@ const config: Config = {
         'space-lg': '1.5rem',
         'space-xl': '2rem',
         'margin-desktop': '2rem',
-        'margin-mobile': '1rem',
         tight: 'var(--space-tight)',
         vs: 'var(--space-vs)',
         'sm-gap': 'var(--space-sm-gap)',

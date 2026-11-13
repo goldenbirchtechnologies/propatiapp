@@ -22,7 +22,7 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
         </p>
 
         {error.digest && (
-          <p className="text-xs text-zinc-600 mb-6 font-mono">Error ID: {error.digest}</p>
+          <p className="text-xs text-muted-foreground mb-6 font-mono">Error ID: {error.digest}</p>
         )}
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">

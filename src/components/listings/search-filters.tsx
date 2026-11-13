@@ -770,7 +770,7 @@ export function SearchFiltersMobileBottomSheet({
   return (
     <div className="fixed inset-0 z-50 flex flex-col" role="dialog" aria-modal="true" aria-label="Search Filters">
       <div className="fixed inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
-      <div className="relative flex-1 flex flex-col bg-white rounded-t-[20px] rounded-t-[20px] max-h-full">
+      <div className="relative flex-1 flex flex-col bg-surface text-on-surface rounded-t-[20px] rounded-t-[20px] max-h-full">
         <div className="flex items-center justify-between p-4 border-b border-border sticky top-0 bg-surface-elevated z-10 rounded-t-[20px]">
           <h2 className="font-heading font-semibold text-lg" style={{ color: 'var(--text)' }}>Filters</h2>
           <div className="flex items-center gap-2">

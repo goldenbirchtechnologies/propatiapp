@@ -94,7 +94,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
 
       {filtered.length === 0 ? (
         <div className="text-center py-16">
-          <Heart className="h-16 w-16 mx-auto mb-4 text-zinc-700" />
+          <Heart className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
           <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">No saved properties</h3>
           <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mb-4">Browse properties and save your favorites.</p>
           <Button asChild>

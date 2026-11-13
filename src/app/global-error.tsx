@@ -28,7 +28,7 @@ export default function GlobalError({
           </p>
 
           {error?.digest && (
-            <p className="text-xs text-zinc-600 mb-6 font-mono">Ref: {error.digest}</p>
+            <p className="text-xs text-muted-foreground mb-6 font-mono">Ref: {error.digest}</p>
           )}
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

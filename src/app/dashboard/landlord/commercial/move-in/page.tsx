@@ -129,7 +129,7 @@ export default async function CommercialMoveInPage() {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row lg:flex-col gap-3 items-stretch lg:min-w-[220px]">
-                <button className="px-5 py-3 rounded-lg bg-white text-[var(--sovereign-hover)] font-semibold shadow-md hover:bg-zinc-50 transition-all flex items-center justify-center gap-2">
+                <button className="px-5 py-3 rounded-lg bg-white text-[var(--sovereign-hover)] font-semibold shadow-md hover:bg-muted transition-all flex items-center justify-center gap-2">
                   <CheckCircle2 className="w-5 h-5" />
                   Schedule Handover Inspection
                 </button>

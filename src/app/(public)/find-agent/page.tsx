@@ -197,7 +197,7 @@ export default function FindAgentPage() {
               <div className="flex items-center flex-1 gap-2 px-3 py-2 rounded-lg bg-card/40">
                 <Search className="h-4 w-4 text-zinc-500 shrink-0" />
                 <input
-                  className="w-full bg-transparent text-sm text-foreground placeholder:text-zinc-600 focus:outline-none"
+                  className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                   placeholder={activeTab === 'location' ? 'City, neighborhood, or jurisdiction (e.g., Victoria Island, Ikoyi, Maitama)' : 'Agent or firm name'}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
@@ -265,7 +265,7 @@ export default function FindAgentPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs text-zinc-500 hidden sm:inline">Sort: Consideration</span>
-              <span className="text-zinc-600"><ChevronDown className="h-4 w-4" /></span>
+              <span className="text-muted-foreground"><ChevronDown className="h-4 w-4" /></span>
             </div>
           </div>
 

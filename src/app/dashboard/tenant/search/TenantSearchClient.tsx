@@ -219,7 +219,7 @@ export default function TenantSearchClient({
 
       {initialProperties.length === 0 && (
         <div className="text-center py-16">
-          <Search className="h-16 w-16 mx-auto mb-4 text-zinc-700" />
+          <Search className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
           <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">No properties found</h3>
           <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Try adjusting your filters or search query.</p>
         </div>

@@ -369,7 +369,7 @@ export default function VerificationDetailClient({
                       <div
                         key={layer}
                         className={`flex items-center gap-4 p-4 rounded-lg border ${
-                          isCurrent ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
+                          isCurrent ? 'border-blue-300 bg-blue-50 dark:border-blue-500/50 dark:bg-blue-500/10' : 'border-border'
                         }`}
                       >
                         <div

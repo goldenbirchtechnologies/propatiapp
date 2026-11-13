@@ -116,7 +116,7 @@ export default function CountriesAdminPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className={`text-xs px-2 py-1 rounded ${country.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-gray-600"}`}>
+                <span className={`text-xs px-2 py-1 rounded ${country.active ? "bg-green-100 text-[#4edea3]" : "bg-gray-100 text-muted-foreground"}`}>
                   {country.active ? "Active" : "Inactive"}
                 </span>
                 <button onClick={() => toggleActive(country.code, country.active)} className="text-sm text-[#4edea3] hover:underline">
@@ -145,7 +145,7 @@ export default function CountriesAdminPage() {
                 <p className="text-sm font-medium text-zinc-900 dark:text-white mb-2">Feature Capabilities</p>
                 <div className="flex flex-wrap gap-2">
                   {country.capabilities.map(cap => (
-                    <span key={cap.id} className={`text-xs px-2 py-1 rounded ${cap.enabled ? "bg-green-100 text-[#4edea3]" : cap.available ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"}`}>
+                    <span key={cap.id} className={`text-xs px-2 py-1 rounded ${cap.enabled ? "bg-green-100 text-[#4edea3]" : cap.available ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-muted-foreground"}`}>
                       {cap.feature}: {cap.enabled ? "live" : cap.available ? "soon" : "off"}
                     </span>
                   ))}

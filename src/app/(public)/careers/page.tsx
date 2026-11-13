@@ -83,7 +83,7 @@ export default function CareersPage() {
                     <span className="px-2 py-0.5 rounded-full bg-card border border-border text-xs text-zinc-400">{r.team}</span>
                   </div>
                   <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed max-w-2xl">{r.desc}</p>
-                  <div className="mt-3 flex flex-wrap gap-3 text-xs text-zinc-600">
+                  <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
                     <span className="inline-flex items-center gap-1.5">
                       <MapPin className="h-3.5 w-3.5" /> {r.location}
                     </span>

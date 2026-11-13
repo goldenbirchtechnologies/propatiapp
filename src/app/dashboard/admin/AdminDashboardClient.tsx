@@ -37,7 +37,7 @@ const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
       <Avatar name={userItem.name} size="md" />
       <div className="flex-1 min-w-0">
         <div className="text-zinc-900 dark:text-white text-sm font-medium">{userItem.name}</div>
-        <div className="text-zinc-600 text-xs">{userItem.email}</div>
+        <div className="text-muted-foreground text-xs">{userItem.email}</div>
       </div>
       <div className="flex items-center gap-2">
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${roleColors[userItem.role] || 'bg-zinc-800 text-zinc-600 dark:text-zinc-400'}`}>
@@ -47,7 +47,7 @@ const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
           {userItem.status}
         </span>
       </div>
-      <div className="text-xs text-zinc-600">{userItem.registeredAt}</div>
+      <div className="text-xs text-muted-foreground">{userItem.registeredAt}</div>
     </div>
   );
 };
@@ -194,7 +194,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           {revenueByMonth.length === 0 || revenueByMonth.every((m) => !m.amount) ? (
             <div className="h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] bg-white/[0.02]">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">No revenue recorded yet</p>
-              <p className="text-xs text-zinc-600">
+              <p className="text-xs text-muted-foreground">
                 {loadError ? 'Could not load platform stats.' : 'Completed transactions will appear here.'}
               </p>
             </div>
@@ -219,7 +219,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
                   );
                 })}
               </div>
-              <div className="flex justify-between mt-2 text-[10px] text-zinc-700">
+              <div className="flex justify-between mt-2 text-[10px] text-muted-foreground">
                 {revenueByMonth.map((m, i) => (
                   <span key={`${m.month}-label-${i}`}>{m.month}</span>
                 ))}
@@ -314,11 +314,11 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
                 <div key={v.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-white dark:bg-zinc-950/60">
                   <div className="flex-1 min-w-0">
                     <div className="text-zinc-900 dark:text-white text-xs font-medium">{v.property}</div>
-                    <div className="text-zinc-600 text-xs">{v.owner} · {v.type}</div>
+                    <div className="text-muted-foreground text-xs">{v.owner} · {v.type}</div>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <StatusBadge status={v.status} />
-                    <div className="text-zinc-700 text-[10px] mt-0.5">{v.submitted}</div>
+                    <div className="text-muted-foreground text-[10px] mt-0.5">{v.submitted}</div>
                   </div>
                 </div>
               ))

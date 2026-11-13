@@ -190,7 +190,7 @@ export default function InspectionScheduler({ listing }: Props) {
                 <CalendarClock size={22} className="text-primary dark:text-[#4edea3]" />
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-white">Confirm Inspection</h3>
               </div>
-              <button onClick={() => setConfirmOpen(false)} className="text-zinc-400 hover:text-zinc-600">
+              <button onClick={() => setConfirmOpen(false)} className="text-zinc-400 hover:text-muted-foreground">
                 <X size={20} />
               </button>
             </div>

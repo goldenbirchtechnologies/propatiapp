@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { TrendingUp, Building2, Receipt, SlidersHorizontal, Wallet, CheckCircle2, ChevronRight, BarChart3, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { formatNairaFull } from '@/lib/utils';
+import { formatNairaFull, parseKoboToNaira } from '@/lib/utils';
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export default function RevenueForecastClient() {
+export default function RevenueForecastClient({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [transactionCount, setTransactionCount] = useState(0);
@@ -20,38 +20,42 @@ export default function RevenueForecastClient() {
     let alive = true;
     (async () => {
       try {
-        const [txRes, walletRes] = await Promise.all([
-          fetch('/api/payments/transactions?limit=100', { cache: 'no-store' }),
-          fetch('/api/wallet/transactions?limit=50', { cache: 'no-store' }).catch(() => null),
+        const currentYear = new Date().getFullYear();
+        // The list endpoint is unscoped, so the tiles are derived only from the
+        // transactions this landlord is the payee of, and only from the year
+        // the "Total Revenue (YTD)" label claims to cover.
+        const [txRes, listingRes] = await Promise.all([
+          fetch(`/api/payments/transactions?userId=${userId}&limit=100`, { cache: 'no-store' }),
+          fetch('/api/listings?ownerId=me&limit=1', { cache: 'no-store' }).catch(() => null),
         ]);
         if (txRes.ok) {
           const data = await txRes.json();
           const list: unknown[] = Array.isArray(data) ? data : data?.data ?? data?.transactions ?? [];
           if (alive) {
-            const arr = list as Array<Record<string, unknown>>;
+            const arr = (list as Array<Record<string, unknown>>)
+              .filter((t) => t.payeeId === userId && t.status === 'released')
+              .filter((t) => {
+                const d = new Date(String(t.createdAt ?? ''));
+                return !Number.isNaN(d.getTime()) && d.getFullYear() === currentYear;
+              });
             setTransactionCount(arr.length);
-            const total = arr.reduce((s: number, t) => s + Number((t as Record<string, unknown>).amount ?? 0), 0) / 100;
-            setTotalRevenue(total);
             const buckets = Array(12).fill(0) as number[];
+            let total = 0;
             arr.forEach((t) => {
-              const d = new Date(String((t as Record<string, unknown>).createdAt ?? ''));
-              if (!Number.isNaN(d.getTime())) {
-                const m = d.getMonth();
-                buckets[m] += Number((t as Record<string, unknown>).amount ?? 0) / 100;
-              }
+              const d = new Date(String(t.createdAt ?? ''));
+              const naira = parseKoboToNaira(Number(t.amount ?? 0));
+              total += naira;
+              buckets[d.getMonth()] += naira;
             });
+            setTotalRevenue(total);
             setMonthlyTotals(buckets);
           }
         }
-        // listing count — best effort via properties endpoint or fallback
-        try {
-          const r = await fetch('/api/listings?limit=1', { cache: 'no-store' });
-          if (r.ok) {
-            const j = await r.json();
-            const total = j?.pagination?.total ?? j?.total ?? null;
-            if (alive && typeof total === 'number') setListingCount(total);
-          }
-        } catch {}
+        if (listingRes?.ok) {
+          const j = await listingRes.json();
+          const total = j?.pagination?.total ?? j?.total ?? null;
+          if (alive && typeof total === 'number') setListingCount(total);
+        }
       } catch {}
       if (alive) setLoading(false);
     })();
@@ -61,7 +65,11 @@ export default function RevenueForecastClient() {
   }, []);
 
   const maxBucket = useMemo(() => Math.max(1, ...monthlyTotals), [monthlyTotals]);
-  const avgRevenue = useMemo(() => (transactionCount ? totalRevenue / 12 : 0), [totalRevenue, transactionCount]);
+  // Run-rate over the months actually elapsed, not over a full year that has not happened yet.
+  const avgRevenue = useMemo(
+    () => (transactionCount ? totalRevenue / (new Date().getMonth() + 1) : 0),
+    [totalRevenue, transactionCount]
+  );
 
   const handleGenerate = async () => {
     try {
@@ -82,7 +90,7 @@ export default function RevenueForecastClient() {
       URL.revokeObjectURL(url);
       toast.success('Forecast exported');
     } catch {
-      toast.success('Forecast generated — view full report for details');
+      toast.error('Could not export the forecast. Try again from View Full Forecast.');
     }
   };
 
@@ -123,7 +131,7 @@ export default function RevenueForecastClient() {
             <TrendingUp className="h-4 w-4" /> Generate Forecast
           </Button>
           <Button variant="outline" size="sm" className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" asChild>
-            <Link href="/dashboard/landlord/revenue-forecast/scenario-builder">
+            <Link href="/dashboard/landlord/financials/scenario-builder">
               <SlidersHorizontal className="h-4 w-4" /> Scenario Builder
             </Link>
           </Button>

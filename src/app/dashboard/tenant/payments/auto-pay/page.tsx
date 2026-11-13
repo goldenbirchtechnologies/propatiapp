@@ -10,16 +10,22 @@ export default async function Page() {
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'tenant') redirect('/dashboard');
 
-  const agreement = await prisma.agreement.findFirst({
-    where: { tenantId: user.id, status: { not: 'draft' } },
-    orderBy: { createdAt: 'desc' },
-    select: {
-      id: true,
-      rentAmount: true,
-      rentPeriod: true,
-      listing: { select: { title: true, address: true, area: true, state: true } },
-    },
-  });
+  const [agreement, paystackAccount] = await Promise.all([
+    prisma.agreement.findFirst({
+      where: { tenantId: user.id, status: { not: 'draft' } },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        rentAmount: true,
+        rentPeriod: true,
+        listing: { select: { title: true, address: true, area: true, state: true } },
+      },
+    }),
+    prisma.userPaystackAccount.findUnique({
+      where: { userId: user.id },
+      select: { bankName: true, accountNumber: true, accountName: true, recipientCode: true },
+    }),
+  ]);
 
   const mandate = agreement
     ? {
@@ -39,7 +45,7 @@ export default async function Page() {
       userAvatar={user.avatarUrl || undefined}
     >
       <ErrorBoundary>
-        <AutoPayConfigurationClient mandate={mandate} />
+        <AutoPayConfigurationClient mandate={mandate} bankAccount={paystackAccount} />
       </ErrorBoundary>
     </TenantRailShell>
   );

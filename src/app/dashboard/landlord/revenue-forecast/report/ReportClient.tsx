@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Download, Table as TableIcon, CheckCircle2, ChevronRight, FileDown, TrendingUp, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { formatNairaFull } from '@/lib/utils';
+import { formatNairaFull, parseKoboToNaira } from '@/lib/utils';
 import { useAccountSettings } from '@/hooks/useAccountSettings';
 
 type Row = {
@@ -19,7 +19,7 @@ type Row = {
 };
 
 
-export default function ReportClient({ rows }: { rows?: Row[] }) {
+export default function ReportClient({ rows, userId }: { rows?: Row[]; userId: string }) {
   const reportRows: Row[] = rows ?? [];
   const [filter, setFilter] = useState<'ALL' | 'ON_TRACK' | 'AT_RISK'>('ALL');
   const [view, setView] = useState<'current' | 'projected' | 'h1' | 'h2'>('current');
@@ -32,14 +32,25 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
     let alive = true;
     (async () => {
       try {
-        const res = await fetch('/api/payments/transactions?limit=100', { cache: 'no-store' });
+        const year = new Date().getFullYear();
+        const res = await fetch(`/api/payments/transactions?userId=${userId}&limit=100`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           const list: unknown[] = Array.isArray(data) ? data : data?.data ?? data?.transactions ?? [];
           if (alive) {
-            const arr = list as Array<Record<string, unknown>>;
+            // Only this landlord's settled rent from this calendar year — the
+            // endpoint is unscoped and returns other parties' rows too.
+            const arr = (list as Array<Record<string, unknown>>).filter((t) => {
+              const d = new Date(String(t.createdAt ?? ''));
+              return (
+                t.payeeId === userId &&
+                t.status === 'released' &&
+                !Number.isNaN(d.getTime()) &&
+                d.getFullYear() === year
+              );
+            });
             setLiveCount(arr.length);
-            setLiveTotal(arr.reduce((s: number, t) => s + Number((t as Record<string, unknown>).amount ?? 0), 0) / 100);
+            setLiveTotal(arr.reduce((s, t) => s + parseKoboToNaira(Number(t.amount ?? 0)), 0));
           }
         }
       } catch {}

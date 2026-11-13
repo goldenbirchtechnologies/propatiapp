@@ -17,7 +17,20 @@ export type AutoPayMandate = {
   rentPeriod: string | null;
 };
 
-export default function AutoPayConfigurationClient({ mandate }: { mandate?: AutoPayMandate | null }) {
+export type AutoPayBankAccount = {
+  bankName: string | null;
+  accountNumber: string | null;
+  accountName: string | null;
+  recipientCode: string | null;
+};
+
+export default function AutoPayConfigurationClient({
+  mandate,
+  bankAccount,
+}: {
+  mandate?: AutoPayMandate | null;
+  bankAccount?: AutoPayBankAccount | null;
+}) {
   const [enabled, setEnabled] = useState(true);
   const [execDate, setExecDate] = useState<'1st' | '3rd' | '5th'>('1st');
   const [amountStrategy, setAmountStrategy] = useState<'full' | 'partial'>('full');
@@ -135,22 +148,45 @@ export default function AutoPayConfigurationClient({ mandate }: { mandate?: Auto
                   Manage NIBSS Accounts
                 </Link>
               </div>
-              <div className="mt-1 w-full bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors rounded-lg p-4 flex items-center justify-between cursor-pointer border border-zinc-200 dark:border-white/[0.08]">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center font-bold text-zinc-900 dark:text-white">Z</div>
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">Zenith Bank Corp Direct Debit</span>
-                      <span className="text-xs text-zinc-600 dark:text-zinc-400 font-mono">(•••• 4190)</span>
-                      <span className="px-2 py-0.5 rounded bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-primary text-xs font-semibold flex items-center gap-1">
-                        <Check className="h-3 w-3" /> NIBSS Linked
+              {bankAccount?.bankName && bankAccount?.accountNumber ? (
+                <div className="mt-1 w-full bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors rounded-lg p-4 flex items-center justify-between cursor-pointer border border-zinc-200 dark:border-white/[0.08]">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center font-bold text-zinc-900 dark:text-white">
+                      {bankAccount.bankName.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white">{bankAccount.bankName}</span>
+                        <span className="text-xs text-zinc-600 dark:text-zinc-400 font-mono">
+                          (•••• {bankAccount.accountNumber.slice(-4)})
+                        </span>
+                        {bankAccount.recipientCode && (
+                          <span className="px-2 py-0.5 rounded bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-primary text-xs font-semibold flex items-center gap-1">
+                            <Check className="h-3 w-3" /> Paystack recipient
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs text-zinc-600 dark:text-zinc-400">
+                        Account: {bankAccount.accountName ?? '—'}
                       </span>
                     </div>
-                    <span className="text-xs text-zinc-600 dark:text-zinc-400">Account: Sovereign Corporate Holdings Ltd • Mandate ID: NIBSS-88392019-ZB</span>
                   </div>
+                  <ChevronRight className="h-5 w-5 text-zinc-400 rotate-90" />
                 </div>
-                <ChevronRight className="h-5 w-5 text-zinc-400 rotate-90" />
-              </div>
+              ) : (
+                <div className="mt-1 w-full rounded-lg p-4 border border-dashed border-zinc-300 dark:border-white/[0.12]">
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-white">No settlement account linked</p>
+                  <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                    Add a bank account before a direct-debit mandate can be raised.
+                  </p>
+                  <Link
+                    href="/dashboard/tenant/payments/methods/bank"
+                    className="mt-2 inline-flex text-xs font-semibold text-primary hover:text-[var(--sovereign-hover)]"
+                  >
+                    Add a bank account
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Execution date */}

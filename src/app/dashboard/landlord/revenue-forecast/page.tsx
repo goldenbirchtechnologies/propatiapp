@@ -11,7 +11,7 @@ export default async function LandlordRevenueForecastPage() {
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
-        <RevenueForecastClient />
+        <RevenueForecastClient userId={user.id} />
       </ErrorBoundary>
     </DashboardShell>
   );

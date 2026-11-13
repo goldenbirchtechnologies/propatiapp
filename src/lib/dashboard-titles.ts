@@ -33,7 +33,6 @@ const TITLE_MAP: Array<[RegExp, string]> = [
   [/^\/dashboard\/landlord\/financials\/withdrawals$/, 'Withdrawals'],
   [/^\/dashboard\/landlord\/financials\/reports$/, 'Financial Reports'],
   [/^\/dashboard\/landlord\/revenue-forecast$/, 'Revenue Forecast'],
-  [/^\/dashboard\/landlord\/revenue-forecast\/scenario-builder$/, 'Revenue Scenario Builder'],
   [/^\/dashboard\/landlord\/profile$/, 'Profile'],
   [/^\/dashboard\/landlord\/notifications$/, 'Notifications'],
   [/^\/dashboard\/landlord\/screening$/, 'Screening'],

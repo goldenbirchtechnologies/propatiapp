@@ -15,7 +15,7 @@ export default async function LandlordRevenueForecastReportPage() {
   const yearStart = new Date(new Date().getFullYear(), 0, 1);
 
   const transactions = await prisma.transaction.findMany({
-    where: { payeeId: user.id, status: { in: ['released', 'success'] }, createdAt: { gte: yearStart } },
+    where: { payeeId: user.id, status: 'released', createdAt: { gte: yearStart } },
     select: {
       amount: true,
       createdAt: true,
@@ -65,7 +65,7 @@ export default async function LandlordRevenueForecastReportPage() {
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
-        <ReportClient rows={rows} />
+        <ReportClient rows={rows} userId={user.id} />
       </ErrorBoundary>
     </DashboardShell>
   );

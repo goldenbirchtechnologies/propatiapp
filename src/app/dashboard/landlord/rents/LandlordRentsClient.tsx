@@ -4,7 +4,7 @@ import AppIcon from '@/components/icons/app-icon';
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { formatNairaFull } from '@/lib/utils';
+import { formatNairaFull, parseKoboToNaira } from '@/lib/utils';
 import { useAccountSettings } from '@/hooks/useAccountSettings';
 import { DashboardSection } from '@/components/layout/DashboardShell';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -70,17 +70,17 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
     load();
   }, [userId]);
 
-  // Stats
+  // Stats — transaction amounts are stored in kobo; every figure below is naira.
   const totalRevenue = transactions
     .filter((t) => t.status === 'released')
-    .reduce((sum, t) => sum + Number(t.amount), 0);
+    .reduce((sum, t) => sum + parseKoboToNaira(Number(t.amount)), 0);
   const inEscrow = transactions
     .filter((t) => t.status === 'in_escrow')
-    .reduce((sum, t) => sum + Number(t.amount), 0);
+    .reduce((sum, t) => sum + parseKoboToNaira(Number(t.amount)), 0);
   const pendingCount = transactions.filter((t) => t.status === 'pending').length;
   const pendingTotal = transactions
     .filter((t) => t.status === 'pending')
-    .reduce((sum, t) => sum + Number(t.amount), 0);
+    .reduce((sum, t) => sum + parseKoboToNaira(Number(t.amount)), 0);
   const recordedTotal = totalRevenue + inEscrow + pendingTotal;
   /** Labels for the six buckets in `monthlyRevenue`, oldest first. */
   const monthLabels = useMemo(() => {
@@ -92,7 +92,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
   const collectedPercent = recordedTotal > 0 ? Math.round((totalRevenue / recordedTotal) * 100) : 0;
   const thisMonthRevenue = transactions
     .filter((t) => t.status === 'released' && new Date(t.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
-    .reduce((sum, t) => sum + Number(t.amount), 0);
+    .reduce((sum, t) => sum + parseKoboToNaira(Number(t.amount)), 0);
 
   const trendPositive = totalRevenue > 0;
   const monthPercent =
@@ -268,7 +268,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm">{tx.listing?.title || tx.listing?.area || '-'}</td>
-                      <td className="px-6 py-4 text-sm font-medium font-mono">₦{Number(tx.amount).toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm font-medium font-mono">₦{parseKoboToNaira(Number(tx.amount)).toLocaleString('en-NG')}</td>
                       <td className="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">{new Date(tx.createdAt).toLocaleDateString('en-NG')}</td>
                       <td className="px-6 py-4">
                         <RentStatusBadge status={tx.status} />

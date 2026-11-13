@@ -35,20 +35,31 @@ const SCENARIOS: Record<ScenarioKey, { occ: number; units: number; rent: number;
   pessimistic: { occ: 55, units: 14, rent: 1100000, label: 'Pessimistic (-24.3%)', delta: '-0.7% Deficit' },
 };
 
-export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: number }) {
+export default function ScenarioBuilderClient({
+  baseRevenue,
+  portfolios,
+}: {
+  baseRevenue: number;
+  portfolios: { units: number; avgMonthlyRent: number };
+}) {
   const [saving, setSaving] = useState(false);
   const [scenario, setScenario] = useState<ScenarioKey>('baseline');
-  const [units, setUnits] = useState(18);
-  const [atRisk, setAtRisk] = useState(1);
+  const [units, setUnits] = useState<number>(portfolios.units || 1);
+  const [atRisk, setAtRisk] = useState(0);
   const [occ, setOcc] = useState(72);
-  const [rent, setRent] = useState(1250000);
+  // Seeded from the landlord's own rent roll, so the baseline is their portfolio
+  // rather than a fixed ₦1.25m property that may not be theirs.
+  const [rent, setRent] = useState<number>(Math.round(portfolios.avgMonthlyRent) || 0);
   const [inflation, setInflation] = useState(12.0);
-  const [expenses, setExpenses] = useState([
-    { title: 'Facility IPP Diesel Surcharge', amount: 4800000, icon: Fuel },
-    { title: 'Security & Perimeter Access', amount: 1800000, icon: Shield },
-    { title: 'LASRERA & Tenancy Levies', amount: 1200000, icon: Wallet },
-    { title: 'Routine Maintenance & HVAC', amount: 2400000, icon: Wrench },
-    { title: 'Doubtful Accounts Escrow Buffer', amount: 2000000, icon: Wallet },
+  // Electric/security/levies/maintenance: generic categories only. The amounts
+  // used to be invented line items — a diesel surcharge the platform knows
+  // nothing about — so the model starts at zero and the landlord fills it in.
+  const [expenses, setExpenses] = useState<{ title: string; amount: number; icon: typeof Fuel }[]>([
+    { title: 'Facility utilities & IPP', amount: 0, icon: Fuel },
+    { title: 'Security & perimeter access', amount: 0, icon: Shield },
+    { title: 'Levies & tenancy charges', amount: 0, icon: Wallet },
+    { title: 'Routine maintenance & HVAC', amount: 0, icon: Wrench },
+    { title: 'Doubtful accounts buffer', amount: 0, icon: Wallet },
   ]);
 
   const totalExpenses = useMemo(() => expenses.reduce((s, e) => s + e.amount, 0), [expenses]);
@@ -358,7 +369,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
               size="sm"
               className="h-7 gap-1 text-xs font-bold uppercase tracking-wider text-primary hover:bg-primary/10 hover:text-[var(--sovereign-hover)]"
               onClick={() => {
-                setExpenses((e) => [...e, { title: 'Supplementary Contingency', amount: 1500000, icon: Wrench }]);
+                setExpenses((e) => [...e, { title: 'Supplementary contingency', amount: 0, icon: Wrench }]);
                 toast.success('Line item added');
               }}
             >
@@ -374,7 +385,19 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
                     <Icon className="h-4 w-4 text-zinc-500 dark:text-zinc-400 shrink-0" />
                     <span className="truncate text-sm font-medium text-zinc-900 dark:text-white">{e.title}</span>
                   </div>
-                  <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white shrink-0">{formatNairaFull(e.amount)}</span>
+                  <input
+                    type="number"
+                    min={0}
+                    step={50000}
+                    value={e.amount || ''}
+                    placeholder="0"
+                    aria-label={`${e.title} monthly amount`}
+                    onChange={(ev) => {
+                      const amount = Number(ev.target.value) || 0;
+                      setExpenses((prev) => prev.map((x, idx) => (idx === i ? { ...x, amount } : x)));
+                    }}
+                    className="w-32 shrink-0 rounded-lg border border-zinc-200 bg-white px-2 py-1 text-right font-mono text-sm font-semibold text-zinc-900 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-white"
+                  />
                   <button
                     onClick={() => {
                       setExpenses((prev) => prev.filter((_, idx) => idx !== i));
@@ -426,15 +449,19 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
       {/* Sync bar */}
       <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 flex flex-col xl:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-          <span className="h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
-          All scenario assumptions synchronized.
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+          Unsaved model — assumptions apply to this what-if only until you save.
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button
             variant="outline"
             size="sm"
             className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900"
-            onClick={() => toast.success('Cloned as new model')}
+            onClick={() => {
+              // "Cloning" and "saving" are the same write here; the old button
+              // reported a clone it never persisted.
+              handleSave();
+            }}
           >
             <Copy className="h-4 w-4" /> Save as New Model
           </Button>
@@ -461,7 +488,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
                 URL.revokeObjectURL(url);
                 toast.success('CSV exported');
               } catch {
-                toast.info('CSV queued');
+                toast.error('Could not export the scenario CSV. Try again.');
               }
             }}
           >

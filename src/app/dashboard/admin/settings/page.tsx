@@ -1,5 +1,6 @@
 import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -49,8 +50,22 @@ export default async function AdminSettingsPage() {
           </div>
         </div>
 
-        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-          <p className="text-zinc-600 dark:text-zinc-400">Platform settings will appear here.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { href: '/dashboard/admin/settings/global', title: 'Global Settings', body: 'Platform-wide defaults, limits and integration keys.' },
+            { href: '/dashboard/admin/settings/rules', title: 'Rules & Compliance', body: 'Jurisdiction rules, compliance events and document templates.' },
+            { href: '/dashboard/admin/settings/countries', title: 'Countries', body: 'Supported countries, jurisdictions and feature capabilities.' },
+            { href: '/dashboard/admin/settings/mfa', title: 'MFA Settings', body: 'TOTP enrolment and recovery codes for your admin account.' },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 hover:border-[#006c49] transition-colors"
+            >
+              <p className="font-semibold text-zinc-900 dark:text-white">{item.title}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">{item.body}</p>
+            </Link>
+          ))}
         </div>
       </div>
     

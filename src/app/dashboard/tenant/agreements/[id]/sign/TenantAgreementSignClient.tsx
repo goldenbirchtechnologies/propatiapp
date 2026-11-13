@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
+import { formatCurrency } from '@/lib/utils';
 import { formatNairaFull, formatDateLong } from '@/lib/utils';
 
 type Props = {
@@ -102,10 +103,8 @@ export default function TenantAgreementSignClient() {
   const pos = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current!;
     const rect = canvas.getBoundingClientRect();
-    const t = 'touches' in e ? e.touches[0] : (e as React.MouseEvent).touches?.[0] ?? (e as React.MouseEvent);
-    const clientX = (t as Touch).clientX ?? (e as React.MouseEvent).clientX;
-    const clientY = (t as Touch).clientY ?? (e as React.MouseEvent).clientY;
-    return { x: clientX - rect.left, y: clientY - rect.top };
+    const point = 'touches' in e ? e.touches[0] : e;
+    return { x: point.clientX - rect.left, y: point.clientY - rect.top };
   };
 
   const start = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
@@ -138,7 +137,16 @@ export default function TenantAgreementSignClient() {
     if (!canExecute) return;
     setSubmitting(true);
     try {
-      await signMutation.mutateAsync({ id: agreement.id, data: { consentText: 'I agree to the terms of this agreement.' } });
+      const signature = mode === 'draw' ? canvasRef.current?.toDataURL('image/png') ?? '' : typedName.trim();
+      await signMutation.mutateAsync({
+        id: agreement.id,
+        data: {
+          signature,
+          consentGiven: true,
+          consentText: 'I agree to the terms of this agreement.',
+          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+        },
+      });
       queryClient.invalidateQueries({ queryKey: agreementsKeys.detail(agreement.id) });
       setSuccessOpen(true);
       toast({ title: 'Agreement perfected & executed', description: 'Cryptographic seal applied. Registered with LASRERA.' });
@@ -203,18 +211,28 @@ export default function TenantAgreementSignClient() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
               <div className="absolute left-4 right-4 top-4 flex items-center justify-between text-[11px] font-semibold">
                 <span className="inline-flex items-center gap-1.5 rounded bg-primary px-2.5 py-1 text-white"><ShieldCheck className="h-3.5 w-3.5" /> Tier 1 Verified Sovereign Asset</span>
-                <span className="rounded bg-white/80 px-2 py-0.5 font-mono text-zinc-900">CAC RC-1849204</span>
               </div>
               <div className="absolute bottom-4 left-4 right-4 text-white">
-                <p className="text-[11px] font-semibold tracking-widest text-[#6ffbbe]">Ikoyi Prime Enclave</p>
+                <p className="text-[11px] font-semibold tracking-widest text-[#6ffbbe]">
+                  {[agreement.listing?.area, agreement.listing?.state].filter(Boolean).join(' · ') || '—'}
+                </p>
                 <h2 className="text-base font-bold leading-tight">{agreement.listing?.title ?? '—'}</h2>
                 <p className="flex items-center gap-1 text-xs text-white/80">{agreement.listing?.address ?? '—'}</p>
               </div>
             </div>
             <div className="grid grid-cols-3 bg-zinc-50 dark:bg-white/[0.04] px-4 py-3 text-center text-xs">
-              <div><p className="text-[11px] tracking-widest text-zinc-500">BEDROOMS</p><p className="font-semibold text-zinc-900 dark:text-white">4 En-Suite</p></div>
-              <div><p className="text-[11px] tracking-widest text-zinc-500">PARKING</p><p className="font-semibold text-zinc-900 dark:text-white">3 Dedicated</p></div>
-              <div><p className="text-[11px] tracking-widest text-zinc-500">POWER</p><p className="font-semibold text-primary dark:text-[#4edea3]">24/7 Dual Gens</p></div>
+              <div>
+                <p className="text-[11px] tracking-widest text-zinc-500">ANNUAL RENT</p>
+                <p className="font-semibold text-zinc-900 dark:text-white">{formatCurrency(agreement.rentAmount)}</p>
+              </div>
+              <div>
+                <p className="text-[11px] tracking-widest text-zinc-500">CAUTION</p>
+                <p className="font-semibold text-zinc-900 dark:text-white">{formatCurrency(agreement.cautionDeposit)}</p>
+              </div>
+              <div>
+                <p className="text-[11px] tracking-widest text-zinc-500">SERVICE CHARGE</p>
+                <p className="font-semibold text-primary dark:text-[#4edea3]">{formatCurrency(agreement.serviceCharge)}</p>
+              </div>
             </div>
           </div>
 
@@ -336,7 +354,7 @@ export default function TenantAgreementSignClient() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/95 p-6 text-center backdrop-blur-sm dark:bg-zinc-950/95">
                   <ShieldCheck className="h-10 w-10 text-primary" />
                   <p className="mt-2 text-sm font-semibold text-zinc-900 dark:text-white">Corporate CAC Digital Certificate</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">RC-1849204 — verified from the Corporate Affairs Commission registry. Selecting this mode will sign with your CAC-linked corporate seal.</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Signing this mode records a certificate signature against this agreement. It does not attach a seal from the Corporate Affairs Commission registry.</p>
                 </div>
               )}
             </div>

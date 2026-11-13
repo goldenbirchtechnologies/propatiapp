@@ -2,8 +2,11 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import { ShieldCheck } from 'lucide-react';
 import OnboardingWizard, { type OnboardingStatus } from '@/app/onboarding/OnboardingWizard';
+import { accountKeys } from '@/hooks/useAccountSettings';
+import { usersKeys } from '@/hooks/useUsers';
 
 /**
  * Routes that save work as a draft rather than refusing it. The scrim locks the
@@ -29,6 +32,7 @@ const DRAFT_ROUTES = [
 export function OnboardingOverlay() {
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
   const [status, setStatus] = useState<OnboardingStatus | null>(null);
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
@@ -101,8 +105,13 @@ export function OnboardingOverlay() {
 
   const handleComplete = useCallback(() => {
     close();
+    // Onboarding writes straight into the profile tables, so anything the
+    // dashboard already cached is now stale — a settlement account added in the
+    // dossier must show on the billing tab without a manual reload.
+    queryClient.invalidateQueries({ queryKey: accountKeys.all });
+    queryClient.invalidateQueries({ queryKey: usersKeys.all });
     router.refresh();
-  }, [close, router]);
+  }, [close, queryClient, router]);
 
   if (!ready || !status) return null;
 

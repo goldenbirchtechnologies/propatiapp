@@ -1,65 +1,35 @@
-'use client';
-
-import { useUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
-import { ADMIN_NAVIGATION } from '@/lib/navigation';
-import { Button } from '@/components/ui/button';
-import { StatusBadge } from '@/components/ui';
+import { getCurrentUserWithProfile } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import MfaEnrolmentClient from './MfaEnrolmentClient';
 
-export default function securitymfasettingspropatiPage() {
-  const { user } = useUser();
+export default async function AdminMfaSettingsPage() {
+  const user = await getCurrentUserWithProfile();
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'admin') redirect('/dashboard');
+
+  const mfa = await prisma.userMfa.findUnique({
+    where: { userId: user.id },
+    select: { totpVerified: true, enabledAt: true, recoveryCodeHashes: true },
+  });
 
   return (
     <DashboardShell
       navigation={ADMIN_NAVIGATION}
       userRole="admin"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Admin'}
-      userAvatar={user?.imageUrl}
+      userName={user.fullName || 'Admin'}
+      userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-6 shadow-none">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Security Mfa Settings</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 mt-1">Security & MFA Settings | EstateVerify EstateVerify Admin Console dashboard Overview domain Properties payments Transact...</p>
-        </section>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Security &amp; Privacy</h3></div>
-            <div className="p-6"><p className="text-sm text-zinc-600 dark:text-zinc-400">Content from security_mfa_settings_propati.</p></div>
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="default">Enable</Button>
-          <Button variant="default">Setup</Button>
-          <Button variant="default">Setup</Button>
-          <Button variant="default">Save New Password</Button>
-          <Button variant="default">View Codes</Button>
-        </div>
-        <div className="glass-card">
-          <div className="p-6 pt-6">
-            <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
-              <li>Admin Console</li>
-              <li>Manage your account security, multi-factor authentication, and active sessions.</li>
-              <li>Protect your account with an additional layer of security beyond your password.</li>
-              <li>Use Google Authenticator or Microsoft Authenticator to generate codes.</li>
-              <li>Receive a code via text message to your registered phone number.</li>
-              <li>Get backup codes sent to your primary email address.</li>
-              <li>Generate a set of one-time codes to access your account if you lose your phone or MFA device.</li>
-              <li>Account Health: Fair</li>
-            </ul>
-          </div>
-        </div>
-        <div className="glass-card">
-          <div className="p-6 pt-6">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">This page was ported from the reference design: <strong>security_mfa_settings_propati.html</strong></p>
-          </div>
-        </div>
-      </div>
-    
+        <MfaEnrolmentClient
+          enrolled={Boolean(mfa?.totpVerified)}
+          enabledAt={mfa?.enabledAt?.toISOString() ?? null}
+          recoveryCodesRemaining={Array.isArray(mfa?.recoveryCodeHashes) ? mfa.recoveryCodeHashes.length : 0}
+        />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

@@ -6,6 +6,7 @@ import { Download, Table as TableIcon, CheckCircle2, ChevronRight, FileDown, Tre
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatNairaFull } from '@/lib/utils';
+import { useAccountSettings } from '@/hooks/useAccountSettings';
 
 type Row = {
   month: string;
@@ -24,6 +25,8 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
   const [view, setView] = useState<'current' | 'projected' | 'h1' | 'h2'>('current');
   const [liveTotal, setLiveTotal] = useState<number | null>(null);
   const [liveCount, setLiveCount] = useState<number | null>(null);
+  const { data: accountSettings } = useAccountSettings();
+  const settlementState = accountSettings?.settlement.settlement.state ?? 'missing';
 
   useEffect(() => {
     let alive = true;
@@ -166,29 +169,40 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Projected Annual Run-Rate</span>
-          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(319900000)}</div>
-          <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary">
-            <TrendingUp className="h-4 w-4" /> +28.6% expected
+          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            {liveTotal !== null ? formatNairaFull(liveTotal) : '—'}
+          </div>
+          <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+            {liveTotal !== null ? 'From settled rent in the last 12 months' : 'No settled rent recorded yet'}
           </div>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
           <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">YTD Actual Revenue</span>
           <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
-            {liveTotal !== null ? formatNairaFull(liveTotal) : formatNairaFull(248650000)}
+            {liveTotal !== null ? formatNairaFull(liveTotal) : '—'}
           </div>
-          <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{liveCount !== null ? `${liveCount} settled • live` : '94.2% collection pacing • calibrated'}</div>
-        </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
-          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Net Variance Pacing</span>
-          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-primary">{formatNairaFull(12450000)}</div>
-          <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary">
-            <CheckCircle2 className="h-4 w-4" /> +5.27% above projection
+          {/* A failed or empty fetch shows nothing rather than a number the
+              platform invented — the previous fallback printed ₦248.65m as
+              though it were collected rent. */}
+          <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+            {liveCount !== null ? `${liveCount} settled • live` : 'Live ledger unavailable'}
           </div>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
-          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Model Confidence Score</span>
-          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">96.8%</div>
-          <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">IFRS-16 &amp; Monte Carlo calibrated</div>
+          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Settled This Period</span>
+          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-primary">
+            {liveTotal !== null ? formatNairaFull(liveTotal) : '—'}
+          </div>
+          <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+            {liveCount !== null ? `${liveCount} payment${liveCount === 1 ? '' : 's'} cleared` : 'Awaiting ledger'}
+          </div>
+        </div>
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
+          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Settlement Account</span>
+          <div className="mt-1 font-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            {settlementState === 'verified' ? 'Linked' : settlementState === 'pending' ? 'Pending' : 'Not set'}
+          </div>
+          <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">Payout destination for cleared rent</div>
         </div>
       </div>
 
@@ -289,16 +303,21 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
               ))}
             </tbody>
             <tfoot>
+              {/* Footer totals are summed from the rows above; the previous
+                  values (₦319.9m, ₦323.75m, +5.27%, "12 Active Portfolios")
+                  were unrelated literals that never matched the table. */}
               <tr className="border-t border-zinc-200 bg-zinc-50 text-xs font-semibold dark:border-white/[0.08] dark:bg-white/[0.04]">
-                <td className="px-4 py-3 uppercase font-bold text-primary">Aggregate Totals (FY24)</td>
-                <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400">12 Active Portfolios</td>
-                <td className="px-4 py-3 text-right font-mono font-bold text-zinc-900 dark:text-white">{formatNairaFull(319900000)}</td>
-                <td className="px-4 py-3 text-right font-mono font-bold text-primary">{formatNairaFull(323750000)}</td>
-                <td className="px-4 py-3 text-right font-mono font-bold text-primary">+5.27%</td>
-                <td className="px-4 py-3 font-mono font-bold text-zinc-900 dark:text-white">94.6% Mean</td>
-                <td className="px-4 py-3 text-center">
-                  <span className="rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold text-white">OPTIMAL</span>
+                <td className="px-4 py-3 uppercase font-bold text-primary">Aggregate Totals</td>
+                <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400">
+                  {totals.count} month{totals.count === 1 ? '' : 's'} shown
                 </td>
+                <td className="px-4 py-3 text-right font-mono font-bold text-zinc-900 dark:text-white">{formatNairaFull(totals.proj)}</td>
+                <td className="px-4 py-3 text-right font-mono font-bold text-primary">{formatNairaFull(totals.act)}</td>
+                <td className="px-4 py-3 text-right font-mono font-bold text-primary">
+                  {totals.proj > 0 ? `${(((totals.act - totals.proj) / totals.proj) * 100).toFixed(2)}%` : '—'}
+                </td>
+                <td className="px-4 py-3 font-mono font-bold text-zinc-900 dark:text-white">—</td>
+                <td className="px-4 py-3 text-center text-zinc-400">—</td>
               </tr>
             </tfoot>
           </table>
@@ -307,8 +326,17 @@ export default function ReportClient({ rows }: { rows?: Row[] }) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { title: 'CAC / RC-1849204 Verified', sub: 'Corporate title compliance verified.' },
-          { title: 'Zenith Real-Time Escrow Payouts', sub: 'Automated disburse routing active.' },
+          {
+            title: settlementState === 'verified' ? 'Settlement account verified' : 'Settlement account not verified',
+            sub:
+              settlementState === 'verified'
+                ? 'Payouts route to your verified account.'
+                : 'Complete verification to receive payouts.',
+          },
+          {
+            title: liveCount !== null ? `${liveCount} settled payment${liveCount === 1 ? '' : 's'}` : 'Ledger unavailable',
+            sub: 'Read from your live payment ledger.',
+          },
           { title: 'LIRS & FIRS Withholding Sync', sub: 'WHT remitted per Lagos tenancy laws.' },
         ].map((c) => (
           <div key={c.title} className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">

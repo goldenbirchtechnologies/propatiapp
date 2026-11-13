@@ -237,11 +237,11 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
             <div className="space-y-3 text-sm text-zinc-600 dark:text-zinc-400">
               <div className="flex items-start gap-2">
                 <CheckCircle2 size={16} className="mt-0.5 text-primary dark:text-[#4edea3]" />
-                <span>CAC registration verified (RC-1849204).</span>
+                <span>You are responsible for the accuracy of your CAC registration details.</span>
               </div>
               <div className="flex items-start gap-2">
                 <CheckCircle2 size={16} className="mt-0.5 text-primary dark:text-[#4edea3]" />
-                <span>LASRERA registration active for 2024.</span>
+                <span>You are responsible for holding a current LASRERA registration.</span>
               </div>
               <div className="flex items-start gap-2">
                 <AlertCircle size={16} className="mt-0.5 text-amber-600 dark:text-amber-400" />

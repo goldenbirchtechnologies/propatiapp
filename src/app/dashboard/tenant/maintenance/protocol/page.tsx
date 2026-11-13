@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { Button } from '@/components/ui/button';
 import {
-  ShieldCheck, Clock, AlertTriangle, Wrench, FileText, ArrowRight, Phone, CheckCircle2,
+  Clock, AlertTriangle, Wrench, FileText, ArrowRight, Phone, CheckCircle2,
   PlusCircle, Cog, BadgeCheck, Verified, Scale, PhoneCall, MessageCircle,
   Shield, Flame, Ambulance, Gauge, Gavel, CheckCircle,
   Timer, Lock, Image as ImageIcon, MapPin, QrCode,
@@ -349,7 +349,7 @@ export default async function TenantMaintenanceProtocolPage() {
                   <span className="text-[11px] font-semibold uppercase text-zinc-500">Estate Operations Command</span>
                   <a href="tel:08007767284" className="flex items-center justify-between rounded-lg bg-white dark:bg-zinc-900 p-3 transition-colors hover:bg-zinc-100 dark:hover:bg-white/[0.06]">
                     <div className="flex items-center gap-2">
-                      <PhonePhoneCall className="h-5 w-5 text-primary" />
+                      <PhoneCall className="h-5 w-5 text-primary" />
                       <div>
                         <p className="font-mono text-sm font-bold text-zinc-900 dark:text-white">0800-PROPATI</p>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400">Toll-Free National (0800-7767284)</p>
@@ -448,12 +448,8 @@ export default async function TenantMaintenanceProtocolPage() {
                   </div>
                 </div>
                 <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-                  All technical maintenance personnel dispatched to Sovereign Estate units are licensed, background-checked, and registered under LASRERA Permit <strong className="font-mono text-zinc-900 dark:text-white">LSR/EST/2021/044</strong>.
+                  Technical maintenance personnel dispatched through the estate desk are background-checked before allocation. Permit and registration numbers are held on the estate&apos;s compliance record rather than shown here.
                 </p>
-                <div className="mt-3 flex items-center justify-between border-t border-zinc-200 dark:border-white/[0.08] pt-3 font-mono text-[11px] text-zinc-500">
-                  <span>RC NO: 1849204</span>
-                  <span className="flex items-center gap-1 font-semibold text-primary dark:text-[#4edea3]"><ShieldCheck className="h-3.5 w-3.5" /> VALIDATED</span>
-                </div>
               </div>
             </div>
           </div>

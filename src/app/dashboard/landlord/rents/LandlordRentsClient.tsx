@@ -2,8 +2,10 @@
 
 import AppIcon from '@/components/icons/app-icon';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { formatNairaFull } from '@/lib/utils';
+import { useAccountSettings } from '@/hooks/useAccountSettings';
 import { DashboardSection } from '@/components/layout/DashboardShell';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
@@ -39,6 +41,9 @@ interface LandlordRentsClientProps {
 }
 
 export default function LandlordRentsClient({ userId }: LandlordRentsClientProps) {
+  const { data: accountSettings } = useAccountSettings();
+  const settlement = accountSettings?.settlement;
+  const settlementState = settlement?.settlement.state ?? 'missing';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -73,6 +78,18 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
     .filter((t) => t.status === 'in_escrow')
     .reduce((sum, t) => sum + Number(t.amount), 0);
   const pendingCount = transactions.filter((t) => t.status === 'pending').length;
+  const pendingTotal = transactions
+    .filter((t) => t.status === 'pending')
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+  const recordedTotal = totalRevenue + inEscrow + pendingTotal;
+  /** Labels for the six buckets in `monthlyRevenue`, oldest first. */
+  const monthLabels = useMemo(() => {
+    const now = new Date();
+    return Array.from({ length: 6 }, (_, i) =>
+      new Date(now.getFullYear(), now.getMonth() - (5 - i), 1).toLocaleString('en-GB', { month: 'short' })
+    );
+  }, []);
+  const collectedPercent = recordedTotal > 0 ? Math.round((totalRevenue / recordedTotal) * 100) : 0;
   const thisMonthRevenue = transactions
     .filter((t) => t.status === 'released' && new Date(t.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
     .reduce((sum, t) => sum + Number(t.amount), 0);
@@ -83,8 +100,20 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
       ? ((thisMonthRevenue / (totalRevenue - thisMonthRevenue)) * 100).toFixed(0)
       : '0';
 
-  // Mock chart data for reference design
-  const monthlyRevenue = [60, 75, 45, 90, 65, 80]; // percentages
+  /** Rent released in each of the last six months, as a % of the busiest month. */
+  const monthlyRevenue = useMemo(() => {
+    const buckets = Array.from({ length: 6 }, () => 0);
+    const now = new Date();
+    transactions
+      .filter((t) => t.status === 'released')
+      .forEach((t) => {
+        const d = new Date(t.createdAt);
+        const monthsAgo = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
+        if (monthsAgo >= 0 && monthsAgo < 6) buckets[5 - monthsAgo] += Number(t.amount);
+      });
+    const peak = Math.max(...buckets, 0);
+    return peak > 0 ? buckets.map((v) => Math.round((v / peak) * 100)) : buckets;
+  }, [transactions]);
 
   function RentTableSkeleton() {
     return (
@@ -147,14 +176,18 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-xs font-medium uppercase tracking-widest text-on-primary/60 mb-2">
               Total Expected Revenue
             </p>
-            <p className="text-4xl font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-on-primary mb-4">₦14,250,000</p>
+            <p className="text-4xl font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-on-primary mb-4">
+              {formatNairaFull(totalRevenue)}
+            </p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-[#006c49]-bright">
                 <AppIcon name="trending_up" className="lucide" />
-                <span className="text-xs font-medium">12% vs last month</span>
+                <span className="text-xs font-medium">
+                  {trendPositive ? `${monthPercent}% of all rent in the last 30 days` : 'No rent released yet'}
+                </span>
               </div>
               <div className="bg-white dark:bg-zinc-950/50/10 px-3 py-1 rounded-full text-xs font-bold text-zinc-900 dark:text-white">
-                Fiscal Year 2024
+                Last 12 months
               </div>
             </div>
           </div>
@@ -164,13 +197,17 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         {/* Collected Funds */}
         <div className="glass-card border-t-4" style={{ borderTopColor: 'hsl(var(--tertiary))' }}>
           <div className="p-6 p-6">
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-2">Collected Funds</p>
-            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white" style={{ color: 'hsl(var(--tertiary))' }}>₦11,800,000</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-2">Awaiting Settlement</p>
+            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white" style={{ color: 'hsl(var(--tertiary))' }}>
+              {formatNairaFull(inEscrow)}
+            </p>
             <div className="mt-4">
               <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
-                <div className="bg-success h-full w-[82%] rounded-full" />
+                <div className="bg-success h-full rounded-full" style={{ width: `${collectedPercent}%` }} />
               </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-2">82% of target reached</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-2">
+                {collectedPercent}% of recorded rent has cleared
+              </p>
             </div>
           </div>
         </div>
@@ -178,10 +215,12 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         {/* Pending Arrears */}
         <div className="glass-card border-t-4 border-red-500">
           <div className="p-6 p-6">
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-2">Pending Arrears</p>
-            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-red-500">₦2,450,000</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-2">Pending Payments</p>
+            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-red-500">{formatNairaFull(pendingTotal)}</p>
             <div className="mt-4 flex items-center justify-between">
-              <span className="text-xs text-zinc-600 dark:text-zinc-400">14 Units Overdue</span>
+              <span className="text-xs text-zinc-600 dark:text-zinc-400">
+                {pendingCount} payment{pendingCount === 1 ? '' : 's'} outstanding
+              </span>
               <AppIcon name="warning" className="lucide" />
             </div>
           </div>
@@ -220,10 +259,10 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container text-xs font-bold">
-                            {(tx.payer?.fullName || tx.agreements?.tenant?.fullName || '?').split(' ').map(n => n[0]).join('').slice(0, 2)}
+                            {(tx.payer?.fullName || tx.agreements?.[0]?.tenant?.fullName || '?').split(' ').map(n => n[0]).join('').slice(0, 2)}
                           </div>
                           <div>
-                            <p className="text-sm font-medium">{tx.payer?.fullName || tx.agreements?.tenant?.fullName || 'Unknown'}</p>
+                            <p className="text-sm font-medium">{tx.payer?.fullName || tx.agreements?.[0]?.tenant?.fullName || 'Unknown'}</p>
                             <p className="text-xs text-zinc-600 dark:text-zinc-400 opacity-70">{tx.type}</p>
                           </div>
                         </div>
@@ -265,7 +304,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                     className="w-full bg-primary-container rounded-t-lg transition-all duration-700 hover:brightness-125"
                     style={{ height: `${val}%` }}
                   />
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400">{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][i]}</span>
+                  <span className="text-xs text-zinc-600 dark:text-zinc-400">{monthLabels[i]}</span>
                 </div>
               ))}
             </div>
@@ -278,21 +317,35 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <div>
               <h4 className="font-headline-sm text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white text-on-primary mb-2">Quick Verified Action</h4>
               <p className="text-sm text-on-primary/80 mb-6">
-                You have ₦4,200,000 available for withdrawal to your verified corporate account. Transactions are settled within 15 minutes.
+                {settlementState === 'missing'
+                  ? 'Add a settlement account to have cleared rent paid out.'
+                  : `${formatNairaFull(totalRevenue)} of rent has cleared from escrow and is paid to your settlement account.`}
               </p>
               <div className="space-y-3">
                 <div className="flex items-center gap-3 bg-white dark:bg-zinc-950/50/10 p-3 rounded-lg border border-zinc-200 dark:border-white/[0.08]">
                   <BadgeCheck className="h-5 w-5 text-on-primary" />
                   <div>
-                    <p className="text-sm font-medium text-on-primary">Verified Bank Account</p>
-                    <p className="text-xs text-on-primary/60">Guaranty Trust Bank •••• 4291</p>
+                    <p className="text-sm font-medium text-on-primary">
+                      {settlementState === 'verified'
+                        ? 'Verified Bank Account'
+                        : settlementState === 'pending'
+                          ? 'Account verification pending'
+                          : 'No settlement account'}
+                    </p>
+                    <p className="text-xs text-on-primary/60">
+                      {settlementState === 'missing'
+                        ? 'Add one from Payout & Settlement Banking'
+                        : `${settlement?.settlement.bankName ?? 'Bank'} ${settlement?.settlement.accountNumberMasked ?? ''}`.trim()}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            <Button className="mt-6 w-full bg-warning text-zinc-900 dark:text-white hover:bg-warning font-bold">
-              <Wallet className="h-4 w-4" />
-              Request Instant Payout
+            <Button asChild className="mt-6 w-full bg-warning text-zinc-900 dark:text-white hover:bg-warning font-bold">
+              <Link href="/dashboard/landlord/profile?tab=billing">
+                <Wallet className="h-4 w-4" />
+                {settlementState === 'verified' ? 'View settlement account' : 'Complete settlement setup'}
+              </Link>
             </Button>
           </div>
         </div>

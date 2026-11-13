@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileShell from '@/components/profiles/ProfileShell';
 import ProfileHeader from '@/components/profiles/ProfileHeader';
 import ProfileForm from '@/components/profiles/ProfileForm';
@@ -8,9 +8,16 @@ import ProfileSecurity from '@/components/profiles/ProfileSecurity';
 import ProfileNotifications from '@/components/profiles/ProfileNotifications';
 import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
 import { Calculator } from 'lucide-react';
+import { toast } from 'sonner';
+import { useCurrentUser, useUpdateProfile } from '@/hooks/useUsers';
 
 export default function AccountantProfilePage() {
-  const [form, setForm] = useState({ fullName: 'Accountant', email: 'accountant@propati.ng', phone: '0803 456 7890', company: 'Propati Finance' });
+  const { data: user } = useCurrentUser();
+  const updateProfile = useUpdateProfile();
+
+  // Seeded empty rather than with sample values: the form used to open showing
+  // "accountant@propati.ng / 0803 456 7890", which is nobody's account.
+  const [form, setForm] = useState({ fullName: '', email: '', phone: '' });
   const [notifications, setNotifications] = useState({
     paymentPosted: { enabled: true, label: 'Payment posted', description: 'Notified when a payment is posted' },
     invoiceIssued: { enabled: true, label: 'Invoice issued', description: 'Notified when a new invoice is generated' },
@@ -18,19 +25,38 @@ export default function AccountantProfilePage() {
     reportReady: { enabled: true, label: 'Report ready', description: 'Notified when scheduled reports are ready' },
   });
 
+  useEffect(() => {
+    if (!user) return;
+    setForm({
+      fullName: user.fullName ?? '',
+      email: user.email ?? '',
+      phone: user.phone ?? '',
+    });
+  }, [user]);
+
   const toggleNotification = (id: string, value: boolean) => {
     setNotifications((prev) => ({ ...prev, [id]: { ...prev[id as keyof typeof prev], enabled: value } }));
   };
 
   const profileFields = [
     { name: 'fullName', label: 'Full Name', value: form.fullName, onChange: (v: string) => setForm({ ...form, fullName: v }) },
-    { name: 'email', label: 'Email', type: 'email', value: form.email, onChange: (v: string) => setForm({ ...form, email: v }) },
+    // Email is owned by Clerk; edits here would be silently discarded, so the
+    // field is shown but not offered as an input.
+    { name: 'email', label: 'Email (managed by your sign-in)', type: 'email', value: form.email, onChange: () => {} },
     { name: 'phone', label: 'Phone', type: 'tel', value: form.phone, onChange: (v: string) => setForm({ ...form, phone: v }) },
-    { name: 'company', label: 'Firm / Company', value: form.company, onChange: (v: string) => setForm({ ...form, company: v }) },
   ];
 
-  const handleProfileSubmit = (e: React.FormEvent) => {
+  const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await updateProfile.mutateAsync({
+        fullName: form.fullName,
+        phone: form.phone || undefined,
+      });
+      toast.success('Profile updated');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Could not save your profile');
+    }
   };
 
   return (

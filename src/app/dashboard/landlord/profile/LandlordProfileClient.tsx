@@ -1,9 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useCurrentUser, useUpdateProfile, useUploadAvatar, useVerifyPhone, useRequestPhoneOTP } from '@/hooks/useUsers';
+import { useAccountSettings, useUpdateAccountSettings, type AccountSettings } from '@/hooks/useAccountSettings';
 import { cn } from '@/lib/utils';
 import { useKycStatus } from '@/lib/dojah-client';
+import { getStampDutyRule } from '@/lib/stamp-duty-rules';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,10 +15,17 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock, BadgeCheck, User, Shield, Building2, Landmark, FileText, Scale, Bell, Users, Wallet, CreditCard, MessageSquare, Receipt, Fingerprint, Smartphone, RefreshCw, Split, Percent } from 'lucide-react';
+import { Loader2, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock, BadgeCheck, User, Shield, Building2, Landmark, FileText, Scale, Bell, Users, Wallet, CreditCard, MessageSquare, Receipt, Fingerprint, Smartphone, RefreshCw, Split, Percent, Plus } from 'lucide-react';
+
+interface LandlordProfileUser {
+  fullName?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  profileBio?: string | null;
+}
 
 interface LandlordProfileClientProps {
-  user: unknown;
+  user: LandlordProfileUser;
 }
 
 export default function LandlordProfileClient({ user: initialUser }: LandlordProfileClientProps) {
@@ -47,13 +57,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     screening: true,
     system: true,
   });
-  const [bankAccount, setBankAccount] = useState<any>(null);
-  const [bankLoading, setBankLoading] = useState(true);
-  const [gatewayToggles, setGatewayToggles] = useState({
-    paystack: true,
-    sms: true,
-    stampDuty: true,
-  });
+  const {
+    data: accountSettings,
+    isLoading: accountLoading,
+    isError: accountError,
+    refetch: refetchAccount,
+  } = useAccountSettings();
+  const updateAccountSettings = useUpdateAccountSettings();
+  const [notifSaving, setNotifSaving] = useState<string | null>(null);
 
   const { data: currentUser, refetch: refetchUser } = useCurrentUser();
   const updateProfileMutation = useUpdateProfile();
@@ -64,20 +75,28 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
   const user = currentUser || initialUser;
 
+  const settings = accountSettings?.settings;
+  const settlement = accountSettings?.settlement;
+  const settlementState = settlement?.settlement.state ?? 'missing';
+
+  // Notification preferences come from the user's own row, the same endpoint the
+  // tenant settings page already uses, so both surfaces read one contract.
   useEffect(() => {
-    let mounted = true;
-    (async () => {
-      try {
-        const res = await fetch('/api/paystack/me');
-        const json = await res.json();
-        if (mounted && json?.success) setBankAccount(json.data);
-      } catch {
-        // ignore
-      } finally {
-        if (mounted) setBankLoading(false);
-      }
-    })();
-    return () => { mounted = false; };
+    let cancelled = false;
+    fetch('/api/users/notification-preferences', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (!cancelled && json?.success && json.data?.types) {
+          setUserNotifications((prev) => ({ ...prev, ...json.data.types }));
+        }
+      })
+      .catch(() => {
+        // The toggles fall back to their documented defaults; a failed read must
+        // not block the rest of the settings page.
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -110,6 +129,58 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   const missingActions = [
     !user?.phoneVerified && profileData.phone ? 'Verify your phone number' : null,
   ].filter(Boolean);
+
+  /** The statutory ad valorem rate, read from the shared rule set rather than retyped. */
+  const stampDutyRatePercent = (getStampDutyRule('residential_tenancy').rate * 100).toFixed(2);
+
+  /**
+   * Persists one gateway toggle. The success toast is only emitted once the
+   * server has acknowledged the write — the previous version toasted "saved"
+   * with no request behind it, so the switch never survived a refresh.
+   */
+  const saveGatewayToggle = async (key: keyof AccountSettings, label: string, enabled: boolean) => {
+    try {
+      await updateAccountSettings.mutateAsync({ [key]: enabled } as Partial<AccountSettings>);
+      toast({
+        title: 'Preference saved',
+        description: `${label} ${enabled ? 'enabled' : 'disabled'}.`,
+      });
+    } catch {
+      toast({
+        title: 'Could not save preference',
+        description: 'Your change was not stored. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  /**
+   * Persists one notification toggle. The optimistic switch state is restored if
+   * the PATCH is rejected, so the UI never claims a preference the server
+   * didn't record.
+   */
+  const saveNotificationToggle = async (id: keyof typeof userNotifications, checked: boolean) => {
+    const previous = userNotifications[id];
+    setUserNotifications((prev) => ({ ...prev, [id]: checked }));
+    setNotifSaving(id);
+    try {
+      const res = await fetch('/api/users/notification-preferences', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ types: { [id]: checked } }),
+      });
+      if (!res.ok) throw new Error('PATCH failed');
+    } catch {
+      setUserNotifications((prev) => ({ ...prev, [id]: previous }));
+      toast({
+        title: 'Could not save preference',
+        description: 'Your change was not stored. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setNotifSaving(null);
+    }
+  };
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -186,12 +257,53 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     { id: 'security' as const, label: 'Security & API Keys', icon: <Shield size={16} /> },
   ];
 
+  /**
+   * The five verification layers, each read from a field the platform actually
+   * holds. The previous version hardcoded every layer to CERTIFIED, which told
+   * every landlord their title and survey were registry-matched even when they
+   * had never been checked.
+   */
+  const kycLayerStatus = (done: boolean, pendingLabel = 'IN REVIEW') => (done ? 'CERTIFIED' : pendingLabel);
   const kycLayers = [
-    { layer: 'L1', label: 'Identity & Biometrics', status: 'CERTIFIED', desc: 'Biometric facial liveness, NIN slip and passport verification passed via NIMC.' },
-    { layer: 'L2', label: 'Corporate Entity & CAC Status', status: 'CERTIFIED', desc: 'CAC registration active. Memorandum of Association filed.' },
-    { layer: 'L3', label: "Title Deed & Governor's Consent", status: 'CERTIFIED', desc: 'Lagos State Lands Bureau registry match confirmed.' },
-    { layer: 'L4', label: 'Survey Plan & GIS Coordinates', status: 'IN REVIEW', desc: 'Geospatial boundary beacon survey awaiting signoff.' },
-    { layer: 'L5', label: 'Institutional Bank & Tax Clearance', status: 'CERTIFIED', desc: 'Tax Clearance Certificate and escrow setup verified.' },
+    {
+      layer: 'L1',
+      label: 'Identity & Biometrics',
+      status: kycLayerStatus(!!user?.idVerified),
+      desc: user?.idVerified
+        ? 'Identity document and liveness check verified via Dojah.'
+        : 'Submit a government ID to have your identity checked.',
+    },
+    {
+      layer: 'L2',
+      label: 'Corporate Entity & CAC Status',
+      status: kycLayerStatus(!!user?.ownedOrganisations?.[0]?.verified, 'NOT SUBMITTED'),
+      desc: user?.ownedOrganisations?.[0]?.verified
+        ? `${user.ownedOrganisations[0].name} is verified against its CAC record.`
+        : 'Register or verify an organisation to certify this layer.',
+    },
+    {
+      layer: 'L3',
+      label: "Title Deed & Governor's Consent",
+      status: 'NOT SUBMITTED',
+      desc: 'Submit title documents with a property to have the deed checked.',
+    },
+    {
+      layer: 'L4',
+      label: 'Survey Plan & GIS Coordinates',
+      status: 'NOT SUBMITTED',
+      desc: 'Submit a survey plan with a property to have its boundaries checked.',
+    },
+    {
+      layer: 'L5',
+      label: 'Institutional Bank & Tax Clearance',
+      status: kycLayerStatus(settlementState === 'verified', 'ACTION REQUIRED'),
+      desc:
+        settlementState === 'verified'
+          ? 'Settlement account resolved and name-matched to your verified identity.'
+          : settlementState === 'pending'
+            ? 'Settlement account saved — name match is still pending.'
+            : 'Add a settlement account to certify this layer.',
+    },
   ];
 
   return (
@@ -204,8 +316,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           <span className="text-primary dark:text-[#4edea3] font-semibold">Profile</span>
         </div>
         <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Synced</span>
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${
+              accountError ? 'bg-red-500' : accountLoading ? 'bg-amber-500 animate-pulse' : 'bg-primary'
+            }`}
+          />
+          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+            {accountError ? 'Not synced' : accountLoading ? 'Syncing…' : 'Synced'}
+          </span>
         </div>
       </div>
 
@@ -287,9 +405,17 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               </div>
             </div>
             <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
-              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Monthly Lease Flow</span>
+              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Settlement Status</span>
               <div className="flex items-baseline justify-between mt-1">
-                <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">—</span>
+                <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">
+                  {accountLoading
+                    ? '…'
+                    : settlementState === 'verified'
+                      ? 'Linked'
+                      : settlementState === 'pending'
+                        ? 'Pending'
+                        : 'Not set'}
+                </span>
                 <span className="text-xs text-primary dark:text-[#4edea3] font-medium">Escrow</span>
               </div>
             </div>
@@ -475,102 +601,152 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <Wallet size={20} className="text-primary dark:text-[#4edea3]" />
                 <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Rent Collection & Settlement Banking</h2>
               </div>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary dark:text-[#4edea3] text-xs font-semibold uppercase tracking-wide">
-                <ShieldCheck size={14} /> CBN / NIBSS Verified
-              </span>
+              {settlementState === 'verified' ? (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary dark:text-[#4edea3] text-xs font-semibold uppercase tracking-wide">
+                  <ShieldCheck size={14} /> Settlement account verified
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-semibold uppercase tracking-wide">
+                  <AlertCircle size={14} /> {settlementState === 'pending' ? 'Verification pending' : 'Not verified'}
+                </span>
+              )}
             </div>
 
             {/* Primary Settlement Account Card */}
             <div className="p-6 rounded-xl bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-white/[0.04] dark:to-white/[0.08] flex flex-col gap-4 relative overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center text-primary dark:text-[#4edea3]">
-                    <Building2 size={28} />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-zinc-900 dark:text-white">{bankAccount?.bankName || 'Zenith Bank PLC'}</span>
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">Corporate Commercial Current • Lagos Corporate Branch</span>
-                  </div>
-                </div>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary text-white text-xs font-semibold tracking-wide">
-                  <span className="w-2 h-2 rounded-full bg-[var(--sovereign-container-bg)] animate-pulse" />
-                  PRIMARY ESCROW
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-                <div className="flex flex-col">
-                  <span className="text-xs text-zinc-500 dark:text-zinc-400">NUBAN Account Number</span>
-                  <span className="font-mono text-lg font-semibold text-zinc-900 dark:text-white tracking-wider">
-                    {bankLoading ? '…' : (bankAccount?.accountNumber || '1012938472')}
-                  </span>
-                </div>
-                <div className="flex flex-col sm:col-span-2">
-                  <span className="text-xs text-zinc-500 dark:text-zinc-400">Verified Account Beneficiary</span>
-                  <span className="text-sm font-semibold text-zinc-900 dark:text-white uppercase truncate">
-                    {bankAccount?.accountName || 'ADEYEMI OLUMIDE PROPERTIES LTD (ESCROW)'}
-                  </span>
-                </div>
-              </div>
-              {/* Direct Split Escrow Rule */}
-              <div className="p-4 rounded-lg bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-between gap-3 border border-zinc-200 dark:border-white/[0.08]">
-                <div className="flex items-center gap-3">
-                  <Split size={20} className="text-primary dark:text-[#4edea3]" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-zinc-900 dark:text-white">Automated Facility Escrow Split</span>
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">Auto-split 10% statutory maintenance escrow to reserve wallet upon rent clearance</span>
-                  </div>
-                </div>
-                <span className="text-xs font-semibold text-primary dark:text-[#4edea3] bg-primary/10 px-2 py-1 rounded">ACTIVE (10%)</span>
-              </div>
-              <div className="flex items-center justify-between pt-1">
-                <button
-                  type="button"
-                  onClick={() => toast({ title: 'Edit bank account', description: 'Bank edit flow coming soon.' })}
-                  className="text-primary dark:text-[#4edea3] text-sm font-medium hover:underline flex items-center gap-1"
-                >
-                  <FileText size={14} /> Edit Bank Account
-                </button>
-                <button
-                  type="button"
-                  onClick={() => toast({ title: 'Add secondary bank', description: 'Secondary bank flow coming soon.' })}
-                  className="text-zinc-500 dark:text-zinc-400 text-sm font-medium hover:text-zinc-700 dark:hover:text-zinc-300 flex items-center gap-1"
-                >
-                  <Landmark size={14} /> Add Secondary Bank (GTBank / Access)
-                </button>
-              </div>
-            </div>
-
-            {/* Gateway Toggles */}
-            <div className="flex flex-col divide-y divide-zinc-200 dark:divide-white/[0.08] pt-2">
-              {[
-                { key: 'paystack', icon: <CreditCard size={20} />, title: 'Paystack Direct Invoicing & Virtual Accounts', desc: 'Generates dedicated virtual bank accounts for each tenant. Supports USSD, Cards, and Instant Bank Transfers.', color: 'bg-primary/10 text-primary dark:text-[#4edea3]' },
-                { key: 'sms', icon: <MessageSquare size={20} />, title: 'Automated SMS & WhatsApp Payment Reminders', desc: 'Dispatches formal renewal prompts directly to corporate and residential tenants at 30 days, 14 days, and 3 days before expiry.', color: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300' },
-                { key: 'stampDuty', icon: <Receipt size={20} />, title: 'Tenant Invoicing Stamp Duty Surcharge (Ad Valorem 0.75%)', desc: 'Automatically calculates and itemizes statutory FIRS/LIRS electronic stamp duty on generated tenant proforma invoices.', color: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300' },
-              ].map((g) => (
-                <div key={g.key} className="py-4 flex items-center justify-between gap-4">
-                  <div className="flex items-start gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${g.color}`}>
-                      {g.icon}
+              {settlementState === 'missing' ? (
+                /* No account on file. The old card filled this in with a demo bank
+                   and account number, which read as though the landlord had a
+                   settlement account they had never added. */
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center text-zinc-400">
+                      <Landmark size={28} />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">{g.title}</span>
-                      <span className="text-xs text-zinc-500 dark:text-zinc-400">{g.desc}</span>
+                      <span className="font-semibold text-zinc-900 dark:text-white">No settlement account yet</span>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        Add the bank account rent should be paid into. It is name-matched to your verified identity before payouts are released.
+                      </span>
                     </div>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer flex-shrink-0">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={gatewayToggles[g.key as keyof typeof gatewayToggles]}
-                      onChange={(e) => {
-                        setGatewayToggles((prev) => ({ ...prev, [g.key]: e.target.checked }));
-                        toast({ title: 'Preference saved', description: `${g.title} ${e.target.checked ? 'enabled' : 'disabled'}.` });
-                      }}
-                    />
-                    <div className="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
-                  </label>
+                  <Link
+                    href="/onboarding?step=landlordSettlement"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-white transition hover:brightness-110"
+                  >
+                    <Plus size={14} /> Add settlement account
+                  </Link>
                 </div>
-              ))}
+              ) : (
+                <>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center text-primary dark:text-[#4edea3]">
+                        <Building2 size={28} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-zinc-900 dark:text-white">
+                          {settlement?.settlement.bankName ?? 'Bank not recorded'}
+                        </span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                          {settlementState === 'verified'
+                            ? 'Resolved and name-matched to your verified identity'
+                            : 'Saved — name match with your verified identity is still pending'}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary text-white text-xs font-semibold tracking-wide">
+                      <span className="w-2 h-2 rounded-full bg-[var(--sovereign-container-bg)] animate-pulse" />
+                      PRIMARY ESCROW
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">NUBAN Account Number</span>
+                      <span className="font-mono text-lg font-semibold text-zinc-900 dark:text-white tracking-wider">
+                        {settlement?.settlement.accountNumberMasked ?? '—'}
+                      </span>
+                    </div>
+                    <div className="flex flex-col sm:col-span-2">
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">Account Beneficiary</span>
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white uppercase truncate">
+                        {settlement?.settlement.accountName ?? '—'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between pt-1">
+                    <Link
+                      href="/onboarding?step=landlordSettlement"
+                      className="text-primary dark:text-[#4edea3] text-sm font-medium hover:underline flex items-center gap-1"
+                    >
+                      <FileText size={14} /> {settlementState === 'verified' ? 'Edit Bank Account' : 'Complete verification'}
+                    </Link>
+                  </div>
+                </>
+              )}
+
+              {/* Direct Split Escrow Rule — driven by the stored split, hidden when off */}
+              {(settings?.escrowSplitPercent ?? 0) > 0 && (
+                <div className="p-4 rounded-lg bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-between gap-3 border border-zinc-200 dark:border-white/[0.08]">
+                  <div className="flex items-center gap-3">
+                    <Split size={20} className="text-primary dark:text-[#4edea3]" />
+                    <div className="flex flex-col">
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">Automated Facility Escrow Split</span>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        Auto-split {settings?.escrowSplitPercent}% statutory maintenance escrow to reserve wallet upon rent clearance
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-semibold text-primary dark:text-[#4edea3] bg-primary/10 px-2 py-1 rounded">
+                    ACTIVE ({settings?.escrowSplitPercent}%)
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Gateway Toggles — each bound to a stored column on the landlord's profile */}
+            {accountError && (
+              <div className="flex items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-300">
+                <span className="flex items-center gap-2">
+                  <AlertCircle size={16} /> Could not load your saved preferences.
+                </span>
+                <button type="button" onClick={() => refetchAccount()} className="font-semibold underline">
+                  Retry
+                </button>
+              </div>
+            )}
+            <div className="flex flex-col divide-y divide-zinc-200 dark:divide-white/[0.08] pt-2">
+              {([
+                { key: 'paystackInvoicingEnabled', icon: <CreditCard size={20} />, title: 'Paystack Direct Invoicing & Virtual Accounts', desc: 'Generates dedicated virtual bank accounts for each tenant. Supports USSD, Cards, and Instant Bank Transfers.', color: 'bg-primary/10 text-primary dark:text-[#4edea3]' },
+                { key: 'paymentRemindersEnabled', icon: <MessageSquare size={20} />, title: 'Automated SMS & WhatsApp Payment Reminders', desc: 'Dispatches formal renewal prompts directly to corporate and residential tenants at 30 days, 14 days, and 3 days before expiry.', color: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300' },
+                { key: 'stampDutySurchargeEnabled', icon: <Receipt size={20} />, title: `Tenant Invoicing Stamp Duty Surcharge (Ad Valorem ${stampDutyRatePercent}%)`, desc: 'Automatically calculates and itemizes statutory FIRS/LIRS electronic stamp duty on generated tenant proforma invoices.', color: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300' },
+              ] as const).map((g) => {
+                const isPending =
+                  updateAccountSettings.isPending &&
+                  updateAccountSettings.variables?.[g.key] !== undefined;
+                return (
+                  <div key={g.key} className="py-4 flex items-center justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${g.color}`}>
+                        {g.icon}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-white">{g.title}</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">{g.desc}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {isPending && <Loader2 size={14} className="animate-spin text-zinc-400" />}
+                      <Switch
+                        checked={settings?.[g.key] ?? false}
+                        disabled={accountLoading || !settings || isPending}
+                        aria-label={g.title}
+                        onCheckedChange={(checked) => saveGatewayToggle(g.key, g.title, checked)}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -597,10 +773,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                     <p className="font-medium text-zinc-900 dark:text-white">{item.label}</p>
                     <p className="text-sm text-zinc-500 dark:text-zinc-400">{item.desc}</p>
                   </div>
-                  <Switch
-                    checked={userNotifications[item.id]}
-                    onCheckedChange={(checked) => setUserNotifications((prev) => ({ ...prev, [item.id]: checked }))}
-                  />
+                  <div className="flex items-center gap-2">
+                    {notifSaving === item.id && <Loader2 size={14} className="animate-spin text-zinc-400" />}
+                    <Switch
+                      checked={userNotifications[item.id]}
+                      disabled={notifSaving === item.id}
+                      onCheckedChange={(checked) => saveNotificationToggle(item.id, checked)}
+                    />
+                  </div>
                 </div>
               ))}
             </div>

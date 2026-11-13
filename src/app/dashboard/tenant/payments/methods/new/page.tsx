@@ -283,15 +283,14 @@ export default function AddPaymentMethodNewPage() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-between rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] p-4 shadow-sm">
-                <span className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-primary dark:text-[#4edea3]" />
-                  <span className="flex flex-col">
-                    <span className="text-xs font-bold text-zinc-900 dark:text-white">CAC Reg: RC-1849204</span>
-                    <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Primary Tenant: Adeleke Global Logistics Ltd</span>
-                  </span>
+              {/* No registration number here: the page has no organisation in
+                  scope, and the previous hardcoded RC belonged to no one. */}
+              <div className="flex items-center gap-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] p-4 shadow-sm">
+                <Shield className="h-5 w-5 text-primary dark:text-[#4edea3]" />
+                <span className="flex flex-col">
+                  <span className="text-xs font-bold text-zinc-900 dark:text-white">64-bit encrypted tokenization</span>
+                  <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Bank details are held by the payment gateway, never by PropatiBox.</span>
                 </span>
-                <span className="rounded bg-zinc-100 dark:bg-white/[0.08] px-2 py-1 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">Active Lease</span>
               </div>
             </div>
 

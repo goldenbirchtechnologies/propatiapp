@@ -381,12 +381,12 @@ export default function AgentCollectionsClient({
             <Scale className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <span className={AGENT_FINANCE_LABEL}>Escrow Custody Partner</span>
+            <span className={AGENT_FINANCE_LABEL}>Escrow Routing</span>
             <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">
-              Stanbic IBTC Trustees &amp; Zenith Escrow
+              Paystack Split Settlement
             </p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Segregated legal trustee escrow for all managed assets
+              Collections settle to your verified subaccount
             </p>
           </div>
         </div>
@@ -395,12 +395,12 @@ export default function AgentCollectionsClient({
             <Gauge className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <span className={AGENT_FINANCE_LABEL}>Real-Time RTGS Limit</span>
+            <span className={AGENT_FINANCE_LABEL}>Settlement Channel</span>
             <p className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">
-              ₦100,000,000.00 / day
+              NIBSS Instant Transfer
             </p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Automated high-value clearing with instant dispatch to NIBSS
+              Cleared collections dispatch to your bank account
             </p>
           </div>
         </div>

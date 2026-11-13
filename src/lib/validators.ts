@@ -1072,6 +1072,47 @@ export const onboardingLandlordSettlementSchema = z.object({
   commissionConsent: z.literal(true, { errorMap: () => ({ message: 'You must acknowledge the fee terms' }) }),
 });
 
+/**
+ * Partial update of a landlord's rent-collection settings. Every field is
+ * optional so a single toggle can be patched on its own; the route rejects a
+ * body with no recognised keys so an empty PATCH can't masquerade as a save.
+ *
+ * The split is capped at 50%: above that the maintenance reserve outweighs the
+ * owner's own payout, which is never a legitimate configuration.
+ */
+export const accountSettingsSchema = z
+  .object({
+    paystackInvoicingEnabled: z.boolean().optional(),
+    paymentRemindersEnabled: z.boolean().optional(),
+    stampDutySurchargeEnabled: z.boolean().optional(),
+    escrowSplitPercent: z.number().int().min(0, 'Split cannot be negative').max(50, 'Split cannot exceed 50%').optional(),
+  })
+  .refine((value) => Object.keys(value).length > 0, {
+    message: 'No settings to update',
+  });
+
+// Saved rent-forecast scenarios. `assumptions` is passed through as-is: the
+// builder owns that shape, and pinning it here would mean a migration every
+// time the builder gains a field.
+export const rentScenarioSchema = z.object({
+  name: z.string().trim().min(1, 'Give the scenario a name').max(120),
+  assumptions: z.record(z.unknown()),
+});
+
+export const autoPayMandateSchema = z.object({
+  agreementId: z.string().min(1).optional(),
+  enabled: z.boolean().optional(),
+  execDay: z.number().int().min(1, 'Day must be between 1 and 28').max(28, 'Day must be between 1 and 28').optional(),
+  amountStrategy: z.enum(['fixed', 'percentage_of_income', 'custom']).optional(),
+  threshold: z.number().int().min(0).nullable().optional(),
+});
+
+// TOTP codes are exactly six digits — reject anything else before touching the
+// secret, so a malformed body never costs a bcrypt/HMAC round trip.
+export const mfaCodeSchema = z.object({
+  code: z.string().trim().regex(/^\d{6}$/, 'Enter the 6-digit code from your authenticator app'),
+});
+
 // Agent — Steps 4–7
 
 export const onboardingAgentProfileSchema = z.object({
@@ -1149,6 +1190,10 @@ export const onboardingEstateRemittanceSchema = z.object({
 
 export type OnboardingLandlordProfileInput = z.infer<typeof onboardingLandlordProfileSchema>;
 export type OnboardingLandlordSettlementInput = z.infer<typeof onboardingLandlordSettlementSchema>;
+export type AccountSettingsInput = z.infer<typeof accountSettingsSchema>;
+export type RentScenarioInput = z.infer<typeof rentScenarioSchema>;
+export type AutoPayMandateInput = z.infer<typeof autoPayMandateSchema>;
+export type MfaCodeInput = z.infer<typeof mfaCodeSchema>;
 export type OnboardingAgentProfileInput = z.infer<typeof onboardingAgentProfileSchema>;
 export type OnboardingAgentLicenseInput = z.infer<typeof onboardingAgentLicenseSchema>;
 export type OnboardingAgentTerritoryInput = z.infer<typeof onboardingAgentTerritorySchema>;

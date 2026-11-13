@@ -36,6 +36,7 @@ const SCENARIOS: Record<ScenarioKey, { occ: number; units: number; rent: number;
 };
 
 export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: number }) {
+  const [saving, setSaving] = useState(false);
   const [scenario, setScenario] = useState<ScenarioKey>('baseline');
   const [units, setUnits] = useState(18);
   const [atRisk, setAtRisk] = useState(1);
@@ -73,20 +74,34 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
   };
 
   const handleSave = async () => {
+    setSaving(true);
     try {
       const res = await fetch('/api/scenarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: scenario, assumptions: { units, atRisk, occ, rent, inflation, expenses } }),
+        body: JSON.stringify({
+          name: `${SCENARIOS[scenario].label} — ${new Date().toLocaleDateString('en-NG')}`,
+          assumptions: { units, atRisk, occ, rent, inflation, expenses },
+        }),
       });
-      if (res.ok) toast.success('Scenario saved');
-      else throw new Error();
-    } catch {
-      toast.success('Scenario saved locally');
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || 'The scenario could not be saved.');
+      }
+      toast.success('Scenario saved');
+    } catch (error) {
+      // Previously this fell through to a green "saved locally" toast, which
+      // told the user their scenario persisted when nothing had been stored.
+      toast.error(error instanceof Error ? error.message : 'Failed to save scenario');
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleApply = () => toast.success('Scenario applied to forecast');
+  // The builder is a what-if model; applying it to the live forecast is not a
+  // supported write yet, so the button says so rather than claiming success.
+  const handleApply = () =>
+    toast.info('Saved scenarios are not yet applied to the live forecast — export the figures to use them.');
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -139,8 +154,8 @@ export default function ScenarioBuilderClient({ baseRevenue }: { baseRevenue: nu
           <Button variant="outline" size="sm" className="gap-2 border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900" onClick={handleReset}>
             <RotateCcw className="h-4 w-4" /> Reset
           </Button>
-          <Button size="sm" className="gap-2 border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-200" variant="outline" onClick={handleSave}>
-            <Save className="h-4 w-4" /> Save Scenario
+          <Button size="sm" className="gap-2 border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-200" variant="outline" onClick={handleSave} disabled={saving}>
+            <Save className="h-4 w-4" /> {saving ? 'Saving…' : 'Save Scenario'}
           </Button>
           <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={handleApply}>
             <TrendingUp className="h-4 w-4" /> Apply to Forecast

@@ -1,8 +1,41 @@
 'use client';
 
 import AppIcon from '@/components/icons/app-icon';
+import Link from 'next/link';
+import { formatDateLong } from '@/lib/utils';
 
-export default function AdminProfileSecurityClient({ displayName = 'Administrator' }: { displayName?: string }) {
+export interface AdminAuditEvent {
+  id: string;
+  action: string;
+  targetType: string;
+  ipAddress: string | null;
+  createdAt: string;
+}
+
+interface Props {
+  displayName?: string;
+  email?: string;
+  phone?: string | null;
+  mfaEnabled: boolean;
+  auditEvents: AdminAuditEvent[];
+}
+
+/**
+ * Every value on this page comes from the caller's own record.
+ *
+ * The previous version hardcoded a synthetic administrator — `ade.b@propati.ng`,
+ * `+234 812 345 6789`, three active sessions on two devices, and four audit
+ * events dated 2023. On a security settings screen those read as facts about the
+ * account, so a missing value now renders as empty and an absent MFA enrolment
+ * renders as "Not enabled" rather than "ENABLED".
+ */
+export default function AdminProfileSecurityClient({
+  displayName = 'Administrator',
+  email,
+  phone,
+  mfaEnabled,
+  auditEvents,
+}: Props) {
   return (
     <div className="p-margin-desktop space-y-gutter max-w-7xl mx-auto">
       {/* Section 1: Profile Overview (Bento Style) */}
@@ -29,7 +62,7 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
               <span className="px-3 py-1 rounded-full bg-primary-container text-on-primary-container font-label-sm text-[10px]">Super Admin</span>
             </div>
             <p className="text-zinc-600 dark:text-zinc-400 text-body-md max-w-lg">
-              Overseeing regional operations and high-value asset verification across West Africa. Active member since January 2023.
+              {email ?? 'Platform administrator'}
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               <button className="px-6 py-2.5 bg-primary text-zinc-900 dark:text-white rounded-xl font-medium text-body-sm hover:translate-y-[-2px] transition-all shadow-none">
@@ -61,7 +94,11 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
             </div>
           </div>
           <div className="z-10 mt-6">
-            <p className="text-xs text-on-primary-container mb-4">Your security level is at 94%. Enabling Biometric login will reach 100%.</p>
+            <p className="text-xs text-on-primary-container mb-4">
+              {mfaEnabled
+                ? 'Authenticator multi-factor is enabled on this account.'
+                : 'Enrol an authenticator app to protect this account with multi-factor authentication.'}
+            </p>
             <div className="w-full h-1.5 bg-white dark:bg-zinc-950/50/10 rounded-full overflow-hidden">
               <div className="h-full bg-secondary-container w-[94%]"></div>
             </div>
@@ -98,7 +135,8 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
                 <input
                   className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="email"
-                  defaultValue="ade.b@propati.ng"
+                  defaultValue={email ?? ''}
+                  readOnly
                 />
               </div>
             </div>
@@ -108,7 +146,8 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
                 <input
                   className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="tel"
-                  defaultValue="+234 812 345 6789"
+                  defaultValue={phone ?? ''}
+                  placeholder="No phone number on file"
                 />
               </div>
               <div className="col-span-2 md:col-span-1">
@@ -143,7 +182,7 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
                 <AppIcon name="lock_reset" className="lucide" />
                 <div>
                   <p className="font-bold text-zinc-900 dark:text-white text-body-md">Password Management</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Last changed 2 days ago</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Managed by your sign-in provider</p>
                 </div>
               </div>
               <button className="px-4 py-2 bg-primary text-zinc-900 dark:text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
@@ -157,26 +196,43 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
                 <AppIcon name="smartphone" className="lucide" />
                 <div>
                   <p className="font-bold text-zinc-900 dark:text-white text-body-md">Multi-Factor Authentication</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Authenticator app enabled</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                    {mfaEnabled ? 'Authenticator app enabled' : 'No authenticator app enrolled'}
+                  </p>
                 </div>
               </div>
-              <span className="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary-container font-label-sm text-xs font-bold border border-secondary-container/30">
-                ENABLED
-              </span>
+              {mfaEnabled ? (
+                <span className="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary-container font-label-sm text-xs font-bold border border-secondary-container/30">
+                  ENABLED
+                </span>
+              ) : (
+                <Link
+                  href="/dashboard/admin/settings/mfa"
+                  className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
+                >
+                  Set up
+                </Link>
+              )}
             </div>
 
-            {/* Active Sessions */}
+            {/* Sessions live with the sign-in provider, which this page cannot
+                enumerate; linking out beats inventing a device count. */}
             <div className="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08]/30">
               <div className="flex items-center gap-4">
                 <AppIcon name="devices" className="lucide" />
                 <div>
                   <p className="font-bold text-zinc-900 dark:text-white text-body-md">Active Sessions</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">3 sessions across 2 devices</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Managed by Clerk — revoke from your account portal</p>
                 </div>
               </div>
-              <button className="text-error font-bold text-label-sm px-4 py-2 hover:bg-error/5 rounded-lg transition-colors">
-                Revoke All
-              </button>
+              <a
+                href="https://accounts.clerk.com/user"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-error font-bold text-label-sm px-4 py-2 hover:bg-error/5 rounded-lg transition-colors"
+              >
+                Manage
+              </a>
             </div>
           </div>
         </section>
@@ -191,26 +247,24 @@ export default function AdminProfileSecurityClient({ displayName = 'Administrato
           <h4 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Security Audit Log</h4>
         </div>
         <div className="space-y-6 relative before:content-[''] before:absolute before:left-4 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant">
-          <div className="relative pl-10">
-            <div className="absolute left-2.5 top-1 w-3 h-3 bg-primary rounded-full border-2 border-white shadow-none"></div>
-            <p className="font-bold text-body-sm text-zinc-900 dark:text-white">Password changed successfully</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400">2 days ago • IP: 102.89.23.41</p>
-          </div>
-          <div className="relative pl-10">
-            <div className="absolute left-2.5 top-1 w-3 h-3 bg-primary rounded-full border-2 border-white shadow-none"></div>
-            <p className="font-bold text-body-sm text-zinc-900 dark:text-white">2FA verified at 09:41 AM</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400">Today • iPhone 15 Pro</p>
-          </div>
-          <div className="relative pl-10">
-            <div className="absolute left-2.5 top-1 w-3 h-3 bg-secondary-container rounded-full border-2 border-white shadow-none"></div>
-            <p className="font-bold text-body-sm text-zinc-900 dark:text-white">New device login detected</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400">Yesterday • Lagos, Nigeria</p>
-          </div>
-          <div className="relative pl-10">
-            <div className="absolute left-2.5 top-1 w-3 h-3 bg-outline-variant rounded-full border-2 border-white shadow-none"></div>
-            <p className="font-bold text-body-sm text-zinc-900 dark:text-white">Recovery codes viewed</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400">Oct 12, 2023 • MacBook Pro</p>
-          </div>
+          {auditEvents.length === 0 ? (
+            <p className="pl-10 text-xs text-zinc-600 dark:text-zinc-400">
+              No privileged actions recorded on this account yet.
+            </p>
+          ) : (
+            auditEvents.map((event) => (
+              <div key={event.id} className="relative pl-10">
+                <div className="absolute left-2.5 top-1 w-3 h-3 bg-primary rounded-full border-2 border-white shadow-none" />
+                <p className="font-bold text-body-sm text-zinc-900 dark:text-white">
+                  {event.action} · {event.targetType}
+                </p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                  {formatDateLong(event.createdAt)}
+                  {event.ipAddress ? ` • IP: ${event.ipAddress}` : ''}
+                </p>
+              </div>
+            ))
+          )}
         </div>
         <button className="w-full mt-8 py-3 border border-zinc-200 dark:border-white/[0.08] rounded-xl text-label-sm font-bold text-zinc-900 dark:text-white hover:bg-white dark:bg-zinc-900 transition-all">
           View Full Security Log

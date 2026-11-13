@@ -21,12 +21,34 @@ type Invoice = {
 };
 
 export default function AutomatedMonthlyStatementClient() {
-  const [enrolled, setEnrolled] = useState(true);
+  const [enrolled, setEnrolled] = useState(false);
+  const [enrolling, setEnrolling] = useState(false);
   const [cardNumber, setCardNumber] = useState('');
   const [showSecurity, setShowSecurity] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const handleEnroll = async () => {
+    setEnrolling(true);
+    try {
+      const res = await fetch('/api/paystack/auto-pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled: true, execDay: 1, amountStrategy: 'fixed' }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || 'Enrolment could not be recorded.');
+      }
+      setEnrolled(true);
+      toast.success('Enrolment requested. Debits begin once your bank confirms the mandate.');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to enrol in auto-pay');
+    } finally {
+      setEnrolling(false);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -72,7 +94,7 @@ export default function AutomatedMonthlyStatementClient() {
           <button className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors" onClick={() => window.print()}>
             <Printer className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
           </button>
-          <Button variant="outline" size="sm" className="flex items-center gap-2" onClick={() => toast.info('Statement download started.')}>
+          <Button variant="outline" size="sm" className="flex items-center gap-2" onClick={() => window.print()}>
             <Download className="w-4 h-4" /> Download
           </Button>
         </div>
@@ -156,11 +178,11 @@ export default function AutomatedMonthlyStatementClient() {
               <Label htmlFor="agree" className="text-sm text-zinc-600 dark:text-zinc-400">I authorize recurring rent debits.</Label>
             </div>
             <Button
-              disabled={!agreed}
-              onClick={() => toast.success('Auto-pay enrollment saved.')}
+              disabled={!agreed || enrolling}
+              onClick={handleEnroll}
               className="bg-primary hover:bg-[var(--sovereign-hover)] text-white"
             >
-              Enroll
+              {enrolling ? 'Requesting…' : 'Enroll'}
             </Button>
           </div>
         )}

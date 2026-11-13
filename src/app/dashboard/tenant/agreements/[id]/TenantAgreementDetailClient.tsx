@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAgreement } from '@/hooks/useAgreements';
-import { FileText, Home, User, ShieldCheck, Scale, Download, Printer, Gavel, Building2, BedDouble, Bath, Ruler, Car, Zap, Droplets, Wrench, ScrollText, Fingerprint, Lock, Receipt, Folder, Phone, Mail, CheckCircle2, Clock, Pen, ExternalLink } from 'lucide-react';
+import { FileText, Home, User, ShieldCheck, Scale, Download, Printer, Gavel, Building2, Wrench, ScrollText, Fingerprint, Lock, Receipt, Folder, Phone, Mail, CheckCircle2, Clock, Pen, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { toast } from '@/hooks/use-toast';
 import { apiEndpoints } from '@/lib/api';
-import { formatNairaFull, formatDateLong } from '@/lib/utils';
+import { formatNairaFull, formatDateLong, formatCurrency } from '@/lib/utils';
 
 type Agreement = {
   id: string;
@@ -98,7 +98,6 @@ export default function TenantAgreementDetailClient() {
           <span className="hidden sm:inline truncate text-zinc-600 dark:text-zinc-400">{agreement.listing?.title ?? 'Tenancy'}</span>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><ShieldCheck className="h-3.5 w-3.5" /> CAC &amp; LASRERA VERIFIED</span>
           <StatusBadge status={label} />
           <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400"><Gavel className="h-3.5 w-3.5" /> LAWS OF LAGOS STATE 2011</span>
         </div>
@@ -163,16 +162,21 @@ export default function TenantAgreementDetailClient() {
                 <div className="relative h-80 bg-zinc-100 dark:bg-zinc-900">
                   {cover ? <img src={cover.url} alt={agreement.listing?.title ?? ''} className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center text-zinc-400"><Building2 className="h-10 w-10" /></div>}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                  <div className="absolute left-4 top-4 flex gap-2 text-[11px] font-semibold">
-                    <span className="rounded bg-white/90 px-2.5 py-1 text-zinc-900">IKOYI WATERFRONT CORRIDOR</span>
-                    <span className="rounded bg-primary px-2.5 py-1 text-white">DIPLOMATIC EMBASSY GRADE</span>
-                  </div>
-                  <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between text-white">
-                    <div>
-                      <p className="text-xs tracking-widest text-white/80">PREMISES IDENTIFICATION</p>
-                      <h2 className="text-lg font-bold">{agreement.listing?.title ?? '—'} — {agreement.listing?.area ?? ''}</h2>
+                  {/* Only facts drawn from the listing; the previous banner pinned a
+                      fixed "Ikoyi Waterfront Corridor / Diplomatic Embassy Grade"
+                      to every agreement regardless of the property. */}
+                  {agreement.listing?.area || agreement.listing?.state ? (
+                    <div className="absolute left-4 top-4 flex gap-2 text-[11px] font-semibold">
+                      <span className="rounded bg-white/90 px-2.5 py-1 text-zinc-900">
+                        {[agreement.listing?.area, agreement.listing?.state].filter(Boolean).join(' · ').toUpperCase()}
+                      </span>
                     </div>
-                    <span className="rounded bg-white/20 px-3 py-1 font-mono text-xs backdrop-blur">Photos Verified 2024</span>
+                  ) : null}
+                  <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between text-white">
+                    <div className="min-w-0">
+                      <p className="text-xs tracking-widest text-white/80">PREMISES IDENTIFICATION</p>
+                      <h2 className="truncate text-lg font-bold">{agreement.listing?.title ?? '—'}</h2>
+                    </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-4 gap-2 p-2">
@@ -184,11 +188,9 @@ export default function TenantAgreementDetailClient() {
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-2 bg-zinc-50 dark:bg-white/[0.04] p-3 text-xs">
-                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><BedDouble className="h-4 w-4 text-primary" /> 4 Bedrooms Ensuite</span>
-                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><Bath className="h-4 w-4 text-primary" /> 4.5 Bathrooms</span>
-                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><Ruler className="h-4 w-4 text-primary" /> 420 sqm</span>
-                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><Car className="h-4 w-4 text-primary" /> 2 Bays</span>
-                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><Zap className="h-4 w-4 text-primary" /> 24/7 Dual-Gen</span>
+                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><Home className="h-4 w-4 text-primary" /> {formatCurrency(agreement.rentAmount)} / {agreement.rentPeriod ?? 'year'}</span>
+                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><ShieldCheck className="h-4 w-4 text-primary" /> {formatCurrency(agreement.cautionDeposit)} caution</span>
+                  <span className="inline-flex items-center gap-1.5 rounded bg-white dark:bg-zinc-900 px-3 py-1.5"><Receipt className="h-4 w-4 text-primary" /> {formatCurrency(agreement.serviceCharge)} service charge</span>
                 </div>
               </div>
 
@@ -244,10 +246,6 @@ export default function TenantAgreementDetailClient() {
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
                   <h3 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Home className="h-5 w-5 text-primary" /> Architectural &amp; Facility Specifications</h3>
                   <p className="mt-3 whitespace-pre-wrap leading-relaxed text-sm text-zinc-700 dark:text-zinc-300">{agreement.listing.description}</p>
-                  <div className="mt-4 grid gap-3 md:grid-cols-2">
-                    <div className="flex gap-3 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3"><Droplets className="h-5 w-5 shrink-0 text-primary" /><div><p className="text-sm font-semibold text-zinc-900 dark:text-white">Reverse Osmosis Water Facility</p><p className="text-xs text-zinc-600 dark:text-zinc-400">WHO-grade filtration at every tap.</p></div></div>
-                    <div className="flex gap-3 rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-3"><Zap className="h-5 w-5 shrink-0 text-primary" /><div><p className="text-sm font-semibold text-zinc-900 dark:text-white">Microgrid 100% Redundancy</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Dual turbines + solar battery, zero flicker.</p></div></div>
-                  </div>
                 </div>
               )}
 

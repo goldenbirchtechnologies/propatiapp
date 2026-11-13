@@ -639,6 +639,9 @@ model User {
   landlordProfile        LandlordProfile?           @relation("LandlordProfileOwner")
   agentOnboardingProfile AgentProfile?              @relation("AgentProfileOwner")
   estateManagerProfile   EstateManagerProfile?      @relation("EstateManagerProfileOwner")
+  mfa                    UserMfa?
+  rentScenarios          RentScenario[]             @relation("RentScenarioOwner")
+  autoPayMandates        AutoPayMandate[]           @relation("AutoPayMandateOwner")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -1092,6 +1095,7 @@ model Agreement {
   jurisdiction Jurisdiction?        @relation(fields: [jurisdictionId], references: [id])
   legalMatters LegalMatter[]
   agentReviews AgentReview[]
+  autoPayMandates AutoPayMandate[]
 
   @@map("agreements")
 }
@@ -2616,6 +2620,16 @@ model LandlordProfile {
   preferredLeaseDuration String? @map("preferred_lease_duration")
   commissionConsent      Boolean @default(false) @map("commission_consent")
 
+  // Rent-collection account settings. These back the toggles on
+  // /dashboard/landlord/profile?tab=billing; they live on the landlord's own
+  // profile row so a preference can never be read for the wrong user, and they
+  // sit beside the settlement fields the onboarding step already writes.
+  paystackInvoicingEnabled  Boolean @default(true) @map("paystack_invoicing_enabled")
+  paymentRemindersEnabled   Boolean @default(true) @map("payment_reminders_enabled")
+  stampDutySurchargeEnabled Boolean @default(true) @map("stamp_duty_surcharge_enabled")
+  /// Share of each cleared rent payment reserved to the maintenance escrow.
+  escrowSplitPercent        Int     @default(10)   @map("escrow_split_percent")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -2711,4 +2725,78 @@ model EstateManagerProfile {
   user User @relation("EstateManagerProfileOwner", fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("estate_manager_profiles")
+}
+
+// ===========================================================================
+// ACCOUNT SECURITY (TOTP MFA)
+// ===========================================================================
+
+// TOTP second factor for dashboard accounts. The shared secret and the
+// recovery codes are both stored encrypted-at-rest (AES-256-GCM, see
+// src/lib/mfa/totp.ts) — this table never holds a plaintext secret.
+model UserMfa {
+  id                 String    @id @default(cuid()) @map("id")
+  userId             String    @unique @map("user_id")
+  /// pending = secret issued but never confirmed; active = first TOTP verified.
+  status             String    @default("pending") @db.VarChar(20)
+  secretEnc          String    @map("secret_enc")
+  totpVerified       Boolean   @default(false) @map("totp_verified")
+  /// bcrypt hashes of unused recovery codes, one per element.
+  recoveryCodeHashes Json      @default("[]") @map("recovery_code_hashes")
+  lastUsedAt         DateTime? @map("last_used_at")
+  enabledAt          DateTime? @map("enabled_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_user_mfa_user")
+  @@map("user_mfa")
+}
+
+// ===========================================================================
+// REVENUE FORECASTING & AUTO-PAY MANDATES
+// ===========================================================================
+
+// A saved rent-forecast scenario. `assumptions` is the raw builder state so a
+// scenario survives the builder gaining fields later without a migration.
+model RentScenario {
+  id          String   @id @default(cuid()) @map("id")
+  userId      String   @map("user_id")
+  name        String   @db.VarChar(120)
+  assumptions Json
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation("RentScenarioOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_rent_scenarios_user")
+  @@map("rent_scenarios")
+}
+
+// A tenant's standing instruction to auto-debit rent. This row records the
+// mandate the tenant asked for; it is NOT a live Paystack Direct-Debit
+// subscription, so the UI must describe it as requested, never active.
+model AutoPayMandate {
+  id            String    @id @default(cuid()) @map("id")
+  userId        String    @map("user_id")
+  agreementId   String?   @map("agreement_id")
+  enabled       Boolean   @default(true)
+  /// Day of month the debit should run on (1–28).
+  execDay       Int       @default(1) @map("exec_day")
+  /// fixed | percentage_of_income | custom
+  amountStrategy String   @default("fixed") @map("amount_strategy")
+  /// Ceiling per debit in kobo-as-naira; null means no cap.
+  threshold     BigInt?   @map("threshold")
+  /// requested | cancelled
+  status        String    @default("requested") @db.VarChar(20)
+  revokedAt     DateTime? @map("revoked_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  user      User       @relation("AutoPayMandateOwner", fields: [userId], references: [id], onDelete: Cascade)
+  agreement Agreement? @relation(fields: [agreementId], references: [id], onDelete: SetNull)
+
+  @@index([userId], map: "idx_auto_pay_mandates_user")
+  @@map("auto_pay_mandates")
 }

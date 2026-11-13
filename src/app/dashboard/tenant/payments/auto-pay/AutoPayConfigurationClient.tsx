@@ -30,22 +30,29 @@ export default function AutoPayConfigurationClient({ mandate }: { mandate?: Auto
       const res = await fetch('/api/paystack/auto-pay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ enabled, execDate, amountStrategy, threshold }),
+        body: JSON.stringify({
+          enabled,
+          execDay: execDate === '1st' ? 1 : execDate === '3rd' ? 3 : 5,
+          amountStrategy: amountStrategy === 'full' ? 'fixed' : 'percentage_of_income',
+          threshold: threshold ? Number(threshold.replace(/[^0-9.]/g, '')) : null,
+        }),
       });
       if (!res.ok) {
-        toast.info('Auto-pay configuration saved locally. Backend endpoint coming soon.');
-      } else {
-        toast.success('Auto-pay configuration saved.');
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || 'The mandate could not be saved.');
       }
-    } catch {
-      toast.info('Auto-pay configuration saved locally. Backend endpoint coming soon.');
+      // The mandate is on file, but no Direct-Debit subscription exists at
+      // Paystack yet — say "requested", never "active".
+      toast.success('Auto-pay mandate requested. Debits begin once your bank confirms it.');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to save the auto-pay mandate');
     } finally {
       setSaving(false);
     }
   };
 
   const handleRevoke = () => {
-    toast.info('Mandate revocation requested. Contact estate desk to complete.');
+    toast.info('Send us a message from Support to cancel a mandate that has been confirmed.');
   };
 
   return (

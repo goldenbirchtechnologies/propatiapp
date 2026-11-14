@@ -28,8 +28,23 @@ interface LandlordProfileClientProps {
   user: LandlordProfileUser;
 }
 
+type TabId = 'overview' | 'billing' | 'compliance' | 'notifications' | 'team' | 'security';
+
+/**
+ * Module-constant so the URL-sync effect can validate against the same list the
+ * render maps over without re-deriving it every render.
+ */
+const tabs: Array<{ id: TabId; label: string; icon: React.ReactNode }> = [
+  { id: 'overview', label: 'Corporate & Entity KYC', icon: <Building2 size={16} /> },
+  { id: 'billing', label: 'Payout & Settlement Banking', icon: <Landmark size={16} /> },
+  { id: 'compliance', label: 'Statutory Compliance & LASRERA', icon: <Scale size={16} /> },
+  { id: 'notifications', label: 'Notification & SMS Channels', icon: <Bell size={16} /> },
+  { id: 'team', label: 'Team & Delegation Access', icon: <Users size={16} /> },
+  { id: 'security', label: 'Security & API Keys', icon: <Shield size={16} /> },
+];
+
 export default function LandlordProfileClient({ user: initialUser }: LandlordProfileClientProps) {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState<TabId>('overview');
   const { data: kyc } = useKycStatus();
   const [profileData, setProfileData] = useState({
     fullName: initialUser?.fullName || '',
@@ -63,6 +78,16 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     isError: accountError,
     refetch: refetchAccount,
   } = useAccountSettings();
+
+  // The billing tab is deep-linked from other pages (?tab=billing on the rents
+  // page). Without reading it here every one of those links silently landed on
+  // Overview instead, because the tab lived only in local state.
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get('tab');
+    if (wanted && tabs.some((t) => t.id === wanted)) setActiveTab(wanted as TabId);
+    // `tabs` is module-constant; only the initial URL matters for this effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const updateAccountSettings = useUpdateAccountSettings();
   const [notifSaving, setNotifSaving] = useState<string | null>(null);
 
@@ -247,6 +272,15 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       toast({ title: 'Error', description: 'Invalid OTP. Please try again.' });
     }
   };
+
+  const tabs = [
+    { id: 'overview' as const, label: 'Corporate & Entity KYC', icon: <Building2 size={16} /> },
+    { id: 'billing' as const, label: 'Payout & Settlement Banking', icon: <Landmark size={16} /> },
+    { id: 'compliance' as const, label: 'Statutory Compliance & LASRERA', icon: <Scale size={16} /> },
+    { id: 'notifications' as const, label: 'Notification & SMS Channels', icon: <Bell size={16} /> },
+    { id: 'team' as const, label: 'Team & Delegation Access', icon: <Users size={16} /> },
+    { id: 'security' as const, label: 'Security & API Keys', icon: <Shield size={16} /> },
+  ];
 
   const tabs = [
     { id: 'overview' as const, label: 'Corporate & Entity KYC', icon: <Building2 size={16} /> },

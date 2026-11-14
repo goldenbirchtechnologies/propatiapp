@@ -10,6 +10,7 @@ var mockApplicationCount: ReturnType<typeof vi.fn>;
 var mockListingFindUnique: ReturnType<typeof vi.fn>;
 var mockApplicationFindFirst: ReturnType<typeof vi.fn>;
 var mockApplicationCreate: ReturnType<typeof vi.fn>;
+var mockUserFindUnique: ReturnType<typeof vi.fn>;
 
 vi.mock('@/lib/api-auth', () => {
   mockWithAuth = vi.fn();
@@ -24,6 +25,7 @@ vi.mock('@/lib/prisma', () => {
   mockListingFindUnique = vi.fn();
   mockApplicationFindFirst = vi.fn();
   mockApplicationCreate = vi.fn();
+  mockUserFindUnique = vi.fn();
 
   return {
     prisma: {
@@ -35,6 +37,12 @@ vi.mock('@/lib/prisma', () => {
       },
       listing: {
         findUnique: mockListingFindUnique,
+      },
+      // `assertOnboarded` reads the caller through `getOnboardingSnapshot`.
+      // Returning no row makes the guard a no-op: gating is covered by its own
+      // test, and these cases are about what the route does once let through.
+      user: {
+        findUnique: mockUserFindUnique,
       },
     },
   };
@@ -65,6 +73,8 @@ describe('Applications API — auth protection', () => {
     (mockListingFindUnique as any).mockReset();
     (mockApplicationFindFirst as any).mockReset();
     (mockApplicationCreate as any).mockReset();
+    (mockUserFindUnique as any).mockReset();
+    (mockUserFindUnique as any).mockResolvedValue(null);
   });
 
   it('GET returns 401 when withAuth rejects as unauthenticated', async () => {

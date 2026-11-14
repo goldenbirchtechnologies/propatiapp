@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
+import { z, ZodError } from 'zod';
 import { randomBytes } from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
@@ -142,10 +142,15 @@ export async function GET(request: NextRequest) {
       { headers: rateLimitHeaders }
     );
   } catch (error) {
-    console.error('Listings GET error:', error);
-    if (error instanceof Error && error.name === 'ZodError') {
-      return NextResponse.json({ error: 'Invalid query parameters', details: error }, { status: 400 });
+    // A bad query string is the caller's mistake, not a server fault: answer it
+    // before logging, and send the issues rather than the error object.
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid query parameters', details: error.issues },
+        { status: 400 }
+      );
     }
+    console.error('Listings GET error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

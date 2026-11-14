@@ -98,6 +98,24 @@ describe('other schemas that coerce money out of request input', () => {
   });
 });
 
+describe('listingFilterSchema parse errors', () => {
+  // The route distinguishes a bad query string from a server fault by checking
+  // `error.name === 'ZodError'`, so a plain throw is not enough — the name has
+  // to survive.
+  it('throws a ZodError, not a TypeError, for an unknown sort key', () => {
+    let caught: unknown;
+    try {
+      listingFilterSchema.parse({ sortBy: 'invalid_option' });
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught).toBeInstanceOf(Error);
+    expect((caught as Error).name).toBe('ZodError');
+    // The route puts the error in the response body, so it has to serialise.
+    expect(() => JSON.stringify(caught)).not.toThrow();
+  });
+});
+
 describe('accountSettingsSchema', () => {
   it('accepts a single toggle on its own', () => {
     expect(accountSettingsSchema.safeParse({ paymentRemindersEnabled: false }).success).toBe(true);

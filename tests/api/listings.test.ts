@@ -7,6 +7,7 @@ var mockListingCount: ReturnType<typeof vi.fn>;
 var mockListingCreate: ReturnType<typeof vi.fn>;
 var mockVerificationCreate: ReturnType<typeof vi.fn>;
 var mockUserSubscriptionFindFirst: ReturnType<typeof vi.fn>;
+var mockUserFindUnique: ReturnType<typeof vi.fn>;
 var mockWithAuth: ReturnType<typeof vi.fn>;
 var mockWithRateLimit: ReturnType<typeof vi.fn>;
 var mockGetRateLimitHeaders: ReturnType<typeof vi.fn>;
@@ -19,6 +20,7 @@ vi.mock('@/lib/prisma', () => {
   mockListingCreate = vi.fn();
   mockVerificationCreate = vi.fn();
   mockUserSubscriptionFindFirst = vi.fn();
+  mockUserFindUnique = vi.fn();
 
   return {
     prisma: {
@@ -32,6 +34,12 @@ vi.mock('@/lib/prisma', () => {
       },
       userSubscription: {
         findFirst: mockUserSubscriptionFindFirst,
+      },
+      // `assertOnboarded` reads the caller through `getOnboardingSnapshot`.
+      // Returning no row makes the guard a no-op: gating is covered by its own
+      // test, and these cases are about what the route does once let through.
+      user: {
+        findUnique: mockUserFindUnique,
       },
     },
   };
@@ -98,6 +106,8 @@ describe('Listings API', () => {
     mockListingCreate.mockReset();
     mockVerificationCreate.mockReset();
     mockUserSubscriptionFindFirst.mockReset();
+    mockUserFindUnique.mockReset();
+    mockUserFindUnique.mockResolvedValue(null);
   });
 
   // ---------------- GET happy paths ----------------

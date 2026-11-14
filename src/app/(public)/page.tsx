@@ -43,15 +43,15 @@ const featuredFallback = [
   },
   {
     id: 'feat-3', type: 'COMMERCIAL', kind: 'FOR LEASE', price: '₦48,000,000/yr',
-    title: 'Apapa Freezone Industrial Bay', location: 'Wharf Road Expressway, Lagos',
+    title: 'Apapa Freezone Industrial Bay', location: 'Wharf Road Expressway, Apapa, Lagos',
     specs: [{ icon: 'sqm', val: '2,400m²' }, { icon: 'dock', val: 'Dock Bays' }, { icon: 'power', val: '3-Phase' }],
     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAEFMN1q2doZpyBfeGUmn6UX9o4k_raLFtzs9pDZ0owx2KiMNGIRqK1GAWl8pQZM3YDE8zy7cyrgy5S-s_PW5aE4as-WAKnsyeNwI6ZFcxOYZ_cyXx8YVDeO4b_Gq2DYlniSRtXjJQWBGDdHQbxn_px0FF08OJScdKq1McQD-Q0LYdit-KyQyh393NAjpBIqrdBSmNrwenMthIq6euc_eNP2cZzecpfqDIxPcZ0l-a3kb9_Gfw8kpWlIw',
     verified: true,
   },
   {
-    id: 'feat-4', type: 'RESIDENTIAL', kind: 'FOR RENT', price: '₦8,500,000/yr',
-    title: 'Ikeja GRA Smart Executive Duplex', location: 'Isaac John Crescent, Ikeja GRA',
-    specs: [{ icon: 'bed', val: '3' }, { icon: 'bath', val: '3' }, { icon: 'smart', val: 'Smart Lock' }],
+    id: 'feat-4', type: 'HOSPITALITY', kind: 'SHORT-STAY', price: '₦175,000/night',
+    title: 'Maitama Diplomatic Luxury Suite', location: 'Gana Street, Maitama, Abuja FCT',
+    specs: [{ icon: 'bed', val: '2' }, { icon: 'bath', val: '2' }, { icon: 'sqm', val: '150m²' }],
     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBLn0_TiG8LOsrxkKxnqB06EfApQTkrGlG-T6wukLRelatbsmLM7uKOGsTjM23PMeIo2p8rdG24VlPYjCRK470l-_s4kqm1C-9Xrs7RTr-8mgyCAmPwxv7A7N8dojLpf4MNsNqH5hONI98TWTfiI2UZz_g5_sr5dcSXn6NTJfg9y_wKTAeU0TUKYuXP6f1YP_n87Q6n2jVssVUaUicBOvq7-x_pH5hnYNv2URbEYfWdjUlGaJyGBsvNfQ',
     verified: true,
   },
@@ -68,11 +68,11 @@ function useFeaturedFromDb() {
         const items = Array.isArray(d?.listings) ? d.listings : [];
         const active = items.filter((l: any) => l.status !== 'suspended' && l.status !== 'deleted');
         if (!active.length) return;
-        const mapped = active.slice(0, 4).map((l: any) => ({
+        const mapped = active.slice(0, 4).map((l: any, idx: number) => ({
           id: l.id,
-          type: (l.propertyType === 'office' || l.propertyType === 'shop' || l.listingType === 'commercial' ? 'COMMERCIAL' : 'RESIDENTIAL') as string,
-          kind: (l.listingType === 'sale' ? 'FOR SALE' : l.listingType === 'short_let' ? 'SHORT-STAY' : l.listingType === 'commercial' ? 'FOR LEASE' : 'FOR LEASE') as string,
-          price: new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(Number(l.price || 0)) + (l.pricePeriod && l.pricePeriod !== 'total' ? `/${l.pricePeriod}` : l.listingType === 'sale' ? '' : '/yr'),
+          type: (l.propertyType === 'office' || l.propertyType === 'shop' || l.listingType === 'commercial' ? 'COMMERCIAL' : l.listingType === 'short_let' ? 'HOSPITALITY' : 'RESIDENTIAL') as string,
+          kind: (l.listingType === 'sale' ? 'FOR SALE' : l.listingType === 'short_let' ? 'SHORT-STAY' : l.listingType === 'commercial' ? 'FOR LEASE' : 'FOR RENT') as string,
+          price: new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(Number(l.price || 0)) + (l.pricePeriod && l.pricePeriod !== 'total' ? `/${l.pricePeriod}` : l.listingType === 'sale' ? '' : l.listingType === 'short_let' ? '/night' : '/yr'),
           title: l.title,
           location: [l.area, l.state].filter(Boolean).join(', ') || l.address || '',
           specs: [
@@ -80,7 +80,7 @@ function useFeaturedFromDb() {
             { icon: 'bath', val: String(l.bathrooms ?? '—') },
             { icon: 'sqm', val: l.sizeSqm ? `${l.sizeSqm}m²` : '—' },
           ],
-          img: l.coverImage || l.images?.[0]?.url || featuredFallback[0].img,
+          img: l.coverImage || l.images?.[0]?.url || featuredFallback[idx % featuredFallback.length].img,
           verified: l.verificationTier ? l.verificationTier !== 'basic' : !!l.verified,
         }));
         if (mapped.length) setDbFeatured(mapped);
@@ -126,7 +126,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#fbf8fc] dark:bg-[#070708] text-zinc-900 dark:text-zinc-100 antialiased selection:bg-primary/20">
+    <div className="min-h-screen bg-[#fbf8fc] dark:bg-[#070708] text-zinc-900 dark:text-zinc-100 antialiased selection:bg-primary/20 overflow-x-hidden">
 
       {/* ===================== HERO — OPERATING SYSTEM ===================== */}
       <section className="relative w-full overflow-hidden bg-[#0e1113] text-white">
@@ -145,100 +145,100 @@ export default function HomePage() {
           <div className="absolute -bottom-40 left-[10%] h-[400px] w-[400px] rounded-full bg-[#4edea3]/10 blur-[80px]" />
         </div>
 
-        <div className="relative mx-auto flex max-w-6xl flex-col px-6 pb-16 pt-20 md:pb-20 md:pt-28">
+        <div className="relative mx-auto flex max-w-6xl flex-col px-4 sm:px-6 pb-14 pt-16 sm:pb-16 sm:pt-20 md:pb-20 md:pt-28">
           {/* Eyebrow — OS positioning */}
-          <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-1.5 backdrop-blur-md">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-[#4edea3]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#4edea3]">
+          <div className="mb-4 sm:mb-5 inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 sm:px-3.5 py-1.5 backdrop-blur-md">
+            <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#4edea3]" />
+            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-[#4edea3]">
               The Property Operating System for Africa
             </span>
             <span className="hidden sm:inline text-[11px] text-white/40">— Launching in Nigeria · Engineered for Africa</span>
           </div>
 
           {/* Headline */}
-          <h1 className="max-w-4xl text-[32px] font-bold leading-[1.05] tracking-tight text-white md:text-[56px]">
-            Streamline property management,<br />
-            <span className="text-[#4edea3]">automate</span> institutional leasing,<br />
+          <h1 className="max-w-4xl text-[30px] sm:text-[42px] md:text-[56px] font-bold leading-[1.08] tracking-tight text-white">
+            Streamline property management,<br className="hidden sm:inline" />
+            <span className="text-[#4edea3]">automate</span> institutional leasing,<br className="hidden sm:inline" />
             power shortlet operations.
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 md:text-[15px]">
+          <p className="mt-3.5 sm:mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-[15px]">
             One unified platform to eliminate market fragmentation and operational risk.
             Bank-backed escrow, cross-border compliance workflows, and end-to-end automation —
             <span className="text-zinc-200"> sync with vetted agent networks on a single core.</span>
           </p>
 
           {/* Search Terminal — the OS command bar */}
-          <div className="mt-8 w-full max-w-4xl rounded-2xl border border-white/10 bg-white p-3 shadow-2xl dark:bg-zinc-900 dark:border-zinc-800 md:p-4">
+          <div className="mt-6 sm:mt-8 w-full max-w-4xl rounded-2xl border border-white/10 bg-white p-3 shadow-2xl dark:bg-zinc-900 dark:border-zinc-800 md:p-4">
             {/* Tabs */}
-            <div className="mb-3 flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none">
+            <div className="mb-3 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
               {[
                 { key: 'rent', label: 'Rent', icon: <Layers className="h-3.5 w-3.5" /> },
                 { key: 'buy', label: 'Buy', icon: <Home className="h-3.5 w-3.5" /> },
-                { key: 'shortlet', label: 'Manage Shortlet', icon: <Clock3 className="h-3.5 w-3.5" /> },
-                { key: 'commercial', label: 'Lease Commercial', icon: <Building2 className="h-3.5 w-3.5" /> },
+                { key: 'shortlet', label: 'Shortlet Stays', icon: <Clock3 className="h-3.5 w-3.5" /> },
+                { key: 'commercial', label: 'Commercial Lease', icon: <Building2 className="h-3.5 w-3.5" /> },
               ].map((tab) => (
                 <button
                   key={tab.key}
                   type="button"
                   onClick={() => setSearchTab(tab.key)}
                   className={cn(
-                    'flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-colors',
+                    'flex shrink-0 items-center gap-2 rounded-full px-3.5 sm:px-4 py-2 text-xs md:text-sm font-semibold transition-colors',
                     searchTab === tab.key
-                      ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
-                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
+                      ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm'
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700'
                   )}
                 >
                   {tab.icon}
                   <span>{tab.label}</span>
                 </button>
               ))}
-              <span className="ml-auto hidden items-center gap-1.5 pl-3 text-[11px] font-mono text-zinc-400 md:flex">
-                <Radio className="h-3 w-3" /> SYSTEM READY
+              <span className="ml-auto hidden items-center gap-1.5 pl-3 text-xs font-medium text-emerald-600 dark:text-emerald-400 md:flex">
+                <Radio className="h-3.5 w-3.5 animate-pulse" /> Escrow Network Ready
               </span>
             </div>
 
             {/* Search Grid */}
-            <div className="grid grid-cols-1 items-stretch gap-2 sm:grid-cols-2 lg:grid-cols-12">
-              <label className="flex items-center rounded-xl bg-zinc-50 border border-zinc-200 px-3 py-2.5 lg:col-span-4 dark:bg-zinc-900 dark:border-zinc-800 cursor-text">
-                <MapPin className="mr-2 h-4 w-4 shrink-0 text-zinc-400" />
+            <div className="grid grid-cols-1 items-stretch gap-2.5 sm:grid-cols-2 lg:grid-cols-12">
+              <label className="flex items-center rounded-xl bg-zinc-50 border border-zinc-200 px-3.5 py-2.5 lg:col-span-4 dark:bg-zinc-900 dark:border-zinc-800 cursor-text focus-within:border-primary">
+                <MapPin className="mr-2.5 h-4 w-4 shrink-0 text-zinc-400" />
                 <span className="min-w-0 flex-1 flex flex-col">
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500">Region / City</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Region / City</span>
                   <input
                     value={locationQuery}
                     onChange={(e) => setLocationQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    className="w-full bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none dark:text-white"
+                    className="w-full bg-transparent text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none dark:text-white"
                     placeholder="Lekki Phase 1, Victoria Island, Maitama..."
                     type="text"
                   />
                 </span>
               </label>
-              <label className="flex items-center rounded-xl bg-zinc-50 border border-zinc-200 px-3 py-2.5 lg:col-span-3 dark:bg-zinc-900 dark:border-zinc-800">
-                <Building2 className="mr-2 h-4 w-4 shrink-0 text-zinc-400" />
+              <label className="flex items-center rounded-xl bg-zinc-50 border border-zinc-200 px-3.5 py-2.5 lg:col-span-3 dark:bg-zinc-900 dark:border-zinc-800 focus-within:border-primary">
+                <Building2 className="mr-2.5 h-4 w-4 shrink-0 text-zinc-400" />
                 <span className="min-w-0 flex-1 flex flex-col">
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500">Asset Infrastructure</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Property Type</span>
                   <select
                     value={assetClass}
                     onChange={(e) => setAssetClass(e.target.value)}
-                    className="w-full cursor-pointer bg-transparent text-sm text-zinc-900 focus:outline-none dark:text-white"
+                    className="w-full cursor-pointer bg-transparent text-sm font-medium text-zinc-900 focus:outline-none dark:text-white"
                   >
                     <option>Residential Villa, Penthouse, Commercial Space</option>
-                    <option>Residential Villa & Penthouse</option>
+                    <option>Residential Villa &amp; Penthouse</option>
                     <option>Fully Detached Duplex</option>
                     <option>Serviced Commercial Office</option>
                     <option>Surveyed Land</option>
-                    <option>Industrial & Warehouse</option>
+                    <option>Industrial &amp; Warehouse</option>
                   </select>
                 </span>
               </label>
-              <label className="flex items-center rounded-xl bg-zinc-50 border border-zinc-200 px-3 py-2.5 lg:col-span-3 dark:bg-zinc-900 dark:border-zinc-800">
-                <Layers className="mr-2 h-4 w-4 shrink-0 text-zinc-400" />
+              <label className="flex items-center rounded-xl bg-zinc-50 border border-zinc-200 px-3.5 py-2.5 lg:col-span-3 dark:bg-zinc-900 dark:border-zinc-800 focus-within:border-primary">
+                <Layers className="mr-2.5 h-4 w-4 shrink-0 text-zinc-400" />
                 <span className="min-w-0 flex-1 flex flex-col">
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500">Budget Range</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Budget Range</span>
                   <select
                     value={budgetRange}
                     onChange={(e) => setBudgetRange(e.target.value)}
-                    className="w-full cursor-pointer bg-transparent font-mono text-sm text-zinc-900 focus:outline-none dark:text-white"
+                    className="w-full cursor-pointer bg-transparent font-mono text-sm font-medium text-zinc-900 focus:outline-none dark:text-white"
                   >
                     <option>₦5M — ₦25M / year</option>
                     <option>₦25M — ₦75M / year</option>
@@ -250,21 +250,23 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={handleSearch}
-                className="flex h-[52px] items-center justify-center gap-2 rounded-xl bg-primary text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--sovereign-hover)] lg:col-span-2"
+                className="flex h-[54px] items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-white shadow-md transition-all hover:bg-[var(--sovereign-hover)] lg:col-span-2"
               >
                 <Search className="h-4 w-4" />
-                Initialize Search
+                Search Properties
               </button>
             </div>
           </div>
 
-          {/* System Vital Statistics — directly under hero as in your copy */}
-          <div className="mt-6 grid w-full max-w-4xl grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md">
+          {/* System Vital Statistics — 1 col on mobile, 3 cols on sm+ */}
+          <div className="mt-6 grid w-full max-w-4xl grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md">
             {vitalStats.map((s) => (
-              <div key={s.label} className="px-4 py-4 text-center md:px-6 md:py-5">
-                <div className="font-mono text-lg font-bold text-white md:text-xl">{s.value}</div>
-                <div className="text-[11px] font-semibold uppercase tracking-wide text-[#4edea3]">{s.label}</div>
-                <div className="hidden text-[11px] text-white/40 md:block">{s.sub}</div>
+              <div key={s.label} className="flex flex-row sm:flex-col items-center sm:items-center justify-between sm:justify-center px-4 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 text-left sm:text-center">
+                <div>
+                  <div className="font-mono text-lg font-bold text-white md:text-xl">{s.value}</div>
+                  <div className="text-xs sm:text-[11px] font-semibold uppercase tracking-wide text-[#4edea3]">{s.label}</div>
+                </div>
+                <div className="text-xs text-white/50 text-right sm:text-center mt-0 sm:mt-1">{s.sub}</div>
               </div>
             ))}
           </div>
@@ -434,21 +436,28 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Mobile */}
-          <div className="grid grid-cols-1 gap-4 md:hidden">
+          {/* Mobile vertical stepper */}
+          <div className="space-y-3 md:hidden">
             {[
-              { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited', icon: ShieldCheck },
-              { n: '02', title: 'Smart Tour', sub: '3D & Geo-Stamped Inspections', icon: Compass },
-              { n: '03', title: 'Secure Escrow', sub: 'Multi-Tier Bank Escrow', icon: Lock },
-              { n: '04', title: 'Digital Handover', sub: 'Biometrics & Digital Records', icon: Fingerprint },
-            ].map((s) => (
-              <div key={s.n} className="flex gap-4 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-900">
-                  <s.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="font-mono text-[11px] font-bold text-primary">[{s.n}] {s.title}</div>
-                  <div className="text-xs text-zinc-500">{s.sub}</div>
+              { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited', desc: 'Rigid title, beacon, and CAC verification before any transaction is initiated.', icon: ShieldCheck },
+              { n: '02', title: 'Smart Tour', sub: '3D & Geo-Stamped Inspections', desc: 'Unfiltered high-definition tours capturing real, verified asset conditions.', icon: Compass },
+              { n: '03', title: 'Secure Escrow', sub: 'Multi-Tier Bank Escrow', desc: 'Capital locked in tier-1 bank escrow until all compliance milestones are met.', icon: Lock },
+              { n: '04', title: 'Digital Handover', sub: 'Biometrics & Digital Records', desc: 'Instant issuance of digital tenancy agreements, access keys, and deeds.', icon: Fingerprint },
+            ].map((s, idx) => (
+              <div key={s.n} className="relative rounded-2xl border border-zinc-200 bg-white p-4.5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <div className="flex items-start gap-3.5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm">
+                    <s.icon className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-bold text-primary dark:text-[#4edea3]">STEP [{s.n}]</span>
+                      <span className="text-[10px] uppercase font-semibold text-zinc-400">Phase {idx + 1}/4</span>
+                    </div>
+                    <h3 className="text-sm font-bold text-zinc-900 dark:text-white mt-0.5">{s.title}</h3>
+                    <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 mt-0.5">{s.sub}</div>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">{s.desc}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -472,44 +481,44 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {featuredListings.map((listing: any, i: number) => (
               <Link
                 key={String(listing.id ?? i)}
                 href={`/listings/${String(listing.id ?? '').startsWith('feat-') ? '' : String(listing.id ?? listing.title)}`}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-lg hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
               >
-                <div className="relative h-48 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                <div className="relative h-52 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                   <Image src={listing.img} alt={listing.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute left-2.5 top-2.5 flex items-center gap-1">
-                    <span className="rounded-full bg-zinc-900 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">{listing.type}</span>
-                    <span className="rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-zinc-900 backdrop-blur-sm">{listing.kind}</span>
+                  <div className="absolute left-3 top-3 flex items-center gap-1.5">
+                    <span className="rounded-full bg-zinc-900/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">{listing.type}</span>
+                    <span className="rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-zinc-900 backdrop-blur-sm shadow-sm">{listing.kind}</span>
                   </div>
-                  <button aria-label="Save" className="absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-zinc-700 backdrop-blur-sm hover:bg-white">
+                  <button aria-label="Save property" className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-zinc-700 backdrop-blur-sm transition-colors hover:bg-white hover:text-red-500">
                     <Heart className="h-4 w-4" />
                   </button>
-                  <div className="absolute bottom-2.5 right-2.5 rounded-full bg-zinc-900 px-2.5 py-1 font-mono text-xs font-bold text-[#4edea3]">
+                  <div className="absolute bottom-3 right-3 rounded-xl bg-zinc-900/90 px-3 py-1 font-mono text-xs font-bold text-[#4edea3] backdrop-blur-sm">
                     {listing.price}
                   </div>
                 </div>
-                <div className="flex flex-1 flex-col p-4">
-                  <div className="mb-1 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-600 dark:text-[#4edea3]">
-                    <ShieldCheck className="h-3.5 w-3.5" /> Document Integrity Validated
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-[#4edea3]">
+                    <ShieldCheck className="h-4 w-4 shrink-0" /> Document Integrity Validated
                   </div>
-                  <h3 className="line-clamp-1 text-sm font-bold text-zinc-900 dark:text-white">{listing.title}</h3>
-                  <p className="mb-3 flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
-                    <MapPin className="h-3 w-3" /> {listing.location}
+                  <h3 className="line-clamp-1 text-base font-bold text-zinc-900 dark:text-white group-hover:text-primary transition-colors">{listing.title}</h3>
+                  <p className="mt-1 mb-4 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                    <MapPin className="h-3.5 w-3.5 shrink-0 text-zinc-400" /> {listing.location}
                   </p>
-                  <div className="mb-4 flex items-center gap-3 rounded-xl bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                    <span className="flex items-center gap-1"><Bed className="h-3.5 w-3.5" /> {listing.specs[0]?.val}</span>
+                  <div className="mb-5 flex items-center justify-between rounded-xl bg-zinc-50 dark:bg-zinc-800/60 px-3.5 py-2.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 border border-zinc-100 dark:border-zinc-800">
+                    <span className="flex items-center gap-1.5"><Bed className="h-4 w-4 text-zinc-400" /> {listing.specs[0]?.val}</span>
                     <span className="h-3 w-px bg-zinc-200 dark:bg-zinc-700" />
-                    <span className="flex items-center gap-1"><Bath className="h-3.5 w-3.5" /> {listing.specs[1]?.val}</span>
+                    <span className="flex items-center gap-1.5"><Bath className="h-4 w-4 text-zinc-400" /> {listing.specs[1]?.val}</span>
                     <span className="h-3 w-px bg-zinc-200 dark:bg-zinc-700" />
-                    <span className="flex items-center gap-1 font-mono"><Square className="h-3.5 w-3.5" /> {listing.specs[2]?.val}</span>
+                    <span className="flex items-center gap-1.5 font-mono"><Square className="h-4 w-4 text-zinc-400" /> {listing.specs[2]?.val}</span>
                   </div>
-                  <div className="mt-auto flex items-center gap-2">
-                    <span className="flex-1 rounded-full bg-zinc-900 py-2 text-center text-xs font-semibold text-white group-hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:group-hover:bg-zinc-100">
-                      {listing.kind === 'SHORT-STAY' ? 'Book Stay Vector' : 'Inspect Asset Node'}
+                  <div className="mt-auto">
+                    <span className="flex h-10 w-full items-center justify-center rounded-xl bg-zinc-900 text-center text-sm font-semibold text-white transition-all group-hover:bg-primary dark:bg-white dark:text-zinc-900 dark:group-hover:bg-[#4edea3] dark:group-hover:text-black">
+                      {listing.kind === 'SHORT-STAY' ? 'Book Shortlet' : 'View Property'}
                     </span>
                   </div>
                 </div>
@@ -520,29 +529,114 @@ export default function HomePage() {
       </section>
 
       {/* ===================== PAN-AFRICAN FOOTPRINT ===================== */}
-      <section className="w-full border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-[#0a0a0a] py-10 md:py-12">
+      <section className="w-full border-t border-zinc-200 bg-zinc-50/70 dark:border-zinc-800 dark:bg-[#0a0a0a] py-14 md:py-16">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-            <div className="flex-1">
-              <div className="mb-2 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-zinc-500">
-                <Globe2 className="h-4 w-4" /> Pan-African Expansion Footprint
+          {/* Header & Status Legend */}
+          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="mb-2.5 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary dark:text-[#4edea3]">
+                <Globe2 className="h-4 w-4" /> Pan-African Network Coverage
               </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-white border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-300">
-                  <span className="font-semibold text-zinc-900 dark:text-white">Active Hubs (Nigeria):</span> Lagos (Lekki, VI, Ikoyi, Ikeja, Mainland) · Abuja (Maitama, Asokoro, Wuse) · Port Harcourt · Ibadan · Enugu
+              <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-3xl">
+                Operating in Nigeria. Expanding Continent-Wide.
+              </h2>
+              <p className="mt-1.5 text-sm md:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl">
+                Real-time escrow, verified cadastral records, and licensed agent networks active across Nigerian economic centers with pipeline readiness for Africa&apos;s leading property corridors.
+              </p>
+            </div>
+            <div className="flex items-center gap-5 text-sm font-medium text-zinc-700 dark:text-zinc-300 shrink-0">
+              <span className="inline-flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20" />
+                Live Operational Hubs
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-200 dark:bg-zinc-800" />
+                Expansion Gateways
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {/* 1. Active Nigerian Hubs (Highlighted Tier) */}
+            <div className="rounded-2xl border-2 border-emerald-500/30 bg-white p-6 shadow-sm dark:border-emerald-500/20 dark:bg-zinc-900/90">
+              <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="relative flex h-3.5 w-3.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-emerald-500" />
+                  </span>
+                  <h3 className="text-base font-bold text-zinc-900 dark:text-white">
+                    Primary Operational Hubs (Nigeria)
+                  </h3>
+                </div>
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 self-start sm:self-auto">
+                  Fully Verified &amp; Escrow-Cleared
                 </span>
               </div>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {['Accra (Ghana)', 'Nairobi (Kenya)', 'Kigali (Rwanda)', 'Johannesburg (South Africa)', 'Abidjan (Ivory Coast)'].map((c) => (
-                  <span key={c} className="rounded-full border border-dashed border-zinc-300 bg-white px-2.5 py-1 text-[11px] font-medium text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
-                    {c} <span className="text-[10px] uppercase tracking-wide">— Future Gateway</span>
-                  </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                {[
+                  { city: 'Lagos', sub: 'Lekki · Victoria Island · Ikoyi · Ikeja · Mainland', active: 'Active Desk & Cadastre' },
+                  { city: 'Abuja FCT', sub: 'Maitama · Asokoro · Wuse II · Guzape Cadastral', active: 'Federal Capital Desk' },
+                  { city: 'Port Harcourt', sub: 'GRA Phase 2 · Trans-Amadi Industrial Corridor', active: 'South-South Gateway' },
+                  { city: 'Ibadan', sub: 'Bodija Residential · Oluyole Commercial Hub', active: 'Western Regional Hub' },
+                  { city: 'Enugu', sub: 'Independence Layout · New Haven Corporate', active: 'South-East Desk' },
+                  { city: 'Kano & Northern Hubs', sub: 'Bompai · Nassarawa GRA Commercial Desk', active: 'Northern Corridor' },
+                ].map((hub) => (
+                  <div
+                    key={hub.city}
+                    className="flex flex-col justify-between rounded-xl border border-zinc-200 bg-zinc-50/70 p-3.5 transition-colors hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/10"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                        <MapPin className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                        {hub.city}
+                      </span>
+                      <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                        {hub.active}
+                      </span>
+                    </div>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                      {hub.sub}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-xs text-zinc-400">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" /> Live in Nigeria
-              <span className="h-2 w-2 rounded-full border border-zinc-400" /> Future Gateway
+
+            {/* 2. Expansion Gateways (Pan-African Pipeline) */}
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50">
+              <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2">
+                  <Globe2 className="h-4 w-4 text-zinc-400" />
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
+                    Pan-African Expansion Gateways
+                  </h3>
+                </div>
+                <span className="text-xs font-medium text-zinc-400">
+                  Target Deployments 2026 – 2027
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {[
+                  { city: 'Accra', country: 'Ghana', tag: 'West Africa Corridor' },
+                  { city: 'Nairobi', country: 'Kenya', tag: 'East Africa Hub' },
+                  { city: 'Kigali', country: 'Rwanda', tag: 'East Africa Hub' },
+                  { city: 'Johannesburg', country: 'South Africa', tag: 'Southern Africa Gateway' },
+                  { city: 'Abidjan', country: 'Ivory Coast', tag: 'Francophone Hub' },
+                ].map((g) => (
+                  <div
+                    key={g.city}
+                    className="flex items-center gap-2.5 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-700 transition-colors hover:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-800/40 dark:text-zinc-300"
+                  >
+                    <span className="h-2.5 w-2.5 rounded-full border border-zinc-400 bg-zinc-300 dark:bg-zinc-700" />
+                    <span className="font-semibold text-zinc-900 dark:text-white">{g.city}</span>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">({g.country})</span>
+                    <span className="rounded-md bg-zinc-200/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                      {g.tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

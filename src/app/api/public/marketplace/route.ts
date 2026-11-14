@@ -1,6 +1,20 @@
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { countVerifiedPublicAgents } from '@/lib/agents/public-directory';
 
 export async function GET() {
+  const [activeListings, totalUsers, verifiedAgents, featuredListings] = await Promise.all([
+    prisma.listing.count({ where: { status: 'active' } }),
+    prisma.user.count(),
+    countVerifiedPublicAgents(),
+    prisma.listing.findMany({
+      where: { status: 'active' },
+      orderBy: { createdAt: 'desc' },
+      take: 2,
+      select: { id: true, title: true, city: true, price: true },
+    }),
+  ]);
+
   const response = NextResponse.json({
     status: 'operational',
     services: {
@@ -8,14 +22,16 @@ export async function GET() {
       search: 'healthy',
       storage: 'healthy',
     },
-    featured: [
-      { id: '1', title: 'The Emerald Heights Penthouse', location: 'Ikoyi, Lagos', price: '₦125,000,000' },
-      { id: '2', title: 'Apex Tower Corporate Hub', location: 'Victoria Island, Lagos', price: '₦8,500,000/yr' },
-    ],
+    featured: featuredListings.map((listing) => ({
+      id: listing.id,
+      title: listing.title,
+      location: listing.city,
+      price: listing.price.toString(),
+    })),
     stats: {
-      totalListings: 1248,
-      verifiedAgents: 340,
-      totalUsers: 850000,
+      totalListings: activeListings,
+      verifiedAgents,
+      totalUsers,
     },
   });
 

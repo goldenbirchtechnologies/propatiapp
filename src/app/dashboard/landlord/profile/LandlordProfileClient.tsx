@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useCurrentUser, useUpdateProfile, useUploadAvatar, useVerifyPhone, useRequestPhoneOTP } from '@/hooks/useUsers';
 import { useAccountSettings, useUpdateAccountSettings, type AccountSettings } from '@/hooks/useAccountSettings';
@@ -15,7 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock, BadgeCheck, User, Shield, Building2, Landmark, FileText, Scale, Bell, Users, Wallet, CreditCard, MessageSquare, Receipt, Fingerprint, Smartphone, RefreshCw, Split, Percent, Plus } from 'lucide-react';
+import { Loader2, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock, BadgeCheck, Shield, Building2, Landmark, FileText, Scale, Bell, Users, Wallet, CreditCard, MessageSquare, Receipt, Split, Plus, ChevronRight } from 'lucide-react';
 
 interface LandlordProfileUser {
   fullName?: string | null;
@@ -43,6 +43,22 @@ const tabs: Array<{ id: TabId; label: string; icon: React.ReactNode }> = [
   { id: 'security', label: 'Security & API Keys', icon: <Shield size={16} /> },
 ];
 
+/**
+ * Shared design tokens for this page. Centralised so the tab strip, summary
+ * cards, status chips and form controls all draw from one scale instead of each
+ * site inventing its own sizes.
+ */
+const cardClass = 'rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900';
+const labelClass = 'text-xs font-medium text-zinc-600 dark:text-zinc-400';
+const helperClass = 'mt-1.5 text-xs text-zinc-500 dark:text-zinc-400';
+const chipBase =
+  'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap';
+
+/** Explicit empty state — never a bare dash, which reads as an error. */
+const EmptyValue = ({ children }: { children: React.ReactNode }) => (
+  <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500">{children}</span>
+);
+
 export default function LandlordProfileClient({ user: initialUser }: LandlordProfileClientProps) {
   const [activeTab, setActiveTab] = useState<TabId>('overview');
   const { data: kyc } = useKycStatus();
@@ -59,6 +75,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   });
   const [phoneOTP, setPhoneOTP] = useState('');
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const [otpRevealed, setOtpRevealed] = useState(false);
   const [otpCountdown, setOtpCountdown] = useState(0);
   const [otpCooldown, setOtpCooldown] = useState(false);
@@ -85,8 +102,6 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   useEffect(() => {
     const wanted = new URLSearchParams(window.location.search).get('tab');
     if (wanted && tabs.some((t) => t.id === wanted)) setActiveTab(wanted as TabId);
-    // `tabs` is module-constant; only the initial URL matters for this effect.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const updateAccountSettings = useUpdateAccountSettings();
   const [notifSaving, setNotifSaving] = useState<string | null>(null);
@@ -277,8 +292,12 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
    * The three summary cards were hardcoded "—" for Properties and Title Audit
    * Rating. Both are derivable from real records, so they are now computed and
    * fall back to an explicit empty state rather than an ambiguous dash.
+   *
+   * The profile query includes `ownedListings`; the react-query wrapper types it
+   * loosely, so the row shape is declared here rather than widening the hook.
    */
-  const ownedListings = user?.ownedListings ?? [];
+  type PortfolioListing = { verificationTier?: string | null };
+  const ownedListings: PortfolioListing[] = user?.ownedListings ?? [];
   const propertyCount = ownedListings.length;
 
   /** Highest verification tier reached across the portfolio, for the audit card. */
@@ -287,7 +306,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     propertyCount === 0
       ? null
       : ownedListings.reduce<string>((best, l) => {
-          const t = (l as { verificationTier?: string }).verificationTier ?? 'basic';
+          const t = l.verificationTier ?? 'basic';
           return (TIER_RANK[t] ?? 0) > (TIER_RANK[best] ?? 0) ? t : best;
         }, 'basic');
   const tierLabel = bestTier ? bestTier.charAt(0).toUpperCase() + bestTier.slice(1) : null;
@@ -342,186 +361,436 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   ];
 
   return (
-    <div className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6 bg-white dark:bg-zinc-950 min-h-screen">
-      {/* Breadcrumb & Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-          <span>Institutional Account</span>
-          <span>›</span>
-          <span className="text-primary dark:text-[#4edea3] font-semibold">Profile</span>
-        </div>
-        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">
+    <div className="mx-auto w-full max-w-5xl space-y-6 p-4 sm:p-6 lg:p-8">
+      {/* Breadcrumb & sync status */}
+      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center justify-between gap-2">
+        <ol className="flex min-w-0 items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <li className="uppercase tracking-wider">Institutional Account</li>
+          <li aria-hidden="true" className="text-zinc-300 dark:text-zinc-700">
+            <ChevronRight size={14} />
+          </li>
+          <li className="truncate font-semibold text-primary dark:text-[#4edea3]">Profile</li>
+        </ol>
+
+        {/* Sync state: colour plus a text label, so it is not colour-only. */}
+        <div
+          role="status"
+          className={`${chipBase} bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300`}
+        >
           <span
-            className={`w-1.5 h-1.5 rounded-full ${
-              accountError ? 'bg-red-500' : accountLoading ? 'bg-amber-500 animate-pulse' : 'bg-primary'
+            aria-hidden="true"
+            className={`h-1.5 w-1.5 rounded-full ${
+              accountError ? 'bg-red-500' : accountLoading ? 'animate-pulse bg-amber-500' : 'bg-primary'
             }`}
           />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
-            {accountError ? 'Not synced' : accountLoading ? 'Syncing…' : 'Synced'}
+          {accountError ? 'Not synced' : accountLoading ? 'Syncing…' : 'Synced'}
+        </div>
+      </nav>
+
+      {/* Page title + actions */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            Profile &amp; Governance
+          </h1>
+          <p className="mt-1 max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
+            Manage institutional ownership records, land title verification, and settlements.
+          </p>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2">
+          {/*
+            The dossier generator does not exist yet (only agreement PDFs are
+            produced). The action is kept rather than removed, but it is disabled
+            and labelled so it never reads as something the user can run today.
+          */}
+          <Button
+            variant="outline"
+            size="sm"
+            disabled
+            aria-describedby="dossier-help"
+            className="whitespace-nowrap"
+          >
+            <FileText size={14} />
+            Compliance Dossier (.PDF)
+          </Button>
+          <span id="dossier-help" className="sr-only">
+            Not available yet. Document generation is still in progress.
           </span>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Profile & Governance</h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-            Manage institutional ownership records, land title verification, and settlements.
-          </p>
-        </div>
-        <button className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-          <FileText size={16} />
-          Compliance Dossier (.PDF)
-        </button>
-      </div>
-
       {/* Tab Bar */}
-      <div className="bg-zinc-50 dark:bg-zinc-900 p-1 rounded-xl flex items-center gap-1 shadow-sm overflow-x-auto">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
-              activeTab === tab.id
-                ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-semibold shadow-sm'
-                : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300'
-            }`}
-          >
-            {tab.icon}
-            <span>{tab.label}</span>
-          </button>
-        ))}
+      {/*
+        tablist semantics + roving arrow-key navigation, and no per-tab min-width
+        so long labels wrap to a second line instead of being clipped or forcing
+        horizontal scroll on desktop.
+      */}
+      <div
+        role="tablist"
+        aria-label="Profile sections"
+        className="flex gap-1 overflow-x-auto rounded-xl bg-zinc-100 p-1 shadow-sm dark:bg-zinc-900"
+        onKeyDown={(e) => {
+          if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+          const index = tabs.findIndex((t) => t.id === activeTab);
+          if (index < 0) return;
+          const next =
+            e.key === 'ArrowRight'
+              ? tabs[(index + 1) % tabs.length]
+              : tabs[(index - 1 + tabs.length) % tabs.length];
+          setActiveTab(next.id);
+          document.getElementById(`tab-${next.id}`)?.focus();
+        }}
+      >
+        {tabs.map((tab) => {
+          const selected = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              id={`tab-${tab.id}`}
+              role="tab"
+              type="button"
+              aria-selected={selected}
+              aria-controls={`panel-${tab.id}`}
+              tabIndex={selected ? 0 : -1}
+              onClick={() => setActiveTab(tab.id)}
+              className={`inline-flex min-w-fit flex-1 flex-col items-center justify-center gap-1 rounded-lg px-3 py-2 text-xs font-medium whitespace-normal text-center leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-950 sm:flex-row sm:gap-2 ${
+                selected
+                  ? 'bg-white font-semibold text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                  : 'text-zinc-600 hover:bg-zinc-200/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/70 dark:hover:text-white'
+              }`}
+            >
+              <span aria-hidden="true">{tab.icon}</span>
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* TAB 1: OVERVIEW */}
-      {activeTab === 'overview' && (
-        <div className="space-y-6">
-          {/* Profile Header Summary Card */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <Avatar src={user?.avatarUrl || undefined} name={user?.fullName || 'User'} size="xl" className="h-20 w-20 ring-2 ring-primary/30" />
-                <label className="absolute bottom-0 right-0 w-7 h-7 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full shadow-md flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors cursor-pointer">
-                  <Camera size={14} className="text-primary dark:text-[#4edea3]" />
-                  <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
-                </label>
-              </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="text-xl font-bold text-zinc-900 dark:text-white">{user?.fullName || 'My Profile'}</h2>
-                  <span className="inline-flex items-center gap-1 bg-primary/10 text-primary dark:text-[#4edea3] px-2 py-0.5 rounded-full text-xs font-medium">
-                    <ShieldCheck size={12} />
-                    Landlord
-                  </span>
+            {activeTab === 'overview' && (
+              <div
+                id="panel-overview"
+                role="tabpanel"
+                aria-labelledby="tab-overview"
+                className="space-y-6"
+              >
+                {/* Profile Header Summary Card */}
+                <div className={`${cardClass} flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6`}>
+                  <div className="flex min-w-0 flex-col items-start gap-4 sm:flex-row sm:items-center">
+                    <div className="relative shrink-0">
+                      <Avatar
+                        src={user?.avatarUrl || undefined}
+                        name={user?.fullName || 'User'}
+                        size="xl"
+                        className="h-20 w-20 ring-2 ring-primary/30"
+                      />
+                      {/*
+                        The upload control is a real button now, with an accessible name.
+                        A <label> wrapping an sr-only file input previously announced
+                        nothing to assistive tech.
+                      */}
+                      <button
+                        type="button"
+                        onClick={() => avatarInputRef.current?.click()}
+                        disabled={isUploadingAvatar}
+                        aria-label="Change profile photo"
+                        title="Change profile photo"
+                        className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 bg-white text-primary shadow-md transition-colors hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-[#4edea3]"
+                      >
+                        {isUploadingAvatar ? (
+                          <Loader2 size={14} className="animate-spin" />
+                        ) : (
+                          <Camera size={14} />
+                        )}
+                      </button>
+                      <input
+                        ref={avatarInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarUpload}
+                        disabled={isUploadingAvatar}
+                        className="sr-only"
+                        aria-hidden="true"
+                        tabIndex={-1}
+                      />
+                    </div>
+
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
+                          {user?.fullName || 'My Profile'}
+                        </h2>
+                        <span className={`${chipBase} bg-primary/10 text-primary dark:text-[#4edea3]`}>
+                          <ShieldCheck size={12} aria-hidden="true" />
+                          Landlord
+                        </span>
+                      </div>
+                      <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">{user?.email}</p>
+                      <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="inline-flex items-center gap-1">
+                          <Monitor size={12} aria-hidden="true" className="text-primary dark:text-[#4edea3]" />
+                          {user?.isActive === false ? 'Inactive' : 'Active'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="shrink-0">
+                    {/*
+                      Previously a bare button with no handler — it looked clickable
+                      and did nothing. It now focuses the first editable field.
+                    */}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setActiveTab('overview');
+                        document.getElementById('legal-full-name')?.focus();
+                      }}
+                      className="w-full sm:w-auto"
+                    >
+                      <FileText size={14} />
+                      Edit Profile
+                    </Button>
+                  </div>
                 </div>
-                <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">{user?.email}</p>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">
-                  <span className="flex items-center gap-1"><Building2 size={12} className="text-primary dark:text-[#4edea3]" /> Landlord</span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1"><Monitor size={12} className="text-primary dark:text-[#4edea3]" /> Active</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                <FileText size={16} />
-                Edit Profile
-              </button>
-            </div>
-          </div>
 
           {/* Quick Metrics Strip */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
-              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Properties</span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span className="text-xl font-bold text-zinc-900 dark:text-white">—</span>
-                <span className="text-xs text-primary dark:text-[#4edea3] font-medium">Portfolio</span>
-              </div>
-            </div>
-            <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
-              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Settlement Status</span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span className="text-xl font-bold text-zinc-900 dark:text-white font-mono">
-                  {accountLoading
-                    ? '…'
-                    : settlementState === 'verified'
-                      ? 'Linked'
-                      : settlementState === 'pending'
-                        ? 'Pending'
-                        : 'Not set'}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className={`${cardClass} bg-zinc-50 p-4 dark:bg-zinc-900`}>
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                Properties
+              </span>
+              <div className="mt-1 flex items-baseline justify-between gap-2">
+                <span className="text-xl font-bold text-zinc-900 dark:text-white">
+                  {propertyCount}
                 </span>
-                <span className="text-xs text-primary dark:text-[#4edea3] font-medium">Escrow</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">Portfolio</span>
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
-              <span className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Title Audit Rating</span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span className="text-xl font-bold text-primary dark:text-[#4edea3]">—</span>
-                <span className="text-xs text-primary dark:text-[#4edea3] font-medium">Verification</span>
+
+            <div className={`${cardClass} bg-zinc-50 p-4 dark:bg-zinc-900`}>
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                Settlement Status
+              </span>
+              <div className="mt-1 flex items-baseline justify-between gap-2">
+                {accountLoading ? (
+                  <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500">Checking…</span>
+                ) : settlementState === 'verified' ? (
+                  <span className="text-xl font-bold text-primary dark:text-[#4edea3]">Linked</span>
+                ) : settlementState === 'pending' ? (
+                  <span className="text-xl font-bold text-amber-600 dark:text-amber-400">Pending</span>
+                ) : (
+                  <EmptyValue>Not configured</EmptyValue>
+                )}
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">Escrow</span>
+              </div>
+            </div>
+
+            <div className={`${cardClass} bg-zinc-50 p-4 dark:bg-zinc-900`}>
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                Title Audit Rating
+              </span>
+              <div className="mt-1 flex items-baseline justify-between gap-2">
+                {tierLabel ? (
+                  <>
+                    <span className="text-xl font-bold text-zinc-900 dark:text-white">{tierLabel}</span>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">Verification</span>
+                  </>
+                ) : (
+                  <>
+                    <EmptyValue>Not available</EmptyValue>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">Verification</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
 
           {/* Personal & Entity Records Form */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
+          <div className={`${cardClass} space-y-5 p-5 sm:p-6`}>
+            <div className="flex flex-col gap-2 border-b border-zinc-200 pb-4 sm:flex-row sm:items-center sm:justify-between dark:border-zinc-800">
               <div>
-                <h3 className="font-semibold text-zinc-900 dark:text-white">Personal & Entity Records</h3>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Used across filings and corporate deeds of lease.</p>
+                <h3 className="text-base font-semibold tracking-tight text-zinc-900 dark:text-white">
+                  Personal &amp; Entity Records
+                </h3>
+                <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                  Used across filings and corporate deeds of lease.
+                </p>
               </div>
-              <span className="bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-md text-xs text-zinc-700 dark:text-zinc-300 font-semibold">Tier 3 Data</span>
+              <span className={`${chipBase} shrink-0 self-start bg-zinc-100 text-zinc-700 sm:self-center dark:bg-zinc-800 dark:text-zinc-300`}>
+                Tier 3 Data
+              </span>
             </div>
-            <form onSubmit={handleProfileUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <form onSubmit={handleProfileUpdate} className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Legal Full Name</Label>
+                <Label htmlFor="legal-full-name" className={labelClass}>
+                  Legal Full Name
+                </Label>
                 <div className="relative">
-                  <Input value={profileData.fullName} onChange={(e) => setProfileData({ ...profileData, fullName: e.target.value })} />
-                  <BadgeCheck size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-primary" />
+                  <Input
+                    id="legal-full-name"
+                    value={profileData.fullName}
+                    onChange={(e) => setProfileData({ ...profileData, fullName: e.target.value })}
+                  />
+                  {/*
+                    The check mark used to be unconditional, implying registry
+                    verification that is not asserted here. It only renders when
+                    identity verification actually holds.
+                  */}
+                  {!!user?.idVerified && (
+                    <BadgeCheck
+                      size={16}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-primary dark:text-[#4edea3]"
+                    />
+                  )}
                 </div>
+                <p className={helperClass}>Matches National Identity Number registry.</p>
               </div>
+
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Direct Telephone</Label>
-                <div className="flex gap-2">
-                  <Input value={profileData.phone} onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })} placeholder="+234 800 000 0000" />
+                <Label htmlFor="direct-telephone" className={labelClass}>
+                  Direct Telephone
+                </Label>
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="min-w-0 flex-1">
+                    <Input
+                      id="direct-telephone"
+                      type="tel"
+                      inputMode="tel"
+                      value={profileData.phone}
+                      onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                      placeholder="+234 800 000 0000"
+                      aria-describedby="phone-help"
+                    />
+                  </div>
                   {user?.phoneVerified ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 rounded-lg bg-primary/10 text-primary dark:text-[#4edea3] text-xs font-medium whitespace-nowrap">
-                      <ShieldCheck size={14} /> Verified
+                    <span className={`${chipBase} bg-primary/10 text-primary dark:text-[#4edea3]`}>
+                      <ShieldCheck size={14} aria-hidden="true" /> Verified
                     </span>
                   ) : (
-                    <Button type="button" variant="outline" size="sm" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || otpCooldown || requestPhoneOTPMutation.isPending} className="whitespace-nowrap">
-                      {requestPhoneOTPMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : otpCountdown > 0 ? `${otpCountdown}s` : 'Send OTP'}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={handleRequestPhoneOTP}
+                      disabled={!profileData.phone || otpCooldown || requestPhoneOTPMutation.isPending}
+                      aria-describedby={!profileData.phone ? 'phone-help' : undefined}
+                      className="whitespace-nowrap"
+                    >
+                      {requestPhoneOTPMutation.isPending ? (
+                        <Loader2 size={14} className="animate-spin" />
+                      ) : otpCountdown > 0 ? (
+                        `${otpCountdown}s`
+                      ) : (
+                        'Send OTP'
+                      )}
                     </Button>
                   )}
                 </div>
+                {/*
+                  The instruction sits directly under the field it explains, so
+                  the user knows why Send OTP is disabled before trying it.
+                */}
+                <p id="phone-help" className={helperClass}>
+                  {!user?.phoneVerified
+                    ? 'Enter a Nigerian mobile number to receive a one-time verification code.'
+                    : 'This number is verified and receives payment alerts.'}
+                </p>
+
                 {otpRevealed && !user?.phoneVerified && (
-                  <div className="flex gap-2 mt-2">
-                    <Input placeholder="6-digit OTP" value={phoneOTP} onChange={(e) => setPhoneOTP(e.target.value)} maxLength={6} />
-                    <Button type="button" variant="secondary" size="sm" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
-                      {verifyPhoneMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : 'Verify'}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Input
+                      id="phone-otp"
+                      placeholder="6-digit OTP"
+                      value={phoneOTP}
+                      onChange={(e) => setPhoneOTP(e.target.value)}
+                      maxLength={6}
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      aria-label="One-time passcode"
+                    />
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      onClick={handleVerifyPhone}
+                      disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}
+                      className="whitespace-nowrap"
+                    >
+                      {verifyPhoneMutation.isPending ? (
+                        <Loader2 size={14} className="animate-spin" />
+                      ) : (
+                        'Verify'
+                      )}
                     </Button>
                   </div>
                 )}
+
                 {missingActions.map((action) => (
-                  <p key={action} className="flex items-center gap-1 text-xs text-amber-500 mt-1">
-                    <AlertCircle size={12} /> {action}
+                  <p
+                    key={action}
+                    role="alert"
+                    className="mt-1 flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400"
+                  >
+                    <AlertCircle size={12} aria-hidden="true" /> {action}
                   </p>
                 ))}
               </div>
+
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Corporate Email</Label>
+                <Label htmlFor="corporate-email" className={labelClass}>
+                  Corporate Email
+                </Label>
                 <div className="relative">
-                  <Input value={profileData.email} disabled type="email" />
-                  <Lock size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+                  <Input
+                    id="corporate-email"
+                    type="email"
+                    value={profileData.email}
+                    disabled
+                    aria-describedby="corporate-email-help"
+                  />
+                  <Lock
+                    size={14}
+                    aria-hidden="true"
+                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-500"
+                  />
                 </div>
+                {/*
+                  The field was locked with no explanation. The route is
+                  owner-only and does not accept an email write, so this states
+                  where the address comes from instead of inventing a change flow.
+                */}
+                <p id="corporate-email-help" className={helperClass}>
+                  Managed by your Clerk sign-in identity. To use a different address,
+                  update it in your account security settings or contact support.
+                </p>
               </div>
+
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Profile Bio</Label>
-                <Textarea value={profileData.profileBio} onChange={(e) => setProfileData({ ...profileData, profileBio: e.target.value })} placeholder="Tell others about yourself..." rows={3} />
+                <Label htmlFor="profile-bio" className={labelClass}>
+                  Profile Bio
+                </Label>
+                <Textarea
+                  id="profile-bio"
+                  value={profileData.profileBio}
+                  onChange={(e) => setProfileData({ ...profileData, profileBio: e.target.value })}
+                  placeholder="Tell others about yourself..."
+                  rows={3}
+                  className="field-sizing-content min-h-20 resize-none"
+                />
               </div>
-              <div className="md:col-span-2 flex justify-end">
+
+              <div className="flex justify-end md:col-span-2">
                 <Button type="submit" disabled={updateProfileMutation.isPending}>
-                  {updateProfileMutation.isPending ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Save size={14} className="mr-2" />}
+                  {updateProfileMutation.isPending ? (
+                    <Loader2 size={14} className="mr-2 animate-spin" />
+                  ) : (
+                    <Save size={14} className="mr-2" />
+                  )}
                   Save Changes
                 </Button>
               </div>
@@ -532,7 +801,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
       {/* TAB: STATUTORY COMPLIANCE & LASRERA */}
       {activeTab === 'compliance' && (
-        <div className="space-y-6">
+              <div id="panel-compliance" role="tabpanel" aria-labelledby="tab-compliance" className="space-y-6">
           {/* KYC Overall Status Banner */}
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex flex-col gap-1">
@@ -591,7 +860,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
       {/* TAB 3: SECURITY */}
       {activeTab === 'security' && (
-        <div className="space-y-6">
+              <div id="panel-security" role="tabpanel" aria-labelledby="tab-security" className="space-y-6">
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm">
             <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Change Password</h3>
             <form className="space-y-4 max-w-md">
@@ -628,7 +897,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
       {/* TAB: PAYOUT & SETTLEMENT BANKING */}
       {activeTab === 'billing' && (
-        <div className="space-y-6">
+              <div id="panel-billing" role="tabpanel" aria-labelledby="tab-billing" className="space-y-6">
           {/* Rent Collection & Settlement Banking */}
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm flex flex-col gap-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -789,7 +1058,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
       {/* TAB: NOTIFICATION & SMS CHANNELS */}
       {activeTab === 'notifications' && (
-        <div className="space-y-6">
+              <div id="panel-notifications" role="tabpanel" aria-labelledby="tab-notifications" className="space-y-6">
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
             <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Notification Preferences</h3>
             <div className="space-y-6">
@@ -825,7 +1094,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
       {/* TAB: TEAM & DELEGATION ACCESS */}
       {activeTab === 'team' && (
-        <div className="space-y-6">
+              <div id="panel-team" role="tabpanel" aria-labelledby="tab-team" className="space-y-6">
           <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm">
             <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">Team & Delegation Access</h3>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">Manage delegated access for property managers and accountants. Coming soon.</p>

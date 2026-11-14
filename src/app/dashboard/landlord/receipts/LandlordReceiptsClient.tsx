@@ -17,6 +17,7 @@ import {
   FileDown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Input } from '@/components/ui/input';
 import { formatNairaFull } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -140,27 +141,60 @@ export default function LandlordReceiptsClient() {
     }
   };
 
-  const downloadAll = async () => {
-    try {
-      const now = new Date();
-      const from = new Date(now.getFullYear(), 0, 1).toISOString().slice(0, 10);
-      const to = now.toISOString().slice(0, 10);
-      const params = new URLSearchParams({ type: 'pl', format: 'csv', from, to });
-      const res = await fetch(`/api/reports/export?${params.toString()}`);
-      if (!res.ok) throw new Error('export failed');
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `receipts-${from}-to-${to}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      toast.success('Receipts archive downloaded');
-    } catch {
-      toast.info('Preparing ZIP archive…');
+  /**
+   * Exports the rows the table is actually showing, so the file matches what the
+   * landlord sees. Built here rather than from `/api/reports/export`, which only
+   * serves P&L and tax summaries — not receipts.
+   */
+  const downloadAll = () => {
+    if (filtered.length === 0) {
+      toast.info('No receipts match the current filters');
+      return;
     }
+
+    const cell = (value: string) => `"${value.replace(/"/g, '""')}"`;
+    const header = [
+      'Receipt #',
+      'Issued Date',
+      'Tenant',
+      'RC Number',
+      'Property',
+      'Unit',
+      'Category',
+      'Description',
+      'Amount (NGN)',
+      'Status',
+    ];
+    const lines = [
+      header.map(cell).join(','),
+      ...filtered.map((r) =>
+        [
+          r.ref,
+          r.date,
+          r.tenant,
+          r.rcNumber ?? '',
+          r.property,
+          r.unit ?? '',
+          CATEGORY_LABEL[r.category] ?? r.category,
+          r.description,
+          r.amount.toFixed(2),
+          r.status,
+        ]
+          .map(cell)
+          .join(','),
+      ),
+    ];
+
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `receipts-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success(`Exported ${filtered.length} receipt${filtered.length === 1 ? '' : 's'}`);
   };
 
   if (loading) {
@@ -185,18 +219,18 @@ export default function LandlordReceiptsClient() {
           <ChevronRight className="h-3.5 w-3.5 opacity-40" />
           <span className="text-zinc-900 dark:text-white font-semibold">Receipts</span>
         </nav>
-        <div className="rounded-xl border border-zinc-200 bg-white p-12 flex flex-col items-center justify-center text-center shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-white/[0.04] text-zinc-400 mb-4">
-            <Receipt className="h-8 w-8 opacity-60" />
-          </div>
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">No receipts found</h3>
-          <p className="mt-1 max-w-sm text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            No payment transactions or remittances recorded for the selected filter criteria or billing cycle.
-          </p>
-          <Button size="sm" className="mt-6 gap-2 bg-primary hover:bg-primary text-white" onClick={() => window.location.reload()}>
-            Reset All Filters
-          </Button>
-        </div>
+        <EmptyState
+          size="lg"
+          variant="bordered"
+          icon={<Receipt className="h-6 w-6" />}
+          title="No receipts found"
+          description="No payment transactions or remittances recorded for the selected filter criteria or billing cycle."
+          action={
+            <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white" onClick={() => window.location.reload()}>
+              Reset All Filters
+            </Button>
+          }
+        />
       </div>
     );
   }
@@ -236,9 +270,6 @@ export default function LandlordReceiptsClient() {
             onClick={() => window.print()}
           >
             <Printer className="h-4 w-4" /> Batch Print Statements
-          </Button>
-          <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={() => toast.info('Reconciliation ledger — filters applied to live transactions')}>
-            <Search className="h-4 w-4" /> Filter &amp; Reconcile
           </Button>
         </div>
       </div>

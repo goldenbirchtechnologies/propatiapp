@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { StatCard, Avatar } from '@/components/ui';
+import { EmptyState } from '@/components/ui/empty-state';
 import {
   Users,
   Clock,
@@ -34,26 +35,24 @@ import {
 type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
 type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'approved' | 'rejected';
 
-export function EmptyState() {
+function NoApplications() {
   return (
-    <div className="rounded-xl border border-dashed border-outline dark:border-on-surface/10 bg-surface-container-lowest dark:bg-[#18181b] p-10 text-center">
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-surface-container dark:bg-surface-container-lowest/[0.04] border border-surface-variant dark:border-on-surface/10">
-        <ClipboardList className="h-6 w-6 text-surface-variant dark:text-surface-variant" />
-      </div>
-      <h3 className="mt-4 text-base font-semibold text-on-surface dark:text-white">No applications yet</h3>
-      <p className="mx-auto mt-1.5 max-w-md text-sm leading-6 text-surface-variant dark:text-surface-variant">
-        Share your verified Sovereign Estate listing links to begin receiving digital applications and
-        institutional tenancy proposals.
-      </p>
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-        <Button asChild variant="outline">
-          <Link href="/dashboard/landlord/properties">View properties</Link>
-        </Button>
-        <Button asChild>
-          <Link href="/dashboard/landlord/properties/new">Add property</Link>
-        </Button>
-      </div>
-    </div>
+    <EmptyState
+      variant="bordered"
+      icon={<ClipboardList className="h-5 w-5" />}
+      title="No applications yet"
+      description="Share your verified listing links to begin receiving digital applications and institutional tenancy proposals."
+      action={
+        <>
+          <Button asChild variant="outline">
+            <Link href="/dashboard/landlord/properties">View properties</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/dashboard/landlord/properties/new">Add property</Link>
+          </Button>
+        </>
+      }
+    />
   );
 }
 
@@ -560,7 +559,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
       {/* Table / empty state */}
       {applications.length === 0 ? (
-        <EmptyState />
+        <NoApplications />
       ) : filtered.length === 0 ? (
         <div className="rounded-xl border border-surface-variant bg-surface-container-lowest p-10 text-center dark:border-on-surface/10 dark:bg-[#18181b]">
           <Users className="mx-auto h-10 w-10 text-surface-variant dark:text-on-surface-variant" />

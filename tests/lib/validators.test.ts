@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import type { ZodTypeAny } from 'zod';
 import {
+  accountSettingsSchema,
   listingFilterSchema,
   onboardingEmploymentSchema,
   onboardingEstateAuthoritySchema,
@@ -94,5 +95,31 @@ describe('other schemas that coerce money out of request input', () => {
   // compares against the bound, so neither change was needed here.
   it('documents that bounded numeric fields already rejected Infinity', () => {
     expect(issuePaths(listingFilterSchema, { minBedrooms: Infinity })).toContain('minBedrooms');
+  });
+});
+
+describe('accountSettingsSchema', () => {
+  it('accepts a single toggle on its own', () => {
+    expect(accountSettingsSchema.safeParse({ paymentRemindersEnabled: false }).success).toBe(true);
+  });
+
+  it('accepts the escrow split at both bounds', () => {
+    expect(accountSettingsSchema.safeParse({ escrowSplitPercent: 0 }).success).toBe(true);
+    expect(accountSettingsSchema.safeParse({ escrowSplitPercent: 50 }).success).toBe(true);
+  });
+
+  it('rejects a split outside 0–50', () => {
+    expect(issuePaths(accountSettingsSchema, { escrowSplitPercent: -1 })).toContain('escrowSplitPercent');
+    expect(issuePaths(accountSettingsSchema, { escrowSplitPercent: 51 })).toContain('escrowSplitPercent');
+  });
+
+  it('rejects a fractional split', () => {
+    expect(issuePaths(accountSettingsSchema, { escrowSplitPercent: 12.5 })).toContain('escrowSplitPercent');
+  });
+
+  // An empty PATCH must not read as a successful save.
+  it('rejects a body with no recognised keys', () => {
+    expect(accountSettingsSchema.safeParse({}).success).toBe(false);
+    expect(accountSettingsSchema.safeParse({ unknownKey: true }).success).toBe(false);
   });
 });

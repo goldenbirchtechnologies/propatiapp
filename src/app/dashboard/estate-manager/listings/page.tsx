@@ -8,6 +8,7 @@ import { prisma } from '@/lib/prisma';
 import { managedListingWhere } from '@/lib/org-scope';
 import { Building2, Plus, ArrowRight } from 'lucide-react';
 import { PageHeader, StatCard } from '@/components/ui';
+import { EmptyState } from '@/components/ui/empty-state';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,19 +78,21 @@ export default async function EstateManagerListingsPage() {
           </div>
 
           {listings.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-12 text-center">
-              <Building2 className="w-10 h-10 mx-auto mb-3 text-zinc-400" />
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">No listings yet</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 mb-5">
-                Publish a marketplace listing from a vacant unit to start receiving applications.
-              </p>
-              <Link
-                href="/dashboard/estate-manager/listings/new"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary text-white text-sm font-medium rounded-lg transition-colors"
-              >
-                <Plus size={14} /> Create Listing
-              </Link>
-            </div>
+            <EmptyState
+              size="lg"
+              variant="bordered"
+              icon={<Building2 className="h-6 w-6" />}
+              title="No listings yet"
+              description="Publish a marketplace listing from a vacant unit to start receiving applications."
+              action={
+                <Link
+                  href="/dashboard/estate-manager/listings/new"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  <Plus size={14} /> Create Listing
+                </Link>
+              }
+            />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {listings.map((listing) => (

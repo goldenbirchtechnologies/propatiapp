@@ -28,33 +28,29 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { PageHeader, SectionLabel, StatusBadge, StatCard, Avatar } from '@/components/ui';
+import { EmptyState } from '@/components/ui/empty-state';
 
 type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
 type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'approved' | 'rejected';
 
-export function EmptyState() {
+function NoApplications() {
   return (
-    <div className="glass-card glass-card border-dashed border-zinc-700 p-8 text-center">
-      <div className="p-6 flex flex-col items-center gap-4 py-4">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
-          <ClipboardList className="h-6 w-6" />
-        </div>
-        <div className="space-y-2">
-          <h3 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-white">No applications yet</h3>
-          <p className="mx-auto max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-            Tenant applications will appear here once people start applying to your listings.
-          </p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-3">
+    <EmptyState
+      variant="bordered"
+      icon={<ClipboardList className="h-5 w-5" />}
+      title="No applications yet"
+      description="Tenant applications will appear here once people start applying to your listings."
+      action={
+        <>
           <Button asChild>
             <Link href="/dashboard/estate-manager/units/new">Add property</Link>
           </Button>
           <Button asChild variant="secondary">
             <Link href="/dashboard/estate-manager/portfolio">View properties</Link>
           </Button>
-        </div>
-      </div>
-    </div>
+        </>
+      }
+    />
   );
 }
 
@@ -292,17 +288,16 @@ export default function EstateManagerApplicationsClient({ applications: initial 
       </div>
 
       {filtered.length === 0 ? (
-        <div className="glass-card glass-card">
-          <div className="p-6 py-16 text-center">
-            <Users className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-400" />
-            <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No applications found</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
-              {applications.length === 0
-                ? 'You have not received any applications yet.'
-                : 'No applications match the selected filters.'}
-            </p>
-          </div>
-        </div>
+        applications.length === 0 ? (
+          <NoApplications />
+        ) : (
+          <EmptyState
+            variant="bordered"
+            icon={<Users className="h-5 w-5" />}
+            title="No applications found"
+            description="No applications match the selected filters."
+          />
+        )
       ) : (
         <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden">
           <div className="overflow-x-auto">

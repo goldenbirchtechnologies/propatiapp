@@ -12,6 +12,7 @@ import {
   FileText,
   RefreshCw,
 } from 'lucide-react';
+import { EmptyState } from '@/components/ui/empty-state';
 
 // ─── Real InvoiceStatus enum from prisma/schema.prisma ───
 type ReceiptStatus = 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
@@ -260,21 +261,20 @@ export default function EstateManagerReceiptsClient({ initialReceipts }: { initi
       {/* Table */}
       <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         {initialReceipts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-400 dark:bg-zinc-800">
-              <Receipt className="h-9 w-9 opacity-50" />
-            </div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">No receipts yet</h3>
-            <p className={`mt-2 max-w-md text-sm ${MUTED}`}>
-              Receipts appear here once invoices are raised and settled against listings you manage.
-            </p>
-            <Link
-              href="/dashboard/estate-manager/billing"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
-            >
-              Go to Billing
-            </Link>
-          </div>
+          <EmptyState
+            size="lg"
+            icon={<Receipt className="h-6 w-6" />}
+            title="No receipts yet"
+            description="Receipts appear here once invoices are raised and settled against listings you manage."
+            action={
+              <Link
+                href="/dashboard/estate-manager/billing"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--sovereign-hover)]"
+              >
+                Go to Billing
+              </Link>
+            }
+          />
         ) : (
           <>
             <div className="overflow-x-auto">

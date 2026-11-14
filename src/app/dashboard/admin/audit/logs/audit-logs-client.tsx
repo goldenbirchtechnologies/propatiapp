@@ -1,6 +1,7 @@
 'use client';
 
 import AppIcon from '@/components/icons/app-icon';
+import { EmptyState } from '@/components/ui/empty-state';
 
 function AuditLogsClient({
   logs,
@@ -109,7 +110,7 @@ function AuditLogsClient({
       {/* Audit Table */}
       <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
         {logs.length === 0 ? (
-          <p className="p-lg text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 text-center">No audit logs recorded yet.</p>
+          <EmptyState size="sm" title="No audit logs recorded yet." />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">

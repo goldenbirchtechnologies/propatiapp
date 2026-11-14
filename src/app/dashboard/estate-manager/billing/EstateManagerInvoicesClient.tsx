@@ -11,6 +11,7 @@ import {
   FileText,
 } from 'lucide-react';
 import type { Prisma } from '@prisma/client';
+import { EmptyState } from '@/components/ui/empty-state';
 
 type InvoiceWithRelations = Prisma.InvoiceGetPayload<
   { include: { listing: { select: { id: true; title: true; address: true } }; tenant: { select: { id: true; fullName: true; email: true } } } }
@@ -227,13 +228,12 @@ export default function EstateManagerInvoicesClient({ initialInvoices }: { initi
       {/* Table */}
       <div className={CARD_DARK}>
         {initialInvoices.length === 0 ? (
-          <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-400 dark:bg-zinc-800"><Receipt className="h-9 w-9 opacity-50" /></div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">No invoices yet</h3>
-            <p className={`mt-2 max-w-md text-sm ${MUTED}`}>
-              Invoices appear here once rent or service charge invoices are issued against listings you manage.
-            </p>
-          </div>
+          <EmptyState
+            size="lg"
+            icon={<Receipt className="h-6 w-6" />}
+            title="No invoices yet"
+            description="Invoices appear here once rent or service charge invoices are issued against listings you manage."
+          />
         ) : (
           <>
             <div className="overflow-x-auto">

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { FailureState } from '@/components/feedback/FailureState';
 import { LoadingState } from '@/components/feedback/LoadingState';
 import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
 import { api } from '@/lib/api';
 
@@ -92,17 +93,19 @@ const SkeletonRow = () => (
 // ─── Stat Card component ──────────────────────────────────────────────────────
 
 // ─── Empty State ──────────────────────────────────────────────────────────────
-function EmptyState({ filter }: { filter: string }) {
+function NoNotifications({ filter }: { filter: string }) {
   return (
-    <div className="glass-card p-12 text-center">
-      <Bell className="w-12 h-12 text-zinc-600 dark:text-zinc-400" style={{ opacity: 0.4 }} />
-      <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">
-        {filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
-      </h3>
-      <p  className="text-zinc-600 dark:text-zinc-400">
-        {filter === 'unread' ? "You're all caught up!" : 'You will see alerts here when there is activity on your account.'}
-      </p>
-    </div>
+    <EmptyState
+      variant="bordered"
+      size="lg"
+      icon={<Bell className="h-5 w-5" />}
+      title={filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
+      description={
+        filter === 'unread'
+          ? "You're all caught up!"
+          : 'You will see alerts here when there is activity on your account.'
+      }
+    />
   );
 }
 
@@ -203,7 +206,7 @@ export default function TenantNotificationsClient() {
         throw new Error('Invalid notification response');
       }
       setNotifications(notifData.data);
-      const countData = (countRes as unknown).count;
+      const countData: unknown = (countRes as { count?: unknown }).count;
       const unreadCountFromApi = typeof countData === 'number' ? countData : undefined;
       setUnreadCount(unreadCountFromApi ?? notifData.data.filter((n) => !n.read).length);
     } catch (err) {
@@ -305,7 +308,7 @@ export default function TenantNotificationsClient() {
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <EmptyState filter={filter} />
+        <NoNotifications filter={filter} />
       ) : (
         <div className="space-y-3">
           {filtered.map((n) => (

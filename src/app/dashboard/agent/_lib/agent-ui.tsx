@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { EmptyState } from '@/components/ui/empty-state';
 
 // ─── Surfaces ─────────────────────────────────────────────────────────────────
 
@@ -263,6 +264,7 @@ export function AgentTd({
 
 // ─── Empty state ──────────────────────────────────────────────────────────────
 
+/** Preset over the shared `EmptyState` — see `@/components/ui/empty-state`. */
 export function AgentEmptyState({
   icon,
   title,
@@ -274,18 +276,7 @@ export function AgentEmptyState({
   description?: string;
   action?: ReactNode;
 }) {
-  return (
-    <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-      {icon ? (
-        <div className="mb-4 text-zinc-400 dark:text-zinc-600">{icon}</div>
-      ) : null}
-      <h3 className="text-base font-semibold text-zinc-900 dark:text-white">{title}</h3>
-      {description ? (
-        <p className="mt-1.5 max-w-sm text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
-      ) : null}
-      {action ? <div className="mt-5">{action}</div> : null}
-    </div>
-  );
+  return <EmptyState size="md" icon={icon} title={title} description={description} action={action} />;
 }
 
 // ─── Toolbar controls ────────────────────────────────────────────────────────

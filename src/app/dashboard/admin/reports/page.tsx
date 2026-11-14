@@ -5,6 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { buildCSV, buildPDFBuffer, type ReportSummary } from '@/lib/reports-service';
+import { EmptyState } from '@/components/ui/empty-state';
 
 type ReportType = 'pl' | 'balance-sheet' | 'cashflow';
 type ReportFormat = 'json' | 'csv' | 'pdf';
@@ -299,10 +300,11 @@ export default function AdminReportsPage() {
         )}
 
         {!report && !loading && !error && (
-          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-12 text-center ">
-            <p className="text-lg font-medium text-zinc-900 dark:text-white">No reports yet</p>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Download a report to populate this section.</p>
-          </div>
+          <EmptyState
+            variant="bordered"
+            title="No reports yet"
+            description="Download a report to populate this section."
+          />
         )}
       </section>
     

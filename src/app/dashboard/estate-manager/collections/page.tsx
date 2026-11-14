@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { EmptyState } from '@/components/ui/empty-state';
 
 // ─── Real TransactionStatus enum from prisma/schema.prisma ───
 type TxnStatus = 'pending' | 'in_escrow' | 'commission_held' | 'released' | 'failed' | 'refunded';
@@ -318,15 +319,12 @@ export default function ManagedCollectionsPage() {
         {/* Table */}
         <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
           {rows.length === 0 ? (
-            <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-400 dark:bg-zinc-800">
-                <Wallet className="h-9 w-9 opacity-50" />
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">No managed collections yet</h3>
-              <p className={`mt-2 max-w-md text-sm ${MUTED}`}>
-                Collections appear here when rent transactions are routed through you for managed properties.
-              </p>
-            </div>
+            <EmptyState
+              size="lg"
+              icon={<Wallet className="h-6 w-6" />}
+              title="No managed collections yet"
+              description="Collections appear here when rent transactions are routed through you for managed properties."
+            />
           ) : (
             <>
               <div className="overflow-x-auto">

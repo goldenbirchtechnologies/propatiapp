@@ -9,6 +9,7 @@ import { PageHeader, StatCard, StatusBadge, DataTable, Avatar } from '@/componen
 import { Users, UserCheck, Wallet, Flag } from 'lucide-react';
 import Link from 'next/link';
 import RecentUsersTable from './RecentUsersTable';
+import { EmptyState } from '@/components/ui/empty-state';
 export const dynamic = 'force-dynamic';
 
 function formatCurrency(value: number, currency = 'NGN') {
@@ -105,7 +106,7 @@ export default async function AdminOverviewPage() {
                 <span className="text-xs text-zinc-600 dark:text-zinc-400">Last 5 signups</span>
               </div>
               {recentUsers.length === 0 ? (
-                <p className="p-6 text-sm text-zinc-600 dark:text-zinc-400 text-center">No users registered yet.</p>
+                <EmptyState size="sm" title="No users registered yet." />
               ) : (
                 <RecentUsersTable users={recentUsers} />
               )}

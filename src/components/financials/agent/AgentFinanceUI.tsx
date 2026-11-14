@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { EmptyState } from '@/components/ui/empty-state';
 
 /**
  * Shared Stitch-fidelity primitives for the agent FINANCE screens.
@@ -505,6 +506,7 @@ export function FinanceTableRow({ children }: { children: ReactNode }) {
 
 /* ─── Empty state ─────────────────────────────────────────────────────────── */
 
+/** Preset over the shared `EmptyState` — see `@/components/ui/empty-state`. */
 export function FinanceEmptyState({
   icon,
   title,
@@ -519,25 +521,15 @@ export function FinanceEmptyState({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        'flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 dark:border-white/[0.12] bg-zinc-50 dark:bg-zinc-800/30 px-6 py-14 text-center',
-        className,
-      )}
-    >
-      {icon ? (
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400">
-          {icon}
-        </div>
-      ) : null}
-      <p className="text-sm font-semibold text-zinc-900 dark:text-white">{title}</p>
-      {description ? (
-        <p className="mt-1.5 max-w-md text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {description}
-        </p>
-      ) : null}
-      {action ? <div className="mt-4">{action}</div> : null}
-    </div>
+    <EmptyState
+      variant="filled"
+      size="md"
+      icon={icon}
+      title={title}
+      description={description}
+      action={action}
+      className={className}
+    />
   );
 }
 

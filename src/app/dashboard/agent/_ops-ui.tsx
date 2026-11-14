@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { EmptyState } from '@/components/ui/empty-state';
 
 /**
  * Shared presentational primitives for the agent Operations desk screens.
@@ -361,6 +362,7 @@ export function OpsStatCard({
   );
 }
 
+/** Preset over the shared `EmptyState` — see `@/components/ui/empty-state`. */
 export function OpsEmptyState({
   icon,
   title,
@@ -372,16 +374,7 @@ export function OpsEmptyState({
   description: string;
   action?: ReactNode;
 }) {
-  return (
-    <div className="flex flex-col items-center justify-center text-center py-16 px-6">
-      <span className="w-14 h-14 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 dark:text-zinc-400 mb-4">
-        {icon}
-      </span>
-      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{title}</h3>
-      <p className="mt-2 max-w-md text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
-      {action ? <div className="pt-5">{action}</div> : null}
-    </div>
-  );
+  return <EmptyState size="lg" icon={icon} title={title} description={description} action={action} />;
 }
 
 export function OpsSectionTitle({

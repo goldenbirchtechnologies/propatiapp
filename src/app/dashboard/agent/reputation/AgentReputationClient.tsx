@@ -1,6 +1,7 @@
 'use client';
 
 import { Star } from 'lucide-react';
+import { EmptyState } from '@/components/ui/empty-state';
 
 type Review = {
   id: string;
@@ -29,11 +30,12 @@ export default function AgentReputationClient({ initialReviews }: { initialRevie
       </div>
 
       {initialReviews.length === 0 ? (
-        <div className="card-body text-center py-16">
-          <Star className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-400" style={{ opacity: 0.5 }} />
-          <h3 className="font-headline-sm font-bold text-lg mb-2 text-zinc-900 dark:text-white">No reviews yet</h3>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Reviews from completed deals will appear here.</p>
-        </div>
+        <EmptyState
+          size="lg"
+          icon={<Star className="h-6 w-6" />}
+          title="No reviews yet"
+          description="Reviews from completed deals will appear here."
+        />
       ) : (
         <div className="space-y-4">
           {initialReviews.map((r) => (

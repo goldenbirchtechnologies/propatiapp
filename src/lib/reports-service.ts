@@ -42,7 +42,7 @@ export interface ReportSummary {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-function toNaira(kobo: bigint | number | null | undefined): number {
+function toNaira(kobo: bigint | number | Prisma.Decimal | string | null | undefined): number {
   if (kobo == null) return 0;
   return Number(kobo) / 100;
 }
@@ -86,7 +86,7 @@ export async function getReportData(filters: ReportFilters): Promise<ReportSumma
       select: { id: true },
     });
     const orgIds = orgs.map((o) => o.id);
-    listingWhere.organisationListings = { some: { orgId: { in: orgIds } } };
+    listingWhere.orgListings = { some: { orgId: { in: orgIds } } };
   }
   // admin → no restriction
 
@@ -170,7 +170,6 @@ export async function getReportData(filters: ReportFilters): Promise<ReportSumma
     in_escrow: 'In Escrow',
     refunded: 'Refunded',
     failed: 'Failed',
-    paid: 'Paid',
     overdue: 'Overdue',
     draft: 'Draft',
   };

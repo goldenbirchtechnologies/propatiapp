@@ -128,7 +128,7 @@ class ApiClient {
       return {
         message: data?.error || data?.message || 'An error occurred',
         status: error.response.status,
-        details: (data as Record<string, unknown> | null)?.details ?? null,
+        details: (data as unknown as Record<string, unknown> | null)?.details ?? null,
         code: error.code,
       };
     } else if (error.request) {

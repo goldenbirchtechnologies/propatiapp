@@ -1082,19 +1082,19 @@ model Agreement {
   integrityChainHash String?             @map("integrity_chain_hash")
   lockedBy           String?             @map("locked_by")
 
-  listing      Listing              @relation(fields: [listingId], references: [id])
-  landlord     User                 @relation("AgreementLandlord", fields: [landlordId], references: [id])
-  tenant       User                 @relation("AgreementTenant", fields: [tenantId], references: [id])
-  agent        User?                @relation("AgreementAgent", fields: [agentId], references: [id])
-  signatures   AgreementSignature[]
-  transactions Transaction[]        @relation("TransactionAgreements")
-  rentSchedule RentSchedule[]
-  stampDuty    StampDuty?
-  invoices     Invoice[]
-  country      Country?             @relation(fields: [countryId], references: [code])
-  jurisdiction Jurisdiction?        @relation(fields: [jurisdictionId], references: [id])
-  legalMatters LegalMatter[]
-  agentReviews AgentReview[]
+  listing         Listing              @relation(fields: [listingId], references: [id])
+  landlord        User                 @relation("AgreementLandlord", fields: [landlordId], references: [id])
+  tenant          User                 @relation("AgreementTenant", fields: [tenantId], references: [id])
+  agent           User?                @relation("AgreementAgent", fields: [agentId], references: [id])
+  signatures      AgreementSignature[]
+  transactions    Transaction[]        @relation("TransactionAgreements")
+  rentSchedule    RentSchedule[]
+  stampDuty       StampDuty?
+  invoices        Invoice[]
+  country         Country?             @relation(fields: [countryId], references: [code])
+  jurisdiction    Jurisdiction?        @relation(fields: [jurisdictionId], references: [id])
+  legalMatters    LegalMatter[]
+  agentReviews    AgentReview[]
   autoPayMandates AutoPayMandate[]
 
   @@map("agreements")
@@ -1436,8 +1436,8 @@ model Unit {
   // null), so the model has to allow it or Prisma throws on every full-row read.
   listingId    String?  @map("listing_id")
   listing      Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  buildingName String? @map("building_name")
-  unitNumber   String  @map("unit_number")
+  buildingName String?  @map("building_name")
+  unitNumber   String   @map("unit_number")
 
   // Details
   type      PropertyType
@@ -2332,8 +2332,11 @@ model UserPaystackAccount {
   /// through a split rather than straight into the platform balance.
   subaccountCode     String?               @unique @map("subaccount_code")
   /// Platform's share of each split sent to `subaccountCode`, in percent.
-  percentageCharge   Decimal?              @db.Decimal(5, 2) @map("percentage_charge")
+  percentageCharge   Decimal?              @map("percentage_charge") @db.Decimal(5, 2)
   collectBelow       Decimal?              @db.Decimal(12, 2)
+  /// Paystack-account balance in kobo, as last reconciled from the provider.
+  /// Local Wallet.balance stays the source of truth for withdrawals.
+  balance            BigInt?               @default(0) @map("balance")
   currency           String                @default("NGN")
   createdAt          DateTime              @default(now()) @map("created_at")
   updatedAt          DateTime              @updatedAt @map("updated_at")
@@ -2366,8 +2369,29 @@ model Country {
   jurisdictionRules JurisdictionRule[]
   documentTemplates DocumentTemplate[]
   rentalDossiers    RentalApplicationDossier[]
+  capabilities      CountryCapability[]
 
   @@map("countries")
+}
+
+/// Per-country feature gate read by src/lib/features.ts and the admin
+/// capabilities API. `enabled` is the live switch; `available` records whether
+/// the underlying provider integration exists yet.
+model CountryCapability {
+  id        String   @id @default(cuid()) @map("id")
+  countryId String   @map("country_id")
+  feature   String
+  enabled   Boolean  @default(false) @map("enabled")
+  available Boolean  @default(false) @map("available")
+  note      String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  country Country @relation(fields: [countryId], references: [code], onDelete: Cascade)
+
+  @@unique([countryId, feature], map: "uq_country_capabilities_country_feature")
+  @@index([countryId], map: "idx_country_capabilities_country")
+  @@map("country_capabilities")
 }
 
 model Jurisdiction {
@@ -2628,7 +2652,7 @@ model LandlordProfile {
   paymentRemindersEnabled   Boolean @default(true) @map("payment_reminders_enabled")
   stampDutySurchargeEnabled Boolean @default(true) @map("stamp_duty_surcharge_enabled")
   /// Share of each cleared rent payment reserved to the maintenance escrow.
-  escrowSplitPercent        Int     @default(10)   @map("escrow_split_percent")
+  escrowSplitPercent        Int     @default(10) @map("escrow_split_percent")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -2778,21 +2802,21 @@ model RentScenario {
 // mandate the tenant asked for; it is NOT a live Paystack Direct-Debit
 // subscription, so the UI must describe it as requested, never active.
 model AutoPayMandate {
-  id            String    @id @default(cuid()) @map("id")
-  userId        String    @map("user_id")
-  agreementId   String?   @map("agreement_id")
-  enabled       Boolean   @default(true)
+  id             String    @id @default(cuid()) @map("id")
+  userId         String    @map("user_id")
+  agreementId    String?   @map("agreement_id")
+  enabled        Boolean   @default(true)
   /// Day of month the debit should run on (1–28).
-  execDay       Int       @default(1) @map("exec_day")
+  execDay        Int       @default(1) @map("exec_day")
   /// fixed | percentage_of_income | custom
-  amountStrategy String   @default("fixed") @map("amount_strategy")
+  amountStrategy String    @default("fixed") @map("amount_strategy")
   /// Ceiling per debit in kobo-as-naira; null means no cap.
-  threshold     BigInt?   @map("threshold")
+  threshold      BigInt?   @map("threshold")
   /// requested | cancelled
-  status        String    @default("requested") @db.VarChar(20)
-  revokedAt     DateTime? @map("revoked_at")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  status         String    @default("requested") @db.VarChar(20)
+  revokedAt      DateTime? @map("revoked_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
 
   user      User       @relation("AutoPayMandateOwner", fields: [userId], references: [id], onDelete: Cascade)
   agreement Agreement? @relation(fields: [agreementId], references: [id], onDelete: SetNull)

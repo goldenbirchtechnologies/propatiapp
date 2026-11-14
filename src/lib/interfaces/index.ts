@@ -1,4 +1,4 @@
-export type { PaymentProvider } from './payment';
+export type { PaymentProvider, AccountResolution } from './payment';
 export type { TaxEngine } from './tax';
 export type { VerificationProvider, IdentityVerificationResult, BusinessVerificationResult } from './verification';
 export type { LegalEngine } from './legal';

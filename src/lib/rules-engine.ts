@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { prisma } from './prisma';
 
 export interface RuleCondition {
@@ -111,7 +112,7 @@ export async function createComplianceEvent(data: {
       description: data.description,
       deadline: data.deadline,
       assignedTo: data.assignedTo,
-      metadata: data.metadata || {},
+      metadata: (data.metadata ?? {}) as Prisma.InputJsonValue,
     },
   });
   return event as unknown as ComplianceEvent;

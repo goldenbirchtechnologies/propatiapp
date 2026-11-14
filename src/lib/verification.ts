@@ -43,6 +43,19 @@ const VALID_TRANSITIONS: LayerTransition[] = [
 ];
 
 export class VerificationService {
+  /**
+   * Verification rows outlive their listing (soft-deleted or removed), so every
+   * read `include`s a nullable listing. Callers that notify the owner or read
+   * listing fields must guard with this rather than assume the join resolved.
+   */
+  private static requireListing<T extends { listing: unknown | null }>(
+    verification: T
+  ): asserts verification is T & { listing: NonNullable<T['listing']> } {
+    if (!verification.listing) {
+      throw new Error('Listing not found for verification');
+    }
+  }
+
   static isFrozen(status: VerificationOverallStatus): boolean {
     return status === 'frozen';
   }
@@ -71,6 +84,7 @@ export class VerificationService {
     if (!verification) {
       throw new Error('Verification record not found');
     }
+    this.requireListing(verification);
 
     const transition = this.getTransition(verification.overallStatus, 1, 'submit');
     if (!transition) {
@@ -111,6 +125,7 @@ export class VerificationService {
     });
 
     if (!verification) throw new Error('Verification not found');
+    this.requireListing(verification);
 
     const transition = this.getTransition(verification.overallStatus, 1, approve ? 'approve' : 'reject');
     if (!transition) throw new Error('Invalid transition');
@@ -201,6 +216,7 @@ export class VerificationService {
     });
 
     if (!verification) throw new Error('Verification not found');
+    this.requireListing(verification);
 
     if (verified) {
       const updated = await prisma.verification.update({
@@ -356,6 +372,7 @@ export class VerificationService {
     });
 
     if (!verification) throw new Error('Verification not found');
+    this.requireListing(verification);
 
     // Layer 5: NIPOST Address Cross-reference
     let nipostValidation: {
@@ -438,6 +455,7 @@ export class VerificationService {
     });
 
     if (!verification) throw new Error('Verification not found');
+    this.requireListing(verification);
 
     const updated = await prisma.verification.update({
       where: { id: verification.id },

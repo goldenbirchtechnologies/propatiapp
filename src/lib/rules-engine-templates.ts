@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { prisma } from './prisma';
 
 export interface DocumentTemplate {
@@ -58,8 +59,8 @@ export async function createTemplate(data: {
       propertyType: data.propertyType,
       tenancyType: data.tenancyType,
       name: data.name,
-      templateSchema: data.templateSchema,
-      mandatoryClauses: data.mandatoryClauses || [],
+      templateSchema: data.templateSchema as Prisma.InputJsonValue,
+      mandatoryClauses: (data.mandatoryClauses || []) as Prisma.InputJsonValue,
       content: data.content,
       language: data.language || 'en',
     },

@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import PDFDocument from 'pdfkit';
 import { prisma } from './prisma';
-import { renderAgreementTemplate } from './agreement-templates';
+import { renderAgreementTemplate, type AgreementTemplateData } from './agreement-templates';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -180,7 +180,7 @@ function buildAgreementPDFBuffer(
       .fontSize(10)
       .text(
         'This agreement has been duly stamped in accordance with the Stamp Duties Act, CAP S8, LFN 2004',
-        { align: 'center', color: '#555555', italic: true }
+        { align: 'center', color: '#555555', oblique: true }
       );
   }
 
@@ -329,7 +329,7 @@ export async function generateAgreementPDF(
     console.error('Error uploading PDF to Cloudinary, falling back to HTML:', error);
 
     // Fallback: render HTML and upload as raw HTML to preserve existing behavior
-    const html = renderAgreementTemplate(agreement.type, templateData as Record<string, unknown>);
+    const html = renderAgreementTemplate(agreement.type, templateData as AgreementTemplateData);
 
     const signatureSection = `
       <div style="margin-top: 60px; page-break-before: always;">

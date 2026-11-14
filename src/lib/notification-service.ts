@@ -3,6 +3,7 @@
 // Phase H: Multi-channel notification delivery (in-app, email, SMS, WhatsApp)
 // ===========================================================================
 
+import type { Prisma } from '@prisma/client';
 import { prisma } from './prisma';
 import { sendEmail } from './email/email-service';
 import { sendSMS } from './sms/termii';
@@ -60,7 +61,7 @@ class NotificationService {
         type: params.type,
         title: params.title,
         body: params.message,
-        data: params.metadata || null,
+        data: (params.metadata ?? undefined) as Prisma.InputJsonValue | undefined,
         read: false,
       },
     });

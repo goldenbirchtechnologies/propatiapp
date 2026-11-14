@@ -16,6 +16,12 @@ export interface AgreementTemplateData {
   jurisdictionState?: string | null;
   governingStatute?: string | null;
   agreementDate: string;
+  /** Underlying listing type the agreement was generated for, when known. */
+  listingType?: string | null;
+  /** Property type of the listing (e.g. "residential", "commercial"), when known. */
+  propertyType?: string | null;
+  /** Extra template placeholders substituted as `{{key}}`. */
+  [key: string]: unknown;
   listingTitle: string;
   listingArea: string;
   listingState: string;

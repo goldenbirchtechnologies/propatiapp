@@ -1,5 +1,3 @@
-import type { DojahVerifyBVNResponse, DojahVerifyNINResponse } from '../dojah';
-
 export interface IdentityVerificationResult {
   verified: boolean;
   fullName?: string;

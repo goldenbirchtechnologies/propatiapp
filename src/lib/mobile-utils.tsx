@@ -425,7 +425,7 @@ export function preventBodyScroll(prevent: boolean) {
  */
 export function isIOS(): boolean {
   if (typeof window === 'undefined') return false;
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as unknown).MSStream;
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as unknown as { MSStream?: unknown }).MSStream;
 }
 
 /**
@@ -448,12 +448,12 @@ export function getViewportHeight(): number {
  * Lock orientation (if supported)
  */
 export async function lockOrientation(orientation: 'portrait' | 'landscape'): Promise<boolean> {
-  if (typeof screen === 'undefined' || !screen.orientation || !(screen.orientation as unknown).lock) {
+  if (typeof screen === 'undefined' || !screen.orientation || !(screen.orientation as unknown as { lock?: (o: string) => Promise<void> }).lock) {
     return false;
   }
 
   try {
-    await (screen.orientation as unknown).lock(orientation);
+    await (screen.orientation as unknown as { lock: (o: string) => Promise<void> }).lock(orientation);
     return true;
   } catch (error) {
     console.warn('Orientation lock failed:', error);

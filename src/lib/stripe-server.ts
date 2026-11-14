@@ -7,7 +7,8 @@
  */
 
 import Stripe from 'stripe';
-import { sleep } from './utils';
+
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 /** @internal Singleton Stripe client initialized from env. */
 let client: Stripe | null = null;
@@ -27,7 +28,7 @@ export function getStripeInstance(): Stripe {
 
   if (!client) {
     client = new Stripe(secretKey, {
-      apiVersion: '2024-11-20.acacia',
+      apiVersion: '2023-10-16',
       typescript: true,
     });
   }
@@ -130,10 +131,12 @@ export async function verifyWebhook(
   const stripe = getStripeInstance();
   const event = await retryStripeCall(
     () =>
-      stripe.webhooks.constructEvent(
-        input.payload,
-        input.signature,
-        input.secret
+      Promise.resolve(
+        stripe.webhooks.constructEvent(
+          input.payload,
+          input.signature,
+          input.secret
+        )
       ),
     'verifyWebhook'
   );

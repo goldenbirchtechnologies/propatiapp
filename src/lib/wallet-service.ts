@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { paystack } from '@/lib/paystack';
 import crypto from 'crypto';
@@ -30,7 +31,7 @@ export async function creditWallet(userId: string, amount: number, type: WalletT
     const reference = `WAL_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`.toUpperCase();
     await tx.wallet.update({ where: { id: wallet.id }, data: { balance: closing } });
     const txn = await tx.walletTransaction.create({
-      data: { walletId: wallet.id, userId, reference, type, status: 'success', amount, openingBalance: opening, closingBalance: closing, description, meta },
+      data: { walletId: wallet.id, userId, reference, type, status: 'success', amount, openingBalance: opening, closingBalance: closing, description, meta: meta as Prisma.InputJsonValue | undefined },
     });
     return { opening, closing, reference, txn };
   });
@@ -48,7 +49,7 @@ export async function debitWallet(userId: string, amount: number, type: WalletTr
     const reference = `WAL_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`.toUpperCase();
     await tx.wallet.update({ where: { id: wallet.id }, data: { balance: closing } });
     const txn = await tx.walletTransaction.create({
-      data: { walletId: wallet.id, userId, reference, type, status: 'success', amount, openingBalance: opening, closingBalance: closing, description, meta },
+      data: { walletId: wallet.id, userId, reference, type, status: 'success', amount, openingBalance: opening, closingBalance: closing, description, meta: meta as Prisma.InputJsonValue | undefined },
     });
     return { opening, closing, reference, txn };
   });

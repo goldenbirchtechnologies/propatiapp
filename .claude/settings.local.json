@@ -3,11 +3,9 @@
     "allow": [
       "Bash(netstat -ano)",
       "Bash(curl -s -o /dev/null -w \"%{http_code} %{time_total}s\\\\n\" http://localhost:3000/ --max-time 60)",
-
       "Read",
       "Glob",
       "Grep",
-
       "Bash(pwd)",
       "Bash(ls:*)",
       "Bash(cat:*)",
@@ -38,7 +36,6 @@
       "Bash(diff:*)",
       "Bash(md5sum:*)",
       "Bash(sha256sum:*)",
-
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -53,7 +50,6 @@
       "Bash(git shortlog:*)",
       "Bash(git describe:*)",
       "Bash(git stash list)",
-
       "Bash(node --version)",
       "Bash(npm --version)",
       "Bash(npm ls:*)",
@@ -64,9 +60,7 @@
       "Bash(npm test:*)",
       "Bash(npx tsc --noEmit)",
       "Bash(npx eslint:*)",
-
       "Bash(tasklist:*)",
-
       "mcp__Claude_Browser__preview_list",
       "mcp__Claude_Browser__preview_start",
       "mcp__Claude_Browser__preview_stop",
@@ -80,7 +74,6 @@
       "mcp__Claude_Browser__preview_click",
       "mcp__Claude_Browser__preview_fill",
       "mcp__Claude_Browser__preview_resize",
-
       "mcp__ccd_turn__update_plan",
       "mcp__ccd_turn__wrap_up",
       "mcp__ccd_view__show_pane",
@@ -101,7 +94,29 @@
       "mcp__ccd_sidebar__list_groups",
       "mcp__ccd_sidebar__list_sections",
       "mcp__terminal__list_terminal_tabs",
-      "mcp__terminal__read_terminal"
+      "mcp__terminal__read_terminal",
+      "Bash(git symbolic-ref *)",
+      "Bash(git fetch *)",
+      "Bash(git rev-list *)",
+      "Bash(git push *)",
+      "Bash(node -e \"const p=require\\('./package.json'\\);const d={...p.dependencies,...p.devDependencies};console.log\\(Object.keys\\(d\\).filter\\(k=>/otp|speakeasy|qr|base32|crypto-js|bcrypt|argon/i.test\\(k\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(npx tsc *)",
+      "Bash(npx prisma *)",
+      "Bash(npx vitest *)",
+      "Bash(npm run *)",
+      "Bash(nslookup db.qpoorimlcoxgxttkuyln.supabase.co)",
+      "Bash(git add *)",
+      "Bash(git reset *)",
+      "Bash(git commit *)",
+      "Bash(DIRECT_URL=\"postgresql://postgres.qpoorimlcoxgxttkuyln:Anakinkenobi%401234567890@aws-1-eu-west-2.pooler.supabase.com:5432/postgres?sslmode=require\" npx prisma migrate status)",
+      "Bash(npx next *)",
+      "Bash(perl -0pi -e 's/icon=\\\\{<\\(\\\\w+\\) className=\"h-4 w-4\" \\\\/> as unknown\\\\}/icon={$1}/g' src/components/listings/search-filters.tsx)",
+      "Bash(perl -0pi -e 's/onChange\\\\\\(\\\\{ listingType: v\\\\[0\\\\] as unknown \\\\|\\\\| '\\\\''all'\\\\'' \\\\}\\\\\\)/onChange\\({ listingType: \\(v[0] ?? '\\\\''all'\\\\''\\) as NonNullable<SearchFiltersData['\\\\''listingType'\\\\'']> }\\)/g' src/components/listings/search-filters.tsx)",
+      "Bash(perl -0pi -e 's/onChange\\\\\\(\\\\{ sortBy: option\\\\.value as unknown \\\\}\\\\\\)/onChange\\({ sortBy: option.value }\\)/g' src/components/listings/search-filters.tsx)",
+      "Bash(perl -0pi -e 's/onChange\\\\\\(\\\\{ verificationTier: v as unknown \\\\}\\\\\\)/onChange\\({ verificationTier: v as NonNullable<SearchFiltersData['\\\\''verificationTier'\\\\'']> }\\)/g' src/components/listings/search-filters.tsx)",
+      "Bash(python -c \"import json;print\\(json.load\\(open\\('package.json'\\)\\)['scripts'].get\\('dev'\\)\\)\")",
+      "Bash(git rm *)",
+      "Read(//tmp/**)"
     ]
   },
   "disabledMcpjsonServers": [

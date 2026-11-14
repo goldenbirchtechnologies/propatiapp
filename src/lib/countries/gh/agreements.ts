@@ -3,7 +3,7 @@ import type { LegalEngine } from '../../interfaces';
 export const legalEngine: LegalEngine = {
   async generateAgreement(data) {
     // Ghana tenancy template (English)
-    const template = getGhanaTemplate(data.listingType, data.propertyType);
+    const template = getGhanaTemplate(data.listingType ?? '', data.propertyType ?? null);
     return renderTemplate(template, data);
   },
   getTemplate(listingType, propertyType) {

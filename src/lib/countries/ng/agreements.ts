@@ -13,7 +13,7 @@ function renderTemplate(type: string, data: AgreementTemplateData): string {
 
 export const legalEngine: LegalEngine = {
   async generateAgreement(data: AgreementTemplateData) {
-    const template = getTemplate(data.listingType, data.propertyType);
+    const template = getTemplate(data.listingType ?? '', data.propertyType ?? null);
     return renderTemplate(template, data);
   },
   getTemplate(listingType, propertyType) {

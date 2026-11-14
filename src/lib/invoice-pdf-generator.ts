@@ -98,7 +98,7 @@ export function buildInvoicePDFBuffer(params: {
   doc.moveDown();
 
   if (params.notes) {
-    doc.fontSize(10).text(`Notes: ${params.notes}`, { italics: true });
+    doc.fontSize(10).text(`Notes: ${params.notes}`, { oblique: true });
   }
 
   doc.moveDown(1);

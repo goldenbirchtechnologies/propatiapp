@@ -2,7 +2,7 @@ import type { LegalEngine } from '../../interfaces';
 
 export const legalEngine: LegalEngine = {
   async generateAgreement(data) {
-    const template = getBeninTemplate(data.listingType, data.propertyType);
+    const template = getBeninTemplate(data.listingType ?? '', data.propertyType ?? null);
     return renderTemplate(template, data);
   },
   getTemplate(listingType, propertyType) {

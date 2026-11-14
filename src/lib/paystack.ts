@@ -77,7 +77,7 @@ export interface TransferRecipientParams {
   account_number: string;
   bank_code: string;
   type?: 'nuban';
-  currency?: 'NGN';
+  currency?: string;
 }
 
 export interface TransferRecipientResponse {
@@ -114,6 +114,7 @@ export interface InitiateTransferResponse {
     amount: number;
     recipient: string;
     reason: string;
+    currency?: string;
   };
 }
 

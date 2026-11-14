@@ -228,7 +228,7 @@ export function StitchHeader() {
 
 export function StitchFooter() {
   return (
-    <footer className="bg-background border-t border-outline-variant/60 pt-16 pb-8">
+    <footer className="bg-background border-t border-zinc-200 dark:border-zinc-800/80 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-14">
           {/* Brand col */}
@@ -236,15 +236,15 @@ export function StitchFooter() {
             <div className="mb-4">
               <PropatiBoxLogo size="sm" />
             </div>
-            <p className="text-sm text-on-surface-variant leading-relaxed max-w-xs">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-xs">
               Nigeria&apos;s premier verified property marketplace. Find, rent, buy, and
-              manage real estate with confidence.
+              manage real estate with institutional confidence.
             </p>
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2.5 mt-5">
               {['twitter', 'facebook', 'instagram', 'linkedin'].map((sn) => (
                 <div
                   key={sn}
-                  className="w-8 h-8 rounded-lg bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors cursor-pointer"
+                  className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-primary hover:border-primary dark:hover:text-[#4edea3] dark:hover:border-[#4edea3] transition-all cursor-pointer shadow-sm"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <circle cx="12" cy="12" r="10" />
@@ -256,15 +256,15 @@ export function StitchFooter() {
 
           {footerCols.map((col) => (
             <div key={col.title}>
-              <h4 className="text-sm font-semibold text-on-surface uppercase tracking-wider mb-4">
+              <h4 className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider mb-4">
                 {col.title}
               </h4>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-on-surface-variant hover:text-primary transition-colors"
+                      className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-primary dark:hover:text-[#4edea3] transition-colors inline-block py-0.5"
                     >
                       {link.label}
                     </Link>
@@ -275,24 +275,24 @@ export function StitchFooter() {
           ))}
         </div>
 
-        <div className="border-t border-outline-variant/40 pt-6 flex flex-col gap-3">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p className="text-xs text-on-surface-variant">
+        <div className="border-t border-zinc-200 dark:border-zinc-800/80 pt-8 flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <p className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
               © 2026 PropatiBox Technologies Ltd. All rights reserved.
             </p>
-            <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <span className="text-xs text-on-surface-variant">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="text-xs font-mono font-medium text-zinc-600 dark:text-zinc-400">
                 RC: 1849204 — CAC Registered — Verified Property Marketplace
               </span>
             </div>
           </div>
-          <p className="text-[11px] text-on-surface-variant">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-outline-variant/50 bg-surface-container px-2.5 py-1 font-mono text-on-surface-variant">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              NDPA 2023 Compliant · FIRS Cap S8 · CBN Escrow Trustee
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-600 dark:text-zinc-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              NDPA 2023 Compliant · FIRS Cap S8 Stamp Duties Act · CBN Escrow Trustee
             </span>
-          </p>
+          </div>
         </div>
       </div>
     </footer>

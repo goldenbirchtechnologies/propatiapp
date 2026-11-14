@@ -283,6 +283,13 @@
   --sidebar: var(--surface);
   --sidebar-foreground: var(--text);
   --sidebar-primary: var(--accent);
+  --surface-container-lowest: #09090b;
+  --surface-container-low: #121215;
+  --surface-container: #18181b;
+  --surface-container-high: #27272a;
+  --surface-container-highest: #3f3f46;
+  --outline: rgba(255, 255, 255, 0.2);
+  --outline-variant: rgba(255, 255, 255, 0.1);
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: var(--surface);
   --sidebar-accent-foreground: var(--text);
@@ -1092,7 +1099,9 @@ a:hover {
     --secondary: #006c49;
     --secondary-foreground: #ffffff;
     --muted: #f0edf1;
-    --muted-foreground: #6c7a71;
+    /* #6c7a71 was 4.28:1 on --background (#fbf8fc) and failed WCAG AA for body text.
+       #5f6b63 is 5.29:1. Role themes override this to #a1a1aa on their dark surfaces. */
+    --muted-foreground: #5f6b63;
     --accent: #006c49;
     --accent-foreground: #00422b;
     --destructive: #ba1a1a;

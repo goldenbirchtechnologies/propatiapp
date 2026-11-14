@@ -51,26 +51,26 @@ const jurisdictionHubs = [
 
 export default function ZillowStyleFooter() {
   return (
-    <section className="border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/60 dark:bg-zinc-950/70 py-16 md:py-20">
+    <section className="border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/60 dark:bg-zinc-950/70 py-12 sm:py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Recommendation Callout Banner */}
-        <div className="mb-14 rounded-2xl border border-zinc-200 bg-white p-6 md:p-8 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
+        <div className="mb-10 sm:mb-14 rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 md:p-8 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 mb-3">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Personalized Discovery</span>
           </div>
-          <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+          <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white mb-2.5 sm:mb-3 tracking-tight">
             About PropatiBox&apos;s Recommendations
           </h3>
-          <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl mx-auto">
             Recommendations are personalized based on your location, search activity, and viewed or saved homes so you never miss a verified listing in your preferred Nigerian city.
           </p>
         </div>
 
         {/* 4-Column Directory Grid with Strong Visual Separation */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-14">
           {/* Column 1: Real Estate */}
-          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700 flex flex-col">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm transition-all hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700 flex flex-col">
             <div className="flex items-center gap-2.5 pb-3.5 mb-4 border-b border-zinc-100 dark:border-zinc-800">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white">
                 <Building2 className="h-4 w-4 text-primary dark:text-[#4edea3]" />

@@ -126,7 +126,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#fbf8fc] dark:bg-[#070708] text-zinc-900 dark:text-zinc-100 antialiased selection:bg-primary/20">
+    <div className="min-h-screen bg-[#fbf8fc] dark:bg-[#070708] text-zinc-900 dark:text-zinc-100 antialiased selection:bg-primary/20 overflow-x-hidden">
 
       {/* ===================== HERO — OPERATING SYSTEM ===================== */}
       <section className="relative w-full overflow-hidden bg-[#0e1113] text-white">
@@ -145,30 +145,30 @@ export default function HomePage() {
           <div className="absolute -bottom-40 left-[10%] h-[400px] w-[400px] rounded-full bg-[#4edea3]/10 blur-[80px]" />
         </div>
 
-        <div className="relative mx-auto flex max-w-6xl flex-col px-6 pb-16 pt-20 md:pb-20 md:pt-28">
+        <div className="relative mx-auto flex max-w-6xl flex-col px-4 sm:px-6 pb-14 pt-16 sm:pb-16 sm:pt-20 md:pb-20 md:pt-28">
           {/* Eyebrow — OS positioning */}
-          <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-1.5 backdrop-blur-md">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-[#4edea3]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#4edea3]">
+          <div className="mb-4 sm:mb-5 inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 sm:px-3.5 py-1.5 backdrop-blur-md">
+            <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#4edea3]" />
+            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-[#4edea3]">
               The Property Operating System for Africa
             </span>
             <span className="hidden sm:inline text-[11px] text-white/40">— Launching in Nigeria · Engineered for Africa</span>
           </div>
 
           {/* Headline */}
-          <h1 className="max-w-4xl text-[32px] font-bold leading-[1.05] tracking-tight text-white md:text-[56px]">
-            Streamline property management,<br />
-            <span className="text-[#4edea3]">automate</span> institutional leasing,<br />
+          <h1 className="max-w-4xl text-[30px] sm:text-[42px] md:text-[56px] font-bold leading-[1.08] tracking-tight text-white">
+            Streamline property management,<br className="hidden sm:inline" />
+            <span className="text-[#4edea3]">automate</span> institutional leasing,<br className="hidden sm:inline" />
             power shortlet operations.
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 md:text-[15px]">
+          <p className="mt-3.5 sm:mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-[15px]">
             One unified platform to eliminate market fragmentation and operational risk.
             Bank-backed escrow, cross-border compliance workflows, and end-to-end automation —
             <span className="text-zinc-200"> sync with vetted agent networks on a single core.</span>
           </p>
 
           {/* Search Terminal — the OS command bar */}
-          <div className="mt-8 w-full max-w-4xl rounded-2xl border border-white/10 bg-white p-3 shadow-2xl dark:bg-zinc-900 dark:border-zinc-800 md:p-4">
+          <div className="mt-6 sm:mt-8 w-full max-w-4xl rounded-2xl border border-white/10 bg-white p-3 shadow-2xl dark:bg-zinc-900 dark:border-zinc-800 md:p-4">
             {/* Tabs */}
             <div className="mb-3 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
               {[
@@ -182,7 +182,7 @@ export default function HomePage() {
                   type="button"
                   onClick={() => setSearchTab(tab.key)}
                   className={cn(
-                    'flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs md:text-sm font-semibold transition-colors',
+                    'flex shrink-0 items-center gap-2 rounded-full px-3.5 sm:px-4 py-2 text-xs md:text-sm font-semibold transition-colors',
                     searchTab === tab.key
                       ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm'
                       : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700'
@@ -258,13 +258,15 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* System Vital Statistics — directly under hero as in your copy */}
-          <div className="mt-6 grid w-full max-w-4xl grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md">
+          {/* System Vital Statistics — 1 col on mobile, 3 cols on sm+ */}
+          <div className="mt-6 grid w-full max-w-4xl grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md">
             {vitalStats.map((s) => (
-              <div key={s.label} className="px-4 py-4 text-center md:px-6 md:py-5">
-                <div className="font-mono text-lg font-bold text-white md:text-xl">{s.value}</div>
-                <div className="text-[11px] font-semibold uppercase tracking-wide text-[#4edea3]">{s.label}</div>
-                <div className="hidden text-[11px] text-white/40 md:block">{s.sub}</div>
+              <div key={s.label} className="flex flex-row sm:flex-col items-center sm:items-center justify-between sm:justify-center px-4 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 text-left sm:text-center">
+                <div>
+                  <div className="font-mono text-lg font-bold text-white md:text-xl">{s.value}</div>
+                  <div className="text-xs sm:text-[11px] font-semibold uppercase tracking-wide text-[#4edea3]">{s.label}</div>
+                </div>
+                <div className="text-xs text-white/50 text-right sm:text-center mt-0 sm:mt-1">{s.sub}</div>
               </div>
             ))}
           </div>
@@ -434,21 +436,28 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Mobile */}
-          <div className="grid grid-cols-1 gap-4 md:hidden">
+          {/* Mobile vertical stepper */}
+          <div className="space-y-3 md:hidden">
             {[
-              { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited', icon: ShieldCheck },
-              { n: '02', title: 'Smart Tour', sub: '3D & Geo-Stamped Inspections', icon: Compass },
-              { n: '03', title: 'Secure Escrow', sub: 'Multi-Tier Bank Escrow', icon: Lock },
-              { n: '04', title: 'Digital Handover', sub: 'Biometrics & Digital Records', icon: Fingerprint },
-            ].map((s) => (
-              <div key={s.n} className="flex gap-4 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-900">
-                  <s.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="font-mono text-[11px] font-bold text-primary">[{s.n}] {s.title}</div>
-                  <div className="text-xs text-zinc-500">{s.sub}</div>
+              { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited', desc: 'Rigid title, beacon, and CAC verification before any transaction is initiated.', icon: ShieldCheck },
+              { n: '02', title: 'Smart Tour', sub: '3D & Geo-Stamped Inspections', desc: 'Unfiltered high-definition tours capturing real, verified asset conditions.', icon: Compass },
+              { n: '03', title: 'Secure Escrow', sub: 'Multi-Tier Bank Escrow', desc: 'Capital locked in tier-1 bank escrow until all compliance milestones are met.', icon: Lock },
+              { n: '04', title: 'Digital Handover', sub: 'Biometrics & Digital Records', desc: 'Instant issuance of digital tenancy agreements, access keys, and deeds.', icon: Fingerprint },
+            ].map((s, idx) => (
+              <div key={s.n} className="relative rounded-2xl border border-zinc-200 bg-white p-4.5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <div className="flex items-start gap-3.5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm">
+                    <s.icon className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-bold text-primary dark:text-[#4edea3]">STEP [{s.n}]</span>
+                      <span className="text-[10px] uppercase font-semibold text-zinc-400">Phase {idx + 1}/4</span>
+                    </div>
+                    <h3 className="text-sm font-bold text-zinc-900 dark:text-white mt-0.5">{s.title}</h3>
+                    <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 mt-0.5">{s.sub}</div>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">{s.desc}</p>
+                  </div>
                 </div>
               </div>
             ))}

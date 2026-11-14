@@ -145,14 +145,14 @@ export function StitchHeader() {
               >
                 Dashboard
               </Link>
-              <div className="hidden sm:inline-flex items-center">
+              <div className="flex items-center pl-1">
                 <UserButton afterSignOutUrl="/" />
               </div>
             </SignedIn>
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 text-foreground hover:text-primary"
+              className="xl:hidden p-2.5 rounded-xl border border-outline-variant/60 text-foreground hover:text-primary transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -178,7 +178,7 @@ export function StitchHeader() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className={`block px-3 py-2.5 rounded-xl text-sm font-semibold ${
+                    className={`block px-3.5 py-3 rounded-xl text-sm font-semibold ${
                       active ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-surface-container'
                     }`}
                   >
@@ -186,8 +186,30 @@ export function StitchHeader() {
                   </Link>
                 );
               })}
+
+              <div className="pt-3 mt-3 border-t border-outline-variant/40 space-y-2">
+                <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-surface-container">
+                  <span className="text-xs font-semibold text-on-surface-variant">Theme</span>
+                  <button
+                    onClick={toggleTheme}
+                    type="button"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant text-xs font-semibold text-foreground hover:text-primary"
+                  >
+                    {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+                    <span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
+                  </button>
+                </div>
+
+                <Link
+                  href="/sign-up?role=landlord"
+                  className="block text-center py-2.5 rounded-xl border border-outline-variant text-xs font-semibold text-on-surface-variant hover:bg-surface-container"
+                >
+                  Switch Role
+                </Link>
+              </div>
+
               <SignedOut>
-                <div className="pt-3 mt-3 border-t border-outline-variant/40 flex gap-2">
+                <div className="pt-2 flex gap-2">
                   <Link
                     href="/sign-in"
                     className="flex-1 text-center py-2.5 rounded-xl border border-outline-variant text-sm font-semibold text-on-surface-variant"
@@ -203,10 +225,10 @@ export function StitchHeader() {
                 </div>
               </SignedOut>
               <SignedIn>
-                <div className="pt-3 mt-3 border-t border-outline-variant/40 flex gap-2">
+                <div className="pt-2">
                   <Link
                     href="/dashboard"
-                    className="flex-1 text-center py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold"
+                    className="block w-full text-center py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold"
                   >
                     Dashboard
                   </Link>
@@ -230,7 +252,7 @@ export function StitchFooter() {
   return (
     <footer className="bg-background border-t border-zinc-200 dark:border-zinc-800/80 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-12 sm:mb-14">
           {/* Brand col */}
           <div className="col-span-2 md:col-span-2">
             <div className="mb-4">

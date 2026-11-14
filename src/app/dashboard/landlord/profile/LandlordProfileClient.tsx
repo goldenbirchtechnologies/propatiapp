@@ -273,23 +273,24 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     }
   };
 
-  const tabs = [
-    { id: 'overview' as const, label: 'Corporate & Entity KYC', icon: <Building2 size={16} /> },
-    { id: 'billing' as const, label: 'Payout & Settlement Banking', icon: <Landmark size={16} /> },
-    { id: 'compliance' as const, label: 'Statutory Compliance & LASRERA', icon: <Scale size={16} /> },
-    { id: 'notifications' as const, label: 'Notification & SMS Channels', icon: <Bell size={16} /> },
-    { id: 'team' as const, label: 'Team & Delegation Access', icon: <Users size={16} /> },
-    { id: 'security' as const, label: 'Security & API Keys', icon: <Shield size={16} /> },
-  ];
+  /**
+   * The three summary cards were hardcoded "—" for Properties and Title Audit
+   * Rating. Both are derivable from real records, so they are now computed and
+   * fall back to an explicit empty state rather than an ambiguous dash.
+   */
+  const ownedListings = user?.ownedListings ?? [];
+  const propertyCount = ownedListings.length;
 
-  const tabs = [
-    { id: 'overview' as const, label: 'Corporate & Entity KYC', icon: <Building2 size={16} /> },
-    { id: 'billing' as const, label: 'Payout & Settlement Banking', icon: <Landmark size={16} /> },
-    { id: 'compliance' as const, label: 'Statutory Compliance & LASRERA', icon: <Scale size={16} /> },
-    { id: 'notifications' as const, label: 'Notification & SMS Channels', icon: <Bell size={16} /> },
-    { id: 'team' as const, label: 'Team & Delegation Access', icon: <Users size={16} /> },
-    { id: 'security' as const, label: 'Security & API Keys', icon: <Shield size={16} /> },
-  ];
+  /** Highest verification tier reached across the portfolio, for the audit card. */
+  const TIER_RANK: Record<string, number> = { basic: 0, verified: 1, inspected: 2, certified: 3 };
+  const bestTier =
+    propertyCount === 0
+      ? null
+      : ownedListings.reduce<string>((best, l) => {
+          const t = (l as { verificationTier?: string }).verificationTier ?? 'basic';
+          return (TIER_RANK[t] ?? 0) > (TIER_RANK[best] ?? 0) ? t : best;
+        }, 'basic');
+  const tierLabel = bestTier ? bestTier.charAt(0).toUpperCase() + bestTier.slice(1) : null;
 
   /**
    * The five verification layers, each read from a field the platform actually

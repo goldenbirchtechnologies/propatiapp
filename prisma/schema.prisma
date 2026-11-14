@@ -636,6 +636,8 @@ model User {
   jurisdiction           Jurisdiction?              @relation(fields: [jurisdictionId], references: [id])
   userOnboarding         UserOnboarding?
   rentalDossiers         RentalApplicationDossier[]
+  tenantAddresses        TenantAddress[]
+  emergencyContacts      EmergencyContact[]
   landlordProfile        LandlordProfile?           @relation("LandlordProfileOwner")
   agentOnboardingProfile AgentProfile?              @relation("AgentProfileOwner")
   estateManagerProfile   EstateManagerProfile?      @relation("EstateManagerProfileOwner")
@@ -714,6 +716,14 @@ model RentalApplicationDossier {
   userId String @unique @map("user_id")
   status String @default("draft") @map("status")
 
+  // Personal
+  dateOfBirth      DateTime? @map("date_of_birth")
+  gender           String?   @map("gender")             // male | female | other | prefer_not_to_say
+  nationality      String?   @map("nationality")        // ISO 3166 alpha-2
+  stateOfResidence String?   @map("state_of_residence")
+  lga              String?   @map("lga")
+  maritalStatus    String?   @map("marital_status")     // single | married | divorced | widowed
+
   // Address
   addressLine1   String? @map("address_line_1")
   addressLine2   String? @map("address_line_2")
@@ -721,20 +731,31 @@ model RentalApplicationDossier {
   countryId      String? @map("country_id")
   jurisdictionId String? @map("jurisdiction_id")
 
+  // Next of kin
+  nokName         String? @map("nok_name")
+  nokPhone        String? @map("nok_phone")
+  nokRelationship String? @map("nok_relationship")
+
   // Employment
   employmentStatus  EmploymentStatus? @map("employment_status")
   employmentType    EmploymentType?   @map("employment_type")
   employerName      String?           @map("employer_name")
   jobTitle          String?           @map("job_title")
+  /// Naira. `Transaction.amount` is kobo; profile money is not — do not mix.
   yearlyIncome      BigInt?           @map("yearly_income")
   yearsInEmployment String?           @map("years_in_employment")
+
+  // Financial
+  otherIncomeSources String? @map("other_income_sources")
 
   // Guarantor
   guarantorName         String? @map("guarantor_name")
   guarantorPhone        String? @map("guarantor_phone")
+  guarantorEmail        String? @map("guarantor_email")
   guarantorRelationship String? @map("guarantor_relationship")
   guarantorAddress      String? @map("guarantor_address")
   guarantorOccupation   String? @map("guarantor_occupation")
+  guarantorEmployer     String? @map("guarantor_employer")
 
   // Identity
   idType      IdType? @map("id_type")
@@ -745,6 +766,15 @@ model RentalApplicationDossier {
   // Property preferences
   preferredListingType ListingType? @map("preferred_listing_type")
   monthlyBudget        BigInt?      @map("monthly_budget")
+  preferredState       String?      @map("preferred_state")
+  preferredBedrooms    Int?         @map("preferred_bedrooms")
+  /// Naira. Supersedes `monthlyBudget`, which predates this field.
+  maxMonthlyBudget     BigInt?      @map("max_monthly_budget")
+  preferredMoveInDate  DateTime?    @map("preferred_move_in_date")
+  pendingLeaseDuration String?      @map("pending_lease_duration") // 6_months | 1_year | 2_years
+  occupants            Int?         @map("occupants")
+  hasPets              Boolean?     @map("has_pets")
+  petsDetail           String?      @map("pets_detail")
 
   submittedAt   DateTime? @map("submitted_at")
   reviewedAt    DateTime? @map("reviewed_at")
@@ -758,6 +788,57 @@ model RentalApplicationDossier {
 
   @@index([status], map: "idx_rental_dossier_status")
   @@map("rental_application_dossiers")
+}
+
+// Previous addresses for screening. One row per address, ordered by `sequence`
+// where 1 is the most recent. `isCurrent` marks the address in use today.
+model TenantAddress {
+  id       String  @id @default(cuid()) @map("id")
+  userId   String  @map("user_id")
+  isCurrent Boolean @default(false) @map("is_current")
+  sequence  Int     @map("sequence")
+
+  addressLine1 String? @map("address_line_1")
+  addressLine2 String? @map("address_line_2")
+  city         String? @map("city")
+  state        String? @map("state")
+  countryId    String? @map("country_id")
+
+  moveInDate       DateTime? @map("move_in_date")
+  moveOutDate      DateTime? @map("move_out_date")
+  landlordName     String?   @map("landlord_name")
+  landlordPhone    String?   @map("landlord_phone")
+  reasonForLeaving String?   @map("reason_for_leaving")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country Country? @relation(fields: [countryId], references: [code])
+
+  @@index([userId], map: "idx_tenant_addresses_user")
+  @@map("tenant_addresses")
+}
+
+// Someone to call in an emergency. At most one row is flagged `isPrimary`;
+// the profile page previously collected this and threw it away.
+model EmergencyContact {
+  id           String  @id @default(cuid()) @map("id")
+  userId       String  @map("user_id")
+  name         String
+  relationship String
+  phone        String
+  email        String?
+  address      String?
+  isPrimary    Boolean @default(false) @map("is_primary")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_emergency_contacts_user")
+  @@map("emergency_contacts")
 }
 
 model RefreshToken {
@@ -2369,6 +2450,7 @@ model Country {
   jurisdictionRules JurisdictionRule[]
   documentTemplates DocumentTemplate[]
   rentalDossiers    RentalApplicationDossier[]
+  tenantAddresses   TenantAddress[]
   capabilities      CountryCapability[]
 
   @@map("countries")

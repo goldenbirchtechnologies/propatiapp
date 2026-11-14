@@ -39,7 +39,9 @@ export async function PATCH(request: NextRequest) {
     if (fullName !== undefined) data.fullName = String(fullName).trim();
     if (phone !== undefined) data.phone = phone ? String(phone).trim() : null;
     if (profileBio !== undefined) data.profileBio = profileBio ? String(profileBio) : null;
-    if (agentBio !== undefined) data.agentBio = String(agentBio);
+    // `?` guard matters: String(undefined) is the truthy "undefined", and
+    // String(null) is "null" — both have been written to the column before.
+    if (agentBio !== undefined) data.agentBio = agentBio ? String(agentBio).trim() || null : null;
     if (agentAreas !== undefined) data.agentAreas = agentAreas;
     if (companyName !== undefined) data.companyName = companyName ? String(companyName) : null;
 
@@ -56,7 +58,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (employerName !== undefined) data.employerName = employerName ? String(employerName) : null;
-    if (jobTitle !== undefined) data.jobTitle = String(jobTitle);
+    if (jobTitle !== undefined) data.jobTitle = jobTitle ? String(jobTitle).trim() || null : null;
     if (yearlyIncome !== undefined) {
       const val = Number(yearlyIncome);
       data.yearlyIncome = Number.isFinite(val) && val > 0 ? BigInt(Math.floor(val)) : null;
@@ -250,20 +252,32 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Format transactions
-    const formatTransaction = (txn: Record<string, unknown>) => ({
-      ...txn,
-      amountFormatted: (Number(txn.amount) / 100).toLocaleString('en-NG', {
-        style: 'currency',
-        currency: 'NGN',
-        minimumFractionDigits: 0,
-      }),
-    });
+    // Format transactions. Amount is a BigInt column, which JSON.stringify
+    // throws on ("Do not know how to serialize a BigInt"), so drop the raw
+    // value and send the Number the client actually renders.
+    const formatTransaction = (txn: Record<string, unknown>) => {
+      const { amount, ...rest } = txn;
+      const naira = Number(amount) / 100;
+      return {
+        ...rest,
+        amount: naira,
+        amountFormatted: naira.toLocaleString('en-NG', {
+          style: 'currency',
+          currency: 'NGN',
+          minimumFractionDigits: 0,
+        }),
+      };
+    };
+
+    // yearlyIncome is a BigInt column too — same serialization hazard, and it
+    // is inside NGN so no kobo division applies here.
+    const { yearlyIncome, ...restOfUser } = fullUser;
 
     return NextResponse.json({
       success: true,
       data: {
-        ...fullUser,
+        ...restOfUser,
+        yearlyIncome: yearlyIncome === null ? null : Number(yearlyIncome),
         sentTransactions: fullUser.sentTransactions.map(formatTransaction),
         receivedTransactions: fullUser.receivedTransactions.map(formatTransaction),
         unreadNotificationsCount: fullUser.notifications.length,

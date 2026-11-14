@@ -1037,6 +1037,113 @@ export const onboardingRentalApplicationSchema = z.object({
   monthlyBudget: z.coerce.number().finite().nonnegative().optional(),
 });
 
+// Tenant profile — per-section schemas for PATCH /api/users/me/tenant-profile.
+//
+// Every field is optional so a section can be saved partially: the page saves
+// one section at a time and a user is free to stop halfway through. Enum and
+// number fields still reject bad input rather than coercing it to null, which
+// is what the old hand-written `if` chain in the profile route did.
+
+export const tenantPersonalSchema = z.object({
+  dateOfBirth: z.coerce.date().optional().nullable(),
+  gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say']).optional().nullable(),
+  nationality: z.string().length(2, 'Use the 2-letter country code').optional().nullable(),
+  stateOfResidence: z.string().max(60).optional().nullable(),
+  lga: z.string().max(80).optional().nullable(),
+  maritalStatus: z.enum(['single', 'married', 'divorced', 'widowed']).optional().nullable(),
+});
+
+export const tenantAddressSchema = z.object({
+  addressLine1: z.string().min(4, 'Enter your address').max(200).optional().nullable(),
+  addressLine2: z.string().max(200).optional().nullable(),
+  city: z.string().min(2, 'Enter your city').max(100).optional().nullable(),
+  countryId: z.string().length(2).optional().nullable(),
+});
+
+export const tenantNextOfKinSchema = z.object({
+  nokName: z.string().min(2, "Enter your next of kin's name").max(120).optional().nullable(),
+  nokPhone: phoneSchema.optional().nullable(),
+  nokRelationship: z.string().min(2, 'Describe your relationship').max(60).optional().nullable(),
+});
+
+export const tenantEmploymentSchema = z.object({
+  employmentStatus: z
+    .enum(['employed', 'self_employed', 'business_owner', 'student', 'retired', 'unemployed'])
+    .optional()
+    .nullable(),
+  employmentType: z
+    .enum(['full_time', 'part_time', 'contract', 'freelance', 'internship'])
+    .optional()
+    .nullable(),
+  employerName: z.string().max(120).optional().nullable(),
+  jobTitle: z.string().max(120).optional().nullable(),
+  yearsInEmployment: z.string().max(20).optional().nullable(),
+  yearlyIncome: z.coerce.number().finite().nonnegative().optional().nullable(),
+});
+
+export const tenantFinancialSchema = z.object({
+  otherIncomeSources: z.string().max(500).optional().nullable(),
+});
+
+export const tenantGuarantorSchema = z.object({
+  guarantorName: z.string().max(120).optional().nullable(),
+  guarantorPhone: phoneSchema.optional().nullable(),
+  guarantorEmail: emailSchema.optional().nullable(),
+  guarantorRelationship: z.string().max(60).optional().nullable(),
+  guarantorAddress: z.string().max(200).optional().nullable(),
+  guarantorOccupation: z.string().max(120).optional().nullable(),
+  guarantorEmployer: z.string().max(120).optional().nullable(),
+});
+
+export const tenantRentalPreferencesSchema = z.object({
+  preferredState: z.string().max(60).optional().nullable(),
+  preferredBedrooms: z.coerce.number().int().min(0).max(20).optional().nullable(),
+  maxMonthlyBudget: z.coerce.number().finite().nonnegative().optional().nullable(),
+  preferredMoveInDate: z.coerce.date().optional().nullable(),
+  pendingLeaseDuration: z.enum(['6_months', '1_year', '2_years']).optional().nullable(),
+  occupants: z.coerce.number().int().min(1).max(50).optional().nullable(),
+  hasPets: z.boolean().optional().nullable(),
+  petsDetail: z.string().max(300).optional().nullable(),
+});
+
+/** One row of residential history. */
+export const tenantAddressEntrySchema = z.object({
+  addressLine1: z.string().min(4, 'Enter the address').max(200),
+  addressLine2: z.string().max(200).optional().nullable(),
+  city: z.string().min(2, 'Enter the city').max(100),
+  state: z.string().max(60).optional().nullable(),
+  moveInDate: z.coerce.date().optional().nullable(),
+  moveOutDate: z.coerce.date().optional().nullable(),
+  landlordName: z.string().max(120).optional().nullable(),
+  landlordPhone: phoneSchema.optional().nullable(),
+  reasonForLeaving: z.string().max(300).optional().nullable(),
+  isCurrent: z.boolean().optional(),
+});
+
+/** One emergency contact. */
+export const tenantEmergencyContactSchema = z.object({
+  name: z.string().min(2, 'Enter their name').max(120),
+  relationship: z.string().min(2, 'Describe your relationship').max(60),
+  phone: phoneSchema,
+  email: emailSchema.optional().nullable(),
+  address: z.string().max(200).optional().nullable(),
+  isPrimary: z.boolean().optional(),
+});
+
+/** Array payloads replace the caller's existing rows wholesale. */
+export const tenantAddressListSchema = z.array(tenantAddressEntrySchema).max(5);
+export const tenantEmergencyContactListSchema = z.array(tenantEmergencyContactSchema).max(3);
+
+export type TenantPersonalInput = z.infer<typeof tenantPersonalSchema>;
+export type TenantAddressInput = z.infer<typeof tenantAddressSchema>;
+export type TenantNextOfKinInput = z.infer<typeof tenantNextOfKinSchema>;
+export type TenantEmploymentInput = z.infer<typeof tenantEmploymentSchema>;
+export type TenantFinancialInput = z.infer<typeof tenantFinancialSchema>;
+export type TenantGuarantorInput = z.infer<typeof tenantGuarantorSchema>;
+export type TenantRentalPreferencesInput = z.infer<typeof tenantRentalPreferencesSchema>;
+export type TenantAddressEntryInput = z.infer<typeof tenantAddressEntrySchema>;
+export type TenantEmergencyContactInput = z.infer<typeof tenantEmergencyContactSchema>;
+
 export type OnboardingLocationInput = z.infer<typeof onboardingLocationSchema>;
 export type OnboardingContactInput = z.infer<typeof onboardingContactSchema>;
 export type OnboardingPhoneVerifyInput = z.infer<typeof onboardingPhoneVerifySchema>;

@@ -16,9 +16,15 @@ const path = require('path');
 const crypto = require('crypto');
 const { PrismaClient } = require('@prisma/client');
 
+// Every statement in each file is individually guarded (IF NOT EXISTS, or a
+// DO block that swallows duplicate_object), so re-listing an already-applied
+// migration is harmless — it is also how the ones already in the database got
+// applied, since this script never recorded them in _prisma_migrations.
 const MIGRATIONS = [
   '20261027150000_add_user_onboarding_and_jurisdiction',
   '20261101090000_add_role_onboarding_profiles',
+  '20261114100000_add_mfa_rent_scenarios_auto_pay',
+  '20261114110000_add_tenant_profile_sections',
 ];
 
 /**

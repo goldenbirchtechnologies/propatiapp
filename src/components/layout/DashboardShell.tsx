@@ -20,7 +20,6 @@ interface DashboardShellProps {
 export function DashboardSection({
   loading = false,
   error = null,
-  emptyMessage = 'No data to display.',
   skeleton,
   children,
   className,

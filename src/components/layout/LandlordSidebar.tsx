@@ -1,51 +1,22 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  Building2,
-  Users,
-  Wrench,
-  DollarSign,
-  MessageSquare,
-  ShieldCheck,
-  Settings,
-  ChevronDown,
-  ChevronRight,
+  Building2, ChevronDown, ChevronRight, Menu, X, Home,
+  MessageSquare, Bell, Settings,
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import type { NavItem, NavSection } from '@/lib/navigation';
+import { useIsMobile } from '@/components/hooks/use-mobile';
 
-const SECTION_META: Record<string, { label: string; icon: LucideIcon }> = {
-  'Properties & Portfolio': { label: 'Properties', icon: Building2 },
-  'Leasing & Tenants': { label: 'Leasing & Tenants', icon: Users },
-  Operations: { label: 'Operations', icon: Wrench },
-  'Finances & Analytics': { label: 'Finances', icon: DollarSign },
-  Account: { label: 'Account', icon: Settings },
-};
-
-const SECTION_LEAD: Record<string, string> = {
-  'Properties & Portfolio': 'Dashboard',
-  'Leasing & Tenants': 'Applications',
-  Operations: 'Maintenance & Turnover',
-  'Finances & Analytics': 'Financials',
-  Account: 'Profile',
-};
-
-const DEFAULT_OPEN: Record<string, boolean> = {
-  'Properties & Portfolio': true,
-  'Leasing & Tenants': false,
-  Operations: false,
-  'Finances & Analytics': false,
-  Account: false,
-};
+/* ─── Helpers ──────────────────────────────────────────────────────────── */
 
 function isActivePath(pathname: string | null, href?: string): boolean {
-  if (!href) return false;
+  if (!href || !pathname) return false;
   if (pathname === href) return true;
-  return pathname?.startsWith(`${href}/`) ?? false;
+  return pathname.startsWith(`${href}/`);
 }
 
 function isItemActive(pathname: string | null, item: NavItem): boolean {
@@ -53,19 +24,54 @@ function isItemActive(pathname: string | null, item: NavItem): boolean {
   return !!item.children?.some((child) => isActivePath(pathname, child.href));
 }
 
-function SectionGroup({
-  section,
-  open,
-  onToggle,
-  pathname,
-}: {
+/* ─── NavItemRenderer ──────────────────────────────────────────────────── */
+
+interface NavItemRendererProps {
+  item: NavItem;
+  pathname: string | null;
+  collapsed: boolean;
+  onMobileClose?: () => void;
+}
+
+function NavItemRenderer({ item, pathname, collapsed, onMobileClose }: NavItemRendererProps) {
+  const active = isItemActive(pathname, item);
+  return (
+    <Tooltip label={item.label}>
+      <Link
+        href={item.href || '#'}
+        aria-current={active ? 'page' : undefined}
+        onClick={onMobileClose}
+        className={cn(
+          'group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+          active
+            ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+            : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
+          collapsed && 'justify-center px-2'
+        )}
+        title={collapsed ? item.label : undefined}
+      >
+        <span className={cn('shrink-0', collapsed && 'mx-auto')}>
+          {item.icon ?? <Home className="h-4 w-4" />}
+        </span>
+        {!collapsed && <span className="truncate">{item.label}</span>}
+      </Link>
+    </Tooltip>
+  );
+}
+
+/* ─── SectionRenderer ──────────────────────────────────────────────────── */
+
+interface SectionRendererProps {
   section: NavSection;
+  pathname: string | null;
+  collapsed: boolean;
   open: boolean;
   onToggle: () => void;
-  pathname: string | null;
-}) {
-  const meta = SECTION_META[section.title] ?? { label: section.title, icon: Building2 };
-  const Icon = meta.icon;
+  onMobileClose?: () => void;
+}
+
+function SectionRenderer({ section, pathname, collapsed, open, onToggle, onMobileClose }: SectionRendererProps) {
+  const sectionHasActive = section.items.some((item) => isItemActive(pathname, item));
 
   return (
     <div className="pt-2">
@@ -73,31 +79,44 @@ function SectionGroup({
         type="button"
         onClick={onToggle}
         aria-expanded={open}
-        className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider hover:text-zinc-900 transition dark:text-zinc-400 dark:hover:text-zinc-200"
+        className={cn(
+          'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors',
+          sectionHasActive
+            ? 'text-sidebar-accent-foreground'
+            : 'text-sidebar-foreground/50 hover:text-sidebar-foreground/80',
+          collapsed && 'justify-center'
+        )}
       >
-        <span className="flex items-center gap-2">
-          <Icon className="w-3.5 h-3.5" />
-          {meta.label}
+        <span className={cn('flex items-center gap-2', collapsed && 'mx-auto')}>
+          {open ? <ChevronDown className="h-3.5 w-3.5 shrink-0" /> : <ChevronRight className="h-3.5 w-3.5 shrink-0" />}
+          {!collapsed && <span>{section.title}</span>}
         </span>
-        {open ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
       </button>
 
-      {open && (
-        <div className="mt-1 space-y-1 pl-3 border-l border-zinc-200 ml-3 dark:border-zinc-800">
-          {section.items.map((item) => (
-            <Link
+      {(open || collapsed) && (
+        <div className={cn('mt-1 space-y-0.5', collapsed ? 'ml-3' : 'ml-3 border-l border-sidebar-border pl-2')}>
+          {/* Desktop expanded list */}
+          <div className={cn('space-y-0.5', collapsed && 'hidden')}>
+            {section.items.map((item) => (
+              <NavItemRenderer
+                key={item.href || item.label}
+                item={item}
+                pathname={pathname}
+                collapsed={collapsed}
+                onMobileClose={onMobileClose}
+              />
+            ))}
+          </div>
+
+          {/* Collapsed: icon-only grid */}
+          {collapsed && section.items.map((item) => (
+            <NavItemRenderer
               key={item.href || item.label}
-              href={item.href || '#'}
-              aria-current={isItemActive(pathname, item) ? 'page' : undefined}
-              className={cn(
-                'block px-3 py-1.5 rounded-md text-xs transition',
-                isItemActive(pathname, item)
-                  ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-white'
-                  : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200'
-              )}
-            >
-              {item.label}
-            </Link>
+              item={item}
+              pathname={pathname}
+              collapsed={collapsed}
+              onMobileClose={onMobileClose}
+            />
           ))}
         </div>
       )}
@@ -105,137 +124,247 @@ function SectionGroup({
   );
 }
 
+/* ─── Tooltip (simple CSS-based) ───────────────────────────────────────── */
+
+function Tooltip({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="group relative">
+      {children}
+      <div className="pointer-events-none absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 whitespace-nowrap rounded-md bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 dark:bg-zinc-800">
+        {label}
+        <div className="absolute -left-1 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 bg-zinc-900 dark:bg-zinc-800" />
+      </div>
+    </div>
+  );
+}
+
+/* ─── SidebarBody ──────────────────────────────────────────────────────── */
+
+interface SidebarBodyProps {
+  navigation: Array<NavItem | NavSection>;
+  pathname: string | null;
+  collapsed: boolean;
+  onSectionToggle: (title: string) => void;
+  openSections: Record<string, boolean>;
+  onMobileClose?: () => void;
+}
+
+function SidebarBody({
+  navigation,
+  pathname,
+  collapsed,
+  onSectionToggle,
+  openSections,
+  onMobileClose,
+}: SidebarBodyProps) {
+  const entries = useMemo(() => {
+    return navigation.map((entry) => {
+      if ('items' in entry) return { kind: 'section' as const, section: entry as NavSection };
+      return { kind: 'item' as const, item: entry as NavItem };
+    });
+  }, [navigation]);
+
+  return (
+    <>
+      {/* Brand Header */}
+      <div className="flex h-14 shrink-0 items-center justify-between border-b border-sidebar-border px-4">
+        <Tooltip label="PropatiBox">
+          <div className={cn('flex items-center gap-2', collapsed && 'justify-center')}>
+            <div className="flex h-7 w-7 items-center justify-center rounded bg-sidebar-primary text-sidebar-primary-foreground">
+              <Building2 className="h-4 w-4" />
+            </div>
+            {!collapsed && <span className="font-semibold text-sm text-sidebar-foreground">PropatiBox</span>}
+          </div>
+        </Tooltip>
+        {!collapsed && (
+          <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-500 dark:text-emerald-400">
+            Landlord
+          </span>
+        )}
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-3 py-3" aria-label="Landlord navigation">
+        <div className="space-y-0.5">
+          {entries.map((entry) => {
+            if (entry.kind === 'item') {
+              return (
+                <NavItemRenderer
+                  key={entry.item.href || entry.item.label}
+                  item={entry.item}
+                  pathname={pathname}
+                  collapsed={collapsed}
+                  onMobileClose={onMobileClose}
+                />
+              );
+            }
+            const section = entry.section;
+            return (
+              <SectionRenderer
+                key={section.title}
+                section={section}
+                pathname={pathname}
+                collapsed={collapsed}
+                open={!!openSections[section.title]}
+                onToggle={() => onSectionToggle(section.title)}
+                onMobileClose={onMobileClose}
+              />
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Footer Links */}
+      <div className="shrink-0 border-t border-sidebar-border p-3">
+        <div className="space-y-0.5">
+          {[
+            { label: 'Messages', href: '/dashboard/landlord/messages', icon: MessageSquare },
+            { label: 'Notifications', href: '/dashboard/landlord/notifications', icon: Bell },
+            { label: 'Settings', href: '/dashboard/landlord/profile', icon: Settings },
+          ].map((item) => (
+            <Tooltip key={item.label} label={item.label}>
+              <Link
+                href={item.href}
+                className={cn(
+                  'group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
+                  collapsed && 'justify-center'
+                )}
+                title={collapsed ? item.label : undefined}
+              >
+                <item.icon className={cn('h-4 w-4 shrink-0', collapsed && 'mx-auto')} />
+                {!collapsed && <span>{item.label}</span>}
+              </Link>
+            </Tooltip>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ─── Main LandlordSidebar ─────────────────────────────────────────────── */
+
 export interface LandlordSidebarProps {
   /** Defaults to LANDLORD_NAVIGATION. Pass a different array only for testing. */
   navigation?: Array<NavItem | NavSection>;
   pathname?: string | null;
   className?: string;
+  /** When true, sidebar is shown as a mobile drawer overlay */
+  mobileOpen?: boolean;
+  /** Called when the mobile drawer should close */
+  onMobileClose?: () => void;
 }
 
 export function LandlordSidebar({
   navigation,
   pathname = null,
   className,
+  mobileOpen = false,
+  onMobileClose,
 }: LandlordSidebarProps) {
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>(DEFAULT_OPEN);
+  const isMobile = useIsMobile();
+  const [collapsed, setCollapsed] = useState(false);
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
-  const toggleSection = (key: string) =>
-    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  const nav = navigation ?? LANDLORD_NAVIGATION;
 
-  const entries = navigation ?? LANDLORD_NAVIGATION;
-
-  const renderEntries = useMemo(() => {
-    type Lead = { kind: 'lead'; item: NavItem };
-    type Group = { kind: 'group'; section: NavSection };
-    const out: Array<Lead | Group> = [];
-
-    for (const entry of entries) {
-      if (!('items' in entry)) {
-        out.push({ kind: 'lead', item: entry as NavItem });
-        continue;
+  // Auto-expand sections containing the active route
+  useEffect(() => {
+    if (!pathname) return;
+    const newOpen: Record<string, boolean> = {};
+    nav.forEach((entry) => {
+      if ('items' in entry) {
+        const section = entry as NavSection;
+        const hasActive = section.items.some((item) => isItemActive(pathname, item));
+        if (hasActive) newOpen[section.title] = true;
       }
-      const section = entry as NavSection;
-      const leadLabel = SECTION_LEAD[section.title];
-      const lead = section.items.find((item) => item.label === leadLabel);
+    });
+    setOpenSections((prev) => ({ ...prev, ...newOpen }));
+  }, [pathname, nav]);
 
-      if (lead) out.push({ kind: 'lead', item: lead });
-      out.push({
-        kind: 'group',
-        section: {
-          ...section,
-          items: lead
-            ? section.items.filter((item) => item.label !== leadLabel)
-            : section.items,
-        },
-      });
-    }
+  const toggleSection = useCallback((title: string) => {
+    setOpenSections((prev) => ({ ...prev, [title]: !prev[title] }));
+  }, []);
 
-    return out;
-  }, [entries]);
+  const toggleCollapse = useCallback(() => {
+    setCollapsed((prev) => !prev);
+  }, []);
 
+  // ── Mobile drawer mode ──────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <aside
+        className={cn(
+          'fixed inset-y-0 left-0 z-[100] flex w-64 flex-col border-r border-sidebar-border bg-sidebar transition-transform duration-300 ease-in-out lg:hidden',
+          mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+        role="navigation"
+        aria-label="Landlord navigation"
+      >
+        {/* Mobile header with close */}
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-sidebar-border px-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded bg-sidebar-primary text-sidebar-primary-foreground">
+              <Building2 className="h-4 w-4" />
+            </div>
+            <span className="font-semibold text-sm text-sidebar-foreground">PropatiBox</span>
+          </div>
+          <button
+            type="button"
+            onClick={onMobileClose}
+            className="rounded-lg p-1.5 text-sidebar-foreground/60 hover:bg-sidebar-accent"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <SidebarBody
+          navigation={nav}
+          pathname={pathname}
+          collapsed={false}
+          onSectionToggle={toggleSection}
+          openSections={openSections}
+          onMobileClose={onMobileClose}
+        />
+      </aside>
+    );
+  }
+
+  // ── Desktop persistent mode ─────────────────────────────────────────
   return (
     <aside
       className={cn(
-        'w-64 h-screen bg-white border-r border-zinc-200 flex flex-col shrink-0 sticky top-0 dark:bg-[#09090b] dark:border-zinc-800',
+        'sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-in-out',
+        collapsed && 'w-[68px]',
         className
       )}
       role="navigation"
       aria-label="Landlord navigation"
     >
-      {/* Brand Header */}
-      <div className="p-4 border-b border-zinc-200 flex items-center justify-between dark:border-zinc-800">
-        <span className="font-bold text-lg text-zinc-900 dark:text-white">PropatiBox</span>
-        <span className="text-[10px] tracking-wider uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold">
-          Landlord
-        </span>
-      </div>
+      <SidebarBody
+        navigation={nav}
+        pathname={pathname}
+        collapsed={collapsed}
+        onSectionToggle={toggleSection}
+        openSections={openSections}
+        onMobileClose={onMobileClose}
+      />
 
-      {/* Quick Search */}
-      <div className="p-3">
-        <Link
-          href="/search"
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-500 text-xs hover:border-zinc-300 transition dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-700"
+      {/* Collapse toggle */}
+      <div className="shrink-0 border-t border-sidebar-border p-3">
+        <button
+          type="button"
+          onClick={toggleCollapse}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          className={cn(
+            'flex w-full items-center gap-2 rounded-lg border border-sidebar-border px-3 py-2 text-sm font-medium text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
+            collapsed && 'justify-center'
+          )}
         >
-          <span>Search properties, tenants...</span>
-          <kbd className="ml-auto text-[10px] bg-zinc-200 px-1.5 py-0.5 rounded text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
-            ⌘K
-          </kbd>
-        </Link>
-      </div>
-
-      {/* Scrollable Navigation */}
-      <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2 text-sm">
-        {renderEntries.map((entry) => (
-          <React.Fragment key={entry.kind === 'lead' ? `lead-${entry.item.href || entry.item.label}` : `group-${entry.section.title}`}>
-            {entry.kind === 'lead' ? (
-              <Link
-                href={entry.item.href || '#'}
-                aria-current={isItemActive(pathname, entry.item) ? 'page' : undefined}
-                className={cn(
-                  'flex items-center gap-3 px-3 py-2 rounded-lg transition',
-                  isItemActive(pathname, entry.item)
-                    ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-white'
-                    : 'text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-900'
-                )}
-              >
-                {entry.item.icon ?? <Building2 className="w-4 h-4 text-zinc-400 dark:text-zinc-400" />}
-                <span>{entry.item.label}</span>
-              </Link>
-            ) : (
-              <SectionGroup
-                section={entry.section}
-                open={!!openSections[entry.section.title]}
-                onToggle={() => toggleSection(entry.section.title)}
-                pathname={pathname}
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-
-      {/* Footer: Messages, Notifications, Settings & Profile */}
-      <div className="space-y-1 border-t border-zinc-200 pt-3 dark:border-zinc-800">
-        <Link
-          href="/dashboard/landlord/messages"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
-        >
-          <MessageSquare className="w-4 h-4 text-zinc-400 dark:text-zinc-400" />
-          <span>Messages</span>
-        </Link>
-        <Link
-          href="/dashboard/landlord/notifications"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
-        >
-          <ShieldCheck className="w-4 h-4 text-zinc-400 dark:text-zinc-400" />
-          <span>Notifications</span>
-        </Link>
-        <Link
-          href="/dashboard/landlord/profile"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
-        >
-          <Settings className="w-4 h-4 text-zinc-400 dark:text-zinc-400" />
-          <span>Settings & Profile</span>
-        </Link>
+          <Menu className={cn('h-4 w-4 shrink-0', collapsed && 'mx-auto')} />
+          {!collapsed && <span>Collapse</span>}
+        </button>
       </div>
     </aside>
   );

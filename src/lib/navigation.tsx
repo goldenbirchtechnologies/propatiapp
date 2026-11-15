@@ -5,7 +5,7 @@ import {
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase, AlertTriangle,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
   Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2, BookOpen, BarChart3,
-  Heart, LifeBuoy, Bookmark
+  Heart, LifeBuoy, Bookmark, CheckCircle
 } from 'lucide-react';
 
 export interface NavItem {
@@ -24,84 +24,105 @@ export interface NavSection {
 }
 
 export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
+  // 1. OVERVIEW
   {
-    title: 'Properties & Portfolio',
+    title: 'Overview',
     items: [
       { label: 'Dashboard', href: '/dashboard/landlord', icon: <Home className="h-5 w-5" /> },
-      { label: 'My Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
-      { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
-      { label: 'Vacancies', href: '/dashboard/landlord/vacancies', icon: <Eye className="h-5 w-5" /> },
-      { label: 'Marketplace', href: '/dashboard/landlord/listing/new', icon: <Store className="h-5 w-5" /> },
     ],
   },
+  // 2. PROPERTY MANAGEMENT
   {
-    title: 'Leasing & Tenants',
+    title: 'Property Management',
+    items: [
+      { label: 'Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
+      { label: 'Add Property', href: '/dashboard/landlord/properties/new', icon: <Plus className="h-5 w-5" /> },
+      { label: 'All Listings', href: '/dashboard/landlord/properties', icon: <Store className="h-5 w-5" /> },
+      { label: 'Create Listing', href: '/dashboard/landlord/listing/new', icon: <ClipboardList className="h-5 w-5" /> },
+      { label: 'Listing Wizard', href: '/dashboard/landlord/listing/new/wizard', icon: <ClipboardList className="h-5 w-5" /> },
+      { label: 'Publish Listing', href: '/dashboard/landlord/properties', icon: <CheckCircle className="h-5 w-5" /> },
+      { label: 'Vacancies', href: '/dashboard/landlord/vacancies', icon: <Eye className="h-5 w-5" /> },
+      { label: 'Short-Let Bookings', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },
+      { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
+    ],
+  },
+  // 3. TENANCY & LEASING
+  {
+    title: 'Tenancy & Leasing',
     items: [
       { label: 'Applications', href: '/dashboard/landlord/applications', icon: <ClipboardList className="h-5 w-5" /> },
       { label: 'Tenants', href: '/dashboard/landlord/tenants', icon: <Users className="h-5 w-5" /> },
-      { label: 'Screening', href: '/dashboard/landlord/screening', icon: <ShieldCheck className="h-5 w-5" /> },
-      {
-        label: 'Leases & Agreements',
-        href: '/dashboard/landlord/leases',
-        icon: <FileText className="h-5 w-5" />,
-        children: [
-          { label: 'Residential Leases', href: '/dashboard/landlord/leases', icon: <FileText className="h-5 w-5" /> },
-          { label: 'Commercial Leases', href: '/dashboard/landlord/commercial/leases', icon: <Landmark className="h-5 w-5" /> },
-          { label: 'Agreements', href: '/dashboard/landlord/agreements', icon: <FileText className="h-5 w-5" /> },
-        ],
-      },
+      { label: 'Leases', href: '/dashboard/landlord/leases', icon: <FileText className="h-5 w-5" /> },
+      { label: 'Rental Agreement', href: '/dashboard/landlord/agreements', icon: <FileText className="h-5 w-5" /> },
+      { label: 'Agreement', href: '/dashboard/landlord/agreement', icon: <FileText className="h-5 w-5" /> },
+    ],
+  },
+  // 4. COMMERCIAL MANAGEMENT
+  {
+    title: 'Commercial Management',
+    items: [
+      { label: 'Commercial Leases', href: '/dashboard/landlord/commercial/leases', icon: <Landmark className="h-5 w-5" /> },
+      { label: 'Lease Negotiation', href: '/dashboard/landlord/commercial/leases/negotiation', icon: <Scale className="h-5 w-5" /> },
+      { label: 'Agreement Review', href: '/dashboard/landlord/commercial/agreements/review', icon: <FileCheck2 className="h-5 w-5" /> },
+      { label: 'Commercial Move-In', href: '/dashboard/landlord/commercial/move-in', icon: <KeyRound className="h-5 w-5" /> },
+    ],
+  },
+  // 5. PROPERTY OPERATIONS
+  {
+    title: 'Property Operations',
+    items: [
+      { label: 'Maintenance', href: '/dashboard/landlord/maintenance', icon: <Wrench className="h-5 w-5" /> },
+      { label: 'Turnover Tasks', href: '/dashboard/landlord/turnover', icon: <Zap className="h-5 w-5" /> },
+      { label: 'Screening Calls', href: '/dashboard/landlord/screening', icon: <ShieldCheck className="h-5 w-5" /> },
+    ],
+  },
+  // 6. FINANCIAL MANAGEMENT
+  {
+    title: 'Financial Management',
+    items: [
+      { label: 'Financial Overview', href: '/dashboard/landlord/financials', icon: <DollarSign className="h-5 w-5" /> },
+      { label: 'Withdrawals', href: '/dashboard/landlord/financials/withdrawals', icon: <Wallet className="h-5 w-5" /> },
+      { label: 'Invoices', href: '/dashboard/landlord/financials/invoices', icon: <Receipt className="h-5 w-5" /> },
+      { label: 'Overdue Payments', href: '/dashboard/landlord/financials/overdue', icon: <AlertTriangle className="h-5 w-5" /> },
+      { label: 'Financial Reports', href: '/dashboard/landlord/financials/reports', icon: <BarChart3 className="h-5 w-5" /> },
+      { label: 'Statements', href: '/dashboard/landlord/statements', icon: <FileText className="h-5 w-5" /> },
+      { label: 'Receipts', href: '/dashboard/landlord/receipts', icon: <FileCheck2 className="h-5 w-5" /> },
+      { label: 'Rent', href: '/dashboard/landlord/rent', icon: <DollarSign className="h-5 w-5" /> },
+      { label: 'Financial Forecasting', href: '/dashboard/landlord/financials/forecasting', icon: <TrendingUp className="h-5 w-5" /> },
+    ],
+  },
+  // 7. ANALYTICS & FORECASTING
+  {
+    title: 'Analytics & Forecasting',
+    items: [
+      { label: 'Revenue Forecast', href: '/dashboard/landlord/revenue-forecast', icon: <TrendingUp className="h-5 w-5" /> },
+      { label: 'Forecast Report', href: '/dashboard/landlord/revenue-forecast/report', icon: <BarChart3 className="h-5 w-5" /> },
+      { label: 'Scenario Builder', href: '/dashboard/landlord/financials/scenario-builder', icon: <Sliders className="h-5 w-5" /> },
+    ],
+  },
+  // 8. COMMUNICATION
+  {
+    title: 'Communication',
+    items: [
       { label: 'Messages', href: '/dashboard/landlord/messages', icon: <MessageSquare className="h-5 w-5" /> },
-      { label: 'Agent Invites', href: '/dashboard/landlord/agents', icon: <UserPlus className="h-5 w-5" /> },
+      { label: 'Notifications', href: '/dashboard/landlord/notifications', icon: <Bell className="h-5 w-5" /> },
     ],
   },
+  // 9. PEOPLE & MANAGEMENT
   {
-    title: 'Operations',
+    title: 'People & Management',
     items: [
-      {
-        label: 'Maintenance & Turnover',
-        href: '/dashboard/landlord/maintenance',
-        icon: <Wrench className="h-5 w-5" />,
-        children: [
-          { label: 'Turnover', href: '/dashboard/landlord/turnover', icon: <Wrench className="h-5 w-5" /> },
-        ],
-      },
-      { label: 'Short-let Calendar', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },
-      { label: 'Verification', href: '/dashboard/landlord/verification', icon: <Shield className="h-5 w-5" /> },
+      { label: 'Agent Management', href: '/dashboard/landlord/agents', icon: <Users className="h-5 w-5" /> },
     ],
   },
+  // 10. ACCOUNT & VERIFICATION
   {
-    title: 'Finances & Analytics',
-    items: [
-      {
-        label: 'Financials',
-        href: '/dashboard/landlord/financials',
-        icon: <DollarSign className="h-5 w-5" />,
-        children: [
-          { label: 'Withdrawals', href: '/dashboard/landlord/financials/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
-          { label: 'Invoices', href: '/dashboard/landlord/financials/invoices', icon: <Receipt className="h-5 w-5" /> },
-          { label: 'Overdue', href: '/dashboard/landlord/financials/overdue', icon: <AlertTriangle className="h-5 w-5" /> },
-          { label: 'Statements', href: '/dashboard/landlord/statements', icon: <FileText className="h-5 w-5" /> },
-          { label: 'Receipts', href: '/dashboard/landlord/receipts', icon: <FileCheck2 className="h-5 w-5" /> },
-        ],
-      },
-      {
-        label: 'Analytics',
-        href: '/dashboard/landlord/financials/forecasting',
-        icon: <TrendingUp className="h-5 w-5" />,
-        children: [
-          { label: 'Forecasting', href: '/dashboard/landlord/financials/forecasting', icon: <TrendingUp className="h-5 w-5" /> },
-          { label: 'Scenario Builder', href: '/dashboard/landlord/financials/scenario-builder', icon: <Sliders className="h-5 w-5" /> },
-          { label: 'Revenue Forecast', href: '/dashboard/landlord/revenue-forecast', icon: <TrendingUp className="h-5 w-5" /> },
-          { label: 'Reports', href: '/dashboard/landlord/financials/reports', icon: <BarChart3 className="h-5 w-5" /> },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Account',
+    title: 'Account & Verification',
     items: [
       { label: 'Profile', href: '/dashboard/landlord/profile', icon: <User className="h-5 w-5" /> },
-      { label: 'Notifications', href: '/dashboard/landlord/notifications', icon: <Bell className="h-5 w-5" /> },
+      { label: 'Verification', href: '/dashboard/landlord/verification', icon: <ShieldCheck className="h-5 w-5" /> },
+      { label: 'Identity Verification', href: '/dashboard/landlord/verify', icon: <FileCheck2 className="h-5 w-5" /> },
+      { label: 'Settings', href: '/dashboard/landlord/profile', icon: <Cog className="h-5 w-5" /> },
       { label: 'Onboarding', href: '/dashboard/landlord/onboarding', icon: <BookOpen className="h-5 w-5" /> },
     ],
   },

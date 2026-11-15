@@ -172,6 +172,8 @@ export default function TenantRailShell({
         <LandlordSidebar
           navigation={navigation}
           pathname={pathname}
+		    mobileOpen={drawerOpen}
+		    onMobileClose={() => setDrawerOpen(false)}
         />
       )}
 

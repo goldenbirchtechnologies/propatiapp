@@ -3,12 +3,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sun, Moon, Menu, X, Settings } from 'lucide-react';
+import { Sun, Moon, Menu, X, Settings, User, LogOut } from 'lucide-react';
 import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SidebarOverlay } from '@/components/layout/sidebar';
 import { OnboardingOverlay } from '@/components/onboarding/OnboardingOverlay';
+import { HeaderOverlayProvider, useHeaderOverlay } from '@/components/layout/header-overlay-context';
 import { cn } from '@/lib/utils';
 import { getDashboardPageTitle } from '@/lib/dashboard-titles';
 import {
@@ -298,47 +299,73 @@ export default function TenantRailShell({
             >
               {theme === 'dark' ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
             </button>
-            <NotificationsBell position="right" userRole={userRole} />
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 rounded-full p-1 outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-white/[0.06]">
-                {userAvatar ? (
-                  <img
-                    src={userAvatar}
-                    alt={userName || 'Profile'}
-                    className="h-8 w-8 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-white/10"
-                  />
-                ) : (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">
-                    {(userName || 'User').charAt(0).toUpperCase()}
-                  </div>
-                )}
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel className="flex items-center gap-2">
-                  <div>
-                    <p className="truncate text-sm font-semibold">{userName || 'User'}</p>
-                    <p className="truncate text-xs text-muted-foreground">{orgName || 'Personal Workspace'}</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href={userRole ? `/dashboard/${userRole}/profile` : '/dashboard/tenant/profile'} className="cursor-pointer">
-                    My Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={userRole ? `/dashboard/${userRole}/settings` : '/dashboard/tenant/settings'} className="cursor-pointer">
-                    Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <a href="/api/auth/sign-out" className="w-full cursor-pointer text-destructive">
-                    Sign Out
-                  </a>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <HeaderOverlayProvider>
+              <NotificationsBell position="right" userRole={userRole} />
+              {(() => {
+                const { isOpen, setOpen } = useHeaderOverlay('profile');
+                return (
+                  <DropdownMenu open={isOpen} onOpenChange={setOpen}>
+                    <DropdownMenuTrigger className="flex items-center gap-1 rounded-full p-1 outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-white/[0.06]">
+                      {userAvatar ? (
+                        <img
+                          src={userAvatar}
+                          alt={userName || 'Profile'}
+                          className="h-8 w-8 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-white/10"
+                        />
+                      ) : (
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">
+                          {(userName || 'User').charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuLabel className="flex items-center gap-2">
+                        <div>
+                          <p className="truncate text-sm font-semibold">{userName || 'User'}</p>
+                          <p className="truncate text-xs text-muted-foreground">
+                            {orgName || 'Personal Workspace'}
+                          </p>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href={
+                            userRole
+                              ? `/dashboard/${userRole}/profile`
+                              : '/dashboard/tenant/profile'
+                          }
+                          className="cursor-pointer"
+                        >
+                          <User className="size-4" /> My Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href={
+                            userRole
+                              ? `/dashboard/${userRole}/settings`
+                              : '/dashboard/tenant/settings'
+                          }
+                          className="cursor-pointer"
+                        >
+                          <Settings className="size-4" /> Settings
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <a
+                          href="/api/auth/sign-out"
+                          className="w-full cursor-pointer text-destructive"
+                        >
+                          <LogOut className="size-4" /> Sign Out
+                        </a>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                );
+              })()}
+            </HeaderOverlayProvider>
           </div>
         </header>
 

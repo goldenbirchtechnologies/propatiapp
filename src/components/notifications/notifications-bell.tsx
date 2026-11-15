@@ -3,11 +3,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Bell } from 'lucide-react';
+import { Bell, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createNotificationSound } from '@/lib/notification-utils';
 import { NotificationsPanel } from './notifications-dropdown';
 import type { Notification } from './notification-card';
+import { useHeaderOverlay } from '@/components/layout/header-overlay-context';
 
 interface NotificationsBellProps {
   position?: 'left' | 'right';
@@ -20,7 +21,8 @@ export function NotificationsBell({
   userRole,
   enableSound = false,
 }: NotificationsBellProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setOpen } = useHeaderOverlay('notifications');
+  const setIsOpen = setOpen;
   const [unreadCount, setUnreadCount] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -230,34 +232,48 @@ export function NotificationsBell({
           aria-label="Notifications"
         >
           <div className="flex items-center justify-between p-3 border-b border-zinc-800">
-            {unreadCount > 0 ? (
-              <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
-                {unreadCount} new
-              </span>
-            ) : null}
-            <button
-              onClick={fetchNotifications}
-              disabled={loading || markingAll}
-              className="p-1 hover:bg-zinc-900 rounded transition-colors ml-auto"
-              aria-label="Refresh notifications"
-            >
-              <svg
-                className={cn('w-4 h-4 text-zinc-400', loading && 'animate-spin')}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <div className="flex items-center gap-2">
+              <Bell className="h-4 w-4 text-zinc-400" />
+              <h2 className="text-sm font-semibold text-white">Notifications</h2>
+              {unreadCount > 0 ? (
+                <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
+                  {unreadCount} new
+                </span>
+              ) : null}
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={fetchNotifications}
+                disabled={loading || markingAll}
+                className="p-1 hover:bg-zinc-900 rounded transition-colors"
+                aria-label="Refresh notifications"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995"
-                />
-              </svg>
-            </button>
+                <svg
+                  className={cn('w-4 h-4 text-zinc-400', loading && 'animate-spin')}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={handleClose}
+                className="p-1 hover:bg-zinc-900 rounded transition-colors text-zinc-400 hover:text-white"
+                aria-label="Close notifications"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
           </div>
 
-          <NotificationsPanel
+          <div className="max-h-[calc(100dvh-14rem)] overflow-y-auto overscroll-contain">
+            <NotificationsPanel
             notifications={notifications}
             loading={loading}
             markingAll={markingAll}
@@ -270,6 +286,7 @@ export function NotificationsBell({
               handleClose();
             }}
           />
+          </div>
 
           {notifications.length > 0 && (
             <div className="flex items-center justify-between p-3 border-t border-zinc-800 bg-zinc-900/30">

@@ -107,7 +107,7 @@ export function NotificationCard({
               )}
             </div>
 
-            <p className={cn('text-sm mb-2', notification.read ? 'text-muted-foreground' : 'text-foreground')}>
+            <p className={cn('text-sm mb-2 line-clamp-2', notification.read ? 'text-muted-foreground' : 'text-foreground')}>
               {notification.body}
             </p>
 

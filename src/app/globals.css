@@ -246,115 +246,59 @@
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
   --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-}
 
-/* Role-based theme classes applied to body */
-.app-layout.theme-landing {
-  --bg: var(--theme-landing-bg);
-  --surface: var(--theme-landing-surface, #09090b);
-  --border: var(--theme-landing-border, rgba(255, 255, 255, 0.08));
-  --text: var(--theme-landing-text);
-  --muted: var(--theme-landing-text);
-  --accent: var(--theme-landing-accent);
-
-  --background: var(--bg);
-  --foreground: var(--text);
-  --card: var(--surface);
-  --card-foreground: var(--text);
-  --popover: var(--surface);
-  --popover-foreground: var(--text);
-  --primary: var(--accent);
+  /* Shadcn semantic tokens — single light-mode source of truth. Every page,
+     layout and shared component consumes these via bg-background, text-foreground,
+     border-border, bg-card, input, ring, etc. Role theme classes must not
+     redefine these to hardcoded dark values; they only set role brand accents. */
+  --background: #fbf8fc;
+  --foreground: #1b1b1e;
+  --primary: #006c49;
   --primary-foreground: #ffffff;
-  --secondary: var(--surface);
-  --secondary-foreground: var(--text);
-  --muted-foreground: #a1a1aa;
-  --on-surface: var(--theme-landing-text);
-  --on-surface-variant: #d4d4d8;
+  --secondary: #f0edf1;
+  --secondary-foreground: #1b1b1e;
+  --muted: #f0edf1;
+  --muted-foreground: #6b7280;
+  --accent: #006c49;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --input: var(--border);
-  --ring: #ffffff;
-  --chart-1: var(--accent);
-  --chart-2: var(--muted);
-  --chart-3: var(--surface);
-  --chart-4: var(--bg);
-  --chart-5: var(--text);
-  --sidebar: var(--surface);
-  --sidebar-foreground: var(--text);
-  --sidebar-primary: var(--accent);
-  --surface-container-lowest: #09090b;
-  --surface-container-low: #121215;
-  --surface-container: #18181b;
-  --surface-container-high: #27272a;
-  --surface-container-highest: #3f3f46;
-  --outline: rgba(255, 255, 255, 0.2);
-  --outline-variant: rgba(255, 255, 255, 0.1);
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #006c49;
+  --card: #ffffff;
+  --card-foreground: #1b1b1e;
+  --popover: #ffffff;
+  --popover-foreground: #1b1b1e;
+  --sidebar: #fbf8fc;
+  --sidebar-foreground: #1b1b1e;
+  --sidebar-primary: #006c49;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--surface);
-  --sidebar-accent-foreground: var(--text);
-  --sidebar-border: var(--border);
+  --sidebar-accent: #f0edf1;
+  --sidebar-accent-foreground: #1b1b1e;
+  --sidebar-border: #e4e4e7;
   --sidebar-ring: #ffffff;
+  --chart-1: #006c49;
+  --chart-2: #059669;
+  --chart-3: #82f5c1;
+  --chart-4: #f0edf1;
+  --chart-5: #1b1b1e;
+}
 
+/* Role-based theme classes applied to body.
+   These no longer force dark surfaces. Light/dark colours come from the single
+   :root / html.dark shadcn token blocks, so one `dark` class toggles every role
+   between light and dark. The role classes only supply layout direction. */
+.app-layout.theme-landing,
+.app-layout.theme-landlord,
+.app-layout.theme-tenant,
+.app-layout.theme-agent,
+.app-layout.theme-admin,
+body.theme-estate-manager,
+body.em-theme {
   flex-direction: column;
 }
 
-.app-layout.theme-landlord {
-  --bg: var(--theme-landlord-bg);
-  --surface: var(--theme-landlord-surface);
-  --surface-elevated: var(--theme-landlord-surface-elevated);
-  --border: var(--theme-landlord-border);
-  --text: var(--theme-landlord-text);
-  --muted: var(--theme-landlord-muted);
-  --accent: var(--theme-landlord-accent);
-  --accent2: var(--theme-landlord-accent2);
-  --surface-variant: var(--theme-landlord-surface);
-  --surface-container: var(--theme-landlord-surface);
-  --surface-container-lowest: var(--theme-landlord-surface);
-  --surface-container-low: var(--theme-landlord-surface);
-  --surface-container-high: var(--theme-landlord-surface-elevated);
-  --surface-container-highest: var(--theme-landlord-surface-elevated);
-  --surface-dim: var(--theme-landlord-bg);
-  --surface-bright: var(--theme-landlord-surface-elevated);
-  --on-surface: var(--theme-landlord-text);
-  --on-surface-variant: var(--theme-landlord-muted);
-  --inverse-surface: var(--theme-landlord-text);
-  --inverse-on-surface: var(--theme-landlord-bg);
-  --outline: var(--theme-landlord-muted);
-  --outline-variant: var(--theme-landlord-border);
-  --primary-container: var(--theme-landlord-accent);
-  --on-primary-container: #ffffff;
-  --surface-tint: var(--theme-landlord-accent);
-
-  --background: var(--bg);
-  --foreground: var(--text);
-  --card: var(--surface);
-  --card-foreground: var(--text);
-  --popover: var(--surface);
-  --popover-foreground: var(--text);
-  --primary-foreground: #ffffff;
-  --secondary: var(--surface);
-  --secondary-foreground: var(--text);
-  --muted-foreground: var(--theme-landlord-muted-foreground);
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --input: var(--border);
-  --ring: #ffffff;
-  --chart-1: var(--accent);
-  --chart-2: var(--muted);
-  --chart-3: var(--surface);
-  --chart-4: var(--bg);
-  --chart-5: var(--text);
-  --sidebar: var(--surface);
-  --sidebar-foreground: var(--text);
-  --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--surface);
-  --sidebar-accent-foreground: var(--text);
-  --sidebar-border: var(--border);
-  --sidebar-ring: #ffffff;
-}
 
 .app-layout.theme-landlord [data-slot="tabs-trigger"] {
   color: var(--muted-foreground);
@@ -365,258 +309,14 @@
   background-color: var(--background);
 }
 
-.app-layout.theme-tenant {
-  --bg: var(--theme-tenant-bg);
-  --surface: var(--theme-tenant-surface);
-  --border: var(--theme-tenant-border);
-  --text: var(--theme-tenant-text);
-  --muted: var(--theme-tenant-muted);
-  --accent: var(--theme-tenant-accent);
-  --accent2: var(--theme-tenant-accent2);
-  --surface-variant: var(--theme-tenant-bg);
-  --surface-container: var(--theme-tenant-surface);
-  --surface-container-lowest: var(--theme-tenant-surface);
-  --surface-container-low: var(--theme-tenant-surface);
-  --surface-container-high: var(--theme-tenant-bg);
-  --surface-container-highest: var(--theme-tenant-bg);
-  --surface-dim: var(--theme-tenant-bg);
-  --surface-bright: var(--theme-tenant-surface);
-  --surface-elevated: var(--theme-tenant-surface);
-  --on-surface: var(--theme-tenant-text);
-  --on-surface-variant: var(--theme-tenant-muted);
-  --inverse-surface: #1a1a1a;
-  --inverse-on-surface: var(--theme-tenant-surface);
-  --outline: var(--theme-tenant-muted);
-  --outline-variant: var(--theme-tenant-border);
-  --primary-container: var(--theme-tenant-accent);
-  --on-primary-container: #ffffff;
-  --surface-tint: var(--theme-tenant-accent);
-
-  --background: var(--bg);
-  --foreground: var(--text);
-  --card: var(--surface);
-  --card-foreground: var(--text);
-  --popover: var(--surface);
-  --popover-foreground: var(--text);
-  --primary-foreground: #ffffff;
-  --secondary: var(--surface);
-  --secondary-foreground: var(--text);
-  --muted-foreground: var(--theme-tenant-muted-foreground);
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --input: var(--border);
-  --ring: #ffffff;
-  --chart-1: var(--accent);
-  --chart-2: var(--muted);
-  --chart-3: var(--surface);
-  --chart-4: var(--bg);
-  --chart-5: var(--text);
-  --sidebar: var(--surface);
-  --sidebar-foreground: var(--text);
-  --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--surface);
-  --sidebar-accent-foreground: var(--text);
-  --sidebar-border: var(--border);
-  --sidebar-ring: #ffffff;
-}
-
 .app-layout.theme-tenant .card {
   border: 1px solid var(--border);
   box-shadow: none;
   background: var(--surface);
 }
 
-.app-layout.theme-agent {
-  --bg: var(--theme-agent-bg);
-  --surface: var(--theme-agent-surface);
-  --border: var(--theme-agent-border);
-  --text: var(--theme-agent-text);
-  --muted: var(--theme-agent-muted);
-  --accent: var(--theme-agent-accent);
-  --accent2: var(--theme-agent-accent2);
-  --surface-variant: var(--theme-agent-surface);
-  --surface-container: var(--theme-agent-surface);
-  --surface-container-lowest: var(--theme-agent-bg);
-  --surface-container-low: var(--theme-agent-bg);
-  --surface-container-high: var(--theme-agent-surface);
-  --surface-container-highest: var(--theme-agent-surface);
-  --surface-dim: var(--theme-agent-bg);
-  --surface-bright: var(--theme-agent-surface);
-  --surface-elevated: var(--theme-agent-surface);
-  --on-surface: var(--theme-agent-text);
-  --on-surface-variant: var(--theme-agent-muted-foreground);
-  --inverse-surface: var(--theme-agent-text);
-  --inverse-on-surface: var(--theme-agent-bg);
-  --outline: var(--theme-agent-border);
-  --outline-variant: var(--theme-agent-border);
-  --primary-container: var(--theme-agent-accent);
-  --on-primary-container: #ffffff;
-  --surface-tint: var(--theme-agent-accent);
-
-  --background: var(--bg);
-  --foreground: var(--text);
-  --card: var(--surface);
-  --card-foreground: var(--text);
-  --popover: var(--surface);
-  --popover-foreground: var(--text);
-  --primary: var(--accent);
-  --primary-foreground: #000000;
-  --secondary: var(--surface);
-  --secondary-foreground: var(--text);
-  --muted: var(--muted);
-  --muted-foreground: var(--theme-agent-muted-foreground);
-  --accent: var(--accent);
-  --accent-foreground: #000000;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --input: var(--border);
-  --ring: #ffffff;
-  --chart-1: var(--accent);
-  --chart-2: var(--muted);
-  --chart-3: var(--surface);
-  --chart-4: var(--bg);
-  --chart-5: var(--text);
-  --sidebar: var(--surface);
-  --sidebar-foreground: var(--text);
-  --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: #000000;
-  --sidebar-accent: var(--surface);
-  --sidebar-accent-foreground: var(--text);
-  --sidebar-border: var(--border);
-  --sidebar-ring: #ffffff;
-}
-
-.app-layout.theme-admin {
-  --bg: var(--theme-admin-bg);
-  --surface: var(--theme-admin-bg);
-  --border: var(--theme-admin-bg);
-  --text: var(--theme-tenant-text);
-  --muted: var(--theme-tenant-muted);
-  --accent: var(--theme-admin-accent);
-  --surface-variant: var(--theme-admin-surface);
-  --surface-container: var(--theme-admin-surface);
-  --surface-container-lowest: var(--theme-admin-bg);
-  --surface-container-low: var(--theme-admin-bg);
-  --surface-container-high: var(--theme-admin-surface-elevated);
-  --surface-container-highest: var(--theme-admin-surface-elevated);
-  --surface-dim: var(--theme-admin-bg);
-  --surface-bright: var(--theme-admin-surface-elevated);
-  --surface-elevated: var(--theme-admin-surface-elevated);
-  --on-surface: var(--theme-admin-text);
-  --on-surface-variant: var(--theme-admin-muted);
-  --inverse-surface: var(--theme-admin-text);
-  --inverse-on-surface: var(--theme-admin-bg);
-  --outline: var(--theme-admin-muted);
-  --outline-variant: var(--theme-admin-border);
-  --primary-container: var(--theme-admin-accent);
-  --on-primary-container: #ffffff;
-  --surface-tint: var(--theme-admin-accent);
-
-  --background: var(--bg);
-  --foreground: var(--text);
-  --card: var(--surface);
-  --card-foreground: var(--text);
-  --popover: var(--surface);
-  --popover-foreground: var(--text);
-  --primary-foreground: #ffffff;
-  --secondary: var(--surface);
-  --secondary-foreground: var(--text);
-  --muted-foreground: var(--theme-admin-muted-foreground);
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --input: var(--border);
-  --ring: #ffffff;
-  --chart-1: var(--accent);
-  --chart-2: var(--muted);
-  --chart-3: var(--surface);
-  --chart-4: var(--bg);
-  --chart-5: var(--text);
-  --sidebar: var(--surface);
-  --sidebar-foreground: var(--text);
-  --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--surface);
-  --sidebar-accent-foreground: var(--text);
-  --sidebar-border: var(--border);
-  --sidebar-ring: #ffffff;
-}
-
-body.theme-estate-manager,
-body.em-theme {
-  --bg: var(--theme-em-bg);
-  --surface: var(--theme-em-surface);
-  --surface-elevated: var(--theme-em-surface-elevated);
-  --border: var(--theme-em-border);
-  --text: var(--theme-em-text);
-  --muted: var(--theme-em-muted);
-  --accent: var(--theme-em-accent);
-  --accent2: var(--theme-em-accent2);
-  --primary: var(--theme-em-accent);
-  --primary-foreground: #ffffff;
-  --secondary: var(--theme-em-surface-elevated);
-  --secondary-foreground: var(--theme-em-text);
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --muted-foreground: var(--theme-em-muted-foreground);
-  --accent-foreground: #ffffff;
-  --popover: var(--theme-em-surface);
-  --popover-foreground: var(--theme-em-text);
-  --card: var(--theme-em-surface);
-  --card-foreground: var(--theme-em-text);
-  --input: var(--theme-em-border);
-  --ring: #ffffff;
-  --background: var(--theme-em-bg);
-  --foreground: var(--theme-em-text);
-  --surface-variant: var(--theme-em-surface);
-  --surface-container: var(--theme-em-surface);
-  --surface-container-lowest: var(--theme-em-surface);
-  --surface-container-low: var(--theme-em-bg);
-  --surface-container-high: var(--theme-em-surface-elevated);
-  --surface-container-highest: var(--theme-em-surface-elevated);
-  --surface-dim: var(--theme-em-bg);
-  --surface-bright: var(--theme-em-surface-elevated);
-  --on-surface: var(--theme-em-text);
-  --on-surface-variant: var(--theme-em-muted);
-  --inverse-surface: var(--theme-em-text);
-  --inverse-on-surface: var(--theme-em-bg);
-  --outline: var(--theme-em-muted);
-  --outline-variant: var(--theme-em-border);
-  --primary-container: var(--theme-em-accent);
-  --on-primary-container: #ffffff;
-  --surface-tint: var(--theme-em-accent);
-}
 
 
-.app-layout.theme-admin {
-  --bg: var(--theme-admin-bg);
-  --surface: var(--theme-admin-surface);
-  --surface-elevated: var(--theme-admin-surface-elevated);
-  --border: var(--theme-admin-border);
-  --text: var(--theme-admin-text);
-  --muted: var(--theme-admin-muted);
-  --accent: var(--theme-admin-accent);
-  --accent2: var(--theme-admin-accent2);
-  --surface-variant: var(--theme-admin-surface);
-  --surface-container: var(--theme-admin-surface);
-  --surface-container-lowest: var(--theme-admin-bg);
-  --surface-container-low: var(--theme-admin-bg);
-  --surface-container-high: var(--theme-admin-surface-elevated);
-  --surface-container-highest: var(--theme-admin-surface-elevated);
-  --surface-dim: var(--theme-admin-bg);
-  --surface-bright: var(--theme-admin-surface-elevated);
-  --on-surface: var(--theme-admin-text);
-  --on-surface-variant: var(--theme-admin-muted);
-  --inverse-surface: var(--theme-admin-text);
-  --inverse-on-surface: var(--theme-admin-bg);
-  --outline: var(--theme-admin-muted);
-  --outline-variant: var(--theme-admin-border);
-  --primary-container: var(--theme-admin-accent);
-  --on-primary-container: #ffffff;
-  --surface-tint: var(--theme-admin-accent);
-}
 
 /* New dark-mode extended palette tokens — Sovereign single-green */
 :root {
@@ -675,6 +375,42 @@ html.dark,
   --outline-variant: #3f3f46;
   --accent2: #4edea3;
   --border-subtle: rgba(255, 255, 255, 0.08);
+
+  /* Shadcn semantic tokens — dark-mode counterparts to the light :root block,
+     so bg-background, text-foreground, border-border, bg-card, input, ring, etc.
+     flip correctly when the `dark` class is applied. */
+  --background: #000000;
+  --foreground: #ededed;
+  --primary: #4edea3;
+  --primary-foreground: #002113;
+  --secondary: #0f0f12;
+  --secondary-foreground: #ededed;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --accent: #4edea3;
+  --accent-foreground: #002113;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #4edea3;
+  --card: #09090b;
+  --card-foreground: #ededed;
+  --popover: #09090b;
+  --popover-foreground: #ededed;
+  --sidebar: #09090b;
+  --sidebar-foreground: #ededed;
+  --sidebar-primary: #4edea3;
+  --sidebar-primary-foreground: #002113;
+  --sidebar-accent: #18181b;
+  --sidebar-accent-foreground: #ededed;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #ffffff;
+  --chart-1: #4edea3;
+  --chart-2: #059669;
+  --chart-3: #82f5c1;
+  --chart-4: #0f0f12;
+  --chart-5: #ededed;
 }
 
 html {
@@ -687,8 +423,8 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: 1.5;
-  color: var(--text);
-  background-color: var(--bg, var(--blackCanvas));
+  color: var(--foreground);
+  background-color: var(--background);
   transition: background-color var(--transition-base), color var(--transition-base);
 }
 
@@ -696,7 +432,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.2;
-  color: var(--text);
+  color: var(--foreground);
 }
 
 h1 { font-size: var(--text-hero); }

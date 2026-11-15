@@ -271,9 +271,9 @@ export default function TenantRailShell({
         </nav>
       </aside>
 
-      <main className="main-area bg-[#F8FAFC] dark:bg-black">
+      <main className="main-area bg-background">
         {/* Minimal topbar */}
-        <header className="topbar border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-white/[0.07] dark:bg-[#09090b]/80" style={{ height: 56 }}>
+        <header className="topbar border-b border-border bg-background/80 backdrop-blur-md dark:border-white/[0.07]" style={{ height: 56 }}>
           <button
             className="rounded-lg p-2 text-zinc-600 hover:bg-zinc-100 lg:hidden dark:text-zinc-400 dark:hover:bg-white/[0.06]"
             onClick={() => setDrawerOpen(true)}
@@ -342,7 +342,7 @@ export default function TenantRailShell({
           </div>
         </header>
 
-        <div className="content-area bg-[#F8FAFC] pb-20 dark:bg-black lg:pb-4">{children}</div>
+        <div className="content-area bg-background pb-20 lg:pb-4">{children}</div>
 
         {/* Minimal mobile bottom nav: 4 primary items + menu */}
         <nav

@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuCheckboxItem, DropdownMenuRadioItem } from '@/components/ui/dropdown-menu';
 import { Bell, BellRing, Building, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CreditCard, FileText, HelpCircle, Home, LayoutDashboard, LogOut, Mail, MapPin, Monitor, Moon, Search, Settings, Shield, Sun, User, Users } from 'lucide-react';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 interface TopbarProps {
   onMenuClick?: () => void;
@@ -75,32 +76,9 @@ function PurposeSwitcher({ userRole }: { userRole?: string }) {
 }
 
 function ThemeToggle() {
-  const [mounted, setMounted] = React.useState(false);
-  const [theme, setTheme] = React.useState<'light' | 'dark' | 'system'>('system');
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
-  React.useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem('theme') as 'light' | 'dark' | 'system' | null;
-    if (stored) {
-      setTheme(stored);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (!mounted) return;
-    localStorage.setItem('theme', theme);
-    const root = document.documentElement;
-    root.classList.remove('light', 'dark');
-    if (theme === 'system') {
-      root.classList.add(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    } else {
-      root.classList.add(theme);
-    }
-  }, [theme, mounted]);
-
-  if (!mounted) return null;
+  if (typeof document === 'undefined') return null;
 
   return (
     <DropdownMenu>
@@ -111,9 +89,9 @@ function ThemeToggle() {
           className="p-2 rounded-lg bg-surface-elevated text-foreground"
           aria-label="Theme"
         >
-          {theme === 'dark' ? (
+          {resolvedTheme === 'dark' ? (
             <Moon className="h-5 w-5" />
-          ) : theme === 'light' ? (
+          ) : resolvedTheme === 'light' ? (
             <Sun className="h-5 w-5" />
           ) : (
             <Monitor className="h-5 w-5" />

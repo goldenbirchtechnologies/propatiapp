@@ -62,7 +62,6 @@ export default function TenantRailShell({
 }: TenantRailShellProps) {
   const { theme, toggleTheme } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const pathname = usePathname();
 
   const pageTitle = useMemo(() => getDashboardPageTitle(pathname, userRole), [pathname, userRole]);
@@ -134,10 +133,7 @@ export default function TenantRailShell({
       {/* Icon rail — desktop only, all roles except landlord */}
       {userRole !== 'landlord' && (
         <aside
-          className={cn(
-            'hidden w-[72px] flex-shrink-0 flex-col items-center gap-1 border-r border-zinc-200 bg-white py-4 lg:flex dark:border-white/[0.07] dark:bg-[#09090b]',
-            sidebarCollapsed && 'collapsed'
-          )}
+          className="hidden w-[72px] flex-shrink-0 flex-col items-center gap-1 border-r border-zinc-200 bg-white py-4 lg:flex dark:border-white/[0.07] dark:bg-[#09090b]"
           role="navigation"
           aria-label="Main navigation"
         >
@@ -168,31 +164,6 @@ export default function TenantRailShell({
               )
             )}
           </nav>
-
-          {/* Collapse toggle (desktop only) */}
-          <div className="mt-2 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setSidebarCollapsed((v) => !v)}
-              aria-label={sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'}
-              title={sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'}
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                {sidebarCollapsed ? (
-                  <>
-                    <polyline points="9 18 15 12 9 6" />
-                    <polyline points="9 6 15 12 9 18" />
-                  </>
-                ) : (
-                  <>
-                    <line x1="15" y1="18" x2="9" y2="12" />
-                    <line x1="15" y1="6" x2="9" y2="12" />
-                  </>
-                )}
-              </svg>
-            </button>
-          </div>
         </aside>
       )}
 
@@ -201,15 +172,10 @@ export default function TenantRailShell({
         <LandlordSidebar
           navigation={navigation}
           pathname={pathname}
-          collapsed={sidebarCollapsed}
-          onCollapseChange={setSidebarCollapsed}
         />
       )}
 
-      <main
-        className="main-area bg-background flex-1 min-w-0"
-        style={sidebarCollapsed ? { paddingLeft: 64 } : undefined}
-      >
+      <main className="main-area bg-background flex-1 min-w-0">
         {/* Minimal topbar */}
         <header
           className="topbar border-b border-border bg-background/80 backdrop-blur-md dark:border-white/[0.07]"

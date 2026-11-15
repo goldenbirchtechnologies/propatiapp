@@ -110,26 +110,14 @@ export interface LandlordSidebarProps {
   navigation?: Array<NavItem | NavSection>;
   pathname?: string | null;
   className?: string;
-  /** When true, collapse the section groups off-canvas to 160px. */
-  collapsed?: boolean;
-  onCollapseChange?: (collapsed: boolean) => void;
 }
 
 export function LandlordSidebar({
   navigation,
   pathname = null,
   className,
-  collapsed: collapsedProp,
-  onCollapseChange,
 }: LandlordSidebarProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(DEFAULT_OPEN);
-  const [localCollapsed, setLocalCollapsed] = useState(false);
-
-  const collapsed = collapsedProp ?? localCollapsed;
-  const setCollapsed = (v: boolean) => {
-    setLocalCollapsed(v);
-    onCollapseChange?.(v);
-  };
 
   const toggleSection = (key: string) =>
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -169,7 +157,6 @@ export function LandlordSidebar({
     <aside
       className={cn(
         'w-64 h-screen bg-white border-r border-zinc-200 flex flex-col shrink-0 sticky top-0 dark:bg-[#09090b] dark:border-zinc-800',
-        collapsedProp && 'collapsed',
         className
       )}
       role="navigation"

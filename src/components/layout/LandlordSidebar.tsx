@@ -3,13 +3,13 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  Building2, ChevronDown, ChevronRight, Menu, X, Home,
-  MessageSquare, Bell, Settings,
+  ChevronDown, ChevronRight, Menu, X, Home,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import type { NavItem, NavSection } from '@/lib/navigation';
 import { useIsMobile } from '@/components/hooks/use-mobile';
+import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 /* ─── Helpers ──────────────────────────────────────────────────────────── */
 
@@ -171,7 +171,7 @@ function SidebarBody({
         <Tooltip label="PropatiBox">
           <div className={cn('flex items-center gap-2', collapsed && 'justify-center')}>
             <div className="flex h-7 w-7 items-center justify-center rounded bg-sidebar-primary text-sidebar-primary-foreground">
-              <Building2 className="h-4 w-4" />
+              <PropatiBoxLogo size="sm" variant="iconOnly" />
             </div>
             {!collapsed && <span className="font-semibold text-sm text-sidebar-foreground">PropatiBox</span>}
           </div>
@@ -214,30 +214,6 @@ function SidebarBody({
         </div>
       </nav>
 
-      {/* Footer Links */}
-      <div className="shrink-0 border-t border-sidebar-border p-3">
-        <div className="space-y-0.5">
-          {[
-            { label: 'Messages', href: '/dashboard/landlord/messages', icon: MessageSquare },
-            { label: 'Notifications', href: '/dashboard/landlord/notifications', icon: Bell },
-            { label: 'Settings', href: '/dashboard/landlord/profile', icon: Settings },
-          ].map((item) => (
-            <Tooltip key={item.label} label={item.label}>
-              <Link
-                href={item.href}
-                className={cn(
-                  'group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
-                  collapsed && 'justify-center'
-                )}
-                title={collapsed ? item.label : undefined}
-              >
-                <item.icon className={cn('h-4 w-4 shrink-0', collapsed && 'mx-auto')} />
-                {!collapsed && <span>{item.label}</span>}
-              </Link>
-            </Tooltip>
-          ))}
-        </div>
-      </div>
     </>
   );
 }
@@ -305,7 +281,7 @@ export function LandlordSidebar({
         <div className="flex h-14 shrink-0 items-center justify-between border-b border-sidebar-border px-4">
           <div className="flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded bg-sidebar-primary text-sidebar-primary-foreground">
-              <Building2 className="h-4 w-4" />
+              <PropatiBoxLogo size="sm" variant="iconOnly" />
             </div>
             <span className="font-semibold text-sm text-sidebar-foreground">PropatiBox</span>
           </div>

@@ -5,7 +5,7 @@ import {
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase, AlertTriangle,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
   Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2, BookOpen, BarChart3,
-  Heart, LifeBuoy, Bookmark, CheckCircle
+  Heart, LifeBuoy, Bookmark
 } from 'lucide-react';
 
 export interface NavItem {
@@ -39,10 +39,9 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
       { label: 'Add Property', href: '/dashboard/landlord/properties/new', icon: <Plus className="h-5 w-5" /> },
       { label: 'All Listings', href: '/dashboard/landlord/properties', icon: <Store className="h-5 w-5" /> },
       { label: 'Create Listing', href: '/dashboard/landlord/listing/new', icon: <ClipboardList className="h-5 w-5" /> },
-      { label: 'Listing Wizard', href: '/dashboard/landlord/listing/new/wizard', icon: <ClipboardList className="h-5 w-5" /> },
-      { label: 'Publish Listing', href: '/dashboard/landlord/properties', icon: <CheckCircle className="h-5 w-5" /> },
+      { label: 'List', href: '/dashboard/landlord/listing/new/wizard', icon: <ClipboardList className="h-5 w-5" /> },
       { label: 'Vacancies', href: '/dashboard/landlord/vacancies', icon: <Eye className="h-5 w-5" /> },
-      { label: 'Short-Let Bookings', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },
+      { label: 'Shortlet', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },
       { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
     ],
   },
@@ -72,7 +71,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
     title: 'Property Operations',
     items: [
       { label: 'Maintenance', href: '/dashboard/landlord/maintenance', icon: <Wrench className="h-5 w-5" /> },
-      { label: 'Turnover Tasks', href: '/dashboard/landlord/turnover', icon: <Zap className="h-5 w-5" /> },
+      { label: 'Turnover', href: '/dashboard/landlord/turnover', icon: <Zap className="h-5 w-5" /> },
       { label: 'Screening Calls', href: '/dashboard/landlord/screening', icon: <ShieldCheck className="h-5 w-5" /> },
     ],
   },
@@ -83,7 +82,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
       { label: 'Financial Overview', href: '/dashboard/landlord/financials', icon: <DollarSign className="h-5 w-5" /> },
       { label: 'Withdrawals', href: '/dashboard/landlord/financials/withdrawals', icon: <Wallet className="h-5 w-5" /> },
       { label: 'Invoices', href: '/dashboard/landlord/financials/invoices', icon: <Receipt className="h-5 w-5" /> },
-      { label: 'Overdue Payments', href: '/dashboard/landlord/financials/overdue', icon: <AlertTriangle className="h-5 w-5" /> },
+      { label: 'Overdue', href: '/dashboard/landlord/financials/overdue', icon: <AlertTriangle className="h-5 w-5" /> },
       { label: 'Financial Reports', href: '/dashboard/landlord/financials/reports', icon: <BarChart3 className="h-5 w-5" /> },
       { label: 'Statements', href: '/dashboard/landlord/statements', icon: <FileText className="h-5 w-5" /> },
       { label: 'Receipts', href: '/dashboard/landlord/receipts', icon: <FileCheck2 className="h-5 w-5" /> },

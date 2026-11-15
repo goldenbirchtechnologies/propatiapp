@@ -52,7 +52,7 @@ interface DashboardSectionProps {
 }
 
 export function DashboardShell(props: DashboardShellProps) {
-  return <TenantRailShell {...props} />;
+  return <TenantRailShell hideGlobalSearch {...props} />;
 }
 
 export default DashboardShell;

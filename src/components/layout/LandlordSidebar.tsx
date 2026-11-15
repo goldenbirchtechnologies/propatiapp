@@ -12,17 +12,12 @@ import {
   Settings,
   ChevronDown,
   ChevronRight,
-  type LucideIcon,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import type { NavItem, NavSection } from '@/lib/navigation';
 
-/**
- * Section presentation: display label + header icon, in render order.
- * Titles come from LANDLORD_NAVIGATION, so an unknown title falls back to
- * its own name and the Building2 icon rather than breaking the sidebar.
- */
 const SECTION_META: Record<string, { label: string; icon: LucideIcon }> = {
   'Properties & Portfolio': { label: 'Properties', icon: Building2 },
   'Leasing & Tenants': { label: 'Leasing & Tenants', icon: Users },
@@ -31,7 +26,6 @@ const SECTION_META: Record<string, { label: string; icon: LucideIcon }> = {
   Account: { label: 'Account', icon: Settings },
 };
 
-/** First item of each section is hoisted out as a standalone link above it. */
 const SECTION_LEAD: Record<string, string> = {
   'Properties & Portfolio': 'Dashboard',
   'Leasing & Tenants': 'Applications',
@@ -54,13 +48,11 @@ function isActivePath(pathname: string | null, href?: string): boolean {
   return pathname?.startsWith(`${href}/`) ?? false;
 }
 
-/** A nav item is active if it, or any descendant, matches the current path. */
 function isItemActive(pathname: string | null, item: NavItem): boolean {
   if (isActivePath(pathname, item.href)) return true;
   return !!item.children?.some((child) => isActivePath(pathname, child.href));
 }
 
-/** A collapsible section header + its links. */
 function SectionGroup({
   section,
   open,
@@ -118,25 +110,32 @@ export interface LandlordSidebarProps {
   navigation?: Array<NavItem | NavSection>;
   pathname?: string | null;
   className?: string;
+  /** When true, collapse the section groups off-canvas to 160px. */
+  collapsed?: boolean;
+  onCollapseChange?: (collapsed: boolean) => void;
 }
 
 export function LandlordSidebar({
   navigation,
   pathname = null,
   className,
+  collapsed: collapsedProp,
+  onCollapseChange,
 }: LandlordSidebarProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(DEFAULT_OPEN);
+  const [localCollapsed, setLocalCollapsed] = useState(false);
+
+  const collapsed = collapsedProp ?? localCollapsed;
+  const setCollapsed = (v: boolean) => {
+    setLocalCollapsed(v);
+    onCollapseChange?.(v);
+  };
 
   const toggleSection = (key: string) =>
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
 
   const entries = navigation ?? LANDLORD_NAVIGATION;
 
-  /**
-   * Flatten to render order: each section's lead item is emitted as a
-   * standalone link immediately above its own collapsible group, so the
-   * group never contains the entry the user already sees on its own.
-   */
   const renderEntries = useMemo(() => {
     type Lead = { kind: 'lead'; item: NavItem };
     type Group = { kind: 'group'; section: NavSection };
@@ -170,6 +169,7 @@ export function LandlordSidebar({
     <aside
       className={cn(
         'w-64 h-screen bg-white border-r border-zinc-200 flex flex-col shrink-0 sticky top-0 dark:bg-[#09090b] dark:border-zinc-800',
+        collapsedProp && 'collapsed',
         className
       )}
       role="navigation"
@@ -226,8 +226,8 @@ export function LandlordSidebar({
         ))}
       </div>
 
-      {/* Footer / Account / Messages */}
-      <div className="p-3 border-t border-zinc-200 space-y-1 dark:border-zinc-800">
+      {/* Footer: Messages, Notifications, Settings & Profile */}
+      <div className="space-y-1 border-t border-zinc-200 pt-3 dark:border-zinc-800">
         <Link
           href="/dashboard/landlord/messages"
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
@@ -247,7 +247,7 @@ export function LandlordSidebar({
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
         >
           <Settings className="w-4 h-4 text-zinc-400 dark:text-zinc-400" />
-          <span>Settings &amp; Profile</span>
+          <span>Settings & Profile</span>
         </Link>
       </div>
     </aside>
@@ -255,4 +255,3 @@ export function LandlordSidebar({
 }
 
 export default LandlordSidebar;
-

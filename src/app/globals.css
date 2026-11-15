@@ -743,6 +743,14 @@ a:hover {
   width: var(--sidebar-width-collapsed);
 }
 
+/* PropatiBox landlord panel — collapse the nav item labels off-canvas */
+.landlord-sidebar-collapsed .landlord-nav-scroll {
+  display: none;
+}
+.landlord-sidebar-collapsed .landlord-brand {
+  display: none;
+}
+
 .sidebar.open {
   transform: translateX(0);
 }

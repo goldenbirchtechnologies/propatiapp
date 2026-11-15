@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sun, Moon, Menu, X, Settings, User, LogOut } from 'lucide-react';
+import { Sun, Moon, Menu, X, User, Settings, LogOut } from 'lucide-react';
 import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
@@ -62,6 +62,7 @@ export default function TenantRailShell({
 }: TenantRailShellProps) {
   const { theme, toggleTheme } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const pathname = usePathname();
 
   const pageTitle = useMemo(() => getDashboardPageTitle(pathname, userRole), [pathname, userRole]);
@@ -86,7 +87,7 @@ export default function TenantRailShell({
 
   const railEntries = useMemo(() => flattenNav(navigation), [navigation]);
 
-  // Bottom nav: first 4 flat items + Menu button that opens the drawer
+  // Bottom nav: first 4 flat items + Menu button that opens the drawer.
   const bottomItems = useMemo(
     () =>
       navigation
@@ -132,159 +133,88 @@ export default function TenantRailShell({
 
       {/* Icon rail — desktop only, all roles except landlord */}
       {userRole !== 'landlord' && (
-      <aside
-        className="hidden w-[72px] flex-shrink-0 flex-col items-center gap-1 border-r border-zinc-200 bg-white py-4 lg:flex dark:border-white/[0.07] dark:bg-[#09090b]"
-        role="navigation"
-        aria-label="Main navigation"
-      >
-        <div className="mb-3">
-          <PropatiBoxLogo href="/dashboard" size="sm" variant="iconOnly" />
-        </div>
-
-        {quickAction && (
-          <Link
-            href={quickAction.href}
-            aria-label={quickAction.label}
-            title={quickAction.label}
-            className="group relative mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white transition-colors hover:bg-primary"
-          >
-            {quickAction.icon || <span className="text-lg font-semibold">+</span>}
-            <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 dark:bg-zinc-800">
-              {quickAction.label}
-            </span>
-          </Link>
-        )}
-
-        <nav className="flex flex-1 flex-col items-center gap-1 overflow-y-auto" aria-label="Dashboard navigation">
-          {railEntries.map((entry) =>
-            entry.kind === 'divider' ? (
-              <div key={entry.key} className="my-2 h-px w-8 bg-zinc-200 dark:bg-white/[0.08]" />
-            ) : (
-              railButton(entry.item)
-            )
+        <aside
+          className={cn(
+            'hidden w-[72px] flex-shrink-0 flex-col items-center gap-1 border-r border-zinc-200 bg-white py-4 lg:flex dark:border-white/[0.07] dark:bg-[#09090b]',
+            sidebarCollapsed && 'collapsed'
           )}
-        </nav>
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <div className="mb-3">
+            <PropatiBoxLogo href="/dashboard" size="sm" variant="iconOnly" />
+          </div>
 
-        <div className="mt-2 flex flex-col items-center gap-1 border-t border-zinc-200 pt-3 dark:border-white/[0.07]">
-          {(() => {
-            const settingsHref = userRole ? `/dashboard/${userRole}/settings` : '/dashboard/tenant/settings';
-            const profileFallback = userRole ? `/dashboard/${userRole}/profile` : '/dashboard/tenant/settings';
-            const href = userRole === 'tenant' ? settingsHref : profileFallback;
-            const active = pathname.startsWith(href);
-            return (
-              <Link
-                href={href}
-                aria-label="Settings"
-                title="Settings"
-                className={cn(
-                  'group relative flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
-                  active
-                    ? 'bg-primary/15 text-primary dark:text-[#4edea3]'
-                    : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
+          {quickAction && (
+            <Link
+              href={quickAction.href}
+              aria-label={quickAction.label}
+              title={quickAction.label}
+              className="group relative mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white transition-colors hover:bg-primary"
+            >
+              {quickAction.icon || <span className="text-lg font-semibold">+</span>}
+              <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 dark:bg-zinc-800">
+                {quickAction.label}
+              </span>
+            </Link>
+          )}
+
+          <nav className="flex flex-1 flex-col items-center gap-1 overflow-y-auto" aria-label="Dashboard navigation">
+            {railEntries.map((entry) =>
+              entry.kind === 'divider' ? (
+                <div key={entry.key} className="my-2 h-px w-8 bg-zinc-200 dark:bg-white/[0.08]" />
+              ) : (
+                railButton(entry.item)
+              )
+            )}
+          </nav>
+
+          {/* Collapse toggle (desktop only) */}
+          <div className="mt-2 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSidebarCollapsed((v) => !v)}
+              aria-label={sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'}
+              title={sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'}
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                {sidebarCollapsed ? (
+                  <>
+                    <polyline points="9 18 15 12 9 6" />
+                    <polyline points="9 6 15 12 9 18" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="15" y1="18" x2="9" y2="12" />
+                    <line x1="15" y1="6" x2="9" y2="12" />
+                  </>
                 )}
-              >
-                <Settings className="h-5 w-5" />
-                <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 dark:bg-zinc-800">
-                  Settings
-                </span>
-              </Link>
-            );
-          })()}
-        </div>
-      </aside>
+              </svg>
+            </button>
+          </div>
+        </aside>
       )}
 
       {/* Landlord labeled panel — desktop only, driven by LANDLORD_NAVIGATION */}
       {userRole === 'landlord' && (
-        <div className="hidden lg:block">
-          <LandlordSidebar navigation={navigation} pathname={pathname} />
-        </div>
+        <LandlordSidebar
+          navigation={navigation}
+          pathname={pathname}
+          collapsed={sidebarCollapsed}
+          onCollapseChange={setSidebarCollapsed}
+        />
       )}
 
-      {/* Mobile / tablet drawer — full labels */}
-      <aside
-        className={cn(
-          'fixed inset-y-0 left-0 z-[100] flex w-72 flex-col border-r border-zinc-200 bg-white transition-transform lg:hidden dark:border-white/[0.07] dark:bg-[#09090b]',
-          drawerOpen ? 'translate-x-0' : '-translate-x-full'
-        )}
-        role="navigation"
-        aria-label="Main navigation"
-        aria-hidden={!drawerOpen}
+      <main
+        className="main-area bg-background flex-1 min-w-0"
+        style={sidebarCollapsed ? { paddingLeft: 64 } : undefined}
       >
-        <div className="flex items-center justify-between px-4 py-3">
-          <PropatiBoxLogo href="/dashboard" size="sm" variant="horizontal" />
-          <button
-            onClick={() => setDrawerOpen(false)}
-            aria-label="Close menu"
-            className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-white/[0.06]"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-        <nav className="flex-1 overflow-y-auto px-3 pb-4" aria-label="Dashboard navigation">
-          {navigation.map((entry, idx) => {
-            if ('items' in entry) {
-              const section = entry as NavSection;
-              return (
-                <div key={`section-${section.title}-${idx}`} className="mt-4 first:mt-1">
-                  <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
-                    {section.title}
-                  </div>
-                  <ul className="space-y-0.5" role="list">
-                    {section.items.map((child) => {
-                      const active = isActive(child.href || '');
-                      return (
-                        <li key={child.href}>
-                          <Link
-                            href={(child.href || '#') as any}
-                            aria-current={active ? 'true' : undefined}
-                            onClick={() => setDrawerOpen(false)}
-                            className={cn(
-                              'flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors',
-                              active
-                                ? 'bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]'
-                                : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
-                            )}
-                          >
-                            {child.icon}
-                            {child.label}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            }
-            const item = entry as NavItem;
-            const active = isActive(item.href || '');
-            return (
-              <ul key={item.href} className="mt-1 space-y-0.5" role="list">
-                <li>
-                  <Link
-                    href={(item.href || '#') as any}
-                    aria-current={active ? 'true' : undefined}
-                    onClick={() => setDrawerOpen(false)}
-                    className={cn(
-                      'flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors',
-                      active
-                        ? 'bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]'
-                        : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
-                    )}
-                  >
-                    {item.icon}
-                    {item.label}
-                  </Link>
-                </li>
-              </ul>
-            );
-          })}
-        </nav>
-      </aside>
-
-      <main className="main-area bg-background flex-1 min-w-0">
         {/* Minimal topbar */}
-        <header className="topbar border-b border-border bg-background/80 backdrop-blur-md dark:border-white/[0.07]" style={{ height: 56 }}>
+        <header
+          className="topbar border-b border-border bg-background/80 backdrop-blur-md dark:border-white/[0.07]"
+          style={{ height: 56 }}
+        >
           <button
             className="rounded-lg p-2 text-zinc-600 hover:bg-zinc-100 lg:hidden dark:text-zinc-400 dark:hover:bg-white/[0.06]"
             onClick={() => setDrawerOpen(true)}
@@ -332,19 +262,13 @@ export default function TenantRailShell({
                       <DropdownMenuLabel className="flex items-center gap-2">
                         <div>
                           <p className="truncate text-sm font-semibold">{userName || 'User'}</p>
-                          <p className="truncate text-xs text-muted-foreground">
-                            {orgName || 'Personal Workspace'}
-                          </p>
+                          <p className="truncate text-xs text-muted-foreground">{orgName || 'Personal Workspace'}</p>
                         </div>
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
                         <Link
-                          href={
-                            userRole
-                              ? `/dashboard/${userRole}/profile`
-                              : '/dashboard/tenant/profile'
-                          }
+                          href={userRole ? `/dashboard/${userRole}/profile` : '/dashboard/tenant/profile'}
                           className="cursor-pointer"
                         >
                           <User className="size-4" /> My Profile
@@ -352,11 +276,7 @@ export default function TenantRailShell({
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Link
-                          href={
-                            userRole
-                              ? `/dashboard/${userRole}/settings`
-                              : '/dashboard/tenant/settings'
-                          }
+                          href={userRole ? `/dashboard/${userRole}/settings` : '/dashboard/tenant/settings'}
                           className="cursor-pointer"
                         >
                           <Settings className="size-4" /> Settings
@@ -364,10 +284,7 @@ export default function TenantRailShell({
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <a
-                          href="/api/auth/sign-out"
-                          className="w-full cursor-pointer text-destructive"
-                        >
+                        <a href="/api/auth/sign-out" className="w-full cursor-pointer text-destructive">
                           <LogOut className="size-4" /> Sign Out
                         </a>
                       </DropdownMenuItem>
@@ -414,6 +331,7 @@ export default function TenantRailShell({
           </button>
         </nav>
       </main>
+
       <OnboardingOverlay />
     </div>
   );

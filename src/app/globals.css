@@ -296,7 +296,9 @@
 .app-layout.theme-admin,
 body.theme-estate-manager,
 body.em-theme {
-  flex-direction: column;
+  /* flex-direction: row is inherited from .app-layout (display: flex). Dashboard
+     shells place the sidebar and main content side-by-side; do not override to
+     column, which would stack the workspace under the sidebar. */
 }
 
 

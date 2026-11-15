@@ -271,7 +271,7 @@ export default function TenantRailShell({
         </nav>
       </aside>
 
-      <main className="main-area bg-background">
+      <main className="main-area bg-background flex-1 min-w-0">
         {/* Minimal topbar */}
         <header className="topbar border-b border-border bg-background/80 backdrop-blur-md dark:border-white/[0.07]" style={{ height: 56 }}>
           <button

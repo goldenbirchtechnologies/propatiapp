@@ -8,6 +8,7 @@ import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SidebarOverlay } from '@/components/layout/sidebar';
+import { LandlordSidebar } from '@/components/layout/LandlordSidebar';
 import { OnboardingOverlay } from '@/components/onboarding/OnboardingOverlay';
 import { HeaderOverlayProvider, useHeaderOverlay } from '@/components/layout/header-overlay-context';
 import { cn } from '@/lib/utils';
@@ -129,7 +130,8 @@ export default function TenantRailShell({
     <div className="app-layout theme-tenant shell-tenant">
       <SidebarOverlay isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
-      {/* Icon rail — desktop only */}
+      {/* Icon rail — desktop only, all roles except landlord */}
+      {userRole !== 'landlord' && (
       <aside
         className="hidden w-[72px] flex-shrink-0 flex-col items-center gap-1 border-r border-zinc-200 bg-white py-4 lg:flex dark:border-white/[0.07] dark:bg-[#09090b]"
         role="navigation"
@@ -190,6 +192,14 @@ export default function TenantRailShell({
           })()}
         </div>
       </aside>
+      )}
+
+      {/* Landlord labeled panel — desktop only, driven by LANDLORD_NAVIGATION */}
+      {userRole === 'landlord' && (
+        <div className="hidden lg:block">
+          <LandlordSidebar navigation={navigation} pathname={pathname} />
+        </div>
+      )}
 
       {/* Mobile / tablet drawer — full labels */}
       <aside

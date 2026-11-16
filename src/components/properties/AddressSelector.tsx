@@ -34,14 +34,17 @@ export default function AddressSelector({ value, onChange }: AddressSelectorProp
 	const handleStateChange = (val: string) => {
 		setState(val);
 		setCity('');
+		sync({ state: val, city: '' });
 	};
 
 	const handleCityChange = (val: string) => {
 		setCity(val);
+		sync({ city: val });
 	};
 
 	const handleStreetChange = (val: string) => {
 		setStreetAddress(val);
+		sync({ streetAddress: val });
 	};
 
 	const handleGeocode = async () => {

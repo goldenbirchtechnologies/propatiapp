@@ -80,3 +80,42 @@ export function formatDateTime(
   if (Number.isNaN(d.getTime())) return fallback
   return `${formatDate(d)}, ${d.toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' })}`
 }
+
+/**
+ * Formats a relative time string (e.g., "5 minutes ago" or "in 2 days").
+ * Uses Intl.RelativeTimeFormat and chooses an appropriate unit if none is supplied.
+ */
+export function formatRelativeTime(
+  value: Date | string | number,
+  unit?: Intl.RelativeTimeFormatUnit,
+  options?: Intl.RelativeTimeFormatOptions
+): string {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const now = new Date();
+  const diffMs = date.getTime() - now.getTime();
+
+  const abs = Math.abs(diffMs);
+  const thresholds: Record<string, number> = {
+    year: 1000 * 60 * 60 * 24 * 365,
+    month: 1000 * 60 * 60 * 24 * 30,
+    day: 1000 * 60 * 60 * 24,
+    hour: 1000 * 60 * 60,
+    minute: 1000 * 60,
+    second: 1000,
+  };
+
+  let chosenUnit: Intl.RelativeTimeFormatUnit = unit ?? 'second';
+  if (!unit) {
+    if (abs >= thresholds.year) chosenUnit = 'year';
+    else if (abs >= thresholds.month) chosenUnit = 'month';
+    else if (abs >= thresholds.day) chosenUnit = 'day';
+    else if (abs >= thresholds.hour) chosenUnit = 'hour';
+    else if (abs >= thresholds.minute) chosenUnit = 'minute';
+    else chosenUnit = 'second';
+  }
+
+  const valueDiff = Math.round(diffMs / thresholds[chosenUnit]);
+  const rtf = new Intl.RelativeTimeFormat('en-NG', { numeric: 'auto', style: 'long', ...options });
+  return rtf.format(valueDiff, chosenUnit);
+}

@@ -1,5 +1,8 @@
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
+
+// Use lower bcrypt cost in test environment for faster execution.
+const BCRYPT_SALT_ROUNDS = process.env.NODE_ENV === 'test' ? 4 : 10;
 import { encryptSensitiveValue, decryptSensitiveValue } from '@/lib/encryption';
 
 /**
@@ -144,7 +147,7 @@ export async function generateRecoveryCodes(): Promise<{
   for (let i = 0; i < RECOVERY_CODE_COUNT; i++) {
     plaintext.push(formatRecoveryCode(crypto.randomBytes(6).toString('hex').toUpperCase()));
   }
-  const hashes = await Promise.all(plaintext.map((code) => bcrypt.hash(code, 10)));
+  const hashes = await Promise.all(plaintext.map((code) => bcrypt.hash(code, BCRYPT_SALT_ROUNDS)));
   return { plaintext, hashes };
 }
 

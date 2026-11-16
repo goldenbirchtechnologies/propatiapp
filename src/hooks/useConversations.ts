@@ -108,11 +108,8 @@ export function useConversations(params?: { page?: number; limit?: number }) {
   return useQuery<ApiResponse<Conversation[]>>({
     queryKey: conversationsKeys.list(params),
     queryFn: async () => {
-      const searchParams = new URLSearchParams(
-        params ? Object.fromEntries(
-          Object.entries(params).filter(([_, v]) => v !== undefined)
-        ) as Record<string, string> : {}
-      );
+      const entries = params ? Object.entries(params).filter(([_, v]) => v !== undefined) : [];
+      const searchParams = new URLSearchParams(Object.fromEntries(entries) as any);
       const response = await fetch(`/api/conversations?${searchParams}`, {
         headers: { 'Content-Type': 'application/json' },
       });

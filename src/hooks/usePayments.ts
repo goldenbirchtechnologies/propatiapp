@@ -63,7 +63,7 @@ export function useTransactions(params?: TransactionFilters) {
   return useInfiniteQuery({
     queryKey: paymentsKeys.transactionList(params),
     queryFn: async ({ pageParam }) => {
-      const searchParams = new URLSearchParams((params ?? {}) as Record<string, string>);
+      const searchParams = new URLSearchParams((params ?? {}) as any);
       if (pageParam) {
         searchParams.set('page', String(pageParam));
       }
@@ -71,7 +71,9 @@ export function useTransactions(params?: TransactionFilters) {
       if (!response.ok) throw new Error('Failed to fetch transactions');
       return response.json();
     },
-    getNextPageParam: (lastPage) => {
+    // start pagination at first page
+    initialPageParam: 1,
+    getNextPageParam: (lastPage: any) => {
       if (!lastPage.success || !lastPage.pagination) return undefined;
       const { page, totalPages } = lastPage.pagination;
       return page < totalPages ? page + 1 : undefined;

@@ -116,7 +116,13 @@
       "Bash(perl -0pi -e 's/onChange\\\\\\(\\\\{ verificationTier: v as unknown \\\\}\\\\\\)/onChange\\({ verificationTier: v as NonNullable<SearchFiltersData['\\\\''verificationTier'\\\\'']> }\\)/g' src/components/listings/search-filters.tsx)",
       "Bash(python -c \"import json;print\\(json.load\\(open\\('package.json'\\)\\)['scripts'].get\\('dev'\\)\\)\")",
       "Bash(git rm *)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(sed -n '531,535p' /c/Users/USER/Documents/NEWPROPATI-win/src/app/globals.css | cat -A)",
+      "Bash(sed -n '1010,1014p' /c/Users/USER/Documents/NEWPROPATI-win/src/app/globals.css | cat -A)",
+      "Bash(sed -i '175s/^ mobileOpen/\\\\t\\\\t\\\\t  mobileOpen/' src/components/layout/TenantRailShell.tsx)",
+      "Bash(sed -i '176s/^ onMobileClose/\\\\t\\\\t\\\\t  onMobileClose/' src/components/layout/TenantRailShell.tsx)",
+      "Bash(python3 -c ' *)",
+      "Bash(# Update imports in PropertyEditClient *)"
     ]
   },
   "disabledMcpjsonServers": [

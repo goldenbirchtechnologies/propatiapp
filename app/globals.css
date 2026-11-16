@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 22, 127, 74;
+    --primary-light: 230, 244, 237;
+    --primary-dark: 21, 98, 58;
+
+    --background: 255, 255, 255;
+    --surface: 245, 247, 250;
+    --border: 229, 231, 235;
+    --muted: 107, 114, 128;
+
+    --text-primary: 26, 26, 26;
+    --text-secondary: 75, 75, 75;
+  }
+
+  .dark {
+    --primary: 52, 211, 153;
+    --primary-light: 15, 46, 31;
+    --primary-dark: 5, 30, 20;
+
+    --background: 15, 17, 21;
+    --surface: 26, 29, 35;
+    --border: 42, 45, 52;
+    --muted: 156, 163, 175;
+
+    --text-primary: 245, 247, 250;
+    --text-secondary: 180, 185, 195;
+  }
+
+  html {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: rgb(var(--background));
+    color: rgb(var(--text-primary));
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  /* Leaflet dark mode tiles via CSS filter */
+  .dark .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.2);
+  }
+
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus ring */
+  *:focus-visible {
+    outline: 2px solid rgb(var(--primary));
+    outline-offset: 2px;
+  }
+}

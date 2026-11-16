@@ -343,6 +343,17 @@ class NipostClient {
 
 export const nipost = new NipostClient();
 
+export type NipostValidationResult = {
+  valid: boolean;
+  postalCode: string;
+  state?: string;
+  lga?: string;
+  locality?: string;
+  confidence: 'high' | 'medium' | 'low';
+  /** Optional error or info message returned by validation */
+  message?: string;
+};
+
 // ---------------------------------------------------------------------------
 // Convenience Functions (server-side use)
 // ---------------------------------------------------------------------------

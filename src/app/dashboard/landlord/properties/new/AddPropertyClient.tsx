@@ -408,8 +408,7 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
         }
       }
 
-      router.push('/dashboard/landlord/properties');
-      router.refresh();
+      await router.push('/dashboard/landlord/properties');
     } catch (error) {
       toast({ title: 'Failed to create property', description: getErrorMessage(error), variant: 'destructive' });
     } finally {
@@ -671,7 +670,7 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
                 <Button type="button" variant="outline" onClick={() => setCurrentStep(2)}>Back to Units</Button>
                 <Button type="submit" disabled={submitting} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
                   {submitting ? <Loader2 size={16} className="mr-2 animate-spin" /> : <Check size={16} className="mr-2" />}
-                  {submitting ? 'Publishing...' : 'Publish Property'}
+                  {submitting ? 'Publishing...' : 'Publish Listing'}
                 </Button>
               </div>
             </div>

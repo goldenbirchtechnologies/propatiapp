@@ -931,6 +931,7 @@ model Listing {
   viewsCount        Int                @default(0) @map("views_count")
   createdAt         DateTime           @default(now()) @map("created_at")
   updatedAt         DateTime           @updatedAt @map("updated_at")
+coordinates Json? @map("coordinates")
 
   owner              User                @relation("ListingOwner", fields: [ownerId], references: [id])
   agent              User?               @relation("ListingAgent", fields: [agentId], references: [id])
@@ -968,6 +969,20 @@ model Listing {
   @@index([listingType], map: "idx_listings_type")
   @@index([area], map: "idx_listings_area")
   @@map("listings")
+}
+
+model UnitImage {
+  id String @id @default(cuid()) @map("id") // 'ui_' + 12 chars
+  unitId String @map("unit_id")
+  url String
+  publicId String? @map("public_id")
+  isCover Boolean @default(false) @map("is_cover")
+  sortOrder Int @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  unit Unit @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+  @@map("unit_images")
 }
 
 model ListingImage {
@@ -1554,6 +1569,7 @@ model Unit {
   nextMaintenanceDate DateTime? @map("next_maintenance_date")
 
   utilityAllocations UtilityAllocation[]
+images UnitImage[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

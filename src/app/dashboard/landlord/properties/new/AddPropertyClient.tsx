@@ -11,6 +11,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import AddressSelector from '@/components/properties/AddressSelector';
+import AmenitiesPicker from '@/components/properties/AmenitiesPicker';
+import { PROPERTY_AMENITIES } from '@/lib/amenities';
 import {
   Select,
   SelectContent,
@@ -150,18 +153,6 @@ const PROPERTY_TYPE_OPTIONS = [
   { value: 'office', label: 'Commercial' },
 ];
 
-const AMENITIES = [
-  { id: 'parking', label: 'Parking' },
-  { id: 'generator', label: 'Generator' },
-  { id: 'borehole', label: 'Borehole' },
-  { id: 'cctv', label: 'CCTV' },
-  { id: 'security', label: 'Security' },
-  { id: 'pool', label: 'Pool' },
-  { id: 'gym', label: 'Gym' },
-  { id: 'wifi', label: 'Wi-Fi' },
-  { id: 'ac', label: 'Air Conditioning' },
-  { id: 'fenced', label: 'Fenced' },
-];
 
 const RENT_PERIODS = [
   { value: 'year', label: 'Per year' },
@@ -188,6 +179,12 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   const [photos, setPhotos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [videos, setVideos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
+
+const handleAddressChange = (data: { streetAddress: string; state: string; city: string }) => {
+  form.setValue('address', data.streetAddress);
+  form.setValue('state', data.state);
+  form.setValue('area', data.city);
+};
   type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string };
   const [unitPhotos, setUnitPhotos] = useState<Record<string, UploadFile[]>>({});
   const [quickListingType, setQuickListingType] = useState<ListingIntent>('rent');
@@ -231,10 +228,6 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
   const watchedState = form.watch('state');
   const availableCities = useMemo(() => CITIES_BY_STATE[watchedState] || [], [watchedState]);
-
-  const toggleAmenity = (id: string) => {
-    setAmenities((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
-  };
 
   const applyQuickSetup = () => {
     const price = parseFloat(quickPrice);
@@ -515,20 +508,16 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                     )} />
                   </div>
 
-                  {/* Address */}
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium text-muted-foreground">
-                      Physical Address <span className="text-error">*</span>
-                    </label>
-                    <FormField control={form.control as unknown} name="address" render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Textarea rows={3} placeholder="Street, City, State, Country" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
-                  </div>
+ {/* Address */}
+ <div className="flex flex-col gap-1">
+ <label className="text-xs font-medium text-muted-foreground">
+ Physical Address <span className="text-error">*</span>
+ </label>
+ <AddressSelector
+ value={{ streetAddress: form.watch('address'), state: form.watch('state'), city: form.watch('area') }}
+ onChange={handleAddressChange}
+ />
+ </div>
 
                   {/* Grid of Property Metrics */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -566,6 +555,16 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                     )} />
                   </div>
                 </div>
+ {/* Amenities */}
+ <div className="flex flex-col gap-1">
+ <label className="text-xs font-medium text-muted-foreground">Amenities</label>
+ <AmenitiesPicker
+ categories={PROPERTY_AMENITIES}
+ selected={amenities}
+ onChange={setAmenities}
+ />
+ </div>
+
 
                 {/* Footer Actions */}
                 <div className="px-6 py-4 bg-muted/50 flex flex-col sm:flex-row items-center justify-between gap-3">

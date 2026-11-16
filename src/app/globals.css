@@ -247,6 +247,14 @@
   --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 
+/* Propati Properties page palette — additive, does not override shared tokens */
+--propati-primary: #087A59;
+--propati-primary-dark: #065B43;
+--propati-primary-light: #E8F5EF;
+--propati-page-bg: #F7F9F8;
+--propati-card-bg: #FFFFFF;
+--propati-border: #E5E9E7;
+
   /* Shadcn semantic tokens — single light-mode source of truth. Every page,
      layout and shared component consumes these via bg-background, text-foreground,
      border-border, bg-card, input, ring, etc. Role theme classes must not

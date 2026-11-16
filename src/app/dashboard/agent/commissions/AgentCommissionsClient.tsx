@@ -75,7 +75,7 @@ const STATUS_TONE: Record<CommissionRow['status'], FinanceStatusTone> = {
 
 const STATUS_LABEL: Record<CommissionRow['status'], string> = {
   paid: 'Paid Out',
-  escrow: 'Pending Escrow',
+  escrow: 'Pending Payout',
   pending: 'Accruing',
 };
 
@@ -190,10 +190,10 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
       <FinanceHeader
         breadcrumb={['Finance', 'Rent & Payments', 'Brokerage Commissions Ledger']}
         title="Brokerage Commissions & Retainers"
-        description="Immutable commission accounting ledger, statutory 5% agency entitlement tracking, and payout status across every mandated conveyancing deal."
+        description="Immutable commission accounting ledger, 5% agency entitlement tracking, and payout status across every mandated deal."
         badges={
           <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">
-            Statutory Ledger
+            Commission Ledger
           </span>
         }
         actions={
@@ -237,8 +237,8 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
             <Scale className="h-4 w-4" />
           </div>
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
-            <strong className="font-semibold text-zinc-900 dark:text-white">Statutory Agent Commission:</strong>{' '}
-            Fixed at 5.0% of transacted deal consideration pursuant to the NIESV Scale of Professional Charges
+            <strong className="font-semibold text-zinc-900 dark:text-white">Agent Commission:</strong>{' '}
+            Fixed at 5.0% of transacted deal consideration pursuant to the Scale of Professional Charges
             and Lagos State Tenancy Law (Cap. L25, 2015).
           </p>
         </div>
@@ -289,7 +289,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
         />
 
         <FinanceStatCard
-          label="Pending Escrow & Releases"
+          label="Pending Payouts & Releases"
           value={naira(summary.commissionHeld)}
           tone="amber"
           icon={<Lock className="h-4 w-4" />}
@@ -299,7 +299,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
                 <span className="inline-flex items-center gap-1.5">
                   <Receipt className="h-3.5 w-3.5" /> Awaiting title &amp; consent
                 </span>
-                <span className="font-mono">{counts.escrow} holds</span>
+                <span className="font-mono">{counts.escrow} held</span>
               </div>
               <FinanceProgress value={escrowPct} tone="amber" />
             </div>
@@ -318,7 +318,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
           tabs={[
             { value: 'all', label: 'All Commissions', count: counts.all },
             { value: 'paid', label: 'Paid Out', count: counts.paid },
-            { value: 'escrow', label: 'Pending Escrow', count: counts.escrow },
+            { value: 'escrow', label: 'Pending Payout', count: counts.escrow },
             { value: 'pending', label: 'Accruing', count: counts.pending },
           ]}
         />
@@ -329,7 +329,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
               setQuery(v);
               setPage(1);
             }}
-            placeholder="Search mandate, client or escrow ref..."
+            placeholder="Search mandate, client or payout ref..."
           />
           <FinanceSelect
             ariaLabel="Filter by status"
@@ -341,7 +341,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
             options={[
               { value: 'all', label: 'All Statuses' },
               { value: 'paid', label: 'Paid Out' },
-              { value: 'escrow', label: 'Pending Escrow' },
+              { value: 'escrow', label: 'Pending Payout' },
               { value: 'pending', label: 'Accruing' },
             ]}
             className="min-w-[160px]"
@@ -372,7 +372,7 @@ export default function AgentCommissionsClient({ summary, agreements, transactio
                 <FinanceTableHead>
                   <FinanceTh>Deal / Mandate</FinanceTh>
                   <FinanceTh>Client</FinanceTh>
-                  <FinanceTh>Escrow Reference</FinanceTh>
+                  <FinanceTh>Secure Payment Reference</FinanceTh>
                   <FinanceTh align="right">Commission (NGN)</FinanceTh>
                   <FinanceTh>Rate</FinanceTh>
                   <FinanceTh>Status</FinanceTh>

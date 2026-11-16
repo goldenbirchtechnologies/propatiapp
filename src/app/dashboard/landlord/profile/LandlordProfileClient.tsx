@@ -35,11 +35,11 @@ type TabId = 'overview' | 'billing' | 'compliance' | 'notifications' | 'team' | 
  * render maps over without re-deriving it every render.
  */
 const tabs: Array<{ id: TabId; label: string; icon: React.ReactNode }> = [
-  { id: 'overview', label: 'Corporate & Entity KYC', icon: <Building2 size={16} /> },
-  { id: 'billing', label: 'Payout & Settlement Banking', icon: <Landmark size={16} /> },
-  { id: 'compliance', label: 'Statutory Compliance & LASRERA', icon: <Scale size={16} /> },
+  { id: 'overview', label: 'Business and Identity KYC', icon: <Building2 size={16} /> },
+  { id: 'billing', label: 'Payout Banking', icon: <Landmark size={16} /> },
+  { id: 'compliance', label: 'License Compliance', icon: <Scale size={16} /> },
   { id: 'notifications', label: 'Notification & SMS Channels', icon: <Bell size={16} /> },
-  { id: 'team', label: 'Team & Delegation Access', icon: <Users size={16} /> },
+  { id: 'team', label: 'Team Access', icon: <Users size={16} /> },
   { id: 'security', label: 'Security & API Keys', icon: <Shield size={16} /> },
 ];
 
@@ -321,7 +321,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   const kycLayers = [
     {
       layer: 'L1',
-      label: 'Identity & Biometrics',
+      label: 'Identity & ID Check',
       status: kycLayerStatus(!!user?.idVerified),
       desc: user?.idVerified
         ? 'Identity document and liveness check verified via Dojah.'
@@ -329,10 +329,10 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     },
     {
       layer: 'L2',
-      label: 'Corporate Entity & CAC Status',
+      label: 'Business Entity & Registration Status',
       status: kycLayerStatus(!!user?.ownedOrganisations?.[0]?.verified, 'NOT SUBMITTED'),
       desc: user?.ownedOrganisations?.[0]?.verified
-        ? `${user.ownedOrganisations[0].name} is verified against its CAC record.`
+        ? `${user.ownedOrganisations[0].name} is verified against its Business Registration record.`
         : 'Register or verify an organisation to certify this layer.',
     },
     {
@@ -343,20 +343,20 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     },
     {
       layer: 'L4',
-      label: 'Survey Plan & GIS Coordinates',
+      label: 'Survey Plan & Location Map Coordinates',
       status: 'NOT SUBMITTED',
       desc: 'Submit a survey plan with a property to have its boundaries checked.',
     },
     {
       layer: 'L5',
-      label: 'Institutional Bank & Tax Clearance',
+      label: 'Bank & Tax Clearance',
       status: kycLayerStatus(settlementState === 'verified', 'ACTION REQUIRED'),
       desc:
         settlementState === 'verified'
-          ? 'Settlement account resolved and name-matched to your verified identity.'
+          ? 'Payout account resolved and name-matched to your verified identity.'
           : settlementState === 'pending'
             ? 'Settlement account saved — name match is still pending.'
-            : 'Add a settlement account to certify this layer.',
+            : 'Add a payout account to certify this layer.',
     },
   ];
 
@@ -365,7 +365,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       {/* Breadcrumb & sync status */}
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center justify-between gap-2">
         <ol className="flex min-w-0 items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-          <li className="uppercase tracking-wider">Institutional Account</li>
+          <li className="uppercase tracking-wider">Business Account</li>
           <li aria-hidden="true" className="text-zinc-300 dark:text-zinc-700">
             <ChevronRight size={14} />
           </li>
@@ -391,10 +391,10 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
-            Profile &amp; Governance
+            Profile
           </h1>
           <p className="mt-1 max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
-            Manage institutional ownership records, land title verification, and settlements.
+            Manage business ownership records, land title verification, and payouts.
           </p>
         </div>
 

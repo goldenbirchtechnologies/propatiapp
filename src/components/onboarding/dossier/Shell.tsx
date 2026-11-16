@@ -107,7 +107,7 @@ export function DossierShell({
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <DPill tone="mint">{meta?.label ?? 'Account'}</DPill>
               <DPill tone="danger">
-                <ShieldCheck className="h-3 w-3" /> Statutory intake
+                <ShieldCheck className="h-3 w-3" /> Intake
               </DPill>
             </div>
             <h1

@@ -204,7 +204,7 @@ export function agreementStatusPill(status: string): {
     case 'landlord_signed':
     case 'tenant_signed':
       return {
-        label: 'Awaiting Escrow',
+        label: 'Awaiting Secure Payment',
         className:
           'bg-primary/60 dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]',
         dot: 'bg-[var(--sovereign-hover)] dark:bg-[#4edea3]',
@@ -218,7 +218,7 @@ export function agreementStatusPill(status: string): {
       };
     case 'draft':
       return {
-        label: 'Draft Protocol',
+        label: 'Draft',
         className: 'bg-zinc-200 dark:bg-zinc-700/60 text-zinc-700 dark:text-zinc-300',
         dot: 'bg-zinc-500 dark:bg-zinc-400',
       };

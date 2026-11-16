@@ -249,7 +249,7 @@ export default function LandlordReceiptsClient() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Receipts</h1>
           <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            Payment receipts for rent remittances, caution escrow, and commercial service charges. Live from{' '}
+            Payment receipts for rent remittances, caution secure payment, and commercial service charges. Live from{' '}
             <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs dark:bg-white/[0.06]">/api/payments/transactions</code> and{' '}
             <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs dark:bg-white/[0.06]">/api/payments/transactions/[id]/receipt</code>.
           </p>
@@ -299,7 +299,7 @@ export default function LandlordReceiptsClient() {
           </div>
           <div className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(rentTotal)}</div>
           <div className="mt-2 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" /> Paystack • NIBSS Direct Escrow
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" /> Secure Payment • NIBSS Direct Payout
           </div>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
@@ -323,7 +323,7 @@ export default function LandlordReceiptsClient() {
             {formatNairaFull(failed.reduce((s, r) => s + r.amount, 0))}
           </div>
           <div className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-primary dark:text-[#4edea3]">
-            <CheckCircle2 className="h-3.5 w-3.5" /> {rows.length ? Math.round((paid.length / rows.length) * 100) : 100}% Settlement Rate
+            <CheckCircle2 className="h-3.5 w-3.5" /> {rows.length ? Math.round((paid.length / rows.length) * 100) : 100}% Payout Rate
           </div>
         </div>
       </div>
@@ -379,7 +379,7 @@ export default function LandlordReceiptsClient() {
                 <th className="px-4 py-3 font-semibold">Corporate Tenant</th>
                 <th className="px-4 py-3 font-semibold">Property &amp; Unit</th>
                 <th className="px-4 py-3 font-semibold text-right">Amount (NGN)</th>
-                <th className="px-4 py-3 font-semibold text-center">Settlement Status</th>
+                <th className="px-4 py-3 font-semibold text-center">Payout Status</th>
                 <th className="px-4 py-3 font-semibold text-right">Actions</th>
               </tr>
             </thead>
@@ -469,7 +469,7 @@ export default function LandlordReceiptsClient() {
             Showing <span className="font-semibold text-zinc-900 dark:text-white">{filtered.length}</span> of{' '}
             <span className="font-semibold text-zinc-900 dark:text-white">{rows.length}</span> verified e-receipts
           </span>
-          <span className="hidden sm:inline">Live • Paystack &amp; wallet ledger</span>
+          <span className="hidden sm:inline">Live • Secure Payment &amp; wallet ledger</span>
         </div>
       </div>
 
@@ -504,7 +504,7 @@ export default function LandlordReceiptsClient() {
                 </div>
                 <div>
                   <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Payment Channel</span>
-                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Direct Escrow NIBSS</span>
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Direct Payout NIBSS</span>
                 </div>
                 <div>
                   <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Audit State</span>
@@ -531,7 +531,7 @@ export default function LandlordReceiptsClient() {
               <div className="flex items-center justify-between rounded-xl border border-primary/20 bg-primary/10 p-4">
                 <div className="flex flex-col">
                   <span className="text-xs font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Total Amount Received (Naira)</span>
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400">Settled into Escrow Custody</span>
+                  <span className="text-xs text-zinc-600 dark:text-zinc-400">Settled into Payment Custody</span>
                 </div>
                 <span className="font-mono text-2xl font-bold text-primary">{formatNairaFull(modal.amount)}</span>
               </div>

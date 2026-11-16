@@ -62,7 +62,7 @@ function WithdrawalsClient({
           Withdrawals &amp; Financials
         </h1>
         <p className="text-zinc-600 dark:text-zinc-400 font-body-md mt-1">
-          Platform payouts, escrow balances, and wallet overview.
+          Platform payouts, held balances, and wallet overview.
         </p>
       </div>
 
@@ -75,9 +75,9 @@ function WithdrawalsClient({
             sub: `${stats.releasedTxCount.toLocaleString()} transactions`,
           },
           {
-            label: 'In Escrow Balance',
+            label: 'Held Balance',
             value: formatKobo(stats.escrowedAmount),
-            sub: 'Held in escrow',
+            sub: 'Held in secure payment',
           },
           {
             label: 'Platform Fee Revenue',

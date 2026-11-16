@@ -47,7 +47,7 @@ const TYPE_META: Record<VerificationType, { label: string; icon: JSX.Element; de
   company: {
     label: 'Company / Business',
     icon: <Landmark className="h-5 w-5" />,
-    desc: 'CAC registration, TIN, and company documents',
+    desc: 'Business registration, TIN, and company documents',
   },
   professional: {
     label: 'Professional',

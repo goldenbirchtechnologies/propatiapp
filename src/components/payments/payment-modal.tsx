@@ -141,7 +141,7 @@ export function PaymentModal({
               <a href="/terms-of-agreement" target="_blank" className="text-primary underline">
                 terms and conditions
               </a>{' '}
-              and understand that this payment will be held in escrow until the transaction is completed.
+              and understand that this payment will be held securely until the transaction is completed.
             </label>
           </div>
         </div>
@@ -162,7 +162,7 @@ export function PaymentModal({
             ) : (
               <>
                 <CreditCard className="mr-2 h-4 w-4" />
-                Proceed to Paystack
+                Proceed to Secure Payment
               </>
             )}
           </Button>

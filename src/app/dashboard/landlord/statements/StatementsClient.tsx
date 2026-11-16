@@ -179,7 +179,7 @@ export default function StatementsClient() {
             </span>
           </div>
           <p className="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            Monthly financial statements, statutory withholding tax allocations, and certified asset remittance registers.
+            Monthly financial statements, withholding tax allocations, and certified asset remittance registers.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">

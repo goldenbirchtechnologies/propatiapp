@@ -227,7 +227,7 @@ export default function LandlordWithdrawalsPage() {
                 <span>Home</span><span>/</span><span>Financials &amp; Payouts</span><span>/</span><span className="text-primary font-semibold">Withdrawals</span>
               </nav>
               <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Withdrawals &amp; Fund Management</h1>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">Disburse rental yields, manage settlement nodes, and monitor payouts.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">Disburse rental yields, manage payout nodes, and monitor payouts.</p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Button variant="outline" size="sm" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400" onClick={() => setBankModalOpen(true)}>
@@ -254,11 +254,11 @@ export default function LandlordWithdrawalsPage() {
                   <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-primary/10 rounded-full blur-xl pointer-events-none" />
                   <div className="flex items-center justify-between mb-3">
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><Wallet className="w-5 h-5" /></div>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3] bg-primary/10 px-2 py-0.5 rounded-full">Live Escrow Float</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3] bg-primary/10 px-2 py-0.5 rounded-full">Live Payout Float</span>
                   </div>
                   <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</div>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Settled &amp; ready for immediate disbursement</p>
-                  <div className="mt-3 flex items-center gap-2 text-xs text-primary dark:text-[#4edea3]"><span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> Direct Bank Settlement Ready</div>
+                  <div className="mt-3 flex items-center gap-2 text-xs text-primary dark:text-[#4edea3]"><span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> Direct Bank Payout Ready</div>
                 </div>
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-6 relative overflow-hidden">
                   <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none" />
@@ -267,7 +267,7 @@ export default function LandlordWithdrawalsPage() {
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded-full">Clearing</span>
                   </div>
                   <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(wallet.pendingClearing)}</div>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Pending clearing with escrow custody</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Pending secure payment hold</p>
                   <div className="mt-3 flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 font-mono"><RefreshCcw className="w-3.5 h-3.5" /> Pending clearing</div>
                 </div>
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-6 relative overflow-hidden">
@@ -319,7 +319,7 @@ export default function LandlordWithdrawalsPage() {
                                 <Wallet className="w-6 h-6 text-zinc-400" />
                               </div>
                               <p className="text-sm font-medium text-zinc-900 dark:text-white">No withdrawals yet</p>
-                              <p className="text-xs text-zinc-600 dark:text-zinc-400">Your settlement transactions will populate here.</p>
+                              <p className="text-xs text-zinc-600 dark:text-zinc-400">Your payout transactions will populate here.</p>
                             </div>
                           </td>
                         </tr>
@@ -364,7 +364,7 @@ export default function LandlordWithdrawalsPage() {
           <DialogContent showCloseButton>
             <DialogHeader>
               <DialogTitle>Bank Account Setup</DialogTitle>
-              <DialogDescription>Enter your payout bank details. We&apos;ll auto-verify the account name with Paystack before saving.</DialogDescription>
+              <DialogDescription>Enter your payout bank details. We&apos;ll auto-verify the account name with Secure Payment before saving.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -403,7 +403,7 @@ export default function LandlordWithdrawalsPage() {
           <DialogContent showCloseButton>
             <DialogHeader>
               <DialogTitle>Request Fund Withdrawal</DialogTitle>
-              <DialogDescription>Initiate a payout to your saved bank account via Paystack Transfers.</DialogDescription>
+              <DialogDescription>Initiate a payout to your saved bank account via Secure Payment Transfers.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-800 p-3 text-xs text-zinc-600 dark:text-zinc-400">

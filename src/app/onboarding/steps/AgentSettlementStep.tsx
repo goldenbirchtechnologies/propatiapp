@@ -74,7 +74,7 @@ export default function AgentSettlementStep({ onSaved }: StepProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <DCallout icon={<Wallet className="h-4 w-4" />} title="Commission escrow" className="mb-5">
+      <DCallout icon={<Wallet className="h-4 w-4" />} title="Commission payout" className="mb-5">
         Commission settles to this NUBAN the moment a tenancy payment clears — not at the end of the
         month. Multi-party splits are distributed in the same transaction.
       </DCallout>

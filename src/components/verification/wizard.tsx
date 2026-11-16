@@ -497,7 +497,7 @@ export function VerificationWizard({
           <Progress value={overallProgress} className="h-2" />
           <div className="flex justify-between mt-2 text-xs text-zinc-400">
             <AppIcon name="0%" className="lucide" />
-            <AppIcon name="{overallProgress}%" className="lucide" />
+            <AppIcon name={`${overallProgress}%`} className="lucide" />
             <AppIcon name="100%" className="lucide" />
           </div>
         </div>

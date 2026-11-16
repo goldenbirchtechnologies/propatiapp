@@ -172,7 +172,7 @@ export default function InspectionScheduler({ listing }: Props) {
           </div>
           <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             <ShieldCheck size={14} className="text-primary dark:text-[#4edea3]" />
-            <span>Paystack Escrow Custody - Funds release gated by NIN verification</span>
+            <span>Secure Payment Custody - Funds release gated by ID verification</span>
           </div>
         </div>
       )}

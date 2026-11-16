@@ -260,7 +260,7 @@ export function StitchFooter() {
             </div>
             <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-xs">
               Nigeria&apos;s premier verified property marketplace. Find, rent, buy, and
-              manage real estate with institutional confidence.
+              manage real estate with confidence.
             </p>
             <div className="flex gap-2.5 mt-5">
               {['twitter', 'facebook', 'instagram', 'linkedin'].map((sn) => (
@@ -305,14 +305,14 @@ export function StitchFooter() {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span className="text-xs font-mono font-medium text-zinc-600 dark:text-zinc-400">
-                RC: 1849204 — CAC Registered — Verified Property Marketplace
+                RC: 1849204 — Business Registered — Verified Property Marketplace
               </span>
             </div>
           </div>
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-600 dark:text-zinc-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              NDPA 2023 Compliant · FIRS Cap S8 Stamp Duties Act · CBN Escrow Trustee
+              NDPA 2023 Compliant · Stamp Duty · Secure Payment Trustee
             </span>
           </div>
         </div>

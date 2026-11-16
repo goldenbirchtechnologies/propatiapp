@@ -24,7 +24,7 @@ const VERIFICATION_TYPES = [
   {
     key: 'company',
     title: 'Company / Business Verification',
-    description: 'Verify business registration with CAC, TIN, and company documents.',
+    description: 'Verify your business with the business registry, TIN, and company documents.',
     href: '/dashboard/verification/guide?type=company',
     icon: '🏢',
   },

@@ -120,13 +120,16 @@ export default function HomePage() {
   };
 
   const vitalStats = [
-    { value: liveStats ? `${liveStats.active.toLocaleString('en-NG')}` : '11', label: 'Curated Live Listings', sub: 'Title-cleared inventory' },
-    { value: '100%', label: 'Title & Document Audited', sub: 'Beacon-verified deeds' },
-    { value: '₦1.2B+', label: 'Active Escrow Managed', sub: 'Bank-backed pipeline' },
+    { value: liveStats ? `${liveStats.active.toLocaleString('en-NG')}` : '—', label: 'Curated Live Listings', sub: 'Title-cleared inventory' },
+    { value: '100%', label: 'Title & Document Audited', sub: 'Location-verified deeds' },
+    { value: '₦1.2B+', label: 'Secure Payments Managed', sub: 'Bank-backed pipeline' },
   ];
 
   return (
     <div className="min-h-screen bg-[#fbf8fc] dark:bg-[#070708] text-zinc-900 dark:text-zinc-100 antialiased selection:bg-primary/20 overflow-x-hidden">
+
+      {/* Scroll Progress */}
+      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
       {/* ===================== HERO — OPERATING SYSTEM ===================== */}
       <section className="relative w-full overflow-hidden bg-[#0e1113] text-white">
@@ -158,12 +161,12 @@ export default function HomePage() {
           {/* Headline */}
           <h1 className="max-w-4xl text-[30px] sm:text-[42px] md:text-[56px] font-bold leading-[1.08] tracking-tight text-white">
             Streamline property management,<br className="hidden sm:inline" />
-            <span className="text-[#4edea3]">automate</span> institutional leasing,<br className="hidden sm:inline" />
+            <span className="text-[#4edea3]">automate</span> leasing,<br className="hidden sm:inline" />
             power shortlet operations.
           </h1>
           <p className="mt-3.5 sm:mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-[15px]">
             One unified platform to eliminate market fragmentation and operational risk.
-            Bank-backed escrow, cross-border compliance workflows, and end-to-end automation —
+            Secure payment processing, straightforward verification, and end-to-end automation —
             <span className="text-zinc-200"> sync with vetted agent networks on a single core.</span>
           </p>
 
@@ -182,7 +185,7 @@ export default function HomePage() {
                   type="button"
                   onClick={() => setSearchTab(tab.key)}
                   className={cn(
-                    'flex shrink-0 items-center gap-2 rounded-full px-3.5 sm:px-4 py-2 text-xs md:text-sm font-semibold transition-colors',
+                    'flex shrink-0 min-h-[44px] items-center gap-2 rounded-full px-3.5 sm:px-4 py-2 text-xs md:text-sm font-semibold transition-colors',
                     searchTab === tab.key
                       ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm'
                       : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700'
@@ -193,7 +196,7 @@ export default function HomePage() {
                 </button>
               ))}
               <span className="ml-auto hidden items-center gap-1.5 pl-3 text-xs font-medium text-emerald-600 dark:text-emerald-400 md:flex">
-                <Radio className="h-3.5 w-3.5 animate-pulse" /> Escrow Network Ready
+                <Radio className="h-3.5 w-3.5 animate-pulse" /> Payment Network Ready
               </span>
             </div>
 
@@ -243,7 +246,7 @@ export default function HomePage() {
                     <option>₦5M — ₦25M / year</option>
                     <option>₦25M — ₦75M / year</option>
                     <option>₦75M — ₦250M (Outright Buy)</option>
-                    <option>₦250M — ₦1.5B (Institutional)</option>
+                    <option>₦250M — ₦1.5B</option>
                   </select>
                 </span>
               </label>
@@ -264,7 +267,7 @@ export default function HomePage() {
               <div key={s.label} className="flex flex-row sm:flex-col items-center sm:items-center justify-between sm:justify-center px-4 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 text-left sm:text-center">
                 <div>
                   <div className="font-mono text-lg font-bold text-white md:text-xl">{s.value}</div>
-                  <div className="text-xs sm:text-[11px] font-semibold uppercase tracking-wide text-[#4edea3]">{s.label}</div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-[#4edea3]">{s.label}</div>
                 </div>
                 <div className="text-xs text-white/50 text-right sm:text-center mt-0 sm:mt-1">{s.sub}</div>
               </div>
@@ -284,7 +287,7 @@ export default function HomePage() {
               One Unified Core. Four Specialized Modules.
             </h2>
             <p className="mx-auto mt-2 max-w-xl text-sm text-zinc-500 dark:text-zinc-400">
-              Pick the operating mode that matches your mandate — every module shares the same verification and escrow core.
+              Pick the operating mode that matches your mandate — every module shares the same verification and payment core.
             </p>
           </div>
 
@@ -326,7 +329,7 @@ export default function HomePage() {
               <ul className="mt-4 space-y-2">
                 {[
                   'Instant Digital Agreements — smart contract generation tuned to local regulatory law.',
-                  'Institutional Verification — tenant background checks and identity screening.',
+                  'Verification — tenant background checks and identity screening.',
                   'Lifecycle Tracking — deposits, renewals, and inspection logs in real time.',
                 ].map((t) => (
                   <li key={t} className="flex gap-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -351,7 +354,7 @@ export default function HomePage() {
               <ul className="mt-4 space-y-2">
                 {[
                   'Channel & Property Sync — calendars, dynamic pricing, and check-ins without double-bookings.',
-                  'Secure Guest Escrow — deposits held in trust, settled instantly on check-in.',
+                  'Secure Guest Payment — deposits held safely, settled instantly on check-in.',
                   'Operational Telemetry — real-time occupancy, reviews, and asset performance.',
                 ].map((t) => (
                   <li key={t} className="flex gap-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -377,7 +380,7 @@ export default function HomePage() {
                 {[
                   'Exclusive Inventory Access — verified listings direct from landlords and asset owners.',
                   'Direct Principal Matching — certified agents connected straight to primary listings.',
-                  'Secured Commission Escrow — payout structures that trigger automatically on close.',
+                  'Secured Commission Payment — payouts that release automatically on close.',
                 ].map((t) => (
                   <li key={t} className="flex gap-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
                     <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" /> <span>{t}</span>
@@ -399,10 +402,10 @@ export default function HomePage() {
             <div>
               <div className="mb-2 inline-block rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white">Operational Workflow</div>
               <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-3xl">From discovery to key handover.</h2>
-              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Four auditable steps — every transition verified, recorded, and escrow-gated.</p>
+              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Four clear steps — every transition verified and recorded.</p>
             </div>
             <div className="font-mono text-[11px] uppercase tracking-widest text-zinc-400 hidden md:block">
-              PropatiBox Operational Protocol v1
+              PropatiBox Platform v1
             </div>
           </div>
 
@@ -412,10 +415,10 @@ export default function HomePage() {
               <div className="absolute left-[48px] right-[48px] top-[28px] h-px bg-gradient-to-r from-zinc-300 via-primary/40 to-zinc-300 dark:from-zinc-700 dark:via-primary/40 dark:to-zinc-700" />
               <div className="grid grid-cols-4 gap-6">
                 {[
-                  { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited at the Gateway', desc: 'Interact only with properties and professionals cleared through rigid title, beacon, and CAC verification.' , icon: ShieldCheck },
+                  { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited at the Gateway', desc: 'Interact only with properties and professionals cleared through title and identity verification.' , icon: ShieldCheck },
                   { n: '02', title: 'Smart Tour', sub: '3D & Geo-Stamped Inspections', desc: 'Unfiltered high-definition tours that capture true, real-time asset conditions.' , icon: Compass },
-                  { n: '03', title: 'Secure Escrow', sub: 'Multi-Tier Bank Escrow · Capital Shielded', desc: 'Transaction capital locked in tier-1 bank escrow until compliance conditions are satisfied.' , icon: Lock },
-                  { n: '04', title: 'Digital Handover', sub: 'Biometrics, Access Keys & Digital Records', desc: 'Collect digital agreements, access tokens, and finalized legal records instantly.' , icon: Fingerprint },
+                  { n: '03', title: 'Secure Payment', sub: 'Payment Protected · Funds Shielded', desc: 'Payment held safely until all conditions are met.' , icon: Lock },
+                  { n: '04', title: 'Digital Handover', sub: 'ID Check, Access Keys & Digital Records', desc: 'Collect digital agreements, access tokens, and finalized legal records instantly.' , icon: Fingerprint },
                 ].map((s) => (
                   <div key={s.n} className="relative">
                     <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white border border-zinc-200 shadow-sm dark:bg-zinc-900 dark:border-zinc-800">
@@ -431,20 +434,20 @@ export default function HomePage() {
             </div>
             {/* Code-style connector */}
             <div className="mt-8 overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-900 px-4 py-3 font-mono text-xs text-zinc-400 dark:border-zinc-800">
-              <span className="text-white">[01. Verify &amp; Onboard]</span> <span className="text-zinc-500">──&gt;</span> <span className="text-white">[02. Smart Tour]</span> <span className="text-zinc-500">──&gt;</span> <span className="text-[#4edea3]">[03. Secure Escrow]</span> <span className="text-zinc-500">──&gt;</span> <span className="text-white">[04. Digital Handover]</span>
-              <span className="ml-4 text-zinc-500">// every transition escrow-gated</span>
+              <span className="text-white">[01. Verify &amp; Onboard]</span> <span className="text-zinc-500">──&gt;</span> <span className="text-white">[02. Smart Tour]</span> <span className="text-zinc-500">──&gt;</span> <span className="text-[#4edea3]">[03. Secure Payment]</span> <span className="text-zinc-500">──&gt;</span> <span className="text-white">[04. Digital Handover]</span>
+              <span className="ml-4 text-zinc-500">// every step verified</span>
             </div>
           </div>
 
           {/* Mobile vertical stepper */}
           <div className="space-y-3 md:hidden">
             {[
-              { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited', desc: 'Rigid title, beacon, and CAC verification before any transaction is initiated.', icon: ShieldCheck },
+              { n: '01', title: 'Verify & Onboard', sub: 'Title & Identity Audited', desc: 'Title and identity checks before any transaction begins.', icon: ShieldCheck },
               { n: '02', title: 'Smart Tour', sub: '3D & Geo-Stamped Inspections', desc: 'Unfiltered high-definition tours capturing real, verified asset conditions.', icon: Compass },
-              { n: '03', title: 'Secure Escrow', sub: 'Multi-Tier Bank Escrow', desc: 'Capital locked in tier-1 bank escrow until all compliance milestones are met.', icon: Lock },
-              { n: '04', title: 'Digital Handover', sub: 'Biometrics & Digital Records', desc: 'Instant issuance of digital tenancy agreements, access keys, and deeds.', icon: Fingerprint },
+              { n: '03', title: 'Secure Payment', sub: 'Payment Protected', desc: 'Payment held safely until all milestones are met.', icon: Lock },
+              { n: '04', title: 'Digital Handover', sub: 'ID Check & Digital Records', desc: 'Instant issuance of digital tenancy agreements, access keys, and deeds.', icon: Fingerprint },
             ].map((s, idx) => (
-              <div key={s.n} className="relative rounded-2xl border border-zinc-200 bg-white p-4.5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <div key={s.n} className="relative rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
                 <div className="flex items-start gap-3.5">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm">
                     <s.icon className="h-5 w-5" />
@@ -452,7 +455,7 @@ export default function HomePage() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs font-bold text-primary dark:text-[#4edea3]">STEP [{s.n}]</span>
-                      <span className="text-[10px] uppercase font-semibold text-zinc-400">Phase {idx + 1}/4</span>
+                      <span className="text-xs uppercase font-semibold text-zinc-400">Phase {idx + 1}/4</span>
                     </div>
                     <h3 className="text-sm font-bold text-zinc-900 dark:text-white mt-0.5">{s.title}</h3>
                     <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 mt-0.5">{s.sub}</div>
@@ -474,9 +477,9 @@ export default function HomePage() {
                 <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" /> Live System Inventory
               </div>
               <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-3xl">Active property assets on the platform.</h2>
-              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Document-integrity validated. Escrow-ready. Beacon-mapped.</p>
+              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Document-integrity validated. Payment-ready. Location-mapped.</p>
             </div>
-            <Link href="/listings" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-[var(--sovereign-hover)]">
+            <Link href="/listings" className="inline-flex items-center gap-2 text-sm font-semibold text-[#4edea3] hover:text-[var(--sovereign-hover)]">
               View full inventory <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -491,10 +494,10 @@ export default function HomePage() {
                 <div className="relative h-52 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                   <Image src={listing.img} alt={listing.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute left-3 top-3 flex items-center gap-1.5">
-                    <span className="rounded-full bg-zinc-900/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">{listing.type}</span>
-                    <span className="rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-zinc-900 backdrop-blur-sm shadow-sm">{listing.kind}</span>
+                    <span className="rounded-full bg-zinc-900/90 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">{listing.type}</span>
+                    <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-zinc-900 backdrop-blur-sm shadow-sm">{listing.kind}</span>
                   </div>
-                  <button aria-label="Save property" className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-zinc-700 backdrop-blur-sm transition-colors hover:bg-white hover:text-red-500">
+                  <button aria-label="Save property" className="absolute right-3 top-3 flex h-10 w-10 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/90 text-zinc-700 backdrop-blur-sm transition-colors hover:bg-white hover:text-red-500">
                     <Heart className="h-4 w-4" />
                   </button>
                   <div className="absolute bottom-3 right-3 rounded-xl bg-zinc-900/90 px-3 py-1 font-mono text-xs font-bold text-[#4edea3] backdrop-blur-sm">
@@ -518,7 +521,7 @@ export default function HomePage() {
                   </div>
                   <div className="mt-auto">
                     <span className="flex h-10 w-full items-center justify-center rounded-xl bg-zinc-900 text-center text-sm font-semibold text-white transition-all group-hover:bg-primary dark:bg-white dark:text-zinc-900 dark:group-hover:bg-[#4edea3] dark:group-hover:text-black">
-                      {listing.kind === 'SHORT-STAY' ? 'Book Shortlet' : 'View Property'}
+                      {listing.kind === 'SHORT-STAY' ? 'Book Shortlet' : listing.kind === 'FOR SALE' ? 'Buy Property' : listing.kind === 'FOR RENT' ? 'Rent Property' : 'View Property'}
                     </span>
                   </div>
                 </div>
@@ -541,7 +544,7 @@ export default function HomePage() {
                 Operating in Nigeria. Expanding Continent-Wide.
               </h2>
               <p className="mt-1.5 text-sm md:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl">
-                Real-time escrow, verified cadastral records, and licensed agent networks active across Nigerian economic centers with pipeline readiness for Africa&apos;s leading property corridors.
+                Real-time payments, verified property records, and licensed agent networks across Nigeria&apos;s leading property corridors.
               </p>
             </div>
             <div className="flex items-center gap-5 text-sm font-medium text-zinc-700 dark:text-zinc-300 shrink-0">
@@ -570,13 +573,13 @@ export default function HomePage() {
                   </h3>
                 </div>
                 <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 self-start sm:self-auto">
-                  Fully Verified &amp; Escrow-Cleared
+                  Fully Verified &amp; Payment-Cleared
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                 {[
                   { city: 'Lagos', sub: 'Lekki · Victoria Island · Ikoyi · Ikeja · Mainland', active: 'Active Desk & Cadastre' },
-                  { city: 'Abuja FCT', sub: 'Maitama · Asokoro · Wuse II · Guzape Cadastral', active: 'Federal Capital Desk' },
+                  { city: 'Abuja FCT', sub: 'Maitama · Asokoro · Wuse II · Guzape', active: 'Federal Capital Desk' },
                   { city: 'Port Harcourt', sub: 'GRA Phase 2 · Trans-Amadi Industrial Corridor', active: 'South-South Gateway' },
                   { city: 'Ibadan', sub: 'Bodija Residential · Oluyole Commercial Hub', active: 'Western Regional Hub' },
                   { city: 'Enugu', sub: 'Independence Layout · New Haven Corporate', active: 'South-East Desk' },
@@ -631,7 +634,7 @@ export default function HomePage() {
                     <span className="h-2.5 w-2.5 rounded-full border border-zinc-400 bg-zinc-300 dark:bg-zinc-700" />
                     <span className="font-semibold text-zinc-900 dark:text-white">{g.city}</span>
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">({g.country})</span>
-                    <span className="rounded-md bg-zinc-200/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                    <span className="rounded-md bg-zinc-200/80 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
                       {g.tag}
                     </span>
                   </div>

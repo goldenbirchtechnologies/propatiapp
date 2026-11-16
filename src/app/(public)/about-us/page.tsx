@@ -13,10 +13,10 @@ const teamMembers = [
 ];
 
 const compliancePoints = [
-  { title: 'NDPR Compliant', description: 'Registered and compliant with the Nigeria Data Protection Regulation (NDPR) 2019.' },
-  { title: 'FIRS Integrated', description: 'Stamp duty remittance via Remita — the official FIRS/GIFMIS gateway (Stamp Duties Act, CAP S8).' },
-  { title: 'Escrow Protected', description: 'Rent and deposits held in licensed escrow until tenancy conditions are met — not released on a timer.' },
-  { title: '5-Layer Verification', description: 'Document, identity, live video, physical inspection, and admin certification before a listing is certified.' },
+  { title: 'Data Protection', description: 'Your data is handled under the Nigeria Data Protection Regulation.' },
+  { title: 'Stamp Duty', description: 'Stamp duty remitted through the official government gateway.' },
+  { title: 'Payment Protected', description: 'Rent and deposits held securely until tenancy conditions are met — not released on a timer.' },
+  { title: 'Verification Steps', description: 'Document, identity, video, inspection, and certification checks before a listing goes live.' },
 ];
 
 export default function AboutUsPage() {
@@ -33,7 +33,7 @@ export default function AboutUsPage() {
               Building trust in Nigerian property transactions
             </h1>
             <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
-              PropatiBox connects tenants, landlords, agents, and estate managers through verified listings, escrow-backed payments, and legally sound tenancy agreements — so no one rents blind.
+              PropatiBox connects tenants, landlords, agents, and estate managers through verified listings, secure payments, and clear tenancy agreements — so no one rents blind.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg" className="gap-2">
@@ -56,7 +56,7 @@ export default function AboutUsPage() {
             <SectionLabel>Our mission</SectionLabel>
             <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground tracking-tight">Secure, transparent, and accessible for every Nigerian</h2>
             <p className="mt-3 text-sm text-zinc-500 leading-relaxed">
-              Fraud and misrepresentation are the country&apos;s top property risks. PropatiBox was built to close that gap — not with slogans, but with verification, escrow, and enforceable agreements.
+              Fraud and misrepresentation are the country&apos;s top property risks. PropatiBox was built to close that gap — not with slogans, but with verification, secure payments, and enforceable agreements.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -65,14 +65,14 @@ export default function AboutUsPage() {
                 <Users className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-sm font-semibold text-foreground">For tenants</h3>
-              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Verified listings, vetted landlords, and rent collection that creates a receipt — a dispute.</p>
+              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Verified listings, vetted landlords, and rent collection with a receipt for every payment.</p>
             </div>
             <div className="glass-card p-6">
               <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
                 <Shield className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-sm font-semibold text-foreground">For landlords</h3>
-              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Identity-verified tenants, stamp-duty-compliant agreements, and escrow until handover is confirmed.</p>
+              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Identity-verified tenants, stamped agreements, and secure payment until handover is confirmed.</p>
             </div>
             <div className="glass-card p-6">
               <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-[#4edea3]">
@@ -110,8 +110,8 @@ export default function AboutUsPage() {
       <section className="py-16 md:py-20 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mb-8">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Built for compliance</h2>
-            <p className="mt-2 text-sm text-zinc-500">Trust is a legal standard, not a marketing word. Every flow is mapped to it.</p>
+            <h2 className="text-2xl font-bold text-foreground tracking-tight">Built for trust</h2>
+            <p className="mt-2 text-sm text-zinc-500">Trust is the standard, not a marketing word. Every flow is built around it.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {compliancePoints.map((c) => (
@@ -149,8 +149,8 @@ export default function AboutUsPage() {
             </div>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><Building2 className="h-3.5 w-3.5" /> CAC Registered</span>
-            <span className="inline-flex items-center gap-1.5"><Scale className="h-3.5 w-3.5" /> Stamp Duties Act, CAP S8</span>
+            <span className="inline-flex items-center gap-1.5"><Building2 className="h-3.5 w-3.5" /> Business Registered</span>
+            <span className="inline-flex items-center gap-1.5"><Scale className="h-3.5 w-3.5" /> Stamp Duty Compliant</span>
             <span className="inline-flex items-center gap-1.5"><Award className="h-3.5 w-3.5" /> NDPA 2023</span>
           </div>
         </div>

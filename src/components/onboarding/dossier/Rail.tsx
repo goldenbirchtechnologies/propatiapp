@@ -148,7 +148,7 @@ export function DossierRail({
         <DCard className="p-4">
           <RailGroup title="Asset mandate" />
           <RailRow label="Ownership entity" value={facts.fullName} />
-          <RailRow label="Settlement" value="NUBAN account" />
+          <RailRow label="Payout" value="NUBAN account" />
           <RailRow label="Caution deposit" value="Ring-fenced" />
           <RailRow label="Management fee" value="Auto-deducted" />
         </DCard>
@@ -157,9 +157,9 @@ export function DossierRail({
       {role === 'agent' ? (
         <DCard className="p-4">
           <RailGroup title="Brokerage" />
-          <RailRow label="Accreditation" value="REDAN / LASRERA" />
+          <RailRow label="Accreditation" value="REDAN / Real Estate License" />
           <RailRow label="Territory" value={facts.jurisdictionName ?? '—'} />
-          <RailRow label="Commission" value="Split escrow" />
+          <RailRow label="Commission" value="Split payout" />
           <RailRow label="Indemnity" value="Required" />
         </DCard>
       ) : null}
@@ -168,9 +168,9 @@ export function DossierRail({
         <DCard className="p-4">
           <RailGroup title="Firm mandate" />
           <RailRow label="Operator" value={facts.fullName} />
-          <RailRow label="Registration" value="CAC / NIESV" />
+          <RailRow label="Registration" value="Business Registration / Estate Surveyor" />
           <RailRow label="Authority" value="Power of Attorney" />
-          <RailRow label="Settlement" value="Client trust escrow" />
+          <RailRow label="Payout" value="Client trust secure payment" />
         </DCard>
       ) : null}
 
@@ -196,7 +196,7 @@ export function DossierRail({
       </DCard>
 
       <p className="flex items-center justify-center gap-1.5 px-2 text-center text-[11px] text-[var(--on-surface-variant)]">
-        <ShieldCheck className="h-3 w-3" /> NDPR-compliant statutory intake
+        <ShieldCheck className="h-3 w-3" /> Data Protection compliant intake
       </p>
     </div>
   );
@@ -272,7 +272,7 @@ function idTypeLabel(value?: string | null): string {
     drivers_license: "Driver's licence",
     drivers_licence: "Driver's licence",
     voters_card: "Voter's card",
-    cac: 'CAC certificate',
+    cac: 'Business Registration certificate',
   };
   return map[value] ?? titleCase(value);
 }

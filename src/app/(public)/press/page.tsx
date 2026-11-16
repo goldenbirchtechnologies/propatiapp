@@ -7,7 +7,7 @@ import { Download, Mail, ExternalLink, Image as ImageIcon } from 'lucide-react';
 
 const coverage = [
   { outlet: 'TechCabal', title: 'PropatiBox launches verified property marketplace for Lagos', date: 'Jan 2026' },
-  { outlet: 'BusinessDay', title: 'How escrow and 5-layer verification are rebuilding trust in Nigerian rentals', date: 'Dec 2025' },
+  { outlet: 'BusinessDay', title: 'How secure payment and 5-layer verification are rebuilding trust in Nigerian rentals', date: 'Dec 2025' },
   { outlet: 'Nairametrics', title: 'Proptech in Nigeria: why verified listings matter', date: 'Nov 2025' },
 ];
 
@@ -39,8 +39,8 @@ export default function PressPage() {
                 <h2 className="text-lg font-bold text-foreground">Boilerplate</h2>
                 <p className="mt-3 text-sm text-zinc-400 leading-relaxed">
                   PropatiBox is Nigeria&apos;s first verified property marketplace. Every listing is verified through a 5-layer process — document, identity, live
-                  video, physical inspection, and admin certification — before it earns a certified badge. Payments are held in licensed escrow until
-                  handover is confirmed, and tenancy agreements are e-signed and stamped via Remita (FIRS). PropatiBox serves tenants, landlords, agents, and
+                  video, physical inspection, and admin certification — before it earns a certified badge. Payments are held securely until
+                  handover is confirmed, and tenancy agreements are e-signed and stamped via the official government gateway. PropatiBox serves tenants, landlords, agents, and
                   estate managers from a single platform. Founded in Lagos, PropatiBox is registered as PropatiBox Technologies Ltd.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">

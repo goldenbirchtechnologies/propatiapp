@@ -8,7 +8,7 @@ const ROLES = [
   {
     id: 'landlord',
     title: 'Landlord',
-    description: 'List & manage properties, track institutional rent and deeds',
+    description: 'List & manage properties, track rent and deeds',
     tag: 'Deed Holder',
     icon: <Building2 className="h-5 w-5" />,
   },
@@ -22,8 +22,8 @@ const ROLES = [
   {
     id: 'agent',
     title: 'Agent',
-    description: 'LASRERA licensed broker, co-broker deals & earn payouts',
-    tag: 'LASRERA Broker',
+    description: 'Licensed broker, co-broker deals & earn payouts',
+    tag: 'Licensed Broker',
     icon: <Handshake className="h-5 w-5" />,
   },
   {
@@ -101,7 +101,7 @@ export default function SignUpPage() {
             </div>
             <h1 className="text-3xl font-bold mt-4 tracking-tight">Join as a...</h1>
             <p className="text-zinc-500 max-w-lg mt-2">
-              Select your operating capacity to get started with tailored cadastral and transaction features.
+              Select your operating capacity to get started with tailored property and transaction features.
             </p>
           </div>
 
@@ -164,7 +164,7 @@ export default function SignUpPage() {
             <div className="text-xs text-zinc-500 leading-relaxed">
               I agree to the{' '}
               <a href="/terms" className="text-[#6ffbbe] hover:underline font-medium">Terms &amp; Conditions</a>,
-              cadastral verification rules, and{' '}
+              property verification rules, and{' '}
               <a href="/privacy" className="text-[#6ffbbe] hover:underline font-medium">Cookies Policy</a>.
             </div>
           </div>
@@ -262,7 +262,7 @@ export default function SignUpPage() {
                 <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
               </svg>
               <p className="text-xs text-zinc-500 leading-relaxed">
-                Identity verification follows step 2. Have your CAC number or NIN handy for instant cadastral binding.
+                Identity verification follows step 2. Have your business registration or NIN handy for instant property binding.
               </p>
             </div>
           </div>
@@ -280,7 +280,7 @@ export default function SignUpPage() {
               <svg className="w-3.5 h-3.5 text-[#6ffbbe]" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
               </svg>
-              LASRERA Bonded Gateway
+              Secure Payment Gateway
             </div>
           </div>
         </div>

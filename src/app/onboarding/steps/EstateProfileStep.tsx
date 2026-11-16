@@ -82,7 +82,7 @@ export default function EstateProfileStep({ facts, onSaved }: StepProps) {
       </div>
 
       <DGrid cols={2} className="mt-4">
-        <DField label="CAC / TIN number" note="Optional" error={fieldErrors.cacTinNumber}>
+        <DField label="Business Registration / TIN number" note="Optional" error={fieldErrors.cacTinNumber}>
           <DInput
             value={cacTinNumber}
             onChange={(e) => setCacTinNumber(e.target.value)}

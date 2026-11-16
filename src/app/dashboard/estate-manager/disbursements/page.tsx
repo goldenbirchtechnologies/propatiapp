@@ -102,7 +102,7 @@ function DisbursementsForm() {
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data?.error || `Disbursement failed (${res.status})`);
-        setSuccess(`Disbursed ${ngn(gross)} to the landlord wallet. Net settlement ${ngn(net)}.`);
+        setSuccess(`Disbursed ${ngn(gross)} to the landlord wallet. Net payout ${ngn(net)}.`);
         setAmount('');
         setNarrative('');
         loadWallet();
@@ -133,9 +133,9 @@ function DisbursementsForm() {
             <div className="inline-flex items-center gap-2 rounded bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
               <span>Custody Wallet</span>
               <span className="text-zinc-400">•</span>
-              <span>Escrow Release</span>
+              <span>Payment Release</span>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Landlord Escrow Disbursement</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Landlord Payment Disbursement</h1>
             <p className={`text-sm ${MUTED}`}>
               Move collected rent from your custody wallet to a verified landlord wallet, with the management retainer and
               withholding tax split applied.

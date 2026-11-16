@@ -25,7 +25,7 @@ const statusConfig: Record<
     className: 'bg-amber-100 text-amber-800 border-amber-300',
   },
   in_escrow: {
-    label: 'In Escrow',
+    label: 'Secure Payment',
     className: 'bg-blue-100 text-blue-800 border-blue-300',
   },
   released: {

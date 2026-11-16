@@ -64,15 +64,15 @@ export default function PropertyDetailClient({ listing }: { listing: ListingData
             attributes={attributes}
           />
 
-          {/* Property Overview & Architectural Profile */}
+          {/* Property Overview & Profile */}
           <section className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 space-y-4">
             <div className="flex items-center gap-3 pb-3 border-b border-zinc-200 dark:border-white/[0.08]">
               <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-zinc-900 dark:text-white">
                 <Building2 size={20} />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Property Overview &amp; Architectural Profile</h2>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">Core identity, location and architectural classification.</p>
+                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Property Overview &amp; Profile</h2>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">Core identity, location and property classification.</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -155,14 +155,14 @@ export default function PropertyDetailClient({ listing }: { listing: ListingData
             <Amenities amenities={listing.amenities} />
           </section>
 
-          {/* Statutory Lease Structure & Escrow Mandate */}
+          {/* Lease Structure & Mandate */}
           <section className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 space-y-4">
             <div className="flex items-center gap-3 pb-3 border-b border-zinc-200 dark:border-white/[0.08]">
               <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-zinc-900 dark:text-white">
                 <FileText size={20} />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Statutory Lease Structure &amp; Escrow Mandate</h2>
+                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Lease Structure &amp; Mandate</h2>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">Pricing, deposit and service charge terms.</p>
               </div>
             </div>

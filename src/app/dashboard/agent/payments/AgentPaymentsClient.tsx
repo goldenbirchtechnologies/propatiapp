@@ -87,8 +87,8 @@ const STATUS_LABEL: Record<string, string> = {
   released: 'Cleared & Settled',
   success: 'Cleared & Settled',
   settled: 'Cleared & Settled',
-  in_escrow: 'In Escrow Vault',
-  escrow_credit: 'In Escrow Vault',
+  in_escrow: 'In Secure Payment Vault',
+  escrow_credit: 'In Secure Payment Vault',
   commission_held: 'Commission Held',
   pending: 'Pending Confirmation',
   draft: 'Draft',
@@ -105,8 +105,8 @@ const CHANNEL_LABEL: Record<string, string> = {
   withdrawal: 'Wallet Withdrawal',
   transfer: 'Wallet Transfer',
   refund: 'Refund',
-  adjustment: 'Escrow Adjustment',
-  escrow_credit: 'Escrow Credit',
+  adjustment: 'Secure Payment Adjustment',
+  escrow_credit: 'Secure Payment Credit',
 };
 
 function tabOf(tx: AgentFinanceTransaction | AgentFinanceWalletTransaction): TabKey {
@@ -284,7 +284,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
       <FinanceHeader
         breadcrumb={['Agent Portal', 'Finance', 'Rent & Payments Ledger']}
         title="Payments & Financial Records Hub"
-        description="Live trust wallet balances, escrow clearing, disbursements and a strict transaction ledger for every mandate under your agency."
+        description="Live trust wallet balances, secure payment clearing, disbursements and a strict transaction ledger for every mandate under your agency."
         badges={
           <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-zinc-100 dark:bg-white/[0.06] px-2.5 py-1 text-[11px] font-semibold text-zinc-600 dark:text-zinc-400">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
@@ -308,14 +308,14 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
         <FinanceStatCard
           label="Agent Trust Wallet Balance"
           value={naira(summary.walletBalance)}
-          hint={summary.walletLocked ? 'Wallet is locked' : 'Available for settlement'}
+          hint={summary.walletLocked ? 'Wallet is locked' : 'Available for payout'}
           tone="primary"
           icon={<Wallet className="h-4 w-4" />}
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 dark:border-white/[0.08] pt-3">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary dark:text-[#4edea3]">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                {summary.walletLocked ? 'Locked' : 'Ready for settlement'}
+                {summary.walletLocked ? 'Locked' : 'Ready for payout'}
               </span>
               <Link
                 href="/dashboard/agent/withdrawals"
@@ -335,7 +335,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
           icon={<TrendingUp className="h-4 w-4" />}
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 dark:border-white/[0.08] pt-3 text-[11px] text-zinc-500 dark:text-zinc-400">
-              <span>{summary.settledCount} settled transactions</span>
+              <span>{summary.settledCount} cleared transactions</span>
               <span className="font-medium text-zinc-700 dark:text-zinc-300">
                 {summary.propertyCount} properties
               </span>
@@ -344,17 +344,17 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
         />
 
         <FinanceStatCard
-          label="Pending Escrow Clearing"
+          label="Pending Payout Clearing"
           value={naira(summary.pendingEscrow)}
-          hint={`${summary.escrowCount} item${summary.escrowCount === 1 ? '' : 's'} in the escrow queue`}
+          hint={`${summary.escrowCount} item${summary.escrowCount === 1 ? '' : 's'} in the payout queue`}
           tone="amber"
           icon={<Hourglass className="h-4 w-4" />}
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 dark:border-white/[0.08] pt-3">
               <FinanceStatus tone="pending">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" /> In Escrow Queue
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" /> In Payout Queue
               </FinanceStatus>
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-400">T+2 Settlement</span>
+              <span className="text-[11px] text-zinc-500 dark:text-zinc-400">T+2 Payout</span>
             </div>
           }
         />
@@ -386,18 +386,18 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
           </div>
           <div>
             <p className="text-sm font-semibold text-zinc-900 dark:text-white">
-              Institutional custody settlement guaranteed
+              Custody payout guaranteed
             </p>
             <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
-              All trust collections are held under statutory escrow with partner banks. Counterparty validations
+              All trust collections are held through secure payment with partner banks. Counterparty validations
               reconcile directly against the Corporate Affairs Commission database.
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <div className={AGENT_FINANCE_LABEL}>Settlement Bank Partner</div>
-            <div className="text-sm font-semibold text-zinc-900 dark:text-white">Paystack / NIBSS Instant</div>
+            <div className={AGENT_FINANCE_LABEL}>Payout Bank Partner</div>
+            <div className="text-sm font-semibold text-zinc-900 dark:text-white">Secure Payment / NIBSS Instant</div>
           </div>
           <div className="h-8 w-px bg-zinc-200 dark:bg-white/[0.08]" />
           <div className="text-right">
@@ -463,8 +463,8 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
                 { value: 'short_let', label: 'Short-let Booking' },
                 { value: 'deposit', label: 'Wallet Deposit' },
                 { value: 'withdrawal', label: 'Wallet Withdrawal' },
-                { value: 'adjustment', label: 'Escrow Adjustment' },
-                { value: 'escrow_credit', label: 'Escrow Credit' },
+                { value: 'adjustment', label: 'Secure Payment Adjustment' },
+                { value: 'escrow_credit', label: 'Secure Payment Credit' },
               ]}
               className="min-w-[170px]"
             />
@@ -479,7 +479,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
                 { value: 'all', label: 'All Statuses' },
                 { value: 'released', label: 'Cleared & Settled' },
                 { value: 'success', label: 'Success' },
-                { value: 'in_escrow', label: 'In Escrow' },
+                { value: 'in_escrow', label: 'In Secure Payment' },
                 { value: 'commission_held', label: 'Commission Held' },
                 { value: 'pending', label: 'Pending' },
                 { value: 'failed', label: 'Failed' },
@@ -514,7 +514,7 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
             </p>
           </div>
           <div>
-            <span className={AGENT_FINANCE_LABEL}>Held in Escrow</span>
+            <span className={AGENT_FINANCE_LABEL}>Held in Secure Payment</span>
             <p className="mt-1 font-mono text-lg font-bold text-amber-600 dark:text-amber-400">
               {naira(escrowVolume)}
             </p>
@@ -653,10 +653,10 @@ export default function AgentPaymentsClient({ summary, platformTxns, walletTxns,
       <FinanceComplianceBanner
         icon={<Shield className="h-5 w-5" />}
         title="Trust Assurance & Escrow Guarantee"
-        body="All rent remittances are processed through multi-signature escrow wallets under Nigerian AML/CFT guidelines. Counterparty CAC validations reconcile directly against the Corporate Affairs Commission database."
+        body="All rent remittances are processed through multi-signature secure payment wallets under Nigerian AML/CFT guidelines. Counterparty Business Registration validations reconcile directly against the Business Registration database."
         meta={
           <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2 py-0.5 font-mono text-[10px] font-medium text-zinc-500 dark:bg-white/[0.06] dark:text-zinc-400">
-            <Building2 className="h-3 w-3" /> LASRERA registered agency
+            <Building2 className="h-3 w-3" /> Real Estate License registered agency
           </span>
         }
       />

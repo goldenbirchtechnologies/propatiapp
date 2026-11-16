@@ -66,16 +66,16 @@ const CLEARANCE_META: Record<
   approved: {
     label: 'Clearance Issued',
     tone: 'success',
-    headline: 'Master Cadastral & Operational Clearance Approved',
+    headline: 'Master Clearance Approved',
     body:
-      'This mandate qualifies for governor’s consent deed executions, statutory client escrow operations and title lodging within the Lagos State Lands Bureau.',
+      'This mandate qualifies for governor’s consent deed executions, client payment operations and title lodging within the Lagos State Lands Bureau.',
   },
   pending: {
     label: 'Clearance Pending',
     tone: 'warning',
     headline: 'Field Verification In Progress',
     body:
-      'This dossier is still within the physical audit window. Clearance is issued once the field visit concludes and the signed report is uploaded.',
+      'This report is still within the physical audit window. Clearance is issued once the field visit concludes and the signed report is uploaded.',
   },
   rejected: {
     label: 'Clearance Withheld',
@@ -95,14 +95,14 @@ const COMPLIANCE_CRITERIA = [
   },
   {
     key: 'physical',
-    title: 'Physical Office & Cadastral Demarcation',
+    title: 'Physical Office & Plot Demarcation',
     subtitle: 'Physical Tenancy & Town Planning',
     icon: Building2,
   },
   {
     key: 'capacity',
-    title: 'Operational Capacity & Governance',
-    subtitle: 'Professional Standards & Escrow Vault',
+    title: 'Operational Capacity',
+    subtitle: 'Professional Standards & Secure Payment',
     icon: ShieldCheck,
   },
 ];
@@ -120,12 +120,12 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
         <OpsPage
           breadcrumb={<OpsBreadcrumb items={[{ label: 'Agent', href: '/dashboard/agent' }, { label: 'Inspections', href: '/dashboard/agent/inspections' }, { label: 'Report' }]} />}
           title="Inspection Report"
-          subtitle="Lagos State Cadastre & Physical Inspection Audit"
+          subtitle="Lagos State Property Inspection Audit"
         >
           <OpsEmptyState
             icon={FileText}
             title="No inspection report selected"
-            description="Open a completed inspection from the inspections desk to review its cadastral audit, photographic evidence and clearance status."
+            description="Open a completed inspection from the inspections desk to review its plot audit, photographic evidence and clearance status."
             action={
               <Link
                 href="/dashboard/agent/inspections"
@@ -156,19 +156,19 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
     const has = (needle: string) => note.includes(needle);
     return {
       corporate: [
-        { label: 'CAC registration confirmed against the landlord record', ok: Boolean(report.owner) },
+        { label: 'Business Registration confirmed against the landlord record', ok: Boolean(report.owner) },
         { label: 'Counterparty identity and email contact captured', ok: Boolean(report.owner?.email) },
-        { label: 'Statutory agent tier recorded on the dossier', ok: Boolean(report.agent) },
+        { label: 'Agent tier recorded on the report', ok: Boolean(report.agent) },
       ],
       physical: [
         { label: 'Listing address and area captured for the field visit', ok: Boolean(report.listing?.address) },
-        { label: 'Cadastral plot reference recorded on the verification record', ok: Boolean(report.listing?.area) },
+        { label: 'Plot reference recorded on the verification record', ok: Boolean(report.listing?.area) },
         { label: 'Physical inspection slot confirmed with the assigned agent', ok: Boolean(report.scheduledAt) },
       ],
       capacity: [
         { label: 'Mandate assigned to the accredited agent of record', ok: Boolean(report.agent) },
-        { label: 'Escrow and ledger workflow bound to the mandate', ok: Boolean(report.listing) },
-        { label: 'Signed inspection report uploaded to the dossier', ok: Boolean(report.reportUrl) },
+        { label: 'Secure payment and ledger workflow bound to the mandate', ok: Boolean(report.listing) },
+        { label: 'Signed inspection report uploaded to the report', ok: Boolean(report.reportUrl) },
       ],
     };
   }, [report]);
@@ -206,7 +206,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             <span className="hidden sm:block w-px h-4 bg-zinc-200 dark:bg-white/[0.08]" />
             <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-wider font-semibold text-zinc-600 dark:text-zinc-400">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Official Cadastral Audit Docket
+              Official Audit Docket
             </span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -251,10 +251,10 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                     Official Gazette Copy
                   </span>
                   <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">
-                    Lagos State Cadastre &amp; Physical Inspection Audit
+                    Lagos State Property Inspection Audit
                   </h1>
                   <p className="text-[11px] uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
-                    Federal Republic of Nigeria · Surveyor-General Cadastral Directorate Joint Office
+                    Federal Republic of Nigeria · Surveyor-General Land Directorate Joint Office
                   </p>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                 <div className="flex items-center gap-2 pt-1 font-mono text-xs text-zinc-500 dark:text-zinc-400">
                   <MapPin className="h-3.5 w-3.5" />
                   <span>
-                    Cadastral plot: {report.listing?.area ?? '—'} · Beacon clearance recorded on the
+                    Plot: {report.listing?.area ?? '—'} · clearance recorded on the
                     verification ledger
                   </span>
                 </div>
@@ -355,7 +355,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                 <div className="flex items-center gap-4 bg-white/15 backdrop-blur-md rounded-xl p-4 shrink-0 relative z-10">
                   <div className="flex flex-col text-right">
                     <span className="text-[11px] uppercase tracking-wider text-white/70">
-                      Statutory Audit Score
+                      Audit Score
                     </span>
                     <span className="text-3xl font-bold leading-none">
                       {auditScore}
@@ -409,7 +409,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                 <CheckCircle2 className="h-5 w-5 text-primary dark:text-[#4edea3] shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-zinc-900 dark:text-white">
-                    {cleared ? 'Beacon Integrity Confirmed' : 'Beacon Review Open'}
+                    {cleared ? 'Integrity Confirmed' : 'Review Open'}
                   </p>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400">Survey record cross-indexed</p>
                 </div>
@@ -421,7 +421,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
           <section className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
-                Statutory Compliance Assessment Matrix
+                Compliance Assessment Matrix
               </h3>
               <span className="text-[11px] uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
                 {COMPLIANCE_CRITERIA.reduce(
@@ -498,7 +498,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
-                  Photographic Cadastral Evidence
+                  Photographic Evidence
                 </h3>
                 <p className="text-xs text-zinc-600 dark:text-zinc-400">
                   Field assets captured during the on-site physical verification
@@ -519,7 +519,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={img.url}
-                        alt={report.listing?.title ?? 'Cadastral evidence'}
+                        alt={report.listing?.title ?? 'Plot evidence'}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -536,7 +536,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                     <div className="p-3 flex-1 flex flex-col justify-between">
                       <div>
                         <h4 className="font-medium text-zinc-900 dark:text-white truncate">
-                          {report.listing?.title ?? 'Cadastral record'}
+                          {report.listing?.title ?? 'Plot record'}
                         </h4>
                         <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mt-0.5">
                           {report.notes?.trim() ||
@@ -560,7 +560,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
                     No photographic evidence attached
                   </h4>
                   <p className="mt-1 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
-                    Field imagery is attached to the verification dossier when the inspection completes.
+                    Field imagery is attached to the verification report when the inspection completes.
                   </p>
                 </div>
               </OpsCard>
@@ -572,19 +572,19 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             <div className="flex items-center gap-2">
               <FileTextIcon />
               <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
-                Inspector&apos;s Professional Remarks &amp; Statutory Evaluation
+                Inspector&apos;s Professional Remarks &amp; Evaluation
               </h3>
             </div>
             <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow-sm">
               <p className="text-sm text-zinc-900 dark:text-zinc-100 leading-relaxed text-justify">
                 {report.notes?.trim() ||
-                  'The assigned field inspector has not yet filed the professional remarks for this verification record. The dossier remains open until the signed report is uploaded.'}
+                  'The assigned field inspector has not yet filed the professional remarks for this verification record. The report remains open until the signed report is uploaded.'}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs text-zinc-500 dark:text-zinc-400">
               <div className="flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary dark:text-[#4edea3]" />
-                <span>Cadastral offset: recorded</span>
+                <span>Plot offset: recorded</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary dark:text-[#4edea3]" />
@@ -602,7 +602,7 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
               <div className="space-y-2">
                 <span className="block text-[11px] uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
-                  Lead Cadastral Inspector Authorization
+                  Lead Inspector Authorization
                 </span>
                 <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg space-y-1 relative overflow-hidden">
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none">

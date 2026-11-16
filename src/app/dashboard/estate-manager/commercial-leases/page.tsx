@@ -510,7 +510,7 @@ export default function EstateManagerCommercialLeasesPage() {
                               <div className="flex items-center justify-end gap-1.5">
                                 <Link
                                   href={`/dashboard/estate-manager/units/${r.unit.id}`}
-                                  title="Preview lease dossier"
+                                  title="Preview lease report"
                                   className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                                 >
                                   <Eye className="h-[18px] w-[18px]" />

@@ -94,7 +94,7 @@ export default async function AdminOverviewPage() {
             <StatCard label="Total Users" value={totalUsers.toLocaleString()} sub={`${activeUsers.toLocaleString()} active · ${newToday} new today`} icon={Users} />
             <StatCard label="Pending Verifications" value={String(pendingVerifications)} sub="Awaiting review" icon={UserCheck} />
             <StatCard label="Platform Revenue (GTV)" value={formatCurrency(gtv / 100)} sub={`${totalTransactions.toLocaleString()} transactions`} icon={Wallet} />
-            <StatCard label="Active Disputes" value={String(disputeCount)} sub={`${escrowedTransactions} in escrow`} icon={Flag} />
+            <StatCard label="Active Disputes" value={String(disputeCount)} sub={`${escrowedTransactions} held`} icon={Flag} />
           </div>
 
           {/* Recent Users + Quick Stats */}
@@ -119,7 +119,7 @@ export default async function AdminOverviewPage() {
                 <div className="space-y-3">
                   {[
                     { label: 'Active Listings', value: `${activeListings.toLocaleString()} / ${totalListings.toLocaleString()}` },
-                    { label: 'Transactions in Escrow', value: escrowedTransactions.toLocaleString() },
+                    { label: 'Transactions in Secure Payment', value: escrowedTransactions.toLocaleString() },
                     { label: 'Pending Verifications', value: pendingVerifications.toLocaleString() },
                     { label: 'Total Listings', value: totalListings.toLocaleString() },
                   ].map((item) => (
@@ -135,7 +135,7 @@ export default async function AdminOverviewPage() {
                 <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   Revenue tracked to date includes{' '}
                   <span className="font-semibold text-zinc-900 dark:text-white">released</span> and{' '}
-                  <span className="font-semibold text-[#4edea3]">in-escrow</span> transactions.
+                  <span className="font-semibold text-[#4edea3]">held</span> transactions.
                   {disputeCount > 0 && <> <span className="text-red-400 font-bold">{disputeCount}</span> open disputes require attention.</>}
                 </p>
               </div>

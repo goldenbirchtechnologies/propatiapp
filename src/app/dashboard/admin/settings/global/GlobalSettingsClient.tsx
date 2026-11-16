@@ -83,7 +83,7 @@ export default function GlobalSettingsClient() {
                 <div className="space-y-6">
                   <div>
                     <label className="block font-label-sm text-label-md text-zinc-600 dark:text-zinc-400 mb-2">
-                      Escrow Hold Period
+                      Secure Payment Hold Period
                     </label>
                     <div className="relative">
                       <input

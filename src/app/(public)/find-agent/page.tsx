@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 const FAQS: Faq[] = [
   {
     q: 'How is an agent verified?',
-    a: 'An agent has to hold a licence from one of the professional boards we integrate with — LASRERA, ESVARBON, NIESV or EAR — and our verification team has to approve that licence. The agent must also still be in date. The board shown on each card is the one we actually checked.',
+    a: 'An agent must hold a licence from a professional board our team verifies, and that licence must still be in date. The board shown on each card is the one we actually checked.',
   },
   {
     q: 'What does the licence badge on a card mean?',
@@ -53,6 +53,17 @@ function first(value: string | string[] | undefined): string | undefined {
 
 function isBoard(value: string | undefined): value is AgentLicenseBoard {
   return !!value && (AGENT_BOARDS as readonly string[]).includes(value);
+}
+
+const BOARD_LABELS: Record<string, string> = {
+  LASRERA: 'Real Estate License',
+  ESVARBON: 'Estate Surveyor Register',
+  NIESV: 'Chartered Estate Surveyor',
+  EAR: 'Estate Agent License',
+};
+
+function boardLabel(board: string) {
+  return BOARD_LABELS[board] ?? board;
 }
 
 function directoryHref(
@@ -132,7 +143,7 @@ function AgentCard({ agent }: { agent: PublicAgent }) {
           {agent.boards.map((board) => (
             <Badge key={board} variant="success">
               <ShieldCheck aria-hidden className="h-3 w-3" />
-              {board}
+              boardLabel(board)
             </Badge>
           ))}
           {agent.listingCount > 0 && (
@@ -315,7 +326,7 @@ export default async function FindAgentPage({ searchParams }: { searchParams: Se
                         : 'border-border text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    {entry.value}
+                    boardLabel(entry.value)
                     <span className="ml-1.5 text-xs opacity-70">{entry.count}</span>
                   </Link>
                 );

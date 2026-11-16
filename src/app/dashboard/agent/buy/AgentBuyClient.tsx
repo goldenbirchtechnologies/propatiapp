@@ -159,7 +159,7 @@ export default function AgentBuyClient({
             </span>
           </div>
           <p className="max-w-4xl text-sm text-zinc-600 dark:text-zinc-400">
-            Institutional conveyancing mandates, outright freehold transactions, and deed
+            conveyancing mandates, outright freehold transactions, and deed
             executions where <code className="rounded bg-zinc-100 px-1 py-0.5 font-mono-numeric text-xs dark:bg-zinc-800">type = &apos;sale&apos;</code>.
             Real-time Lands Bureau compliance tracking.
           </p>
@@ -213,7 +213,7 @@ export default function AgentBuyClient({
           sublabel={
             <span className="truncate">
               {stats.pending > 0
-                ? 'Awaiting signature &amp; statutory clearance'
+                ? 'Awaiting signature &amp; clearance'
                 : 'No matters awaiting signature'}
             </span>
           }
@@ -226,7 +226,7 @@ export default function AgentBuyClient({
             <div className="flex items-center justify-between gap-2">
               <span className="inline-flex items-center gap-1 text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                Escrow settled
+                Secure Payment settled
               </span>
               <span className="font-mono-numeric text-[11px] text-zinc-500">
                 {stats.closed === stats.total && stats.total > 0 ? '100% Cleared' : '—'}
@@ -325,7 +325,7 @@ export default function AgentBuyClient({
           <table className="w-full border-collapse text-left">
             <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-white/[0.08] dark:bg-zinc-800/50">
               <tr>
-                <AgentTh>Property &amp; Cadastral Reference</AgentTh>
+                <AgentTh>Property &amp; Reference</AgentTh>
                 <AgentTh>Contract Parties</AgentTh>
                 <AgentTh>Acquisition Tenure</AgentTh>
                 <AgentTh>Conveyancing Status</AgentTh>
@@ -490,7 +490,7 @@ export default function AgentBuyClient({
                           </a>
                         ) : (
                           <span
-                            title="Escrow not yet funded"
+                            title="Secure Payment not yet funded"
                             className="rounded p-1.5 text-zinc-400 dark:text-zinc-600"
                           >
                             <WalletIcon className="h-4 w-4" />
@@ -514,12 +514,12 @@ export default function AgentBuyClient({
           </div>
           <div>
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">
-              Governor&apos;s Consent &amp; Stamp Duty Protocol Active
+              Governor&apos;s Consent &amp; Stamp Duty Active
             </h3>
             <p className="max-w-2xl text-xs text-zinc-600 dark:text-zinc-400">
               Agreements marked Fully Signed initiate electronic e-stamping and Deed of
               Assignment lodgement via the Lagos State Lands Bureau Registry (Alausa, Ikeja).
-              Escrow releases are held until certificate clearance.
+              Payouts are held until certificate clearance.
             </p>
           </div>
         </div>

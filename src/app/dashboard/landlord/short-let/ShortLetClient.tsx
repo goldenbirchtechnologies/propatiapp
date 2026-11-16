@@ -247,7 +247,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
     a.download = `shortlet-bookings-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    showToast('Occupancy & escrow ledger exported');
+    showToast('Occupancy & payout ledger exported');
   };
 
   // Calendar helpers
@@ -344,7 +344,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-5 relative overflow-hidden">
           <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-primary/10 blur-xl pointer-events-none" />
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Escrow Total Revenue</span>
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Revenue</span>
             <div className="w-9 h-9 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 flex items-center justify-center text-primary">
               <Wallet className="w-5 h-5" />
             </div>
@@ -353,7 +353,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
             <div className="text-[22px] font-bold tracking-tight text-zinc-900 dark:text-white font-mono">{formatCurrency(totalRevenue)}</div>
             <div className="flex items-center gap-1.5 mt-1 text-xs">
               <TrendingUp className="w-3.5 h-3.5 text-primary" />
-              <span className="font-bold text-primary">Escrow secured</span>
+              <span className="font-bold text-primary">Secured</span>
               <span className="text-zinc-500 dark:text-zinc-400">• {totalBookings} bookings</span>
             </div>
           </div>

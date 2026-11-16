@@ -123,7 +123,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
                   <CheckCircle className="h-4 w-4 text-zinc-900 dark:text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-semibold">Payment Verified - In Escrow</p>
+                  <p className="font-semibold">Payment Verified - Secure Payment</p>
                   <p className="text-sm text-zinc-600 dark:text-zinc-400">
                     Funds are being held securely
                   </p>
@@ -279,11 +279,11 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
       {transaction.status === 'in_escrow' && (
         <div className="glass-card border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50">
           <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Escrow Protection</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Secure Payment</h3>
           </div>
           <div className="p-6">
             <p className="text-sm text-zinc-900 dark:text-white">
-              Your payment is being held securely in escrow. The funds will be released to the landlord
+              Your payment is being held securely. The funds will be released to the landlord
               once the transaction is completed and verified by the admin.
             </p>
           </div>

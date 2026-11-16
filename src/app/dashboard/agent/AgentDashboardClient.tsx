@@ -123,7 +123,7 @@ export interface AgentDashboardClientProps {
 const DEAL_FILTERS = [
   { key: 'all', label: 'All Active' },
   { key: 'pending', label: 'Under Review' },
-  { key: 'escrow', label: 'Awaiting Escrow' },
+  { key: 'escrow', label: 'Awaiting Secure Payment' },
   { key: 'closed', label: 'Closed' },
 ] as const;
 
@@ -359,7 +359,7 @@ export default function AgentDashboardClient({
         >
           <div className="flex items-center justify-between">
             <span className={`${LABEL_SM} text-zinc-500 dark:text-zinc-500`}>
-              Pending Escrow
+              Pending Secure Payment
             </span>
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 text-[var(--sovereign-hover)] dark:bg-zinc-800/50 dark:text-[#4edea3]">
               <Wallet size={20} />
@@ -373,7 +373,7 @@ export default function AgentDashboardClient({
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--sovereign-hover)] dark:bg-[#4edea3]" />
               <span>
                 {pendingCommissionCount} release{pendingCommissionCount === 1 ? '' : 's'} pending
-                Paystack
+                Secure Payment
               </span>
             </div>
           </div>
@@ -772,7 +772,7 @@ export default function AgentDashboardClient({
               <span>AML / CFT Compliance</span>
             </div>
             <p className={`${BODY_SM} leading-relaxed text-zinc-500 dark:text-zinc-500`}>
-              SCUML &amp; CAC Anti-Money Laundering protocol active. All transactions above{' '}
+              SCUML &amp; Business Registration Anti-Money Laundering active. All transactions above{' '}
               <strong className="font-mono text-zinc-900 dark:text-white">₦5,000,000</strong>{' '}
               require statutory CTR filing and valid BVN/NIN verified KYC.
             </p>

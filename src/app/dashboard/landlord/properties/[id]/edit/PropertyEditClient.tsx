@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import {
-  ArrowLeft, Building2, MapPin, Ruler, CreditCard, Zap, Wifi, Waves, Dumbbell, Shield, Car, Building, Sun, Images, Save, X,
+Building2, Ruler, CreditCard, Images, Save, X, Shield,
 } from 'lucide-react';
+import AddressSelector from '@/components/properties/AddressSelector';
+import AmenitiesPicker from '@/components/properties/AmenitiesPicker';
 
 type Listing = {
   id: string;
@@ -48,11 +50,6 @@ export default function PropertyEditClient({ listing, userId }: { listing: Listi
 
   const updateField = (field: string, value: unknown) => setForm((prev) => ({ ...prev, [field]: value }));
 
-  const toggleAmenity = (id: string) => setForm((prev) => ({
-    ...prev,
-    amenities: prev.amenities.includes(id) ? prev.amenities.filter((a) => a !== id) : [...prev.amenities, id],
-  }));
-
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -81,17 +78,6 @@ export default function PropertyEditClient({ listing, userId }: { listing: Listi
       setSaving(false);
     }
   };
-
-  const amenityOptions = [
-    { id: 'power', label: '24/7 Dedicated Power', icon: Zap },
-    { id: 'wifi', label: 'High-Speed Fiber Grid', icon: Wifi },
-    { id: 'pool', label: 'Olympic Infinity Pool', icon: Waves },
-    { id: 'security', label: 'Armed Patrol & Biometrics', icon: Shield },
-    { id: 'gym', label: 'Technogym Fitness Studio', icon: Dumbbell },
-    { id: 'parking', label: 'Dedicated Parking', icon: Car },
-    { id: 'elevator', label: 'KONE High-Speed Elevators', icon: Building },
-    { id: 'water', label: 'Industrial Reverse Osmosis', icon: Sun },
-  ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -142,20 +128,19 @@ export default function PropertyEditClient({ listing, userId }: { listing: Listi
               <label className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 font-semibold">Executive Institutional Summary *</label>
               <textarea className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-sm resize-y" rows={4} value={form.description} onChange={(e) => updateField('description', e.target.value)} />
             </div>
-            <div className="space-y-1">
-              <label className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 font-semibold">Registered Plot &amp; Street Address *</label>
-              <div className="relative">
-                <MapPin size={16} className="absolute left-3 top-2.5 text-zinc-500 dark:text-zinc-400" />
-                <input className="w-full pl-9 pr-3 py-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-sm" value={form.address} onChange={(e) => updateField('address', e.target.value)} />
-              </div>
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 font-semibold">Area / Neighborhood</label>
-              <input className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-sm" value={form.area} onChange={(e) => updateField('area', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 font-semibold">State Jurisdiction</label>
-              <input className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white text-sm" value={form.state} onChange={(e) => updateField('state', e.target.value)} />
+            <div className="lg:col-span-3">
+              <AddressSelector
+                value={{
+                  streetAddress: form.address,
+                  state: form.state,
+                  city: form.area,
+                }}
+                onChange={(data) => {
+                  updateField('address', data.streetAddress ?? '');
+                  updateField('state', data.state ?? '');
+                  updateField('area', data.city ?? '');
+                }}
+              />
             </div>
           </div>
         </section>
@@ -227,18 +212,27 @@ export default function PropertyEditClient({ listing, userId }: { listing: Listi
               <p className="text-sm text-zinc-600 dark:text-zinc-400">Tier-1 certified amenities.</p>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {amenityOptions.map((a) => {
-              const active = form.amenities.includes(a.id);
-              const Icon = a.icon;
-              return (
-                <button type="button" key={a.id} onClick={() => toggleAmenity(a.id)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${active ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border-primary dark:border-primary/30 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'bg-zinc-50 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08]'}`}>
-                  <Icon size={16} /> {a.label}
-                </button>
-              );
-            })}
-          </div>
+<AmenitiesPicker
+  categories={[
+    { label: "Building Features", items: [
+      { value: "pool", label: "Swimming Pool", icon: <span>Pool</span> },
+      { value: "elevator", label: "Elevator", icon: <span>Elevator</span> },
+      { value: "rooftop", label: "Rooftop Lounge", icon: <span>Rooftop</span> },
+    ]},
+    { label: "Security & Access", items: [
+      { value: "generator", label: "24/7 Power/Generator", icon: <span>Power</span> },
+      { value: "cctv", label: "CCTV Surveillance", icon: <span>CCTV</span> },
+      { value: "gate_house", label: "Gate House", icon: <span>Gate</span> },
+    ]},
+    { label: "Unit Utilities", items: [
+      { value: "ac", label: "Air Conditioning", icon: <span>AC</span> },
+      { value: "fiber", label: "High-Speed Fiber Internet", icon: <span>Internet</span> },
+      { value: "ensuite", label: "En-suite Bath", icon: <span>Bath</span> },
+    ]},
+  ]}
+  selected={form.amenities}
+  onChange={(amenities) => updateField("amenities", amenities)}
+/>
         </section>
 
         {/* Section 5: Media & Imagery Asset Gallery */}

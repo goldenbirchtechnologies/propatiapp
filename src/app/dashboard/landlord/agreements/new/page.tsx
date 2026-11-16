@@ -185,11 +185,11 @@ export default function NewAgreementPage() {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1 text-primary dark:text-[#4edea3] text-[11px] font-semibold uppercase tracking-wider">
                 <BadgeCheck className="h-[16px] w-[16px]" />
-                <span>LASRERA &amp; CAC Compliant Framework</span>
+                <span>&amp; Compliant Framework</span>
               </div>
               <h1 className="text-[32px] leading-[40px] tracking-tight font-bold text-zinc-900 dark:text-white">Create New Agreement</h1>
               <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl">
-                Generate an institutional-grade tenancy agreement or commercial lease, legally stamped and provisioned for electronic verification via NIN, BVN, or CAC.
+                Generate a tenancy agreement or commercial lease, legally stamped and provisioned for electronic verification via NIN, BVN, or Business Registration.
               </p>
             </div>
             <div className="flex items-center gap-2 self-start md:self-auto">
@@ -219,7 +219,7 @@ export default function NewAgreementPage() {
               <div className="flex items-center gap-4 opacity-60">
                 <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 flex items-center justify-center font-semibold shrink-0">2</div>
                 <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Terms, Pricing &amp; Escrow</span>
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Terms, Pricing &amp; </span>
                   <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Service charges &amp; rent</span>
                 </div>
               </div>
@@ -266,7 +266,7 @@ export default function NewAgreementPage() {
                         <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 flex items-center justify-center shrink-0"><FilePenLine className="h-[20px] w-[20px]" /></div>
                         <div className="flex flex-col">
                           <span className="text-sm font-semibold text-zinc-900 dark:text-white">Generate from Template</span>
-                          <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Standard LASRERA institutional clause</span>
+                          <span className="text-[11px] text-zinc-600 dark:text-zinc-400">Standard license clause</span>
                         </div>
                       </button>
                     </div>
@@ -350,7 +350,7 @@ export default function NewAgreementPage() {
                       <BadgeCheck className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 dark:text-zinc-400 h-[20px] w-[20px] pointer-events-none" />
                       <Input id="tenant-identifier" className="w-full h-11 pl-10 pr-28" placeholder="e.g. tenant@domain.ng or RC-1892834" {...register('tenantId')} />
                       <span className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#4edea3] rounded text-[11px] font-semibold flex items-center gap-1">
-                        <BadgeCheck className="h-[14px] w-[14px]" /> CAC VALID
+                        <BadgeCheck className="h-[14px] w-[14px]" /> Registration Valid
                       </span>
                     </div>
                     {errors.tenantId && <p className="text-xs text-red-500 mt-1">{errors.tenantId.message}</p>}
@@ -364,10 +364,10 @@ export default function NewAgreementPage() {
                     <label className="text-sm font-semibold text-zinc-900 dark:text-white">Agreement Classification <span className="text-red-500">*</span></label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {[
-                        { value: 'rental', label: 'Standard Residential', sub: 'Annual tenancy under LASRERA' },
+                        { value: 'rental', label: 'Standard Residential', sub: 'Annual tenancy under Real Estate License' },
                         { value: 'commercial', label: 'Commercial Corporate Lease', sub: 'Multi-year institution contract' },
                         { value: 'serviced', label: 'Serviced Executive Flat', sub: 'Includes 24/7 power & security' },
-                        { value: 'short_let', label: 'Institutional Short-Let', sub: 'Flexible rolling quarterly terms' },
+                        { value: 'short_let', label: 'Short-Let', sub: 'Flexible rolling quarterly terms' },
                       ].map((opt) => (
                         <label key={opt.value} className="flex items-center gap-2 p-2 rounded-lg bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] cursor-pointer transition-colors">
                           <input type="radio" name="type" value={opt.value} checked={watchedValues.type === opt.value} onChange={() => setValue('type', opt.value as never)} className="w-4 h-4 text-primary focus:ring-primary" />
@@ -411,7 +411,7 @@ export default function NewAgreementPage() {
                     <div className="flex flex-col">
                       <label className="text-sm font-semibold text-zinc-900 dark:text-white cursor-pointer" htmlFor="legal-guarantor">Enforce Corporate Guarantor &amp; Legal Co-Signer</label>
                       <span className="text-xs text-zinc-600 dark:text-zinc-400">
-                        Requires an attested Letter of Indemnity and verification of employer payroll or CAC Form 7 before handover.
+                        Requires an attested Letter of Indemnity and verification of employer payroll or Business Registration Form 7 before handover.
                       </span>
                     </div>
                   </div>
@@ -495,9 +495,9 @@ export default function NewAgreementPage() {
                   <div className="flex items-start gap-2 p-2 bg-zinc-100 dark:bg-white/[0.06] rounded-lg">
                     <Scale className="text-primary dark:text-[#4edea3] h-[20px] w-[20px] shrink-0 mt-0.5" />
                     <div className="flex flex-col text-zinc-900 dark:text-white">
-                      <span className="text-sm font-semibold leading-tight">Statutory Lagos Tenancy Law 2011</span>
+                      <span className="text-sm font-semibold leading-tight">Lagos Tenancy Law 2011</span>
                       <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
-                        Agreement terms will automatically inject Section 13 covenants, statutory 7-day abandonment protocols, and standard dispute mediation clauses.
+                        Agreement terms will automatically inject Section 13 covenants, 7-day abandonment terms, and standard dispute mediation clauses.
                       </p>
                     </div>
                   </div>

@@ -101,15 +101,15 @@ const DEMO_SHOWCASE: CompareListing[] = [
 type FilterTab = 'all' | 'financials' | 'legal' | 'physical' | 'tenancy';
 const FILTER_TABS: { id: FilterTab; label: string }[] = [
   { id: 'all', label: 'All Dimensions' },
-  { id: 'financials', label: 'Financials & Escrow' },
-  { id: 'legal', label: 'Legal & Title Diligence' },
+  { id: 'financials', label: 'Financials & Payments' },
+  { id: 'legal', label: 'Legal & Title' },
   { id: 'physical', label: 'Physical Specs & Power' },
   { id: 'tenancy', label: 'Tenancy Covenants' },
 ];
 
 type TableSectionGroup =
   | 'Financial Information'
-  | 'Legal & Title Verification'
+  | 'Legal & Title'
   | 'Physical Property Specifications'
   | 'Utilities & Infrastructure'
   | 'Tenancy & Lease Covenants'
@@ -242,7 +242,7 @@ function ComparePageInner() {
         : <span className="text-zinc-500">Not stated</span>),
     },
     {
-      label: 'Stamp Duty (CAP S8, 0.78%)',
+      label: 'Stamp Duty (0.78%)',
       section: 'Financial Information',
       tab: 'financials',
       text: (l) => {
@@ -258,20 +258,20 @@ function ComparePageInner() {
         return (
           <div>
             <span className="font-mono font-medium text-foreground">{duty === 0 ? 'Nil' : `≈ ${formatNaira(duty)}`}</span>
-            <span className="block text-[11px] text-zinc-500 mt-0.5">Remita / FIRS E-Certificate</span>
+            <span className="block text-[11px] text-zinc-500 mt-0.5">Official Stamp Duty Certificate</span>
           </div>
         );
       },
     },
     {
-      label: 'Caution Deposit & Escrow Custody',
+      label: 'Caution Deposit & Secure Payment',
       section: 'Financial Information',
       tab: 'financials',
-      text: () => 'CBN Trustee Protected — 14-Day bilateral handover',
+      text: () => 'Secure Payment Protected — 14-Day handover',
       render: () => (
         <div>
-          <span className="font-semibold text-emerald-600 dark:text-[#4edea3]">CBN Trustee Protected</span>
-          <span className="block text-xs text-zinc-400 mt-0.5">14-Day bilateral key handover protocol</span>
+          <span className="font-semibold text-emerald-600 dark:text-[#4edea3]">Secure Payment Protected</span>
+          <span className="block text-xs text-zinc-400 mt-0.5">14-Day key handover</span>
         </div>
       ),
     },
@@ -298,23 +298,23 @@ function ComparePageInner() {
       label: 'C of O / Governor’s Consent',
       section: 'Legal & Title Verification',
       tab: 'legal',
-      text: () => 'LASRERA & AGIS Cadastral Validated',
+      text: () => 'Land Registry Validated',
       render: () => (
         <div>
-          <span className="font-semibold text-foreground">Government Cadastral Validated</span>
-          <span className="block text-xs text-zinc-400 mt-0.5">LASRERA / AGIS electronic ledger cleared</span>
+          <span className="font-semibold text-foreground">Government Land Validated</span>
+          <span className="block text-xs text-zinc-400 mt-0.5">State land registry cleared</span>
         </div>
       ),
     },
     {
-      label: 'Title Registration & Cadastre',
+      label: 'Title Registration',
       section: 'Legal & Title Verification',
       tab: 'legal',
-      text: () => 'Registered Deed · Electronic RRR Beacon ID',
+      text: () => 'Registered Deed · Electronic RRR ID',
       render: () => (
         <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-zinc-300">
           <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-          Electronic RRR · Beacon ID Verified
+          Electronic RRR · ID Verified
         </span>
       ),
     },
@@ -324,7 +324,7 @@ function ComparePageInner() {
     { label: 'Bathrooms', section: 'Physical Property Specifications', tab: 'physical', text: (l) => (l.bathrooms != null ? `${l.bathrooms} Bathrooms` : '—') },
     { label: 'Usable Floor Size', section: 'Physical Property Specifications', tab: 'physical', text: (l) => (l.sizeSqm ? `${l.sizeSqm} m²` : '—') },
     {
-      label: 'Architectural Style',
+      label: 'Property Style',
       section: 'Physical Property Specifications',
       tab: 'physical',
       text: (l) => (l.propertyType ? humanise(l.propertyType) : '—'),
@@ -357,14 +357,14 @@ function ComparePageInner() {
     },
 
     // 5. Tenancy & Lease Covenants
-    { label: 'Statutory Notice to Quit', section: 'Tenancy & Lease Covenants', tab: 'tenancy', text: () => '6 Months — Lagos Tenancy Law 2011 §13 / FCT Act' },
-    { label: 'Bilateral Handover Protocol', section: 'Tenancy & Lease Covenants', tab: 'tenancy', text: () => '14-Day Condition Inventory & Digital Audit' },
+    { label: 'Notice to Quit', section: 'Tenancy & Lease Covenants', tab: 'tenancy', text: () => '6 Months' },
+    { label: 'Move-In Handover', section: 'Tenancy & Lease Covenants', tab: 'tenancy', text: () => '14-Day Condition Inventory & Audit' },
     { label: 'Subletting & Guest Covenants', section: 'Tenancy & Lease Covenants', tab: 'tenancy', text: () => 'Prohibited (Single Family) / Corporate Rotation Allowed' },
-    { label: 'Escrow Settlement Trigger', section: 'Tenancy & Lease Covenants', tab: 'tenancy', text: () => 'Bilateral Digital Signature + Key Issuance' },
+    { label: 'Payment Release Trigger', section: 'Tenancy & Lease Covenants', tab: 'tenancy', text: () => 'Digital Signature + Key Issuance' },
 
     // 6. Location & Classification
     {
-      label: 'Location / Cadastral District',
+      label: 'Location / District',
       section: 'Location & Classification',
       tab: 'generic',
       text: (l) => {
@@ -429,12 +429,12 @@ function ComparePageInner() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#002817]/40 via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0,108,73,0.18),transparent_65%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 md:py-16 relative">
-          <SectionLabel>Multi-Property Due Diligence Matrix</SectionLabel>
+          <SectionLabel>Property Comparison Matrix</SectionLabel>
           <h1 className="mt-3.5 text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-white max-w-4xl">
             Compare Properties Side by Side
           </h1>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-zinc-300 max-w-3xl leading-relaxed">
-            Evaluate verified institutional assets across statutory title standing (C&nbsp;of&nbsp;O &amp; Governor&apos;s Consent), CBN-regulated escrow custody, physical coordinate surveys, service charge clarity, and lease enforceability.
+            Evaluate verified listings side by side: title standing, C of O and Governor's Consent, secure payment custody, survey maps, service charges, and lease terms.
           </p>
 
           <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3">
@@ -475,31 +475,31 @@ function ComparePageInner() {
             {[
               {
                 icon: Award,
-                label: 'Statutory Title Audits',
+                label: 'Title Audits',
                 value: '100%',
-                sub: 'C of O & CAC Registry Verified',
+                sub: 'C of O & Registry Verified',
                 status: 'Title Cleared',
               },
               {
                 icon: Landmark,
-                label: 'Escrow Liquidity Backed',
+                label: 'Payment Protected',
                 value: '₦12.4B+',
-                sub: 'CBN-Regulated Trustee Pipeline',
+                sub: 'Secure Payment Pipeline',
                 status: 'Bank Shielded',
               },
               {
                 icon: ShieldCheck,
-                label: 'On-Ground Surveyor Cadre',
+                label: 'Field Surveyors',
                 value: '18 States',
-                sub: 'Accredited NIESV Field Surveyors',
-                status: 'Beacon Mapped',
+                sub: 'Certified Field Surveyors',
+                status: 'Location Mapped',
               },
               {
                 icon: Shield,
-                label: 'Caution Deposit Disputes',
+                label: 'Deposit Disputes',
                 value: '0 Cases',
-                sub: '14-Day Automated Settlement SLA',
-                status: 'Escrow Governed',
+                sub: '14-Day Automated Payout SLA',
+                status: 'Payment Governed',
               },
             ].map((m) => (
               <div
@@ -591,12 +591,12 @@ function ComparePageInner() {
                 Property Summary Cards
               </h2>
               <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-2xl">
-                Side-by-side legal parity, institutional lease verification, and escrow liquidity guarantees.
+                Side-by-side lease verification, payment protection, and clear service charges.
               </p>
             </div>
             {noSelection && (
               <span className="text-xs text-zinc-400">
-                Institutional showcase — add live properties via <Link href="/listings" className="text-primary font-semibold hover:underline">Listings</Link>
+                Demo showcase — add live properties via <Link href="/listings" className="text-primary font-semibold hover:underline">Listings</Link>
               </span>
             )}
           </div>
@@ -708,7 +708,7 @@ function ComparePageInner() {
                     <Button asChild className="w-full h-11 rounded-xl text-sm font-bold shadow-md bg-primary text-primary-foreground hover:bg-primary/90 flex items-center justify-center gap-2">
                       <Link href={hasSelection ? `/listings/${l.id}` : '/listings'}>
                         <ShieldCheck className="h-4 w-4" />
-                        Initiate Escrow Lease
+                        Start Secured Lease
                       </Link>
                     </Button>
                     <Button variant="outline" asChild className="w-full h-10 rounded-xl text-xs sm:text-sm font-semibold border-border hover:bg-card flex items-center justify-center gap-1.5">
@@ -737,7 +737,7 @@ function ComparePageInner() {
                     <h2 className="text-base font-bold text-foreground">
                       {activeTab === 'all' ? 'Complete Multi-Dimension Comparison' : FILTER_TABS.find(t => t.id === activeTab)?.label}
                     </h2>
-                    <p className="text-xs text-zinc-400">18 statutory, physical, and financial data points benchmarked</p>
+                    <p className="text-xs text-zinc-400">18 physical and financial data points benchmarked</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -841,8 +841,8 @@ function ComparePageInner() {
             </div>
 
             {/* P1: Comparison Action Buttons */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Button asChild className="h-11 px-5 rounded-xl text-sm font-bold shadow-md bg-primary text-primary-foreground hover:bg-primary/90">
+            <div className="mt-6 flex flex-col gap-3">
+              <Button asChild className="w-full h-11 px-5 rounded-xl text-sm font-bold shadow-md bg-primary text-primary-foreground hover:bg-primary/90">
                 <Link href="/listings">
                   <span className="inline-flex items-center gap-2">
                     <span aria-hidden="true" className="text-base leading-none">＋</span>
@@ -853,7 +853,7 @@ function ComparePageInner() {
 
               <Button
                 variant="outline"
-                className="h-11 px-5 rounded-xl text-sm font-semibold border-border hover:bg-card gap-2 text-foreground"
+                className="w-full h-11 px-5 rounded-xl text-sm font-semibold border-border hover:bg-card gap-2 text-foreground"
                 onClick={copyLink}
               >
                 {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
@@ -862,7 +862,7 @@ function ComparePageInner() {
 
               <Button
                 variant="outline"
-                className="h-11 px-5 rounded-xl text-sm font-semibold border-border hover:bg-card gap-2 text-foreground"
+                className="w-full h-11 px-5 rounded-xl text-sm font-semibold border-border hover:bg-card gap-2 text-foreground"
                 onClick={() => window.print()}
               >
                 <Printer className="h-4 w-4" />
@@ -876,7 +876,7 @@ function ComparePageInner() {
       {/* P1: Independent Surveyor / Title Search CTA */}
       <section className="pb-16 sm:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="glass-card rounded-3xl p-6 sm:p-8 md:p-10 border-2 border-primary/20 bg-card shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="glass-card rounded-3xl p-6 sm:p-8 md:p-10 border-2 border-primary/20 bg-card shadow-xl flex flex-col items-start gap-8">
             <div className="flex items-start gap-5">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary dark:text-[#4edea3] shrink-0">
                 <Landmark className="h-6 w-6" />
@@ -886,14 +886,14 @@ function ComparePageInner() {
                   Need an independent surveyor report or deed certification?
                 </h3>
                 <p className="mt-2 text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl">
-                  Before committing significant institutional capital, commission a registered NIESV fellow to perform coordinate verification, boundary beacon mapping, or physical structural testing.
+                  Before committing, commission a registered surveyor to verify coordinates, map boundaries, or run a physical structural inspection.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2.5 text-xs">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 font-semibold text-emerald-600 dark:text-[#4edea3]">
-                    <Check className="h-3.5 w-3.5" /> LASRERA Accredited
+                    <Check className="h-3.5 w-3.5" /> Licensed Surveyor
                   </span>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 font-semibold text-emerald-600 dark:text-[#4edea3]">
-                    <Check className="h-3.5 w-3.5" /> AGIS Cadastral Validated
+                    <Check className="h-3.5 w-3.5" /> Land Registry Verified
                   </span>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted border border-border font-medium text-zinc-300">
                     <ShieldCheck className="h-3.5 w-3.5 text-primary" /> 48-Hour Execution Guarantee

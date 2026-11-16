@@ -136,7 +136,7 @@ export default function LandlordDashboardClient({
           {
             type: 'pending' as const,
             title: 'Pending Lease Applications',
-            description: `${pendingApplicationCount} prospective tenant${pendingApplicationCount === 1 ? '' : 's'} completed NIN/CAC checks and awaiting final lease sign-off.`,
+            description: `${pendingApplicationCount} prospective tenant${pendingApplicationCount === 1 ? '' : 's'} completed NIN and registration checks and awaiting final lease sign-off.`,
             action: 'Review Applications',
             href: '/dashboard/landlord/applications',
           },
@@ -203,7 +203,7 @@ export default function LandlordDashboardClient({
             {[
               { label: 'Add Master Property', done: listingCount > 0, href: '/dashboard/landlord/properties/new', num: 1 },
               { label: 'Publish Market Listings', done: activeListingCount > 0, href: '/dashboard/landlord/listing/new', num: 2 },
-              { label: 'Direct Settlement Auth', done: totalRevenue > 0, href: '/dashboard/landlord/financials', num: 3 },
+              { label: 'Direct Payout Auth', done: totalRevenue > 0, href: '/dashboard/landlord/financials', num: 3 },
             ].map((step) => (
               <Link
                 key={step.num}

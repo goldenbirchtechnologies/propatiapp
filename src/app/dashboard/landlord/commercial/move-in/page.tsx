@@ -92,7 +92,7 @@ export default async function CommercialMoveInPage() {
             <div className="flex items-center gap-2">
               <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors">
                 <Download className="w-4 h-4 text-primary" />
-                Export Handover Protocol
+                Export Handover
               </button>
             </div>
           </div>
@@ -159,9 +159,9 @@ export default async function CommercialMoveInPage() {
                   <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-zinc-200 dark:bg-zinc-700 -z-0" />
                   {[
                     { label: 'Contract Executed & Stamped', desc: 'Tenancy agreement executed', done: true },
-                    { label: 'Escrow & Cautionary Deposit', desc: `Payment: ${paymentLabel}`, done: active?.paymentStatus === 'paid' },
+                    { label: 'Secure Payment and Cautionary Deposit', desc: `Payment: ${paymentLabel}`, done: active?.paymentStatus === 'paid' },
                     { label: 'Keys, RFID & Server Bay Access', desc: 'Access credentials encoded', done: false },
-                    { label: 'Handover Protocol & Inspection', desc: 'Awaiting final signoff & checklist', done: false, current: true },
+                    { label: 'Handover and Inspection', desc: 'Awaiting final signoff and checklist', done: false, current: true },
                     { label: 'Tenancy Active & Billing Initiated', desc: `Scheduled ${checkIn}`, done: false },
                   ].map((step, i) => (
                     <div key={i} className="relative z-10 flex items-start gap-3">
@@ -288,7 +288,7 @@ export default async function CommercialMoveInPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                      Statutory &amp; Technical Signoffs
+                      &amp; Technical Signoffs
                     </span>
                     <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
                       Utility &amp; Facility Handover Checklist
@@ -334,7 +334,7 @@ export default async function CommercialMoveInPage() {
                   <Gavel className="w-7 h-7 text-primary mt-0.5" />
                   <div>
                     <h4 className="text-base font-bold text-zinc-900 dark:text-white">
-                      Statutory Execution &amp; Tenancy Activation Notice
+                      Execution &amp; Tenancy Activation Notice
                     </h4>
                     <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mt-1">
                       Marking this asset as handed over formally vests quiet possession to {tenantName}. Executing this will generate the counter-signed digital certificate and commence the monthly billing cycle.

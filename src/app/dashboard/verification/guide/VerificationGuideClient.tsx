@@ -32,7 +32,7 @@ const STEPS_BY_TYPE: Record<string, { layer: number; label: string; desc: string
     { layer: 1, label: 'Identity Check', desc: 'Complete identity verification via Dojah. This covers NIN/BVN and liveness checks.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },
   ],
   company: [
-    { layer: 1, label: 'Business Docs', desc: 'Upload CAC certificate, TIN, and memorandum & articles of association.', icon: Building2, href: '/dashboard/verification/step1/documents' },
+    { layer: 1, label: 'Business Docs', desc: 'Upload Business Registration certificate, TIN, and memorandum & articles of association.', icon: Building2, href: '/dashboard/verification/step1/documents' },
     { layer: 2, label: 'Director Verification', desc: 'Verify identity of the company director or authorized signatory via Dojah.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },
     { layer: 3, label: 'Video Declaration', desc: 'Record a short business declaration video with the authorized signatory.', icon: Video, href: '/dashboard/verification/step3/video' },
     { layer: 4, label: 'Admin Review', desc: 'Final review and certification of business credentials.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },

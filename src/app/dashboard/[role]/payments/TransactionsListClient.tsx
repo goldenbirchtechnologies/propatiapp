@@ -73,7 +73,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
         <TabsList>
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="in_escrow">In Escrow</TabsTrigger>
+          <TabsTrigger value="in_escrow">Secure Payment</TabsTrigger>
           <TabsTrigger value="completed">Completed</TabsTrigger>
           <TabsTrigger value="failed">Failed</TabsTrigger>
         </TabsList>

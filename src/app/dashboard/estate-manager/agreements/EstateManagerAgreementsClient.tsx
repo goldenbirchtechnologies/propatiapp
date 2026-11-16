@@ -210,7 +210,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
             </span>
           </div>
           <p className={`mt-1 text-sm ${MUTED}`}>
-            Track, execute, and audit institutional portfolio tenancy deeds across Nigerian asset holdings.
+            Track, execute, and audit portfolio tenancy deeds across Nigerian asset holdings.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -366,7 +366,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
                             <div className="flex items-center justify-end gap-1">
                               <Link
                                 href={`/dashboard/estate-manager/agreements/${a.id}`}
-                                title="View agreement dossier"
+                                title="View agreement report"
                                 className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-primary dark:hover:bg-zinc-800"
                               >
                                 <Eye className="h-[18px] w-[18px]" />

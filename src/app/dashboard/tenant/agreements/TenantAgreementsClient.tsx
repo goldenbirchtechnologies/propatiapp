@@ -99,7 +99,7 @@ export default function TenantAgreementsClient() {
 
       <PageHeader
         title="My Agreements"
-        description="Your active and past tenancy agreements, legal deed documentation, and statutory Lagos State tenancy schedules."
+        description="Your active and past tenancy agreements, legal deed documentation, and Lagos State tenancy schedules."
         actions={
           <div className="flex items-center gap-2">
             <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
@@ -203,7 +203,7 @@ export default function TenantAgreementsClient() {
                 <th className="px-4 py-3">Start Date</th>
                 <th className="px-4 py-3">End Date</th>
                 <th className="px-4 py-3 text-right">Annual Rent</th>
-                <th className="px-4 py-3">Statutory Status</th>
+                <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3 text-center">Deed Actions</th>
               </tr>
             </thead>
@@ -292,7 +292,7 @@ export default function TenantAgreementsClient() {
             </div>
           </div>
           <div className="shrink-0 rounded-lg bg-zinc-50 dark:bg-white/[0.04] px-4 py-3 text-xs">
-            <p className="font-semibold tracking-widest text-zinc-500">STATUTORY INQUIRIES DESK</p>
+            <p className="font-semibold tracking-widest text-zinc-500">Inquiries Desk</p>
             <p className="mt-1 font-semibold text-zinc-900 dark:text-white">Barrister T. Adegbenro (LL.B, BL)</p>
             <a href="mailto:legal@propatibox.ng" className="text-primary hover:underline dark:text-[#4edea3]">legal@propatibox.ng</a>
           </div>

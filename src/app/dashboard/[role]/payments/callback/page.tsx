@@ -76,7 +76,7 @@ export default function PaymentCallbackPage() {
               <Loader2 className="h-16 w-16 animate-spin text-zinc-900 dark:text-white mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-2">Verifying Payment</h2>
               <p className="text-zinc-600 dark:text-zinc-400">
-                Please wait while we verify your payment with Paystack...
+                Please wait while we verify your payment...
               </p>
             </div>
           )}
@@ -88,7 +88,7 @@ export default function PaymentCallbackPage() {
               </div>
               <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
               <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-                Your payment has been received and verified. The funds are now held securely in escrow.
+                Your payment has been received and verified. The funds are now held securely.
               </p>
 
               <div className="space-y-3">

@@ -88,8 +88,8 @@ const STATUS_TONE: Record<string, FinanceStatusTone> = {
 const STATUS_LABEL: Record<string, string> = {
   released: 'Cleared & Settled',
   success: 'Cleared & Settled',
-  in_escrow: 'In Escrow',
-  escrow_credit: 'In Escrow',
+  in_escrow: 'Secure Payment',
+  escrow_credit: 'Secure Payment',
   commission_held: 'Commission Held',
   pending: 'Processing',
   failed: 'Failed',
@@ -129,7 +129,7 @@ export default function AgentCollectionsClient({
                 : t.type === 'short_let'
                   ? 'Short-let Booking'
                   : 'Subscription',
-        channel: t.payeeAmount !== null ? 'Paystack Dedicated VA' : 'Paystack Direct',
+        channel: t.payeeAmount !== null ? 'Secure Payment Dedicated VA' : 'Secure Payment Direct',
         status: t.status,
         amount: t.amount,
         isCredit,
@@ -149,10 +149,10 @@ export default function AgentCollectionsClient({
             : t.type === 'withdrawal'
               ? 'Wallet Withdrawal'
               : t.type === 'escrow_credit'
-                ? 'Escrow Hold / Release'
+                ? 'Payment Hold / Release'
                 : t.type === 'adjustment'
                   ? 'Management Fee / Adjustment'
-                  : 'Statutory Remittance',
+                  : 'Remittance',
         channel: t.channel ?? 'paystack',
         status: t.status,
         amount: t.amount,
@@ -233,10 +233,10 @@ export default function AgentCollectionsClient({
       <FinanceHeader
         breadcrumb={['Finance', 'Rent & Payments', 'Wallet & Financial Clearing']}
         title="Rent & Payments Clearing Hub"
-        description="Wallet engine, multi-channel NGN settlement and escrow clearing across every mandate under your agency."
+        description="Wallet engine, multi-channel NGN payout and secure payment clearing across every mandate under your agency."
         badges={
           <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--sovereign-hover)] dark:text-[#4edea3]">
-            Tier-4 Institutional
+            Tier-4
           </span>
         }
         actions={
@@ -293,7 +293,7 @@ export default function AgentCollectionsClient({
         <FinanceStatCard
           label="Total Cleared Wallet Balance"
           value={naira(summary.walletBalance)}
-          hint="Available for instant settlement to your linked bank account"
+          hint="Available for instant payout to your linked bank account"
           tone="primary"
           icon={<Wallet className="h-4 w-4" />}
           footer={
@@ -312,7 +312,7 @@ export default function AgentCollectionsClient({
         />
 
         <FinanceStatCard
-          label="Pending Escrow & Commissions"
+          label="Pending Payouts & Commissions"
           value={naira(summary.pendingEscrow + summary.commissionHeld)}
           hint={`Locked across ${summary.escrowCount} deal${summary.escrowCount === 1 ? '' : 's'} awaiting release`}
           tone="amber"
@@ -336,7 +336,7 @@ export default function AgentCollectionsClient({
           footer={
             <div className="flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
               <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-600 dark:bg-white/[0.06] dark:text-zinc-400">
-                Paystack &amp; NIBSS Instant
+                Secure Payment and NIBSS Instant
               </span>
               <Shield className="h-4 w-4 text-primary dark:text-[#4edea3]" />
             </div>
@@ -367,7 +367,7 @@ export default function AgentCollectionsClient({
             <Landmark className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <span className={AGENT_FINANCE_LABEL}>Linked Settlement Destination</span>
+            <span className={AGENT_FINANCE_LABEL}>Linked Payout Destination</span>
             <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">
               {summary.walletBalance > 0 ? 'Trust wallet cleared balance' : 'No linked destination yet'}
             </p>
@@ -381,9 +381,9 @@ export default function AgentCollectionsClient({
             <Scale className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <span className={AGENT_FINANCE_LABEL}>Escrow Routing</span>
+            <span className={AGENT_FINANCE_LABEL}>Payment Routing</span>
             <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">
-              Paystack Split Settlement
+              Secure Payout Split
             </p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
               Collections settle to your verified subaccount
@@ -395,7 +395,7 @@ export default function AgentCollectionsClient({
             <Gauge className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <span className={AGENT_FINANCE_LABEL}>Settlement Channel</span>
+            <span className={AGENT_FINANCE_LABEL}>Payout Channel</span>
             <p className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">
               NIBSS Instant Transfer
             </p>
@@ -454,7 +454,7 @@ export default function AgentCollectionsClient({
                   { value: 'Sale Consideration', label: 'Sale Consideration' },
                   { value: 'Deposit / Commission Inflow', label: 'Commission Inflow' },
                   { value: 'Wallet Withdrawal', label: 'Wallet Withdrawals' },
-                  { value: 'Escrow Hold / Release', label: 'Escrow Hold / Release' },
+                  { value: 'Escrow Hold / Release', label: 'Payment Hold / Release' },
                   { value: 'Management Fee / Adjustment', label: 'Management Fees' },
                 ]}
                 className="w-full"
@@ -472,7 +472,7 @@ export default function AgentCollectionsClient({
                   { value: 'all', label: 'All Statuses' },
                   { value: 'released', label: 'Cleared & Settled' },
                   { value: 'success', label: 'Cleared & Settled' },
-                  { value: 'in_escrow', label: 'In Escrow' },
+                  { value: 'in_escrow', label: 'Secure Payment' },
                   { value: 'pending', label: 'Processing' },
                   { value: 'failed', label: 'Failed' },
                 ]}
@@ -489,10 +489,10 @@ export default function AgentCollectionsClient({
                 }}
                 options={[
                   { value: 'all', label: 'All Channels' },
-                  { value: 'paystack', label: 'Paystack Virtual Acct' },
+                  { value: 'paystack', label: 'Virtual Account' },
                   { value: 'nibss', label: 'NIBSS Instant Transfer' },
-                  { value: 'escrow', label: 'Institutional Escrow' },
-                  { value: 'remita', label: 'Remita Tax Gateway' },
+                  { value: 'escrow', label: 'Secure Payment' },
+                  { value: 'remita', label: 'Tax Gateway' },
                 ]}
                 className="w-full"
               />
@@ -520,7 +520,7 @@ export default function AgentCollectionsClient({
             </span>
             <span className="ml-auto inline-flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400">
               <Shield className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
-              Syncing live Paystack webhook feed
+              Syncing live payment feed
             </span>
           </div>
         </div>
@@ -529,7 +529,7 @@ export default function AgentCollectionsClient({
           <FinanceEmptyState
             icon={<ArrowLeftRight className="h-6 w-6" />}
             title="No clearing records found"
-            description="No settlement activity matches the current filters. Adjust the filters or reset them to see the full clearing ledger."
+            description="No payout activity matches the current filters. Adjust the filters or reset them to see the full clearing ledger."
             action={
               <FinanceButton variant="primary" onClick={resetFilters}>
                 <RefreshCw className="h-3.5 w-3.5" /> Reset filters
@@ -544,7 +544,7 @@ export default function AgentCollectionsClient({
                   <FinanceTh>Ref &amp; Timestamp</FinanceTh>
                   <FinanceTh>Counterparty &amp; Deal Reference</FinanceTh>
                   <FinanceTh>Category / Type</FinanceTh>
-                  <FinanceTh>Settlement Channel</FinanceTh>
+                  <FinanceTh>Payout Channel</FinanceTh>
                   <FinanceTh>Status</FinanceTh>
                   <FinanceTh align="right">Amount (NGN)</FinanceTh>
                   <FinanceTh align="center">Actions</FinanceTh>

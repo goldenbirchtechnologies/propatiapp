@@ -30,7 +30,7 @@ export default function AgreementsPage() {
             Tenancy agreements, legally stamped
           </h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
-            Every PropatiBox tenancy agreement is e-signed by landlord and tenant, then stamped via Remita — the official FIRS/GIFMIS gateway — with an e-certificate embedded in the document.
+            Every PropatiBox tenancy agreement is e-signed by landlord and tenant, then stamped via the official government gateway — with an e-certificate embedded in the document.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">
@@ -55,7 +55,7 @@ export default function AgreementsPage() {
                   <ScaleIcon />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-foreground">Stamp Duties Act, CAP S8 LFN 2004</h2>
+                  <h2 className="text-lg font-bold text-foreground">Stamp Duty rules</h2>
                   <p className="mt-1 text-sm text-zinc-500 leading-relaxed">
                     Tenancy agreements for annual rent above ₦10,000 attract stamp duty at <span className="text-foreground font-semibold">0.78% of annual rent</span>, with a minimum of{' '}
                     <span className="text-foreground font-semibold">₦500</span>. At or below ₦10,000, duty is ₦0. PropatiBox calculates this automatically — you don&apos;t need a manual table.

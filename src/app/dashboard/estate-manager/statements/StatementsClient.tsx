@@ -153,7 +153,7 @@ export default function EstateManagerStatementsClient() {
     setGenerating(true);
     window.setTimeout(() => {
       setGenerating(false);
-      notify('Institutional Statement Compiled', 'STMT-2024-11-EM902 downloaded in certified format.');
+      notify('Statement Compiled', 'STMT-2024-11-EM902 downloaded in certified format.');
     }, 1200);
   }
 
@@ -184,7 +184,7 @@ export default function EstateManagerStatementsClient() {
             <span className="text-zinc-900 dark:text-white">Monthly Statements</span>
             <span className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-0.5 normal-case tracking-normal dark:bg-zinc-800">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
-              <span className="font-mono text-[11px]">Engine Active • Audited via NIBSS/Paystack</span>
+              <span className="font-mono text-[11px]">Engine Active • Audited via NIBSS/Secure Payment</span>
             </span>
           </div>
           <div className="flex items-center gap-3 pt-1">
@@ -194,7 +194,7 @@ export default function EstateManagerStatementsClient() {
             </span>
           </div>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Generate, review, and download institutional rent, service charge, and arrears account statements
+            Generate, review, and download rent, service charge, and arrears account statements
             across managed portfolios with Evidence Act 2011 cryptographic clearance.
           </p>
         </div>
@@ -339,7 +339,7 @@ export default function EstateManagerStatementsClient() {
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-white/[0.08]">
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">Diesel Escrow / FM Pool</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">Diesel Payout / FM Pool</span>
             <span className="font-mono text-xs text-primary">96.4% Recovery</span>
           </div>
         </div>
@@ -367,7 +367,7 @@ export default function EstateManagerStatementsClient() {
         <div className="flex flex-col justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-white/[0.08] dark:bg-zinc-900">
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
-              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Net Escrow Settlement</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Net Payout</span>
               <span className="mt-1 font-mono text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
                 {naira(totals.net)}
               </span>
@@ -522,7 +522,7 @@ export default function EstateManagerStatementsClient() {
                         <button
                           type="button"
                           title="View Ledger"
-                          onClick={() => notify('Ledger Record', `Navigating to unit ${row.ref} real-time escrow ledger.`)}
+                          onClick={() => notify('Ledger Record', `Navigating to unit ${row.ref} real-time payment ledger.`)}
                           className="rounded p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-white"
                         >
                           <ReceiptText className="h-4 w-4" />

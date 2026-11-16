@@ -152,7 +152,7 @@ export default function AddPaymentMethodNewPage() {
   const submitCard = async () => {
     setCardSaving(true);
     await new Promise((r) => setTimeout(r, 900));
-    toast({ title: 'Card tokenization coming soon', description: 'Bank account is the settlement channel for rent. Card will be available once Paystack authorization is wired.' });
+    toast({ title: 'Card tokenization coming soon', description: 'Bank account is the payout channel for rent. Card will be available once Secure Payment authorization is wired.' });
     setCardSaving(false);
   };
 
@@ -189,7 +189,7 @@ export default function AddPaymentMethodNewPage() {
             </Link>
             <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-1 text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              ENCRYPTION PROTOCOL TLS 1.3
+              ENCRYPTION TLS 1.3
             </span>
           </div>
 
@@ -197,20 +197,20 @@ export default function AddPaymentMethodNewPage() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex max-w-2xl flex-col gap-1">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest">
-                <span className="text-primary dark:text-[#4edea3]">Billing Architecture</span>
+                <span className="text-primary dark:text-[#4edea3]">Billing</span>
                 <span className="text-zinc-300 dark:text-zinc-700">•</span>
-                <span className="text-zinc-500">Settlement Node</span>
+                <span className="text-zinc-500">Payout Node</span>
               </div>
               <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-[28px]">Add Payment Method</h1>
               <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                Configure secure settlement channels, automated direct debits, and verified corporate payment accounts for your tenancy obligations.
+                Set up secure payout channels, automated direct debits, and verified payment accounts for your rent.
               </p>
             </div>
             <div className="inline-flex items-center gap-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] px-4 py-3 shadow-sm">
               <Shield className="h-5 w-5 text-primary dark:text-[#4edea3]" />
               <div className="flex flex-col">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 dark:text-white">PCI-DSS Level 1 Certified</span>
-                <span className="text-[11px] text-zinc-600 dark:text-zinc-400">256-bit Encrypted Tokenization via Paystack &amp; NIBSS</span>
+                <span className="text-[11px] text-zinc-600 dark:text-zinc-400">256-bit Encrypted Tokenization via Secure Payment &amp; NIBSS</span>
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@ export default function AddPaymentMethodNewPage() {
             <div className="flex flex-col gap-4 lg:col-span-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Select Settlement Channel</span>
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-white">Select Payout Channel</span>
                   <span className="rounded bg-zinc-100 dark:bg-white/[0.08] px-2 py-0.5 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">4 Channels</span>
                 </div>
                 <span className="text-[11px] font-medium text-zinc-500">Step 1 of 2</span>
@@ -229,10 +229,10 @@ export default function AddPaymentMethodNewPage() {
 
               <div className="flex flex-col gap-3">
                 {[
-                  { id: 'card' as Channel, label: 'Debit or Credit Card', pill: 'Instant Settlement', pillTone: 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]', desc: 'Supports Mastercard, Visa, and Verve with tokenized recurring rent debits.', meta: ['MASTERCARD', 'VISA', 'VERVE', '• 3D-Secure V2'], icon: CreditCard, secIcon: true },
+                  { id: 'card' as Channel, label: 'Debit or Credit Card', pill: 'Instant Payout', pillTone: 'bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]', desc: 'Supports Mastercard, Visa, and Verve with tokenized recurring rent debits.', meta: ['MASTERCARD', 'VISA', 'VERVE', '• 3D-Secure V2'], icon: CreditCard, secIcon: true },
                   { id: 'bank' as Channel, label: 'Direct Bank Transfer (NIBSS)', pill: 'Zero Processing Fee', desc: 'Link authorized Nigerian corporate or personal commercial bank accounts via NUBAN.', metaIcon: 'verified', metaLabel: 'Central Bank of Nigeria Authorized', icon: Building2 },
                   { id: 'mobile' as Channel, label: 'Mobile Money & USSD', pill: 'Quick Pay', desc: 'Pay with OPay, PalmPay, or instant bank USSD codes (*737#, *894#, *919#).', metaLine: 'OPay • PalmPay • GTB *737# • FirstBank *894#', icon: Smartphone },
-                  { id: 'escrow' as Channel, label: 'Dedicated Tenancy Escrow', pill: 'Auto-Reconciliation', desc: 'Assigned virtual Wema / Providus Bank account for permanent rent invoicing.', metaLabel: 'Providus & Wema Bank V-Accounts', icon: Shield },
+                  { id: 'escrow' as Channel, label: 'Dedicated Tenancy Payout', pill: 'Auto-Reconciliation', desc: 'Assigned virtual Wema / Providus Bank account for permanent rent invoicing.', metaLabel: 'Providus & Wema Bank V-Accounts', icon: Shield },
                 ].map((ch) => {
                   const active = channel === ch.id;
                   const Icon = ch.icon;
@@ -278,7 +278,7 @@ export default function AddPaymentMethodNewPage() {
               <div className="flex gap-3 rounded-xl bg-zinc-50 dark:bg-white/[0.04] p-4">
                 <Lock className="h-[22px] w-[22px] shrink-0 text-primary dark:text-[#4edea3]" />
                 <span className="flex flex-col gap-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-900 dark:text-white">Enterprise Tokenization Architecture</span>
+                  <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-900 dark:text-white">Enterprise Tokenization</span>
                   <span className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">PropatiBox does not store raw card details, CVVs, or banking PINs. All channels are cryptographic tokens via CBN-licensed gateways and NIBSS routing.</span>
                 </span>
               </div>
@@ -375,12 +375,12 @@ export default function AddPaymentMethodNewPage() {
                     <div className="flex flex-col gap-2 pt-1">
                       <Button onClick={submitCard} disabled={cardSaving} className="h-11 w-full bg-primary hover:bg-primary text-white font-semibold shadow-sm">
                         {cardSaving ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Lock className="mr-2 h-5 w-5" />}
-                        {cardSaving ? 'Initializing Paystack Vault…' : 'Authorize & Link Payment Method (₦50 Verification)'}
+                        {cardSaving ? 'Initializing Secure Payment Vault…' : 'Authorize & Link Payment Method (₦50 Verification)'}
                       </Button>
                       <Button asChild variant="ghost" className="h-10 w-full text-zinc-700 dark:text-zinc-300"><Link href="/dashboard/tenant/payments">Cancel &amp; Return to Payments</Link></Button>
                     </div>
                     <div className="flex flex-wrap items-center justify-between gap-2 border-t border-zinc-200 dark:border-white/[0.08] pt-3 text-[11px] text-zinc-500">
-                      <span className="inline-flex items-center gap-1.5"><Lock className="h-3.5 w-3.5 text-primary" /> Secured with Paystack Payments System</span>
+                      <span className="inline-flex items-center gap-1.5"><Lock className="h-3.5 w-3.5 text-primary" /> Secured with Secure Payment System</span>
                       <span className="inline-flex items-center gap-1.5"><Building2 className="h-3.5 w-3.5 text-primary" /> Central Bank of Nigeria (CBN) Regulated</span>
                     </div>
                   </div>

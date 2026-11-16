@@ -17,18 +17,18 @@ const steps = [
   {
     n: '02',
     title: 'Verify & agree',
-    desc: 'Message landlords or agents directly, schedule viewings, and submit applications. When both sides agree, e-sign a stamp-duty-compliant tenancy agreement via Remita.',
+    desc: 'Message landlords or agents directly, schedule viewings, and submit applications. When both sides agree, e-sign a stamp-duty-compliant tenancy agreement via the official government gateway.',
     icon: ShieldCheck,
     cta: { label: 'How verification works', href: '/verification' },
-    bullets: ['5-layer verification (document → certified)', 'In-app messaging, no middleman', 'E-signature + FIRS stamp certificate'],
+    bullets: ['5-layer verification (document → certified)', 'In-app messaging, no middleman', 'E-signature + stamp certificate'],
   },
   {
     n: '03',
-    title: 'Move in, pay with escrow',
-    desc: 'Pay rent into escrow — funds are released only when handover is confirmed. Get receipts, rent schedules, and maintenance tracking in one dashboard.',
+    title: 'Move in, pay securely',
+    desc: 'Pay rent securely — funds are released only when handover is confirmed. Get receipts, rent schedules, and maintenance tracking in one dashboard.',
     icon: Home,
     cta: { label: 'How agreements work', href: '/agreements' },
-    bullets: ['Escrow until handover confirmed', 'Automated receipts + rent schedule', 'Maintenance & turnover in one place'],
+    bullets: ['Secure payment until handover confirmed', 'Automated receipts + rent schedule', 'Maintenance & turnover in one place'],
   },
 ];
 

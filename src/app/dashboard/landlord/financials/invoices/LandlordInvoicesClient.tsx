@@ -37,7 +37,7 @@ interface Invoice {
 }
 
 const statusConfig: Record<string, { label: string; cls: string }> = {
-  paid: { label: 'Paid & Escrowed', cls: 'bg-primary text-white border-primary' },
+  paid: { label: 'Paid and Secured', cls: 'bg-primary text-white border-primary' },
   overdue: { label: 'Overdue', cls: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' },
   pending: { label: 'Pending', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
   sent: { label: 'Sent', cls: 'bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },

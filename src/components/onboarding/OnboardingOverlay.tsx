@@ -139,7 +139,7 @@ export function OnboardingOverlay() {
       className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-8 lg:p-12"
       role="dialog"
       aria-modal="true"
-      aria-label="Complete your onboarding dossier"
+      aria-label="Complete your onboarding report"
     >
       {/* Blurred dashboard scrim. Light enough that the shell stays readable
           behind the card — a heavier scrim hid the dashboard completely and the

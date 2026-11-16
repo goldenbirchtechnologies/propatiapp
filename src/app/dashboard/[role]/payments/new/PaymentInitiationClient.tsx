@@ -263,9 +263,9 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   <div className="flex gap-2">
                     <AlertCircle className="h-5 w-5 text-zinc-900 dark:text-white flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-zinc-900 dark:text-white">
-                      <p className="font-semibold">Escrow Protection</p>
+                      <p className="font-semibold">Secure Payment</p>
                       <p>
-                        Your payment will be held securely in escrow until the transaction is completed.
+                        Your payment will be held securely until the transaction is completed.
                         Landlord receives {formatAmountFromKobo(breakdown.payeeAmount)}.
                       </p>
                     </div>
@@ -292,12 +292,12 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                 ) : (
                   <>
                     <CreditCard className="mr-2 h-5 w-5" />
-                    Pay with Paystack
+                    Pay Securely
                   </>
                 )}
               </Button>
               <p className="text-xs text-center text-zinc-600 dark:text-zinc-400 mt-3">
-                You will be redirected to Paystack to complete your payment securely
+                You will be redirected to complete your payment securely
               </p>
             </div>
           </div>

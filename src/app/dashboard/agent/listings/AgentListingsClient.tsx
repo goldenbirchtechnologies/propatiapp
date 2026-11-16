@@ -246,11 +246,11 @@ export default function AgentListingsClient({
             </span>
           </div>
           <p className={`text-[14px] leading-5 ${MUTED} leading-relaxed`}>
-            Active portfolio listings assigned via Direct Mandate or Co-Brokering Protocol (
+            Active portfolio listings assigned via Direct Mandate or Co-Brokering (
             <span className={`${MONO_NUMERIC} ${BODY_SM} ${ON_SURFACE}`}>
               agentId = user.id | assignment = &apos;active&apos;
             </span>
-            ). Real-time Lands Bureau cadastral records &amp; CAC registration validation sync
+            ). Real-time Lands Bureau land records &amp; business registration validation sync
             enabled.
           </p>
         </div>
@@ -428,7 +428,7 @@ export default function AgentListingsClient({
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by title, cadastral street address, LGA, or listing ID..."
+              placeholder="Search by title, street address, LGA, or listing ID..."
               className="h-10 w-full rounded-lg bg-zinc-50 pl-9 pr-4 text-[12px] leading-4 text-zinc-900 shadow-inner placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-primary dark:bg-zinc-800/50 dark:text-white dark:focus:ring-primary"
             />
           </div>
@@ -511,7 +511,7 @@ export default function AgentListingsClient({
           className={`flex flex-wrap items-center justify-between gap-2 bg-zinc-50/70 px-6 py-2 dark:bg-zinc-800/50`}
         >
           <div className="flex items-center gap-4">
-            <span className={`${TITLE_SM} ${ON_SURFACE}`}>Institutional Portfolio Records</span>
+            <span className={`${TITLE_SM} ${ON_SURFACE}`}>Portfolio Records</span>
             <span className={`${MONO_NUMERIC} ${BODY_SM} text-zinc-500 dark:text-zinc-500`}>
               Viewing 1–{filtered.length} of {totalCount} Assets
             </span>

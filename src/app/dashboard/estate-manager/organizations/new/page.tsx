@@ -66,7 +66,7 @@ const PLANS: Array<{
     id: 'enterprise',
     name: 'Enterprise',
     price: '₦240,000',
-    blurb: 'Institutional property firms managing extensive regional portfolios.',
+    blurb: 'Property firms managing extensive regional portfolios.',
     badge: 'Full Scale',
     badgeTone: 'success',
     perks: [
@@ -177,7 +177,7 @@ export default function CreateOrganizationPage() {
             <div className="max-w-xl">
               <div className="mb-1 flex items-center gap-2 text-primary dark:text-[#4edea3]">
                 <Building2 className="h-5 w-5" />
-                <span className="text-xs font-semibold uppercase tracking-wider">Institutional Entity Onboarding</span>
+                <span className="text-xs font-semibold uppercase tracking-wider">Business Entity Onboarding</span>
               </div>
               <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white">Create Organization</h1>
               <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
@@ -190,7 +190,7 @@ export default function CreateOrganizationPage() {
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-zinc-900 dark:text-white">CAC Verification Ready</span>
+                <span className="text-sm font-semibold text-zinc-900 dark:text-white">Registration Verification Ready</span>
                 <span className="text-xs text-zinc-500 dark:text-zinc-400">Instant corporate deed indexing</span>
               </div>
             </div>
@@ -250,7 +250,7 @@ export default function CreateOrganizationPage() {
               {/* CAC */}
               <div className="flex flex-col md:col-span-2">
                 <label className={labelBase} htmlFor="cacNumber">
-                  <span>CAC / RC Number</span>
+                  <span>Business Registration / RC Number</span>
                   <span className="text-xs font-semibold uppercase text-primary dark:text-[#4edea3]">Optional verification</span>
                 </label>
                 <div className="relative">

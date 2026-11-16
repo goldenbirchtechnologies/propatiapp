@@ -36,7 +36,7 @@ function gatewayLabel(row: LedgerRow): string {
   const pd = row.paystackData;
   if (pd?.channel) return String(pd.channel);
   if (pd?.gateway) return String(pd.gateway);
-  return 'Paystack';
+  return 'Secure Payment';
 }
 
 function statusPill(status: string) {
@@ -100,7 +100,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">Institutional Financial Management</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">Financial Management</span>
             <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600" />
             <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
               <BadgeCheck className="w-3 h-3 text-primary" /> FIRS &amp; CAC Audited
@@ -108,7 +108,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Payments &amp; Ledger</h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl mt-1">
-            Manage lease commitments, inspect official e-receipts with FIRS-compliant tax stamps, and execute instant verified settlements via Paystack.
+            Manage lease commitments, inspect official receipts, and execute instant verified payments.
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -176,7 +176,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
         <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-zinc-200 dark:border-white/[0.08] flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
-              <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Avg. Settlement</span>
+              <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Avg. Payout</span>
               <span className="text-xl font-bold text-zinc-900 dark:text-white mt-1 font-mono">₦ {metrics.avgSettlement.toLocaleString('en-NG', { minimumFractionDigits: 2 })}</span>
             </div>
             <div className="w-9 h-9 rounded-lg bg-zinc-50 dark:bg-white/[0.04] flex items-center justify-center text-zinc-500 dark:text-zinc-400">
@@ -219,7 +219,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                       <span className="text-zinc-300 dark:text-zinc-600">•</span>
                       <div className="flex items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
                         <Calendar className="w-4 h-4 text-zinc-400" />
-                        <span>Final Settlement Due: <strong className="text-zinc-900 dark:text-white">{new Date(alertInvoice.dueDate).toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}</strong></span>
+                        <span>Final Payout Due: <strong className="text-zinc-900 dark:text-white">{new Date(alertInvoice.dueDate).toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}</strong></span>
                       </div>
                     </>
                   )}
@@ -231,7 +231,7 @@ export default function TenantPaymentsClient({ userId, metrics, ledger, alertInv
                 <BadgeCheck className="w-4 h-4 text-primary" /> Auto-Debit
               </Link>
               <Button size="sm" className="h-10 px-5 gap-2 bg-primary hover:bg-[var(--sovereign-hover)] text-white">
-                <CreditCard className="w-4 h-4" /> Pay via Paystack
+                <CreditCard className="w-4 h-4" /> Pay Securely
               </Button>
             </div>
           </div>

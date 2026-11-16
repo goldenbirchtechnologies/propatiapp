@@ -64,7 +64,7 @@ export default function AgentLicenseStep({ onSaved }: StepProps) {
         <DField
           label="Real estate board"
           required
-          note="REDAN / NIESV / regional"
+          note="REDAN / regional"
           error={fieldErrors.board}
         >
           <DInput
@@ -100,7 +100,7 @@ export default function AgentLicenseStep({ onSaved }: StepProps) {
       {isAgency ? (
         <div className="mt-4">
           <DField
-            label="CAC registration document"
+            label="Business Registration document"
             note="File name"
             error={fieldErrors.cacDocumentFileName}
             hint="Required for an agency. Upload support is handled by the compliance team after intake."
@@ -108,7 +108,7 @@ export default function AgentLicenseStep({ onSaved }: StepProps) {
             <DInput
               value={cacDocumentFileName}
               onChange={(e) => setCacDocumentFileName(e.target.value)}
-              placeholder="cac-certificate-2024.pdf"
+              placeholder="registration-certificate-2024.pdf"
             />
           </DField>
         </div>

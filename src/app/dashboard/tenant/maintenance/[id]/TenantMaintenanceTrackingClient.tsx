@@ -217,7 +217,7 @@ export default function TenantMaintenanceTrackingClient({ ticket }: { ticket: Ti
                 )}
               </div>
               <div className="flex flex-wrap gap-2 border-t border-zinc-100 dark:border-white/[0.06] pt-4 text-xs">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> LASRERA Certified Partner</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> Real Estate License Certified Partner</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1"><User className="h-3.5 w-3.5" /> Tenant: {ticket.tenant?.fullName ?? '—'}</span>
               </div>
             </div>

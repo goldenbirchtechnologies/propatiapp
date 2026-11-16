@@ -74,7 +74,7 @@ const STEPS: { key: StageId; label: string; caption: string }[] = [
   { key: 'enquiries', label: '1. Qualified', caption: 'Mandate verified' },
   { key: 'viewings', label: '2. Inspection', caption: 'Physical verification' },
   { key: 'offers', label: '3. Agreement', caption: 'Terms in drafting' },
-  { key: 'agreements', label: '4. Execution', caption: 'Signatures & escrow' },
+  { key: 'agreements', label: '4. Execution', caption: 'Signatures & secure payment' },
   { key: 'closed', label: '5. Handover', caption: 'Final closure' },
 ];
 
@@ -139,7 +139,7 @@ export default function AgentDealDetailClient({
               className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[13px] font-medium text-zinc-900 shadow-sm transition-colors hover:bg-zinc-50 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800"
             >
               <Share2 className="h-4 w-4 text-zinc-500" />
-              Share Dossier
+              Share Report
             </a>
           ) : null}
           <button
@@ -153,7 +153,7 @@ export default function AgentDealDetailClient({
           <button
             type="button"
             onClick={() => window.print()}
-            aria-label="Print dossier"
+            aria-label="Print report"
             className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-zinc-900 shadow-sm transition-colors hover:bg-zinc-50 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800"
           >
             <Printer className="h-4 w-4 text-zinc-500" />
@@ -224,7 +224,7 @@ export default function AgentDealDetailClient({
         {/* Stepper */}
         <div className="relative space-y-3 pt-4">
           <div className="flex items-center justify-between px-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-            <span>Cadastral Transaction Progress</span>
+            <span>Transaction Progress</span>
             <span className="font-mono-numeric text-[var(--sovereign-hover)] dark:text-[#4edea3]">
               Stage {stageIndex + 1} of {STEPS.length} (
               {Math.round((progress / 100) * 100)}% Complete)
@@ -293,10 +293,10 @@ export default function AgentDealDetailClient({
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white">
-                  Escrow &amp; Settlement Operations (Paystack Clearing Hub)
+Payment and Payout Operations (Secure Clearing Hub)
                 </h2>
                 <span className="rounded bg-primary px-2 py-0.5 text-[11px] font-semibold uppercase text-white dark:bg-primary dark:text-zinc-900">
-                  Statutory
+                  Verified
                 </span>
               </div>
               <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
@@ -304,7 +304,7 @@ export default function AgentDealDetailClient({
                 <span className="font-mono-numeric font-semibold text-zinc-900 dark:text-white">
                   {deal.reference}
                 </span>{' '}
-                • Regulated by LASRERA &amp; CBN
+• Regulated by the real estate license and central bank
               </p>
             </div>
           </div>
@@ -312,7 +312,7 @@ export default function AgentDealDetailClient({
           <div className="flex items-center gap-3 self-stretch rounded-lg bg-white px-4 py-2 shadow-sm dark:bg-zinc-900">
             <div className="text-right">
               <span className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-                Escrow Vault Liquidity
+                Secured Funds
               </span>
               <span className="font-mono-numeric text-lg font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {formatNairaValue(escrowTotal)}
@@ -327,19 +327,19 @@ export default function AgentDealDetailClient({
           <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
             {deal.cautionDeposit > 0 ? (
               <>
-                Funds verified in Paystack escrow. Caution deposit of{' '}
+                Funds verified in secure payment. Caution deposit of{' '}
                 <strong className="font-mono-numeric text-zinc-900 dark:text-white">
                   {formatNairaValue(deal.cautionDeposit)}
                 </strong>{' '}
                 is locked pending final counterparty clearance and authorisation of broker
-                disbursement under Lagos State Real Estate Regulatory Authority (LASRERA) standard
-                escrow guidelines.
+                disbursement under the real estate license standard
+                payment guidelines.
               </>
             ) : (
               <>
-                No caution deposit is recorded against this matter yet. Escrow funding is
-                required before title conveyance and handover can proceed under LASRERA standard
-                escrow guidelines.
+                No caution deposit is recorded against this matter yet. Secure Payment funding is
+                required before title conveyance and handover can proceed under the real estate license standard
+                payment guidelines.
               </>
             )}
           </p>
@@ -380,7 +380,7 @@ export default function AgentDealDetailClient({
               File Dispute
             </Link>
             <span className="hidden text-[11px] text-zinc-500 xl:inline">
-              Arbitration Protocol 24H SLA
+              Arbitration 24H SLA
             </span>
           </div>
         </div>
@@ -467,16 +467,16 @@ function OverviewTab({
         <ActionCard
           icon={<Calendar className="h-5 w-5" />}
           title="Schedule Inspection"
-          description="Book cadastral re-verification or move-in inventory check with an authorised surveyor."
+          description="Book land re-verification or move-in inventory check with an authorised surveyor."
           href="/dashboard/agent/inspections/new"
           meta="Book Site Visit"
         />
         <ActionCard
           icon={<FileSignature className="h-5 w-5" />}
           title="Generate Agreement"
-          description="Access the signed statutory deed or create a supplementary addendum template."
+          description="Access the signed deed or create a supplementary addendum template."
           href="/dashboard/agent/agreements/new"
-          meta="Statutory Deed Portal"
+          meta="Deed Portal"
         />
         <ActionCard
           icon={<MessageSquare className="h-5 w-5" />}
@@ -535,7 +535,7 @@ function OverviewTab({
               label="Caution &amp; Commission Split"
               body={undefined}
               figures={[
-                { label: 'Caution Deposit', value: deal.cautionDeposit, note: 'Escrow locked' },
+                { label: 'Caution Deposit', value: deal.cautionDeposit, note: 'Secured' },
                 { label: 'Broker Fee (10%)', value: commission, note: '5% agency + 5% legal' },
               ]}
             />
@@ -566,7 +566,7 @@ function OverviewTab({
               />
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/75 via-black/20 to-transparent p-4 text-white">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#6ffbbe]">
-                  Listing Dossier Preview
+                  Listing Report Preview
                 </span>
                 <p className="text-sm font-semibold">{deal.property.title}</p>
                 <p className="text-xs text-zinc-300">{deal.property.address}</p>
@@ -585,7 +585,7 @@ function OverviewTab({
               </h3>
             </div>
             <span className="rounded bg-primary/10 px-2 py-0.5 font-mono-numeric text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
-              {deal.stampDutyStatus ? `Stamp duty: ${humanise(deal.stampDutyStatus)}` : 'Paystack Verified'}
+              {deal.stampDutyStatus ? `Stamp duty: ${humanise(deal.stampDutyStatus)}` : 'Secure Payment Verified'}
             </span>
           </div>
 
@@ -602,7 +602,7 @@ function OverviewTab({
             />
             <LedgerRow
               icon={<Scale className="h-4 w-4" />}
-              label="Statutory Legal Documentation (5%)"
+              label="Legal Documentation (5%)"
               value={legalFee}
             />
             <LedgerRow
@@ -626,7 +626,7 @@ function OverviewTab({
             </div>
             <div className="flex items-baseline justify-between">
               <span className="text-sm font-semibold text-zinc-900 dark:text-white">
-                Total Escrow Vault
+                Total Secure Payment
               </span>
               <span className="font-mono-numeric text-xl font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {formatNairaValue(escrowTotalValue(consideration, deal.cautionDeposit, stampDuty))}
@@ -634,7 +634,7 @@ function OverviewTab({
             </div>
             <div className="h-px bg-zinc-200 dark:bg-white/[0.08]" />
             <div className="flex items-center justify-between text-[11px]">
-              <span className="text-zinc-500">Paystack Balance Verified:</span>
+              <span className="text-zinc-500">Secure Payment Verified:</span>
               <span className="font-mono-numeric font-bold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
                 {deal.cautionDeposit > 0
                   ? `${formatNairaValue(deal.cautionDeposit)} CLEARED`
@@ -646,7 +646,7 @@ function OverviewTab({
           <div className="space-y-2 rounded-lg bg-zinc-50 p-3.5 text-xs text-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-400">
             <div className="flex justify-between">
               <span className="text-zinc-500">Settlement Bank:</span>
-              <span className="font-medium text-zinc-900 dark:text-white">Paystack Escrow</span>
+              <span className="font-medium text-zinc-900 dark:text-white">Secure Payment</span>
             </div>
             <div className="flex justify-between">
               <span className="text-zinc-500">Agreement Reference:</span>
@@ -725,8 +725,8 @@ function buildTimeline(deal: DetailDeal, signatures: Signature[]): TimelineEntry
       title: 'Stamp Duty Certificate Issued',
       detail:
         deal.stampDutyAmount !== null
-          ? `Statutory stamp duty of ${formatNairaValue(deal.stampDutyAmount)} remitted and certified.`
-          : 'Statutory stamp duty certificate issued.',
+          ? `Stamp duty of ${formatNairaValue(deal.stampDutyAmount)} remitted and certified.`
+          : 'Stamp duty certificate issued.',
       at: deal.updatedAt,
       tone: 'complete',
       icon: 'payment',
@@ -849,7 +849,7 @@ function ActionsTab({ deal }: { deal: DetailDeal }) {
 
       <AgentCard className="space-y-4 p-6">
         <h3 className="text-base font-semibold text-zinc-900 dark:text-white">
-          Statutory Compliance Tools
+          Compliance Tools
         </h3>
         <p className="text-xs text-zinc-600 dark:text-zinc-400">
           Direct integrations with the Lagos State Lands Bureau and Corporate Affairs
@@ -865,7 +865,7 @@ function ActionsTab({ deal }: { deal: DetailDeal }) {
           />
           <ActionRow
             icon={<Receipt className="h-5 w-5" />}
-            title="LASRERA Tax Withholding Certificate"
+            title="Real Estate License Tax Withholding Certificate"
             description="Generate a 5% WHT credit note for Lagos IRS"
             href="/dashboard/agent/statements"
             external
@@ -873,7 +873,7 @@ function ActionsTab({ deal }: { deal: DetailDeal }) {
           <ActionRow
             icon={<Scale className="h-5 w-5" />}
             title="Initiate Lease Termination"
-            description="Issue statutory notice under the Lagos Tenancy Law"
+            description="Issue formal notice under the Lagos Tenancy Law"
             href="/dashboard/agent/agreements"
             danger
           />
@@ -917,7 +917,7 @@ function DocumentsTab({ deal }: { deal: DetailDeal }) {
     {
       id: 'stamp-duty',
       name: 'Stamp Duty Certificate',
-      type: 'Statutory Certificate',
+      type: 'Stamp Duty Certificate',
       url: deal.stampDutyCertificateUrl,
       at: deal.updatedAt,
     },
@@ -930,7 +930,7 @@ function DocumentsTab({ deal }: { deal: DetailDeal }) {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="text-base font-semibold text-zinc-900 dark:text-white">
-            Statutory Document Depository
+            Document Depository
           </h3>
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
             Authenticated and tamper-proof legal deeds, KYC records, and clearing receipts.
@@ -945,7 +945,7 @@ function DocumentsTab({ deal }: { deal: DetailDeal }) {
         <AgentEmptyState
           icon={<FileText className="h-10 w-10" />}
           title="No documents uploaded yet"
-          description="The executed agreement PDF and the statutory stamp duty certificate will appear here once issued."
+          description="The executed agreement PDF and the stamp duty certificate will appear here once issued."
         />
       ) : (
         <div className="overflow-x-auto">

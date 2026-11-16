@@ -140,11 +140,11 @@ export default function AgentRentsClient({ summary, collections }: Props) {
       <FinanceHeader
         breadcrumb={['Agent Portal', 'Finance', 'Rent Collection']}
         title="Rent Collection & Inflows Hub"
-        description="Institutional rent collection ledger, tenant arrears monitoring, and mandate-authorised escrow clearing for the properties under your management."
+        description="Rent collection ledger, tenant arrears monitoring, and mandate-authorised payment clearing for the properties under your management."
         badges={
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:bg-white/[0.06] dark:text-zinc-400">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> Escrow Live
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> Payments Live
             </span>
             <span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
               {summary.propertyCount} managed properties
@@ -354,7 +354,7 @@ export default function AgentRentsClient({ summary, collections }: Props) {
                               {c.arrearCount} rent schedule{c.arrearCount === 1 ? '' : 's'} overdue
                             </span>{' '}
                             <span className="text-zinc-700 dark:text-zinc-300">
-                              — totalling {naira(c.arrearAmount)}. Statutory demand notices are queued by the
+                              — totalling {naira(c.arrearAmount)}. Demand notices are queued by the
                               platform.
                             </span>
                           </div>

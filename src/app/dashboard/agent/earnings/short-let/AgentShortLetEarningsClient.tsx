@@ -65,7 +65,7 @@ export default function AgentShortLetEarningsClient({ stays }: { stays?: ShortLe
   const nextPayoutAmount = initialStays
     .filter((s) => s.status !== 'Settled')
     .reduce((sum, s) => sum + s.net, 0);
-  const nextPayout = nextPayoutAmount > 0 ? 'Pending settlement' : 'None scheduled';
+  const nextPayout = nextPayoutAmount > 0 ? 'Pending payout' : 'None scheduled';
 
 
   const naira = (n: number) => `₦${Math.round(n).toLocaleString('en-NG')}`;

@@ -119,7 +119,7 @@ export default function AgentDealsClient({
       'Type',
       'Execution Status',
       'Consideration',
-      'Escrow Deposit',
+      'Secure Payment Deposit',
       'Start Date',
       'End Date',
       'Created',
@@ -171,7 +171,7 @@ export default function AgentDealsClient({
             </span>
           </div>
           <p className="max-w-3xl text-sm text-zinc-600 dark:text-zinc-400">
-            Institutional tracking for commercial tenancies, outright conveyancing, and
+            Tracking for commercial tenancies, outright conveyancing, and
             short-let lease agreements across Lagos State jurisdictions.
           </p>
         </div>
@@ -224,7 +224,7 @@ export default function AgentDealsClient({
             <div className="flex items-center justify-between gap-2">
               <span className="truncate">Awaiting signatures</span>
               <span className="rounded bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 dark:text-amber-400">
-                ESCROW QUEUE
+                SECURE PAYMENT QUEUE
               </span>
             </div>
           }
@@ -252,7 +252,7 @@ export default function AgentDealsClient({
             <div className="flex items-center justify-between gap-2">
               <span className="font-mono-numeric">10% Agency &amp; Legal</span>
               <span className="font-mono-numeric font-semibold text-[var(--sovereign-hover)] dark:text-[#4edea3]">
-                {formatNairaCompact(stats.escrowValue)} in escrow
+                {formatNairaCompact(stats.escrowValue)} held securely
               </span>
             </div>
           }
@@ -339,7 +339,7 @@ export default function AgentDealsClient({
       <AgentTableWrap>
         <AgentCardHeader
           title="Master Deals &amp; Conveyancing Agreements Ledger"
-          subtitle={`${filtered.length} of ${initialDeals.length} records with compliance signatures and escrow clearance flags`}
+          subtitle={`${filtered.length} of ${initialDeals.length} records with compliance signatures and secure payment clearance flags`}
           icon={<FileText className="h-5 w-5" />}
         />
         {initialDeals.length === 0 ? (
@@ -363,7 +363,7 @@ export default function AgentDealsClient({
                 <AgentTh>Counterparty / Tenant</AgentTh>
                 <AgentTh>Type</AgentTh>
                 <AgentTh>Execution Status</AgentTh>
-                <AgentTh className="text-right">Consideration &amp; Escrow</AgentTh>
+                <AgentTh className="text-right">Consideration &amp; Secure Payment</AgentTh>
                 <AgentTh>Dates &amp; Milestone</AgentTh>
                 <AgentTh className="text-right">Actions</AgentTh>
               </tr>
@@ -503,7 +503,7 @@ export default function AgentDealsClient({
                                   href={`/dashboard/agent/deals/${d.id}`}
                                   className="flex items-center gap-2 px-3 py-2 text-[13px] text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
                                 >
-                                  <ChevronRight className="h-3.5 w-3.5" /> Open dossier
+                                  <ChevronRight className="h-3.5 w-3.5" /> Open report
                                 </Link>
                                 {d.pdfUrl ? (
                                   <a
@@ -558,7 +558,7 @@ export default function AgentDealsClient({
             total pipeline under mandate
           </span>
           <span className="font-mono-numeric text-[11px]">
-            Escrow protected: {formatNairaValue(stats.escrowValue)}
+            Securely held: {formatNairaValue(stats.escrowValue)}
           </span>
         </div>
       ) : null}

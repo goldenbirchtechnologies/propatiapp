@@ -166,12 +166,12 @@ export default function AgentClientsClient({
             items={[
               { label: 'Sales & CRM', href: '/dashboard/agent' },
               { label: 'Clients' },
-              { label: 'Institutional Stakeholder & Client Directory', current: true },
+              { label: 'Client Directory', current: true },
             ]}
           />
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
-              Institutional Client Directory
+              Client Directory
             </h1>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 font-mono-numeric text-[12px] font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
@@ -489,7 +489,7 @@ export default function AgentClientsClient({
                           {formatNairaValue(client.managedValue)}
                         </div>
                         <div className="text-[11px] font-medium text-[var(--sovereign-hover)] dark:text-[#4edea3]">
-                          {client.managedValue > 0 ? 'NGN Escrow Protected' : 'No escrow value'}
+                          {client.managedValue > 0 ? 'Payment Secured' : 'No secured value'}
                         </div>
                       </div>
                     </AgentTd>
@@ -522,7 +522,7 @@ export default function AgentClientsClient({
                         </Link>
                         <Link
                           href={`/dashboard/agent/clients/${client.id}`}
-                          title="Client dossier"
+                          title="Client report"
                           className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-white"
                         >
                           <Eye className="h-4 w-4" />

@@ -286,7 +286,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-1 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">
             <Shield className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
-            NDPR &amp; LASRERA Encrypted Channel
+            Data Protection &amp; Real Estate License Encrypted Channel
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
             <BadgeCheck className="h-3.5 w-3.5" />
@@ -302,7 +302,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">Direct, audited messaging with property managers, landlords, and estate compliance legal officers.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <Button variant="outline" size="sm" className="h-9 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]" onClick={() => toast({ title: 'Audit export coming soon', description: 'NDPR-compliant export will be available shortly.' })}>
+          <Button variant="outline" size="sm" className="h-9 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]" onClick={() => toast({ title: 'Audit export coming soon', description: 'Data Protection-compliant export will be available shortly.' })}>
             <FileDown className="mr-1.5 h-4 w-4" />
             Audit Export
           </Button>
@@ -321,7 +321,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           { id: 'all' as const, label: 'All Channels', count: counts.all },
           { id: 'landlord' as const, label: 'Landlords & Lessors', count: counts.landlord },
           { id: 'mep' as const, label: 'Facility & MEP', count: counts.mep },
-          { id: 'legal' as const, label: 'Legal & Escrow', count: counts.legal },
+          { id: 'legal' as const, label: 'Legal & Secure Payment', count: counts.legal },
         ].map((pill) => {
           const active = channelFilter === pill.id;
           return (
@@ -463,7 +463,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
             </Button>
             <span className="flex items-center justify-center gap-1 text-[11px] font-medium text-zinc-500">
               <Lock className="h-3 w-3 text-primary dark:text-[#4edea3]" />
-              End-to-End Encrypted via NDPA 2023 Protocol
+              End-to-End Encrypted via NDPA 2023
             </span>
           </div>
         </div>
@@ -501,7 +501,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                   </Button>
                   {selectedConversation.listingId && (
                     <Button variant="outline" size="sm" className="hidden h-9 md:inline-flex bg-zinc-50 dark:bg-white/[0.06] border-zinc-200 dark:border-white/[0.08]" asChild>
-                      <Link href={`/listings/${selectedConversation.listingId}`}><Building className="mr-1.5 h-4 w-4 text-zinc-500" />Property Dossier</Link>
+                      <Link href={`/listings/${selectedConversation.listingId}`}><Building className="mr-1.5 h-4 w-4 text-zinc-500" />Property Report</Link>
                     </Button>
                   )}
                   <Button variant="outline" size="icon" className="h-9 w-9 bg-zinc-50 dark:bg-white/[0.06] border-zinc-200 dark:border-white/[0.08]" asChild>
@@ -653,11 +653,11 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm" onClick={() => setShowNewConversation(false)}>
           <div onClick={(e) => e.stopPropagation()} className="w-full max-w-lg rounded-xl bg-white dark:bg-zinc-900 p-6 shadow-xl border border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-bold text-zinc-900 dark:text-white">New Conversation</h3>
-            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Start an audited channel with your landlord, facility, or legal desk. Messages are NDPR-encrypted and retained per Lagos Tenancy Law.</p>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Start an audited channel with your landlord, facility, or legal desk. Messages are encrypted and retained per Lagos Tenancy Law.</p>
             <div className="mt-4 flex flex-col gap-3">
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Subject</span>
-                <Input value={newSubject} onChange={(e) => setNewSubject(e.target.value)} placeholder="e.g. FIRS e-TCC for PH-02 extension" className="bg-zinc-50 dark:bg-zinc-800" />
+                <Input value={newSubject} onChange={(e) => setNewSubject(e.target.value)} placeholder="e.g. tax clearance for PH-02 extension" className="bg-zinc-50 dark:bg-zinc-800" />
               </label>
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Message</span>

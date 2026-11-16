@@ -66,8 +66,8 @@ function listingBadge(listingType: string) {
 function verificationBadge(tier: string, listingType: string) {
   if (tier === 'certified') return 'C of O Verified • Block 14A';
   if (tier === 'inspected') return "Governor's Consent";
-  if (tier === 'verified') return 'Bank-Backed Escrow';
-  if (listingType === 'short_let') return 'Beacon BI-992-01';
+  if (tier === 'verified') return 'Secure Payment';
+  if (listingType === 'short_let') return 'Location BI-992-01';
   if (listingType === 'commercial') return 'Gazette Excision Verified';
   return 'C of O Audited';
 }
@@ -254,7 +254,7 @@ export default function ListingsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-zinc-900 p-4 rounded-2xl border border-zinc-200 dark:border-border shadow-sm">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold tracking-wide uppercase bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] border border-primary dark:border-primary/20"><BadgeCheck size={12} /> Verified C-GIS Registry</span>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold tracking-wide uppercase bg-[var(--sovereign-container-bg)] dark:bg-primary/15 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] border border-primary dark:border-primary/20"><BadgeCheck size={12} /> Verified Land Registry</span>
                   <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono"></span>
                 </div>
                 <h1 className="text-sm sm:text-base font-bold tracking-tight text-zinc-900 dark:text-white">
@@ -380,7 +380,7 @@ export default function ListingsPage() {
                         <div>
                           <div className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400 text-xs mb-1"><MapPin size={12} className="text-primary" /> <span className="truncate">{l.address}</span></div>
                           <Link href={`/listings/${l.id}`} className="block"><h2 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-[var(--sovereign-hover)] dark:group-hover:text-[#4edea3] transition-colors line-clamp-1">{l.title}</h2></Link>
-                          <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mt-1 leading-relaxed">{l.description || 'Premium residential parcel with pristine land title and verified beacon coordinates.'}</p>
+                          <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mt-1 leading-relaxed">{l.description || 'Premium residential parcel with pristine land title and verified location coordinates.'}</p>
                         </div>
                         <div className="grid grid-cols-3 gap-2 py-2 px-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-white/[0.04] text-center">
                           <div><span className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Beds</span><span className="font-mono font-bold text-xs text-zinc-900 dark:text-white">{l.beds || '-'}</span></div>
@@ -479,10 +479,10 @@ export default function ListingsPage() {
               </div>
             </div>
             <label className="flex items-center justify-between p-4 rounded-2xl bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border border-primary dark:border-primary/20 cursor-pointer">
-              <span className="text-xs font-bold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Bank-Backed Escrow Protected</span>
+              <span className="text-xs font-bold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Bank-Backed Secure Payment Protected</span>
               <input type="checkbox" checked={legalChecked} onChange={(e) => setLegalChecked(e.target.checked)} className="w-5 h-5 rounded border-zinc-300 text-primary" />
             </label>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">Only display deals with verified bank-backed escrow.</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">Only display deals with verified bank-backed secure payment.</p>
             <div className="pt-6 mt-auto flex gap-3">
               <button onClick={() => { setSearch(''); setCategory('all'); setLegalChecked(false); setBedFilter('Any'); setPriceMin('₦5,000,000'); setPriceMax('₦450,000,000'); }} className="flex-1 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-semibold">Reset</button>
               <button onClick={() => setFilterOpen(false)} className="flex-1 h-11 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-[var(--sovereign-hover)]">Apply Filters</button>

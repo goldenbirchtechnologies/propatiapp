@@ -98,10 +98,10 @@ const TIER_RANK: Record<string, number> = {
 };
 
 const BOARD_LABEL: Record<string, string> = {
-  LASRERA: 'LASRERA Certified Broker',
-  ESVARBON: 'ESVARBON Registered Fellow',
-  NIESV: 'NIESV Registered',
-  EAR: 'EAR Registered Broker',
+  LASRERA: 'Real Estate License Certified Broker',
+  ESVARBON: 'Estate Surveyors Register Registered Fellow',
+  NIESV: 'Estate Surveyor Registered',
+  EAR: 'Estate Agent License Registered Broker',
 };
 
 function formatDate(value: string | null | undefined, fallback = '—') {
@@ -173,7 +173,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
       label: 'Telco SIM KYC Verification',
       flag: `phoneVerified: ${user.phoneVerified}`,
       detail: user.phoneVerified
-        ? 'Subscriber biometrics match NIN demographic record'
+        ? 'Subscriber ID check matches NIN demographic record'
         : 'Mobile number not yet OTP-verified against the registered SIM',
       state: user.phoneVerified ? 'Linked' : 'Pending',
       tone: user.phoneVerified ? ('positive' as const) : ('warning' as const),
@@ -181,11 +181,11 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
     {
       key: 'id',
       icon: Scale,
-      label: 'Government Photo ID & Biometrics',
+      label: 'Government Photo ID & ID Check',
       flag: `idVerified: ${user.idVerified}`,
       detail: user.idVerified
-        ? "FRSC Driver's License & BVN biometric liveness check verified via Dojah AI"
-        : 'Photo ID and biometric liveness check outstanding',
+        ? "FRSC Driver's License & BVN ID verification via Dojah AI"
+        : 'Photo ID and ID verification outstanding',
       state: user.idVerified ? 'Cleared' : 'Pending',
       tone: user.idVerified ? ('positive' as const) : ('warning' as const),
     },
@@ -203,14 +203,14 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
     {
       key: 'cac',
       icon: Building2,
-      label: 'Corporate Affairs Commission (CAC)',
+      label: 'Business Registration',
       flag: business?.rcNumber ?? business?.cacNumber ?? 'Not registered',
       detail: business?.verified
         ? `Active status confirmed • ${business.companyName ?? business.rcNumber ?? business.cacNumber}`
         : business
           ? `Registration on file for ${business.companyName ?? business.cacNumber} — awaiting validation`
           : 'No corporate entity registered against this agent account',
-      state: business?.verified ? 'Active CAC' : business ? 'In Review' : 'Not Registered',
+      state: business?.verified ? 'Registered' : business ? 'In Review' : 'Not Registered',
       tone: business?.verified ? ('positive' as const) : business ? ('warning' as const) : ('neutral' as const),
     },
   ];
@@ -448,7 +448,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
             </div>
 
             <div className="mt-6 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/[0.08] dark:bg-zinc-800/50">
-              <Eyebrow>Active Escrow Volume Handled</Eyebrow>
+              <Eyebrow>Active Secure Payment Volume Handled</Eyebrow>
               <p className="mt-1 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
                 {executionRecord.completedMandates}
                 <span className="ml-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">
@@ -457,7 +457,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
               </p>
               <Meter value={Math.min(100, executionRecord.completedMandates * 5)} className="mt-3" />
               <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">
-                Escrow exposure is cleared through Paystack institutional settlement. Settlement
+                Payment exposure is cleared through secure processing. Payout
                 volumes are published from the transaction ledger.
               </p>
             </div>
@@ -469,7 +469,7 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
           <StandingCard className="p-6">
             <StandingSectionTitle
               icon={<ShieldCheck className="h-5 w-5" />}
-              title="Institutional KYC Gateway"
+              title="KYC Gateway"
               action={
                 <StatusChip tone={kycCleared ? 'positive' : 'neutral'}>
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-current" />
@@ -487,10 +487,10 @@ export default function AgentProfileClient({ user }: { user: ProfileData }) {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold text-zinc-900 dark:text-white">
-                  Tier {kycLevel} Enhanced Institutional KYC {kycCleared ? 'Cleared' : 'In Progress'}
+                  Tier {kycLevel} Enhanced KYC {kycCleared ? 'Cleared' : 'In Progress'}
                 </p>
                 <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
-                  Validated against Central Bank of Nigeria &amp; NIMC Registers
+                  Validated against official financial &amp; identity registers
                 </p>
               </div>
               <div className="shrink-0 text-right">

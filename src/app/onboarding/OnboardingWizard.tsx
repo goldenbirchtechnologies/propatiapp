@@ -539,13 +539,13 @@ function DossierComplete({
           <CheckCircle2 className="h-6 w-6" />
         </span>
         <DPill tone="mint" className="mt-4">
-          Dossier complete
+          Setup complete
         </DPill>
         <h1 className="mt-2 text-[24px] font-semibold leading-[1.3] tracking-[-0.01em] text-[var(--on-surface)]">
           You&apos;re all set, {fullName.split(' ')[0]}
         </h1>
         <p className="mt-2 text-[13px] leading-[1.55] text-[var(--on-surface-variant)]">
-          Your {ROLE_META[role]?.label ?? 'account'} dossier has cleared verification. Everything in
+          Your {ROLE_META[role]?.label ?? 'account'} has cleared verification. Everything in
           Propati is now available to you.
         </p>
         <DButton className="mt-5" onClick={onContinue}>

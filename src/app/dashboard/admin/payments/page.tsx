@@ -36,7 +36,7 @@ export default async function AdminPaymentsPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Payments</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 mt-1">Monitor escrow, rent, and agreement payments across the platform.</p>
+          <p className="text-zinc-600 dark:text-zinc-400 mt-1">Monitor payment, rent, and agreement activity across the platform.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

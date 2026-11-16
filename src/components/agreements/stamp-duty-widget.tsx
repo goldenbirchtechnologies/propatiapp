@@ -141,13 +141,13 @@ export function StampDutyWidget({
       if (json.data.mock) {
         toast({
           title: 'Test mode',
-          description: 'Remita is not configured — this reference will not collect real duty.',
+          description: 'The official government gateway is not configured — this reference will not collect real duty.',
         });
       }
       window.open(json.data.paymentUrl, '_blank', 'noopener,noreferrer');
       toast({
         title: 'Redirecting to payment',
-        description: 'Complete the duty on Remita, then return here to verify.',
+        description: 'Complete the duty via the official government gateway, then return here to verify.',
       });
     } catch (error) {
       toast({
@@ -176,7 +176,7 @@ export function StampDutyWidget({
       if (!paid) {
         toast({
           title: 'Payment not confirmed yet',
-          description: 'Remita has not confirmed this payment. Complete it, then verify again.',
+          description: 'The official government gateway has not confirmed this payment. Complete it, then verify again.',
           variant: 'destructive',
         });
         return;
@@ -247,7 +247,7 @@ export function StampDutyWidget({
             <p className="font-medium text-zinc-900 dark:text-white">No stamp duty payable</p>
             <p className="mt-1">
               The taxable amount
-              {quote ? ` (${formatCurrency(quote.taxableAmount)})` : ''} is at or below the statutory
+              {quote ? ` (${formatCurrency(quote.taxableAmount)})` : ''} is at or below the
               threshold, so this instrument does not require stamping.
             </p>
           </div>

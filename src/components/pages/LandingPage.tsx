@@ -184,7 +184,7 @@ export function LandingPage() {
                 {
                   step: '03',
                   title: 'Sign & Move In',
-                  desc: 'Digital agreements, escrow payments, and seamless move-in process.',
+                  desc: 'Digital agreements, secure payments, and seamless move-in process.',
                 },
               ].map((item) => (
                 <div key={item.step} className="text-center p-6" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card-lg)' }}>

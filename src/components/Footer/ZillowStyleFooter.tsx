@@ -42,7 +42,7 @@ const shortletCities = [
 const jurisdictionHubs = [
   { label: 'Explore nationwide cadre', state: '' },
   { label: 'Lagos Mainland business hub', state: 'Lagos' },
-  { label: 'Abuja Central Cadastral Zone', state: 'Abuja' },
+  { label: 'Abuja Central Zone', state: 'Abuja' },
   { label: 'Epe & Ibeju-Lekki expansion', state: 'Lagos' },
   { label: 'Asokoro diplomatic district', state: 'Abuja' },
   { label: 'Trans-Amadi industrial zone', state: 'Port Harcourt' },
@@ -190,16 +190,16 @@ export default function ZillowStyleFooter() {
                   Nigeria&apos;s Verified Property Marketplace
                 </h5>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-                  All listings verified via beacon surveys, deed validation, and institutional escrow trustee rails.
+                  All listings verified via map surveys, deed validation, and secure payment trustee rails.
                 </p>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-mono font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">
-                CAC RC: 1849204
+                Business Registration RC: 1849204
               </span>
               <span className="rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-mono font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">
-                FIRS Cap S8
+                Stamp Duty
               </span>
               <span className="rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-mono font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">
                 NDPA 2023 Compliant

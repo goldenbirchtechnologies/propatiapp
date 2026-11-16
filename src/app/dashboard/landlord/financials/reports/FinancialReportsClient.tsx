@@ -168,7 +168,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
             <span className="bg-primary text-white px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">IFRS &amp; LASRERA Ready</span>
           </div>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl">
-            Generate, schedule, and export institutional financial statements, tax filings, and audited portfolio yield ledgers.
+            Generate, schedule, and export financial statements, tax filings, and audited portfolio yield ledgers.
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -300,7 +300,7 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
           </div>
           <div className="relative w-full md:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
-            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Filter by report title, CAC, ref..." className="pl-10" />
+            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Filter by report title, Business Registration, ref..." className="pl-10" />
           </div>
         </div>
       </div>

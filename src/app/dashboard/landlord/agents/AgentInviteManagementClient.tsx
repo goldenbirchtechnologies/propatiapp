@@ -60,7 +60,7 @@ type RoleKey = 'Agent' | 'Property Manager' | 'Owner Co-Manager';
 const ROLES: { key: RoleKey; title: string; desc: string; tag: string }[] = [
   { key: 'Agent', title: 'Commercial Agent', desc: 'Manages tenant vetting, schedules physical site inspections, receives leasing inquiries.', tag: 'Direct Intermediary' },
   { key: 'Property Manager', title: 'Property Manager', desc: 'Full operational scope: tenant repair tickets, diesel utility levies & lease renewals.', tag: 'Full Operations' },
-  { key: 'Owner Co-Manager', title: 'Owner Co-Manager', desc: 'Trustee-level access, financial settlement audit, and landlord dispute escalation.', tag: 'Principal Rights' },
+  { key: 'Owner Co-Manager', title: 'Owner Co-Manager', desc: 'Trustee-level access, financial payout audit, and landlord dispute escalation.', tag: 'Principal Rights' },
 ];
 
 function initials(name: string) {
@@ -344,9 +344,9 @@ export default function AgentInviteManagementClient({
       <div className="flex flex-wrap items-center gap-3 p-3 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400">
         <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-primary animate-pulse" /><span className="font-semibold uppercase tracking-wider text-zinc-900 dark:text-white">Mandates:</span> {acceptedAgents.length} Active</span>
         <span className="h-3 w-px bg-zinc-200 dark:bg-zinc-700" />
-        <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> CAC / NIESV Verified Intermediaries Only</span>
+        <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Business Registration Verified Intermediaries Only</span>
         <span className="h-3 w-px bg-zinc-200 dark:bg-zinc-700" />
-        <span className="flex items-center gap-1.5"><RefreshCw className="w-3.5 h-3.5 text-zinc-400" /> Auto-Sync with Escrow Ledger</span>
+        <span className="flex items-center gap-1.5"><RefreshCw className="w-3.5 h-3.5 text-zinc-400" /> Auto-Sync with Secure Payment Ledger</span>
       </div>
 
       {/* Tabs */}
@@ -414,7 +414,7 @@ export default function AgentInviteManagementClient({
                 </div>
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">No agents invited yet</h3>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md">
-                  You haven't assigned external brokers or property managers. Send an official institutional invitation to delegate inspections and rent tracking.
+                  You haven't assigned external brokers or property managers. Send an official invitation to assign inspections and rent tracking.
                 </p>
                 <Button onClick={() => setTab('invite')} className="bg-primary hover:bg-primary text-white gap-2">
                   <UserPlus className="w-4 h-4" /> Invite your first agent
@@ -505,9 +505,9 @@ export default function AgentInviteManagementClient({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           <div className="lg:col-span-8 bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800">
             <div className="border-b border-zinc-200 dark:border-zinc-800 pb-3 mb-4">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Issue Institutional Mandate Invite</h2>
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Issue Mandate Invite</h2>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-                Authorized intermediaries receive an onboarding link with automatic listing tenancy delegation.
+                Authorized intermediaries receive an onboarding link with automatic listing assignment.
               </p>
             </div>
             <form onSubmit={sendInvite} className="space-y-5">
@@ -646,7 +646,7 @@ export default function AgentInviteManagementClient({
                     <option>Standard 10% Commercial Agency Retainer</option>
                     <option>7.5% Corporate Leasing Mandate</option>
                     <option>5% Co-Agency Sharing Mandate</option>
-                    <option>Fixed Retainer / Institutional Agreement</option>
+                    <option>Fixed Retainer Agreement</option>
                   </select>
                 </div>
                 <div>
@@ -702,7 +702,7 @@ export default function AgentInviteManagementClient({
                   <p className="text-xs font-mono text-zinc-900 dark:text-white font-medium">
                     {selectedListingIds.length === 0 ? 'All listings' : selectedListingIds.length === 1 ? properties.find((p) => p.id === selectedListingIds[0])?.title : `${properties.find((p) => p.id === selectedListingIds[0])?.title} + ${selectedListingIds.length - 1} more`}
                   </p>
-                  <span className="inline-flex items-center gap-1 text-primary text-[10px] font-bold uppercase"><CheckCircle2 className="w-3 h-3" /> Instant Escrow Allocation</span>
+                  <span className="inline-flex items-center gap-1 text-primary text-[10px] font-bold uppercase"><CheckCircle2 className="w-3 h-3" /> Instant Payout Allocation</span>
                 </div>
               </div>
             </div>

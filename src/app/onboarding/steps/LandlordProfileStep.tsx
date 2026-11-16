@@ -70,7 +70,7 @@ export default function LandlordProfileStep({ facts, onSaved }: StepProps) {
     <form onSubmit={handleSubmit}>
       <DCallout icon={<Building2 className="h-4 w-4" />} title="Asset register" className="mb-5">
         Whatever entity holds the title is the entity that receives rent. A company must supply its
-        CAC registration; joint owners are all named on the tenancy agreement.
+        business registration; joint owners are all named on the tenancy agreement.
       </DCallout>
 
       <DField label="Legal ownership entity" required className="mb-4">

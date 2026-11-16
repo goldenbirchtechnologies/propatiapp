@@ -291,7 +291,9 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 {listing.units.map((u) => (
                   <tr key={u.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.04] transition-colors">
                     <td className="p-2">
-                      <div className="font-semibold text-zinc-900 dark:text-white">{u.unitNumber}</div>
+                      <Link href={`/dashboard/landlord/properties/${listing.id}/units/${u.id}`} className="hover:text-primary transition-colors">
+<div className="font-semibold text-zinc-900 dark:text-white">{u.unitNumber}</div>
+</Link>
                       <div className="text-xs text-zinc-600 dark:text-zinc-400">{u.buildingName || u.type}</div>
                     </td>
                     <td className="p-2">

@@ -75,7 +75,7 @@ export default function TenantApplicationDetailClient({ application: initial }: 
       try {
         const res = await fetch(`/api/applications/${initial.id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'withdrawn' }) });
         if (!res.ok) { const d = await res.json().catch(()=>({error:'Failed'})); toast.error(d.error || 'Failed to withdraw'); return; }
-        toast.success('Application withdrawn — escrow released');
+        toast.success('Application withdrawn — secure payment released');
         router.push('/dashboard/tenant/applications');
         router.refresh();
       } catch { toast.error('Something went wrong'); } finally { setConfirmOpen(false); }
@@ -87,7 +87,7 @@ export default function TenantApplicationDetailClient({ application: initial }: 
     { label:'BVN & KYC Verification', date: initial.status !== 'pending' ? 'NIBSS Cleared' : 'Pending NIBSS check', done: initial.status !== 'pending', icon: ShieldCheck },
     { label:'Landlord & Solicitor Review', date: initial.reviewedAt ? `Reviewed ${formatDateLong(initial.reviewedAt)}` : 'Board clearance pending', done: !!initial.reviewedAt, active: !initial.reviewedAt && (initial.status==='pending' || initial.status==='under_review'), icon: Gavel },
     { label:'Formal Tenancy Offer', date:'Lease generation & payment schedule', done: initial.status==='accepted', icon: ScrollText },
-    { label:'Counter-Signature & LASRERA Stamping', date:'Registry perfection & key handover', done: false, icon: Award },
+    { label:'Counter-Signature & Real Estate License Stamping', date:'Registry perfection & key handover', done: false, icon: Award },
   ];
 
   return (
@@ -103,8 +103,8 @@ export default function TenantApplicationDetailClient({ application: initial }: 
           <span className="hidden sm:inline text-zinc-400">• Submitted {formatDateLong(initial.createdAt)}</span>
         </nav>
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400"><Gavel className="h-3.5 w-3.5" /> LASRERA COMPLIANT</span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><ShieldCheck className="h-3.5 w-3.5" /> CAC VERIFIED</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.06] px-3 py-1 text-zinc-600 dark:text-zinc-400"><Gavel className="h-3.5 w-3.5" /> Real Estate License Compliant</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]"><ShieldCheck className="h-3.5 w-3.5" /> Business Registration Verified</span>
         </div>
       </div>
 
@@ -211,12 +211,12 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                 {/* Tenant dossier */}
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
                   <div className="flex items-center justify-between">
-                    <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Users className="h-5 w-5 text-primary" /> Tenant Submitted Dossier</h2>
+                    <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><Users className="h-5 w-5 text-primary" /> Tenant Submitted Report</h2>
                     <Badge className="bg-primary/10 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">Mono Verified</Badge>
                   </div>
                   <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Validated financial metrics &amp; tenancy occupancy declaration</p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><p className="text-[11px] tracking-widest text-zinc-500">APPLICATION STAGE</p><p className="mt-1 font-semibold capitalize text-zinc-900 dark:text-white">{(initial.stage ?? 'submitted').replace(/_/g,' ')}</p><p className="text-xs text-zinc-600 dark:text-zinc-400">LASRERA workflow</p></div>
+                    <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><p className="text-[11px] tracking-widest text-zinc-500">APPLICATION STAGE</p><p className="mt-1 font-semibold capitalize text-zinc-900 dark:text-white">{(initial.stage ?? 'submitted').replace(/_/g,' ')}</p><p className="text-xs text-zinc-600 dark:text-zinc-400">Real Estate License workflow</p></div>
                     <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><p className="text-[11px] tracking-widest text-zinc-500">SCREENING</p><p className="mt-1 font-semibold text-zinc-900 dark:text-white">{screening && Object.keys(screening).length ? 'Checks recorded' : 'Pending screening'}</p><p className="text-xs text-zinc-600 dark:text-zinc-400">{screening ? `${Object.keys(screening).length} checks` : 'BVN / NIN / credit'}</p></div>
                     <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><p className="text-[11px] tracking-widest text-zinc-500">APPLIED</p><p className="mt-1 font-semibold text-zinc-900 dark:text-white">{formatDateLong(initial.createdAt)}</p><p className="text-xs text-zinc-600 dark:text-zinc-400">{deedRef(initial.id)}</p></div>
                     <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.04] p-4"><p className="text-[11px] tracking-widest text-zinc-500">GUARANTOR</p><p className="mt-1 font-semibold text-zinc-900 dark:text-white">{guarantor?.name ? String(guarantor.name) : 'Not yet provided'}</p><p className="text-xs text-zinc-600 dark:text-zinc-400">{guarantor?.relationship ? String(guarantor.relationship) : '—'}</p></div>
@@ -260,7 +260,7 @@ export default function TenantApplicationDetailClient({ application: initial }: 
                 </div>
 
                 <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900/50 p-5">
-                  <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><FileText className="h-5 w-5 text-primary" /> Uploaded Dossier</h2>
+                  <h2 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white"><FileText className="h-5 w-5 text-primary" /> Uploaded Report</h2>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">{docs.length} of {docs.length || 0} submitted • Applicant documents</p>
                   <div className="mt-4 space-y-2">
                     {docs.length === 0 ? (

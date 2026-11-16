@@ -206,7 +206,7 @@ export function Receipt({ transaction }: ReceiptProps) {
             For inquiries, contact support@propati.ng or visit www.propati.ng
           </p>
           <p className="text-xs text-muted-foreground mt-4">
-            PropatiBox - Secured by Paystack | Regulated Property Transactions
+            PropatiBox - Secured by Secure Payment | Regulated Property Transactions
           </p>
         </div>
       </div>

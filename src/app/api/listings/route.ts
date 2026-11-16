@@ -157,7 +157,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const auth = await withAuth(request, ['landlord', 'estate_manager']);
+    const auth = await withAuth(request, ['landlord', 'estate_manager', 'admin']);
     if (auth instanceof NextResponse) return auth;
 
     const body = await request.json();

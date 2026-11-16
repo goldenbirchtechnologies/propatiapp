@@ -71,7 +71,7 @@ function VerificationGuideClient(props: Props) {
 
       <div className="space-y-4">
         {steps.map((step, idx) => (
-          <div className="glass-card" key={step.layer} className="hover:shadow-none transition-shadow">
+          <div key={step.layer} className="glass-card hover:shadow-none transition-shadow">
             <div className="p-6 p-5 flex items-start gap-4">
               <div className="w-10 h-10 rounded-full bg-zinc-800 text-zinc-900 dark:text-white flex items-center justify-center shrink-0">
                 <step.icon className="h-5 w-5" />

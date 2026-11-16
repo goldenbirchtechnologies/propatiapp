@@ -139,7 +139,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             </span>
             {listing.verification && (
               <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] text-zinc-900 dark:text-white text-xs uppercase font-semibold flex items-center gap-1">
-                <Verified className="h-3.5 w-3.5 text-primary" />
+                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
                 Verified
               </span>
             )}

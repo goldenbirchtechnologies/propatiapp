@@ -20,7 +20,7 @@ export default function AmenitiesPicker({ categories, selected, onChange }: Amen
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
       <div className="flex flex-col gap-1">
         <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Amenities</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Property Amenities</h2>

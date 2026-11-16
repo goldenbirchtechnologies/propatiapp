@@ -100,6 +100,20 @@ export default function HomePage() {
   const [locationQuery, setLocationQuery] = React.useState('');
   const [assetClass, setAssetClass] = React.useState('Residential Villa, Penthouse, Commercial Space');
   const [budgetRange, setBudgetRange] = React.useState('₦5M — ₦25M / year');
+  const [scrollProgress, setScrollProgress] = React.useState(0);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    const updateProgress = () => {
+      if (cancelled) return;
+      const doc = document.documentElement;
+      const total = doc.scrollHeight - doc.clientHeight;
+      if (total > 0) setScrollProgress((doc.scrollTop / total) * 100);
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+    return () => { cancelled = true; window.removeEventListener('scroll', updateProgress); };
+  }, []);
 
   const tabToListingType: Record<string, string> = {
     rent: 'rent',

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Search, MapPin, Building2 } from 'lucide-react';
 
@@ -24,8 +25,16 @@ function usePublicStats() {
 const tabs = ['Rent', 'Buy', 'Shortlet', 'Commercial'] as const;
 type Tab = (typeof tabs)[number];
 
+const tabCategoryMap: Record<Tab, string> = {
+  Rent: 'rent',
+  Buy: 'sale',
+  Shortlet: 'short_let',
+  Commercial: 'commercial',
+};
+
 export default function HeroSection() {
   const stats = usePublicStats();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>('Rent');
 
   return (
@@ -86,7 +95,7 @@ export default function HeroSection() {
                 {tabs.map((tab) => (
                   <button
                     key={tab}
-                    onClick={() => setActiveTab(tab)}
+                    onClick={() => { setActiveTab(tab); router.push(`/listings?category=${tabCategoryMap[tab]}`); }}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                       activeTab === tab ? 'bg-emerald-500 text-white' : 'text-gray-600 hover:bg-gray-100'
                     }`}
@@ -135,7 +144,7 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              <button className="w-full h-11 px-4 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 bg-emerald-500 text-white hover:bg-emerald-600 transition-all hover:scale-[1.02] active:scale-[0.98]">
+              <button onClick={() => router.push('/listings')} className="w-full h-11 px-4 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 bg-emerald-500 text-white hover:bg-emerald-600 transition-all hover:scale-[1.02] active:scale-[0.98]">
                 <Search className="h-4 w-4" />
                 Search Properties
               </button>

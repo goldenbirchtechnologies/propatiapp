@@ -1,5 +1,13 @@
 import React from 'react';
+import Link from 'next/link';
 import { TrendingUp, KeyRound, BedDouble, MapPin } from 'lucide-react';
+
+const dirLinks: Record<string, string> = {
+  'Real Estate Sales': '/listings',
+  'Long-Term Rentals': '/listings',
+  'Shortlets & Serviced': '/listings?listingType=short_let',
+  'Regional Hubs & Guides': '/listings',
+};
 
 const directories = [
   {
@@ -71,7 +79,7 @@ export default function DirectoriesSection() {
                   {d.items.map((item) => (
                     <li key={item} className="hover:text-emerald-400 cursor-pointer flex items-center gap-1.5 transition-colors">
                       <span className="text-gray-500">&rsaquo;</span>
-                      {item}
+                      <Link href={dirLinks[d.title] || "/listings"} className="hover:underline">{item}</Link>
                     </li>
                   ))}
                 </ul>

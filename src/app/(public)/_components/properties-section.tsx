@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 
 function useFeaturedFromDb() {
@@ -254,7 +255,7 @@ export default function PropertiesSection() {
 
 function PropertyCard({ property }: { property: Property }) {
   return (
-    <div className="rounded-xl overflow-hidden flex flex-col group transition-all duration-200 hover:-translate-y-1 bg-[#171E1B] border border-white/[0.07]">
+    <Link href={`/listings/${property.id}`} className="rounded-xl overflow-hidden flex flex-col group transition-all duration-200 hover:-translate-y-1 bg-[#171E1B] border border-white/[0.07]">
       <div className="relative h-56 w-full">
         <Image
           src={property.img}
@@ -275,7 +276,7 @@ function PropertyCard({ property }: { property: Property }) {
           ))}
         </div>
         <button
-          aria-label="Save to favorites"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} aria-label="Save to favorites"
           className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md text-white hover:text-emerald-400 transition-colors"
           style={{ backgroundColor: 'rgba(8, 11, 10, 0.6)' }}
         >
@@ -303,11 +304,11 @@ function PropertyCard({ property }: { property: Property }) {
             <span className="text-base font-extrabold text-white">{property.price}</span>
             <span className="text-xs text-gray-400"> {property.period}</span>
           </div>
-          <button className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white hover:bg-emerald-400 hover:text-[#0a0a0a] transition-colors border border-emerald-400/40">
+          <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white hover:bg-emerald-400 hover:text-[#0a0a0a] transition-colors border border-emerald-400/40">
             {property.action}
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

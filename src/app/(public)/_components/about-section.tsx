@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 
 export default function AboutSection() {
@@ -28,13 +29,13 @@ export default function AboutSection() {
             </div>
           </div>
           <div className="pt-3">
-            <a
+            <Link
               className="inline-flex items-center gap-2 px-5 py-3 rounded-lg text-xs font-semibold transition-colors text-white hover:bg-[#171E1B] border border-emerald-400/40"
-              href="#"
+              href="/about-us"
             >
               Learn More About Our Journey
               <span className="text-emerald-400">&rarr;</span>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="lg:col-span-6">

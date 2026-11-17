@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 export default function CTASection() {
@@ -17,13 +18,13 @@ export default function CTASection() {
               Join thousands of landlords, tenants, and agents who trust PropalBox to manage, discover, and secure Nigeria&apos;s most verified real estate portfolio.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-              <button className="inline-flex items-center justify-center px-8 py-3.5 rounded-lg font-semibold text-sm bg-emerald-400 text-[#0a0a0a] hover:bg-emerald-300 transition-all hover:scale-[1.02] active:scale-[0.98]">
+              <Link href="/listings" className="inline-flex items-center justify-center px-8 py-3.5 rounded-lg font-semibold text-sm bg-emerald-400 text-[#0a0a0a] hover:bg-emerald-300 transition-all hover:scale-[1.02] active:scale-[0.98]">
                 Explore Properties
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </button>
-              <button className="inline-flex items-center justify-center px-8 py-3.5 rounded-lg font-semibold text-sm text-white border border-white/20 hover:bg-white/5 transition-colors">
+              </Link>
+              <Link href="/sign-up" className="inline-flex items-center justify-center px-8 py-3.5 rounded-lg font-semibold text-sm text-white border border-white/20 hover:bg-white/5 transition-colors">
                 List Your Property
-              </button>
+              </Link>
             </div>
           </div>
         </div>

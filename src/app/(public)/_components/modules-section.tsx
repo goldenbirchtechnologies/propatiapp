@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Building2, Gavel, Hotel, Network } from 'lucide-react';
 
 const modules = [
@@ -13,6 +14,7 @@ const modules = [
       'Intelligent maintenance ticket routing & vendor escrow',
     ],
     link: 'Explore OS',
+  href: '/dashboard/landlord',
   },
   {
     icon: Gavel,
@@ -25,6 +27,7 @@ const modules = [
       'Automated annual rent escalation & expiry alerts',
     ],
     link: 'View Lease Tools',
+  href: '/agreements',
   },
   {
     icon: Hotel,
@@ -37,6 +40,7 @@ const modules = [
       'Integrated dynamic pricing & electricity token reload',
     ],
     link: 'Discover Shortlet Sync',
+  href: '/listings?listingType=short_let',
   },
   {
     icon: Network,
@@ -49,6 +53,7 @@ const modules = [
       'NIESV & REDAN accredited broker credential badges',
     ],
     link: 'Join Syndication',
+  href: '/find-agent',
   },
 ];
 
@@ -90,10 +95,10 @@ export default function ModulesSection() {
                   </ul>
                 </div>
                 <div className="pt-6 mt-6 border-t border-white/[0.06]">
-                  <a className="inline-flex items-center text-xs font-semibold text-emerald-400 hover:underline gap-1" href="#">
+                  <Link className="inline-flex items-center text-xs font-semibold text-emerald-400 hover:underline gap-1" href={mod.href}>
                     {mod.link}
                     <span className="text-[16px]">&rarr;</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             );

@@ -28,7 +28,10 @@ export default async function LandlordPropertiesPage() {
 
   try {
     listings = await prisma.listing.findMany({
-      where: { ownerId: user.id },
+      where: {
+        ownerId: user.id,
+        propertyType: { not: null },
+      },
       include: {
         images: { where: { isCover: true }, take: 1 },
         verification: true,
@@ -103,12 +106,12 @@ export default async function LandlordPropertiesPage() {
         ? prisma.unit.count({ where: { listingId: { in: listingIds } } })
         : Promise.resolve(0),
       listingIds.length
-        ? prisma.unit.count({ where: { listingId: { in: listingIds }, isListed: true } })
+        ? prisma.unit.count({ where: { listingId: { in: listingIds }, occupancy: 'OCCUPIED' } })
         : Promise.resolve(0),
     ]);
 
     totalUnits = totalUnitsFromRelation || totalUnitsFromDb;
-    activeListings = normalized.reduce((sum, l) => sum + l.listedUnitCount, 0) || activeListingsFromDb;
+    activeListings = normalized.reduce((sum, l) => sum + (l.unitCount - l.vacantUnitCount), 0) || activeListingsFromDb;
   } catch (error) {
     console.error('LandlordPropertiesPage server data load error:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';

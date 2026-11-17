@@ -84,6 +84,7 @@ interface Property {
   price: string;
   period: string;
   action: string;
+	category: 'luxury' | 'abuja' | 'commercial';
 }
 
 const properties: Property[] = [
@@ -105,6 +106,7 @@ const properties: Property[] = [
     price: '₦18,500,000',
     period: '/ yr',
     action: 'Schedule Inspection',
+  category: 'luxury',
   },
   {
     id: 'p2',
@@ -121,6 +123,7 @@ const properties: Property[] = [
     price: '₦35,000,000',
     period: '/ yr',
     action: 'Schedule Inspection',
+  category: 'abuja',
   },
   {
     id: 'p3',
@@ -137,6 +140,7 @@ const properties: Property[] = [
     price: '₦120,000',
     period: '/ night',
     action: 'Book Shortlet',
+  category: 'luxury',
   },
   {
     id: 'p4',
@@ -153,6 +157,7 @@ const properties: Property[] = [
     price: '₦65,000,000',
     period: '/ yr',
     action: 'Schedule Inspection',
+  category: 'commercial',
   },
   {
     id: 'p5',
@@ -169,6 +174,7 @@ const properties: Property[] = [
     price: '₦22,000,000',
     period: '/ yr',
     action: 'Schedule Inspection',
+  category: 'abuja',
   },
   {
     id: 'p6',
@@ -185,8 +191,16 @@ const properties: Property[] = [
     price: '₦14,000,000',
     period: '/ yr',
     action: 'Schedule Inspection',
+  category: 'luxury',
   },
 ];
+
+const filterCategories: Record<string, string> = {
+  'All Listings': '',
+  'Lekki & Ikoyi Luxury': 'luxury',
+  'Abuja Diplomats': 'abuja',
+  'Commercial Hubs': 'commercial',
+};
 
 export default function PropertiesSection() {
   const dbData = useFeaturedFromDb();
@@ -226,7 +240,10 @@ export default function PropertiesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {properties.map((prop) => (
+          {properties.filter((p) => {
+          const cat = filterCategories[activeFilter];
+          return !cat || p.category === cat;
+        }).map((prop) => (
             <PropertyCard key={prop.id} property={prop} />
           ))}
         </div>

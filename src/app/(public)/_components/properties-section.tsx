@@ -190,7 +190,7 @@ const properties: Property[] = [
 
 export default function PropertiesSection() {
   const dbData = useFeaturedFromDb();
-  const properties: Property[] = dbData ?? featuredFallback;
+  const properties: Property[] = Array.isArray(dbData) ? dbData : featuredFallback;
   const filters = ['All Listings', 'Lekki & Ikoyi Luxury', 'Abuja Diplomats', 'Commercial Hubs'];
   const [activeFilter, setActiveFilter] = React.useState(filters[0]);
 

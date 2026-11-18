@@ -95,6 +95,13 @@ function formatListingType(value?: string) {
   return map[value] || titleCase(value);
 }
 
+function propertyStatusSummary(listing: Listing) {
+  if (!listing.unitCount) return 'No Units • Draft';
+  const active = listing.units?.filter((unit) => unit.isListed).length ?? 0;
+  const vacantDraft = Math.max(0, listing.unitCount - active);
+  return `${listing.unitCount} Units • ${active} Active Listing${active === 1 ? '' : 's'} • ${vacantDraft} Vacant / Draft`;
+}
+
 export default function PropertiesClient({ listings }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -137,7 +144,7 @@ export default function PropertiesClient({ listings }: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    const confirmed = window.confirm('Are you sure you want to delete this property? This action cannot be undone.');
+    const confirmed = window.confirm('Remove this property from the marketplace? The building and its units will be kept.');
     if (!confirmed) return;
 
     try {
@@ -148,7 +155,7 @@ export default function PropertiesClient({ listings }: Props) {
         throw new Error(data?.error || 'Failed to delete property');
       }
 
-      toast({ title: 'Deleted', description: data?.message || 'Property deleted successfully' });
+      toast({ title: 'Listing removed', description: data?.message || 'Marketplace listing removed successfully' });
       router.refresh();
     } catch (error) {
       toast({
@@ -337,7 +344,7 @@ export default function PropertiesClient({ listings }: Props) {
                     {/* Status Badge */}
                     <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-primary dark:text-[#4edea3] text-[10px] font-semibold shadow-sm">
                       <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                      {listing.listedUnitCount > 0 ? 'Active' : titleCase(listing.status)}
+                      {propertyStatusSummary(listing)}
                     </div>
                     {/* Favorite */}
                     <button
@@ -425,7 +432,7 @@ export default function PropertiesClient({ listings }: Props) {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-red-500 focus:text-red-500" onClick={() => handleDelete(listing.id)}>
-                          Delete Property
+                          Remove from Marketplace
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -501,7 +508,7 @@ export default function PropertiesClient({ listings }: Props) {
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem className="text-red-500" onClick={() => handleDelete(listing.id)}>
-                            Delete
+                            Remove Listing
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

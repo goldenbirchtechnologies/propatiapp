@@ -901,6 +901,9 @@ model Listing {
   pricePeriod    String?       @map("price_period") // night, month, year, total
   cautionDeposit Decimal?      @map("caution_deposit") @db.Decimal(15, 2)
   serviceCharge  Decimal?      @map("service_charge") @db.Decimal(15, 2)
+  agreementFee Decimal? @map("agreement_fee") @db.Decimal(15, 2)
+  agencyFee Decimal? @map("agency_fee") @db.Decimal(15, 2)
+  stampDuty Decimal? @map("stamp_duty") @db.Decimal(15, 2)
   bedrooms       Int?
   bathrooms      Int?
   toilets        Int?
@@ -1531,7 +1534,8 @@ model Unit {
   // in the database (units created before units were scoped to a property stay
   // null), so the model has to allow it or Prisma throws on every full-row read.
   listingId    String?  @map("listing_id")
-  listing      Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
+ // Deleting a listing unpublishes its units; it must never delete the units.
+  listing      Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
   buildingName String?  @map("building_name")
   unitNumber   String   @map("unit_number")
 

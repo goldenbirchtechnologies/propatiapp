@@ -280,6 +280,21 @@ export async function PATCH(
       });
     }
 
+    const targetUnitId = (body as Record<string, unknown>).unitId as string | undefined;
+    if (validated.status && validated.status !== listing.status) {
+      if (targetUnitId) {
+        await prisma.unit.update({
+          where: { id: targetUnitId },
+          data: { isListed: validated.status === 'active' },
+        });
+      } else if (validated.status !== 'active') {
+        await prisma.unit.updateMany({
+          where: { listingId: id },
+          data: { isListed: false },
+        });
+      }
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Listing updated successfully',
@@ -358,6 +373,29 @@ export async function DELETE(
         { success: false, error: 'Forbidden: You can only delete your own listings' },
         { status: 403 }
       );
+    }
+
+    const units = await prisma.unit.findMany({
+      where: { listingId: id },
+      select: { id: true },
+    });
+
+    if (units.length > 0) {
+      await prisma.$transaction([
+        prisma.unit.updateMany({
+          where: { id: { in: units.map((unit) => unit.id) } },
+          data: { isListed: false },
+        }),
+        prisma.listing.update({
+          where: { id },
+          data: { status: 'draft' },
+        }),
+      ]);
+
+      return NextResponse.json({
+        success: true,
+        message: `Marketplace listing for "${listing.title}" unpublished; the building and its units were kept`,
+      });
     }
 
     await prisma.listing.delete({

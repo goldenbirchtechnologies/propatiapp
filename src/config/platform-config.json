@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "currency": "NGN",
+  "amountUnit": "kobo",
+  "vat": {
+    "rate": 0.075,
+    "appliesTo": "platform_fees_only"
+  },
+  "gatewayFees": {
+    "local": { "rate": 0.015, "flatKobo": 10000, "capKobo": 200000 },
+    "international": { "rate": 0.038, "flatKobo": 0, "capKobo": null }
+  },
+  "transactionFees": {
+    "shortlet": {
+      "platformCommissionRate": 0.06,
+      "platformFeePayer": "host",
+      "guestPlatformFeeRate": 0,
+      "agencyFeeRate": 0,
+      "agreementFeeRate": 0,
+      "cautionDepositRate": 0.1,
+      "cautionDepositPlatformFeeRate": 0,
+      "vatAppliesToPlatformFee": true,
+      "note": "Guest pays zero platform fee. Commission and VAT are deducted from the host payout at check-in; caution is held in escrow with no platform fee."
+    },
+    "long_term_rent": {
+      "initialPlatformFeeRate": 0.035,
+      "renewalPlatformFeeRate": 0.015,
+      "platformFeePayer": "agent_first",
+      "agentShortfallSplit": { "agent": 0.5, "landlord": 0.5 },
+      "agencyFeeRate": { "default": 0.1, "min": 0, "max": 0.1 },
+      "agreementFeeRate": { "default": 0.05, "min": 0.05, "max": 0.1 },
+      "cautionDepositRate": 0.1,
+      "stampDutyInstrument": "residential_tenancy",
+      "vatAppliesToPlatformFee": true,
+      "note": "First-year fee is taken from the agent's agency fee, with any shortfall split equally; renewals are billed to the landlord or estate manager."
+    },
+    "property_sale": {
+      "platformCommissionRate": 0.01,
+      "platformFeePayer": "selling_agent_or_developer",
+      "vatAppliesToPlatformFee": true,
+      "note": "One percent of sale value, deducted from the selling agent or developer commission before payout."
+    },
+    "estate_service_charge": {
+      "convenienceFeeRate": 0.015,
+      "convenienceFeeCapKobo": 250000,
+      "payer": "tenant",
+      "vatAppliesToPlatformFee": true,
+      "note": "Resident pays the capped convenience fee, VAT on that fee, and the gateway fee. Estate manager receives the levy in full."
+    },
+    "saas_subscription": {
+      "platformFeeRate": 1,
+      "payer": "subscriber",
+      "vatAppliesToPlatformFee": true,
+      "note": "VAT is charged on the subscription platform fee only."
+    }
+  },
+  "entitlements": {
+    "landlord": {
+      "free": {
+        "planId": "LANDLORD_FREE",
+        "name": "Free",
+        "priceMonthlyKobo": 0,
+        "limits": { "max_properties": 2, "max_listings": 2 },
+        "features": {
+          "listing.create": true,
+          "landlord.rent_reminders": true,
+          "landlord.receipts": true,
+          "landlord.tax_reports": false,
+          "landlord.maintenance_ledger": false,
+          "landlord.agent_permissions": false
+        }
+      },
+      "pro": {
+        "planId": "LANDLORD_PRO",
+        "name": "Landlord Pro",
+        "priceMonthlyKobo": 500000,
+        "limits": { "max_properties": -1, "max_listings": -1 },
+        "features": {
+          "listing.create": true,
+          "landlord.rent_reminders": true,
+          "landlord.receipts": true,
+          "landlord.tax_reports": true,
+          "landlord.maintenance_ledger": true,
+          "landlord.agent_permissions": true
+        }
+      }
+    },
+    "agent": {
+      "free": {
+        "planId": "AGENT_FREE",
+        "name": "Free",
+        "priceMonthlyKobo": 0,
+        "limits": { "max_listings": -1, "monthly_featured_boosts": 0 },
+        "features": {
+          "listing.create": true,
+          "agent.inspection_scheduling": true,
+          "agent.lead_inbox": true,
+          "agent.verified_badge": false,
+          "agent.featured_boost": false,
+          "agent.follow_ups": false,
+          "agent.sub_agent_seats": false
+        }
+      },
+      "pro": {
+        "planId": "AGENT_PRO",
+        "name": "Agent Pro",
+        "priceMonthlyKobo": 350000,
+        "limits": { "max_listings": -1, "monthly_featured_boosts": 2 },
+        "features": {
+          "listing.create": true,
+          "agent.inspection_scheduling": true,
+          "agent.lead_inbox": true,
+          "agent.verified_badge": true,
+          "agent.featured_boost": true,
+          "agent.follow_ups": true,
+          "agent.sub_agent_seats": true
+        }
+      }
+    },
+    "tenant": {
+      "free": {
+        "planId": "TENANT_FREE",
+        "name": "Free",
+        "priceMonthlyKobo": 0,
+        "limits": {},
+        "features": {
+          "tenant.booking": true,
+          "tenant.receipts": true,
+          "tenant.maintenance_tickets": true,
+          "tenant.verified_badge": false,
+          "tenant.rent_now_pay_later": false
+        }
+      },
+      "addOns": {
+        "tenant.verified_badge": {
+          "name": "Verified Tenant Badge",
+          "priceOneTimeKobo": 250000,
+          "description": "One-time NIN, credit and employment verification check"
+        },
+        "tenant.rent_now_pay_later": {
+          "name": "Rent Now Pay Later",
+          "priceOneTimeKobo": null,
+          "description": "Financing fees are quoted by the lender at checkout"
+        }
+      }
+    },
+    "estate_manager": {
+      "free": {
+        "planId": "ESTATE_FREE",
+        "name": "Free",
+        "priceMonthlyKobo": 0,
+        "limits": { "max_units": 15 },
+        "features": {
+          "estate.create_unit": true,
+          "estate.resident_directory": true,
+          "estate.qr_gate_pass": false,
+          "estate.guard_checkin": false,
+          "estate.service_charge_invoicing": false,
+          "estate.power_token_vending": false
+        }
+      },
+      "pro": {
+        "planId": "ESTATE_PRO",
+        "name": "Estate Manager Pro",
+        "priceMonthlyKobo": null,
+        "perUnitTiers": [
+          { "minUnits": 16, "maxUnits": 50, "pricePerUnitMonthlyKobo": 75000, "label": "16–50 units" },
+          { "minUnits": 51, "maxUnits": 200, "pricePerUnitMonthlyKobo": 60000, "label": "51–200 units" },
+          { "minUnits": 201, "maxUnits": null, "pricePerUnitMonthlyKobo": null, "label": "200+ units — custom quote" }
+        ],
+        "limits": { "max_units": -1 },
+        "features": {
+          "estate.create_unit": true,
+          "estate.resident_directory": true,
+          "estate.qr_gate_pass": true,
+          "estate.guard_checkin": true,
+          "estate.service_charge_invoicing": true,
+          "estate.power_token_vending": true
+        }
+      }
+    }
+  }
+}

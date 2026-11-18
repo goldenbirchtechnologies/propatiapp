@@ -14,7 +14,8 @@ export const metadata = {
   description: 'Create a marketplace listing from your vacant units.',
 };
 
-export default async function LandlordAddListingPage() {
+export default async function LandlordAddListingPage({ searchParams }: { searchParams: Promise<{ unitId?: string }> }) {
+  const { unitId } = await searchParams;
   // Auth check outside try/catch — redirect() throws NEXT_REDIRECT which must
   // not be swallowed by a catch block (see AGENTS.md critical rules).
   const user = await getCurrentUserWithProfile();
@@ -45,7 +46,7 @@ export default async function LandlordAddListingPage() {
         listingType: true,
         propertyType: true,
         units: {
-          where: { occupancy: 'VACANT' },
+          where: { occupancy: 'VACANT', isListed: false },
           select: {
             id: true,
             unitNumber: true,
@@ -115,6 +116,7 @@ export default async function LandlordAddListingPage() {
         <AddListingClient
           listings={listings}
           vacantUnits={vacantUnits}
+          initialUnitId={unitId}
           publishBlocked={onboardingBlocked}
         />
       </ErrorBoundary>

@@ -5,6 +5,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 var mockListingFindMany: ReturnType<typeof vi.fn>;
 var mockListingCount: ReturnType<typeof vi.fn>;
 var mockListingCreate: ReturnType<typeof vi.fn>;
+var mockListingUpdate: ReturnType<typeof vi.fn>;
+var mockUnitFindUnique: ReturnType<typeof vi.fn>;
+var mockUnitUpdate: ReturnType<typeof vi.fn>;
+var mockTransaction: ReturnType<typeof vi.fn>;
 var mockVerificationCreate: ReturnType<typeof vi.fn>;
 var mockUserSubscriptionFindFirst: ReturnType<typeof vi.fn>;
 var mockUserFindUnique: ReturnType<typeof vi.fn>;
@@ -18,6 +22,10 @@ vi.mock('@/lib/prisma', () => {
   mockListingFindMany = vi.fn();
   mockListingCount = vi.fn();
   mockListingCreate = vi.fn();
+  mockListingUpdate = vi.fn();
+  mockUnitFindUnique = vi.fn();
+  mockUnitUpdate = vi.fn();
+  mockTransaction = vi.fn(async (operations: Promise<unknown>[]) => Promise.all(operations));
   mockVerificationCreate = vi.fn();
   mockUserSubscriptionFindFirst = vi.fn();
   mockUserFindUnique = vi.fn();
@@ -28,7 +36,13 @@ vi.mock('@/lib/prisma', () => {
         findMany: mockListingFindMany,
         count: mockListingCount,
         create: mockListingCreate,
+        update: mockListingUpdate,
       },
+      unit: {
+        findUnique: mockUnitFindUnique,
+        update: mockUnitUpdate,
+      },
+      $transaction: (...args: unknown[]) => (mockTransaction as any)(...args),
       verification: {
         create: mockVerificationCreate,
       },
@@ -76,6 +90,10 @@ vi.mock('@/lib/fees', () => {
   };
 });
 
+vi.mock('@/lib/entitlements', () => ({
+  enforceFeatureAccess: vi.fn().mockResolvedValue(null),
+}));
+
 import { GET, POST } from '@/app/api/listings/route';
 import { NextRequest } from 'next/server';
 
@@ -104,6 +122,10 @@ describe('Listings API', () => {
     mockListingFindMany.mockReset();
     mockListingCount.mockReset();
     mockListingCreate.mockReset();
+    mockListingUpdate.mockReset();
+    mockUnitFindUnique.mockReset();
+    mockUnitUpdate.mockReset();
+    mockTransaction.mockClear();
     mockVerificationCreate.mockReset();
     mockUserSubscriptionFindFirst.mockReset();
     mockUserFindUnique.mockReset();
@@ -224,5 +246,71 @@ describe('Listings API', () => {
     expect(mockListingCreate).toHaveBeenCalledTimes(1);
     expect(body.id).toBe('listing-new');
     expect(body.title).toBe('New Rental');
+  });
+
+  it('POST /api/listings with a unitId publishes the unit without creating a new property', async () => {
+    mockWithAuth.mockResolvedValue({ user: { id: 'landlord-1' } });
+    mockListingCount.mockResolvedValue(1);
+    mockUserSubscriptionFindFirst.mockResolvedValue({
+ status: 'active',
+ plan: { id: 'plan-1', name: 'Starter', maxListings: 1 },
+ });
+    mockUnitFindUnique.mockResolvedValue({
+      id: 'unit-1',
+      buildingName: 'Sunrise Court',
+      unitNumber: 'A2',
+      rent: '750000',
+      pricePeriod: 'month',
+      bedrooms: 2,
+      bathrooms: 2,
+      sizeSqm: '95',
+      listingType: 'rent',
+      type: 'apartment',
+      cautionDeposit: null,
+      serviceCharge: null,
+      minimumStay: null,
+      listing: {
+        id: 'parent-1',
+        title: 'Sunrise Court',
+        address: '12 Island Road',
+        area: 'Victoria Island',
+        state: 'Lagos',
+        ownerId: 'landlord-1',
+      },
+    });
+    mockListingUpdate.mockResolvedValue({
+      id: 'parent-1',
+      title: 'Sunrise Court',
+      status: 'active',
+      ownerId: 'landlord-1',
+    });
+    mockUnitUpdate.mockResolvedValue({ id: 'unit-1', isListed: true });
+
+    const response = await POST(makePost('/api/listings', {
+      title: 'Sunrise Court',
+      description: 'A well-appointed two bedroom unit.',
+      listingType: 'rent',
+      propertyType: 'apartment',
+      address: '12 Island Road',
+      area: 'Victoria Island',
+      state: 'Lagos',
+      price: 750000,
+      status: 'active',
+      unitId: 'unit-1',
+    }));
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.id).toBe('parent-1');
+    expect(mockListingCreate).not.toHaveBeenCalled();
+    expect(mockTransaction).toHaveBeenCalledTimes(1);
+    expect(mockListingUpdate).toHaveBeenCalledWith(expect.objectContaining({
+      where: { id: 'parent-1' },
+      data: expect.objectContaining({ status: 'active', price: 750000 }),
+    }));
+    expect(mockUnitUpdate).toHaveBeenCalledWith({
+      where: { id: 'unit-1' },
+      data: expect.objectContaining({ listingId: 'parent-1', isListed: true }),
+    });
   });
 });

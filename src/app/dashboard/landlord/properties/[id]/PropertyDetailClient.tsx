@@ -266,7 +266,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             <div>
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Unit Inventory ({listing.units.length})</h2>
               <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                {listing.units.filter((u) => u.status === 'occupied').length} Occupied • {listing.units.filter((u) => u.status !== 'occupied').length} Vacant
+                {listing.units.filter((u) => u.status.toLowerCase() === 'occupied' || u.occupancy.toUpperCase() === 'OCCUPIED').length} Occupied • {listing.units.filter((u) => u.status.toLowerCase() !== 'occupied' && u.occupancy.toUpperCase() !== 'OCCUPIED').length} Vacant
               </p>
             </div>
             <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>
@@ -305,14 +305,25 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     <td className="p-2 font-mono font-bold text-zinc-900 dark:text-white">₦{u.rent.toLocaleString()}</td>
                     <td className="p-2">
                       <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                        u.status === 'occupied'
+                        u.status.toLowerCase() === 'occupied' || u.occupancy.toUpperCase() === 'OCCUPIED'
                           ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]'
                           : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
                       }`}>
-                        {u.status}
+                        {u.status ? u.status.charAt(0).toUpperCase() + u.status.slice(1).toLowerCase() : 'Vacant'}
+                      </span>
+                      <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                        u.isListed
+                          ? 'bg-primary/15 text-primary dark:text-[#4edea3]'
+                          : 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'
+                      }`}>
+                        {u.isListed ? 'Listed' : 'Draft'}
                       </span>
                     </td>
                     <td className="p-2 text-right space-x-1">
+                      <Link href={`/properties/${listing.id}`} title="View marketplace listing" className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400 inline-flex"><Eye className="h-4 w-4" /></Link>
+                      {!u.isListed && (
+                        <Link href={`/dashboard/landlord/listing/new?unitId=${u.id}`} title="Publish this unit" className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-primary inline-flex"><Plus className="h-4 w-4" /></Link>
+                      )}
                       <button className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400"><Pencil className="h-4 w-4" /></button>
                       <button className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400"><Layers className="h-4 w-4" /></button>
                     </td>

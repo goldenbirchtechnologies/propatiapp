@@ -28,6 +28,7 @@ import {
   MapPin,
   DollarSign,
   Megaphone,
+  Calculator,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useToast } from '@/hooks/use-toast';
@@ -42,6 +43,7 @@ const WizardShell = dynamic(
   () => import('@/app/dashboard/landlord/listing/new/wizard/WizardShell'),
   { ssr: false }
 );
+import FeeBreakdown from './FeeBreakdown';
 
 type ListingUnit = {
   id: string;
@@ -100,6 +102,7 @@ type Props = {
     propertyType: string | null;
   }>;
   vacantUnits: ListingUnit[];
+  initialUnitId?: string;
   basePath?: string;
   newPropertyHref?: string;
   propertiesHref?: string;
@@ -108,14 +111,14 @@ type Props = {
   publishBlocked?: boolean;
 };
 
-export default function AddListingClient({ listings, vacantUnits, basePath = '/dashboard/landlord', newPropertyHref, propertiesHref, successHref, publishBlocked = false }: Props) {
+export default function AddListingClient({ listings, vacantUnits, initialUnitId = '', basePath = '/dashboard/landlord', newPropertyHref, propertiesHref, successHref, publishBlocked = false }: Props) {
   const resolvedNewPropertyHref = newPropertyHref ?? `${basePath}/properties/new`;
   const resolvedPropertiesHref = propertiesHref ?? `${basePath}/properties`;
   const router = useRouter();
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
-  const [selectedUnitId, setSelectedUnitId] = useState<string>('');
+  const [selectedUnitId, setSelectedUnitId] = useState<string>(initialUnitId);
   const [autoFilledSource, setAutoFilledSource] = useState<string | null>(null);
   const [clientErrors, setClientErrors] = useState<string[]>([]);
   const [wizardMode, setWizardMode] = useState(false);
@@ -175,7 +178,9 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
 
     setAutoFilledSource(`${unit.listingTitle} - Unit ${unit.unitNumber}`);
 
-    form.setValue('title', `${unit.listingTitle} - Unit ${unit.unitNumber}`);
+    // The title stays the parent building's name: the marketplace card is the
+    // building, while the chosen unit only supplies price and attributes.
+    form.setValue('title', unit.listingTitle);
     form.setValue('listingType', (unit.listingType as ListingInput['listingType']) || 'rent');
     form.setValue('propertyType', (unit.propertyType as ListingInput['propertyType']) || undefined);
     form.setValue('address', unit.address);
@@ -706,6 +711,11 @@ export default function AddListingClient({ listings, vacantUnits, basePath = '/d
                   {form.watch('listingType') === 'short_let' && (
                     <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Short-let pricing is typically set per night. Use Total only for fixed-stay packages.</p>
                   )}
+      <FeeBreakdown
+  monthlyRent={form.watch('price') ?? 0}
+  pricePeriod={form.watch('pricePeriod')}
+  listingType={form.watch('listingType')}
+/>
                 </div>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
+import { enforceFeatureAccess } from '@/lib/entitlements';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { UnitStatus, UnitOccupancy, PropertyType } from '@prisma/client';
@@ -153,6 +154,19 @@ export async function POST(
     if (!isOwner && membership.role !== 'manager') {
       return NextResponse.json({ error: 'FORBIDDEN: Insufficient role' }, { status: 403 });
     }
+
+    const featureGate = await enforceFeatureAccess(
+
+      { id: user.id, role: user.role },
+
+      'estate.create_unit',
+
+      { orgId: id }
+
+    );
+
+    if (featureGate) return featureGate;
+
 
     // Check unit limit
     if (org.maxUnits > 0) {

@@ -61,11 +61,27 @@ export default async function LandlordPropertiesPage() {
       orderBy: { createdAt: 'desc' },
     });
 
+    // Legacy unit-level cards ("<building> - Unit X") must not inflate the count.
+    const byTitle = new Map(listings.map((listing) => [listing.title.trim().toLowerCase(), listing]));
+    const visibleListings = listings.filter((listing) => {
+      const parentTitle = /^(.*) - Unit .+$/i.exec(listing.title)?.[1];
+      if (!parentTitle) return true;
+      const parent = byTitle.get(parentTitle.trim().toLowerCase());
+      if (!parent || parent.id === listing.id) return true;
+      const seenUnitIds = new Set(parent.units.map((unit) => unit.id));
+ for (const unit of listing.units) {
+ if (seenUnitIds.has(unit.id)) continue;
+ parent.units.push(unit);
+ seenUnitIds.add(unit.id);
+ }
+      return false;
+    });
+
     // Every property the landlord owns is listed here, including freshly added
     // ones that have no units yet. Filtering unit-less buildings out made a
     // successful save look like a failed one: the property existed but vanished
     // from the portfolio until its first unit was created.
-    normalized = listings.map((listing) => {
+    normalized = visibleListings.map((listing) => {
       const totalUnitsForListing = listing.units.length;
       const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
       const listedUnits = listing.units.filter((u) => u.isListed).length;

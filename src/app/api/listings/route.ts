@@ -6,6 +6,7 @@ import { withAuth, errorResponse } from '@/lib/api-auth';
 import { assertOnboarded } from '@/lib/onboarding/guard';
 import { listingFilterSchema } from '@/lib/validators';
 import { formatCurrencyKobo } from '@/lib/fees';
+import { enforceFeatureAccess } from '@/lib/entitlements';
 import { withRateLimit, apiRateLimiter, getRateLimitHeaders } from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest) {
@@ -198,7 +199,9 @@ export async function POST(request: NextRequest) {
       }),
     ]);
 
-    if (subscription && subscription.plan && subscription.plan.maxListings > 0 && listingCount >= subscription.plan.maxListings) {
+    const unitId = (body as any)?.unitId as string | undefined;
+
+if (subscription && subscription.plan && subscription.plan.maxListings > 0 && listingCount >= subscription.plan.maxListings && !unitId) {
       return NextResponse.json(
         {
           error: `Listing limit reached. Your ${subscription.plan.name} plan allows up to ${subscription.plan.maxListings} listings.`,
@@ -207,8 +210,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let listing;
-    const unitId = (body as any)?.unitId as string | undefined;
+
+// Publishing a unit updates its parent building, so it does not consume a
+ // property slot. Only a genuinely new listing is subject to the free cap.
+ if (!unitId) {
+ const featureGate = await enforceFeatureAccess(
+ { id: userId, role: auth.user.role },
+ 'listing.create',
+ { current: listingCount }
+ );
+ if (featureGate) return featureGate;
+ }
+
+let listing;
 
     if (unitId) {
       // `Unit` hangs off `Listing`, not a `property` relation: the parent
@@ -232,7 +246,7 @@ export async function POST(request: NextRequest) {
           serviceCharge: true,
           minimumStay: true,
           listing: {
-            select: { id: true, title: true, address: true, area: true, state: true, ownerId: true },
+            select: { id: true, title: true, address: true, area: true, state: true, ownerId: true, status: true },
           },
         },
       });
@@ -269,6 +283,9 @@ export async function POST(request: NextRequest) {
         propertyType: (validated as any).propertyType || unit.type || undefined,
         cautionDeposit: (validated as any).cautionDeposit ?? (unit.cautionDeposit ? Number(unit.cautionDeposit) : undefined),
         serviceCharge: (validated as any).serviceCharge ?? (unit.serviceCharge ? Number(unit.serviceCharge) : undefined),
+        agreementFee: (validated as any).agreementFee ?? undefined,
+        agencyFee: (validated as any).agencyFee ?? undefined,
+        stampDuty: (validated as any).stampDuty ?? undefined,
         minimumStay: (validated as any).minimumStay ?? unit.minimumStay ?? undefined,
         description: (validated as any).description || parent.title || `Unit ${unit.unitNumber}`,
       };
@@ -276,26 +293,48 @@ export async function POST(request: NextRequest) {
       // `createListingSchema` strips unknown keys, so the wizard's request to
       // publish is read off the raw body (`publishRequested`) rather than off
       // `validated`, where it would have been dropped.
-      listing = await prisma.listing.create({
-        data: {
-          ...merged,
-          ownerId: userId,
-          area: merged.area || merged.address,
-          cautionDeposit: merged.cautionDeposit ?? null,
-          serviceCharge: merged.serviceCharge ?? null,
-          status: publishRequested ? 'active' : 'draft',
-        } as any,
-      });
+      // The parent listing is the building record; publishing a unit updates
+      // it instead of creating another top-level property card.
+      const unitPrice = merged.price ?? Number(unit.rent || 0);
+      const [updatedParent] = await prisma.$transaction([
+        prisma.listing.update({
+          where: { id: parent.id },
+          data: {
+            title: parent.title,
+            address: parent.address,
+            area: parent.area || parent.address,
+            state: parent.state,
+            description: merged.description,
+            listingType: merged.listingType,
+            propertyType: merged.propertyType,
+            price: unitPrice,
+            pricePeriod: merged.pricePeriod,
+            bedrooms: merged.bedrooms ?? null,
+            bathrooms: merged.bathrooms ?? null,
+            sizeSqm: merged.sizeSqm ?? null,
+            cautionDeposit: merged.cautionDeposit ?? null,
+            serviceCharge: merged.serviceCharge ?? null,
+            agreementFee: merged.agreementFee ?? null,
+            agencyFee: merged.agencyFee ?? null,
+            stampDuty: merged.stampDuty ?? null,
+            minimumStay: merged.minimumStay ?? null,
+            status: publishRequested ? 'active' : parent.status,
+          } as any,
+        }),
+        prisma.unit.update({
+          where: { id: unit.id },
+          data: {
+            listingId: parent.id,
+            isListed: publishRequested,
+            rent: unitPrice,
+            pricePeriod: merged.pricePeriod,
+            listingType: merged.listingType,
+          },
+        }),
+      ]);
 
-      await prisma.unit.update({
-        where: { id: unit.id },
-        data: {
-          listingId: listing.id,
-          isListed: true,
-        },
-      });
-
-      return NextResponse.json(listing, { status: 201 });
+      listing = updatedParent;
+      return NextResponse.json(listing, { status: 200 });
     }
 
     if (listingType === 'short_let') {
@@ -362,6 +401,9 @@ export async function POST(request: NextRequest) {
           price: validated.price,
           cautionDeposit: validated.cautionDeposit ?? null,
           serviceCharge: validated.serviceCharge ?? null,
+          agreementFee: validated.agreementFee ?? null,
+          agencyFee: validated.agencyFee ?? null,
+          stampDuty: validated.stampDuty ?? null,
         },
       });
     }

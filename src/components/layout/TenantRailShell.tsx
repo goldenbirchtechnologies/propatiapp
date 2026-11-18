@@ -3,12 +3,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sun, Moon, Menu, X, User, Settings, LogOut } from 'lucide-react';
+import { Sun, Moon, Menu, User, Settings, LogOut } from 'lucide-react';
 import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SidebarOverlay } from '@/components/layout/sidebar';
 import { LandlordSidebar } from '@/components/layout/LandlordSidebar';
+import { TenantSidebar } from '@/components/layout/TenantSidebar';
 import { OnboardingOverlay } from '@/components/onboarding/OnboardingOverlay';
 import { HeaderOverlayProvider, useHeaderOverlay } from '@/components/layout/header-overlay-context';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,7 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 import { useTheme } from '@/components/providers/ThemeProvider';
+import { getActiveNavHref, TENANT_MOBILE_NAV_HREFS } from '@/lib/navigation';
 import type { NavItem, NavSection } from '@/lib/navigation';
 
 interface TenantRailShellProps {
@@ -63,6 +65,7 @@ export default function TenantRailShell({
   const { theme, toggleTheme } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
+  const isTenant = userRole === 'tenant';
 
   const pageTitle = useMemo(() => getDashboardPageTitle(pathname, userRole), [pathname, userRole]);
   const shortTitle = pageTitle.split(' - ')[0];
@@ -86,13 +89,24 @@ export default function TenantRailShell({
 
   const railEntries = useMemo(() => flattenNav(navigation), [navigation]);
 
-  // Bottom nav: first 4 flat items + Menu button that opens the drawer.
+  const tenantActiveHref = useMemo(
+    () => (isTenant ? getActiveNavHref(navigation, pathname) : null),
+    [isTenant, navigation, pathname]
+  );
+
   const bottomItems = useMemo(
     () =>
-      navigation
-        .filter((entry): entry is NavItem => !('items' in entry))
-        .slice(0, 4),
-    [navigation]
+      isTenant
+        ? navigation
+            .flatMap((entry) => ('items' in entry ? entry.items : [entry]))
+            .filter(
+              (item): item is NavItem =>
+                !!item.href && TENANT_MOBILE_NAV_HREFS.includes(item.href)
+            )
+        : navigation
+            .filter((entry): entry is NavItem => !('items' in entry))
+            .slice(0, 4),
+    [navigation, isTenant]
   );
 
   const railButton = (item: NavItem) => {
@@ -130,8 +144,17 @@ export default function TenantRailShell({
     <div className="app-layout theme-tenant shell-tenant">
       <SidebarOverlay isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
-      {/* Icon rail — desktop only, all roles except landlord */}
-      {userRole !== 'landlord' && (
+      {isTenant && (
+        <TenantSidebar
+          navigation={navigation}
+          pathname={pathname}
+          mobileOpen={drawerOpen}
+          onMobileClose={() => setDrawerOpen(false)}
+        />
+      )}
+
+      {/* Icon rail — desktop only, non-tenant roles except landlord */}
+      {userRole !== 'landlord' && !isTenant && (
         <aside
           className="hidden w-[72px] flex-shrink-0 flex-col items-center gap-1 border-r border-zinc-200 bg-white py-4 lg:flex dark:border-white/[0.07] dark:bg-[#09090b]"
           role="navigation"
@@ -272,7 +295,9 @@ export default function TenantRailShell({
           aria-label="Mobile navigation"
         >
           {bottomItems.map((item) => {
-            const active = isActive(item.href || '');
+            const active = isTenant
+              ? item.href === tenantActiveHref
+              : isActive(item.href || '');
             return (
               <Link
                 key={item.href}

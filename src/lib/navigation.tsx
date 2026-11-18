@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  Home, Building2, DollarSign, Plus, Phone, FileText, MessageSquare,
+  Home, Building2, DollarSign, Plus, FileText, MessageSquare,
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
-  Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase, AlertTriangle,
+  Eye, Users, Star, Gavel, Cog, Shield, Scale, Briefcase, AlertTriangle,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
-  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Wallet, Clock, UserPlus, Store, KeyRound, FileCheck2, BookOpen, BarChart3,
-  Heart, LifeBuoy, Bookmark
+  Landmark, CircleDollarSign, Wallet, Store, KeyRound, FileCheck2, BookOpen, BarChart3,
+  Heart, LifeBuoy
 } from 'lucide-react';
 
 export interface NavItem {
@@ -128,25 +128,89 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
 ];
 
 export const TENANT_NAVIGATION: Array<NavItem | NavSection> = [
-  { label: 'Dashboard', href: '/dashboard/tenant', icon: <Home className="h-5 w-5" /> },
-  { label: 'Rent & Payments', href: '/dashboard/tenant/payments', icon: <DollarSign className="h-5 w-5" /> },
-  { label: 'My Agreements', href: '/dashboard/tenant/agreements', icon: <FileText className="h-5 w-5" /> },
-  { label: 'Applications', href: '/dashboard/tenant/applications', icon: <Briefcase className="h-5 w-5" /> },
-  { label: 'Maintenance', href: '/dashboard/tenant/maintenance', icon: <Wrench className="h-5 w-5" /> },
-  { label: 'Messages', href: '/dashboard/tenant/messages', icon: <MessageSquare className="h-5 w-5" /> },
-  { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
-  { label: 'Onboarding', href: '/dashboard/tenant/onboarding', icon: <BookOpen className="h-5 w-5" /> },
   {
-    title: 'Discover & Help',
+    title: 'Overview',
     items: [
+      { label: 'Dashboard', href: '/dashboard/tenant', icon: <Home className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'My Tenancy',
+    items: [
+      { label: 'My Agreements', href: '/dashboard/tenant/agreements', icon: <FileText className="h-5 w-5" /> },
+      { label: 'Applications', href: '/dashboard/tenant/applications', icon: <Briefcase className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Financial Management',
+    items: [
+      { label: 'Rent & Payments', href: '/dashboard/tenant/payments', icon: <DollarSign className="h-5 w-5" /> },
+      { label: 'Overdue Payments', href: '/dashboard/tenant/payments/overdue', icon: <AlertTriangle className="h-5 w-5" /> },
+      { label: 'Auto-Pay', href: '/dashboard/tenant/payments/auto-pay', icon: <Zap className="h-5 w-5" /> },
+      { label: 'Statements', href: '/dashboard/tenant/payments/statements', icon: <FileText className="h-5 w-5" /> },
       { label: 'Receipts', href: '/dashboard/tenant/receipts', icon: <Receipt className="h-5 w-5" /> },
-      { label: 'Saved', href: '/dashboard/tenant/saved', icon: <Heart className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Property Services',
+    items: [
+      { label: 'Maintenance', href: '/dashboard/tenant/maintenance', icon: <Wrench className="h-5 w-5" /> },
+      { label: 'Emergency Assistance', href: '/dashboard/tenant/maintenance/emergency', icon: <AlertTriangle className="h-5 w-5" /> },
+      { label: 'Maintenance Protocol', href: '/dashboard/tenant/maintenance/protocol', icon: <BookOpen className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Communication',
+    items: [
+      { label: 'Messages', href: '/dashboard/tenant/messages', icon: <MessageSquare className="h-5 w-5" /> },
+      { label: 'Help & Support', href: '/dashboard/tenant/support', icon: <LifeBuoy className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Account',
+    items: [
+      { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
+      { label: 'Settings', href: '/dashboard/tenant/settings', icon: <Cog className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Discover',
+    items: [
+      { label: 'Saved Properties', href: '/dashboard/tenant/saved', icon: <Heart className="h-5 w-5" /> },
       { label: 'Search', href: '/dashboard/tenant/search', icon: <Search className="h-5 w-5" /> },
       { label: 'Screening', href: '/dashboard/tenant/screening', icon: <ShieldCheck className="h-5 w-5" /> },
-      { label: 'Support', href: '/dashboard/tenant/support', icon: <LifeBuoy className="h-5 w-5" /> },
     ],
   },
 ];
+
+export const TENANT_MOBILE_NAV_HREFS = [
+  '/dashboard/tenant',
+  '/dashboard/tenant/payments',
+  '/dashboard/tenant/agreements',
+  '/dashboard/tenant/maintenance',
+];
+
+export function getActiveNavHref(
+  navigation: Array<NavItem | NavSection>,
+  pathname: string | null
+): string | null {
+  if (!pathname) return null;
+  let active: string | null = null;
+
+  const consider = (item: NavItem) => {
+    const href = item.href;
+    if (!href || (pathname !== href && !pathname.startsWith(`${href}/`))) return;
+    if (active === null || href.length > active.length) active = href;
+    item.children?.forEach(consider);
+  };
+
+  navigation.forEach((entry) => {
+    if ('items' in entry) entry.items.forEach(consider);
+    else consider(entry);
+  });
+
+  return active;
+}
 
 export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
   {

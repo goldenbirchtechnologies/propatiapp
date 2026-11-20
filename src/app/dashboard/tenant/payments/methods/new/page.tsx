@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { AlertCircle, ArrowLeft, Banknote, Check, CheckCircle2, ChevronDown, CreditCard, ExternalLink, Info, Landmark, Loader2, LockKeyhole, Search, ShieldCheck } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,8 @@ type BankPayload = { name?: string; code?: string | number; slug?: string };
 export default function AddPaymentMethodNewPage() {
   const { user } = useUser();
   const router = useRouter();
-  const [method, setMethod] = useState<Method>('card');
+  const searchParams = useSearchParams();
+  const [method, setMethod] = useState<Method>(() => searchParams.get('method') === 'bank' ? 'bank' : 'card');
   const [banks, setBanks] = useState<Bank[]>([]);
   const [banksLoading, setBanksLoading] = useState(true);
   const [bankSearch, setBankSearch] = useState('');

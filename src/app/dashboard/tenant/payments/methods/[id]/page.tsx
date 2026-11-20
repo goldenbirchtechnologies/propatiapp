@@ -1,30 +1,12 @@
 import { redirect } from 'next/navigation';
-import { getCurrentUserWithProfile } from '@/lib/auth';
-import TenantRailShell from '@/components/layout/TenantRailShell';
-import { TENANT_NAVIGATION } from '@/lib/navigation';
-import { ErrorBoundary } from '@/components/error/ErrorBoundary';
-import AddPaymentMethodClient from '@/app/dashboard/tenant/payments/methods/[id]/AddPaymentMethodClient';
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
+/** Keep legacy /methods/card and /methods/bank links on the redesigned page. */
 export default async function AddPaymentMethodPage({ params }: Props) {
   const { id } = await params;
-  const user = await getCurrentUserWithProfile();
-  if (!user || user.role !== 'tenant') redirect('/dashboard');
-
-  // In real implementation, id refers to 'card' or 'bank'; validated server-side
-  return (
-    <TenantRailShell
-      navigation={TENANT_NAVIGATION}
-      userRole={user.role}
-      userName={user.fullName}
-      userAvatar={user.avatarUrl || undefined}
-    >
-      <ErrorBoundary>
-        <AddPaymentMethodClient methodType={id} />
-      </ErrorBoundary>
-    </TenantRailShell>
-  );
+  const method = id === 'bank' ? 'bank' : 'card';
+  redirect(`/dashboard/tenant/payments/methods/new?method=${method}`);
 }

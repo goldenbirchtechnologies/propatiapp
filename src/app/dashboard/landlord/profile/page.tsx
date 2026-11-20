@@ -1,13 +1,14 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
+import { loadLandlordWorkspace } from '@/lib/landlord-profile/data';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import LandlordProfileClient from './LandlordProfileClient';
 
 export const metadata = {
-  title: 'Profile',
-  description: 'Update your profile, verification, and security settings.',
+  title: 'Ownership & compliance',
+  description: 'Manage your legal ownership record, tax details, documents, and payout mandate.',
 };
 
 export default async function LandlordProfilePage() {
@@ -17,6 +18,8 @@ export default async function LandlordProfilePage() {
     redirect('/dashboard');
   }
 
+  const workspace = await loadLandlordWorkspace(user.id);
+
   return (
     <DashboardShell
       navigation={LANDLORD_NAVIGATION}
@@ -24,12 +27,9 @@ export default async function LandlordProfilePage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <LandlordProfileClient user={user} />
-    
+        <LandlordProfileClient data={workspace} />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

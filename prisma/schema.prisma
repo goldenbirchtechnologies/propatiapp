@@ -647,6 +647,7 @@ model User {
   mfa                     UserMfa?
   rentScenarios           RentScenario[]             @relation("RentScenarioOwner")
   autoPayMandates         AutoPayMandate[]           @relation("AutoPayMandateOwner")
+  paymentMethods          PaymentMethod[]            @relation("PaymentMethodOwner")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -3008,4 +3009,30 @@ model AutoPayMandate {
 
   @@index([userId], map: "idx_auto_pay_mandates_user")
   @@map("auto_pay_mandates")
+}
+
+model PaymentMethod {
+  id                       String    @id @default(cuid()) @map("id")
+  userId                   String    @map("user_id")
+  type                     String    @db.VarChar(20)
+  provider                 String    @default("paystack") @db.VarChar(30)
+  emailUsed                String    @map("email_used")
+  authorizationCode        String?   @map("authorization_code") @db.Text
+  authorizationSignature   String?   @map("authorization_signature") @db.VarChar(120)
+  cardBrand                String?   @map("card_brand") @db.VarChar(40)
+  cardType                 String?   @map("card_type") @db.VarChar(40)
+  cardLast4                String?   @map("card_last4") @db.VarChar(4)
+  cardExpMonth             String?   @map("card_exp_month") @db.VarChar(2)
+  cardExpYear              String?   @map("card_exp_year") @db.VarChar(4)
+  bankName                 String?   @map("bank_name") @db.VarChar(120)
+  status                   String    @default("pending") @db.VarChar(20)
+  setupReference            String?   @unique @map("setup_reference") @db.VarChar(120)
+  metadata                 Json?
+  createdAt                DateTime  @default(now()) @map("created_at")
+  updatedAt                DateTime  @updatedAt @map("updated_at")
+
+  user User @relation("PaymentMethodOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status], map: "idx_payment_methods_user_status")
+  @@map("payment_methods")
 }

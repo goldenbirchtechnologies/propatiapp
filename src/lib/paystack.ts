@@ -446,6 +446,19 @@ class PaystackClient {
     return this.verifyPayment(reference);
   }
 
+  async createRefund(params: { transaction: string; amount?: number; currency?: string; customer_note?: string; merchant_note?: string; reference?: string }) {
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('create a refund');
+      return { status: true, message: 'Refund created (MOCK)', data: { status: 'pending', transaction: params.transaction } };
+    }
+    try {
+      const response = await this.client.post('/refund', params);
+      return response.data;
+    } catch (error) {
+      throw this.failure('create refund', error);
+    }
+  }
+
   async createTransfer(data: { source?: 'balance'; amount: number; recipient: string; reference?: string; reason?: string }) {
     const response = await this.client.post('/transfer', data);
     return response.data;

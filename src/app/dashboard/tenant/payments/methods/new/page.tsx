@@ -44,7 +44,7 @@ export default function AddPaymentMethodNewPage() {
       .then((response) => response.json())
       .then((payload) => {
         if (cancelled) return;
-        const list = Array.isArray(payload?.data) ? payload.data : [];
+        const list = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload?.data?.banks) ? payload.data.banks : [];
         setBanks(list.map((bank: BankPayload) => ({ name: bank.name || 'Unknown bank', code: String(bank.code || ''), slug: bank.slug || '' })).filter((bank: Bank) => bank.code));
       })
       .catch(() => { if (!cancelled) toast({ title: 'Could not load banks', description: 'Please try again shortly.', variant: 'destructive' }); })

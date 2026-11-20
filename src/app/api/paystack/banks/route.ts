@@ -10,5 +10,5 @@ import { listSettlementBanks } from '@/lib/banks';
  */
 export async function GET() {
   const directory = await listSettlementBanks();
-  return NextResponse.json({ success: true, data: directory });
+  return NextResponse.json({ success: true, data: directory.banks, source: directory.source });
 }

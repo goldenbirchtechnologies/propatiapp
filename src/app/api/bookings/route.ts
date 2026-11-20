@@ -68,17 +68,24 @@ export async function POST(request: NextRequest) {
 
     const listing = await prisma.listing.findUnique({
       where: { id: validated.listingId },
-      select: { id: true, ownerId: true, price: true, listingType: true, status: true },
+      select: { id: true, ownerId: true, price: true, listingType: true, status: true, minimumStay: true, guestsCount: true },
     });
 
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
     if (listing.status !== 'active') return NextResponse.json({ error: 'Listing is not active' }, { status: 400 });
+    if (listing.listingType !== 'short_let') return NextResponse.json({ error: 'Bookings are only available for shortlet listings' }, { status: 400 });
 
     const checkIn = new Date(validated.checkIn);
     const checkOut = new Date(validated.checkOut);
     const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
 
     if (nights <= 0) return NextResponse.json({ error: 'Invalid stay duration' }, { status: 400 });
+    if (checkIn.toISOString().slice(0, 10) < new Date().toISOString().slice(0, 10)) return NextResponse.json({ error: 'Check-in must be a future date' }, { status: 400 });
+    if (listing.minimumStay && nights < listing.minimumStay) return NextResponse.json({ error: `Minimum stay is ${listing.minimumStay} nights` }, { status: 400 });
+    if (listing.guestsCount && validated.adults + validated.children > listing.guestsCount) return NextResponse.json({ error: `This listing allows up to ${listing.guestsCount} guests` }, { status: 400 });
+
+    const blocked = await prisma.calendarSlot.findFirst({ where: { listingId: validated.listingId, date: { gte: validated.checkIn, lt: validated.checkOut }, status: 'blocked' } });
+    if (blocked) return NextResponse.json({ error: 'Selected dates include an unavailable day' }, { status: 409 });
 
     // Check overlap with existing bookings
     const overlap = await prisma.booking.findFirst({
@@ -110,6 +117,8 @@ export async function POST(request: NextRequest) {
         guestName: validated.guestName,
         guestPhone: validated.guestPhone,
         guestEmail: validated.guestEmail,
+        adults: validated.adults,
+        children: validated.children,
         specialRequests: validated.specialRequests,
       },
       include: {

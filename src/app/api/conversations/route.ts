@@ -218,6 +218,20 @@ export async function POST(request: NextRequest) {
     const fallbackLandlord = participants.find((p) => p.role === 'landlord')?.userId || null;
     const fallbackTenant = participants.find((p) => p.role === 'tenant')?.userId || null;
 
+    // Reuse an active property conversation for the same legacy participant
+    // pair. This keeps public listing entry points on the unified inbox.
+    const existingConversation = validated.listingId && fallbackLandlord && fallbackTenant
+      ? await prisma.conversation.findFirst({
+          where: { listingId: validated.listingId, status: 'active', landlordId: fallbackLandlord, tenantId: fallbackTenant },
+          include: {
+            landlord: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+            tenant: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+            listing: { select: { id: true, title: true, area: true, state: true, price: true, listingType: true, images: { where: { isCover: true }, take: 1, select: { url: true } } } },
+          },
+        })
+      : null;
+    if (existingConversation) return NextResponse.json({ success: true, data: existingConversation, reused: true });
+
     const conversation = await prisma.conversation.create({
       data: {
         listingId: validated.listingId || null,

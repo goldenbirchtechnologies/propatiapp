@@ -8,5 +8,5 @@ export async function GET(request: NextRequest) {
     return result;
   }
 
-  return NextResponse.json({ user: { role: result.user.role } });
+  return NextResponse.json({ user: { id: result.user.id, role: result.user.role, email: result.user.email, fullName: result.user.fullName } });
 }

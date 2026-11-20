@@ -577,73 +577,76 @@ model User {
   lastLogin DateTime? @map("last_login")
 
   // Relations
-  refreshTokens          RefreshToken[]
-  passwordResets         PasswordReset?
-  phoneOtps              PhoneOtp[]
-  ownedListings          Listing[]                  @relation("ListingOwner")
-  managedListings        Listing[]                  @relation("ListingAgent")
-  sentTransactions       Transaction[]              @relation("TransactionPayer")
-  receivedTransactions   Transaction[]              @relation("TransactionPayee")
-  agentTransactions      Transaction[]              @relation("TransactionAgent")
-  landlordAgreements     Agreement[]                @relation("AgreementLandlord")
-  tenantAgreements       Agreement[]                @relation("AgreementTenant")
-  agentAgreements        Agreement[]                @relation("AgreementAgent")
-  landlordConversations  Conversation[]             @relation("ConversationLandlord")
-  tenantConversations    Conversation[]             @relation("ConversationTenant")
-  sentMessages           Message[]                  @relation("MessageSender")
-  notifications          Notification[]
-  ownedOrganisations     Organisation[]             @relation("OrganisationOwner")
-  orgMemberships         OrgMember[]                @relation("OrgMemberUser")
-  raisedTickets          MaintenanceTicket[]        @relation("MaintenanceRaisedBy")
-  assignedTickets        MaintenanceTicket[]        @relation("MaintenanceAssignedTo")
-  maintenanceInspections Verification[]             @relation("InspectionAgent")
-  scheduledScreenings    ScreeningCall[]            @relation("ScreeningLandlord")
-  tenantScreenings       ScreeningCall[]            @relation("ScreeningTenant")
-  verifications          Verification[]             @relation("VerificationOwner")
-  reviewedVerifications  Verification[]             @relation("VerificationReviewer")
-  signatureRecords       AgreementSignature[]
-  disputes               Dispute[]                  @relation("DisputeRaisedBy")
-  adminDisputes          Dispute[]                  @relation("DisputeAdmin")
-  emailLogs              EmailLog[]                 @relation("UserEmailLogs")
-  savedListings          SavedListing[]             @relation("UserSavedListings")
-  flaggedListings        ListingFlag[]              @relation("FlaggedByUser")
-  maintenanceTickets     MaintenanceTicket[]        @relation("MaintenanceTenant")
-  tenantApplications     Application[]              @relation("TenantApplications")
-  landlordApplications   Application[]              @relation("LandlordApplications")
-  currentlyRentingUnits  Unit[]                     @relation("UnitCurrentTenant")
-  adminAuditLogs         AdminAuditLog[]            @relation("AdminAuditLogs")
-  guestBookings          Booking[]                  @relation("BookingGuest")
-  managedServiceCharges  ServiceCharge[]            @relation("ServiceChargeManager")
-  businessProfiles       BusinessProfile[]
-  documents              Document[]
-  subscriptions          UserSubscription[]
-  assignedTurnoverTasks  TurnoverTask[]             @relation("TurnoverTaskAssignee")
-  sentAgentInvites       AgentInvite[]              @relation("AgentInviteSender")
-  receivedAgentInvites   AgentInvite[]              @relation("AgentInviteRecipient")
-  sentOwnerInvites       OwnerInvite[]              @relation("OwnerInviteSender")
-  receivedOwnerInvites   OwnerInvite[]              @relation("OwnerInvitedRecipient")
-  agentAssignments       AgentAssignment[]          @relation("AgentAssignments")
-  agentConversations     Conversation[]             @relation("ConversationAgent")
-  licenses               AgentLicense[]             @relation("AgentLicenseHolder")
-  reviewsReceived        AgentReview[]              @relation("AgentReviewAgent")
-  reviewsWritten         AgentReview[]              @relation("AgentReviewReviewer")
-  sentInvoices           Invoice[]                  @relation("InvoiceLandlord")
-  receivedInvoices       Invoice[]                  @relation("InvoiceTenant")
-  wallet                 Wallet?
-  paystackAccount        UserPaystackAccount?
-  userKyc                UserKyc?
-  country                Country?                   @relation(fields: [countryId], references: [code])
-  jurisdiction           Jurisdiction?              @relation(fields: [jurisdictionId], references: [id])
-  userOnboarding         UserOnboarding?
-  rentalDossiers         RentalApplicationDossier[]
-  tenantAddresses        TenantAddress[]
-  emergencyContacts      EmergencyContact[]
-  landlordProfile        LandlordProfile?           @relation("LandlordProfileOwner")
-  agentOnboardingProfile AgentProfile?              @relation("AgentProfileOwner")
-  estateManagerProfile   EstateManagerProfile?      @relation("EstateManagerProfileOwner")
-  mfa                    UserMfa?
-  rentScenarios          RentScenario[]             @relation("RentScenarioOwner")
-  autoPayMandates        AutoPayMandate[]           @relation("AutoPayMandateOwner")
+  refreshTokens           RefreshToken[]
+  passwordResets          PasswordReset?
+  phoneOtps               PhoneOtp[]
+  ownedListings           Listing[]                  @relation("ListingOwner")
+  managedListings         Listing[]                  @relation("ListingAgent")
+  sentTransactions        Transaction[]              @relation("TransactionPayer")
+  receivedTransactions    Transaction[]              @relation("TransactionPayee")
+  agentTransactions       Transaction[]              @relation("TransactionAgent")
+  landlordAgreements      Agreement[]                @relation("AgreementLandlord")
+  tenantAgreements        Agreement[]                @relation("AgreementTenant")
+  agentAgreements         Agreement[]                @relation("AgreementAgent")
+  landlordConversations   Conversation[]             @relation("ConversationLandlord")
+  tenantConversations     Conversation[]             @relation("ConversationTenant")
+  sentMessages            Message[]                  @relation("MessageSender")
+  notifications           Notification[]
+  ownedOrganisations      Organisation[]             @relation("OrganisationOwner")
+  orgMemberships          OrgMember[]                @relation("OrgMemberUser")
+  raisedTickets           MaintenanceTicket[]        @relation("MaintenanceRaisedBy")
+  assignedTickets         MaintenanceTicket[]        @relation("MaintenanceAssignedTo")
+  maintenanceInspections  Verification[]             @relation("InspectionAgent")
+  scheduledScreenings     ScreeningCall[]            @relation("ScreeningLandlord")
+  tenantScreenings        ScreeningCall[]            @relation("ScreeningTenant")
+  verifications           Verification[]             @relation("VerificationOwner")
+  reviewedVerifications   Verification[]             @relation("VerificationReviewer")
+  signatureRecords        AgreementSignature[]
+  disputes                Dispute[]                  @relation("DisputeRaisedBy")
+  adminDisputes           Dispute[]                  @relation("DisputeAdmin")
+  emailLogs               EmailLog[]                 @relation("UserEmailLogs")
+  savedListings           SavedListing[]             @relation("UserSavedListings")
+  flaggedListings         ListingFlag[]              @relation("FlaggedByUser")
+  maintenanceTickets      MaintenanceTicket[]        @relation("MaintenanceTenant")
+  tenantApplications      Application[]              @relation("TenantApplications")
+  landlordApplications    Application[]              @relation("LandlordApplications")
+  currentlyRentingUnits   Unit[]                     @relation("UnitCurrentTenant")
+  adminAuditLogs          AdminAuditLog[]            @relation("AdminAuditLogs")
+  guestBookings           Booking[]                  @relation("BookingGuest")
+  inspectionBookings      InspectionBooking[]        @relation("InspectionVisitor")
+  ownedInspectionBookings InspectionBooking[]        @relation("InspectionOwner")
+  managedServiceCharges   ServiceCharge[]            @relation("ServiceChargeManager")
+  businessProfiles        BusinessProfile[]
+  documents               Document[]
+  landlordDocuments       LandlordDocument[]         @relation("LandlordDocuments")
+  subscriptions           UserSubscription[]
+  assignedTurnoverTasks   TurnoverTask[]             @relation("TurnoverTaskAssignee")
+  sentAgentInvites        AgentInvite[]              @relation("AgentInviteSender")
+  receivedAgentInvites    AgentInvite[]              @relation("AgentInviteRecipient")
+  sentOwnerInvites        OwnerInvite[]              @relation("OwnerInviteSender")
+  receivedOwnerInvites    OwnerInvite[]              @relation("OwnerInvitedRecipient")
+  agentAssignments        AgentAssignment[]          @relation("AgentAssignments")
+  agentConversations      Conversation[]             @relation("ConversationAgent")
+  licenses                AgentLicense[]             @relation("AgentLicenseHolder")
+  reviewsReceived         AgentReview[]              @relation("AgentReviewAgent")
+  reviewsWritten          AgentReview[]              @relation("AgentReviewReviewer")
+  sentInvoices            Invoice[]                  @relation("InvoiceLandlord")
+  receivedInvoices        Invoice[]                  @relation("InvoiceTenant")
+  wallet                  Wallet?
+  paystackAccount         UserPaystackAccount?
+  userKyc                 UserKyc?
+  country                 Country?                   @relation(fields: [countryId], references: [code])
+  jurisdiction            Jurisdiction?              @relation(fields: [jurisdictionId], references: [id])
+  userOnboarding          UserOnboarding?
+  rentalDossiers          RentalApplicationDossier[]
+  tenantAddresses         TenantAddress[]
+  emergencyContacts       EmergencyContact[]
+  landlordProfile         LandlordProfile?           @relation("LandlordProfileOwner")
+  agentOnboardingProfile  AgentProfile?              @relation("AgentProfileOwner")
+  estateManagerProfile    EstateManagerProfile?      @relation("EstateManagerProfileOwner")
+  mfa                     UserMfa?
+  rentScenarios           RentScenario[]             @relation("RentScenarioOwner")
+  autoPayMandates         AutoPayMandate[]           @relation("AutoPayMandateOwner")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -718,11 +721,11 @@ model RentalApplicationDossier {
 
   // Personal
   dateOfBirth      DateTime? @map("date_of_birth")
-  gender           String?   @map("gender")             // male | female | other | prefer_not_to_say
-  nationality      String?   @map("nationality")        // ISO 3166 alpha-2
+  gender           String?   @map("gender") // male | female | other | prefer_not_to_say
+  nationality      String?   @map("nationality") // ISO 3166 alpha-2
   stateOfResidence String?   @map("state_of_residence")
   lga              String?   @map("lga")
-  maritalStatus    String?   @map("marital_status")     // single | married | divorced | widowed
+  maritalStatus    String?   @map("marital_status") // single | married | divorced | widowed
 
   // Address
   addressLine1   String? @map("address_line_1")
@@ -793,8 +796,8 @@ model RentalApplicationDossier {
 // Previous addresses for screening. One row per address, ordered by `sequence`
 // where 1 is the most recent. `isCurrent` marks the address in use today.
 model TenantAddress {
-  id       String  @id @default(cuid()) @map("id")
-  userId   String  @map("user_id")
+  id        String  @id @default(cuid()) @map("id")
+  userId    String  @map("user_id")
   isCurrent Boolean @default(false) @map("is_current")
   sequence  Int     @map("sequence")
 
@@ -901,9 +904,9 @@ model Listing {
   pricePeriod    String?       @map("price_period") // night, month, year, total
   cautionDeposit Decimal?      @map("caution_deposit") @db.Decimal(15, 2)
   serviceCharge  Decimal?      @map("service_charge") @db.Decimal(15, 2)
-  agreementFee Decimal? @map("agreement_fee") @db.Decimal(15, 2)
-  agencyFee Decimal? @map("agency_fee") @db.Decimal(15, 2)
-  stampDuty Decimal? @map("stamp_duty") @db.Decimal(15, 2)
+  agreementFee   Decimal?      @map("agreement_fee") @db.Decimal(15, 2)
+  agencyFee      Decimal?      @map("agency_fee") @db.Decimal(15, 2)
+  stampDuty      Decimal?      @map("stamp_duty") @db.Decimal(15, 2)
   bedrooms       Int?
   bathrooms      Int?
   toilets        Int?
@@ -934,7 +937,7 @@ model Listing {
   viewsCount        Int                @default(0) @map("views_count")
   createdAt         DateTime           @default(now()) @map("created_at")
   updatedAt         DateTime           @updatedAt @map("updated_at")
-coordinates Json? @map("coordinates")
+  coordinates       Json?              @map("coordinates")
 
   owner              User                @relation("ListingOwner", fields: [ownerId], references: [id])
   agent              User?               @relation("ListingAgent", fields: [agentId], references: [id])
@@ -955,6 +958,7 @@ coordinates Json? @map("coordinates")
   calendarSlots      CalendarSlot[]
   pricingRules       PricingRule[]
   bookings           Booking[]
+  inspectionBookings InspectionBooking[]
   tenantShortlets    TenantShortlet[]
   serviceCharges     ServiceCharge[]
   documents          Document[]
@@ -975,12 +979,12 @@ coordinates Json? @map("coordinates")
 }
 
 model UnitImage {
-  id String @id @default(cuid()) @map("id") // 'ui_' + 12 chars
-  unitId String @map("unit_id")
-  url String
-  publicId String? @map("public_id")
-  isCover Boolean @default(false) @map("is_cover")
-  sortOrder Int @default(0) @map("sort_order")
+  id        String   @id @default(cuid()) @map("id") // 'ui_' + 12 chars
+  unitId    String   @map("unit_id")
+  url       String
+  publicId  String?  @map("public_id")
+  isCover   Boolean  @default(false) @map("is_cover")
+  sortOrder Int      @default(0) @map("sort_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   unit Unit @relation(fields: [unitId], references: [id], onDelete: Cascade)
@@ -1534,7 +1538,7 @@ model Unit {
   // in the database (units created before units were scoped to a property stay
   // null), so the model has to allow it or Prisma throws on every full-row read.
   listingId    String?  @map("listing_id")
- // Deleting a listing unpublishes its units; it must never delete the units.
+  // Deleting a listing unpublishes its units; it must never delete the units.
   listing      Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
   buildingName String?  @map("building_name")
   unitNumber   String   @map("unit_number")
@@ -1573,7 +1577,7 @@ model Unit {
   nextMaintenanceDate DateTime? @map("next_maintenance_date")
 
   utilityAllocations UtilityAllocation[]
-images UnitImage[]
+  images             UnitImage[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -1729,6 +1733,8 @@ model Booking {
   guestPhone      String?   @map("guest_phone")
   guestEmail      String?   @map("guest_email")
   specialRequests String?   @map("special_requests")
+  adults          Int       @default(1)
+  children        Int       @default(0)
   cancelledAt     DateTime? @map("cancelled_at")
   checkedInAt     DateTime? @map("checked_in_at")
   checkedOutAt    DateTime? @map("checked_out_at")
@@ -1745,6 +1751,29 @@ model Booking {
   @@index([status], map: "idx_bookings_status")
   @@index([checkIn, checkOut], map: "idx_bookings_dates")
   @@map("bookings")
+}
+
+model InspectionBooking {
+  id             String   @id @default(cuid())
+  listingId      String   @map("listing_id")
+  visitorId      String   @map("visitor_id")
+  ownerId        String   @map("owner_id")
+  date           String
+  timeSlot       String   @map("time_slot")
+  inspectionType String   @default("in_person") @map("inspection_type")
+  notes          String?
+  status         String   @default("pending")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  visitor User    @relation("InspectionVisitor", fields: [visitorId], references: [id])
+  owner   User    @relation("InspectionOwner", fields: [ownerId], references: [id])
+
+  @@unique([listingId, date, timeSlot])
+  @@index([visitorId])
+  @@index([ownerId])
+  @@map("inspection_bookings")
 }
 
 model TenantShortlet {
@@ -2735,6 +2764,25 @@ model LandlordProfile {
   taxIdType       String? @map("tax_id_type")
   taxNumber       String? @map("tax_number")
 
+  // Extended owner workspace. These are optional so existing rows and the
+  // onboarding step keep working unchanged; the profile page writes them as a
+  // superset of the fields above.
+  companyRegistrationNumber String? @map("company_registration_number")
+  companyAddress            String? @map("company_address")
+  representativeName        String? @map("representative_name")
+  representativePhone       String? @map("representative_phone")
+  representativeEmail       String? @map("representative_email")
+
+  // Structured registered mailing address. `mailingAddress` remains the
+  // canonical one-line notice address and is composed from these on save.
+  countryCode   String? @map("country_code")
+  stateRegion   String? @map("state_region")
+  city          String? @map("city")
+  streetAddress String? @map("street_address")
+  postalCode    String? @map("postal_code")
+
+  taxJurisdiction String? @map("tax_jurisdiction")
+
   // Step: landlordSettlement
   accountName            String? @map("account_name")
   bankName               String? @map("bank_name")
@@ -2745,6 +2793,11 @@ model LandlordProfile {
   securityDeposit        BigInt? @map("security_deposit")
   preferredLeaseDuration String? @map("preferred_lease_duration")
   commissionConsent      Boolean @default(false) @map("commission_consent")
+
+  // Per-owner management fee mandate. Null means no fee mandate is configured;
+  // the UI must not present an unconfigured mandate as active.
+  managementFeeType  String? @map("management_fee_type")
+  managementFeeValue Int?    @map("management_fee_value")
 
   // Rent-collection account settings. These back the toggles on
   // /dashboard/landlord/profile?tab=billing; they live on the landlord's own
@@ -2762,6 +2815,36 @@ model LandlordProfile {
   user User @relation("LandlordProfileOwner", fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("landlord_profiles")
+}
+
+/// Owner-workspace documents. Kept separate from the generic Document table so
+/// the profile can carry a review lifecycle (submitted → under_review →
+/// verified/rejected) without changing how agreements and receipts are stored.
+model LandlordDocument {
+  id       String @id @default(cuid())
+  userId   String @map("user_id")
+  /// government_id | company_registration | joint_ownership |
+  /// tax_document | ownership_evidence | supporting
+  category String
+  name     String
+  url      String
+  publicId String @map("public_id")
+
+  mimeType   String?   @map("mime_type")
+  sizeBytes  Int?      @map("size_bytes")
+  /// submitted | under_review | verified | action_required | rejected
+  status     String    @default("submitted")
+  reviewNote String?   @map("review_note")
+  expiresAt  DateTime? @map("expires_at")
+
+  accessControl String   @default("private") @map("access_control")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user User @relation("LandlordDocuments", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, category], map: "idx_landlord_documents_user_category")
+  @@map("landlord_documents")
 }
 
 model AgentProfile {

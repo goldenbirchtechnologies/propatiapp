@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { SignUp } from '@clerk/nextjs';
 import { ArrowLeft, ArrowRight, Building2, Search, Handshake, Home } from 'lucide-react';
 
@@ -36,6 +37,8 @@ const ROLES = [
 ];
 
 export default function SignUpPage() {
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect_url') || '/onboarding';
   const [step, setStep] = useState(1);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [agreed, setAgreed] = useState(false);
@@ -251,9 +254,9 @@ export default function SignUpPage() {
               }}
               routing="path"
               path="/sign-up"
-              signInUrl="/sign-in"
-              fallbackRedirectUrl="/onboarding"
-              forceRedirectUrl="/onboarding"
+              signInUrl={`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`}
+              fallbackRedirectUrl={redirectUrl}
+              forceRedirectUrl={redirectUrl}
             />
 
             {/* Verification Tip */}

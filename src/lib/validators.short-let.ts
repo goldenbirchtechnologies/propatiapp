@@ -11,6 +11,8 @@ export const createBookingSchema = z.object({
   guestName: z.string().min(2).max(100).optional(),
   guestPhone: phoneSchema.optional(),
   guestEmail: emailSchema.optional(),
+  adults: z.number().int().min(1).max(50).default(1),
+  children: z.number().int().min(0).max(50).default(0),
   specialRequests: z.string().max(2000).optional(),
 }).refine((data) => {
   return new Date(data.checkOut) > new Date(data.checkIn);

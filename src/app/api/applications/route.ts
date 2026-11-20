@@ -110,11 +110,12 @@ export async function POST(request: NextRequest) {
 
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
-      select: { id: true, ownerId: true, status: true, title: true },
+      select: { id: true, ownerId: true, status: true, title: true, listingType: true },
     });
 
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
     if (listing.status !== 'active') return NextResponse.json({ error: 'Listing not available' }, { status: 400 });
+    if (listing.listingType !== 'rent') return NextResponse.json({ error: 'Rental applications are only available for rental listings' }, { status: 400 });
 
     const resolvedTenantId = user.role === 'tenant' ? user.id : user.id;
     const existing = await prisma.application.findFirst({

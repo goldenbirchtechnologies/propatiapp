@@ -163,14 +163,19 @@ export const TENANT_NAVIGATION: Array<NavItem | NavSection> = [
     title: 'Communication',
     items: [
       { label: 'Messages', href: '/dashboard/tenant/messages', icon: <MessageSquare className="h-5 w-5" /> },
-      { label: 'Help & Support', href: '/dashboard/tenant/support', icon: <LifeBuoy className="h-5 w-5" /> },
     ],
   },
   {
-    title: 'Account',
+    title: 'Account management',
     items: [
       { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
+      { label: 'Verification centre', href: '/dashboard/tenant/verification', icon: <ShieldCheck className="h-5 w-5" /> },
+      { label: 'Wallet', href: '/dashboard/tenant/wallet', icon: <Wallet className="h-5 w-5" /> },
+      { label: 'Payment methods', href: '/dashboard/tenant/payments/methods', icon: <Landmark className="h-5 w-5" /> },
+      { label: 'My documents', href: '/dashboard/tenant/documents', icon: <FileCheck2 className="h-5 w-5" /> },
+      { label: 'Notifications', href: '/dashboard/tenant/notifications', icon: <Bell className="h-5 w-5" /> },
       { label: 'Settings', href: '/dashboard/tenant/settings', icon: <Cog className="h-5 w-5" /> },
+      { label: 'Help & support', href: '/dashboard/tenant/support', icon: <LifeBuoy className="h-5 w-5" /> },
     ],
   },
   {

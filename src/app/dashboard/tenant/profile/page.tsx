@@ -6,6 +6,7 @@ import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { tenantProfileSummary } from '@/lib/tenant-profile/completion';
 import TenantProfileClient, { type TenantProfileData } from './TenantProfileClient';
+import TenantProfileOverview from './TenantProfileOverview';
 
 const iso = (d: Date | null | undefined): string | null =>
   d ? new Date(d).toISOString().slice(0, 10) : null;
@@ -14,7 +15,7 @@ const iso = (d: Date | null | undefined): string | null =>
  * Loads the profile server-side so the first paint already holds the real
  * data — no client fetch, no empty form flashing before it fills in.
  */
-export default async function TenantProfilePage() {
+export default async function TenantProfilePage({ searchParams }: { searchParams?: Promise<{ edit?: string }> }) {
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'tenant') {
@@ -150,7 +151,7 @@ export default async function TenantProfilePage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <ErrorBoundary>
-        <TenantProfileClient data={data} />
+        {(await searchParams)?.edit === '1' ? <TenantProfileClient data={data} /> : <TenantProfileOverview data={data} />}
       </ErrorBoundary>
     </TenantRailShell>
   );

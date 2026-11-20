@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     if (!recipient.status) return NextResponse.json({ error: recipient.message || 'Failed to create recipient' }, { status: 400 });
     await prisma.userPaystackAccount.update({
       where: { userId: user.id },
-      data: { accountNumber, bankName: result.data.bank_name, accountName: result.data.account_name, recipientCode: recipient.data.recipient_code },
+      data: { status: 'active', accountNumber, bankName: result.data.bank_name, accountName: result.data.account_name, recipientCode: recipient.data.recipient_code },
     });
     return NextResponse.json({ success: true, recipient: recipient.data, account: result.data });
   } catch {

@@ -73,6 +73,28 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const parsed = autoPayMandateSchema.parse(body);
 
+    if (!parsed.agreementId) {
+      return NextResponse.json({ success: false, error: 'Choose an executed tenancy first' }, { status: 400 });
+    }
+
+    const [agreement, bankAccount] = await Promise.all([
+      prisma.agreement.findFirst({
+        where: { id: parsed.agreementId, tenantId: user.id, status: 'fully_signed' },
+        select: { id: true },
+      }),
+      prisma.userPaystackAccount.findUnique({
+        where: { userId: user.id },
+        select: { status: true, recipientCode: true, accountNumber: true },
+      }),
+    ]);
+
+    if (!agreement) {
+      return NextResponse.json({ success: false, error: 'Only a fully signed tenancy can have a mandate' }, { status: 400 });
+    }
+    if (bankAccount?.status !== 'active' || !bankAccount.recipientCode || !bankAccount.accountNumber) {
+      return NextResponse.json({ success: false, error: 'Verify and save a bank account before requesting a mandate' }, { status: 400 });
+    }
+
     const mandate = await prisma.$transaction(async (tx) => {
       await tx.autoPayMandate.updateMany({
         where: { userId: user.id, status: 'requested' },

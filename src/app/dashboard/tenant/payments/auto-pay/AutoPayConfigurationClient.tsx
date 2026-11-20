@@ -1,389 +1,88 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import {
-  ArrowLeft, Check, CheckCircle, ChevronRight, CreditCard, Lock, Receipt, Shield, Zap,
-} from 'lucide-react';
+import { AlertCircle, ArrowLeft, ArrowRight, Banknote, Check, CheckCircle2, Clock3, FileCheck2, Landmark, LockKeyhole, PauseCircle, ShieldCheck, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
-export type AutoPayMandate = {
-  title: string;
-  address: string;
-  reference: string;
-  rentAmount: number;
-  rentPeriod: string | null;
-};
+type Tenancy = { id: string; title: string; address: string; landlordName: string | null; status: string; rentAmount: number; rentPeriod: string | null; dueDate: string | null; ledgerAmount: number | null; ledgerStatus: string | null };
+type BankAccount = { bankName: string | null; accountNumber: string | null; accountName: string | null; recipientCode: string | null; status: string } | null;
+type Mandate = { id: string; agreementId: string | null; enabled: boolean; execDay: number; amountStrategy: string; threshold: number | null; status: string; createdAt: string } | null;
 
-export type AutoPayBankAccount = {
-  bankName: string | null;
-  accountNumber: string | null;
-  accountName: string | null;
-  recipientCode: string | null;
-};
+const money = (value: number) => new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 2 }).format(value);
+const dateLabel = (value: string | Date | null) => value ? new Intl.DateTimeFormat('en-NG', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(typeof value === 'string' && value.length === 10 ? `${value}T12:00:00` : value)) : 'Not recorded';
+const ordinal = (value: number) => `${value}${value % 10 === 1 && value % 100 !== 11 ? 'st' : value % 10 === 2 && value % 100 !== 12 ? 'nd' : value % 10 === 3 && value % 100 !== 13 ? 'rd' : 'th'}`;
 
-export default function AutoPayConfigurationClient({
-  mandate,
-  bankAccount,
-}: {
-  mandate?: AutoPayMandate | null;
-  bankAccount?: AutoPayBankAccount | null;
-}) {
-  const [enabled, setEnabled] = useState(true);
-  const [execDate, setExecDate] = useState<'1st' | '3rd' | '5th'>('1st');
-  const [amountStrategy, setAmountStrategy] = useState<'full' | 'partial'>('full');
-  const [threshold, setThreshold] = useState('50,000.00');
+function Status({ children, tone = 'neutral' }: { children: React.ReactNode; tone?: 'success' | 'warning' | 'neutral' }) {
+  const styles = { success: 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300', warning: 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-300', neutral: 'border-zinc-200 bg-zinc-50 text-zinc-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-zinc-300' };
+  return <span className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-semibold ${styles[tone]}`}>{children}</span>;
+}
+
+export default function AutoPayConfigurationClient({ tenancies, bankAccount, mandate: initialMandate }: { tenancies: Tenancy[]; bankAccount: BankAccount; mandate: Mandate }) {
+  const [step, setStep] = useState(1);
+  const [tenancyId, setTenancyId] = useState(tenancies[0]?.id ?? '');
+  const [execDay, setExecDay] = useState(initialMandate?.execDay ?? 1);
+  const [amountStrategy, setAmountStrategy] = useState<'fixed' | 'custom'>(initialMandate?.amountStrategy === 'custom' ? 'custom' : 'fixed');
+  const [partialAmount, setPartialAmount] = useState('');
+  const [threshold, setThreshold] = useState(initialMandate?.threshold ? String(initialMandate.threshold) : '50000');
+  const [consent, setConsent] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [mandate, setMandate] = useState(initialMandate);
 
-  const handleSave = async () => {
+  const tenancy = tenancies.find((item) => item.id === tenancyId) ?? null;
+  const bankVerified = Boolean(bankAccount?.status === 'active' && bankAccount.accountNumber && bankAccount.recipientCode);
+  const amount = amountStrategy === 'fixed' ? tenancy?.rentAmount ?? 0 : Number(partialAmount.replace(/[^0-9.]/g, '')) || 0;
+  const canReview = Boolean(tenancy && bankVerified && amount > 0);
+  const canSubmit = Boolean(canReview && consent && !saving);
+  const upcomingDates = useMemo(() => {
+    if (!canReview) return [];
+    const dates: Date[] = [];
+    const now = new Date();
+    for (let offset = 0; dates.length < 4 && offset < 14; offset += 1) {
+      const candidate = new Date(now.getFullYear(), now.getMonth() + offset, execDay, 12);
+      if (candidate >= now) dates.push(candidate);
+    }
+    return dates;
+  }, [canReview, execDay]);
+
+  const saveMandate = async () => {
+    if (!canSubmit || !tenancy) return;
     setSaving(true);
     try {
-      const res = await fetch('/api/paystack/auto-pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          enabled,
-          execDay: execDate === '1st' ? 1 : execDate === '3rd' ? 3 : 5,
-          amountStrategy: amountStrategy === 'full' ? 'fixed' : 'percentage_of_income',
-          threshold: threshold ? Number(threshold.replace(/[^0-9.]/g, '')) : null,
-        }),
-      });
-      if (!res.ok) {
-        const body = await res.json().catch(() => null);
-        throw new Error(body?.error || 'The mandate could not be saved.');
-      }
-      // The mandate is on file, but no Direct-Debit subscription exists at
-      // Paystack yet — say "requested", never "active".
-      toast.success('Auto-pay mandate requested. Debits begin once your bank confirms it.');
+      const response = await fetch('/api/paystack/auto-pay', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ agreementId: tenancy.id, enabled: true, execDay, amountStrategy, threshold: threshold ? Number(threshold.replace(/[^0-9]/g, '')) : null }) });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload?.success) throw new Error(payload?.error || 'We could not save the mandate request.');
+      setMandate(payload.data.mandate);
+      toast.success('Mandate request saved. Provider authorization is still required.');
+      setStep(4);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to save the auto-pay mandate');
-    } finally {
-      setSaving(false);
-    }
+      toast.error(error instanceof Error ? error.message : 'We could not save the mandate request.');
+    } finally { setSaving(false); }
   };
 
-  const handleRevoke = () => {
-    toast.info('Send us a message from Support to cancel a mandate that has been confirmed.');
+  const cancelRequest = async () => {
+    if (!mandate || mandate.status !== 'requested') return;
+    if (!window.confirm('Cancel this pending mandate request?')) return;
+    const response = await fetch('/api/paystack/auto-pay', { method: 'DELETE' });
+    if (response.ok) { setMandate(null); toast.success('Pending mandate request cancelled.'); } else toast.error('We could not cancel the pending request.');
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="inline-flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-primary transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back to Rent &amp; Payments
-        </Link>
-        <span className="text-zinc-400">/</span>
-        <span className="font-semibold text-zinc-900 dark:text-white">Direct Debit Mandate Settings</span>
-      </div>
+  if (!tenancies.length) return <main className="mx-auto w-full max-w-5xl space-y-6 pb-8"><Link href="/dashboard/tenant/payments" className="inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white"><ArrowLeft className="h-4 w-4" /> Rent and payments</Link><section className="rounded-2xl border border-zinc-200 bg-white p-8 dark:border-white/[0.09] dark:bg-zinc-900/70"><div className="flex max-w-xl items-start gap-4"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300"><FileCheck2 className="h-5 w-5" /></span><div><h1 className="text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white">Set up automatic rent payments</h1><p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">An executed tenancy is required before a direct debit mandate can be requested. Your agreements will appear here once both parties have signed.</p><Button asChild className="mt-6 bg-primary text-white hover:bg-primary/90"><Link href="/dashboard/tenant/agreements">Open tenancy agreements <ArrowRight className="ml-2 h-4 w-4" /></Link></Button></div></div></section></main>;
 
-      {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-2 mb-1.5">
-            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Auto-Pay Configuration</h1>
-            <span className="px-2 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold flex items-center gap-1">
-              <Zap className="h-3 w-3" /> Paystack Tokenized
-            </span>
-          </div>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Automate recurring rent settlements, set execution thresholds, and protect your lease tenancy record with verified NIBSS &amp; Paystack direct debit mandates.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] self-start lg:self-auto">
-          <Shield className="h-5 w-5 text-primary" />
-          <div className="flex flex-col">
-            <span className="text-xs font-bold text-zinc-900 dark:text-white uppercase tracking-wider">FIRS Compliant • NIBSS Verified</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">Central Bank of Nigeria (CBN) Direct Debit Framework</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left column */}
-        <div className="lg:col-span-7 flex flex-col gap-6">
-          {/* Master activation */}
-          <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none -mr-12 -mt-12" />
-            <div className="flex items-start justify-between gap-4 relative z-10">
-              <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
-                  <CreditCard className="h-6 w-6" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-zinc-900 dark:text-white">Automatic Rent Settlement</span>
-                    <span className="px-2 py-0.5 rounded bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3] text-xs font-semibold">Active Mandate</span>
-                  </div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                    When enabled, recurring rent obligations are debited automatically without manual invoice processing.
-                  </p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-1">
-                <input type="checkbox" className="sr-only peer" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
-                <div className="w-12 h-6 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
-              </label>
-            </div>
-            <div className="mt-4 pt-4 bg-zinc-50 dark:bg-white/[0.04] rounded-lg p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-primary" />
-                <span className="text-sm text-zinc-900 dark:text-white">Tenancy Record Guarantee</span>
-              </div>
-              <span className="text-xs font-semibold text-primary uppercase tracking-wider">Zero Arrears Flag Active</span>
-            </div>
-          </div>
-
-          {/* Config params */}
-          <div className={`bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm flex flex-col gap-6 transition-all ${enabled ? '' : 'opacity-45 pointer-events-none'}`}>
-            {/* Payment method */}
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
-                  Default Settlement Source <span className="text-red-500">*</span>
-                </label>
-                <Link href="/dashboard/tenant/payments/methods" className="text-xs font-semibold text-primary hover:text-[var(--sovereign-hover)] flex items-center gap-1">
-                  Manage NIBSS Accounts
-                </Link>
-              </div>
-              {bankAccount?.bankName && bankAccount?.accountNumber ? (
-                <div className="mt-1 w-full bg-zinc-50 dark:bg-white/[0.04] hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors rounded-lg p-4 flex items-center justify-between cursor-pointer border border-zinc-200 dark:border-white/[0.08]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center font-bold text-zinc-900 dark:text-white">
-                      {bankAccount.bankName.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-semibold text-zinc-900 dark:text-white">{bankAccount.bankName}</span>
-                        <span className="text-xs text-zinc-600 dark:text-zinc-400 font-mono">
-                          (•••• {bankAccount.accountNumber.slice(-4)})
-                        </span>
-                        {bankAccount.recipientCode && (
-                          <span className="px-2 py-0.5 rounded bg-[var(--sovereign-container-bg)] dark:bg-primary/10 text-primary text-xs font-semibold flex items-center gap-1">
-                            <Check className="h-3 w-3" /> Paystack recipient
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-xs text-zinc-600 dark:text-zinc-400">
-                        Account: {bankAccount.accountName ?? '—'}
-                      </span>
-                    </div>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-zinc-400 rotate-90" />
-                </div>
-              ) : (
-                <div className="mt-1 w-full rounded-lg p-4 border border-dashed border-zinc-300 dark:border-white/[0.12]">
-                  <p className="text-sm font-semibold text-zinc-900 dark:text-white">No settlement account linked</p>
-                  <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
-                    Add a bank account before a direct-debit mandate can be raised.
-                  </p>
-                  <Link
-                    href="/dashboard/tenant/payments/methods/bank"
-                    className="mt-2 inline-flex text-xs font-semibold text-primary hover:text-[var(--sovereign-hover)]"
-                  >
-                    Add a bank account
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Execution date */}
-            <div className="flex flex-col gap-2">
-              <div>
-                <label className="text-sm font-semibold text-zinc-900 dark:text-white">Monthly Execution Trigger</label>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400">Select preferred debit cycle ahead of statutory tenancy deadline (Due 28th of every month)</p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-1">
-                {([
-                  { k: '1st' as const, label: '1st of Month', sub: 'Maximum grace period clearance', badge: 'Recommended' },
-                  { k: '3rd' as const, label: '3rd of Month', sub: 'Standard corporate payroll alignment', badge: '48h pre-reconciliation' },
-                  { k: '5th' as const, label: '5th of Month', sub: 'Late cycle buffer for audit clearance', badge: 'Close to grace cut-off' },
-                ]).map((opt) => (
-                  <label
-                    key={opt.k}
-                    className={`relative flex flex-col p-4 rounded-lg cursor-pointer transition-all border ${execDate === opt.k ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/10 border-primary/30 shadow-sm' : 'bg-zinc-50 dark:bg-white/[0.04] border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-100 dark:hover:bg-white/[0.08]'}`}
-                  >
-                    <input type="radio" name="executionDate" value={opt.k} checked={execDate === opt.k} onChange={() => setExecDate(opt.k)} className="sr-only" />
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">{opt.label}</span>
-                      <span className={`w-4 h-4 rounded-full flex items-center justify-center ${execDate === opt.k ? 'bg-primary text-white' : 'bg-zinc-200 dark:bg-zinc-700'}`}>
-                        {execDate === opt.k && <Check className="h-3 w-3" />}
-                      </span>
-                    </div>
-                    <span className="text-xs text-zinc-600 dark:text-zinc-400 mb-2">{opt.sub}</span>
-                    <span className={`mt-auto inline-block px-1.5 py-0.5 text-xs font-semibold rounded w-max ${execDate === opt.k ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'text-zinc-500 dark:text-zinc-400'}`}>{opt.badge}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Amount strategy */}
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-zinc-900 dark:text-white">Settlement Obligation Amount</label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1">
-                <div
-                  onClick={() => setAmountStrategy('full')}
-                  className={`p-4 rounded-lg flex items-start gap-3 cursor-pointer border ${amountStrategy === 'full' ? 'bg-zinc-50 dark:bg-white/[0.04] border-primary/30 shadow-sm' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]'}`}
-                >
-                  <input type="radio" name="amountStrategy" checked={amountStrategy === 'full'} onChange={() => setAmountStrategy('full')} className="mt-1 accent-primary" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-zinc-900 dark:text-white">Full Monthly Rent</span>
-                    <span className="text-sm font-bold text-primary mt-0.5 font-mono">₦ 1,250,000.00</span>
-                    <span className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Automatic matching against current signed lease obligation.</span>
-                  </div>
-                </div>
-                <div
-                  onClick={() => setAmountStrategy('partial')}
-                  className={`p-4 rounded-lg flex items-start gap-3 cursor-pointer border ${amountStrategy === 'partial' ? 'bg-zinc-50 dark:bg-white/[0.04] border-primary/30 shadow-sm' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]'}`}
-                >
-                  <input type="radio" name="amountStrategy" checked={amountStrategy === 'partial'} onChange={() => setAmountStrategy('partial')} className="mt-1 accent-primary" />
-                  <div className="flex flex-col w-full">
-                    <span className="text-sm font-semibold text-zinc-900 dark:text-white">Partial / Custom Sinking Fund</span>
-                    <div className="flex items-center mt-2 rounded bg-zinc-50 dark:bg-white/[0.04] overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
-                      <span className="px-3 py-2 bg-zinc-100 dark:bg-white/[0.08] font-mono text-sm text-zinc-900 dark:text-white font-semibold">₦</span>
-                      <Input disabled={amountStrategy !== 'partial'} placeholder="500,000.00" className="border-0 bg-transparent font-mono" />
-                    </div>
-                    <span className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Remaining balance must be cleared manually prior to 28th.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Low balance threshold */}
-            <div className="flex flex-col gap-2 bg-zinc-50 dark:bg-white/[0.04] p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-1">
-                <Shield className="h-5 w-5 text-primary" />
-                <label className="text-sm font-semibold text-zinc-900 dark:text-white">Low Balance Threshold Safeguard</label>
-              </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-2">
-                Dispatch urgent SMS &amp; sovereign encrypted mail alerts 48 hours prior if verified clearing account balance falls below threshold:
-              </p>
-              <div className="flex items-center max-w-xs rounded-lg bg-white dark:bg-zinc-900 overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
-                <span className="px-3.5 py-2 bg-zinc-100 dark:bg-white/[0.08] font-mono text-sm text-zinc-900 dark:text-white font-bold">₦</span>
-                <Input value={threshold} onChange={(e) => setThreshold(e.target.value)} className="border-0 bg-transparent font-mono" />
-              </div>
-              <span className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 flex items-center gap-1">
-                <CheckCircle className="h-3.5 w-3.5 text-primary" /> Prevents NIBSS return charge penalties (₦2,500 statutory bounce fee).
-              </span>
-            </div>
-
-            {/* Actions */}
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-200 dark:border-white/[0.08]">
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <Button onClick={handleSave} disabled={saving} className="w-full sm:w-auto bg-primary hover:bg-[var(--sovereign-hover)] text-white font-semibold flex items-center gap-2">
-                  <Shield className="h-4 w-4" /> {saving ? 'Saving…' : 'Save & Activate Schedule'}
-                </Button>
-                <Button variant="outline" className="border-zinc-200 dark:border-white/[0.08]">Cancel</Button>
-              </div>
-              <button onClick={handleRevoke} className="text-red-600 dark:text-red-400 hover:text-red-700 text-sm font-semibold flex items-center gap-1">
-                <Zap className="h-4 w-4" /> Revoke Mandate
-              </button>
-            </div>
-          </div>
-
-          {/* Location ref */}
-          <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-white/[0.08] shadow-sm flex items-center gap-4">
-            <div className="w-16 h-16 rounded-lg bg-zinc-100 dark:bg-white/[0.04] flex-shrink-0 flex items-center justify-center">
-              <CreditCard className="h-6 w-6 text-primary" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Allocated Asset</span>
-              <span className="text-sm font-semibold text-zinc-900 dark:text-white">
-                {mandate ? mandate.title : 'No active tenancy'}
-              </span>
-              <span className="text-xs text-zinc-600 dark:text-zinc-400">
-                {mandate
-                  ? `${mandate.address || 'Address not recorded'} • Lease ${mandate.reference.slice(0, 12).toUpperCase()}`
-                  : 'An executed tenancy agreement is required before auto-pay can be configured.'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Right column */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          {/* Projected debit ledger */}
-          <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-sm overflow-hidden">
-            <div className="p-6 bg-zinc-50/50 dark:bg-white/[0.02]">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <CreditCard className="h-5 w-5 text-primary" />
-                  <span className="font-semibold text-zinc-900 dark:text-white">Projected Debit Ledger</span>
-                </div>
-                <span className="text-xs font-semibold text-primary uppercase tracking-wider">Next 4 Cycles</span>
-              </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Automated execution timetable aligned with CBN interbank settlements.</p>
-            </div>
-            <div className="p-4 flex flex-col gap-3">
-              {[
-                { n: 1, date: 'May 1, 2025', status: 'Scheduled', pulse: true },
-                { n: 2, date: 'Jun 1, 2025', status: 'Pending Queue', pulse: false },
-                { n: 3, date: 'Jul 1, 2025', status: 'Pending Queue', pulse: false },
-                { n: 4, date: 'Aug 1, 2025', status: 'Pending Queue', pulse: false },
-              ].map((c) => (
-                <div key={c.n} className={`p-4 rounded-lg flex items-center justify-between ${c.n === 1 ? 'bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-white/[0.08]' : 'bg-zinc-50 dark:bg-white/[0.04]'}`}>
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${c.n === 1 ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/20 text-[var(--sovereign-hover)] dark:text-[#4edea3]' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'}`}>{c.n}</div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-zinc-900 dark:text-white">{c.date}</span>
-                      <span className="text-xs text-zinc-600 dark:text-zinc-400">Zenith Direct Debit (•••• 4190)</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col text-right">
-                    <span className="text-sm font-bold text-zinc-900 dark:text-white font-mono">₦ 1,250,000.00</span>
-                    <span className={`text-xs font-semibold flex items-center justify-end gap-1 ${c.pulse ? 'text-primary' : 'text-zinc-500 dark:text-zinc-400'}`}>
-                      {c.pulse && <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />} {c.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="p-4 bg-zinc-50 dark:bg-white/[0.02] flex items-start gap-2 border-t border-zinc-200 dark:border-white/[0.08]">
-              <Receipt className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-              <span className="text-xs text-zinc-600 dark:text-zinc-400">
-                All automated transactions automatically generate certified FIRS digital e-receipts archived directly into your official Sovereign tax compliance repository.
-              </span>
-            </div>
-          </div>
-
-          {/* Mandate guarantee */}
-          <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-zinc-200 dark:border-white/[0.08] shadow-sm flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-[var(--sovereign-container-bg)] dark:bg-primary/10 flex items-center justify-center text-primary">
-                <Shield className="h-5 w-5" />
-              </div>
-              <div>
-                <span className="text-sm font-semibold text-zinc-900 dark:text-white">CBN &amp; NDPR Mandate Protection</span>
-                <span className="block text-xs font-semibold text-primary">Institutional Grade Liquidity Assurance</span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-3 pt-2">
-              {[
-                { icon: Lock, title: 'Zero Duplicate Billing Guarantee', desc: 'NIBSS idempotency tokens ensure invoices are settled once and only once per 30-day lease term.' },
-                { icon: Shield, title: 'Grace-Period Manual Suspension', desc: 'Pause or reschedule anytime with 5 business days advance notice with zero penalty points against tenancy score.' },
-                { icon: Lock, title: '256-Bit Financial Encryption', desc: 'Direct integration with Interswitch & Paystack Enterprise routing engines. PropatiBox never stores raw PINs or BVN credentials.' },
-              ].map((g, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <g.icon className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-zinc-900 dark:text-white">{g.title}</span>
-                    <span className="text-xs text-zinc-600 dark:text-zinc-400">{g.desc}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-2 pt-4 bg-zinc-50 dark:bg-white/[0.04] p-3 rounded-lg flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                <Shield className="h-4 w-4 text-zinc-500" />
-                <span className="text-xs text-zinc-600 dark:text-zinc-400">Audited Mandate Desk</span>
-              </div>
-              <span className="text-xs font-bold text-primary font-mono">+234 (1) 800-PROPATI</span>
-            </div>
-          </div>
-        </div>
-      </div>
+  return <main className="mx-auto w-full max-w-6xl space-y-7 pb-8">
+    <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400"><Link href="/dashboard/tenant/payments" className="inline-flex items-center gap-2 hover:text-zinc-950 dark:hover:text-white"><ArrowLeft className="h-4 w-4" /> Rent and payments</Link><span aria-hidden="true">/</span><span className="text-zinc-900 dark:text-white">Auto-pay</span></nav>
+    <header className="flex flex-col gap-4 border-b border-zinc-200 pb-6 dark:border-white/[0.09] lg:flex-row lg:items-end lg:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Direct debit setup</p><h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-950 dark:text-white">Set up automatic rent payments</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">Choose an executed tenancy, verify a bank account, set the debit instruction, then review what will be sent to the payment provider.</p></div><Status tone={mandate?.status === 'requested' ? 'warning' : 'neutral'}>{mandate?.status === 'requested' ? <><Clock3 className="h-3.5 w-3.5" /> Authorization pending</> : <><LockKeyhole className="h-3.5 w-3.5" /> No authorized mandate</>}</Status></header>
+    <ol className="grid gap-2 sm:grid-cols-4" aria-label="Auto-pay setup steps">{['Tenancy', 'Bank account', 'Payment rules', 'Review'].map((label, index) => { const number = index + 1; const complete = number < step || (number === 4 && mandate?.status === 'requested'); return <li key={label} className={`flex items-center gap-3 border-b-2 px-1 pb-3 text-sm ${number === step ? 'border-primary text-zinc-950 dark:text-white' : complete ? 'border-emerald-500 text-emerald-700 dark:text-emerald-300' : 'border-zinc-200 text-zinc-500 dark:border-white/[0.09]'}`}><span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${number === step ? 'bg-primary text-white' : complete ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300' : 'bg-zinc-100 text-zinc-500 dark:bg-white/[0.08]'}`}>{complete ? <Check className="h-4 w-4" /> : number}</span><span>{label}</span></li>; })}</ol>
+    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.75fr)_minmax(280px,0.85fr)]">
+      <section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-white/[0.09] dark:bg-zinc-900/70 sm:p-7">
+        {step === 1 && <div className="space-y-6"><div><h2 className="text-xl font-semibold text-zinc-950 dark:text-white">Which tenancy should rent come from?</h2><p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Only fully signed tenancies are eligible for a mandate.</p></div><div className="space-y-3">{tenancies.map((item) => <label key={item.id} className={`block cursor-pointer rounded-xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-primary ${tenancyId === item.id ? 'border-primary bg-primary/[0.05] dark:bg-primary/[0.08]' : 'border-zinc-200 hover:border-zinc-300 dark:border-white/[0.09] dark:hover:border-white/20'}`}><input type="radio" name="tenancy" className="sr-only" checked={tenancyId === item.id} onChange={() => setTenancyId(item.id)} /><div className="flex items-start justify-between gap-4"><div><p className="font-semibold text-zinc-950 dark:text-white">{item.title}</p><p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{item.address}</p><dl className="mt-4 grid gap-x-8 gap-y-2 text-xs sm:grid-cols-3"><div><dt className="text-zinc-500">Landlord</dt><dd className="mt-0.5 font-medium text-zinc-800 dark:text-zinc-200">{item.landlordName || 'Not recorded'}</dd></div><div><dt className="text-zinc-500">Status</dt><dd className="mt-0.5 font-medium text-emerald-700 dark:text-emerald-300">Executed</dd></div><div><dt className="text-zinc-500">Rent obligation</dt><dd className="mt-0.5 font-medium text-zinc-800 dark:text-zinc-200">{money(item.rentAmount)} {item.rentPeriod ? `/${item.rentPeriod}` : ''}</dd></div></dl></div><span className={`mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${tenancyId === item.id ? 'border-primary bg-primary text-white' : 'border-zinc-300 dark:border-zinc-600'}`}>{tenancyId === item.id && <Check className="h-3.5 w-3.5" />}</span></div></label>)}</div><Button onClick={() => setStep(2)} disabled={!tenancy} className="bg-primary text-white hover:bg-primary/90">Continue to bank account <ArrowRight className="ml-2 h-4 w-4" /></Button></div>}
+        {step === 2 && <div className="space-y-6"><div><h2 className="text-xl font-semibold text-zinc-950 dark:text-white">Verify the account for debits</h2><p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Use the existing Paystack account-resolution flow. PropatiBox only shows masked details here and never asks for a PIN or raw credentials.</p></div>{bankVerified ? <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-400/20 dark:bg-emerald-400/[0.08]"><div className="flex items-start gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-emerald-700 dark:bg-zinc-900 dark:text-emerald-300"><Landmark className="h-5 w-5" /></span><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><p className="font-semibold text-zinc-950 dark:text-white">{bankAccount?.bankName || 'Verified bank account'}</p><Status tone="success"><CheckCircle2 className="h-3.5 w-3.5" /> Verified</Status></div><p className="mt-1 font-mono text-sm text-zinc-700 dark:text-zinc-300">•••• {bankAccount?.accountNumber?.slice(-4)}</p><p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Account name: {bankAccount?.accountName || 'Not recorded'}</p></div></div></div> : <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-400/20 dark:bg-amber-400/[0.08]"><div className="flex items-start gap-3"><AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-700 dark:text-amber-300" /><div><p className="font-semibold text-amber-900 dark:text-amber-200">A verified bank account is required</p><p className="mt-1 text-sm leading-5 text-amber-800 dark:text-amber-300">Add or verify your 10-digit NUBAN. Return here after saving it and this step will unlock.</p><Button asChild variant="outline" className="mt-4 border-amber-300 bg-transparent text-amber-900 hover:bg-amber-100 dark:border-amber-400/30 dark:text-amber-200 dark:hover:bg-amber-400/10"><Link href="/dashboard/tenant/payments/methods/new?method=bank">Verify a bank account <ArrowRight className="ml-2 h-4 w-4" /></Link></Button></div></div></div>}<div className="flex flex-col gap-3 sm:flex-row"><Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button><Button onClick={() => setStep(3)} disabled={!bankVerified} className="bg-primary text-white hover:bg-primary/90">Continue to payment rules <ArrowRight className="ml-2 h-4 w-4" /></Button></div></div>}
+        {step === 3 && <div className="space-y-6"><div><h2 className="text-xl font-semibold text-zinc-950 dark:text-white">Set payment rules</h2><p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Your selected tenancy is due on <span className="font-medium text-zinc-950 dark:text-white">{dateLabel(tenancy?.dueDate ?? null)}</span>. The debit date is your preferred monthly execution date, not a change to the lease due date.</p></div><div className="space-y-2"><label htmlFor="exec-day" className="text-sm font-semibold text-zinc-950 dark:text-white">Monthly debit date</label><select id="exec-day" value={execDay} onChange={(event) => setExecDay(Number(event.target.value))} className="h-11 w-full rounded-lg border border-zinc-300 bg-white px-3 text-sm text-zinc-950 outline-none focus:ring-2 focus:ring-primary dark:border-white/[0.12] dark:bg-zinc-950 dark:text-white sm:max-w-xs"><option value={1}>1st of each month</option><option value={3}>3rd of each month</option><option value={5}>5th of each month</option><option value={7}>7th of each month</option><option value={10}>10th of each month</option><option value={15}>15th of each month</option><option value={28}>28th of each month</option></select><p className="text-xs text-zinc-500 dark:text-zinc-400">Choose a date that gives your bank enough time before the recorded due date.</p></div><fieldset className="space-y-3"><legend className="text-sm font-semibold text-zinc-950 dark:text-white">Debit amount</legend><label className={`block cursor-pointer rounded-xl border p-4 ${amountStrategy === 'fixed' ? 'border-primary bg-primary/[0.05] dark:bg-primary/[0.08]' : 'border-zinc-200 dark:border-white/[0.09]'}`}><input type="radio" name="amount" className="sr-only" checked={amountStrategy === 'fixed'} onChange={() => setAmountStrategy('fixed')} /><span className="flex items-center justify-between gap-3"><span><span className="block font-medium text-zinc-950 dark:text-white">Full rent obligation</span><span className="mt-1 block text-sm text-zinc-600 dark:text-zinc-400">Matches the selected tenancy ledger.</span></span><span className="font-mono font-semibold text-primary">{money(tenancy?.rentAmount ?? 0)}</span></span></label><label className={`block cursor-pointer rounded-xl border p-4 ${amountStrategy === 'custom' ? 'border-primary bg-primary/[0.05] dark:bg-primary/[0.08]' : 'border-zinc-200 dark:border-white/[0.09]'}`}><input type="radio" name="amount" className="sr-only" checked={amountStrategy === 'custom'} onChange={() => setAmountStrategy('custom')} /><span className="font-medium text-zinc-950 dark:text-white">Partial-payment arrangement</span><span className="mt-1 block text-sm text-zinc-600 dark:text-zinc-400">Enter an amount greater than zero. Any remaining balance stays due on the tenancy ledger.</span>{amountStrategy === 'custom' && <Input aria-label="Partial monthly debit amount" inputMode="decimal" value={partialAmount} onChange={(event) => setPartialAmount(event.target.value)} placeholder="50000" className="mt-3 max-w-xs font-mono" />}</label></fieldset><div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50/70 p-4 dark:border-white/[0.09] dark:bg-white/[0.03]"><label htmlFor="threshold" className="text-sm font-semibold text-zinc-950 dark:text-white">Low-balance notification threshold</label><p className="mt-1 text-xs leading-5 text-zinc-600 dark:text-zinc-400">Use this as a notification preference. It does not guarantee a balance check or prevent a failed debit.</p><div className="mt-3 flex max-w-xs items-center rounded-lg border border-zinc-200 bg-white dark:border-white/[0.1] dark:bg-zinc-900"><span className="px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-400">₦</span><Input id="threshold" value={threshold} onChange={(event) => setThreshold(event.target.value)} className="border-0 font-mono" /></div></div><div className="rounded-xl border border-blue-200 bg-blue-50/60 p-4 text-sm leading-5 text-blue-900 dark:border-blue-400/20 dark:bg-blue-400/[0.08] dark:text-blue-200"><p className="font-semibold">If a debit fails</p><p className="mt-1">The payment remains unconfirmed until the provider reports a successful transaction. Review the failure notice and pay any remaining ledger balance manually. Your lease grace period, if any, is determined by the tenancy agreement.</p></div><div className="flex flex-col gap-3 sm:flex-row"><Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button><Button onClick={() => setStep(4)} disabled={!canReview} className="bg-primary text-white hover:bg-primary/90">Review instruction <ArrowRight className="ml-2 h-4 w-4" /></Button></div></div>}
+        {step === 4 && <div className="space-y-6"><div><h2 className="text-xl font-semibold text-zinc-950 dark:text-white">Review and authorize</h2><p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Check the details before sending your instruction to the payment provider.</p></div><dl className="divide-y divide-zinc-200 rounded-xl border border-zinc-200 dark:divide-white/[0.09] dark:border-white/[0.09]"><div className="grid gap-1 p-4 sm:grid-cols-2"><dt className="text-sm text-zinc-500">Tenancy</dt><dd className="font-medium text-zinc-950 dark:text-white sm:text-right">{tenancy?.title}</dd></div><div className="grid gap-1 p-4 sm:grid-cols-2"><dt className="text-sm text-zinc-500">Debit instruction</dt><dd className="font-medium text-zinc-950 dark:text-white sm:text-right">{money(amount)} monthly on the {ordinal(execDay)}</dd></div><div className="grid gap-1 p-4 sm:grid-cols-2"><dt className="text-sm text-zinc-500">Account</dt><dd className="font-mono font-medium text-zinc-950 dark:text-white sm:text-right">{bankAccount?.bankName} •••• {bankAccount?.accountNumber?.slice(-4)}</dd></div><div className="grid gap-1 p-4 sm:grid-cols-2"><dt className="text-sm text-zinc-500">First projected date</dt><dd className="font-medium text-zinc-950 dark:text-white sm:text-right">{dateLabel(upcomingDates[0] ?? null)}</dd></div></dl><div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-400/20 dark:bg-amber-400/[0.08]"><div className="flex items-start gap-3"><Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-amber-700 dark:text-amber-300" /><div><p className="font-semibold text-amber-900 dark:text-amber-200">Authorization is not completed on this page</p><p className="mt-1 text-sm leading-5 text-amber-800 dark:text-amber-300">The current payment integration records a mandate request as <strong>pending provider authorization</strong>. It does not create a live debit subscription, so no debit will be shown as scheduled or confirmed.</p></div></div></div><label className="flex items-start gap-3 rounded-xl border border-zinc-200 p-4 dark:border-white/[0.09]"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} className="mt-1 h-4 w-4 accent-primary" /><span className="text-sm leading-5 text-zinc-700 dark:text-zinc-300">I authorize the payment provider to request recurring debits according to this instruction, and understand that the mandate is not active until provider authorization succeeds.</span></label><div className="flex flex-col gap-3 sm:flex-row"><Button variant="outline" onClick={() => setStep(3)}><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button><Button onClick={saveMandate} disabled={!canSubmit} className="bg-primary text-white hover:bg-primary/90">{saving ? 'Saving request...' : 'Save mandate request'} <ArrowRight className="ml-2 h-4 w-4" /></Button></div></div>}
+      </section>
+      <aside className="space-y-4" aria-label="Auto-pay status and information"><section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-white/[0.09] dark:bg-zinc-900/70"><div className="flex items-start gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/[0.12] text-primary"><ShieldCheck className="h-5 w-5" /></span><div><h2 className="font-semibold text-zinc-950 dark:text-white">What is protected</h2><p className="mt-1 text-sm leading-5 text-zinc-600 dark:text-zinc-400">Only masked account details are displayed. Raw PINs, BVN credentials and card details are not collected here.</p></div></div></section>{mandate?.status === 'requested' ? <section className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5 dark:border-amber-400/20 dark:bg-amber-400/[0.08]"><div className="flex items-start gap-3"><Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-amber-700 dark:text-amber-300" /><div><h2 className="font-semibold text-amber-950 dark:text-amber-200">Mandate request pending</h2><p className="mt-1 text-sm leading-5 text-amber-900/80 dark:text-amber-300">Saved {dateLabel(mandate.createdAt)}. It is not active and cannot create scheduled debits until the provider confirms authorization.</p><button type="button" onClick={cancelRequest} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-red-700 hover:underline dark:text-red-300"><XCircle className="h-4 w-4" /> Cancel request</button></div></div></section> : <section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-white/[0.09] dark:bg-zinc-900/70"><h2 className="font-semibold text-zinc-950 dark:text-white">No live mandate</h2><p className="mt-1 text-sm leading-5 text-zinc-600 dark:text-zinc-400">A projection is not a transaction. This page will only show a debit ledger after provider authorization and a valid tenancy ledger are both present.</p></section>}<section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-white/[0.09] dark:bg-zinc-900/70"><div className="flex items-center gap-2"><Banknote className="h-4 w-4 text-primary" /><h2 className="font-semibold text-zinc-950 dark:text-white">Tenancy ledger</h2></div><p className="mt-2 text-sm leading-5 text-zinc-600 dark:text-zinc-400">Due date: {dateLabel(tenancy?.dueDate ?? null)}. Ledger status: {tenancy?.ledgerStatus || 'Not recorded'}.</p><p className="mt-2 text-xs leading-5 text-zinc-500 dark:text-zinc-400">Arrears and payment confirmation remain tied to recorded ledger transactions, not this setup form.</p></section><section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-white/[0.09] dark:bg-zinc-900/70"><div className="flex items-start gap-3"><PauseCircle className="mt-0.5 h-5 w-5 text-zinc-500" /><div><h2 className="font-semibold text-zinc-950 dark:text-white">Pause and cancellation</h2><p className="mt-1 text-sm leading-5 text-zinc-600 dark:text-zinc-400">Pause and resume are unavailable until the provider exposes an authorized mandate control. Pending requests can be cancelled here.</p></div></div></section></aside>
     </div>
-  );
+  </main>;
 }

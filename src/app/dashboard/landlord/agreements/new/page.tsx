@@ -46,7 +46,7 @@ export default function NewAgreementPage() {
     let active = true;
     Promise.all([fetch('/api/listings?ownerId=me&limit=50', { cache: 'no-store' }).then((r) => r.json()), fetch('/api/agreement-templates', { cache: 'no-store' }).then((r) => r.json())]).then(([listingJson, templateJson]) => {
       if (!active) return;
-      const rows = Array.isArray(listingJson?.data) ? listingJson.data : [];
+      const rows = Array.isArray(listingJson?.listings) ? listingJson.listings : [];
       setListings(rows.map((item: Record<string, unknown>) => ({ id: String(item.id), title: String(item.title ?? 'Untitled property'), address: String(item.address ?? ''), area: String(item.area ?? ''), state: String(item.state ?? ''), price: Number(item.price ?? 0), pricePeriod: (item.pricePeriod as string | null) ?? null, coverImage: Array.isArray(item.images) ? ((item.images[0] as { url?: string })?.url ?? null) : null })));
       setTemplates(Array.isArray(templateJson?.templates) ? templateJson.templates : []);
     }).catch(() => undefined).finally(() => { if (active) setLoading(false); });

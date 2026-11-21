@@ -9,12 +9,12 @@ import { Sun, Moon } from 'lucide-react';
 import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 const navLinks = [
-  { href: '/listings', label: 'Properties' },
-  { href: '/verification', label: 'Verification' },
-  { href: '/find-agent', label: 'Agents & Brokers' },
-  { href: '/listings?listingType=short_let', label: 'Shortlet' },
-  { href: '/compare', label: 'Compare' },
-  { href: '/about-us', label: 'About Us' },
+  { href: '/properties/buy', label: 'Buy' },
+  { href: '/properties/rent', label: 'Rent' },
+  { href: '/properties/short-let', label: 'Short-let' },
+  { href: '/properties/commercial', label: 'Commercial' },
+  { href: '/properties/land', label: 'Land' },
+  { href: '/about-us', label: 'About' },
 ];
 
 const footerCols = [
@@ -30,10 +30,10 @@ const footerCols = [
   {
     title: 'Tenants',
     links: [
-      { label: 'Rent a Property', href: '/listings?listingType=rent' },
-      { label: 'Buy a Property', href: '/listings?listingType=-sale' },
-      { label: 'Short-let Stays', href: '/listings?listingType=short_let' },
-      { label: 'Tenant Verification', href: '/verification' },
+      { label: 'Buy', href: '/properties/buy' },
+      { label: 'Rent', href: '/properties/rent' },
+      { label: 'Short-let', href: '/properties/short-let' },
+      { label: 'All Properties', href: '/properties' },
     ],
   },
   {
@@ -302,18 +302,17 @@ export function StitchFooter() {
             <p className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
               © 2026 PropatiBox Technologies Ltd. All rights reserved.
             </p>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span className="text-xs font-mono font-medium text-zinc-600 dark:text-zinc-400">
-                RC: 1849204 — Business Registered — Verified Property Marketplace
-              </span>
-            </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Verified listings, clearer property decisions.</span>
+              </div>
           </div>
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-600 dark:text-zinc-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              NDPA 2023 Compliant · Stamp Duty · Secure Payment Trustee
-            </span>
+            <div className="flex flex-wrap gap-4 text-xs text-zinc-600 dark:text-zinc-400">
+              <Link href="/privacy-policy">Privacy Policy</Link>
+              <Link href="/terms-of-agreement">Terms of Agreement</Link>
+              <Link href="/contact-us">Contact</Link>
+            </div>
           </div>
         </div>
       </div>

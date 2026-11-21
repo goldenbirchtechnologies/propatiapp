@@ -613,7 +613,7 @@ export function AgreementPreviewModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="agreement-preview-dialog max-w-4xl max-h-[90vh] overflow-hidden">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle>{typeLabels[agreement.type]}</DialogTitle>
           <Badge variant={statusConfig[agreement.status].variant} className="gap-1">

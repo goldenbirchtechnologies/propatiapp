@@ -474,7 +474,7 @@ export default function LandlordReceiptsClient() {
       </div>
 
       {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/60 backdrop-blur-sm p-4" onClick={() => setModal(null)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/55 backdrop-blur-[3px] p-4" role="dialog" aria-modal="true" aria-label="Official e-receipt" onClick={() => setModal(null)}>
           <div
             className="relative flex w-full max-w-2xl max-h-[90vh] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl dark:border-white/[0.08] dark:bg-zinc-900"
             onClick={(e) => e.stopPropagation()}

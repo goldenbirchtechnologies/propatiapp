@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
+import { ErrorDialog, SuccessDialog } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -84,6 +85,8 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
   const [propertyType, setPropertyType] = useState('penthouse');
   const [period, setPeriod] = useState('yearly');
   const [targetTenant, setTargetTenant] = useState('corporate');
+  const [errorDialog, setErrorDialog] = useState<string | null>(null);
+  const [successDialog, setSuccessDialog] = useState(false);
 
   const activeDev = developments.find((d) => d.id === selectedDev);
   const filteredUnits = activeDev?.units.filter(
@@ -151,10 +154,9 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
       if (!res.ok || !data?.success) {
         throw new Error(data?.error || 'Failed to create listing');
       }
-      toast({ title: 'Listing created', description: 'Your public listing is now syndicated to the marketplace.' });
-      router.push('/dashboard/landlord/listings');
+      setSuccessDialog(true);
     } catch (error) {
-      toast({ title: 'Error', description: error instanceof Error ? error.message : 'Failed to create listing', variant: 'destructive' });
+      setErrorDialog(error instanceof Error ? error.message : 'Failed to create listing');
     }
   };
 
@@ -386,6 +388,8 @@ export default function ChooseDevelopmentClient({ initialDevelopments }: Props) 
           </div>
         </div>
       )}
+      <ErrorDialog open={Boolean(errorDialog)} onOpenChange={(open) => !open && setErrorDialog(null)} title="Could not create listing" description={errorDialog || 'Review the listing details and try again.'} />
+      <SuccessDialog open={successDialog} onOpenChange={setSuccessDialog} onAction={() => router.push('/dashboard/landlord/listings')} title="Listing created" description="Your public listing is now syndicated to the marketplace." actionLabel="View listings" />
     </div>
   );
 }

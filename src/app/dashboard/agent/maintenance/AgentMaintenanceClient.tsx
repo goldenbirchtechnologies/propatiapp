@@ -725,8 +725,8 @@ function NewWorkOrderModal({
   const [priority, setPriority] = useState('medium');
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-2xl p-6 shadow-xl max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/55 p-4 backdrop-blur-[3px]" role="dialog" aria-modal="true" aria-label="New maintenance work order">
+      <div className="max-h-[min(92dvh,60rem)] w-full max-w-2xl overflow-y-auto rounded-[1.125rem] border border-zinc-200/90 bg-white p-6 text-foreground shadow-[0_8px_30px_rgb(0,0,0,0.14)] dark:border-white/[0.10] dark:bg-zinc-900">
         <div className="flex items-center justify-between pb-4 mb-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <div>
             <h3 className="text-lg font-bold text-zinc-900 dark:text-white">

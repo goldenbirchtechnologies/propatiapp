@@ -317,7 +317,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                   <MoreHorizontal className="size-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-[#0d1117] border border-white/10 text-zinc-600 dark:text-zinc-400">
+              <DropdownMenuContent align="end" className="bg-[#0d1117] border border-white/10 text-zinc-100">
                 <DropdownMenuItem asChild>
                   <Link href={`/dashboard/agent/listings/${listing.id}`}>Manage Listing</Link>
                 </DropdownMenuItem>
@@ -512,7 +512,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
                                   <MoreHorizontal className="size-4" />
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end" className="bg-[#0d1117] border border-white/10 text-zinc-600 dark:text-zinc-400">
+                              <DropdownMenuContent align="end" className="bg-[#0d1117] border border-white/10 text-zinc-100">
                                 <DropdownMenuItem asChild>
                                   <Link href={`/dashboard/agent/properties/${listing.id}/units/${unit.id}`}>View Details</Link>
                                 </DropdownMenuItem>
@@ -873,7 +873,7 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
 
       {/* Message Dialog */}
       <Dialog open={messageOpen} onOpenChange={setMessageOpen}>
-        <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-600 dark:text-zinc-400 sm:max-w-lg">
+        <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-100 sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-zinc-900 dark:text-white">Message {listing.owner ? 'Owner' : 'Contact'}</DialogTitle>
             <DialogDescription>Send a message about {listing.title}</DialogDescription>

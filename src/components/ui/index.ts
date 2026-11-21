@@ -8,6 +8,7 @@ export * from './dropdown-menu';
 export * from './data-table';
 export * from './modal';
 export * from './dialog';
+export * from './alert-dialog';
 export * from './collapsible';
 export * from './scroll-area';
 export * from './progress';

@@ -654,8 +654,8 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
 
       {/* New Conversation Modal (Stitch: same density as hub) */}
       {showNewConversation && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm" onClick={() => setShowNewConversation(false)}>
-          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-lg rounded-xl bg-white dark:bg-zinc-900 p-6 shadow-xl border border-zinc-200 dark:border-white/[0.08]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/55 p-4 backdrop-blur-[3px]" role="dialog" aria-modal="true" aria-label="New conversation" onClick={() => setShowNewConversation(false)}>
+          <div onClick={(e) => e.stopPropagation()} className="max-h-[min(90dvh,52rem)] w-full max-w-lg overflow-y-auto rounded-[1.125rem] border border-zinc-200/90 bg-white p-6 text-foreground shadow-[0_8px_30px_rgb(0,0,0,0.14)] dark:border-white/[0.10] dark:bg-zinc-900">
             <h3 className="text-lg font-bold text-zinc-900 dark:text-white">New Conversation</h3>
             <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Start an audited channel with your landlord, facility, or legal desk. Messages are encrypted and retained per Lagos Tenancy Law.</p>
             <div className="mt-4 flex flex-col gap-3">

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateUnit } from '@/hooks/useUnits';
 import { Button } from '@/components/ui/button';
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, SuccessDialog } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -74,6 +75,8 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
   const router = useRouter();
   const createUnit = useCreateUnit();
   const [submitting, setSubmitting] = useState(false);
+  const [errorDialog, setErrorDialog] = useState<string | null>(null);
+  const [successDialog, setSuccessDialog] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
   const [unitNumber, setUnitNumber] = useState('');
@@ -158,14 +161,9 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
         occupancy: 'VACANT',
       });
 
-      toast({ title: 'Unit added', description: 'New unit has been added to this property.' });
-      router.push('/dashboard/landlord/properties');
+      setSuccessDialog(true);
     } catch (error) {
-      toast({
-        title: 'Failed to add unit',
-        description: error instanceof Error ? error.message : 'Unexpected error',
-        variant: 'destructive',
-      });
+      setErrorDialog(error instanceof Error ? error.message : 'Unexpected error');
     } finally {
       setSubmitting(false);
     }
@@ -383,6 +381,18 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
           )}
         </div>
       </form>
+      <AlertDialog open={Boolean(errorDialog)} onOpenChange={(open) => !open && setErrorDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Could not create unit</AlertDialogTitle>
+            <AlertDialogDescription>{errorDialog || 'Review the unit details and try again.'}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setErrorDialog(null)}>Review unit details</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <SuccessDialog open={successDialog} onOpenChange={setSuccessDialog} onAction={() => router.push('/dashboard/landlord/properties')} title="Unit created" description="The new unit has been added to this property." actionLabel="View properties" />
     </div>
   );
 }

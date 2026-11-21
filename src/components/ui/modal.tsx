@@ -85,12 +85,12 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               <div className={cn('flex items-start justify-between gap-4 border-b border-border/70 px-5 py-4 sm:px-6', headerClassName)}>
                 <div className="flex-1">
                   {title && (
-                    <DialogPrimitive.Title className="font-heading text-[1.0625rem] font-semibold leading-6 tracking-[-0.01em]" style={{ color: 'var(--text)' }}>
+                    <DialogPrimitive.Title className="font-heading text-[1.0625rem] font-semibold leading-6 tracking-[-0.01em] text-foreground">
                       {title}
                     </DialogPrimitive.Title>
                   )}
                   {description && (
-                    <DialogPrimitive.Description className="mt-1 text-[0.8125rem] leading-5" style={{ color: 'var(--muted)' }}>
+                    <DialogPrimitive.Description className="mt-1 text-[0.8125rem] leading-5 text-muted-foreground">
                       {description}
                     </DialogPrimitive.Description>
                   )}
@@ -247,12 +247,12 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
                 )}
                 <div className="flex-1">
                   {title && (
-                    <DialogPrimitive.Title className="font-heading text-lg font-semibold text-center" style={{ color: 'var(--text)' }}>
+                    <DialogPrimitive.Title className="font-heading text-lg font-semibold text-center text-foreground">
                       {title}
                     </DialogPrimitive.Title>
                   )}
                   {description && (
-                    <DialogPrimitive.Description className="text-sm mt-1 text-center" style={{ color: 'var(--muted)' }}>
+                    <DialogPrimitive.Description className="text-sm mt-1 text-center text-muted-foreground">
                       {description}
                     </DialogPrimitive.Description>
                   )}
@@ -342,12 +342,12 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
               <div className={cn('flex items-start justify-between gap-4 border-b border-border/70 px-5 py-4 sm:px-6', headerClassName)}>
                 <div className="flex-1">
                   {title && (
-                    <DialogPrimitive.Title className="font-heading text-lg font-semibold" style={{ color: 'var(--text)' }}>
+                    <DialogPrimitive.Title className="font-heading text-lg font-semibold text-foreground">
                       {title}
                     </DialogPrimitive.Title>
                   )}
                   {description && (
-                    <DialogPrimitive.Description className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
+                    <DialogPrimitive.Description className="text-sm mt-1 text-muted-foreground">
                       {description}
                     </DialogPrimitive.Description>
                   )}

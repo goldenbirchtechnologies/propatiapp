@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
+import { ErrorDialog, SuccessDialog } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
@@ -121,6 +122,8 @@ export default function AddListingClient({ listings, vacantUnits, initialUnitId 
   const [selectedUnitId, setSelectedUnitId] = useState<string>(initialUnitId);
   const [autoFilledSource, setAutoFilledSource] = useState<string | null>(null);
   const [clientErrors, setClientErrors] = useState<string[]>([]);
+  const [errorDialog, setErrorDialog] = useState<string | null>(null);
+  const [successRoute, setSuccessRoute] = useState<string | null>(null);
   const [wizardMode, setWizardMode] = useState(false);
   const [listingImages, setListingImages] = useState<{ id: string; url: string; file?: File }[]>([]);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
@@ -277,19 +280,9 @@ export default function AddListingClient({ listings, vacantUnits, initialUnitId 
       }
 
       const listing = await res.json();
-      toast({
-        title: publishBlocked ? 'Saved as draft' : 'Listed',
-        description: publishBlocked
-          ? 'Stored against the unit. Publish it from the listing once your onboarding is complete.'
-          : 'Your property is now live on the marketplace.',
-      });
-      router.push(successHref ?? `${basePath}/properties/${listing.id}`);
+      setSuccessRoute(successHref ?? `${basePath}/properties/${listing.id}`);
     } catch (error) {
-      toast({
-        title: 'Listing failed',
-        description: error instanceof Error ? error.message : 'Unexpected error',
-        variant: 'destructive',
-      });
+      setErrorDialog(error instanceof Error ? error.message : 'Unexpected error');
     } finally {
       setSubmitting(false);
     }
@@ -340,11 +333,7 @@ export default function AddListingClient({ listings, vacantUnits, initialUnitId 
     return (
       <WizardShell
         onComplete={(listing) => {
-          toast({
-            title: 'Listing created',
-            description: 'Your shortlet listing has been created.',
-          });
-          router.push(successHref ?? `${basePath}/properties/${listing.id}`);
+          setSuccessRoute(successHref ?? `${basePath}/properties/${listing.id}`);
         }}
       />
     );
@@ -772,6 +761,8 @@ export default function AddListingClient({ listings, vacantUnits, initialUnitId 
           </div>
         </div>
       </div>
+      <ErrorDialog open={Boolean(errorDialog)} onOpenChange={(open) => !open && setErrorDialog(null)} title="Could not create listing" description={errorDialog || 'Review the listing details and try again.'} />
+      <SuccessDialog open={Boolean(successRoute)} onOpenChange={(open) => !open && setSuccessRoute(null)} onAction={() => { if (successRoute) router.push(successRoute); }} title="Listing created" description="Your listing was saved successfully and is ready for the next step." actionLabel="View listing" />
     </div>
   );
 }

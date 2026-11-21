@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from '@/hooks/use-toast';
+import { ErrorDialog, SuccessDialog } from '@/components/ui/alert-dialog';
 
 type Props = { dealId?: string };
 
 export default function AgentAgreementNewClient({ dealId }: Props) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
+  const [errorDialog, setErrorDialog] = useState<string | null>(null);
+  const [successRoute, setSuccessRoute] = useState<string | null>(null);
   const [form, setForm] = useState({
     listingId: '',
     tenantId: '',
@@ -56,14 +58,9 @@ export default function AgentAgreementNewClient({ dealId }: Props) {
         throw new Error(text || 'Failed to create agreement');
       }
       const json = await res.json();
-      toast({ title: 'Agreement created', description: 'Agreement draft saved successfully' });
-      router.push(`/dashboard/agent/agreements/${json.data.id}`);
+      setSuccessRoute(`/dashboard/agent/agreements/${json.data.id}`);
     } catch (error) {
-      toast({
-        title: 'Creation failed',
-        description: error instanceof Error ? error.message : 'Unexpected error',
-        variant: 'destructive',
-      });
+      setErrorDialog(error instanceof Error ? error.message : 'Unexpected error');
     } finally {
       setSubmitting(false);
     }
@@ -129,6 +126,8 @@ export default function AgentAgreementNewClient({ dealId }: Props) {
       <Button type="submit" disabled={submitting}>
         {submitting ? 'Creating...' : 'Create Agreement'}
       </Button>
+      <ErrorDialog open={Boolean(errorDialog)} onOpenChange={(open) => !open && setErrorDialog(null)} title="Could not create agreement" description={errorDialog || 'Review the agreement details and try again.'} />
+      <SuccessDialog open={Boolean(successRoute)} onOpenChange={(open) => !open && setSuccessRoute(null)} onAction={() => { if (successRoute) router.push(successRoute); }} title="Agreement created" description="The agreement draft was saved successfully." actionLabel="View agreement" />
     </form>
   );
 }

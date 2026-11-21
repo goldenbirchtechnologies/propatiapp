@@ -317,7 +317,7 @@ function PermissionModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-600 dark:text-zinc-400 sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-100 sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-zinc-900 dark:text-white">Owner Access Controls</DialogTitle>
           <DialogDescription>Customize what the owner can see and do in their portal.</DialogDescription>
@@ -471,7 +471,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                   <MoreHorizontal className="size-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-[#0d1117] border border-white/10 text-zinc-600 dark:text-zinc-400">
+              <DropdownMenuContent align="end" className="bg-[#0d1117] border border-white/10 text-zinc-100">
                 <DropdownMenuItem onClick={() => setPermissionOpen(true)}>
                   <Settings2 className="mr-2 size-3.5" /> Owner Access Controls
                 </DropdownMenuItem>
@@ -1060,7 +1060,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
       {/* Message Dialog */}
       <Dialog open={messageOpen} onOpenChange={setMessageOpen}>
-        <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-600 dark:text-zinc-400 sm:max-w-lg">
+        <DialogContent className="bg-[#0d1117] border border-white/10 text-zinc-100 sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-zinc-900 dark:text-white">Message Owner</DialogTitle>
             <DialogDescription>Send a message about {listing.title}</DialogDescription>

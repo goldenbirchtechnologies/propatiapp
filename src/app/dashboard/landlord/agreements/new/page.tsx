@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, CheckCircle2, ChevronRight, Clock3, FileCheck2, FilePenLine, FileText, Loader2, Search, ShieldCheck, Sparkles, UploadCloud, Users, X } from 'lucide-react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { Button } from '@/components/ui/button';
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, SuccessDialog } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -35,6 +36,8 @@ export default function NewAgreementPage() {
   const [loading, setLoading] = useState(true);
   const [templateOpen, setTemplateOpen] = useState(false);
   const [uploaded, setUploaded] = useState<{ name: string; size: number; status: 'uploading' | 'uploaded' } | null>(null);
+  const [errorDialog, setErrorDialog] = useState<string | null>(null);
+  const [successDialog, setSuccessDialog] = useState<{ id: string } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((current) => ({ ...current, [key]: value }));
   const selectedListing = listings.find((item) => item.id === form.listingId);
@@ -64,8 +67,10 @@ export default function NewAgreementPage() {
   const submit = async () => {
     try {
       const result = await createAgreement.mutateAsync({ listingId: form.listingId, tenantId: form.tenantId, type: form.type, startDate: toIso(form.startDate), endDate: toIso(form.endDate), rentAmount: Number(form.rentAmount), rentPeriod: form.rentPeriod, cautionDeposit: form.cautionDeposit ? Number(form.cautionDeposit) : undefined, serviceCharge: form.serviceCharge ? Number(form.serviceCharge) : undefined, noticePeriodDays: Number(form.noticePeriodDays || 30), specialClauses: form.specialClauses || undefined, jurisdictionState: form.jurisdictionState || selectedListing?.state || undefined, templateVars: { source: form.source, templateId: form.templateId, templateVersion: selectedTemplate ? String(selectedTemplate.version) : '', uploadedFile: uploaded?.name ?? '' } });
-      toast({ title: 'Agreement draft saved', description: 'Review the document before sending invitations.' }); router.push(`/dashboard/landlord/agreements/${result.id}`);
-    } catch { toast({ title: 'Could not save agreement', description: 'Check the required fields and try again.', variant: 'destructive' }); }
+      setSuccessDialog({ id: result.id });
+    } catch (error) {
+      setErrorDialog(error instanceof Error ? error.message : 'Check the required fields and try again.');
+    }
   };
 
   return <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName="Landlord"><main className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 p-4 pb-28 sm:p-6 lg:p-8" aria-labelledby="agreement-title">
@@ -78,6 +83,18 @@ export default function NewAgreementPage() {
     </section><aside className="h-fit space-y-4 lg:sticky lg:top-20"><div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"><div className="mb-4 flex items-center justify-between"><h2 className="text-sm font-semibold text-zinc-950 dark:text-white">Agreement intelligence</h2><Sparkles className="h-4 w-4 text-emerald-600" /></div>{selectedListing?.coverImage ? <img src={selectedListing.coverImage} alt="" className="mb-4 h-32 w-full rounded-lg object-cover" /> : <div className="mb-4 flex h-32 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800"><Building2 className="h-8 w-8 text-zinc-400" /></div>}<InfoRow icon={<Building2 className="h-4 w-4" />} label="Property" value={selectedListing?.title ?? 'Not selected'} /><InfoRow icon={<Users className="h-4 w-4" />} label="Tenant" value={form.tenantId || 'Not provided'} /><InfoRow icon={<CalendarDays className="h-4 w-4" />} label="Term" value={form.startDate && form.endDate ? `${dateLabel(form.startDate)} – ${dateLabel(form.endDate)}` : 'Not set'} /><InfoRow icon={<FileText className="h-4 w-4" />} label="Source" value={form.source === 'template' ? selectedTemplate?.name ?? 'Template pending' : uploaded?.name ?? 'Upload pending'} /><div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-800"><div className="flex justify-between text-sm"><span className="text-zinc-500">Estimated commitment</span><span className="font-semibold tabular-nums text-zinc-950 dark:text-white">{money(total)}</span></div><p className="mt-2 text-xs text-zinc-500">No values are inferred or marked verified.</p></div></div><div className="rounded-xl border border-zinc-200 p-4 dark:border-zinc-800"><div className="flex gap-3"><FilePenLine className="h-5 w-5 shrink-0 text-zinc-500" /><p className="text-xs leading-5 text-zinc-600 dark:text-zinc-400">After creation, use the agreement detail page to review the document, place signatures, invite parties and track execution.</p></div></div></aside></div>
     <footer className="sticky bottom-0 z-20 -mx-4 border-t border-zinc-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 dark:border-zinc-800 dark:bg-zinc-950/95"><div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3"><Button variant="ghost" onClick={() => step === 1 ? router.back() : setStep(step - 1)}><ArrowLeft className="mr-2 h-4 w-4" />{step === 1 ? 'Back to agreements' : 'Previous'}</Button><div className="flex items-center gap-2"><span className="hidden text-xs text-zinc-500 sm:inline">{canContinue ? 'Ready to continue' : 'Complete the required fields'}</span>{step < 3 ? <Button onClick={() => canContinue && setStep(step + 1)} disabled={!canContinue}>Continue<ArrowRight className="ml-2 h-4 w-4" /></Button> : <Button onClick={submit} disabled={!canContinue || createAgreement.isPending}>{createAgreement.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CheckCircle2 className="mr-2 h-4 w-4" />}Create draft</Button>}</div></div></footer>
     {templateOpen && <div role="dialog" aria-modal="true" aria-labelledby="template-dialog-title" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"><div className="max-h-[80vh] w-full max-w-2xl overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"><div className="flex items-center justify-between border-b border-zinc-200 p-4 dark:border-zinc-800"><div><h2 id="template-dialog-title" className="font-semibold text-zinc-950 dark:text-white">PropatiBox Legal Template Library</h2><p className="text-xs text-zinc-500">Active templates available for your jurisdiction</p></div><button aria-label="Close template library" onClick={() => setTemplateOpen(false)}><X className="h-5 w-5 text-zinc-500" /></button></div><div className="border-b border-zinc-200 p-4 dark:border-zinc-800"><div className="relative"><Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" /><Input className="pl-9" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search templates" /></div></div><div className="max-h-[55vh] space-y-2 overflow-y-auto p-4">{visibleTemplates.length ? visibleTemplates.map((item) => <button key={item.id} onClick={() => { set('templateId', item.id); set('source', 'template'); setTemplateOpen(false); }} className={cn('w-full rounded-lg border p-4 text-left hover:border-emerald-500', item.id === form.templateId ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-500/10' : 'border-zinc-200 dark:border-zinc-800')}><div className="flex items-start justify-between gap-3"><span><span className="block text-sm font-medium text-zinc-950 dark:text-white">{item.name}</span><span className="mt-1 block text-xs text-zinc-500">Version {item.version} · {item.jurisdiction?.name ?? 'Jurisdiction not specified'}{item.tenancyType ? ` · ${item.tenancyType}` : ''}</span></span><span className="rounded bg-emerald-50 px-2 py-1 text-[11px] font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">Active</span></div></button>) : <div className="py-10 text-center text-sm text-zinc-500">No active templates are available.</div>}</div></div></div>}
+    <AlertDialog open={Boolean(errorDialog)} onOpenChange={(open) => !open && setErrorDialog(null)}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Could not create agreement</AlertDialogTitle>
+          <AlertDialogDescription>{errorDialog || 'Check the required fields and try again.'}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={() => setErrorDialog(null)}>Review agreement</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    <SuccessDialog open={Boolean(successDialog)} onOpenChange={(open) => { if (!open) setSuccessDialog(null); }} onAction={() => { if (successDialog) router.push(`/dashboard/landlord/agreements/${successDialog.id}`); }} title="Agreement draft created" description="The draft is ready for review before invitations are sent." actionLabel="Review agreement" />
   </main></DashboardShell>;
 }
 

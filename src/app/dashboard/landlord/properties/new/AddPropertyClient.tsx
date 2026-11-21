@@ -9,6 +9,7 @@ import { useCreateListing } from '@/hooks/useListings';
 import { useCreateUnit } from '@/hooks/useUnits';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, SuccessDialog } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import AddressSelector from '@/components/properties/AddressSelector';
@@ -178,6 +179,8 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   const [nextUnitNum, setNextUnitNum] = useState(2);
   const [photos, setPhotos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [videos, setVideos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
+  const [errorDialog, setErrorDialog] = useState<{ title: string; description: string } | null>(null);
+  const [successDialog, setSuccessDialog] = useState(false);
   const [amenities, setAmenities] = useState<string[]>([]);
 
 const handleAddressChange = (data: { streetAddress: string; state: string; city: string }) => {
@@ -273,6 +276,7 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
   };
 
   const onSubmit = async (data: ListingInput) => {
+    let unitCreationIssue = false;
     setSubmitting(true);
     const getErrorMessage = (err: unknown) => {
       if (err && typeof err === 'object' && 'message' in err) {
@@ -310,8 +314,6 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
       };
 
       const listing = await createListing.mutateAsync(basePayload as any);
-
-      toast({ title: 'Property saved', description: 'Building created. Units will be linked now.' });
 
       if (orgId) {
         try {
@@ -354,6 +356,7 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
           const created = results.filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled').length;
           const failed = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
           const firstFailure = failed[0]?.reason;
+          unitCreationIssue = failed.length > 0;
 
           // Report unit creation even when every attempt failed: the property
           // is already saved, so a silent skip left an invisible building.
@@ -371,8 +374,9 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
             variant: created > 0 ? undefined : 'destructive',
           });
         } catch (unitError) {
+          unitCreationIssue = true;
           console.error('Unit creation error:', unitError);
-          toast({ title: 'Units pending', description: unitError instanceof Error ? unitError.message : 'Property saved, but some units could not be linked.' });
+          setErrorDialog({ title: 'Units could not be created', description: unitError instanceof Error ? unitError.message : 'Property saved, but some units could not be linked.' });
         }
       } else {
         try {
@@ -389,6 +393,7 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
           const created = results.filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled').length;
           const failed = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected');
           const firstFailure = failed[0]?.reason;
+          unitCreationIssue = failed.length > 0;
           toast({
             title:
               created > 0
@@ -403,14 +408,15 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
             variant: created > 0 ? undefined : 'destructive',
           });
         } catch (orgError) {
+          unitCreationIssue = true;
           console.error('Auto-org/units error:', orgError);
-          toast({ title: 'Units pending', description: orgError instanceof Error ? orgError.message : 'Property saved, but we could not auto-create units.' });
+          setErrorDialog({ title: 'Units could not be created', description: orgError instanceof Error ? orgError.message : 'Property saved, but we could not auto-create units.' });
         }
       }
 
-      await router.push('/dashboard/landlord/properties');
+      if (!unitCreationIssue) setSuccessDialog(true);
     } catch (error) {
-      toast({ title: 'Failed to create property', description: getErrorMessage(error), variant: 'destructive' });
+      setErrorDialog({ title: 'Could not create property', description: getErrorMessage(error) });
     } finally {
       setSubmitting(false);
     }
@@ -677,6 +683,18 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
           )}
         </form>
       </Form>
+      <AlertDialog open={Boolean(errorDialog)} onOpenChange={(open) => !open && setErrorDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{errorDialog?.title || 'Could not save property'}</AlertDialogTitle>
+            <AlertDialogDescription>{errorDialog?.description || 'Review the property details and try again.'}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setErrorDialog(null)}>Review details</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <SuccessDialog open={successDialog} onOpenChange={setSuccessDialog} onAction={() => router.push('/dashboard/landlord/properties')} title="Property created" description="The property and all configured units were saved successfully." actionLabel="View properties" />
     </div>
   );
 }

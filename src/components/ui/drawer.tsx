@@ -39,6 +39,7 @@ export function Drawer({ open, onOpenChange, children }: DrawerProps) {
       <div
         role="dialog"
         aria-modal="true"
+        aria-label="Panel"
         tabIndex={-1}
         className={cn(
           "absolute inset-y-0 right-0 h-full w-full max-w-xl overflow-y-auto rounded-l-[1.125rem] border-l border-zinc-200/90 bg-background shadow-[-8px_0_30px_rgb(0,0,0,0.14)] transition-transform duration-200 dark:border-white/[0.10]",

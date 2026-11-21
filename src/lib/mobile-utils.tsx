@@ -253,17 +253,17 @@ export function BottomSheet({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50">
+    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={title || 'Bottom sheet'}>
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 transition-opacity"
+        className="absolute inset-0 bg-zinc-950/55 supports-[backdrop-filter]:backdrop-blur-[3px] transition-opacity"
         onClick={onClose}
       />
 
       {/* Sheet */}
       <div
         ref={sheetRef}
-        className={`absolute bottom-0 left-0 right-0 bg-surface-elevated rounded-t-2xl shadow-2xl transition-transform duration-300 ease-out ${className}`}
+        className={`absolute bottom-0 left-0 right-0 max-h-[92dvh] overflow-y-auto rounded-t-[1.125rem] border border-border bg-surface-elevated text-foreground shadow-[0_-8px_30px_rgb(0,0,0,0.14)] transition-transform duration-200 ease-out ${className}`}
         style={{
           height: `${snapPointHeight}vh`,
           maxHeight: `${snapPointHeight}vh`,
@@ -346,10 +346,10 @@ export function MobileNavDrawer({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50">
+    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Navigation menu">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 transition-opacity"
+        className="absolute inset-0 bg-zinc-950/55 supports-[backdrop-filter]:backdrop-blur-[3px] transition-opacity"
         onClick={onClose}
       />
 
@@ -357,7 +357,7 @@ export function MobileNavDrawer({
       <div
         ref={drawerRef}
         className={`
-          absolute top-0 bottom-0 bg-surface-elevated shadow-2xl
+          absolute top-0 bottom-0 bg-surface-elevated text-foreground shadow-[-8px_0_30px_rgb(0,0,0,0.14)] border-border
           transition-transform duration-300 ease-out
           ${position === 'left' ? 'left-0' : 'right-0'}
           ${isOpen ? 'translate-x-0' : position === 'left' ? '-translate-x-full' : 'translate-x-full'}

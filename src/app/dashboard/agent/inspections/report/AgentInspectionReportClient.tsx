@@ -672,8 +672,8 @@ export default function AgentInspectionReportClient({ report }: { report?: Inspe
       </div>
 
       {showHash ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-zinc-900 rounded-xl max-w-lg w-full p-6 shadow-xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/55 p-4 backdrop-blur-[3px]" role="dialog" aria-modal="true" aria-label="Cryptographic verification">
+          <div className="max-h-[min(90dvh,52rem)] w-full max-w-lg overflow-y-auto rounded-[1.125rem] border border-zinc-200/90 bg-white p-6 text-foreground shadow-[0_8px_30px_rgb(0,0,0,0.14)] dark:border-white/[0.10] dark:bg-zinc-900 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Fingerprint className="h-5 w-5 text-primary dark:text-[#4edea3]" />

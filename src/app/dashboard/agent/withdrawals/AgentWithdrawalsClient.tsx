@@ -501,7 +501,7 @@ export default function AgentWithdrawalsClient({ summary, withdrawals }: Props) 
       {/* Payout request modal */}
       {modalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/55 p-4 backdrop-blur-[3px]"
           role="dialog"
           aria-modal="true"
           aria-label="Request payout"
@@ -509,7 +509,7 @@ export default function AgentWithdrawalsClient({ summary, withdrawals }: Props) 
             if (e.target === e.currentTarget) setModalOpen(false);
           }}
         >
-          <div className="w-full max-w-lg space-y-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-xl dark:border-white/[0.08] dark:bg-zinc-900">
+          <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-6 text-foreground shadow-xl dark:border-white/[0.08] dark:bg-zinc-900">
             <div className="flex items-start justify-between border-b border-zinc-200 pb-3 dark:border-white/[0.08]">
               <div>
                 <span className={AGENT_FINANCE_LABEL}>Disbursement Request</span>

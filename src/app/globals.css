@@ -307,6 +307,25 @@
   --chart-5: #1b1b1e;
 }
 
+/* Legacy dialog content used --muted as a text color. In the current theme
+   --muted is a surface token, so keep those older screens readable while they
+   are progressively moved to semantic text classes. */
+.verification-review-dialog [style*="--muted"],
+.agreement-preview-dialog [style*="--muted"] {
+  color: var(--muted-foreground) !important;
+}
+
+/* Every semantic dialog, including older hand-built overlays, inherits a
+   readable foreground. Legacy inline --muted text is remapped because --muted
+   is a surface token in the current theme. */
+[role="dialog"] {
+  color: var(--foreground);
+}
+
+[role="dialog"] [style*="--muted"] {
+  color: var(--muted-foreground) !important;
+}
+
 /* Role-based theme classes applied to body.
    These no longer force dark surfaces. Light/dark colours come from the single
    :root / html.dark shadcn token blocks, so one `dark` class toggles every role

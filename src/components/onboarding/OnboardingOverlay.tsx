@@ -149,9 +149,9 @@ export function OnboardingOverlay() {
           scrim completely and the overlay reads as a full page. Keeping 12px
           of blurred dashboard visible at every width is what makes it legible
           as a panel over the dashboard rather than a route of its own. */}
-      <div aria-hidden className="absolute inset-0 bg-zinc-950/50 backdrop-blur-[6px]" />
+      <div aria-hidden className="absolute inset-0 bg-black/50 backdrop-blur-[6px] dark:bg-black/70" />
 
-      <div className="relative z-10 flex max-h-[calc(100dvh-1.5rem)] w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-[#fbf8fc] shadow-[0_32px_80px_-24px_rgba(0,0,0,0.55)] ring-1 ring-black/10 sm:max-h-[84vh] sm:max-w-[1000px]">
+      <div className="relative z-10 flex max-h-[calc(100dvh-1.5rem)] w-full flex-col overflow-hidden rounded-2xl border border-[var(--outline-variant)] bg-[var(--bg)] shadow-[0_32px_80px_-24px_rgba(0,0,0,0.55)] ring-1 ring-black/10 sm:max-h-[84vh] sm:max-w-[1000px]">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           <OnboardingWizard
             initialStatus={status}

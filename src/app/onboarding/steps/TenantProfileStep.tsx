@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { HeartHandshake, Home, Loader2, UserRound } from 'lucide-react';
+import { HeartHandshake, Home, Loader2, MessageSquare, Phone, ShieldCheck, UserRound } from 'lucide-react';
 import {
   DCallout,
   DCurrency,
@@ -10,7 +10,8 @@ import {
   DInput,
   DSelect,
 } from '@/components/onboarding/dossier/primitives';
-import { StepActions } from './_shared';
+import { StepActions, firstIssue } from './_shared';
+import { onboardingContactSchema, onboardingPhoneVerifySchema } from '@/lib/validators';
 import type { StepProps } from './types';
 
 type ProfileDraft = {
@@ -45,6 +46,12 @@ const EMPTY: ProfileDraft = {
 
 export default function TenantProfileStep({ onSaved }: StepProps) {
   const [draft, setDraft] = useState<ProfileDraft>(EMPTY);
+  const [phone, setPhone] = useState('');
+  const [phonePhase, setPhonePhase] = useState<'request' | 'verify' | 'done'>(
+    'request'
+  );
+  const [code, setCode] = useState('');
+  const [devCode, setDevCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -72,6 +79,8 @@ export default function TenantProfileStep({ onSaved }: StepProps) {
           maxMonthlyBudget: dossier.maxMonthlyBudget == null ? '' : String(dossier.maxMonthlyBudget),
           otherIncomeSources: dossier.otherIncomeSources ?? '',
         });
+        setPhone(json.data?.profile?.phone ?? '');
+        setPhonePhase(json.data?.profile?.phoneVerified ? 'done' : 'request');
       })
       .catch((cause) => active && setError(cause instanceof Error ? cause.message : 'Could not load your profile.'))
       .finally(() => active && setLoading(false));
@@ -96,7 +105,47 @@ export default function TenantProfileStep({ onSaved }: StepProps) {
     if (!response.ok) throw new Error(json?.error ?? 'Could not save your profile.');
   }
 
+  async function requestPhoneCode() {
+    setError(null);
+    const parsed = onboardingContactSchema.safeParse({ phone });
+    if (!parsed.success) {
+      setError(firstIssue(parsed.error));
+      return;
+    }
+    setSaving(true);
+    try {
+      const response = await fetch('/api/onboarding/contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(parsed.data),
+      });
+      const json = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(json?.message ?? json?.error ?? 'Could not send the code.');
+      setDevCode(json?.data?.devCode ?? null);
+      setPhonePhase('verify');
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Could not send the code.'); }
+    finally { setSaving(false); }
+  }
+
+  async function verifyPhone() {
+    setError(null);
+    const parsed = onboardingPhoneVerifySchema.safeParse({ code });
+    if (!parsed.success) { setError(firstIssue(parsed.error)); return; }
+    setSaving(true);
+    try {
+      const response = await fetch('/api/onboarding/phone/verify', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(parsed.data),
+      });
+      const json = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(json?.message ?? json?.error ?? 'That code did not work.');
+      setPhonePhase('done'); setCode('');
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'That code did not work.'); }
+    finally { setSaving(false); }
+  }
+
   async function save() {
+    if (phonePhase !== 'done') {
+      setError('Verify your mobile number before saving this profile.');
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
@@ -134,6 +183,28 @@ export default function TenantProfileStep({ onSaved }: StepProps) {
   return (
     <form onSubmit={(event) => { event.preventDefault(); void save(); }}>
       <div>
+      <DCallout icon={<MessageSquare className="h-4 w-4" />} title="Contact information" className="mb-5">
+        Verify the mobile number PropatiBox should use for property, agreement and payment updates.
+      </DCallout>
+      {phonePhase === 'done' ? (
+        <div className="mb-5 flex flex-wrap items-center gap-3 rounded-[8px] bg-[rgba(0,108,73,0.08)] p-3 text-[13px] text-[var(--on-surface)]">
+          <ShieldCheck className="h-4 w-4 text-[var(--accent)]" />
+          <span className="font-medium">{phone} is verified.</span>
+          <button type="button" onClick={() => setPhonePhase('request')} className="text-[12px] font-semibold text-[var(--accent)] hover:underline">Use another number</button>
+        </div>
+      ) : (
+        <div className="mb-6 rounded-[8px] bg-[var(--surface-container-low)] p-4">
+          <DGrid cols={2}>
+            <DField label="Mobile number" required note="E.164">
+              <DInput value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+234 801 234 5678" inputMode="tel" mono disabled={phonePhase === 'verify'} />
+            </DField>
+            {phonePhase === 'verify' ? <DField label="Six-digit code" required hint={devCode ? `Development mode — your code is ${devCode}.` : 'Check your SMS inbox.'}><DInput value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="123456" inputMode="numeric" autoComplete="one-time-code" mono /></DField> : null}
+          </DGrid>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {phonePhase === 'request' ? <button type="button" onClick={() => void requestPhoneCode()} disabled={saving} className="inline-flex h-10 items-center gap-2 rounded-[8px] bg-[var(--primary-container)] px-4 text-[13px] font-semibold text-white disabled:opacity-50"><Phone className="h-4 w-4" /> Send verification code</button> : <button type="button" onClick={() => void verifyPhone()} disabled={saving || code.length !== 6} className="inline-flex h-10 items-center gap-2 rounded-[8px] bg-[var(--primary-container)] px-4 text-[13px] font-semibold text-white disabled:opacity-50"><ShieldCheck className="h-4 w-4" /> Verify number</button>}
+          </div>
+        </div>
+      )}
       <DCallout icon={<UserRound className="h-4 w-4" />} title="Your profile, in one place" className="mb-5">
         These details help us tailor property matches and applications. Optional fields can be left blank and completed later from your profile.
       </DCallout>

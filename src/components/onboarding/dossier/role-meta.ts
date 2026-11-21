@@ -36,7 +36,7 @@ export const ROLE_META: Record<string, RoleMeta> = {
       employment: 'Employment & Income',
       guarantor: 'Guarantor & Report',
     },
-    stepWeights: { location: 1, contact: 1, identity: 2, tenantProfile: 3, employment: 2, guarantor: 2 },
+    stepWeights: { location: 1, identity: 2, tenantProfile: 4, employment: 2, guarantor: 2 },
   },
   landlord: {
     label: 'Landlord',

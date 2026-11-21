@@ -68,7 +68,7 @@ export function DossierShell({
   return (
     <div className={isModal ? 'dossier-theme' : 'dossier-theme min-h-screen'}>
       {/* ── Brand bar ─────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 border-b border-[var(--outline-variant)]/40 bg-[#fbf8fc]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-[var(--outline-variant)]/40 bg-[var(--bg)]/90 backdrop-blur-md">
         <div
           className={cn(
             'mx-auto flex w-full max-w-[1240px] items-center justify-between gap-4 px-5 md:px-8',

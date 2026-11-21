@@ -50,7 +50,7 @@ export default function ContactUsPage() {
 
   if (submitted) {
     return (
-      <div className="bg-background min-h-screen pt-16 flex items-center justify-center p-4">
+      <div className="public-page bg-background min-h-screen pt-16 flex items-center justify-center p-4">
         <div className="glass-card max-w-md w-full p-8 text-center">
           <div className="mx-auto w-12 h-12 rounded-full bg-primary/15 border border-primary/20 flex items-center justify-center text-[#4edea3]">
             <Send className="h-6 w-6" />
@@ -73,7 +73,7 @@ export default function ContactUsPage() {
   }
 
   return (
-    <div className="bg-background min-h-screen pt-16">
+    <div className="public-page bg-background min-h-screen pt-16">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />

@@ -55,7 +55,7 @@ const layers = [
 
 export default function VerificationPage() {
   return (
-    <div className="bg-background min-h-screen pt-16">
+    <div className="public-page bg-background min-h-screen pt-16">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />

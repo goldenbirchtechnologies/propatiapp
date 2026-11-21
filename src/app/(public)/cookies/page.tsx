@@ -12,7 +12,7 @@ const lastUpdated = '10 October 2026';
 
 export default function CookiesPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="public-page legal-page min-h-screen bg-background">
       {/* Legal Header */}
       <section className="relative overflow-hidden bg-primary text-primary-foreground">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary to-primary/70" />

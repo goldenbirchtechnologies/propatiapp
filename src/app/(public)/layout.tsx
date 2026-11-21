@@ -7,7 +7,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     // light :root block and the hardcoded dark heroes render near-black-on-black.
     <div className="app-layout theme-landing flex min-h-screen flex-col bg-background text-foreground">
       <StitchHeader />
-      <main className="flex-1 bg-background pt-20">{children}</main>
+      <main id="main-content" className="flex-1 bg-background pt-20">{children}</main>
       <StitchFooter />
     </div>
   );

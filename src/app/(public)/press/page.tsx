@@ -1,9 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui/section-label';
-import { Download, Mail, ExternalLink, Image as ImageIcon } from 'lucide-react';
+import { Download, Mail, Image as ImageIcon } from 'lucide-react';
 
 const coverage = [
   { outlet: 'TechCabal', title: 'PropatiBox launches verified property marketplace for Lagos', date: 'Jan 2026' },
@@ -13,7 +12,7 @@ const coverage = [
 
 export default function PressPage() {
   return (
-    <div className="bg-background min-h-screen pt-16">
+    <div className="public-page bg-background min-h-screen pt-16">
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-[#002113] via-black to-black" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 108, 73,0.12),transparent_60%)]" />
@@ -83,9 +82,7 @@ export default function PressPage() {
                   <div key={c.title} className="rounded-lg border border-border bg-card p-4">
                     <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{c.outlet} · {c.date}</p>
                     <p className="mt-1.5 text-sm font-medium text-foreground leading-relaxed">{c.title}</p>
-                    <a href="#" className="mt-2 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-foreground">
-                      Read <ExternalLink className="h-3 w-3" />
-                    </a>
+                    <p className="mt-2 text-xs text-zinc-500">Link to coverage will be added when the release is published.</p>
                   </div>
                 ))}
               </div>

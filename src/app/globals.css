@@ -1283,3 +1283,120 @@ a:hover {
 @media (prefers-reduced-motion: reduce) {
   .dossier-pulse { animation: none; }
 }
+
+/* Public product pages: a shared editorial layer for marketing and legal routes.
+   It keeps the existing dark/emerald identity while giving every page one clear
+   container, a stronger reading measure, and a quieter surface hierarchy. */
+.public-page {
+  --public-max: 1240px;
+  --public-ink: #f4f7f5;
+  --public-muted: #a5b0aa;
+  --public-line: rgba(255, 255, 255, 0.1);
+  --public-surface: rgba(255, 255, 255, 0.035);
+  color: var(--public-ink);
+}
+
+.public-shell {
+  width: min(calc(100% - 2rem), var(--public-max));
+  margin-inline: auto;
+}
+
+.public-page > section:first-child {
+  isolation: isolate;
+}
+
+.public-page > section:first-child::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(78, 222, 163, 0.45), transparent);
+  pointer-events: none;
+}
+
+.public-hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--public-line);
+  background:
+    radial-gradient(circle at 82% 24%, rgba(16, 185, 129, 0.16), transparent 30%),
+    radial-gradient(circle at 8% 80%, rgba(21, 101, 192, 0.12), transparent 28%),
+    #07110d;
+}
+
+.public-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+  background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+  pointer-events: none;
+}
+
+.public-hero-inner {
+  position: relative;
+  padding-block: clamp(4.25rem, 8vw, 7rem) clamp(3.5rem, 7vw, 6rem);
+}
+
+.public-hero-copy { max-width: 760px; }
+.public-hero h1 {
+  max-width: 12ch;
+  margin-top: 1rem;
+  font-size: clamp(2.45rem, 6vw, 5.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.public-eyebrow {
+  color: #82f5c1;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.public-hero-description {
+  max-width: 58ch;
+  margin-top: 1.35rem;
+  color: var(--public-muted);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.public-hero-meta { margin-top: 1.2rem; color: var(--public-muted); font-size: 0.9rem; }
+.public-hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.public-back-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--public-muted); font-size: 0.85rem; }
+.public-back-link:hover { color: #82f5c1; }
+
+.public-page .glass-card {
+  border-color: var(--public-line);
+  background: var(--public-surface);
+  border-radius: 1.1rem;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+  transition: border-color 180ms ease, transform 180ms ease, background-color 180ms ease;
+}
+.public-page .glass-card:hover { border-color: rgba(130, 245, 193, 0.28); }
+.public-page section:not(:first-child) { scroll-margin-top: 6rem; }
+.public-section-heading { max-width: 680px; margin-bottom: 2rem; }
+.public-section-heading h2 { margin-top: 0.55rem; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.035em; }
+.public-section-heading p:last-child { margin-top: 0.7rem; max-width: 62ch; color: var(--public-muted); line-height: 1.7; }
+
+.legal-page .prose,
+.legal-page .space-y-8 { max-width: 760px; }
+.legal-page .prose h2,
+.legal-page .space-y-8 h2 { scroll-margin-top: 7rem; padding-top: 1.4rem; border-top: 1px solid var(--public-line); font-size: 1.35rem; letter-spacing: -0.02em; }
+.legal-page .prose p,
+.legal-page .space-y-8 p,
+.legal-page .space-y-8 li { color: var(--public-muted); font-size: 0.98rem; line-height: 1.85; }
+.legal-page .prose a { color: #82f5c1; }
+
+@media (max-width: 640px) {
+  .public-shell { width: min(calc(100% - 1.5rem), var(--public-max)); }
+  .public-hero-inner { padding-block: 3.5rem 3.25rem; }
+  .public-hero h1 { max-width: 11ch; font-size: clamp(2.35rem, 13vw, 3.8rem); }
+  .public-hero-description { font-size: 0.98rem; }
+}

@@ -22,6 +22,9 @@
   --sovereign-container-bg: #ecfdf5;
   --sovereign-ring: rgba(0, 108, 73, 0.4);
   --sovereign-ring-soft: rgba(0, 108, 73, 0.15);
+  /* Shared focus treatment for native and custom form controls. */
+  --control-focus-border: var(--sovereign);
+  --control-focus-ring: var(--sovereign-ring-soft);
 
   /* Sovereign surface system */
   --surface: #fbf8fc;
@@ -1026,11 +1029,40 @@ a:hover {
   border-color: var(--border-subtle);
 }
 
-/* Standardized focus ring (single source) — uses the shadcn --ring token so every
-   focusable element gets one consistent indicator and components are not overridden. */
+/* Standardized focus treatment (single source) — keeps native controls and custom
+   dropdown/combobox triggers on the Propati brand color without per-component CSS. */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--ring);
+  outline: 2px solid var(--control-focus-border);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 1px var(--control-focus-ring);
+}
+
+:where(
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']):not([type='hidden']),
+  select,
+  textarea,
+  [role='combobox'],
+  [data-slot='select-trigger'],
+  [data-slot='combobox']
+):focus {
+  outline: none;
+  border-color: var(--control-focus-border);
+  box-shadow: 0 0 0 1px var(--control-focus-border), 0 0 0 4px var(--control-focus-ring);
+}
+
+:where(
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']):not([type='hidden']),
+  select,
+  textarea,
+  [role='combobox'],
+  [data-slot='select-trigger'],
+  [data-slot='combobox']
+):focus-visible {
+  outline: 2px solid var(--control-focus-border);
+  outline-offset: 1px;
+  border-color: var(--control-focus-border);
+  box-shadow: 0 0 0 1px var(--control-focus-border), 0 0 0 4px var(--control-focus-ring);
 }
 
 /* Radio/checkbox accent alignment */

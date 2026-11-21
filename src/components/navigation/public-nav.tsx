@@ -24,7 +24,7 @@ export default function PublicNav() {
 
   const { userId, isLoaded } = useAuth();
   const { user } = useUser();
-  const { theme, toggleTheme } = useTheme();
+  const { resolvedTheme, toggleTheme } = useTheme();
 
   const isHome = pathname === '/';
 
@@ -93,12 +93,12 @@ export default function PublicNav() {
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={toggleTheme}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
               className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
               type="button"
             >
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
             <Link

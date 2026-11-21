@@ -51,7 +51,7 @@ export function StitchHeader() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { resolvedTheme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -105,12 +105,12 @@ export function StitchHeader() {
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={toggleTheme}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
               className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-xl border border-outline-variant bg-background text-foreground hover:text-primary hover:bg-surface-container transition-colors"
               type="button"
             >
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             <Link
               href="/sign-up?role=landlord"
@@ -195,8 +195,8 @@ export function StitchHeader() {
                     type="button"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant text-xs font-semibold text-foreground hover:text-primary"
                   >
-                    {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-                    <span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
+                    {resolvedTheme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+                    <span>{resolvedTheme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
                   </button>
                 </div>
 

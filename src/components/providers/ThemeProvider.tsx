@@ -106,13 +106,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setThemeState((prev) => {
-      const next: Theme = prev === 'dark' ? 'light' : 'dark';
-      setResolved(next);
-      applyTheme(next);
-      return next;
-    });
-  }, []);
+    const next: Theme = resolved === 'dark' ? 'light' : 'dark';
+    setThemeState(next);
+    setResolved(next);
+    applyTheme(next);
+  }, [resolved]);
 
   return (
     <ThemeContext.Provider value={{ theme, resolvedTheme: resolved, toggleTheme, setTheme }}>

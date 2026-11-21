@@ -62,7 +62,7 @@ export default function TenantRailShell({
   quickAction,
   hideGlobalSearch = false,
 }: TenantRailShellProps) {
-  const { theme, toggleTheme } = useTheme();
+  const { resolvedTheme, toggleTheme } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
   const isTenant = userRole === 'tenant';
@@ -225,10 +225,10 @@ export default function TenantRailShell({
             <button
               onClick={toggleTheme}
               className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
             >
-              {theme === 'dark' ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
+              {resolvedTheme === 'dark' ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
             </button>
             <HeaderOverlayProvider>
               <NotificationsBell position="right" userRole={userRole} />

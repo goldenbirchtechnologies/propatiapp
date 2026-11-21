@@ -1386,9 +1386,68 @@ a:hover {
    shell intentionally keeps light root tokens for shared navigation and footer,
    so scope the calculator cards explicitly to avoid white text on pale cards. */
 .mortgage-calculator-page .glass-card {
-  background: #09090b;
-  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--card, var(--surface));
+  border-color: var(--border);
 }
+
+/* The calculator contains a few legacy dark utility classes. Re-map them only
+   in light mode so the global theme switch remains authoritative. */
+html:not(.dark) .mortgage-calculator-page {
+  background: var(--background) !important;
+  color: var(--foreground);
+}
+html:not(.dark) .mortgage-calculator-page .text-white { color: var(--foreground) !important; }
+html:not(.dark) .mortgage-calculator-page .text-zinc-400,
+html:not(.dark) .mortgage-calculator-page .text-zinc-500,
+html:not(.dark) .mortgage-calculator-page .text-zinc-600 { color: var(--muted-foreground) !important; }
+html:not(.dark) .mortgage-calculator-page .border-white\/\[0\.08\],
+html:not(.dark) .mortgage-calculator-page .border-white\/\[0\.1\],
+html:not(.dark) .mortgage-calculator-page .border-white\/15 { border-color: var(--border) !important; }
+html:not(.dark) .mortgage-calculator-page .bg-white\/\[0\.02\],
+html:not(.dark) .mortgage-calculator-page .bg-white\/\[0\.03\] { background: var(--muted) !important; }
+html:not(.dark) .mortgage-calculator-page > section:first-child > div:first-child {
+  background: linear-gradient(135deg, #ecfdf5, var(--background), var(--background)) !important;
+}
+html:not(.dark) .mortgage-calculator-page > section:first-child > div:nth-child(2) { background: none !important; }
+
+/* Light-mode compatibility for legacy screens that predate the token system.
+   These exact utility classes are the main reason a theme toggle can appear to
+   work in the shell while a page stays dark. Token-based classes are untouched. */
+html:not(.dark) .bg-black { background-color: var(--background) !important; }
+html:not(.dark) .bg-zinc-950,
+html:not(.dark) .bg-zinc-900 { background-color: var(--card) !important; }
+html:not(.dark) .bg-zinc-800,
+html:not(.dark) .bg-zinc-700 { background-color: var(--muted) !important; }
+html:not(.dark) [class*="bg-[#09090b]"],
+html:not(.dark) [class*="bg-[#0a0a0a]"],
+html:not(.dark) [class*="bg-[#0d1117]"],
+html:not(.dark) [class*="bg-[#101513]"],
+html:not(.dark) [class*="bg-[#121214]"],
+html:not(.dark) [class*="bg-[#171717]"],
+html:not(.dark) [class*="bg-[#171E1B]"],
+html:not(.dark) [class*="bg-[#18181b]"],
+html:not(.dark) [class*="bg-[#0A0F18]"] { background-color: var(--card) !important; }
+html:not(.dark) [class*="bg-[#27272a]"] { background-color: var(--muted) !important; }
+html:not(.dark) [class*="from-[#002113]"],
+html:not(.dark) [class*="from-[#0a0a0a]"],
+html:not(.dark) [class*="from-[#09090b]"],
+html:not(.dark) [class*="via-black"],
+html:not(.dark) [class*="to-black"] { background-image: none !important; background-color: var(--background) !important; }
+html:not(.dark) .text-white { color: var(--foreground) !important; }
+html:not(.dark) .text-zinc-100,
+html:not(.dark) .text-zinc-200,
+html:not(.dark) .text-zinc-300 { color: var(--foreground) !important; }
+html:not(.dark) .text-zinc-400,
+html:not(.dark) .text-zinc-500,
+html:not(.dark) .text-zinc-600 { color: var(--muted-foreground) !important; }
+html:not(.dark) .border-white\/\[0\.06\],
+html:not(.dark) .border-white\/\[0\.07\],
+html:not(.dark) .border-white\/\[0\.08\],
+html:not(.dark) .border-white\/\[0\.1\],
+html:not(.dark) .border-white\/\[0\.12\],
+html:not(.dark) .border-white\/15,
+html:not(.dark) .border-zinc-800,
+html:not(.dark) .border-zinc-700 { border-color: var(--border) !important; }
 .public-section-heading { max-width: 680px; margin-bottom: 2rem; }
 .public-section-heading h2 { margin-top: 0.55rem; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.035em; }
 .public-section-heading p:last-child { margin-top: 0.7rem; max-width: 62ch; color: var(--public-muted); line-height: 1.7; }

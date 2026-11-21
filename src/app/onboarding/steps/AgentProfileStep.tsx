@@ -11,6 +11,7 @@ import {
 } from '@/components/onboarding/dossier/primitives';
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
 import type { StepProps } from './types';
+import ContactStep from './ContactStep';
 
 export default function AgentProfileStep({ facts, onSaved }: StepProps) {
   const [legalName, setLegalName] = useState(facts.fullName ?? '');
@@ -52,7 +53,10 @@ export default function AgentProfileStep({ facts, onSaved }: StepProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
+      <ContactStep facts={facts} onSaved={onSaved} />
+      <div className="my-6 h-px w-full bg-[var(--surface-container-high)]" />
+      <form onSubmit={handleSubmit}>
       <DCallout icon={<IdCard className="h-4 w-4" />} title="Brokerage register" className="mb-5">
         The name on this section is matched against your board registration in the next step, so use
         the legal name exactly as it appears on your licence.
@@ -151,6 +155,7 @@ export default function AgentProfileStep({ facts, onSaved }: StepProps) {
       </DGrid>
 
       <StepActions saving={saving} error={error} saved={saved} label="Save professional profile" />
-    </form>
+      </form>
+    </div>
   );
 }

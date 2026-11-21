@@ -12,6 +12,7 @@ import {
 } from '@/components/onboarding/dossier/primitives';
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
 import type { StepProps } from './types';
+import ContactStep from './ContactStep';
 
 /**
  * The operator entity: CAC registration for a corporate firm, and the NIESV /
@@ -55,7 +56,10 @@ export default function EstateProfileStep({ facts, onSaved }: StepProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
+      <ContactStep facts={facts} onSaved={onSaved} />
+      <div className="my-6 h-px w-full bg-[var(--surface-container-high)]" />
+      <form onSubmit={handleSubmit}>
       <DCallout icon={<Landmark className="h-4 w-4" />} title="Professional standing" className="mb-5">
         Estate management is a regulated profession. The firm entity and the individual surveyor
         credential are both recorded, because the mandate is signed by the firm and executed by the
@@ -161,6 +165,7 @@ export default function EstateProfileStep({ facts, onSaved }: StepProps) {
       </div>
 
       <StepActions saving={saving} error={error} saved={saved} label="Save operator profile" />
-    </form>
+      </form>
+    </div>
   );
 }

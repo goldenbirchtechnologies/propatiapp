@@ -30,7 +30,6 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'tenant',
     stepLabels: {
       location: 'Jurisdiction & Location',
-      contact: 'Contact information',
       identity: 'Prembly Identity',
       tenantProfile: 'Personal & rental profile',
       employment: 'Employment & Income',
@@ -46,13 +45,12 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'landlord',
     stepLabels: {
       location: 'Jurisdiction & Location',
-      contact: 'Contact information',
       identity: 'Prembly KYC (NIN / Business Registration)',
       landlordProfile: 'Owner Profile',
       landlordPortfolio: 'Portfolio & services',
       landlordSettlement: 'Payout & Caution Deposit',
     },
-    stepWeights: { location: 1, contact: 1, identity: 2, landlordProfile: 3, landlordPortfolio: 2, landlordSettlement: 2 },
+    stepWeights: { location: 1, identity: 2, landlordProfile: 4, landlordPortfolio: 2, landlordSettlement: 2 },
   },
   agent: {
     label: 'Agent',
@@ -62,7 +60,6 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'agent',
     stepLabels: {
       location: 'Jurisdiction',
-      contact: 'Contact information',
       identity: 'Prembly KYC',
       agentProfile: 'Accreditation',
       agentLicense: 'Broker License',
@@ -70,7 +67,7 @@ export const ROLE_META: Record<string, RoleMeta> = {
       agentServices: 'Services',
       agentSettlement: 'Payout',
     },
-    stepWeights: { location: 1, contact: 1, identity: 2, agentProfile: 2, agentLicense: 2, agentTerritory: 1, agentServices: 2, agentSettlement: 2 },
+    stepWeights: { location: 1, identity: 2, agentProfile: 3, agentLicense: 2, agentTerritory: 1, agentServices: 2, agentSettlement: 2 },
   },
   estate_manager: {
     label: 'Estate Manager',
@@ -80,14 +77,13 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'estate',
     stepLabels: {
       location: 'Jurisdiction & Firm',
-      contact: 'Contact information',
       identity: 'Business Registration & Identity',
       estateProfile: 'Professional Reg',
       estateAuthority: 'Authority & POA',
       estateCapabilities: 'Management capabilities',
       estateRemittance: 'Secure Payment & Trust',
     },
-    stepWeights: { location: 1, contact: 1, identity: 2, estateProfile: 2, estateAuthority: 2, estateCapabilities: 2, estateRemittance: 2 },
+    stepWeights: { location: 1, identity: 2, estateProfile: 3, estateAuthority: 2, estateCapabilities: 2, estateRemittance: 2 },
   },
 };
 

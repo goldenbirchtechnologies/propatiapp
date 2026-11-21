@@ -34,9 +34,9 @@ export interface StepDefinition {
  */
 export const ROLE_STEPS: Record<UserRole, StepId[]> = {
   tenant: ['location', 'identity', 'tenantProfile', 'employment', 'guarantor'],
-  landlord: ['location', 'contact', 'identity', 'landlordProfile', 'landlordPortfolio', 'landlordSettlement'],
-  agent: ['location', 'contact', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentServices', 'agentSettlement'],
-  estate_manager: ['location', 'contact', 'identity', 'estateProfile', 'estateAuthority', 'estateCapabilities', 'estateRemittance'],
+  landlord: ['location', 'identity', 'landlordProfile', 'landlordPortfolio', 'landlordSettlement'],
+  agent: ['location', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentServices', 'agentSettlement'],
+  estate_manager: ['location', 'identity', 'estateProfile', 'estateAuthority', 'estateCapabilities', 'estateRemittance'],
   admin: [],
 };
 

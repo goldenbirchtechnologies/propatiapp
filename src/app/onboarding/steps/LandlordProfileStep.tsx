@@ -13,6 +13,7 @@ import {
 } from '@/components/onboarding/dossier/primitives';
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
 import type { StepProps } from './types';
+import ContactStep from './ContactStep';
 
 const ENTITY_TYPES = [
   { value: 'individual', label: 'Individual' },
@@ -67,7 +68,10 @@ export default function LandlordProfileStep({ facts, onSaved }: StepProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
+      <ContactStep facts={facts} onSaved={onSaved} />
+      <div className="my-6 h-px w-full bg-[var(--surface-container-high)]" />
+      <form onSubmit={handleSubmit}>
       <DCallout icon={<Building2 className="h-4 w-4" />} title="Asset register" className="mb-5">
         Whatever entity holds the title is the entity that receives rent. A company must supply its
         business registration; joint owners are all named on the tenancy agreement.
@@ -189,6 +193,7 @@ export default function LandlordProfileStep({ facts, onSaved }: StepProps) {
       </DGrid>
 
       <StepActions saving={saving} error={error} saved={saved} label="Save owner profile" />
-    </form>
+      </form>
+    </div>
   );
 }

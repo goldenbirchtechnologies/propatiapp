@@ -184,7 +184,7 @@ function SidebarBody({
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-3" aria-label="Landlord navigation">
+      <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-3" aria-label="Landlord navigation">
         <div className="space-y-0.5">
           {entries.map((entry) => {
             if (entry.kind === 'item') {
@@ -310,7 +310,7 @@ export function LandlordSidebar({
   return (
     <aside
       className={cn(
-        'sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-in-out',
+        'sticky top-0 flex h-screen min-h-0 w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-in-out',
         collapsed && 'w-[68px]',
         className
       )}

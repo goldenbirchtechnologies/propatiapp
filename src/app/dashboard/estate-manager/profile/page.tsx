@@ -344,7 +344,7 @@ export default function EstateManagerProfilePage() {
             My Profile
           </h1>
           <p className="mt-1 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
-            Manage your personal profile, firm credentials, verification compliance, and operational notifications.
+            Manage your profile, business details, verification, and notifications.
           </p>
         </div>
 

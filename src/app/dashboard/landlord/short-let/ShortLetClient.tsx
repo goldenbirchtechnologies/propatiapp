@@ -325,7 +325,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
             </button>
           </div>
           <button
-            onClick={() => showToast('Date block / maintenance management — coming soon')}
+            onClick={() => showToast('Date blocking and maintenance management are not available yet')}
             className="inline-flex items-center gap-1.5 h-10 px-4 rounded-xl bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-white/[0.08] transition-colors"
           >
             <Ban className="w-4 h-4" /> Block Dates

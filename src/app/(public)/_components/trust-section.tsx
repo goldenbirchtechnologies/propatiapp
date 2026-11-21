@@ -4,27 +4,27 @@ import { CheckCircle, Shield, FileCheck, Fingerprint } from 'lucide-react';
 const features = [
   {
     icon: CheckCircle,
-    title: 'CAC Registered Entity',
+      title: 'Registered businesses',
     description:
-      "Direct API sync with Nigeria's Corporate Affairs Commission ensures all institutional lessors hold legitimate registration.",
+      "Business details can be checked where they are available. Review the information before you proceed.",
   },
   {
     icon: Shield,
-    title: 'Paystack Encrypted Escrow',
+      title: 'Secure payments',
     description:
-      'ISO 27001 certified and PCI-DSS Level 1 compliance safeguarding all lease disbursements and security deposits.',
+      'Payments use the supported payment provider and are recorded in your account.',
   },
   {
     icon: FileCheck,
-    title: 'Title Vetting Guarantee',
+      title: 'Property documents',
     description:
-      "Every property deed, Certificate of Occupancy, and Governor's Consent is independently audited by certified legal practitioners.",
+      'Look for the documents and verification details attached to each listing. Ask questions before making a commitment.',
   },
   {
     icon: Fingerprint,
-    title: 'Biometric Tenant Screening',
+      title: 'Identity checks',
     description:
-      'Bank Verification Number (BVN) cross-referencing and national identity checks to curb impersonation and subletting scams.',
+      'Some applications may require identity or reference checks to help keep the marketplace safe.',
   },
 ];
 
@@ -37,12 +37,12 @@ export default function TrustSection() {
 
           <div className="flex flex-col gap-10 relative z-10">
             <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
-              <span className="text-xs font-semibold tracking-widest uppercase text-emerald-400">Trust Architecture</span>
+              <span className="text-xs font-semibold tracking-widest uppercase text-emerald-400">Built for trust</span>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
-                Bank-Grade Verification &amp; Security
+                Clear information and safer transactions
               </h2>
               <p className="text-xs sm:text-sm text-gray-400">
-                Built on zero-trust engineering principles to safeguard title ownership, lease contracts, and capital flows.
+                We show the information you need to review a property, complete an agreement, and keep track of payments.
               </p>
             </div>
 

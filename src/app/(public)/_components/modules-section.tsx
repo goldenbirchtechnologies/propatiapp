@@ -5,52 +5,52 @@ import { Building2, Gavel, Hotel, Network } from 'lucide-react';
 const modules = [
   {
     icon: Building2,
-    title: 'Property Management OS',
+    title: 'Property management',
     description:
-      'Centralize portfolio operations with automated Naira accounting, facility SLAs, and end-to-end service charge apportionments.',
+      'Keep properties, tenants, payments, and maintenance tasks together in one workspace.',
     features: [
-      'Multi-tenant accounting & automated Naira (₦) ledger',
-      'Automated official digital receipting & VAT tracking',
-      'Intelligent maintenance ticket routing & vendor escrow',
+      'Rent and payment records',
+      'Receipts and statements',
+      'Maintenance requests and updates',
     ],
     link: 'Explore OS',
   href: '/dashboard/landlord',
   },
   {
     icon: Gavel,
-    title: 'Automated Lease Engine',
+    title: 'Rental agreements',
     description:
-      'Eliminate legal bottlenecks with compliant, digitally validated residential and commercial agreements tailored to Nigerian tenancy laws.',
+      'Create and manage residential and commercial agreements with the information relevant to your tenancy.',
     features: [
-      'Legally binding Nigerian tenancy templates & schedules',
-      'Tamper-proof digital signatures & CAC verification checks',
-      'Automated annual rent escalation & expiry alerts',
+      'Agreement templates and schedules',
+      'Digital signing',
+      'Rent dates and renewal reminders',
     ],
     link: 'View Lease Tools',
   href: '/agreements',
   },
   {
     icon: Hotel,
-    title: 'Shortlet Sync',
+    title: 'Shortlets',
     description:
-      'Unified availability, instant multi-channel rate parity, and automatic gate security dispatch for premium serviced apartments.',
+      'Manage short-stay listings, availability, and booking requests.',
     features: [
-      'Multi-channel two-way sync with Airbnb and Booking.com',
-      'Automated guest identity KYC & digital gate passes',
-      'Integrated dynamic pricing & electricity token reload',
+      'Availability and booking requests',
+      'Guest details',
+      'Pricing and stay information',
     ],
     link: 'Discover Shortlet Sync',
   href: '/listings?listingType=short_let',
   },
   {
     icon: Network,
-    title: 'Agent & Broker Syndication',
+    title: 'Agents and brokers',
     description:
-      'Equip verified agency networks with direct developer mandates, shared inventory feeds, and contract-secured commission disbursements.',
+      'Help agents share listings, manage clients, and keep track of deals and commissions.',
     features: [
-      'Direct MLS syndication with verified title authenticity',
-      'Automated commission escrow splitting via Paystack',
-      'NIESV & REDAN accredited broker credential badges',
+      'Listings and client enquiries',
+      'Deal and commission records',
+      'Profile and verification details',
     ],
     link: 'Join Syndication',
   href: '/find-agent',
@@ -62,12 +62,12 @@ export default function ModulesSection() {
     <section className="w-full py-20 lg:py-24 bg-[#101513]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12">
         <div className="flex flex-col gap-3 max-w-2xl">
-          <span className="text-xs font-semibold tracking-widest uppercase text-emerald-400">Enterprise Infrastructure</span>
+          <span className="text-xs font-semibold tracking-widest uppercase text-emerald-400">Tools for property work</span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
-            Specialized Ecosystem Modules
+            Everything you need in one place
           </h2>
           <p className="text-sm sm:text-base text-gray-400">
-            Purpose-built infrastructure for institutional landlords, property managers, and independent brokers operating across complex African markets.
+            Simple tools for people who are looking for, renting, or managing property.
           </p>
         </div>
 

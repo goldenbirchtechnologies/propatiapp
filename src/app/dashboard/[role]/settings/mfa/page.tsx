@@ -65,7 +65,7 @@ export default function MFASettingsPage() {
 
   const startTOTPEnrollment = async () => {
     // MFA endpoints are not available yet — keep UI, surface toast instead of hardcoding codes
-    toast.info('MFA setup coming soon');
+    toast.info('Two-step verification setup is not available yet');
   };
 
   const verifyTOTP = async () => {

@@ -93,7 +93,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
       <div className="flex flex-col gap-1">
         <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 04 / Spatial Capacity & Footprint</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Capacity Matrix & Lagos GIS Coordinates</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Input floor dimension ratios, parking allocations, and cadastral spatial metrics.</p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Add the size, rooms, parking, and other basic property details.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Stepper label="Guests" value={guests} setValue={setGuests} min={1} max={50} icon={<Users className="size-5" />} />

@@ -135,7 +135,7 @@ export default function ScenarioBuilderClient({
 
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary dark:text-[#4edea3]">
-          <span className="h-2 w-2 rounded-full bg-primary animate-pulse" /> Ledger Node: Lagos Sovereign Core (Active)
+          <span className="h-2 w-2 rounded-full bg-primary animate-pulse" /> Using your payment records
         </span>
         {baseAnnual > 0 && (
           <span className="text-xs text-zinc-500 dark:text-zinc-400">Base YTD {formatNairaFull(baseAnnual)} • live</span>

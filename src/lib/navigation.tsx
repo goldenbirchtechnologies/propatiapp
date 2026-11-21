@@ -31,15 +31,14 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
       { label: 'Dashboard', href: '/dashboard/landlord', icon: <Home className="h-5 w-5" /> },
     ],
   },
-  // 2. PROPERTY MANAGEMENT
+  // 2. PROPERTIES
   {
-    title: 'Property Management',
+    title: 'Properties',
     items: [
       { label: 'Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
       { label: 'Add Property', href: '/dashboard/landlord/properties/new', icon: <Plus className="h-5 w-5" /> },
-      { label: 'All Listings', href: '/dashboard/landlord/properties', icon: <Store className="h-5 w-5" /> },
-      { label: 'Create Listing', href: '/dashboard/landlord/listing/new', icon: <ClipboardList className="h-5 w-5" /> },
-      { label: 'List', href: '/dashboard/landlord/listing/new/wizard', icon: <ClipboardList className="h-5 w-5" /> },
+      { label: 'Listings', href: '/dashboard/landlord/properties', icon: <Store className="h-5 w-5" /> },
+      { label: 'Create listing', href: '/dashboard/landlord/listing/new', icon: <ClipboardList className="h-5 w-5" /> },
       { label: 'Vacancies', href: '/dashboard/landlord/vacancies', icon: <Eye className="h-5 w-5" /> },
       { label: 'Shortlet', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },
       { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
@@ -66,9 +65,9 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
       { label: 'Commercial Move-In', href: '/dashboard/landlord/commercial/move-in', icon: <KeyRound className="h-5 w-5" /> },
     ],
   },
-  // 5. PROPERTY OPERATIONS
+  // 5. PROPERTY TASKS
   {
-    title: 'Property Operations',
+    title: 'Property tasks',
     items: [
       { label: 'Maintenance', href: '/dashboard/landlord/maintenance', icon: <Wrench className="h-5 w-5" /> },
       { label: 'Turnover', href: '/dashboard/landlord/turnover', icon: <Zap className="h-5 w-5" /> },
@@ -339,27 +338,23 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Rent & Payments', href: '/dashboard/estate-manager/financials', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Billing', href: '/dashboard/estate-manager/billing', icon: <Receipt className="h-5 w-5" /> },
   { label: 'Receipts', href: '/dashboard/estate-manager/receipts', icon: <FileCheck2 className="h-5 w-5" /> },
-  { label: 'Managed Collections', href: '/dashboard/estate-manager/collections', icon: <Wallet className="h-5 w-5" /> },
-  { label: 'Utility Allocations', href: '/dashboard/estate-manager/utility-allocations', icon: <Zap className="h-5 w-5" /> },
+  { label: 'Collections', href: '/dashboard/estate-manager/collections', icon: <Wallet className="h-5 w-5" /> },
+  { label: 'Utility allocations', href: '/dashboard/estate-manager/utility-allocations', icon: <Zap className="h-5 w-5" /> },
   { label: 'Ledger', href: '/dashboard/estate-manager/ledger', icon: <BookOpen className="h-5 w-5" /> },
   { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart3 className="h-5 w-5" /> },
-  { label: 'Disbursements', href: '/dashboard/estate-manager/disbursements', icon: <Landmark className="h-5 w-5" /> },
-  { label: 'Utility Allocations', href: '/dashboard/estate-manager/utility-allocations', icon: <Zap className="h-5 w-5" /> },
-  { label: 'Ledger', href: '/dashboard/estate-manager/ledger', icon: <BookOpen className="h-5 w-5" /> },
-  { label: 'Financial Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart3 className="h-5 w-5" /> },
   { label: 'Portfolio', href: '/dashboard/estate-manager/portfolio', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Listings', href: '/dashboard/estate-manager/listings', icon: <Store className="h-5 w-5" /> },
   { label: 'Applications', href: '/dashboard/estate-manager/applications', icon: <ClipboardList className="h-5 w-5" /> },
   { label: 'Units', href: '/dashboard/estate-manager/units', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Tenants', href: '/dashboard/estate-manager/tenants', icon: <Users className="h-5 w-5" /> },
   { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Wrench className="h-5 w-5" /> },
-  { label: 'Move-in Coordination', href: '/dashboard/estate-manager/move-in', icon: <KeyRound className="h-5 w-5" /> },
+  { label: 'Move-in', href: '/dashboard/estate-manager/move-in', icon: <KeyRound className="h-5 w-5" /> },
   { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
   { label: 'Agreements', href: '/dashboard/estate-manager/agreements', icon: <FileText className="h-5 w-5" /> },
   { label: 'Commercial Leases', href: '/dashboard/estate-manager/commercial-leases', icon: <Store className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/estate-manager/messages', icon: <MessageSquare className="h-5 w-5" /> },
   { label: 'Invitations', href: '/dashboard/estate-manager/invite-property-manager', icon: <Mail className="h-5 w-5" /> },
-  { label: 'Verification Center', href: '/dashboard/estate-manager/verification', icon: <ShieldCheck className="h-5 w-5" /> },
+  { label: 'Verification', href: '/dashboard/estate-manager/verification', icon: <ShieldCheck className="h-5 w-5" /> },
   { label: 'Onboarding', href: '/dashboard/estate-manager/onboarding', icon: <BookOpen className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/estate-manager/profile', icon: <User className="h-5 w-5" /> },
 ];

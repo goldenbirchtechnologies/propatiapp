@@ -338,7 +338,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-8 text-center">
             <div className="text-sm text-zinc-600 dark:text-zinc-400">Drag &amp; drop unit photos here, or click to browse</div>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">PNG, JPG up to 10MB each</p>
-            <div className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">Drop files here (coming soon)</div>
+            <div className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">File upload is not available yet</div>
           </div>
         )}
 

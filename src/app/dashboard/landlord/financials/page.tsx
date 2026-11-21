@@ -377,7 +377,7 @@ export default function LandlordFinancialsPage() {
                     <span className="text-primary dark:text-[#4edea3]">Financials &amp; Payouts</span>
                   </div>
                   <h1 className="mt-1 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Financials Overview</h1>
-                  <p className="mt-1 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">Wallet, payouts, vacancy exposure and overdue recovery — all computed from live ledger data. No mock balances.</p>
+                  <p className="mt-1 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">Review your balance, payouts, vacancies, and overdue payments.</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white shadow-lg shadow-primary/20" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
@@ -386,7 +386,7 @@ export default function LandlordFinancialsPage() {
                   <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/[0.06]" onClick={() => setWithdrawModalOpen(true)} disabled={!wallet.bankAccount?.recipientCode}>
                     <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
                   </Button>
-                  <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/[0.06]" onClick={() => toastHook({ title: 'Record Payment — coming soon' })}>
+                  <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/[0.06]" onClick={() => toastHook({ title: 'Recording a payment is not available yet' })}>
                     <Plus className="w-3.5 h-3.5" /> Record Payment
                   </Button>
                 </div>
@@ -681,7 +681,7 @@ export default function LandlordFinancialsPage() {
                             <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
                               <FileText className="w-3.5 h-3.5" /> Create Invoice
                             </Button>
-                            <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400" onClick={() => toastHook({ title: 'Record Payment — coming soon' })}>
+                            <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400" onClick={() => toastHook({ title: 'Recording a payment is not available yet' })}>
                               <Plus className="w-3.5 h-3.5" /> Record Payment
                             </Button>
                           </div>

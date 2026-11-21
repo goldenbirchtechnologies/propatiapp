@@ -116,7 +116,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
       <div className="flex flex-col gap-1">
         <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 03 / Location</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Capacity Matrix & Lagos GIS Coordinates / Location</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Pin your property on the Lagos GIS cadastral map and capture coordinates.</p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Add the property address and map location.</p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-7 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden">

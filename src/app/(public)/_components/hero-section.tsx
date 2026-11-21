@@ -64,26 +64,26 @@ export default function HeroSection() {
             </h1>
 
             <p className="text-base sm:text-lg text-gray-400 max-w-2xl leading-relaxed">
-              Discover verified properties, manage rentals, automate leasing, and streamline institutional property operations across Nigeria with algorithmic verification.
+              Find properties, manage rentals, and complete the steps from application to move-in in one place.
             </p>
 
             {stats && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 mt-2 border-t border-white/10">
                 <div className="flex flex-col">
                   <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">&#8358;4.8B+</span>
-                  <span className="text-xs text-gray-400 mt-0.5">Transacted Volume</span>
+                      <span className="text-xs text-gray-400 mt-0.5">Properties listed</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">{stats.active.toLocaleString()}+</span>
-                  <span className="text-xs text-gray-400 mt-0.5">Verified Units</span>
+                  <span className="text-xs text-gray-400 mt-0.5">Available units</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-400">99.4%</span>
-                  <span className="text-xs text-gray-400 mt-0.5">On-time Collections</span>
+                  <span className="text-xs text-gray-400 mt-0.5">Payment records</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">6 Hubs</span>
-                  <span className="text-xs text-gray-400 mt-0.5">Pan-African Presence</span>
+                  <span className="text-xs text-gray-400 mt-0.5">Areas covered</span>
                 </div>
               </div>
             )}
@@ -118,7 +118,7 @@ export default function HeroSection() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-[11px] font-semibold tracking-wider text-gray-500 uppercase">Asset Class</label>
+                    <label className="text-[11px] font-semibold tracking-wider text-gray-500 uppercase">Property type</label>
                   <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-200 bg-gray-50">
                     <Building2 className="h-4 w-4 text-emerald-500 shrink-0" />
                     <select className="bg-transparent text-sm text-gray-800 focus:outline-none w-full appearance-none cursor-pointer">
@@ -131,7 +131,7 @@ export default function HeroSection() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-[11px] font-semibold tracking-wider text-gray-500 uppercase">Budget Range</label>
+                    <label className="text-[11px] font-semibold tracking-wider text-gray-500 uppercase">Budget</label>
                   <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-200 bg-gray-50">
                     <span className="text-sm font-bold text-emerald-600">&#8358;</span>
                     <select className="bg-transparent text-sm text-gray-800 focus:outline-none w-full appearance-none cursor-pointer">

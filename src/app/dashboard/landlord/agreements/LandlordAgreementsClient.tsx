@@ -128,7 +128,7 @@ export default function LandlordAgreementsClient() {
               </div>
               <h1 className="text-3xl font-bold tracking-tight">Agreements</h1>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-                View, execute, and monitor institutional lease covenants across portfolios.
+                View, sign, and manage rental agreements for your properties.
               </p>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -266,7 +266,7 @@ export default function LandlordAgreementsClient() {
                 </div>
                 <h3 className="text-sm font-semibold">No agreements yet.</h3>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm">
-                  No institutional lease agreements match this view. Draft or import a new agreement to start e-signature workflows.
+                  No rental agreements match this view. Create or add an agreement to get started.
                 </p>
                 <Link
                   href="/dashboard/landlord/agreements/new"

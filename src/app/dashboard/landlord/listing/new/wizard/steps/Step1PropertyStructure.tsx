@@ -32,7 +32,7 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
       <div className="flex flex-col gap-1">
         <span className="text-xs font-bold tracking-wider uppercase text-primary dark:text-[#4edea3]">Step 01 / Spatial Architecture</span>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Property Structure & Asset Classification</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Define title deed parameters, building typology, and target tenancy terms for institutional listing.</p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Choose the property structure and the type of tenancy you want to offer.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {OPTIONS.map((opt) => {

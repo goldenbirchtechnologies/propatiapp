@@ -150,14 +150,14 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
           <div className="p-5 bg-primary/10 border border-primary/20 rounded-xl space-y-3">
             <div className="flex items-center gap-2">
               <Shield className="size-5 text-primary" />
-              <span className="text-sm font-semibold text-zinc-900 dark:text-white">Institutional Landlord Attestation</span>
+              <span className="text-sm font-semibold text-zinc-900 dark:text-white">Safety declaration</span>
             </div>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              I, Chief Olawale Adeleke, certify under penalty of perjury that this asset possesses clean and unencumbered title, fulfills the Lagos Tenancy Act 2011 habitability covenants, and all stated amenities are in operational order.
+              Confirm that the safety information is accurate, that the property is safe to occupy, and that you have permission to provide these details.
             </p>
             <div className="p-3 bg-white dark:bg-zinc-900 rounded-lg flex items-center justify-between">
-              <span className="text-xs text-zinc-400">DIGITAL CAC HASH</span>
-              <span className="font-mono text-xs text-primary font-bold">SHA256: 9e01...b28a</span>
+              <span className="text-xs text-zinc-400">SUBMISSION STATUS</span>
+              <span className="font-mono text-xs text-primary font-bold">Ready for review</span>
             </div>
           </div>
         </div>

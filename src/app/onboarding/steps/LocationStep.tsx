@@ -143,7 +143,7 @@ export default function LocationStep({ facts, onSaved }: StepProps) {
             ))}
             {comingSoon.map((c) => (
               <option key={c.code} value={c.code} disabled>
-                {c.name} (coming soon)
+                {c.name} (not available yet)
               </option>
             ))}
           </DSelect>

@@ -70,7 +70,7 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
         <div className="max-w-3xl">
           <div className="flex items-center gap-2 mb-2">
             <span className="px-2.5 py-0.5 rounded text-white bg-primary text-xs tracking-widest uppercase font-bold">Marketplace Syndication</span>
-            <span className="text-zinc-500 dark:text-zinc-400 text-xs">Propati Node</span>
+            <span className="text-zinc-500 dark:text-zinc-400 text-xs">Publishing</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Publish Listing — {listing.title}</h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">Review listing specifications, leasable units, statutory terms, and media before activating live syndication.</p>
@@ -109,7 +109,7 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
                 </div>
                 <div>
                   <h2 className="text-base font-semibold text-zinc-900 dark:text-white">1. Core Listing Specifications</h2>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Public identity visible to institutional tenants</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">The name and details renters will see</p>
                 </div>
               </div>
               <span className="text-xs font-mono text-primary dark:text-[#4edea3] bg-[var(--sovereign-container-bg)] dark:bg-primary/10 px-2 py-0.5 rounded">REQUIRED</span>
@@ -207,7 +207,7 @@ export default function PublishClient({ listing }: { listing: ListingData }) {
               </div>
               <div>
                 <h2 className="text-base font-semibold text-zinc-900 dark:text-white">4. Visual Portfolio &amp; Verified Photography</h2>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400">Verified photography assets.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">Photos added to this property.</p>
               </div>
             </div>
             {listing.images.length === 0 ? (

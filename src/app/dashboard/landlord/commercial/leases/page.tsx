@@ -95,7 +95,7 @@ export default async function CommercialLeasesPage() {
                 </div>
               </div>
               <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-3xl">
-                Monitor institutional commercial tenancies, corporate escalations, service charge schedules, and statutory covenant compliance across Lagos commercial hubs.
+                Manage commercial tenancies, rent changes, service charges, and agreement dates.
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -205,9 +205,9 @@ export default async function CommercialLeasesPage() {
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400">
                 <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-primary" /> Synchronized
+                  <span className="w-2 h-2 rounded-full bg-primary" /> Current records
                 </span>
-                <span>UTC+1 Lagos Node</span>
+                <span>Nigeria time</span>
               </div>
             </div>
 

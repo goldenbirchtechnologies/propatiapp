@@ -109,7 +109,7 @@ export default function SignInPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4edea3] opacity-75" />
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
             </span>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-200">Over 25,000+ Happy Homeowners</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-200">A simpler way to manage property</span>
           </div>
 
           {/* Glassmorphic Card */}
@@ -124,7 +124,7 @@ export default function SignInPage() {
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">Find a place you&apos;ll love living in.</h2>
             <p className="text-zinc-300 text-base leading-relaxed mb-5">
-              Join over 25,000+ happy homeowners, institutional investors, and diaspora buyers securing verified, zero-omonile properties across Nigeria.
+              Sign in to search listings, manage your property, and keep your rental information together.
             </p>
             <div className="flex items-center justify-between border-t border-white/[0.1] pt-4">
               <div className="flex items-center gap-3">

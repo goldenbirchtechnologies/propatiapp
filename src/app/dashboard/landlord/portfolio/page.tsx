@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const metadata = {
   title: 'Portfolio – Landlord',
-  description: 'Overview of your owned properties and asset performance.',
+  description: 'Overview of your properties and their performance.',
 };
 
 export default async function LandlordPortfolioPage() {
@@ -31,7 +31,7 @@ export default async function LandlordPortfolioPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-on-surface dark:text-white">Portfolio Analytics</h1>
-          <p className="text-on-surface-variant dark:text-surface-variant dark:text-surface-variant mt-1">Overview of your owned properties and asset performance.</p>
+          <p className="text-on-surface-variant dark:text-surface-variant dark:text-surface-variant mt-1">Overview of your properties and their performance.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

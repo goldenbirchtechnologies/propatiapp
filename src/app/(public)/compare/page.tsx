@@ -52,52 +52,6 @@ function useCompareIds() {
   return { ids, key };
 }
 
-// Demo institutional showcase — shown when no ids selected
-const DEMO_SHOWCASE: CompareListing[] = [
-  {
-    id: 'demo-alton',
-    title: 'The Alton Residence',
-    address: 'Admiralty Way, Lekki Phase 1, Lagos',
-    area: 'Admiralty Way, Lekki Phase 1',
-    state: 'Lagos',
-    price: 14000000, pricePeriod: 'year',
-    serviceCharge: 2500000,
-    propertyType: 'Detached Duplex',
-    listingType: 'Serviced Residential · Ready Now',
-    bedrooms: 3, bathrooms: 3.5, sizeSqm: 240,
-    verificationTier: 'cuh-certified',
-    coverImage: null,
-  },
-  {
-    id: 'demo-parkview',
-    title: 'Parkview Executive Heights',
-    address: 'Gerrard Road, Ikoyi, Lagos',
-    area: 'Gerrard Road, Ikoyi',
-    state: 'Lagos',
-    price: 32000000, pricePeriod: 'year',
-    serviceCharge: 4800000,
-    propertyType: 'Penthouse',
-    listingType: 'Diamond Verified · Ready Now',
-    bedrooms: 4, bathrooms: 4.5, sizeSqm: 480,
-    verificationTier: 'Diamond Verified',
-    coverImage: null,
-  },
-  {
-    id: 'demo-maitama',
-    title: 'Maitama Diplomatic Villa',
-    address: 'Amazon Street, Maitama, Abuja FCT',
-    area: 'Amazon Street, Maitama',
-    state: 'FCT',
-    price: 45000000, pricePeriod: 'year',
-    serviceCharge: 6000000,
-    propertyType: 'Detached Villa',
-    listingType: 'Diplomatic Duplex · Immediate',
-    bedrooms: 5, bathrooms: 6, sizeSqm: 850,
-    verificationTier: 'Diamond Verified',
-    coverImage: null,
-  },
-];
-
 type FilterTab = 'all' | 'financials' | 'legal' | 'physical' | 'tenancy';
 const FILTER_TABS: { id: FilterTab; label: string }[] = [
   { id: 'all', label: 'All Dimensions' },
@@ -215,10 +169,10 @@ function ComparePageInner() {
     }
   }
 
-  const showcase: CompareListing[] = hasSelection ? listings : DEMO_SHOWCASE;
+  const showcase: CompareListing[] = listings;
   const showcaseCount = showcase.length;
   const noSelection = !hasSelection;
-  const noResults = hasSelection && !loading && !error && listings.length === 0;
+  const noResults = !loading && !error && (!hasSelection || listings.length === 0);
 
   // 18 structured comparison dimensions grouped into 6 clear sections
   const allRows: SpecRow[] = [
@@ -596,7 +550,7 @@ function ComparePageInner() {
             </div>
             {noSelection && (
               <span className="text-xs text-zinc-400">
-                Demo showcase — add live properties via <Link href="/listings" className="text-primary font-semibold hover:underline">Listings</Link>
+                Choose properties from <Link href="/listings" className="text-primary font-semibold hover:underline">Listings</Link> to compare them here.
               </span>
             )}
           </div>
@@ -621,8 +575,8 @@ function ComparePageInner() {
           ) : noResults ? (
             <EmptyState
               icon={Scale}
-              title="None of these listings could be found"
-              description="They may have been unlisted, or the link may be out of date."
+              title={noSelection ? 'Choose properties to compare' : 'None of these listings could be found'}
+              description={noSelection ? 'Select two or more listings to compare price, features, and verification details.' : 'They may have been unlisted, or the link may be out of date.'}
               action={<Button onClick={clearAll} className="h-11 px-5 rounded-xl font-bold">Start a new comparison <ArrowRight className="ml-2 h-4 w-4" /></Button>}
             />
           ) : (

@@ -1,17 +1,9 @@
 import React from 'react';
 
 const hubs = [
-  { city: 'Lagos State', areas: 'Ikoyi, Victoria Island, Lekki Phase 1, Ikeja GRA', units: '7,840+' },
-  { city: 'Abuja FCT', areas: 'Maitama, Guzape, Wuse 2, Asokoro', units: '4,320+' },
-  { city: 'Rivers State', areas: 'Port Harcourt GRA Phases 1-3, Peter Odili', units: '1,450+' },
-  { city: 'Oyo State', areas: 'Bodija, Oluyole, Jericho, Ibadan Central', units: '610+' },
-];
-
-const expansions = [
-  { country: 'GH', city: 'Accra, Ghana', areas: 'Airport Residential, Cantonments, East Legon', phase: 'Q3 Expansion' },
-  { country: 'KE', city: 'Nairobi, Kenya', areas: 'Westlands, Kilimani, Karen, Upper Hill', phase: 'Q4 Expansion' },
-  { country: 'RW', city: 'Kigali, Rwanda', areas: 'Nyarutarama, Kimihurura, Kiyovu', phase: 'Pre-registration' },
-  { country: 'ZA', city: 'Johannesburg, South Africa', areas: 'Sandton, Rosebank, Melrose Arch', phase: 'Pre-registration' },
+  { city: 'Lagos State', areas: 'Search available listings across Lagos.' },
+  { city: 'Abuja FCT', areas: 'Search available listings across Abuja.' },
+  { city: 'Other areas', areas: 'More locations appear as properties are added.' },
 ];
 
 export default function LocationsSection() {
@@ -24,7 +16,7 @@ export default function LocationsSection() {
             Geographic Coverage &amp; Expansion
           </h2>
           <p className="text-sm text-gray-400">
-            Active operational clusters across high-yield Nigerian metros and our pan-African expansion pipeline.
+            Browse the areas where properties are currently listed. Availability changes as owners publish new listings.
           </p>
         </div>
 
@@ -33,9 +25,9 @@ export default function LocationsSection() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full animate-ping bg-emerald-400" />
-                <h3 className="text-lg font-bold text-white">Active Operational Hubs</h3>
+                <h3 className="text-lg font-bold text-white">Where to search</h3>
               </div>
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400">LIVE DESKS</span>
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400">LISTINGS</span>
             </div>
             <div className="space-y-3.5">
               {hubs.map((h) => (
@@ -47,7 +39,6 @@ export default function LocationsSection() {
                       <p className="text-xs text-gray-400">{h.areas}</p>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-emerald-400">{h.units} Units</span>
                 </div>
               ))}
             </div>
@@ -57,23 +48,16 @@ export default function LocationsSection() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <span className="text-gray-400">&#9671;</span>
-                <h3 className="text-lg font-bold text-white">Planned African Expansion</h3>
+                <h3 className="text-lg font-bold text-white">New listings</h3>
               </div>
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#101513] text-gray-400">ROADMAP</span>
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#101513] text-gray-400">UPDATED AS ADDED</span>
             </div>
             <div className="space-y-3.5">
-              {expansions.map((e) => (
-                <div key={e.city} className="flex items-center justify-between p-3.5 rounded-lg bg-[#101513]">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-bold text-gray-400">{e.country}</span>
-                    <div>
-                      <h4 className="text-sm font-semibold text-white">{e.city}</h4>
-                      <p className="text-xs text-gray-400">{e.areas}</p>
-                    </div>
-                  </div>
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded text-white bg-white/[0.08]">{e.phase}</span>
-                </div>
-              ))}
+              <div className="rounded-lg bg-[#101513] p-5">
+                <h4 className="text-sm font-semibold text-white">Check the marketplace for current availability</h4>
+                <p className="mt-2 text-xs leading-relaxed text-gray-400">Listings are added by property owners and agents. Use the search filters to find a suitable area, price, and property type.</p>
+                <a href="/listings" className="mt-4 inline-flex text-xs font-semibold text-emerald-400 hover:underline">Browse listings <span className="ml-1">→</span></a>
+              </div>
             </div>
           </div>
         </div>

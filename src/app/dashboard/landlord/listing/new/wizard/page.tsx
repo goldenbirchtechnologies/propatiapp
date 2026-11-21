@@ -8,7 +8,7 @@ import WizardShell from './WizardShell';
 export const metadata = {
   title: 'Institutional Listing Wizard – Landlord',
   description:
-    '14-step institutional listing wizard: property structure, privacy, location, capacity, rooms, rules, amenities, media, title, highlights, pricing, discounts, safety.',
+    'Add a property in 14 steps: structure, privacy, location, rooms, rules, amenities, photos, title, highlights, pricing, discounts, and safety.',
 };
 
 export default async function LandlordListingWizardPage() {

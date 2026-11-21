@@ -169,7 +169,7 @@ export default function MessagesPage() {
             <div>
               <h1 className="font-heading text-2xl font-bold text-zinc-900 dark:text-white">Messages & Comms Ledger</h1>
               <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                Encrypted operational communications with tenants, landlords, and field technicians.
+                Messages with tenants, landlords, and maintenance teams.
               </p>
             </div>
             <div className="flex items-center gap-2.5">

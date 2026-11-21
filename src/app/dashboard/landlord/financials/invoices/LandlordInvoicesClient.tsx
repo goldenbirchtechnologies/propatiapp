@@ -193,18 +193,18 @@ export default function LandlordInvoicesClient() {
           </nav>
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Institutional Invoices</h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Issue, track, and reconcile institutional lease billings, service charges, and escrow collections.
+            Create and track rent, service charge, and other property invoices.
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] text-xs text-zinc-600 dark:text-zinc-400">
             <Receipt className="w-4 h-4 text-primary" />
-            Escrow Node: Active
+            Payment account: Active
           </div>
           <Button variant="outline" size="sm" onClick={exportCsv}>
             <Download className="w-4 h-4 mr-1" /> Export CSV
           </Button>
-          <Button size="sm" className="bg-primary hover:bg-[var(--sovereign-hover)] text-white" onClick={() => toast({ title: 'Generate Invoice', description: 'Invoice builder coming soon — use POST /api/invoices' })}>
+          <Button size="sm" className="bg-primary hover:bg-[var(--sovereign-hover)] text-white" onClick={() => toast({ title: 'Invoice creation is not available yet', description: 'You can continue to view and manage existing invoices.' })}>
             <Plus className="w-4 h-4 mr-1" /> Generate Invoice
           </Button>
         </div>
@@ -285,7 +285,7 @@ export default function LandlordInvoicesClient() {
             </div>
             <div className="flex items-center gap-1 bg-zinc-50 dark:bg-white/[0.04] rounded-lg px-3 py-1.5 border border-zinc-200 dark:border-white/[0.08]">
               <Calendar className="w-4 h-4 text-zinc-400" />
-              <select className="bg-transparent text-sm text-zinc-900 dark:text-white focus:outline-none cursor-pointer" onChange={() => toast({ title: 'Date filter — coming soon' })}>
+              <select className="bg-transparent text-sm text-zinc-900 dark:text-white focus:outline-none cursor-pointer" onChange={() => toast({ title: 'Date filtering is not available yet' })}>
                 <option value="q4">Last 90 Days</option>
                 <option value="m30">Past 30 Days</option>
                 <option value="ytd">Year-to-date</option>
@@ -343,7 +343,7 @@ export default function LandlordInvoicesClient() {
               Direct Interbank &amp; NIBSS Auto-Reconciled
             </div>
             <div className="text-xs text-zinc-500 dark:text-zinc-400">
-              Showing <span className="font-bold text-zinc-900 dark:text-white">{filtered.length}</span> of {invoices.length} institutional records
+                  Showing <span className="font-bold text-zinc-900 dark:text-white">{filtered.length}</span> of {invoices.length} invoices
             </div>
           </div>
           <div className="overflow-x-auto">

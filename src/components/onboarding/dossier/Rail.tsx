@@ -36,7 +36,7 @@ export interface RailFacts {
 
 const ROLE_BLURB: Record<string, string> = {
   tenant: 'Verified prospective tenant',
-  landlord: 'Verified asset owner',
+  landlord: 'Property owner',
   agent: 'Accredited broker',
   estate_manager: 'Registered property firm',
 };
@@ -196,7 +196,7 @@ export function DossierRail({
       </DCard>
 
       <p className="flex items-center justify-center gap-1.5 px-2 text-center text-[11px] text-[var(--on-surface-variant)]">
-        <ShieldCheck className="h-3 w-3" /> Data Protection compliant intake
+        <ShieldCheck className="h-3 w-3" /> Your information is handled securely
       </p>
     </div>
   );

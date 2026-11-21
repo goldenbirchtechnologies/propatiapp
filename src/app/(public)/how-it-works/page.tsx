@@ -42,7 +42,7 @@ export default function HowItWorksPage() {
           <SectionLabel>How it works</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground tracking-tight">Renting reimagined — from search to keys</h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
-            A seamless, transparent process built for Nigeria. Three steps, one place — whether you rent, own, manage, or transact.
+            Three clear steps for finding, renting, or managing property in Nigeria.
           </p>
         </div>
       </section>

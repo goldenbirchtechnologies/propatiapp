@@ -301,7 +301,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           <p className="mt-1 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">Direct, audited messaging with property managers, landlords, and estate compliance legal officers.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <Button variant="outline" size="sm" className="h-9 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]" onClick={() => toast({ title: 'Audit export coming soon', description: 'Data Protection-compliant export will be available shortly.' })}>
+          <Button variant="outline" size="sm" className="h-9 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]" onClick={() => toast({ title: 'Message export is not available yet', description: 'You can still review and search your messages here.' })}>
             <FileDown className="mr-1.5 h-4 w-4" />
             Audit Export
           </Button>

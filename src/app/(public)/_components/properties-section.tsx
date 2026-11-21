@@ -17,63 +17,6 @@ function useFeaturedFromDb() {
   return data;
 }
 
-const featuredFallback = [
-  {
-    id: 'feat-1', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
-    alt: 'Lekki Phase 1 Waterfront Villa',
-    badges: [{ text: 'Verified Deed', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Admiralty Way, Lekki, Lagos',
-    title: 'Lekki Phase 1 Waterfront Villa',
-    specs: [{ icon: 'bed', label: '4 Beds' }, { icon: 'bath', label: '5 Baths' }, { icon: 'sqm', label: '420m²' }],
-    price: '₦140,000,000', period: '/ yr', action: 'Schedule Inspection',
-  },
-  {
-    id: 'feat-2', img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80',
-    alt: 'VI Executive Serviced Penthouse',
-    badges: [{ text: 'Verified Deed', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Ahmadu Bello Way, VI, Lagos',
-    title: 'VI Executive Serviced Penthouse',
-    specs: [{ icon: 'bed', label: '3 Beds' }, { icon: 'bath', label: '4 Baths' }, { icon: 'sqm', label: '280m²' }],
-    price: '₦18,000,000', period: '/ yr', action: 'Schedule Inspection',
-  },
-  {
-    id: 'feat-3', img: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80',
-    alt: 'Apapa Freezone Industrial Bay',
-    badges: [{ text: 'Commercial Grade-A', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Wharf Road Expressway, Apapa, Lagos',
-    title: 'Apapa Freezone Industrial Bay',
-    specs: [{ icon: 'sqm', label: '2,400m²' }, { icon: 'dock', label: 'Dock Bays' }, { icon: 'power', label: '3-Phase' }],
-    price: '₦48,000,000', period: '/ yr', action: 'Schedule Inspection',
-  },
-  {
-    id: 'feat-4', img: 'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&q=80',
-    alt: 'Maitama Diplomatic Luxury Suite',
-    badges: [{ text: 'Shortlet Active', bg: '#25D99A', color: '#080B0A' }],
-    location: 'Gana Street, Maitama, Abuja FCT',
-    title: 'Maitama Diplomatic Luxury Suite',
-    specs: [{ icon: 'bed', label: '2 Beds' }, { icon: 'bath', label: '2 Baths' }, { icon: 'sqm', label: '150m²' }],
-    price: '₦175,000', period: '/ night', action: 'Book Shortlet',
-  },
-  {
-    id: 'feat-5', img: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80',
-    alt: 'Asokoro Diplomatic Bungalow',
-    badges: [{ text: 'Verified Deed', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Asokoro Extension, Abuja FCT',
-    title: 'Asokoro Diplomatic Bungalow',
-    specs: [{ icon: 'bed', label: '5 Beds' }, { icon: 'bath', label: '4 Baths' }, { icon: 'sqm', label: '680m²' }],
-    price: '₦95,000,000', period: '/ yr', action: 'Schedule Inspection',
-  },
-  {
-    id: 'feat-6', img: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&q=80',
-    alt: 'Wuse II Office Tower',
-    badges: [{ text: 'Commercial Grade-A', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Ahmadu Bello Way, Wuse II, Abuja FCT',
-    title: 'Wuse II Office Tower',
-    specs: [{ icon: 'sqm', label: '1,200m²' }, { icon: 'elevator', label: '2 Lifts' }, { icon: 'power', label: '3-Phase' }],
-    price: '₦32,000,000', period: '/ yr', action: 'Schedule Inspection',
-  },
-];
-
 interface Property {
   id: string;
   img: string;
@@ -88,114 +31,6 @@ interface Property {
 	category: 'luxury' | 'abuja' | 'commercial';
 }
 
-const properties: Property[] = [
-  {
-    id: 'p1',
-    img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
-    alt: 'The Glasshouse Penthouse - Admiralty Way, Lekki',
-    badges: [
-      { text: 'Verified Deed', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' },
-      { text: 'Instant Tour', bg: '#25D99A', color: '#080B0A' },
-    ],
-    location: 'Admiralty Way, Lekki 1, Lagos',
-    title: 'The Glasshouse Penthouse',
-    specs: [
-      { icon: 'bed', label: '4 Beds' },
-      { icon: 'bathtub', label: '5 Baths' },
-      { icon: 'square_foot', label: '480 sqm' },
-    ],
-    price: '₦18,500,000',
-    period: '/ yr',
-    action: 'Schedule Inspection',
-  category: 'luxury',
-  },
-  {
-    id: 'p2',
-    img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80',
-    alt: 'Sovereign Crest 4-Bed Duplex - Maitama, Abuja',
-    badges: [{ text: 'C of O Verified', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Maitama District, Abuja FCT',
-    title: 'Sovereign Crest 4-Bed Duplex',
-    specs: [
-      { icon: 'bed', label: '4 Beds' },
-      { icon: 'bathtub', label: '5 Baths' },
-      { icon: 'square_foot', label: '620 sqm' },
-    ],
-    price: '₦35,000,000',
-    period: '/ yr',
-    action: 'Schedule Inspection',
-  category: 'abuja',
-  },
-  {
-    id: 'p3',
-    img: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80',
-    alt: 'Oceanview Executive Villa - Eko Atlantic City',
-    badges: [{ text: 'Shortlet Active', bg: '#25D99A', color: '#080B0A' }],
-    location: 'Eko Atlantic City, Lagos',
-    title: 'Oceanview Executive Villa',
-    specs: [
-      { icon: 'bed', label: '3 Beds' },
-      { icon: 'bathtub', label: '3 Baths' },
-      { icon: 'wifi', label: 'Fiber 500Mbps' },
-    ],
-    price: '₦120,000',
-    period: '/ night',
-    action: 'Book Shortlet',
-  category: 'luxury',
-  },
-  {
-    id: 'p4',
-    img: 'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&q=80',
-    alt: 'The Cube Commercial Plaza - VI, Lagos',
-    badges: [{ text: 'Commercial Grade-A', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Ahmadu Bello Way, Victoria Island',
-    title: 'The Cube Commercial Plaza',
-    specs: [
-      { icon: 'corporate_fare', label: '8 Floors' },
-      { icon: 'local_parking', label: '120 Cars' },
-      { icon: 'square_foot', label: '1,850 sqm' },
-    ],
-    price: '₦65,000,000',
-    period: '/ yr',
-    action: 'Schedule Inspection',
-  category: 'commercial',
-  },
-  {
-    id: 'p5',
-    img: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80',
-    alt: 'Emerald Terraces - Guzape, Abuja',
-    badges: [{ text: 'Governor Consent', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Guzape District, Abuja FCT',
-    title: 'Emerald Terraces',
-    specs: [
-      { icon: 'bed', label: '4 Beds' },
-      { icon: 'bathtub', label: '4 Baths' },
-      { icon: 'bolt', label: '24/7 Power' },
-    ],
-    price: '₦22,000,000',
-    period: '/ yr',
-    action: 'Schedule Inspection',
-  category: 'abuja',
-  },
-  {
-    id: 'p6',
-    img: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&q=80',
-    alt: 'Pinecrest Luxury Suites - Old Ikoyi, Lagos',
-    badges: [{ text: 'Verified Deed', bg: 'rgba(0, 108, 73, 0.85)', color: '#ffffff' }],
-    location: 'Alexander Avenue, Old Ikoyi',
-    title: 'Pinecrest Luxury Suites',
-    specs: [
-      { icon: 'bed', label: '3 Beds' },
-      { icon: 'bathtub', label: '3 Baths' },
-      { icon: 'pool', label: 'Infinity Pool' },
-    ],
-    price: '₦14,000,000',
-    period: '/ yr',
-    action: 'Schedule Inspection',
-  category: 'luxury',
-  },
-];
-
 const filterCategories: Record<string, string> = {
   'All Listings': '',
   'Lekki & Ikoyi Luxury': 'luxury',
@@ -205,7 +40,7 @@ const filterCategories: Record<string, string> = {
 
 export default function PropertiesSection() {
   const dbData = useFeaturedFromDb();
-  const properties: Property[] = Array.isArray(dbData) ? dbData : featuredFallback;
+  const properties: Property[] = Array.isArray(dbData) ? dbData : [];
   const filters = ['All Listings', 'Lekki & Ikoyi Luxury', 'Abuja Diplomats', 'Commercial Hubs'];
   const [activeFilter, setActiveFilter] = React.useState(filters[0]);
 
@@ -240,14 +75,18 @@ export default function PropertiesSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {properties.length ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.filter((p) => {
           const cat = filterCategories[activeFilter];
           return !cat || p.category === cat;
         }).map((prop) => (
             <PropertyCard key={prop.id} property={prop} />
           ))}
-        </div>
+        </div> : <div className="rounded-xl border border-white/[0.08] bg-[#171E1B] px-6 py-12 text-center">
+          <h3 className="text-lg font-semibold text-white">No featured properties yet</h3>
+          <p className="mt-2 text-sm text-gray-400">Browse the marketplace to see properties currently available.</p>
+          <Link href="/listings" className="mt-5 inline-flex rounded-lg border border-emerald-400/40 px-4 py-2 text-sm font-semibold text-emerald-400">Browse listings</Link>
+        </div>}
       </div>
     </section>
   );

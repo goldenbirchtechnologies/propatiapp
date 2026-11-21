@@ -448,7 +448,7 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
             <span className="text-[10px] uppercase tracking-wider text-primary font-bold">Institutional Asset Intake</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Add Property</h1>
-          <p className="text-sm text-muted-foreground">Register institutional assets and configure rentable units.</p>
+          <p className="text-sm text-muted-foreground">Add a property and its rentable units.</p>
         </div>
       </div>
 
@@ -494,7 +494,7 @@ const handleAddressChange = (data: { streetAddress: string; state: string; city:
                 <div className="px-6 py-4 bg-muted/50 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Building2 size={20} className="text-primary" />
-                    <span className="font-semibold text-foreground">Asset Identification & Demographics</span>
+                    <span className="font-semibold text-foreground">Property details</span>
                   </div>
                 </div>
                 <div className="p-6 flex flex-col gap-4">

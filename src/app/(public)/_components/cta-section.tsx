@@ -15,7 +15,7 @@ export default function CTASection() {
               Start Your Verified Property Journey
             </h2>
             <p className="text-sm sm:text-base text-gray-400 max-w-xl">
-              Join thousands of landlords, tenants, and agents who trust PropalBox to manage, discover, and secure Nigeria&apos;s most verified real estate portfolio.
+              Join landlords, tenants, and agents using PropatiBox to find and manage property in Nigeria.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
               <Link href="/listings" className="inline-flex items-center justify-center px-8 py-3.5 rounded-lg font-semibold text-sm bg-emerald-400 text-[#0a0a0a] hover:bg-emerald-300 transition-all hover:scale-[1.02] active:scale-[0.98]">

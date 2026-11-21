@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react";
 import { Clock, XCircle } from "lucide-react";
+import { UI_TERMS } from "@/lib/content-standards";
 
 interface FeatureGateProps {
   feature: string;
@@ -20,7 +21,7 @@ export function ComingSoonBadge({ feature, note }: { feature: string; note?: str
   return (
     <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
       <Clock className="h-3 w-3" />
-      {feature} coming soon{note ? ` — ${note}` : ""}
+      {feature} {UI_TERMS.unavailable}{note ? `. ${note}` : ""}
     </div>
   );
 }

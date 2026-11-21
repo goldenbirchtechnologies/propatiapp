@@ -300,15 +300,15 @@ export default function GlobalSettingsClient() {
                         className="w-full bg-surface text-xs font-label-sm p-3 border border-zinc-200 dark:border-white/[0.08] rounded pr-10"
                         readOnly={true}
                         type="password"
-                        defaultValue="sk_tes...p7dc"
+                        defaultValue="Not configured"
                       />
                       <button className="absolute right-3 top-1/2 -translate-y-1/2 lucide text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors" aria-label="Copy" data-icon="content_copy">
                         content_copy
                       </button>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium">Last Ping: 2m ago</span>
-                      <span className="text-[10px] text-[#006c49] font-bold">Latency: 45ms</span>
+                      <span className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium">Connection status</span>
+                      <span className="text-[10px] text-[#006c49] font-bold">Not checked</span>
                     </div>
                   </div>
                 </div>

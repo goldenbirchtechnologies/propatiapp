@@ -303,20 +303,20 @@ export default async function CommercialMoveInPage() {
                 </div>
                 <div className="space-y-3 pt-2">
                   {[
-                    { title: 'Dual Genset ATS & Dedicated Prepaid Sub-meter', sub: 'Initial reserve credited; switchgear tested under load.', ref: 'Certificate #NG-POW-4491' },
-                    { title: 'Fiber Optic Patching & Server Room Rack Cabinet', sub: 'Dual 1Gbps IP transit verified; zero packet drop.', ref: 'Latency: 2.1ms (Lekki IXP)' },
-                    { title: 'Carrier VRF Central Air Conditioning & Chillers', sub: 'HEPA filters renewed; calibrated to 21°C.', ref: 'COP: 3.82 Verified' },
-                    { title: 'Turnstile Access & Encoded HID Proximity Cards', sub: 'Master key sets in tamper-evident pouch.', ref: 'Batch Serial: HID-VC4B-01-24' },
-                    { title: 'Lagos State Fire Service Certification & FM-200', sub: 'Clean-agent cylinder pressure certified.', ref: 'LSFS Permit #FS/2024/VI/881' },
+                    { title: 'Power and meter details', sub: 'Confirm the power supply and meter information before handover.', ref: 'No record added' },
+                    { title: 'Internet and network access', sub: 'Confirm any internet or network details that apply to the property.', ref: 'No record added' },
+                    { title: 'Cooling and ventilation', sub: 'Confirm the condition of air-conditioning and ventilation systems.', ref: 'No record added' },
+                    { title: 'Access and keys', sub: 'Confirm keys, access cards, and other entry details.', ref: 'No record added' },
+                    { title: 'Fire and safety equipment', sub: 'Confirm the safety equipment and any supporting documents.', ref: 'No record added' },
                   ].map((item, i) => (
                     <label key={i} className="group flex items-start gap-3 p-4 rounded-lg bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-all cursor-pointer">
-                      <input type="checkbox" defaultChecked className="mt-1 w-5 h-5 rounded text-primary focus:ring-0 accent-primary cursor-pointer" />
+                      <input type="checkbox" className="mt-1 w-5 h-5 rounded text-primary focus:ring-0 accent-primary cursor-pointer" />
                       <div className="flex flex-col flex-1">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                           <span className="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-primary transition-colors">
                             {i + 1}. {item.title}
                           </span>
-                          <span className="text-xs text-primary font-medium">Verified</span>
+                          <span className="text-xs text-primary font-medium">To confirm</span>
                         </div>
                         <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">{item.sub}</p>
                         <div className="flex items-center gap-2 mt-2 text-xs font-mono text-zinc-400">

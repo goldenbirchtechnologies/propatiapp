@@ -135,7 +135,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                 <TabsContent value="card" className="space-y-4">
                   <div className="rounded-lg border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 p-4 text-sm">
-                    <p className="flex items-center gap-2 font-semibold text-amber-800 dark:text-amber-300"><AlertCircle className="h-4 w-4" /> Card tokenization coming soon</p>
+                    <p className="flex items-center gap-2 font-semibold text-amber-800 dark:text-amber-300"><AlertCircle className="h-4 w-4" /> Saving cards is not available yet</p>
                     <p className="mt-1 text-xs text-zinc-700 dark:text-zinc-300">PropatiBox currently stores payout bank accounts via Paystack. Card saving will be enabled once Paystack card authorization is wired. Use the Bank Account tab to add a payout method now.</p>
                   </div>
                   <div className="grid gap-4 opacity-50 pointer-events-none">

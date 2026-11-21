@@ -230,7 +230,6 @@ export default function SignUpPage() {
             </div>
 
             <SignUp
-              unsafeMetadata={{ role: selectedRole }}
               appearance={{
                 elements: {
                   rootBox: 'w-full',
@@ -256,7 +255,7 @@ export default function SignUpPage() {
               path="/sign-up"
               signInUrl={`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`}
               fallbackRedirectUrl={redirectUrl}
-              forceRedirectUrl={redirectUrl}
+              forceRedirectUrl={`${redirectUrl}${redirectUrl.includes('?') ? '&' : '?'}role=${encodeURIComponent(selectedRole ?? 'tenant')}`}
             />
 
             {/* Verification Tip */}

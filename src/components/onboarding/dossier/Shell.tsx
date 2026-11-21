@@ -39,6 +39,7 @@ export interface DossierShellProps {
    * full-viewport frame so the same shell can sit inside the dashboard overlay.
    */
   variant?: 'page' | 'modal';
+  saveState?: 'saved' | 'saving' | 'error';
 }
 
 export function DossierShell({
@@ -51,11 +52,17 @@ export function DossierShell({
   rail,
   children,
   variant = 'page',
+  saveState = 'saved',
 }: DossierShellProps) {
   const meta = ROLE_META[role];
   const total = steps.length;
-  const doneCount = steps.filter((s) => s.done).length;
-  const progress = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+  const weights = meta?.stepWeights ?? {};
+  const totalWeight = steps.reduce((sum, step) => sum + (weights[step.id] ?? 1), 0);
+  const completedWeight = steps.reduce(
+    (sum, step) => sum + (step.done ? (weights[step.id] ?? 1) : 0),
+    0
+  );
+  const progress = totalWeight === 0 ? 0 : Math.round((completedWeight / totalWeight) * 100);
   const isModal = variant === 'modal';
 
   return (
@@ -81,6 +88,7 @@ export function DossierShell({
             <span className="hidden sm:inline-flex">
               <StepCounter index={activeIndex} total={total} progress={progress} />
             </span>
+            <SaveState state={saveState} />
             <DButton variant="ghost" size="sm" onClick={onExit} className="h-8">
               Save &amp; exit
             </DButton>
@@ -166,6 +174,17 @@ function StepCounter({
       </span>
       <span aria-hidden className="h-3 w-px bg-[var(--outline-variant)]" />
       <span className="dossier-mono">{progress}%</span>
+    </span>
+  );
+}
+
+function SaveState({ state }: { state: 'saved' | 'saving' | 'error' }) {
+  const copy = state === 'saving' ? 'Saving…' : state === 'error' ? 'Save failed' : 'Saved';
+  const tone = state === 'error' ? 'text-[#ba1a1a]' : 'text-[var(--on-surface-variant)]';
+  return (
+    <span className={cn('hidden items-center gap-1 text-[11px] font-medium sm:inline-flex', tone)} aria-live="polite">
+      <span aria-hidden className={cn('h-1.5 w-1.5 rounded-full', state === 'error' ? 'bg-[#ba1a1a]' : state === 'saving' ? 'bg-amber-500' : 'bg-[var(--accent)]')} />
+      {copy}
     </span>
   );
 }

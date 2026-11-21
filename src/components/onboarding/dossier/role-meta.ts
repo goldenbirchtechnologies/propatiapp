@@ -15,6 +15,8 @@ export interface RoleMeta {
   rail: RailVariant;
   /** Short label shown in the horizontal step pipeline. */
   stepLabels: Record<string, string>;
+  /** Relative weights used for progress; this reflects requirements, not visits. */
+  stepWeights: Record<string, number>;
 }
 
 export const ROLE_ORDER = ['landlord', 'tenant', 'estate_manager', 'agent'] as const;
@@ -28,11 +30,12 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'tenant',
     stepLabels: {
       location: 'Jurisdiction & Location',
-      contact: 'Phone Verification',
+      contact: 'Contact information',
       identity: 'Prembly Identity',
       employment: 'Employment & Income',
       guarantor: 'Guarantor & Report',
     },
+    stepWeights: { location: 1, contact: 1, identity: 2, employment: 2, guarantor: 2 },
   },
   landlord: {
     label: 'Landlord',
@@ -42,11 +45,12 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'landlord',
     stepLabels: {
       location: 'Jurisdiction & Location',
-      contact: 'Phone Verification',
+      contact: 'Contact information',
       identity: 'Prembly KYC (NIN / Business Registration)',
       landlordProfile: 'Owner Profile',
       landlordSettlement: 'Payout & Caution Deposit',
     },
+    stepWeights: { location: 1, contact: 1, identity: 2, landlordProfile: 3, landlordSettlement: 2 },
   },
   agent: {
     label: 'Agent',
@@ -56,13 +60,14 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'agent',
     stepLabels: {
       location: 'Jurisdiction',
-      contact: 'Contact',
+      contact: 'Contact information',
       identity: 'Prembly KYC',
       agentProfile: 'Accreditation',
       agentLicense: 'Broker License',
       agentTerritory: 'Territory',
       agentSettlement: 'Payout',
     },
+    stepWeights: { location: 1, contact: 1, identity: 2, agentProfile: 2, agentLicense: 2, agentTerritory: 1, agentSettlement: 2 },
   },
   estate_manager: {
     label: 'Estate Manager',
@@ -72,12 +77,13 @@ export const ROLE_META: Record<string, RoleMeta> = {
     rail: 'estate',
     stepLabels: {
       location: 'Jurisdiction & Firm',
-      contact: 'Phone Number',
+      contact: 'Contact information',
       identity: 'Business Registration & Identity',
       estateProfile: 'Professional Reg',
       estateAuthority: 'Authority & POA',
       estateRemittance: 'Secure Payment & Trust',
     },
+    stepWeights: { location: 1, contact: 1, identity: 2, estateProfile: 2, estateAuthority: 2, estateRemittance: 2 },
   },
 };
 

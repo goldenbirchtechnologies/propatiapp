@@ -59,9 +59,9 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <DCallout icon={<Lock className="h-4 w-4" />} title="Encrypted at rest" className="mb-5">
-        Your identity number is encrypted and hashed before it is stored, and is never printed back
-        to the browser. Verification runs against the national identity registry through Dojah.
+        <DCallout icon={<Lock className="h-4 w-4" />} title="Why we ask for this" className="mb-5">
+        This check helps PropatiBox confirm who is using the platform before verification-dependent
+        property and payment actions become available. Your number is not shown again after submission.
       </DCallout>
 
       <DGrid cols={2}>
@@ -100,7 +100,7 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
         hint={
           facts.idVerified
             ? 'Verified. Submitting again replaces the stored record.'
-            : 'This is optional, but skipping it leaves your account blocked.'
+            : 'You can defer this check, but verification-dependent actions will remain unavailable until it is complete.'
         }
       />
     </form>

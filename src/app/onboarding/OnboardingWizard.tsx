@@ -138,6 +138,7 @@ export default function OnboardingWizard({
   const [status, setStatus] = useState<OnboardingStatus>(initialStatus);
   const [stepIndex, setStepIndex] = useState(() => firstOpenIndex(initialStatus));
   const [busy, setBusy] = useState(false);
+  const [saveState, setSaveState] = useState<'saved' | 'saving' | 'error'>('saved');
   const [notice, setNotice] = useState<string | null>(null);
   const isModal = variant === 'modal';
 
@@ -167,9 +168,12 @@ export default function OnboardingWizard({
 
   const handleStepSaved = useCallback(async () => {
     setNotice(null);
+    setSaveState('saving');
     try {
       await refresh();
+      setSaveState('saved');
     } catch {
+      setSaveState('error');
       // The step itself reported the save succeeded; a failed refresh only
       // costs the tick, and the next action retries it.
     }
@@ -350,6 +354,7 @@ export default function OnboardingWizard({
         setStepIndex(index);
       }}
       onExit={exitToDashboard}
+      saveState={saveState}
       rail={
         <DossierRail
           role={status.role}
@@ -490,9 +495,9 @@ function DossierBlocked({
               {blockedStepTitle} is still outstanding
             </h1>
             <p className="mt-2 text-[13px] leading-[1.55] text-[var(--on-surface-variant)]">
-              You skipped a step that Nigerian tenancy and anti-money-laundering rules treat as
-              mandatory. Your {ROLE_META[role]?.label ?? 'account'} dashboard stays open in the
-              meantime — only agreements, payments and listings remain locked until it clears.
+              You deferred a verification step. Your {ROLE_META[role]?.label ?? 'account'} dashboard
+              stays open in the meantime, but actions that require this information remain locked
+              until the step is complete.
             </p>
           </div>
         </div>
@@ -545,8 +550,8 @@ function DossierComplete({
           You&apos;re all set, {fullName.split(' ')[0]}
         </h1>
         <p className="mt-2 text-[13px] leading-[1.55] text-[var(--on-surface-variant)]">
-          Your {ROLE_META[role]?.label ?? 'account'} has cleared verification. Everything in
-          Propati is now available to you.
+          Your {ROLE_META[role]?.label ?? 'account'} profile is complete. Verification statuses and
+          any role-specific approvals will continue to be shown separately as they are processed.
         </p>
         <DButton className="mt-5" onClick={onContinue}>
           Go to dashboard <ArrowRight className="h-4 w-4" />

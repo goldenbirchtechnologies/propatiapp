@@ -29,10 +29,10 @@ export interface StepDefinition {
  * Unknown roles fall back to an empty list so the wizard never crashes.
  */
 export const ROLE_STEPS: Record<UserRole, StepId[]> = {
-  tenant: ['location', 'identity', 'employment', 'guarantor'],
-  landlord: ['location', 'identity', 'landlordProfile', 'landlordSettlement'],
-  agent: ['location', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentSettlement'],
-  estate_manager: ['location', 'identity', 'estateProfile', 'estateAuthority', 'estateRemittance'],
+  tenant: ['location', 'contact', 'identity', 'employment', 'guarantor'],
+  landlord: ['location', 'contact', 'identity', 'landlordProfile', 'landlordSettlement'],
+  agent: ['location', 'contact', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentSettlement'],
+  estate_manager: ['location', 'contact', 'identity', 'estateProfile', 'estateAuthority', 'estateRemittance'],
   admin: [],
 };
 
@@ -45,8 +45,8 @@ export const STEP_DEFINITIONS: Record<StepId, StepDefinition> = {
   },
   contact: {
     id: 'contact',
-    title: 'Contact',
-    description: 'Add a phone number so landlords, agents, and the platform can reach you.',
+    title: 'Contact information',
+    description: 'Verify a mobile number so important property, agreement and payment updates reach you.',
     skippable: false,
   },
   identity: {

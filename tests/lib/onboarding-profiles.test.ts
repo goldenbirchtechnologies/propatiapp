@@ -14,7 +14,8 @@ import {
 
 describe('onboarding role steps', () => {
   it('walks the landlord steps in order', () => {
-    expect(nextStepFor('landlord', 'location')).toBe('identity');
+    expect(nextStepFor('landlord', 'location')).toBe('contact');
+    expect(nextStepFor('landlord', 'contact')).toBe('identity');
     expect(nextStepFor('landlord', 'identity')).toBe('landlordProfile');
     expect(nextStepFor('landlord', 'landlordProfile')).toBe('landlordSettlement');
     expect(nextStepFor('landlord', 'landlordSettlement')).toBe('complete');

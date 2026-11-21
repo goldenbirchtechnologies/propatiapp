@@ -6,10 +6,13 @@ import {
   isAgentProfileDone,
   isAgentSettlementDone,
   isAgentTerritoryDone,
+  isAgentServicesDone,
   isEstateAuthorityDone,
+  isEstateCapabilitiesDone,
   isEstateProfileDone,
   isEstateRemittanceDone,
   isLandlordProfileDone,
+  isLandlordPortfolioDone,
   isLandlordSettlementDone,
 } from './profiles';
 
@@ -31,13 +34,16 @@ export interface UserOnboardingFacts {
   guarantorPhone: string | null;
   guarantorRelationship: string | null;
   landlordProfileComplete?: boolean;
+  landlordPortfolioComplete?: boolean;
   landlordSettlementComplete?: boolean;
   agentProfileComplete?: boolean;
   agentLicenseComplete?: boolean;
   agentTerritoryComplete?: boolean;
+  agentServicesComplete?: boolean;
   agentSettlementComplete?: boolean;
   estateProfileComplete?: boolean;
   estateAuthorityComplete?: boolean;
+  estateCapabilitiesComplete?: boolean;
   estateRemittanceComplete?: boolean;
 }
 
@@ -55,13 +61,16 @@ export const STEP_PREDICATES: Record<StepId, (u: UserOnboardingFacts) => boolean
     !!u.employmentStatus && !!u.employerName && !!u.jobTitle && u.yearlyIncome != null,
   guarantor: (u) => !!u.guarantorName && !!u.guarantorPhone && !!u.guarantorRelationship,
   landlordProfile: (u) => !!u.landlordProfileComplete,
+  landlordPortfolio: (u) => !!u.landlordPortfolioComplete,
   landlordSettlement: (u) => !!u.landlordSettlementComplete,
   agentProfile: (u) => !!u.agentProfileComplete,
   agentLicense: (u) => !!u.agentLicenseComplete,
   agentTerritory: (u) => !!u.agentTerritoryComplete,
+  agentServices: (u) => !!u.agentServicesComplete,
   agentSettlement: (u) => !!u.agentSettlementComplete,
   estateProfile: (u) => !!u.estateProfileComplete,
   estateAuthority: (u) => !!u.estateAuthorityComplete,
+  estateCapabilities: (u) => !!u.estateCapabilitiesComplete,
   estateRemittance: (u) => !!u.estateRemittanceComplete,
 };
 
@@ -304,6 +313,7 @@ async function roleProfileFacts(
     const row = await prisma.landlordProfile.findUnique({ where: { userId } });
     return {
       landlordProfileComplete: isLandlordProfileDone(row),
+      landlordPortfolioComplete: isLandlordPortfolioDone(row),
       landlordSettlementComplete: isLandlordSettlementDone(row),
     };
   }
@@ -314,6 +324,7 @@ async function roleProfileFacts(
       agentProfileComplete: isAgentProfileDone(row),
       agentLicenseComplete: isAgentLicenseDone(row),
       agentTerritoryComplete: isAgentTerritoryDone(row),
+      agentServicesComplete: isAgentServicesDone(row),
       agentSettlementComplete: isAgentSettlementDone(row),
     };
   }
@@ -323,6 +334,7 @@ async function roleProfileFacts(
     return {
       estateProfileComplete: isEstateProfileDone(row),
       estateAuthorityComplete: isEstateAuthorityDone(row),
+      estateCapabilitiesComplete: isEstateCapabilitiesDone(row),
       estateRemittanceComplete: isEstateRemittanceDone(row),
     };
   }

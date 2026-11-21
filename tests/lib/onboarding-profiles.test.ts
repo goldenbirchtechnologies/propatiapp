@@ -17,7 +17,8 @@ describe('onboarding role steps', () => {
     expect(nextStepFor('landlord', 'location')).toBe('contact');
     expect(nextStepFor('landlord', 'contact')).toBe('identity');
     expect(nextStepFor('landlord', 'identity')).toBe('landlordProfile');
-    expect(nextStepFor('landlord', 'landlordProfile')).toBe('landlordSettlement');
+    expect(nextStepFor('landlord', 'landlordProfile')).toBe('landlordPortfolio');
+    expect(nextStepFor('landlord', 'landlordPortfolio')).toBe('landlordSettlement');
     expect(nextStepFor('landlord', 'landlordSettlement')).toBe('complete');
   });
 
@@ -25,14 +26,16 @@ describe('onboarding role steps', () => {
     expect(nextStepFor('agent', 'identity')).toBe('agentProfile');
     expect(nextStepFor('agent', 'agentProfile')).toBe('agentLicense');
     expect(nextStepFor('agent', 'agentLicense')).toBe('agentTerritory');
-    expect(nextStepFor('agent', 'agentTerritory')).toBe('agentSettlement');
+    expect(nextStepFor('agent', 'agentTerritory')).toBe('agentServices');
+    expect(nextStepFor('agent', 'agentServices')).toBe('agentSettlement');
     expect(nextStepFor('agent', 'agentSettlement')).toBe('complete');
   });
 
   it('walks the estate manager steps in order', () => {
     expect(nextStepFor('estate_manager', 'identity')).toBe('estateProfile');
     expect(nextStepFor('estate_manager', 'estateProfile')).toBe('estateAuthority');
-    expect(nextStepFor('estate_manager', 'estateAuthority')).toBe('estateRemittance');
+    expect(nextStepFor('estate_manager', 'estateAuthority')).toBe('estateCapabilities');
+    expect(nextStepFor('estate_manager', 'estateCapabilities')).toBe('estateRemittance');
     expect(nextStepFor('estate_manager', 'estateRemittance')).toBe('complete');
   });
 

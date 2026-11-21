@@ -2785,6 +2785,12 @@ model LandlordProfile {
 
   taxJurisdiction String? @map("tax_jurisdiction")
 
+  // Step: landlordPortfolio
+  ownsProperties      Boolean? @map("owns_properties")
+  propertyCount       Int?     @map("property_count")
+  portfolioCategories Json?    @map("portfolio_categories")
+  services            Json?    @map("services")
+
   // Step: landlordSettlement
   accountName            String? @map("account_name")
   bankName               String? @map("bank_name")
@@ -2877,6 +2883,7 @@ model AgentProfile {
   // Step: agentTerritory
   operationalTerritories Json? @map("operational_territories")
   focusAreas             Json? @map("focus_areas")
+  services               Json? @map("services")
   activeListingsCount    Int?  @map("active_listings_count")
 
   // Step: agentSettlement
@@ -2917,6 +2924,9 @@ model EstateManagerProfile {
   evictionAuthorityNote    String?   @map("eviction_authority_note")
   minIncomeThreshold       BigInt?   @map("min_income_threshold")
   guarantorRequirementNote String?   @map("guarantor_requirement_note")
+  managementType           String?   @map("management_type")
+  capabilities             Json?     @map("capabilities")
+  managesOnBehalf          Boolean?  @map("manages_on_behalf")
   // Both answers above are booleans, so `false` cannot be told apart from
   // "never answered". This marks the section as deliberately submitted.
   authoritySubmittedAt     DateTime? @map("authority_submitted_at")

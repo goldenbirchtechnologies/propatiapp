@@ -17,6 +17,7 @@ import LocationStep from './steps/LocationStep';
 import ContactStep from './steps/ContactStep';
 import IdentityStep from './steps/IdentityStep';
 import TenantProfileStep from './steps/TenantProfileStep';
+import RoleReadinessStep from './steps/RoleReadinessStep';
 import EmploymentStep from './steps/EmploymentStep';
 import GuarantorStep from './steps/GuarantorStep';
 import LandlordProfileStep from './steps/LandlordProfileStep';
@@ -69,6 +70,9 @@ const COMPONENT_MAP: Record<string, React.ComponentType<StepProps>> = {
   contact: ContactStep,
   identity: IdentityStep,
   tenantProfile: TenantProfileStep,
+  landlordPortfolio: RoleReadinessStep,
+  agentServices: RoleReadinessStep,
+  estateCapabilities: RoleReadinessStep,
   employment: EmploymentStep,
   guarantor: GuarantorStep,
   landlordProfile: LandlordProfileStep,

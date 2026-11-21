@@ -8,13 +8,16 @@ export type StepId =
   | 'employment'
   | 'guarantor'
   | 'landlordProfile'
+  | 'landlordPortfolio'
   | 'landlordSettlement'
   | 'agentProfile'
   | 'agentLicense'
   | 'agentTerritory'
+  | 'agentServices'
   | 'agentSettlement'
   | 'estateProfile'
   | 'estateAuthority'
+  | 'estateCapabilities'
   | 'estateRemittance';
 
 export interface StepDefinition {
@@ -31,9 +34,9 @@ export interface StepDefinition {
  */
 export const ROLE_STEPS: Record<UserRole, StepId[]> = {
   tenant: ['location', 'contact', 'identity', 'tenantProfile', 'employment', 'guarantor'],
-  landlord: ['location', 'contact', 'identity', 'landlordProfile', 'landlordSettlement'],
-  agent: ['location', 'contact', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentSettlement'],
-  estate_manager: ['location', 'contact', 'identity', 'estateProfile', 'estateAuthority', 'estateRemittance'],
+  landlord: ['location', 'contact', 'identity', 'landlordProfile', 'landlordPortfolio', 'landlordSettlement'],
+  agent: ['location', 'contact', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentServices', 'agentSettlement'],
+  estate_manager: ['location', 'contact', 'identity', 'estateProfile', 'estateAuthority', 'estateCapabilities', 'estateRemittance'],
   admin: [],
 };
 
@@ -80,6 +83,12 @@ export const STEP_DEFINITIONS: Record<StepId, StepDefinition> = {
     description: 'Legal ownership entity, contact credentials, KYC photo ID, and tax documentation.',
     skippable: false,
   },
+  landlordPortfolio: {
+    id: 'landlordPortfolio',
+    title: 'Property portfolio & services',
+    description: 'Tell us what you own and which property services you want to use. You can add properties later.',
+    skippable: false,
+  },
   landlordSettlement: {
     id: 'landlordSettlement',
     title: 'Settlement',
@@ -104,6 +113,12 @@ export const STEP_DEFINITIONS: Record<StepId, StepDefinition> = {
     description: 'Operational territory, real estate focus areas, and active listings count.',
     skippable: false,
   },
+  agentServices: {
+    id: 'agentServices',
+    title: 'Services offered',
+    description: 'Choose the services clients can request from your professional profile.',
+    skippable: false,
+  },
   agentSettlement: {
     id: 'agentSettlement',
     title: 'Settlement',
@@ -120,6 +135,12 @@ export const STEP_DEFINITIONS: Record<StepId, StepDefinition> = {
     id: 'estateAuthority',
     title: 'Authority',
     description: 'Power of Attorney, management agreement, eviction mandate, and screening parameters.',
+    skippable: false,
+  },
+  estateCapabilities: {
+    id: 'estateCapabilities',
+    title: 'Management capabilities',
+    description: 'Set the operating services and authorization context for the properties you manage.',
     skippable: false,
   },
   estateRemittance: {

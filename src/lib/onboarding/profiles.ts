@@ -21,6 +21,9 @@ type LandlordRow = {
   bankName: string | null;
   accountNumberEnc: string | null;
   commissionConsent: boolean;
+  ownsProperties?: boolean | null;
+  portfolioCategories?: Prisma.JsonValue | null;
+  services?: Prisma.JsonValue | null;
 } | null;
 
 type AgentRow = {
@@ -37,6 +40,7 @@ type AgentRow = {
   bankName: string | null;
   accountName: string | null;
   accountNumberEnc: string | null;
+  services?: Prisma.JsonValue | null;
 } | null;
 
 type EstateRow = {
@@ -47,9 +51,12 @@ type EstateRow = {
   trustAccountName: string | null;
   trustAccountNumberEnc: string | null;
   remittanceCycle: string | null;
+  managementType?: string | null;
+  capabilities?: Prisma.JsonValue | null;
+  managesOnBehalf?: boolean | null;
 } | null;
 
-function nonEmptyList(value: Prisma.JsonValue | null): boolean {
+function nonEmptyList(value: Prisma.JsonValue | null | undefined): boolean {
   return Array.isArray(value) && value.length > 0;
 }
 
@@ -68,6 +75,10 @@ export function isLandlordProfileDone(row: LandlordRow): boolean {
 
 export function isLandlordSettlementDone(row: LandlordRow): boolean {
   return !!(row && row.accountName && row.bankName && row.accountNumberEnc && row.commissionConsent);
+}
+
+export function isLandlordPortfolioDone(row: LandlordRow): boolean {
+  return !!(row && row.ownsProperties !== null && nonEmptyList(row.portfolioCategories) && nonEmptyList(row.services));
 }
 
 export function isAgentProfileDone(row: AgentRow): boolean {
@@ -93,6 +104,10 @@ export function isAgentSettlementDone(row: AgentRow): boolean {
   return !!(row && row.bankName && row.accountName && row.accountNumberEnc);
 }
 
+export function isAgentServicesDone(row: AgentRow): boolean {
+  return !!(row && nonEmptyList(row.services));
+}
+
 export function isEstateProfileDone(row: EstateRow): boolean {
   return !!(row && row.legalEntityName && row.officeAddress);
 }
@@ -109,6 +124,10 @@ export function isEstateRemittanceDone(row: EstateRow): boolean {
     row.trustAccountNumberEnc &&
     row.remittanceCycle
   );
+}
+
+export function isEstateCapabilitiesDone(row: EstateRow): boolean {
+  return !!(row && row.managementType && row.managesOnBehalf !== null && nonEmptyList(row.capabilities));
 }
 
 /** The step the wizard should resume at once `step` has been saved. */

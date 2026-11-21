@@ -145,13 +145,16 @@ export async function markStepDone(
     employment: 'employmentDone',
     guarantor: 'guarantorDone',
     landlordProfile: 'landlordProfileDone',
+    landlordPortfolio: 'landlordPortfolioDone',
     landlordSettlement: 'landlordSettlementDone',
     agentProfile: 'agentProfileDone',
     agentLicense: 'agentLicenseDone',
     agentTerritory: 'agentTerritoryDone',
+    agentServices: 'agentServicesDone',
     agentSettlement: 'agentSettlementDone',
     estateProfile: 'estateProfileDone',
     estateAuthority: 'estateAuthorityDone',
+    estateCapabilities: 'estateCapabilitiesDone',
     estateRemittance: 'estateRemittanceDone',
   } as const;
 

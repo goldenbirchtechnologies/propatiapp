@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
+import { ConfirmDialog } from '@/components/ui/modal';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -110,6 +111,7 @@ export default function PropertiesClient({ listings }: Props) {
   const [sortOption, setSortOption] = useState('recent');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const counts = useMemo(() => {
     const totalProperties = listings.length;
@@ -144,9 +146,6 @@ export default function PropertiesClient({ listings }: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    const confirmed = window.confirm('Remove this property from the marketplace? The building and its units will be kept.');
-    if (!confirmed) return;
-
     try {
       const res = await fetch(`/api/listings/${id}`, { method: 'DELETE' });
       const data = await res.json().catch(() => ({ success: false, error: 'Failed to delete' }));
@@ -431,7 +430,7 @@ export default function PropertiesClient({ listings }: Props) {
                           <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-500 focus:text-red-500" onClick={() => handleDelete(listing.id)}>
+                        <DropdownMenuItem className="text-red-500 focus:text-red-500" onClick={() => setDeleteId(listing.id)}>
                           Remove from Marketplace
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -507,7 +506,7 @@ export default function PropertiesClient({ listings }: Props) {
                             <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-500" onClick={() => handleDelete(listing.id)}>
+                        <DropdownMenuItem className="text-red-500" onClick={() => setDeleteId(listing.id)}>
                             Remove Listing
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -520,6 +519,7 @@ export default function PropertiesClient({ listings }: Props) {
           </div>
         )}
       </div>
+      <ConfirmDialog open={Boolean(deleteId)} onOpenChange={(open) => !open && setDeleteId(null)} title="Remove this property from the marketplace?" description="The building and its units will be kept, but this property will no longer appear in marketplace results." confirmLabel="Remove property" confirmVariant="destructive" onConfirm={async () => { if (deleteId) await handleDelete(deleteId); setDeleteId(null); }} />
     </div>
   );
 }

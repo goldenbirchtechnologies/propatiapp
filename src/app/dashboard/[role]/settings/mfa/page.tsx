@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button } fro
 import DashboardShell from '@/components/layout/DashboardShell';
 import { getNavigationForRole } from '@/lib/navigation';
 import { toast } from 'sonner';
+import { ConfirmDialog } from '@/components/ui/modal';
 
 interface MFAStatus {
   totpEnabled: boolean;
@@ -25,7 +26,6 @@ export default function MFASettingsPage() {
 
   const [mfaStatus, setMfaStatus] = useState<MFAStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isEnrolling, setIsEnrolling] = useState(false);
   const [totpUri, setTotpUri] = useState<string | null>(null);
   const [manualKey, setManualKey] = useState<string | null>(null);
   const [totpCode, setTotpCode] = useState('');
@@ -35,6 +35,7 @@ export default function MFASettingsPage() {
   const [showRecoveryCodes, setShowRecoveryCodes] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isDisabling, setIsDisabling] = useState(false);
+  const [disableConfirmOpen, setDisableConfirmOpen] = useState(false);
 
   useEffect(() => {
     fetchMFAStatus();
@@ -101,10 +102,8 @@ export default function MFASettingsPage() {
     }
   };
 
-  const disableTOTP = async () => {
-    if (!window.confirm('Are you sure you want to disable MFA? This will make your account less secure.')) {
-      return;
-    }
+  const disableTOTP = async (confirmed = false) => {
+    if (!confirmed) { setDisableConfirmOpen(true); return; }
 
     try {
       setIsDisabling(true);
@@ -468,6 +467,7 @@ export default function MFASettingsPage() {
           </CardContent>
         </Card>
       </div>
+    <ConfirmDialog open={disableConfirmOpen} onOpenChange={setDisableConfirmOpen} title="Disable multi-factor authentication?" description="Your account will have less protection until MFA is enabled again. You can keep using recovery codes while it is disabled." confirmLabel="Disable MFA" confirmVariant="destructive" onConfirm={() => disableTOTP(true)} />
     </DashboardShell>
   );
 }

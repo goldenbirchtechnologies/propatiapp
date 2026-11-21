@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ConfirmDialog } from '@/components/ui/modal';
 import {
   Building2,
   CheckCircle2,
@@ -49,7 +50,6 @@ import {
   DoorOpen,
   Expand,
   Landmark,
-  AlertTriangle,
 } from 'lucide-react';
 import ManageUnitDrawer from './ManageUnitDrawer';
 
@@ -393,24 +393,15 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         </div>
       )}
 
-      {/* Delete modal */}
-      {showDelete && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-zinc-900 max-w-md w-full rounded-2xl p-6 shadow-2xl space-y-4 border border-zinc-200 dark:border-white/[0.08]">
-            <div className="flex items-center gap-2 text-red-600">
-              <AlertTriangle className="h-7 w-7" />
-              <h3 className="text-lg font-bold text-zinc-900 dark:text-white">Confirm Asset Deletion</h3>
-            </div>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              Are you sure you want to delete <span className="font-bold text-zinc-900 dark:text-white">{listing.title}</span> from the portfolio?
-            </p>
-            <div className="flex items-center justify-end gap-2 pt-2">
-              <Button variant="outline" onClick={() => setShowDelete(false)}>Cancel</Button>
-              <Button className="bg-red-600 hover:bg-red-700 text-white" onClick={() => setShowDelete(false)}>Permanently Delete</Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        open={showDelete}
+        onOpenChange={setShowDelete}
+        title="Delete this property asset?"
+        description={`${listing.title} will be removed from the portfolio. This action cannot be undone.`}
+        confirmLabel="Permanently delete"
+        confirmVariant="destructive"
+        onConfirm={() => setShowDelete(false)}
+      />
     </div>
   );
 }

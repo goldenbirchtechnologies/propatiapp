@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { ConfirmDialog } from '@/components/ui/modal';
 import { cn } from '@/lib/utils';
 import {
   DOCUMENT_CATEGORY_LABELS,
@@ -117,6 +118,7 @@ export function SectionIdentityDocuments({
   const [busyCategory, setBusyCategory] = useState<LandlordDocumentCategory | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [confirmDoc, setConfirmDoc] = useState<LandlordDocumentRow | null>(null);
   const inputs = useRef<Partial<Record<LandlordDocumentCategory, HTMLInputElement | null>>>({});
 
   const upload = async (category: LandlordDocumentCategory, file: File) => {
@@ -150,8 +152,8 @@ export function SectionIdentityDocuments({
     }
   };
 
-  const remove = async (doc: LandlordDocumentRow) => {
-    if (!window.confirm(`Remove “${doc.name}”?`)) return;
+  const remove = async (doc: LandlordDocumentRow, confirmed = false) => {
+    if (!confirmed) { setConfirmDoc(doc); return; }
     setDeletingId(doc.id);
     setError(null);
     try {
@@ -353,6 +355,7 @@ export function SectionIdentityDocuments({
         PDF, JPG, PNG, or WebP · 10MB maximum per file. Uploads are private to your account and
         reviewed before they are marked verified.
       </p>
+      <ConfirmDialog open={Boolean(confirmDoc)} onOpenChange={(open) => !open && setConfirmDoc(null)} title="Remove this document?" description={confirmDoc ? `“${confirmDoc.name}” will be permanently removed from your verification dossier.` : undefined} confirmLabel="Remove document" confirmVariant="destructive" onConfirm={async () => { if (confirmDoc) await remove(confirmDoc, true); setConfirmDoc(null); }} />
     </div>
   );
 }

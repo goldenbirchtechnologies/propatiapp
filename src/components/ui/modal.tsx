@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { X, ChevronDown, ChevronUp, GripVertical } from 'lucide-react';
+import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -42,12 +42,6 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       full: 'max-w-[95vw]',
     };
 
-    const variantClasses = {
-      default: 'rounded-xl shadow-xl',
-      'bottom-sheet': 'rounded-t-[20px] rounded-t-[20px] shadow-2xl',
-      drawer: 'rounded-none shadow-2xl h-full max-h-full',
-    };
-
     const handleOverlayClick = (event: React.MouseEvent) => {
       if (closeOnOverlayClick && event.target === event.currentTarget) {
         onOpenChange(false);
@@ -65,7 +59,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
-            'fixed inset-0 z-50 bg-black/50 backdrop-blur-sm',
+            'fixed inset-0 z-50 bg-zinc-950/55 supports-[backdrop-filter]:backdrop-blur-[3px]',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
             'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'
           )}
@@ -74,13 +68,13 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
         <DialogPrimitive.Content
           ref={ref as unknown}
           className={cn(
-            'fixed z-50 bg-background border border-border',
+            'fixed z-50 bg-background border border-border/90',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
             'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
             'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-            variant === 'default' && 'rounded-xl shadow-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            variant === 'bottom-sheet' && 'bottom-0 left-0 right-0 rounded-t-[20px] rounded-t-[20px] shadow-2xl',
-            variant === 'drawer' && 'right-0 top-0 bottom-0 rounded-none shadow-2xl',
+            variant === 'default' && 'rounded-[1.125rem] shadow-[0_8px_30px_rgb(0,0,0,0.14)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-h-[min(90dvh,52rem)] overflow-hidden',
+            variant === 'bottom-sheet' && 'bottom-0 left-0 right-0 rounded-t-[1.125rem] shadow-[0_-8px_30px_rgb(0,0,0,0.14)] max-h-[92dvh]',
+            variant === 'drawer' && 'right-0 top-0 bottom-0 rounded-l-[1.125rem] shadow-[-8px_0_30px_rgb(0,0,0,0.14)] h-full max-h-full',
             sizeClasses[size],
             className
           )}
@@ -88,15 +82,15 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
         >
           <div className={cn('flex flex-col', contentClassName)}>
             {(title || description || showClose) && (
-              <div className={cn('flex items-start justify-between p-4 border-b border-border', headerClassName)}>
+              <div className={cn('flex items-start justify-between gap-4 border-b border-border/70 px-5 py-4 sm:px-6', headerClassName)}>
                 <div className="flex-1">
                   {title && (
-                    <DialogPrimitive.Title className="font-heading text-lg font-semibold" style={{ color: 'var(--text)' }}>
+                    <DialogPrimitive.Title className="font-heading text-[1.0625rem] font-semibold leading-6 tracking-[-0.01em]" style={{ color: 'var(--text)' }}>
                       {title}
                     </DialogPrimitive.Title>
                   )}
                   {description && (
-                    <DialogPrimitive.Description className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
+                    <DialogPrimitive.Description className="mt-1 text-[0.8125rem] leading-5" style={{ color: 'var(--muted)' }}>
                       {description}
                     </DialogPrimitive.Description>
                   )}
@@ -115,11 +109,11 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 )}
               </div>
             )}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-5 sm:p-6">
               {children}
             </div>
             {footer && (
-              <div className={cn('flex items-center justify-end gap-3 p-4 border-t border-border', footerClassName)}>
+              <div className={cn('flex flex-col-reverse items-stretch justify-end gap-2 border-t border-border/70 bg-muted/20 p-4 sm:flex-row sm:items-center sm:px-6', footerClassName)}>
                 {footer}
               </div>
             )}
@@ -139,7 +133,6 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
     children,
     title,
     description,
-    size = 'lg',
     snapPoints = ['bottom', 'center', 'top'],
     defaultSnapPoint = 'bottom',
     showDragIndicator = true,
@@ -155,7 +148,6 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
     const [snapPoint, setSnapPoint] = React.useState(defaultSnapPoint);
     const [dragOffset, setDragOffset] = React.useState(0);
     const [isDragging, setIsDragging] = React.useState(false);
-    const contentRef = React.useRef<HTMLDivElement>(null);
     const startY = React.useRef(0);
 
     const snapPointHeights = {
@@ -219,7 +211,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
-            'fixed inset-0 z-50 bg-black/50 backdrop-blur-sm',
+            'fixed inset-0 z-50 bg-zinc-950/55 supports-[backdrop-filter]:backdrop-blur-[3px]',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
             'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'
           )}
@@ -229,7 +221,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
           ref={ref as unknown}
           className={cn(
             'fixed z-50 bottom-0 left-0 right-0 bg-background border-t border-border',
-            'rounded-t-[20px] rounded-t-[20px] shadow-2xl',
+            'rounded-t-[1.125rem] shadow-[0_-8px_30px_rgb(0,0,0,0.14)] max-h-[92dvh]',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
             'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
             className
@@ -241,7 +233,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
             {(showDragIndicator || title || description || showClose) && (
               <div
                 className={cn(
-                  'flex items-center justify-between p-4 border-b border-border',
+                  'flex items-center justify-between gap-4 border-b border-border/70 px-5 py-4',
                   'touch-none select-none',
                   headerClassName
                 )}
@@ -279,7 +271,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
                 )}
               </div>
             )}
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 min-h-0 overflow-hidden">
               <ScrollArea className="h-full">
                 <div className="p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
                   {children}
@@ -327,7 +319,7 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
-            'fixed inset-0 z-50 bg-black/50 backdrop-blur-sm',
+            'fixed inset-0 z-50 bg-zinc-950/55 supports-[backdrop-filter]:backdrop-blur-[3px]',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
             'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'
           )}
@@ -336,8 +328,8 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
         <DialogPrimitive.Content
           ref={ref as unknown}
           className={cn(
-            'fixed z-50 right-0 top-0 bottom-0 bg-background border-l border-border',
-            'shadow-2xl',
+            'fixed z-50 right-0 top-0 bottom-0 bg-background border-l border-border/90 rounded-l-[1.125rem]',
+            'shadow-[-8px_0_30px_rgb(0,0,0,0.14)]',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
             'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right',
             sizeClasses[size],
@@ -347,7 +339,7 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
         >
           <div className={cn('flex flex-col h-full', contentClassName)}>
             {(title || description || showClose) && (
-              <div className={cn('flex items-start justify-between p-4 border-b border-border', headerClassName)}>
+              <div className={cn('flex items-start justify-between gap-4 border-b border-border/70 px-5 py-4 sm:px-6', headerClassName)}>
                 <div className="flex-1">
                   {title && (
                     <DialogPrimitive.Title className="font-heading text-lg font-semibold" style={{ color: 'var(--text)' }}>
@@ -374,11 +366,11 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
                 )}
               </div>
             )}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-5 sm:p-6">
               {children}
             </div>
             {footer && (
-              <div className={cn('flex items-center justify-end gap-3 p-4 border-t border-border', footerClassName)}>
+              <div className={cn('flex flex-col-reverse items-stretch justify-end gap-2 border-t border-border/70 bg-muted/20 p-4 sm:flex-row sm:items-center sm:px-6', footerClassName)}>
                 {footer}
               </div>
             )}

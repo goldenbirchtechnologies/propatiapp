@@ -1381,6 +1381,14 @@ a:hover {
 }
 .public-page .glass-card:hover { border-color: rgba(130, 245, 193, 0.28); }
 .public-page section:not(:first-child) { scroll-margin-top: 6rem; }
+
+/* Mortgage calculator is authored against the dark landing canvas. The public
+   shell intentionally keeps light root tokens for shared navigation and footer,
+   so scope the calculator cards explicitly to avoid white text on pale cards. */
+.mortgage-calculator-page .glass-card {
+  background: #09090b;
+  border-color: rgba(255, 255, 255, 0.08);
+}
 .public-section-heading { max-width: 680px; margin-bottom: 2rem; }
 .public-section-heading h2 { margin-top: 0.55rem; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.035em; }
 .public-section-heading p:last-child { margin-top: 0.7rem; max-width: 62ch; color: var(--public-muted); line-height: 1.7; }

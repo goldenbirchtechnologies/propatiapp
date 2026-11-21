@@ -691,6 +691,7 @@ model UserOnboarding {
   locationDone           Boolean          @default(false) @map("location_done")
   contactDone            Boolean          @default(false) @map("contact_done")
   identityDone           Boolean          @default(false) @map("identity_done")
+  tenantProfileDone      Boolean          @default(false) @map("tenant_profile_done")
   employmentDone         Boolean          @default(false) @map("employment_done")
   guarantorDone          Boolean          @default(false) @map("guarantor_done")
   landlordProfileDone    Boolean          @default(false) @map("landlord_profile_done")

@@ -141,6 +141,7 @@ export async function markStepDone(
     location: 'locationDone',
     contact: 'contactDone',
     identity: 'identityDone',
+    tenantProfile: 'tenantProfileDone',
     employment: 'employmentDone',
     guarantor: 'guarantorDone',
     landlordProfile: 'landlordProfileDone',

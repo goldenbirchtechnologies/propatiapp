@@ -4,6 +4,7 @@ export type StepId =
   | 'location'
   | 'contact'
   | 'identity'
+  | 'tenantProfile'
   | 'employment'
   | 'guarantor'
   | 'landlordProfile'
@@ -29,7 +30,7 @@ export interface StepDefinition {
  * Unknown roles fall back to an empty list so the wizard never crashes.
  */
 export const ROLE_STEPS: Record<UserRole, StepId[]> = {
-  tenant: ['location', 'contact', 'identity', 'employment', 'guarantor'],
+  tenant: ['location', 'contact', 'identity', 'tenantProfile', 'employment', 'guarantor'],
   landlord: ['location', 'contact', 'identity', 'landlordProfile', 'landlordSettlement'],
   agent: ['location', 'contact', 'identity', 'agentProfile', 'agentLicense', 'agentTerritory', 'agentSettlement'],
   estate_manager: ['location', 'contact', 'identity', 'estateProfile', 'estateAuthority', 'estateRemittance'],
@@ -54,6 +55,12 @@ export const STEP_DEFINITIONS: Record<StepId, StepDefinition> = {
     title: 'Identity',
     description: 'Verify your government-issued ID to unlock listings, agreements, and rent collections.',
     skippable: true,
+  },
+  tenantProfile: {
+    id: 'tenantProfile',
+    title: 'Personal & rental profile',
+    description: 'Add the personal, next-of-kin and rental preferences that help tailor applications to you.',
+    skippable: false,
   },
   employment: {
     id: 'employment',

@@ -22,6 +22,7 @@ export interface UserOnboardingFacts {
   idType: string | null;
   idNumberEnc: string | null;
   idVerified: boolean;
+  tenantProfileComplete?: boolean;
   employmentStatus: string | null;
   employerName: string | null;
   jobTitle: string | null;
@@ -49,6 +50,7 @@ export const STEP_PREDICATES: Record<StepId, (u: UserOnboardingFacts) => boolean
   location: (u) => !!u.countryId && !!u.jurisdictionId && !!u.city,
   contact: (u) => !!u.phone && u.phoneVerified,
   identity: (u) => !!u.idType && !!u.idNumberEnc && u.idVerified,
+  tenantProfile: (u) => !!u.tenantProfileComplete,
   employment: (u) =>
     !!u.employmentStatus && !!u.employerName && !!u.jobTitle && u.yearlyIncome != null,
   guarantor: (u) => !!u.guarantorName && !!u.guarantorPhone && !!u.guarantorRelationship,
@@ -89,6 +91,7 @@ export interface OnboardingDisplayFacts {
   phoneVerified: boolean;
   idType: string | null;
   idVerified: boolean;
+  tenantProfileComplete?: boolean;
   employmentStatus: string | null;
   employerName: string | null;
   jobTitle: string | null;
@@ -199,6 +202,23 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
 
   if (!user) return null;
 
+  const dossier = user.role === 'tenant'
+    ? await prisma.rentalApplicationDossier.findUnique({
+        where: { userId },
+        select: {
+          nationality: true,
+          stateOfResidence: true,
+          maritalStatus: true,
+          nokName: true,
+          nokPhone: true,
+          nokRelationship: true,
+          preferredState: true,
+          preferredBedrooms: true,
+          maxMonthlyBudget: true,
+        },
+      })
+    : null;
+
   const skippedSteps = user.onboardingRequired
     ? await getSkippedSteps(userId, user.role)
     : [];
@@ -212,6 +232,17 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
     idType: user.idType,
     idNumberEnc: user.idNumberEnc,
     idVerified: user.idVerified,
+    tenantProfileComplete: Boolean(
+      dossier?.nationality &&
+        dossier.stateOfResidence &&
+        dossier.maritalStatus &&
+        dossier.nokName &&
+        dossier.nokPhone &&
+        dossier.nokRelationship &&
+        dossier.preferredState &&
+        dossier.preferredBedrooms !== null &&
+        dossier.maxMonthlyBudget !== null
+    ),
     employmentStatus: user.employmentStatus,
     employerName: user.employerName,
     jobTitle: user.jobTitle,
@@ -256,6 +287,7 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
       yearlyIncome: user.yearlyIncome == null ? null : Number(user.yearlyIncome),
       guarantorName: user.guarantorName,
       guarantorRelationship: user.guarantorRelationship,
+      tenantProfileComplete: facts.tenantProfileComplete,
     },
   };
 }

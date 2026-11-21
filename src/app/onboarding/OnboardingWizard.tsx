@@ -16,6 +16,7 @@ import { ROLE_META } from '@/components/onboarding/dossier/role-meta';
 import LocationStep from './steps/LocationStep';
 import ContactStep from './steps/ContactStep';
 import IdentityStep from './steps/IdentityStep';
+import TenantProfileStep from './steps/TenantProfileStep';
 import EmploymentStep from './steps/EmploymentStep';
 import GuarantorStep from './steps/GuarantorStep';
 import LandlordProfileStep from './steps/LandlordProfileStep';
@@ -67,6 +68,7 @@ const COMPONENT_MAP: Record<string, React.ComponentType<StepProps>> = {
   location: LocationStep,
   contact: ContactStep,
   identity: IdentityStep,
+  tenantProfile: TenantProfileStep,
   employment: EmploymentStep,
   guarantor: GuarantorStep,
   landlordProfile: LandlordProfileStep,

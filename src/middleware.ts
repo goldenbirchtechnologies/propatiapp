@@ -7,6 +7,8 @@ import {
 
 const isPublic = createRouteMatcher([
   '/',
+  '/properties(.*)',
+  '/listing(.*)',
   '/listings(.*)',
   '/api/listings(.*)',
   '/api/webhook(.*)',

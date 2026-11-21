@@ -16,8 +16,6 @@ const nextConfig = {
   output: 'standalone',
   async redirects() {
     return [
-      { source: '/properties', destination: '/listings', permanent: false },
-      { source: '/properties/:path*', destination: '/listings/:path*', permanent: false },
       { source: '/shortlet', destination: '/listings?listingType=short_let', permanent: false },
       { source: '/shortlet/:path*', destination: '/listings?listingType=short_let', permanent: false },
       { source: '/investment', destination: '/compare', permanent: false },

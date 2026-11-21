@@ -61,6 +61,18 @@ export async function POST(request: NextRequest) {
       startedAt: new Date().toISOString(),
     } as unknown as Prisma.InputJsonValue;
 
+    const attempt = await prisma.verificationAttempt.create({
+      data: {
+        userId: user.id,
+        referenceId,
+        flowId: appWidgetId,
+        role: user.role,
+        status: 'in_progress',
+        consentAt: new Date(),
+        expiresAt: new Date(Date.now() + 30 * 60 * 1000),
+      },
+    });
+
     if (!kyc) {
       await prisma.userKyc.create({
         data: {
@@ -68,7 +80,7 @@ export async function POST(request: NextRequest) {
           role: user.role,
           status: KycStatus.in_progress,
           level: 1,
-          dojahRef: referenceId,
+          dojahRef: attempt.referenceId,
           metadata: startedMetadata,
         },
       });
@@ -76,7 +88,7 @@ export async function POST(request: NextRequest) {
       await prisma.userKyc.update({
         where: { userId: user.id },
         data: {
-          dojahRef: referenceId,
+          dojahRef: attempt.referenceId,
           status: KycStatus.in_progress,
           metadata: startedMetadata,
         },

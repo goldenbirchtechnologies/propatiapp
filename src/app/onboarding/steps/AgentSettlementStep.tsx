@@ -12,6 +12,7 @@ import {
   DTextarea,
 } from '@/components/onboarding/dossier/primitives';
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
+import PaystackPayoutValidation from '@/components/payments/PaystackPayoutValidation';
 import {
   bankNameForCode,
   SettlementAccountNote,
@@ -141,6 +142,8 @@ export default function AgentSettlementStep({ onSaved }: StepProps) {
       </DGrid>
 
       <SettlementAccountNote preview={preview} checking={checking} />
+
+      <PaystackPayoutValidation bankCode={bankCode} accountNumber={accountNumber} />
 
       <div className="my-5 h-px w-full bg-[var(--surface-container-high)]" />
 

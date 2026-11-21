@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { layer2IdentitySchema } from '@/lib/validators';
 import { verificationService } from '@/lib/verification';
+import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request);
@@ -12,11 +13,18 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = layer2IdentitySchema.parse(body);
 
-    const verification = await verificationService.submitLayer2(
+    const kyc = await prisma.userKyc.findUnique({ where: { userId: user.id }, select: { status: true } });
+    if (kyc?.status !== 'approved') {
+      return NextResponse.json({ error: 'Complete Dojah identity verification first.' }, { status: 403 });
+    }
+    const accountUser = await prisma.user.findUnique({ where: { id: user.id }, select: { idType: true } });
+
+    await verificationService.submitLayer2(
       validated.listingId,
-      validated.idType,
+      (validated.idType || accountUser?.idType || 'nin') as 'nin' | 'bvn',
       user.id
     );
+    const verification = await verificationService.confirmLayer2(validated.listingId, true, user.id);
 
     return NextResponse.json({ success: true, data: verification }, { status: 201 });
   } catch (error) {

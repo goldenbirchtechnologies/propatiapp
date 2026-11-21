@@ -3,7 +3,6 @@ import { ZodError } from 'zod';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { onboardingAgentProfileSchema } from '@/lib/validators';
-import { encryptSensitiveValue } from '@/lib/encryption';
 import { advanceOnboarding } from '@/lib/onboarding/profiles';
 
 /**
@@ -30,16 +29,10 @@ export async function POST(request: NextRequest) {
       emergencyContactRelationship: parsed.emergencyContactRelationship,
     };
 
-    // An identifier is only rewritten when supplied, so re-saving the step
-    // without retyping it does not erase the stored value.
-    const identPatch = parsed.ninOrBvnOrTin
-      ? { ninOrBvnOrTinEnc: encryptSensitiveValue(parsed.ninOrBvnOrTin) }
-      : {};
-
     const profile = await prisma.agentProfile.upsert({
       where: { userId: user.id },
-      create: { userId: user.id, ...data, ...identPatch },
-      update: { ...data, ...identPatch },
+      create: { userId: user.id, ...data },
+      update: data,
     });
 
     const nextStep = await advanceOnboarding(user.id, user.role, 'agentProfile');

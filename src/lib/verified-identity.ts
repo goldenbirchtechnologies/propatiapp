@@ -130,7 +130,8 @@ export async function recordVerifiedIdentity(params: {
 
   // The identity kept in JSON carries only a masked number; the real value
   // lives in the encrypted columns on User.
-  const { idNumber: _plaintext, ...rest } = identity;
+  const { idNumber, ...rest } = identity;
+  void idNumber;
   const storedIdentity: VerifiedIdentityRecord = {
     ...rest,
     idNumberMasked: identity.idNumberMasked ?? maskIdentifier(rawNumber),
@@ -279,6 +280,7 @@ export async function syncPaystackCustomerFromKyc(
         first_name: firstName,
         last_name: lastName,
         phone,
+        bvn: bvn || undefined,
         metadata: { userId, idType: identity.type },
       });
       if (created?.status && created.data?.customer_code) {

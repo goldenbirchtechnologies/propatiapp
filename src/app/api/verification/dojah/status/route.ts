@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
-import { getDojahService } from '@/lib/dojah';
 
 export const runtime = 'nodejs';
 
@@ -39,32 +38,10 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    let dojahData: Record<string, unknown> | null = null;
-    if (kyc.dojahRef && kyc.status !== 'not_started') {
-      const appId = process.env.NEXT_PUBLIC_DOJAH_APP_ID;
-      const publicKey = process.env.NEXT_PUBLIC_DOJAH_PUBLIC_KEY;
-      const secretKey = process.env.DOJAH_SECRET_KEY;
-
-      if (!appId || !publicKey || !secretKey) {
-        console.warn('[Dojah] Skipping status sync because Dojah env vars are missing');
-      } else {
-        try {
-          const dojahService = getDojahService();
-          const details = await dojahService.getVerificationDetails(kyc.dojahRef);
-          if (details.success && details.data) {
-            dojahData = details.data;
-          }
-        } catch (detailError) {
-          console.error('[Dojah] Status lookup failed:', detailError);
-        }
-      }
-    }
-
     return NextResponse.json({
       success: true,
       data: {
         ...kyc,
-        dojahData,
       },
     });
   } catch (error) {

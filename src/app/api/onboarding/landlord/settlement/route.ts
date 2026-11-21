@@ -54,11 +54,9 @@ export async function POST(request: NextRequest) {
       create: {
         userId: user.id,
         ...data,
-        ...(parsed.bvn ? { bvnEnc: encryptSensitiveValue(parsed.bvn) } : {}),
       },
       update: {
         ...data,
-        ...(parsed.bvn ? { bvnEnc: encryptSensitiveValue(parsed.bvn) } : {}),
       },
     });
 

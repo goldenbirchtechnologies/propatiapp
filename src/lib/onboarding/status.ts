@@ -25,6 +25,7 @@ export interface UserOnboardingFacts {
   idType: string | null;
   idNumberEnc: string | null;
   idVerified: boolean;
+  kycApproved: boolean;
   tenantProfileComplete?: boolean;
   employmentStatus: string | null;
   employerName: string | null;
@@ -55,7 +56,7 @@ export interface UserOnboardingFacts {
 export const STEP_PREDICATES: Record<StepId, (u: UserOnboardingFacts) => boolean> = {
   location: (u) => !!u.countryId && !!u.jurisdictionId && !!u.city,
   contact: (u) => !!u.phone && u.phoneVerified,
-  identity: (u) => !!u.idType && !!u.idNumberEnc && u.idVerified,
+  identity: (u) => u.idVerified && u.kycApproved,
   tenantProfile: (u) => !!u.tenantProfileComplete && !!u.phone && u.phoneVerified,
   employment: (u) =>
     !!u.employmentStatus && !!u.employerName && !!u.jobTitle && u.yearlyIncome != null,
@@ -196,6 +197,7 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
       idType: true,
       idNumberEnc: true,
       idVerified: true,
+      userKyc: { select: { status: true } },
       employmentStatus: true,
       employerName: true,
       jobTitle: true,
@@ -241,6 +243,7 @@ export async function getOnboardingSnapshot(userId: string): Promise<OnboardingS
     idType: user.idType,
     idNumberEnc: user.idNumberEnc,
     idVerified: user.idVerified,
+    kycApproved: user.userKyc?.status === 'approved',
     tenantProfileComplete: Boolean(
       dossier?.nationality &&
         dossier.stateOfResidence &&

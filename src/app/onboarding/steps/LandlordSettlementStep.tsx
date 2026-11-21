@@ -13,6 +13,7 @@ import {
   DSelect,
 } from '@/components/onboarding/dossier/primitives';
 import { formatNaira } from '@/components/onboarding/dossier/role-meta';
+import PaystackPayoutValidation from '@/components/payments/PaystackPayoutValidation';
 import { issuesOf, firstIssue, StepActions, useStepSave } from './_shared';
 import {
   bankNameForCode,
@@ -38,7 +39,6 @@ export default function LandlordSettlementStep({ onSaved }: StepProps) {
   const [bankCode, setBankCode] = useState('');
   const [accountName, setAccountName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
-  const [bvn, setBvn] = useState('');
   const [targetMonthlyRent, setTargetMonthlyRent] = useState('');
   const [targetAnnualRent, setTargetAnnualRent] = useState('');
   const [securityDeposit, setSecurityDeposit] = useState('');
@@ -68,7 +68,6 @@ export default function LandlordSettlementStep({ onSaved }: StepProps) {
       bankCode: bankCode || undefined,
       accountName,
       accountNumber,
-      bvn: bvn || undefined,
       targetMonthlyRent: targetMonthlyRent === '' ? undefined : Number(targetMonthlyRent),
       targetAnnualRent: targetAnnualRent === '' ? undefined : Number(targetAnnualRent),
       securityDeposit: securityDeposit === '' ? undefined : Number(securityDeposit),
@@ -137,23 +136,11 @@ export default function LandlordSettlementStep({ onSaved }: StepProps) {
           />
         </DField>
 
-        <DField
-          label="BVN"
-          note="Optional · 11 digits"
-          error={fieldErrors.bvn}
-          hint="Speeds up name matching on the settlement account."
-        >
-          <DInput
-            value={bvn}
-            onChange={(e) => setBvn(e.target.value.replace(/\D/g, '').slice(0, 11))}
-            placeholder="22XXXXXXXXX"
-            inputMode="numeric"
-            mono
-          />
-        </DField>
       </DGrid>
 
       <SettlementAccountNote preview={preview} checking={checking} />
+
+      <PaystackPayoutValidation bankCode={bankCode} accountNumber={accountNumber} />
 
       <div className="my-5 h-px w-full bg-[var(--surface-container-high)]" />
 

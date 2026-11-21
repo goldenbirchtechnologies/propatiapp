@@ -601,6 +601,7 @@ model User {
   tenantScreenings        ScreeningCall[]            @relation("ScreeningTenant")
   verifications           Verification[]             @relation("VerificationOwner")
   reviewedVerifications   Verification[]             @relation("VerificationReviewer")
+  verificationAttempts    VerificationAttempt[]
   signatureRecords        AgreementSignature[]
   disputes                Dispute[]                  @relation("DisputeRaisedBy")
   adminDisputes           Dispute[]                  @relation("DisputeAdmin")
@@ -672,6 +673,34 @@ model UserKyc {
 
   @@index([userId], map: "idx_user_kyc_user")
   @@map("user_kyc")
+}
+
+/// Immutable-ish audit record for each Dojah widget attempt. Raw identity
+/// numbers and provider payloads do not belong in this table.
+model VerificationAttempt {
+  id                  String    @id @default(cuid())
+  userId              String    @map("user_id")
+  provider            String    @default("dojah") @db.VarChar(30)
+  referenceId         String    @unique @map("reference_id")
+  flowId              String?   @map("flow_id")
+  role                UserRole
+  status              String    @db.VarChar(30)
+  failureCode         String?   @map("failure_code") @db.VarChar(80)
+  failureReason       String?   @map("failure_reason")
+  checksPassed        Json?     @map("checks_passed")
+  providerPayloadHash String?   @map("provider_payload_hash") @db.VarChar(128)
+  consentAt           DateTime? @map("consent_at")
+  startedAt           DateTime  @default(now()) @map("started_at")
+  completedAt         DateTime? @map("completed_at")
+  expiresAt           DateTime? @map("expires_at")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_verification_attempt_user")
+  @@index([status], map: "idx_verification_attempt_status")
+  @@map("verification_attempts")
 }
 
 // ===========================================================================
@@ -3023,24 +3052,24 @@ model AutoPayMandate {
 }
 
 model PaymentMethod {
-  id                       String    @id @default(cuid()) @map("id")
-  userId                   String    @map("user_id")
-  type                     String    @db.VarChar(20)
-  provider                 String    @default("paystack") @db.VarChar(30)
-  emailUsed                String    @map("email_used")
-  authorizationCode        String?   @map("authorization_code") @db.Text
-  authorizationSignature   String?   @map("authorization_signature") @db.VarChar(120)
-  cardBrand                String?   @map("card_brand") @db.VarChar(40)
-  cardType                 String?   @map("card_type") @db.VarChar(40)
-  cardLast4                String?   @map("card_last4") @db.VarChar(4)
-  cardExpMonth             String?   @map("card_exp_month") @db.VarChar(2)
-  cardExpYear              String?   @map("card_exp_year") @db.VarChar(4)
-  bankName                 String?   @map("bank_name") @db.VarChar(120)
-  status                   String    @default("pending") @db.VarChar(20)
-  setupReference            String?   @unique @map("setup_reference") @db.VarChar(120)
-  metadata                 Json?
-  createdAt                DateTime  @default(now()) @map("created_at")
-  updatedAt                DateTime  @updatedAt @map("updated_at")
+  id                     String   @id @default(cuid()) @map("id")
+  userId                 String   @map("user_id")
+  type                   String   @db.VarChar(20)
+  provider               String   @default("paystack") @db.VarChar(30)
+  emailUsed              String   @map("email_used")
+  authorizationCode      String?  @map("authorization_code") @db.Text
+  authorizationSignature String?  @map("authorization_signature") @db.VarChar(120)
+  cardBrand              String?  @map("card_brand") @db.VarChar(40)
+  cardType               String?  @map("card_type") @db.VarChar(40)
+  cardLast4              String?  @map("card_last4") @db.VarChar(4)
+  cardExpMonth           String?  @map("card_exp_month") @db.VarChar(2)
+  cardExpYear            String?  @map("card_exp_year") @db.VarChar(4)
+  bankName               String?  @map("bank_name") @db.VarChar(120)
+  status                 String   @default("pending") @db.VarChar(20)
+  setupReference         String?  @unique @map("setup_reference") @db.VarChar(120)
+  metadata               Json?
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
 
   user User @relation("PaymentMethodOwner", fields: [userId], references: [id], onDelete: Cascade)
 

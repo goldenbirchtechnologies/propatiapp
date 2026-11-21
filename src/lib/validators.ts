@@ -304,7 +304,7 @@ export const verifyIdentitySchema = z.object({
 
 export const layer2IdentitySchema = z.object({
   listingId: uuidSchema,
-  idType: z.enum(['nin', 'bvn']),
+  idType: z.enum(['nin', 'bvn']).optional(),
 });
 
 export const oldVerifyIdentitySchema = z.object({
@@ -1174,7 +1174,6 @@ export const onboardingLandlordSettlementSchema = z.object({
   bankName: z.string().min(2).max(80),
   bankCode: z.string().regex(/^\d{3,6}$/, 'Choose your bank from the list').optional(),
   accountNumber: z.string().regex(/^\d{10,12}$/, 'NUBAN must be 10–12 digits'),
-  bvn: z.string().regex(/^\d{11}$/, 'BVN must be 11 digits').optional(),
   targetMonthlyRent: z.coerce.number().finite().nonnegative().optional(),
   targetAnnualRent: z.coerce.number().finite().nonnegative().optional(),
   securityDeposit: z.coerce.number().finite().nonnegative().optional(),
@@ -1231,7 +1230,6 @@ export const onboardingAgentProfileSchema = z.object({
   homeAddress: z.string().min(4).max(300).optional(),
   businessPhone: phoneSchema,
   corporateEmail: z.string().email('Enter a valid corporate email').optional(),
-  ninOrBvnOrTin: z.string().min(5).max(30).optional(),
   emergencyContactName: z.string().min(2).max(120),
   emergencyContactPhone: phoneSchema,
   emergencyContactRelationship: z.string().min(2).max(60),

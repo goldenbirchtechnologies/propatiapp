@@ -1,12 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
 import { toast } from 'sonner';
-import { Loader2, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
 
 type Props = {
   listingId: string;
@@ -18,138 +15,79 @@ type Props = {
   l1Status: string | null;
 };
 
-const ID_TYPES = [
-  { value: 'nin', label: 'National ID (NIN)' },
-  { value: 'bvn', label: 'Bank Verification Number (BVN)' },
-  { value: 'passport', label: 'International Passport' },
-  { value: 'drivers_licence', label: 'Driver\'s Licence' },
-  { value: 'voters_card', label: "Voter's Card" },
-];
-
-function Step2IdentityClient(props: Props) {
-  const [idType, setIdType] = useState(props.l2IdType || '');
-  const [idNumber, setIdNumber] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+export default function Step2IdentityClient(props: Props) {
   const [status, setStatus] = useState(props.l2Status);
-
+  const [checking, setChecking] = useState(false);
   const canProceed = props.l1Status === 'approved' || props.currentLayer >= 2;
-  const isReadOnly = !['not_started', 'in_progress'].includes(props.overallStatus || '') || status === 'pending';
 
-  const submitIdentity = async () => {
-    if (!idType) {
-      toast.error('Select an ID type');
+  async function completeLayer() {
+    const response = await fetch('/api/verification/layer2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listingId: props.listingId, idType: props.l2IdType || undefined }),
+    });
+    const json = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(json.error || 'Could not update property verification.');
+    setStatus('approved');
+    toast.success('Identity verified for this property');
+  }
+
+  async function handleComplete(result: { success: boolean; error?: string }) {
+    if (!result.success) {
+      toast.error(result.error || 'Dojah verification failed');
       return;
     }
-    setSubmitting(true);
+    setChecking(true);
     try {
-      const res = await fetch('/api/verification/verify-identity', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          verificationId: props.verificationId,
-          verificationType: idType === 'drivers_licence' ? 'nin' : idType === 'voters_card' ? 'nin' : idType,
-          number: idNumber || '00000000000',
-          firstName: '',
-          lastName: '',
-        }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || err.error || 'Identity verification failed');
+      for (let attempt = 0; attempt < 10; attempt += 1) {
+        const response = await fetch('/api/verification/dojah/status', { cache: 'no-store' });
+        const json = await response.json().catch(() => ({}));
+        const kycStatus = json?.data?.status;
+        if (kycStatus === 'approved') {
+          await completeLayer();
+          return;
+        }
+        if (kycStatus === 'rejected') throw new Error('Dojah did not approve this identity.');
+        await new Promise((resolve) => window.setTimeout(resolve, 1500));
       }
-
-      const data = await res.json();
-      setStatus('pending');
-      toast.success('Identity verification submitted');
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Verification failed');
+      toast.message('Verification is still processing. Refresh shortly.');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Could not complete verification.');
     } finally {
-      setSubmitting(false);
+      setChecking(false);
     }
-  };
+  }
 
-  const progress = props.currentLayer >= 2 && props.l2Status === 'approved' ? 100 : props.currentLayer >= 2 ? 50 : 0;
+  if (!canProceed) {
+    return (
+      <div className="flex items-center gap-2 rounded-lg border border-warning/20 bg-warning/10 p-4 text-sm">
+        <AlertCircle className="h-5 w-5 text-warning" />
+        Complete Layer 1 document review before starting identity verification.
+      </div>
+    );
+  }
+
+  if (status === 'approved') {
+    return (
+      <div className="flex items-center gap-2 rounded-lg border border-success/20 bg-success/10 p-4 text-sm font-medium">
+        <CheckCircle2 className="h-5 w-5 text-[#006c49]" /> Identity verified successfully.
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Verification Progress</h3>
+    <div className="space-y-4">
+      {checking && (
+        <div className="flex items-center gap-2 rounded-lg border border-warning/20 bg-warning/10 p-4 text-sm">
+          <Loader2 className="h-4 w-4 animate-spin text-warning" /> Waiting for Dojah to confirm the result…
         </div>
-        <div className="p-6">
-          <Progress value={progress} className="h-3" />
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 mt-2">
-            {props.l2Status === 'approved' ? 'Identity verified successfully' : props.l2Status === 'rejected' ? 'Identity verification failed' : 'Complete identity verification to proceed'}
-          </p>
-        </div>
-      </div>
-
-      <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Identity Details</h3>
-        </div>
-        <div className="p-6 space-y-4">
-          {!canProceed ? (
-            <div className="flex items-center gap-2 p-4 rounded-lg bg-warning/10 border border-warning/20">
-              <AlertCircle className="h-5 w-5 text-warning" />
-              <p className="text-sm">Please complete Layer 1 (Document upload) before proceeding.</p>
-            </div>
-          ) : status === 'approved' ? (
-            <div className="flex items-center gap-2 p-4 rounded-lg bg-success/10 border border-success/20">
-              <CheckCircle2 className="h-5 w-5 text-[#006c49]" />
-              <p className="text-sm font-medium">Identity verified successfully.</p>
-            </div>
-          ) : status === 'pending' ? (
-            <div className="flex items-center gap-2 p-4 rounded-lg bg-warning/10 border border-warning/20">
-              <Loader2 className="h-4 w-4 animate-spin text-warning" />
-              <p className="text-sm">Identity verification in progress. This may take a few moments.</p>
-            </div>
-          ) : (
-            <>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">ID Type</label>
-                <select
-                  value={idType}
-                  onChange={(e) => setIdType(e.target.value)}
-                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
-                  disabled={isReadOnly}
-                >
-                  <option value="">Select ID type</option>
-                  {ID_TYPES.map((t) => (
-                    <option key={t.value} value={t.value}>{t.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">ID Number</label>
-                <input
-                  type="text"
-                  value={idNumber}
-                  onChange={(e) => setIdNumber(e.target.value)}
-                  placeholder="Enter ID number"
-                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
-                  disabled={isReadOnly}
-                />
-              </div>
-              <Button onClick={submitIdentity} disabled={submitting || isReadOnly || !idType} className="w-full">
-                {submitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                Verify Identity
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className="flex justify-end">
-        {props.l2Status === 'approved' && (
-          <Button onClick={() => { window.location.href = `/dashboard/verification/step3/video?listingId=${props.listingId}`; }}>
-            Continue to Step 3 <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
-        )}
-      </div>
+      )}
+      <DojahWidgetClient
+        type="identification"
+        metadata={{ propertyVerificationId: props.verificationId, listingId: props.listingId }}
+        triggerLabel="Verify property owner with Dojah"
+        onComplete={handleComplete}
+      />
     </div>
   );
 }
-
-export default Step2IdentityClient;

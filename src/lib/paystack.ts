@@ -169,6 +169,12 @@ export interface DedicatedAccountResponse {
   };
 }
 
+export interface AssignDedicatedAccountResponse {
+  status: boolean;
+  message: string;
+  data?: DedicatedAccountResponse['data'];
+}
+
 export interface CreateSubaccountParams {
   /** Trading name shown on splits and settlement reports. */
   business_name: string;
@@ -352,6 +358,34 @@ class PaystackClient {
       // record the customer and retry the account later.
       if (response?.status === 400 || response?.status === 422) return null;
       throw this.failure('create a dedicated account', error);
+    }
+  }
+
+  /**
+   * Assign a DVA through Paystack's compliance path. BVN is accepted only for
+   * this one request and is never persisted by the client.
+   */
+  async assignDedicatedAccount(params: {
+    email: string;
+    first_name: string;
+    last_name: string;
+    phone: string;
+    preferred_bank?: string;
+    country: 'NG';
+    account_number: string;
+    bank_code: string;
+    bvn: string;
+    subaccount?: string;
+  }): Promise<AssignDedicatedAccountResponse> {
+    if (!this.isConfigured()) {
+      if (!this.allowMock) this.unavailable('assign a dedicated account');
+      return { status: true, message: 'Dedicated account assignment started (MOCK).' };
+    }
+    try {
+      const response = await this.client.post('/dedicated_account/assign', params);
+      return response.data;
+    } catch (error) {
+      throw this.failure('assign a dedicated account', error);
     }
   }
 

@@ -19,7 +19,6 @@ export default function AgentProfileStep({ facts, onSaved }: StepProps) {
   const [homeAddress, setHomeAddress] = useState('');
   const [businessPhone, setBusinessPhone] = useState(facts.phone ?? '');
   const [corporateEmail, setCorporateEmail] = useState(facts.email ?? '');
-  const [ninOrBvnOrTin, setNinOrBvnOrTin] = useState('');
   const [emergencyContactName, setEmergencyContactName] = useState('');
   const [emergencyContactPhone, setEmergencyContactPhone] = useState('');
   const [emergencyContactRelationship, setEmergencyContactRelationship] = useState('');
@@ -37,7 +36,6 @@ export default function AgentProfileStep({ facts, onSaved }: StepProps) {
       homeAddress: homeAddress || undefined,
       businessPhone,
       corporateEmail: corporateEmail || undefined,
-      ninOrBvnOrTin: ninOrBvnOrTin || undefined,
       emergencyContactName,
       emergencyContactPhone,
       emergencyContactRelationship,
@@ -54,7 +52,7 @@ export default function AgentProfileStep({ facts, onSaved }: StepProps) {
 
   return (
     <div>
-      <ContactStep facts={facts} onSaved={onSaved} />
+      <ContactStep stepId="contact" facts={facts} onSaved={onSaved} />
       <div className="my-6 h-px w-full bg-[var(--surface-container-high)]" />
       <form onSubmit={handleSubmit}>
       <DCallout icon={<IdCard className="h-4 w-4" />} title="Brokerage register" className="mb-5">
@@ -98,15 +96,6 @@ export default function AgentProfileStep({ facts, onSaved }: StepProps) {
             onChange={(e) => setCorporateEmail(e.target.value)}
             placeholder="agent@brokerage.ng"
             autoComplete="email"
-          />
-        </DField>
-
-        <DField label="NIN / BVN / TIN" note="Optional" error={fieldErrors.ninOrBvnOrTin}>
-          <DInput
-            value={ninOrBvnOrTin}
-            onChange={(e) => setNinOrBvnOrTin(e.target.value.replace(/\s/g, ''))}
-            placeholder="22XXXXXXXXX"
-            mono
           />
         </DField>
 

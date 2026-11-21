@@ -21,7 +21,7 @@ const layers = [
     tier: 'verified',
     icon: Fingerprint,
     status: 'l2Status',
-    requires: ['NIN or BVN via Prembly — name match against document owner', 'Selfie liveness check'],
+  requires: ['NIN or BVN via Dojah — name match against document owner', 'Liveness only where risk or provider rules require it'],
     proves: 'The person submitting documents is who they claim to be.',
   },
   {

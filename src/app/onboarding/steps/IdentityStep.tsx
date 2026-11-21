@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Lock, ShieldCheck } from 'lucide-react';
 import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
+import PaystackDedicatedAccountCard from '@/components/payments/PaystackDedicatedAccountCard';
 import { DCallout, DPill } from '@/components/onboarding/dossier/primitives';
 import type { StepProps } from './types';
 
@@ -19,6 +20,7 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
           are unlocked according to your role.
         </DCallout>
         <DPill tone="mint">KYC complete</DPill>
+        <PaystackDedicatedAccountCard />
       </div>
     );
   }
@@ -57,11 +59,14 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
   return (
     <div className="space-y-5">
       <DCallout icon={<Lock className="h-4 w-4" />} title="Secure identity check">
-        Dojah securely collects your government ID and liveness evidence. PropatiBox receives the
-        verification result, not a form submission containing your raw NIN or BVN.
+        Dojah securely collects your government ID and, when enabled in the widget configuration,
+        BVN validation for your Paystack rent account. Liveness is optional for standard onboarding
+        and may be requested later for higher-risk actions. PropatiBox receives the signed
+        verification result rather than a raw NIN/BVN form submission.
       </DCallout>
       <DojahWidgetClient
         type="identification"
+        metadata={{ purpose: 'identity_and_dedicated_rent_account', liveness: 'optional' }}
         triggerLabel={checking ? 'Confirming verification…' : 'Verify securely with Dojah'}
         onComplete={handleComplete}
       />

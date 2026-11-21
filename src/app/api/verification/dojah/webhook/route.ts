@@ -74,7 +74,13 @@ export async function POST(request: NextRequest) {
     const isFinalStatus = mappedStatus === KycStatus.approved || mappedStatus === KycStatus.rejected;
 
     const now = new Date();
-    const idType = readString(body, 'id_type', 'idType', 'document_type', 'documentType');
+    const rawIdType = readString(body, 'id_type', 'idType', 'document_type', 'documentType');
+    // Some Dojah BVN-enabled widgets return the verified BVN in the signed
+    // callback. Use it only in memory for the Paystack hand-off; never persist
+    // the raw webhook body or put the BVN into KYC metadata.
+    const bvn = readString(body, 'bvn', 'bvn_number', 'bvnNumber');
+    const verifiedBvn = bvn && /^\d{11}$/.test(bvn) ? bvn : undefined;
+    const idType = rawIdType || (verifiedBvn ? 'bvn' : undefined);
     const providerPayloadHash = createHash('sha256').update(rawBody).digest('hex');
 
     await prisma.$transaction([
@@ -142,7 +148,7 @@ export async function POST(request: NextRequest) {
             source: 'dojah_widget',
           },
         });
-        const paystack = await syncPaystackCustomerFromKyc(kyc.userId);
+        const paystack = await syncPaystackCustomerFromKyc(kyc.userId, { bvn: verifiedBvn });
         paystackSynced = paystack.synced;
       } catch (syncError) {
         // KYC remains approved; money-rail provisioning can be retried by the

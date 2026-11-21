@@ -29,7 +29,7 @@ const STEPS_BY_TYPE: Record<string, { layer: number; label: string; desc: string
     { layer: 5, label: 'Certification', desc: 'Final admin review with NIPOST address cross-reference. Approved listings receive the Certified badge.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },
   ],
   identity: [
-    { layer: 1, label: 'Identity Check', desc: 'Complete identity verification via Dojah. This covers NIN/BVN and liveness checks.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },
+    { layer: 1, label: 'Identity Check', desc: 'Complete identity verification via Dojah. Liveness is optional during standard onboarding.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },
   ],
   company: [
     { layer: 1, label: 'Business Docs', desc: 'Upload Business Registration certificate, TIN, and memorandum & articles of association.', icon: Building2, href: '/dashboard/verification/step1/documents' },

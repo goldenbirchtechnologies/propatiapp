@@ -57,6 +57,7 @@ export async function POST(request: NextRequest) {
     // replaced so a verified identity already stored there survives a re-run.
     const startedMetadata = {
       ...((kyc && typeof kyc.metadata === 'object' && kyc.metadata) || {}),
+      verification_policy: 'liveness_optional',
       ...(metadata || {}),
       startedAt: new Date().toISOString(),
     } as unknown as Prisma.InputJsonValue;

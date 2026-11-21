@@ -17,7 +17,7 @@ const VERIFICATION_TYPES = [
   {
     key: 'identity',
     title: 'Identity Verification',
-    description: 'Verify your identity via the Dojah widget. Complete NIN, ID, and liveness checks.',
+    description: 'Verify your identity via the Dojah widget. Liveness is requested only when needed.',
     href: '/dashboard/verification/dojah-kyc',
     icon: '🪪',
   },

@@ -93,6 +93,7 @@ export default function DojahWidgetClient({
         widget_id: resolvedWidgetId,
         user_data: userData || {},
         metadata: {
+          verification_policy: 'liveness_optional',
           ...metadata,
           user_id: referenceIdRef.current,
         },
@@ -136,7 +137,13 @@ export default function DojahWidgetClient({
       const res = await fetch('/api/verification/dojah/initiate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, widgetId: resolvedWidgetId, referenceId: controlledReferenceId, userData, metadata }),
+        body: JSON.stringify({
+          type,
+          widgetId: resolvedWidgetId,
+          referenceId: controlledReferenceId,
+          userData,
+          metadata: { verification_policy: 'liveness_optional', ...metadata },
+        }),
       });
 
       const result = (await res.json().catch(() => ({ success: false }))) as {

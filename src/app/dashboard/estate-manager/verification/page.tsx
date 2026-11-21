@@ -42,7 +42,7 @@ const TYPE_META: Record<VerificationType, { label: string; icon: JSX.Element; de
   identity: {
     label: 'Identity Verification',
     icon: <ShieldCheck className="h-5 w-5" />,
-    desc: 'NIN, ID, and liveness checks via Dojah',
+    desc: 'NIN and ID checks via Dojah; liveness only when risk requires it',
   },
   company: {
     label: 'Company / Business',

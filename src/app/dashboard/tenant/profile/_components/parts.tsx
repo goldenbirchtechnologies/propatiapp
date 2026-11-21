@@ -223,7 +223,11 @@ export function SaveBar({
         {state === 'idle' && <span className="text-zinc-400 dark:text-zinc-500">Nothing to save yet</span>}
       </p>
 
-      <Button type="button" size="sm" onClick={onSave} disabled={saving || state === 'idle'}>
+      {/* Section forms keep their draft values locally, so the parent cannot
+          reliably switch `idle` to `dirty` on every field change. Allow the
+          current draft to be submitted from idle; only an active request
+          should lock the action. */}
+      <Button type="button" size="sm" onClick={onSave} disabled={saving}>
         {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> : <Save className="h-3.5 w-3.5" aria-hidden />}
         {state === 'saved' ? labels.saved : labels.idle}
       </Button>

@@ -8,7 +8,15 @@ import { DCallout, DPill } from '@/components/onboarding/dossier/primitives';
 import type { StepProps } from './types';
 
 /** Identity is provider-hosted; PropatiBox never renders a raw NIN/BVN input. */
-export default function IdentityStep({ facts, onSaved }: StepProps) {
+const ROLE_WIDGET_IDS: Record<string, string | undefined> = {
+  tenant: process.env.NEXT_PUBLIC_DOJAH_TENANT_WIDGET_ID,
+  landlord: process.env.NEXT_PUBLIC_DOJAH_LANDLORD_WIDGET_ID,
+  agent: process.env.NEXT_PUBLIC_DOJAH_AGENT_WIDGET_ID,
+  estate_manager: process.env.NEXT_PUBLIC_DOJAH_ESTATE_MANAGER_WIDGET_ID,
+  admin: process.env.NEXT_PUBLIC_DOJAH_ADMIN_WIDGET_ID,
+};
+
+export default function IdentityStep({ role, facts, onSaved }: StepProps) {
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -66,7 +74,8 @@ export default function IdentityStep({ facts, onSaved }: StepProps) {
       </DCallout>
       <DojahWidgetClient
         type="identification"
-        metadata={{ purpose: 'identity_and_dedicated_rent_account', liveness: 'optional' }}
+        widgetId={ROLE_WIDGET_IDS[role]}
+        metadata={{ purpose: 'identity_and_dedicated_rent_account', role, liveness: 'optional' }}
         triggerLabel={checking ? 'Confirming verification…' : 'Verify securely with Dojah'}
         onComplete={handleComplete}
       />

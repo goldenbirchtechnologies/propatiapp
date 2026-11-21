@@ -201,6 +201,25 @@ export async function recordVerifiedIdentity(params: {
     throw error;
   }
 
+  const subjectMemberships = await prisma.legalSubjectMember.findMany({
+    where: { userId, status: { not: 'verified' } },
+    select: { id: true, subjectId: true },
+  });
+  if (subjectMemberships.length) {
+    await prisma.legalSubjectMember.updateMany({
+      where: { userId, status: { not: 'verified' } },
+      data: { status: 'verified', verifiedAt: new Date(identity.verifiedAt) },
+    });
+    for (const membership of subjectMemberships) {
+      const remaining = await prisma.legalSubjectMember.count({
+        where: { subjectId: membership.subjectId, status: { not: 'verified' } },
+      });
+      if (remaining === 0) {
+        await prisma.legalSubject.update({ where: { id: membership.subjectId }, data: { status: 'approved' } });
+      }
+    }
+  }
+
   return { kycId: kyc.id, identity: storedIdentity };
 }
 
@@ -232,13 +251,18 @@ export async function syncPaystackCustomerFromKyc(
   userId: string,
   opts?: { bvn?: string }
 ): Promise<PaystackProvisionResult> {
-  const [user, kyc, existing] = await Promise.all([
+  const [user, kyc, existing, legalSubject] = await Promise.all([
     prisma.user.findUnique({
       where: { id: userId },
       select: { email: true, fullName: true, phone: true, bvnEncrypted: true },
     }),
     prisma.userKyc.findUnique({ where: { userId }, select: { metadata: true } }),
     prisma.userPaystackAccount.findUnique({ where: { userId } }),
+    prisma.legalSubject.findFirst({
+      where: { primaryUserId: userId },
+      orderBy: { updatedAt: 'desc' },
+      select: { id: true },
+    }),
   ]);
 
   if (!user) return { synced: false, reason: 'user_not_found' };
@@ -257,13 +281,14 @@ export async function syncPaystackCustomerFromKyc(
   if (!paystack.isConfigured()) {
     await prisma.userPaystackAccount.upsert({
       where: { userId },
-      update: { firstName, lastName, phone },
+      update: { firstName, lastName, phone, legalSubjectId: legalSubject?.id ?? undefined },
       create: {
         userId,
         email: existing?.email || user.email,
         firstName,
         lastName,
         phone,
+        legalSubjectId: legalSubject?.id,
         status: 'pending',
         currency: 'NGN',
       },
@@ -290,13 +315,14 @@ export async function syncPaystackCustomerFromKyc(
 
     const account = await prisma.userPaystackAccount.upsert({
       where: { userId },
-      update: { firstName, lastName, phone, ...(customerCode ? { customerCode } : {}) },
+      update: { firstName, lastName, phone, legalSubjectId: legalSubject?.id ?? undefined, ...(customerCode ? { customerCode } : {}) },
       create: {
         userId,
         email: existing?.email || user.email,
         firstName,
         lastName,
         phone,
+        legalSubjectId: legalSubject?.id,
         customerCode,
         status: customerCode ? 'active' : 'pending',
         currency: 'NGN',
@@ -351,13 +377,14 @@ export async function syncPaystackCustomerFromKyc(
     console.error('[verified-identity] Paystack customer sync failed:', error);
     await prisma.userPaystackAccount.upsert({
       where: { userId },
-      update: { firstName, lastName, phone },
+      update: { firstName, lastName, phone, legalSubjectId: legalSubject?.id ?? undefined },
       create: {
         userId,
         email: existing?.email || user.email,
         firstName,
         lastName,
         phone,
+        legalSubjectId: legalSubject?.id,
         status: 'pending',
         currency: 'NGN',
       },

@@ -30,7 +30,9 @@ export default function LandlordProfileStep({ facts, onSaved }: StepProps) {
   const [legalEntityType, setLegalEntityType] = useState<string>('individual');
   const [legalName, setLegalName] = useState('');
   const [jointOwnerNames, setJointOwnerNames] = useState('');
+  const [jointOwnerEmails, setJointOwnerEmails] = useState('');
   const [companyName, setCompanyName] = useState('');
+  const [companyRegistrationNumber, setCompanyRegistrationNumber] = useState('');
   const [primaryPhone, setPrimaryPhone] = useState(facts.phone ?? '');
   const [contactEmail, setContactEmail] = useState(facts.email ?? '');
   const [mailingAddress, setMailingAddress] = useState('');
@@ -50,7 +52,9 @@ export default function LandlordProfileStep({ facts, onSaved }: StepProps) {
       legalEntityType,
       legalName,
       jointOwnerNames: legalEntityType === 'joint' ? jointOwnerNames || undefined : undefined,
+      jointOwnerEmails: legalEntityType === 'joint' ? jointOwnerEmails || undefined : undefined,
       companyName: isCompany ? companyName || undefined : undefined,
+      companyRegistrationNumber: isCompany ? companyRegistrationNumber || undefined : undefined,
       primaryPhone,
       contactEmail,
       mailingAddress,
@@ -106,28 +110,25 @@ export default function LandlordProfileStep({ facts, onSaved }: StepProps) {
         </DField>
 
         {legalEntityType === 'joint' ? (
-          <DField
-            label="Joint owners"
-            required
-            note="Semicolon separated"
-            error={fieldErrors.jointOwnerNames}
-          >
-            <DInput
-              value={jointOwnerNames}
-              onChange={(e) => setJointOwnerNames(e.target.value)}
-              placeholder="Adaeze N. Okafor; Tunde B. Okafor"
-            />
-          </DField>
+          <>
+            <DField label="Joint owners" required note="Semicolon separated" error={fieldErrors.jointOwnerNames}>
+              <DInput value={jointOwnerNames} onChange={(e) => setJointOwnerNames(e.target.value)} placeholder="Adaeze N. Okafor; Tunde B. Okafor" />
+            </DField>
+            <DField label="Co-owner emails" note="Same order; optional" error={fieldErrors.jointOwnerEmails}>
+              <DInput value={jointOwnerEmails} onChange={(e) => setJointOwnerEmails(e.target.value)} placeholder="ada@example.com; tunde@example.com" type="text" />
+            </DField>
+          </>
         ) : null}
 
         {isCompany ? (
-          <DField label="Company name (as on CAC)" required error={fieldErrors.companyName}>
-            <DInput
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              placeholder="Golden Birch Holdings Ltd."
-            />
-          </DField>
+          <>
+            <DField label="Company name (as on CAC)" required error={fieldErrors.companyName}>
+              <DInput value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Golden Birch Holdings Ltd." />
+            </DField>
+            <DField label="CAC registration number" required error={fieldErrors.companyRegistrationNumber}>
+              <DInput value={companyRegistrationNumber} onChange={(e) => setCompanyRegistrationNumber(e.target.value)} placeholder="RC 1234567" mono />
+            </DField>
+          </>
         ) : null}
 
         <DField label="Primary phone" required note="E.164" error={fieldErrors.primaryPhone}>

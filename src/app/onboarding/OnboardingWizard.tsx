@@ -409,6 +409,7 @@ export default function OnboardingWizard({
         {StepComponent ? (
           <StepComponent
             stepId={activeStep.id}
+            role={status.role}
             facts={facts}
             onSaved={handleStepSaved}
           />

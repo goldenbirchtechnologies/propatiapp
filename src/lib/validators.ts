@@ -1161,12 +1161,21 @@ export const onboardingLandlordProfileSchema = z.object({
   legalEntityType: z.enum(['individual', 'joint', 'company']),
   legalName: z.string().min(2, 'Enter the legal name').max(200),
   jointOwnerNames: z.string().max(500).optional(),
+  jointOwnerEmails: z.string().max(1000).optional(),
   companyName: z.string().max(200).optional(),
+  companyRegistrationNumber: z.string().max(80).optional(),
   primaryPhone: phoneSchema,
   contactEmail: emailSchema,
   mailingAddress: z.string().min(4).max(300),
   taxIdType: z.enum(['tin', 'nin', 'other']),
   taxNumber: z.string().min(5).max(30),
+}).superRefine((value, ctx) => {
+  if (value.legalEntityType === 'joint' && !value.jointOwnerNames?.trim()) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['jointOwnerNames'], message: 'Add at least one co-owner.' });
+  }
+  if (value.legalEntityType === 'company' && !value.companyRegistrationNumber?.trim()) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['companyRegistrationNumber'], message: 'Enter the CAC registration number.' });
+  }
 });
 
 export const onboardingLandlordSettlementSchema = z.object({
@@ -1240,10 +1249,19 @@ export const onboardingAgentLicenseSchema = z.object({
   licenseNumber: z.string().min(2).max(60),
   certificateFileName: z.string().max(200).optional(),
   isAgency: z.boolean().optional(),
+  agencyName: z.string().max(200).optional(),
+  agencyRegistrationNumber: z.string().max(80).optional(),
   cacDocumentFileName: z.string().max(200).optional(),
   indemnityPolicyNumber: z.string().max(60).optional(),
   indemnityExpiryDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD').optional(),
   codeOfConductConsent: z.literal(true, { errorMap: () => ({ message: 'Background & code of conduct assent is required' }) }),
+}).superRefine((value, ctx) => {
+  if (value.isAgency && !value.agencyName?.trim()) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['agencyName'], message: 'Enter the agency legal name.' });
+  }
+  if (value.isAgency && !value.agencyRegistrationNumber?.trim()) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['agencyRegistrationNumber'], message: 'Enter the CAC registration number.' });
+  }
 });
 
 export const onboardingAgentTerritorySchema = z.object({

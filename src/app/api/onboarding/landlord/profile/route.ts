@@ -4,6 +4,7 @@ import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { onboardingLandlordProfileSchema } from '@/lib/validators';
 import { advanceOnboarding } from '@/lib/onboarding/profiles';
+import { syncLegalSubject } from '@/lib/legal-subject';
 
 /**
  * POST /api/onboarding/landlord/profile
@@ -22,7 +23,9 @@ export async function POST(request: NextRequest) {
       legalEntityType: parsed.legalEntityType,
       legalName: parsed.legalName,
       jointOwnerNames: parsed.jointOwnerNames ?? null,
+      jointOwnerEmails: parsed.jointOwnerEmails ?? null,
       companyName: parsed.companyName ?? null,
+      companyRegistrationNumber: parsed.companyRegistrationNumber ?? null,
       primaryPhone: parsed.primaryPhone,
       contactEmail: parsed.contactEmail,
       mailingAddress: parsed.mailingAddress,
@@ -34,6 +37,22 @@ export async function POST(request: NextRequest) {
       where: { userId: user.id },
       create: { userId: user.id, ...data },
       update: data,
+    });
+
+    const jointOwners = (parsed.jointOwnerNames || '')
+      .split(';')
+      .map((name) => name.trim())
+      .filter(Boolean);
+    const jointOwnerEmails = (parsed.jointOwnerEmails || '').split(';').map((email) => email.trim()).filter(Boolean);
+    await syncLegalSubject({
+      primaryUserId: user.id,
+      type: parsed.legalEntityType,
+      name: parsed.companyName || parsed.legalName,
+      registrationNumber: parsed.legalEntityType === 'company' ? parsed.companyRegistrationNumber : null,
+      members: [
+        { fullName: parsed.legalName, userId: user.id, role: parsed.legalEntityType === 'company' ? 'representative' : 'owner' },
+        ...jointOwners.map((fullName, index) => ({ fullName, email: jointOwnerEmails[index] || null, role: 'owner' })),
+      ],
     });
 
     const nextStep = await advanceOnboarding(user.id, user.role, 'landlordProfile');

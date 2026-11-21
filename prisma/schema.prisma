@@ -635,6 +635,8 @@ model User {
   receivedInvoices        Invoice[]                  @relation("InvoiceTenant")
   wallet                  Wallet?
   paystackAccount         UserPaystackAccount?
+  legalSubjects           LegalSubject[]             @relation("LegalSubjectCreator")
+  legalSubjectMemberships LegalSubjectMember[]       @relation("LegalSubjectMemberUser")
   userKyc                 UserKyc?
   country                 Country?                   @relation(fields: [countryId], references: [code])
   jurisdiction            Jurisdiction?              @relation(fields: [jurisdictionId], references: [id])
@@ -673,6 +675,53 @@ model UserKyc {
 
   @@index([userId], map: "idx_user_kyc_user")
   @@map("user_kyc")
+}
+
+/// The legal person or ownership group that owns a listing, receives rent, or
+/// operates an agency. A login user is only the verified representative.
+model LegalSubject {
+  id                 String   @id @default(cuid()) @map("id")
+  type               String   @map("type") // individual | joint | company
+  name               String   @map("name")
+  registrationNumber String?  @map("registration_number")
+  primaryUserId      String   @map("primary_user_id")
+  status             String   @default("draft") @map("status") // draft | pending_verification | approved | rejected
+  metadata           Json?    @map("metadata")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  primaryUser     User                 @relation("LegalSubjectCreator", fields: [primaryUserId], references: [id], onDelete: Cascade)
+  members         LegalSubjectMember[]
+  paystackAccount UserPaystackAccount?
+
+  @@unique([primaryUserId, type], map: "uq_legal_subject_primary_type")
+  @@index([primaryUserId], map: "idx_legal_subject_primary_user")
+  @@index([registrationNumber], map: "idx_legal_subject_registration")
+  @@map("legal_subjects")
+}
+
+/// A person who must be verified or authorised for a legal subject. For joint
+/// owners, each member gets an individual Dojah verification before approval.
+model LegalSubjectMember {
+  id               String    @id @default(cuid()) @map("id")
+  subjectId        String    @map("subject_id")
+  userId           String?   @map("user_id")
+  email            String?
+  fullName         String    @map("full_name")
+  role             String    @default("owner") // owner | director | beneficial_owner | signatory | representative
+  ownershipPercent Decimal?  @map("ownership_percent") @db.Decimal(5, 2)
+  status           String    @default("invited") // invited | pending_verification | verified | rejected
+  verifiedAt       DateTime? @map("verified_at")
+  inviteToken      String?   @unique @map("invite_token")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  subject LegalSubject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  user    User?        @relation("LegalSubjectMemberUser", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([subjectId, email], map: "uq_legal_subject_member_email")
+  @@index([subjectId, status], map: "idx_legal_subject_members_status")
+  @@map("legal_subject_members")
 }
 
 /// Immutable-ish audit record for each Dojah widget attempt. Raw identity
@@ -2478,6 +2527,7 @@ model WalletTransaction {
 model UserPaystackAccount {
   id                 String                @id @default(cuid()) @map("id")
   userId             String                @unique @map("user_id")
+  legalSubjectId     String?               @unique @map("legal_subject_id")
   customerCode       String?               @unique @map("customer_code")
   email              String                @map("email")
   firstName          String?               @map("first_name")
@@ -2502,7 +2552,8 @@ model UserPaystackAccount {
   createdAt          DateTime              @default(now()) @map("created_at")
   updatedAt          DateTime              @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  legalSubject LegalSubject? @relation(fields: [legalSubjectId], references: [id], onDelete: SetNull)
 
   @@index([userId], map: "idx_paystack_account_user")
   @@map("paystack_accounts")
@@ -2785,15 +2836,16 @@ model LandlordProfile {
   userId String @unique @map("user_id")
 
   // Step: landlordProfile
-  legalEntityType String? @map("legal_entity_type")
-  legalName       String? @map("legal_name")
-  jointOwnerNames String? @map("joint_owner_names")
-  companyName     String? @map("company_name")
-  primaryPhone    String? @map("primary_phone")
-  contactEmail    String? @map("contact_email")
-  mailingAddress  String? @map("mailing_address")
-  taxIdType       String? @map("tax_id_type")
-  taxNumber       String? @map("tax_number")
+  legalEntityType  String? @map("legal_entity_type")
+  legalName        String? @map("legal_name")
+  jointOwnerNames  String? @map("joint_owner_names")
+  jointOwnerEmails String? @map("joint_owner_emails")
+  companyName      String? @map("company_name")
+  primaryPhone     String? @map("primary_phone")
+  contactEmail     String? @map("contact_email")
+  mailingAddress   String? @map("mailing_address")
+  taxIdType        String? @map("tax_id_type")
+  taxNumber        String? @map("tax_number")
 
   // Extended owner workspace. These are optional so existing rows and the
   // onboarding step keep working unchanged; the profile page writes them as a
@@ -2900,14 +2952,16 @@ model AgentProfile {
   emergencyContactRelationship String? @map("emergency_contact_relationship")
 
   // Step: agentLicense
-  board                 String? @map("board")
-  licenseNumber         String? @map("license_number")
-  certificateFileName   String? @map("certificate_file_name")
-  isAgency              Boolean @default(false) @map("is_agency")
-  cacDocumentFileName   String? @map("cac_document_file_name")
-  indemnityPolicyNumber String? @map("indemnity_policy_number")
-  indemnityExpiryDate   String? @map("indemnity_expiry_date")
-  codeOfConductConsent  Boolean @default(false) @map("code_of_conduct_consent")
+  board                    String? @map("board")
+  licenseNumber            String? @map("license_number")
+  certificateFileName      String? @map("certificate_file_name")
+  isAgency                 Boolean @default(false) @map("is_agency")
+  agencyName               String? @map("agency_name")
+  agencyRegistrationNumber String? @map("agency_registration_number")
+  cacDocumentFileName      String? @map("cac_document_file_name")
+  indemnityPolicyNumber    String? @map("indemnity_policy_number")
+  indemnityExpiryDate      String? @map("indemnity_expiry_date")
+  codeOfConductConsent     Boolean @default(false) @map("code_of_conduct_consent")
 
   // Step: agentTerritory
   operationalTerritories Json? @map("operational_territories")

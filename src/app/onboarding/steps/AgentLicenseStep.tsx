@@ -22,6 +22,8 @@ export default function AgentLicenseStep({ onSaved }: StepProps) {
   const [board, setBoard] = useState('');
   const [licenseNumber, setLicenseNumber] = useState('');
   const [isAgency, setIsAgency] = useState(false);
+  const [agencyName, setAgencyName] = useState('');
+  const [agencyRegistrationNumber, setAgencyRegistrationNumber] = useState('');
   const [cacDocumentFileName, setCacDocumentFileName] = useState('');
   const [indemnityPolicyNumber, setIndemnityPolicyNumber] = useState('');
   const [indemnityExpiryDate, setIndemnityExpiryDate] = useState('');
@@ -38,6 +40,8 @@ export default function AgentLicenseStep({ onSaved }: StepProps) {
       board,
       licenseNumber,
       isAgency,
+      agencyName: isAgency ? agencyName || undefined : undefined,
+      agencyRegistrationNumber: isAgency ? agencyRegistrationNumber || undefined : undefined,
       cacDocumentFileName: isAgency ? cacDocumentFileName || undefined : undefined,
       indemnityPolicyNumber: indemnityPolicyNumber || undefined,
       indemnityExpiryDate: indemnityExpiryDate || undefined,
@@ -100,16 +104,17 @@ export default function AgentLicenseStep({ onSaved }: StepProps) {
       {isAgency ? (
         <div className="mt-4">
           <DField
-            label="Business Registration document"
-            note="File name"
-            error={fieldErrors.cacDocumentFileName}
-            hint="Required for an agency. Upload support is handled by the compliance team after intake."
+            label="Agency legal name"
+            required
+            error={fieldErrors.agencyName}
           >
-            <DInput
-              value={cacDocumentFileName}
-              onChange={(e) => setCacDocumentFileName(e.target.value)}
-              placeholder="registration-certificate-2024.pdf"
-            />
+            <DInput value={agencyName} onChange={(e) => setAgencyName(e.target.value)} placeholder="Golden Birch Realty Ltd." autoComplete="organization" />
+          </DField>
+          <DField label="CAC registration number" required error={fieldErrors.agencyRegistrationNumber}>
+            <DInput value={agencyRegistrationNumber} onChange={(e) => setAgencyRegistrationNumber(e.target.value)} placeholder="RC 1234567" mono />
+          </DField>
+          <DField label="Business Registration document" note="File name" error={fieldErrors.cacDocumentFileName} hint="Upload support is handled by the compliance team after intake.">
+            <DInput value={cacDocumentFileName} onChange={(e) => setCacDocumentFileName(e.target.value)} placeholder="registration-certificate-2024.pdf" />
           </DField>
         </div>
       ) : null}

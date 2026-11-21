@@ -4,6 +4,7 @@ import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { onboardingAgentLicenseSchema } from '@/lib/validators';
 import { advanceOnboarding } from '@/lib/onboarding/profiles';
+import { syncLegalSubject } from '@/lib/legal-subject';
 
 /**
  * POST /api/onboarding/agent/license
@@ -27,6 +28,8 @@ export async function POST(request: NextRequest) {
       licenseNumber: parsed.licenseNumber,
       certificateFileName: parsed.certificateFileName ?? null,
       isAgency: parsed.isAgency ?? false,
+      agencyName: parsed.agencyName ?? null,
+      agencyRegistrationNumber: parsed.agencyRegistrationNumber ?? null,
       cacDocumentFileName: parsed.cacDocumentFileName ?? null,
       indemnityPolicyNumber: parsed.indemnityPolicyNumber ?? null,
       indemnityExpiryDate: parsed.indemnityExpiryDate ?? null,
@@ -37,6 +40,20 @@ export async function POST(request: NextRequest) {
       where: { userId: user.id },
       create: { userId: user.id, ...data },
       update: data,
+    });
+
+    await syncLegalSubject({
+      primaryUserId: user.id,
+      type: parsed.isAgency ? 'company' : 'individual',
+      name: parsed.isAgency ? (parsed.agencyName || 'Agency') : (user.fullName || 'Agent'),
+      registrationNumber: parsed.isAgency ? parsed.agencyRegistrationNumber : null,
+      members: [
+        {
+          fullName: user.fullName || 'Authorised representative',
+          userId: user.id,
+          role: parsed.isAgency ? 'representative' : 'owner',
+        },
+      ],
     });
 
     const nextStep = await advanceOnboarding(user.id, user.role, 'agentLicense');

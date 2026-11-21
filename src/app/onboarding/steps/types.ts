@@ -9,6 +9,7 @@ import type { RailFacts } from '@/components/onboarding/dossier/Rail';
  */
 export interface StepProps {
   stepId: string;
+  role: string;
   facts: RailFacts;
   onSaved: () => void | Promise<void>;
 }

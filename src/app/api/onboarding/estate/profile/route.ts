@@ -4,6 +4,7 @@ import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { onboardingEstateProfileSchema } from '@/lib/validators';
 import { advanceOnboarding } from '@/lib/onboarding/profiles';
+import { syncLegalSubject } from '@/lib/legal-subject';
 
 /**
  * POST /api/onboarding/estate/profile
@@ -33,6 +34,14 @@ export async function POST(request: NextRequest) {
       where: { userId: user.id },
       create: { userId: user.id, ...data },
       update: data,
+    });
+
+    await syncLegalSubject({
+      primaryUserId: user.id,
+      type: parsed.isCorporate ? 'company' : 'individual',
+      name: parsed.legalEntityName,
+      registrationNumber: parsed.cacTinNumber,
+      members: [{ fullName: user.fullName || 'Authorised representative', userId: user.id, role: 'signatory' }],
     });
 
     const nextStep = await advanceOnboarding(user.id, user.role, 'estateProfile');

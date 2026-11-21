@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import {
-  Search, Shield, BadgeCheck, Headset, Bell, Download, Phone, ChevronRight,
+  Search, Shield, BadgeCheck, Download, Phone, ChevronRight, ArrowLeft,
   Building2, Landmark, CheckCheck, SquarePen, Lock, FileText, Building, MoreVertical,
   Paperclip, Image as ImageIcon, Link2, Send, X, FileDown,
 } from 'lucide-react';
@@ -16,7 +16,6 @@ import {
   useConversation,
   useSendMessage,
   useMarkAsRead,
-  useDeleteConversation,
   useCreateConversation,
 } from '@/hooks/useMessages';
 
@@ -157,7 +156,6 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
 
   const sendMessageMutation = useSendMessage(selectedId || '', { id: userId, fullName: userName, role: userRole });
   const markAsReadMutation = useMarkAsRead();
-  const deleteConversationMutation = useDeleteConversation();
   const createConversationMutation = useCreateConversation();
 
   // Poll conversations
@@ -273,33 +271,34 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   }, [messages]);
 
   return (
-    <div className="flex flex-col w-full gap-4">
+    <div className="flex min-w-0 flex-col w-full gap-6 pb-4">
       {/* Breadcrumb + trust pills */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-          <span className="hover:text-primary dark:hover:text-[#4edea3] transition-colors cursor-pointer uppercase tracking-wider text-[11px] font-semibold">Dashboard</span>
+          <Link href="/dashboard" className="transition-colors hover:text-primary dark:hover:text-[#4edea3] text-[11px] font-semibold">Dashboard</Link>
           <ChevronRight className="h-3.5 w-3.5" />
-          <span className="hover:text-primary dark:hover:text-[#4edea3] transition-colors cursor-pointer uppercase tracking-wider text-[11px] font-semibold">Communications</span>
+          <span className="text-[11px] font-semibold">Communications</span>
           <ChevronRight className="h-3.5 w-3.5" />
-          <span className="text-zinc-900 dark:text-white font-semibold uppercase tracking-wider text-[11px]">Messages</span>
+          <span className="font-semibold text-zinc-900 dark:text-white text-[11px]">Messages</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] px-2.5 py-1 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">
+          <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-700 dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-300">
             <Shield className="h-3.5 w-3.5 text-primary dark:text-[#4edea3]" />
-            Data Protection &amp; Real Estate License Encrypted Channel
+            Encrypted channel
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-[var(--sovereign-hover)] dark:text-[#6ffbbe]">
             <BadgeCheck className="h-3.5 w-3.5" />
-            Verified Corporate Tenancy
+            Verified tenancy
           </span>
         </div>
       </div>
 
       {/* Header */}
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Messages &amp; Communications</h1>
-          <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">Direct, audited messaging with property managers, landlords, and estate compliance legal officers.</p>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.14em] text-primary dark:text-[#6ffbbe]">Tenant workspace</p>
+          <h1 className="text-[28px] font-bold tracking-[-0.02em] text-zinc-900 dark:text-white">Messages &amp; Communications</h1>
+          <p className="mt-1 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">Direct, audited messaging with property managers, landlords, and estate compliance legal officers.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <Button variant="outline" size="sm" className="h-9 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08]" onClick={() => toast({ title: 'Audit export coming soon', description: 'Data Protection-compliant export will be available shortly.' })}>
@@ -316,7 +315,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
       </div>
 
       {/* Channel Category Filter Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1" role="tablist" aria-label="Message channels">
         {[
           { id: 'all' as const, label: 'All Channels', count: counts.all },
           { id: 'landlord' as const, label: 'Landlords & Lessors', count: counts.landlord },
@@ -329,14 +328,16 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               key={pill.id}
               onClick={() => setChannelFilter(pill.id)}
               className={cn(
-                'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors',
+                'inline-flex items-center gap-2 whitespace-nowrap rounded-lg border px-3.5 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
                 active
-                  ? 'bg-primary text-white shadow-sm dark:bg-primary'
-                  : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.08]'
+                  ? 'border-primary bg-primary text-white shadow-sm dark:bg-primary'
+                  : 'border-zinc-200 bg-white text-zinc-600 hover:border-primary/40 hover:bg-primary/[0.04] dark:border-white/[0.08] dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06]'
               )}
+              role="tab"
+              aria-selected={active}
             >
               <span>{pill.label}</span>
-              <span className={cn('rounded-full px-1.5 py-0.5 text-[11px] font-bold', active ? 'bg-white/20 text-white' : 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-300')}>
+                <span className={cn('min-w-5 rounded-md px-1.5 py-0.5 text-center text-[11px] font-bold', active ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300')}>
                 {pill.count}
               </span>
             </button>
@@ -345,9 +346,9 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
       </div>
 
       {/* Main Chat Hub — 780px Stitch container, bichrome */}
-      <div className="flex w-full overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900 shadow-sm" style={{ height: '780px', minHeight: '640px' }}>
+      <div className="flex min-h-[620px] w-full min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/[0.08] dark:bg-zinc-900 lg:h-[min(760px,calc(100dvh-320px))]">
         {/* LEFT: Conversation List */}
-        <div className="flex w-[360px] min-w-[320px] lg:w-[390px] shrink-0 flex-col bg-zinc-50/60 dark:bg-white/[0.03] border-r border-zinc-200 dark:border-white/[0.08]">
+        <div className={cn('flex w-full shrink-0 flex-col border-r border-zinc-200 bg-zinc-50/60 dark:border-white/[0.08] dark:bg-white/[0.03] md:w-[360px] lg:w-[390px]', selectedId && 'hidden md:flex')}>
           {/* List Top Bar & Search */}
           <div className="flex flex-col gap-3 bg-white dark:bg-zinc-900 p-4">
             <div className="relative w-full">
@@ -469,12 +470,15 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
         </div>
 
         {/* RIGHT: Active Chat Window */}
-        <div className="flex flex-1 flex-col bg-white dark:bg-zinc-900">
+        <div className="flex min-w-0 min-h-0 flex-1 flex-col bg-white dark:bg-zinc-900">
           {selectedConversation ? (
             <>
               {/* Active Chat Header */}
-              <div className="flex items-center justify-between gap-3 bg-white dark:bg-zinc-900 px-4 py-3 shadow-sm border-b border-zinc-200 dark:border-white/[0.08]">
+              <div className="flex items-center justify-between gap-3 border-b border-zinc-200 bg-white px-4 py-3 dark:border-white/[0.08] dark:bg-zinc-900">
                 <span className="flex min-w-0 items-center gap-3">
+                  <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0 md:hidden" onClick={() => setSelectedId(null)} aria-label="Back to conversations" title="Back to conversations">
+                    <ArrowLeft className="h-4 w-4" />
+                  </Button>
                   <span className="relative shrink-0">
                     {selectedConversation.participant?.avatarUrl ? (
                       <img src={selectedConversation.participant.avatarUrl} alt={selectedConversation.participant.fullName || ''} className="h-11 w-11 rounded-full object-cover shadow-sm" />
@@ -505,16 +509,16 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                     </Button>
                   )}
                   <Button variant="outline" size="icon" className="h-9 w-9 bg-zinc-50 dark:bg-white/[0.06] border-zinc-200 dark:border-white/[0.08]" asChild>
-                    <a href="tel:+2348039201923"><Phone className="h-4 w-4" /></a>
+                    <a href="tel:+2348039201923" aria-label="Call participant" title="Call participant"><Phone className="h-4 w-4" /></a>
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => toast({ title: 'More options', description: 'Archive, block, and delete are available in the conversation menu.' })}>
+                  <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="More conversation options" title="More conversation options" onClick={() => toast({ title: 'More options', description: 'Archive, block, and delete are available in the conversation menu.' })}>
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </span>
               </div>
 
               {/* Messages Scrollable History */}
-              <div className="flex flex-1 flex-col gap-4 overflow-y-auto bg-white dark:bg-zinc-900 p-4 lg:p-6">
+              <div className="min-h-0 flex flex-1 flex-col gap-4 overflow-y-auto bg-white p-4 dark:bg-zinc-900 lg:p-6">
                 {groupedMessages.length > 0 ? (
                   groupedMessages.map((group) => (
                     <div key={group.date} className="flex flex-col gap-4">
@@ -585,7 +589,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               </div>
 
               {/* Composer */}
-              <div className="flex flex-col gap-2 bg-zinc-50/70 dark:bg-white/[0.03] p-4 border-t border-zinc-200 dark:border-white/[0.08]">
+              <div className="flex shrink-0 flex-col gap-2 border-t border-zinc-200 bg-zinc-50/70 p-4 dark:border-white/[0.08] dark:bg-white/[0.03]">
                 {pendingAttachment && (
                   <span className="flex items-center justify-between rounded-lg bg-white dark:bg-zinc-800 px-3 py-1.5 text-sm border border-zinc-200 dark:border-white/[0.08]">
                     <span className="flex items-center gap-2 truncate"><ImageIcon className="h-4 w-4 text-primary dark:text-[#4edea3]" /><span className="truncate font-medium text-zinc-900 dark:text-white">Attachment ready: {pendingAttachment.name} ({pendingAttachment.size})</span></span>

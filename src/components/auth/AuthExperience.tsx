@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, Building2, Check, House, Handshake, Search, ShieldCheck } from 'lucide-react';
+import { StitchFooter, StitchHeader } from '@/components/layout/stitch-layout';
 
 export const AUTH_ROLES = [
   { id: 'landlord', title: 'Landlord', description: 'List properties, manage tenants and oversee your rentals, sales and shortlet stays.', icon: Building2 },
@@ -27,7 +28,11 @@ export function AuthShowcase({ signUp = false }: { signUp?: boolean }) {
 }
 
 export function AuthFrame({ children, signUp = false }: { children: ReactNode; signUp?: boolean }) {
-  return <main className="min-h-[100dvh] w-full overflow-x-hidden bg-[#f7faf8] text-[#16251f]"><div className="grid min-h-[100dvh] w-full lg:grid-cols-[56%_44%]"><section className="flex min-h-[100dvh] min-w-0 flex-col px-4 py-5 sm:px-8 sm:py-7 lg:px-12 xl:px-16"><header className="flex min-h-9 shrink-0 items-center justify-between gap-4"><a href="/" aria-label="Go to Propatibox home"><AuthLogo /></a><p className="text-right text-sm text-[#50645a]">{signUp ? 'Already have an account?' : "Don't have an account?"}{' '}<a href={signUp ? '/sign-in' : '/sign-up'} className="font-semibold text-[#006c49] transition-colors hover:text-[#00422b] hover:underline">{signUp ? 'Sign in' : 'Sign up'}</a></p></header><div className="flex min-h-0 flex-1 items-center justify-center py-8 sm:py-10"><div className="w-full max-w-[480px] min-w-0">{children}</div></div><footer className="shrink-0 border-t border-[#dce7e1] pt-4 text-xs leading-5 text-[#718079]">By continuing, you agree to Propatibox&apos;s <a href="/terms-of-agreement" className="text-[#006c49] hover:underline">Terms &amp; Conditions</a> and <a href="/privacy-policy" className="text-[#006c49] hover:underline">Privacy Policy</a>.</footer></section><AuthShowcase signUp={signUp} /></div></main>;
+  return <div className="app-layout theme-landing flex min-h-[100dvh] w-full flex-col overflow-x-hidden bg-background text-foreground"><StitchHeader /><main id="main-content" className="flex-1 bg-[#f7faf8] pt-[4.5rem] text-[#16251f]"><div className="grid min-h-[calc(100dvh-4.5rem)] w-full lg:grid-cols-[56%_44%]"><section className="flex min-h-full min-w-0 flex-col px-4 py-7 sm:px-8 sm:py-10 lg:px-12 xl:px-16"><div className="flex shrink-0 items-center justify-end"><p className="text-right text-sm text-[#50645a]">{signUp ? 'Already have an account?' : "Don't have an account?"}{' '}<a href={signUp ? '/sign-in' : '/sign-up'} className="font-semibold text-[#006c49] transition-colors hover:text-[#00422b] hover:underline">{signUp ? 'Sign in' : 'Sign up'}</a></p></div><div className="flex min-h-0 flex-1 items-center justify-center py-8 sm:py-10"><div className="w-full max-w-[480px] min-w-0">{children}</div></div><p className="shrink-0 pt-4 text-xs leading-5 text-[#718079]">By continuing, you agree to Propatibox&apos;s <a href="/terms-of-agreement" className="text-[#006c49] hover:underline">Terms &amp; Conditions</a> and <a href="/privacy-policy" className="text-[#006c49] hover:underline">Privacy Policy</a>.</p></section><AuthShowcase signUp={signUp} /></div></main><StitchFooter /></div>;
+}
+
+export function AuthCard({ children }: { children: ReactNode }) {
+  return <div className="rounded-2xl border border-[#d8e4dd] bg-white p-5 shadow-[0_18px_48px_rgba(16,59,39,.08)] sm:p-7">{children}</div>;
 }
 
 export function AuthProgress({ step, onStepOne }: { step: 1 | 2; onStepOne: () => void }) {

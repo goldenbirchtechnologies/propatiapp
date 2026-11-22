@@ -65,6 +65,20 @@ export async function POST(request: NextRequest) {
     }
 
     const amountKobo = Math.round(validated.amount * 100);
+    const bookingId = validated.type === 'short_let' ? validated.metadata?.bookingId : undefined;
+    if (validated.type === 'short_let' && !bookingId) {
+      return NextResponse.json({ error: 'A shortlet booking is required before payment' }, { status: 400 });
+    }
+    if (bookingId) {
+      const booking = await prisma.booking.findFirst({
+        where: { id: bookingId, guestId: user.id, listingId: listing.id, status: 'pending', paymentStatus: 'pending' },
+        select: { id: true, totalPrice: true },
+      });
+      if (!booking) return NextResponse.json({ error: 'Booking is no longer available for payment' }, { status: 409 });
+      if (Math.round(Number(booking.totalPrice) * 100) !== amountKobo) {
+        return NextResponse.json({ error: 'Payment amount does not match the booking total' }, { status: 400 });
+      }
+    }
     const hasAgent = !!listing.agentId;
     const fees = computeFees(validated.type as keyof typeof TransactionType, amountKobo, hasAgent);
 
@@ -108,6 +122,7 @@ export async function POST(request: NextRequest) {
           { display_name: 'Collection', variable_name: 'collection_type', value: validated.collectionType },
         ],
         ...validated.metadata,
+        ...(bookingId ? { bookingId } : {}),
       },
       channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
     });
@@ -132,6 +147,7 @@ export async function POST(request: NextRequest) {
           payeeAmount: BigInt(fees.payeeAmount),
           description: validated.metadata?.description || `Payment for ${listing.title}`,
           paystackData: validated.metadata,
+          ...(bookingId ? { bookings: { connect: { id: bookingId } } } : {}),
         },
         include: {
           listing: { select: { id: true, title: true, area: true } },

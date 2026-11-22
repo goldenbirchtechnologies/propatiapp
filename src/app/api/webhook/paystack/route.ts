@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { getSystemWalletUserId } from '@/lib/wallet-service';
+import { syncShortletBookingPayment } from '@/lib/shortlet-bookings';
 
 export async function POST(request: NextRequest) {
   const signature = request.headers.get('x-paystack-signature');
@@ -98,6 +99,7 @@ async function handleChargeSuccess(data: Record<string, unknown>) {
     where: { id: transaction.id },
     data: { status: 'in_escrow', paystackData: data, updatedAt: new Date() },
   });
+  await syncShortletBookingPayment(transaction.id, 'paid');
 
   await prisma.notification.create({
     data: { userId: transaction.payerId, type: 'payment', title: 'Payment Successful', body: `Your payment of ₦${amountNaira.toLocaleString()} has been received and is held in escrow. Please confirm receipt.`, data: { transactionId: transaction.id, reference, action: 'confirm_payment' } },
@@ -206,6 +208,7 @@ async function handleChargeFailed(data: Record<string, unknown>) {
     return;
   }
   await prisma.transaction.update({ where: { id: transaction.id }, data: { status: 'failed', paystackData: data, description: `Failed: ${gateway_response}`, updatedAt: new Date() } });
+  await syncShortletBookingPayment(transaction.id, 'failed');
   await prisma.notification.create({
     data: { userId: transaction.payerId, type: 'payment', title: 'Payment Failed', body: `Your payment of ₦${(amount / 100).toLocaleString()} failed: ${gateway_response}`, data: { transactionId: transaction.id, reference } },
   });

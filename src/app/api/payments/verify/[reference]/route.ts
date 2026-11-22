@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { paystack } from '@/lib/paystack';
 import { notificationService } from '@/lib/notification-service';
+import { syncShortletBookingPayment } from '@/lib/shortlet-bookings';
 
 /**
  * GET /api/payments/verify/[reference]
@@ -76,6 +77,7 @@ export async function GET(
           payee: { select: { id: true, fullName: true, email: true } },
         },
       });
+      await syncShortletBookingPayment(transaction.id, 'failed');
 
       // Notify payer about failed verification
       notificationService.notifyUsersForEvent({
@@ -114,6 +116,7 @@ export async function GET(
         agent: { select: { id: true, fullName: true, email: true } },
       },
     });
+    await syncShortletBookingPayment(transaction.id, 'paid');
 
     // Create notifications
     notificationService.notifyUsersForEvent({

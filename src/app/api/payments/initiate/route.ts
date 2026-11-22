@@ -165,9 +165,10 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      let agreementId = validated.agreementId;
-    if (!agreementId) {
-      const candidate = await prisma.agreement.findFirst({
+      if (validated.type !== 'short_let') {
+        let agreementId = validated.agreementId;
+        if (!agreementId) {
+      const candidate = await tx.agreement.findFirst({
         where: { listingId: listing.id, tenantId: user.id },
         orderBy: { createdAt: 'desc' },
         select: { id: true, status: true },
@@ -175,10 +176,10 @@ export async function POST(request: NextRequest) {
       if (candidate && ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed', 'fully_signed'].includes(candidate.status)) {
         agreementId = candidate.id;
       }
-    }
+        }
 
-    if (agreementId) {
-      const linkedAgreement = await prisma.agreement.findUnique({
+        if (agreementId) {
+      const linkedAgreement = await tx.agreement.findUnique({
         where: { id: agreementId },
         select: { id: true, listingId: true },
       });
@@ -186,14 +187,15 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Invalid agreement for this listing' }, { status: 400 });
       }
 
-      await prisma.agreement.update({
+      await tx.agreement.update({
         where: { id: agreementId },
         data: { transactions: { connect: { id: newTransaction.id } } },
       });
-    }
+        }
+      }
 
       return newTransaction;
-    });
+    }, { maxWait: 10000, timeout: 15000 });
 
     // The callback can bail out with a response (invalid agreement) instead of a
     // transaction, so pass that through rather than treating it as one.

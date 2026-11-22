@@ -5,9 +5,6 @@ import { createCalendarSlotSchema, bulkCalendarSlotsSchema } from '@/lib/validat
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const authResult = await withAuth(request);
-  if (authResult instanceof NextResponse) return authResult;
-
   try {
     const searchParams = request.nextUrl.searchParams;
     const start = searchParams.get('start');

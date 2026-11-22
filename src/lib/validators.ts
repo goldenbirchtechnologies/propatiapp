@@ -386,7 +386,7 @@ export const transactionTypeSchema = z.enum([
 export const transactionStatusSchema = z.enum(['pending', 'in_escrow', 'released', 'failed', 'refunded']);
 
 export const initiatePaymentSchema = z.object({
-  listingId: uuidSchema,
+  listingId: z.string().cuid('Invalid ID format'),
   agreementId: uuidSchema.optional(),
   type: transactionTypeSchema,
   amount: z.number().positive(),

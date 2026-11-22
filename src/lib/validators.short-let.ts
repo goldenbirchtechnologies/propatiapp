@@ -1,15 +1,19 @@
 import { z } from 'zod';
-import { emailSchema, phoneSchema, urlSchema, uuidSchema, paginationSchema } from './validators';
+import { emailSchema } from './validators';
+
+const shortletPhoneSchema = z.string()
+  .trim()
+  .regex(/^\+?[0-9\s()-]{10,20}$/, 'Invalid phone number');
 
 export const bookingStatusSchema = z.enum(['pending', 'confirmed', 'cancelled', 'completed']);
 export const paymentStatusSchema = z.enum(['pending', 'paid', 'refunded']);
 
 export const createBookingSchema = z.object({
-  listingId: uuidSchema,
+  listingId: z.string().cuid('Invalid ID format'),
   checkIn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Invalid date (YYYY-MM-DD)'),
   checkOut: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Invalid date (YYYY-MM-DD)'),
   guestName: z.string().min(2).max(100).optional(),
-  guestPhone: phoneSchema.optional(),
+  guestPhone: shortletPhoneSchema.optional(),
   guestEmail: emailSchema.optional(),
   adults: z.number().int().min(1).max(50).default(1),
   children: z.number().int().min(0).max(50).default(0),

@@ -12,8 +12,9 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const { page, limit } = Object.fromEntries(searchParams.entries());
-    const skip = (Number(page) || 1 - 1) * (Number(limit) || 20);
+    const currentPage = Number(page) || 1;
     const take = Number(limit) || 20;
+    const skip = Math.max(currentPage - 1, 0) * take;
 
     const where: Record<string, unknown> = {};
     if (user.role === 'tenant') {
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       bookings,
-      pagination: { page: Number(page) || 1, limit: take, total, totalPages: Math.ceil(total / take) },
+      pagination: { page: currentPage, limit: take, total, totalPages: Math.ceil(total / take) },
     });
   } catch (error) {
     return errorResponse(error instanceof Error ? error.message : 'Failed to fetch bookings', 500);

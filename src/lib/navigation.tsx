@@ -138,6 +138,7 @@ export const TENANT_NAVIGATION: Array<NavItem | NavSection> = [
     items: [
       { label: 'My Agreements', href: '/dashboard/tenant/agreements', icon: <FileText className="h-5 w-5" /> },
       { label: 'Applications', href: '/dashboard/tenant/applications', icon: <Briefcase className="h-5 w-5" /> },
+      { label: 'Shortlet reservations', href: '/dashboard/tenant/reservations', icon: <CalendarDays className="h-5 w-5" /> },
     ],
   },
   {

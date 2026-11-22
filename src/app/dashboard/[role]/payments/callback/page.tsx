@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, CheckCircle, XCircle, Download, ArrowRight } from 'lucide-react';
 import { useVerifyPayment } from '@/hooks/usePayments';
@@ -14,6 +13,7 @@ export default function PaymentCallbackPage() {
   const { toast } = useToast();
   const [status, setStatus] = useState<'verifying' | 'success' | 'failed'>('verifying');
   const [transactionId, setTransactionId] = useState<string | null>(null);
+  const attemptedReference = useRef<string | null>(null);
 
   const verifyPayment = useVerifyPayment();
 
@@ -32,12 +32,14 @@ export default function PaymentCallbackPage() {
     }
 
     const paymentRef = reference || trxref;
+    if (attemptedReference.current === paymentRef) return;
+    attemptedReference.current = paymentRef;
 
     // Verify the payment
     verifyPayment.mutate(paymentRef!, {
       onSuccess: (data) => {
         setStatus('success');
-        setTransactionId(data.id);
+        setTransactionId(data?.transaction?.id ?? data?.id ?? null);
         toast({
           title: 'Payment Successful',
           description: 'Your payment has been verified successfully',

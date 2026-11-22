@@ -1,17 +1,17 @@
-"use client";
+import { redirect } from 'next/navigation';
 
-import SignupForm from "@/components/signup-form";
-import PropatiBoxLogo from "@/components/brand/PropatiBoxLogo";
+export default async function LegacySignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const params = await searchParams;
+  const query = new URLSearchParams();
 
-export default function SignupPage() {
-  return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-black p-6 md:p-10">
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <div className="self-center">
-          <PropatiBoxLogo size="sm" />
-        </div>
-        <SignupForm />
-      </div>
-    </div>
-  );
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) value.forEach((item) => query.append(key, item));
+    else if (value !== undefined) query.set(key, value);
+  }
+
+  redirect(`/sign-up${query.toString() ? `?${query.toString()}` : ''}`);
 }

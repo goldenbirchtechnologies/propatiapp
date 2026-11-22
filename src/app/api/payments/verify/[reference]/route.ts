@@ -62,6 +62,34 @@ export async function GET(
     const paystackResponse = await paystack.verifyTransaction(reference);
 
     if (!paystackResponse.status || paystackResponse.data.status !== 'success') {
+      // The webhook may settle the transaction while this browser verification
+      // request is in flight. Never overwrite a settled webhook result.
+      const settledTransaction = await prisma.transaction.findUnique({
+        where: { id: transaction.id },
+        include: {
+          listing: { select: { id: true, title: true } },
+          payer: { select: { id: true, fullName: true, email: true } },
+          payee: { select: { id: true, fullName: true, email: true } },
+          agent: { select: { id: true, fullName: true, email: true } },
+        },
+      });
+      if (settledTransaction?.status === 'in_escrow' || settledTransaction?.status === 'released') {
+        return NextResponse.json({
+          success: true,
+          transaction: settledTransaction,
+          status: settledTransaction.status,
+          message: 'Payment was already confirmed by the gateway webhook',
+        });
+      }
+
+      const gatewayStatus = String(paystackResponse.data.status || '').toLowerCase();
+      if (gatewayStatus !== 'failed' && gatewayStatus !== 'abandoned') {
+        return NextResponse.json(
+          { success: false, retryable: true, error: 'Payment is still processing', details: 'Waiting for Paystack confirmation' },
+          { status: 409 }
+        );
+      }
+
       // Update transaction as failed
       const updated = await prisma.transaction.update({
         where: { id: transaction.id },

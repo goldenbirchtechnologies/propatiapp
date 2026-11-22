@@ -135,9 +135,13 @@ export function useVerifyPayment() {
       const response = await fetch(`/api/payments/verify/${reference}`);
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Payment verification failed');
+        const verificationError = new Error(error.details || error.error || 'Payment verification failed') as Error & { retryable?: boolean };
+        verificationError.retryable = Boolean(error.retryable);
+        throw verificationError;
       }
-      return response.json();
+      const result = await response.json();
+      if (result?.success === false) throw new Error(result.details || result.error || 'Payment verification failed');
+      return result;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: paymentsKeys.transactions() });

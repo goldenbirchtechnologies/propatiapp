@@ -35,26 +35,29 @@ export default function PaymentCallbackPage() {
     if (attemptedReference.current === paymentRef) return;
     attemptedReference.current = paymentRef;
 
-    // Verify the payment
-    verifyPayment.mutate(paymentRef!, {
-      onSuccess: (data) => {
-        setStatus('success');
-        setTransactionId(data?.transaction?.id ?? data?.id ?? null);
-        toast({
-          title: 'Payment Successful',
-          description: 'Your payment has been verified successfully',
-        });
-      },
-      onError: (error) => {
-        setStatus('failed');
-        toast({
-          title: 'Verification Failed',
-          description: 'Unable to verify your payment. Please contact support.',
-          variant: 'destructive',
-        });
-        console.error('Payment verification error:', error);
-      },
-    });
+    let cancelled = false;
+    const verifyWithRetry = async () => {
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        try {
+          const data = await verifyPayment.mutateAsync(paymentRef!);
+          if (cancelled) return;
+          setStatus('success');
+          setTransactionId(data?.transaction?.id ?? data?.id ?? null);
+          toast({ title: 'Payment Successful', description: 'Your payment has been verified successfully' });
+          return;
+        } catch (error) {
+          if (attempt === 2 || cancelled) {
+            setStatus('failed');
+            toast({ title: 'Verification Failed', description: error instanceof Error ? error.message : 'Unable to verify your payment.', variant: 'destructive' });
+            console.error('Payment verification error:', error);
+            return;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+        }
+      }
+    };
+    void verifyWithRetry();
+    return () => { cancelled = true; };
   }, [searchParams, verifyPayment, toast]);
 
   const handleDownloadReceipt = () => {

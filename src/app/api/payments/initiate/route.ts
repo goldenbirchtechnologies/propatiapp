@@ -149,7 +149,6 @@ export async function POST(request: NextRequest) {
           payeeAmount: BigInt(fees.payeeAmount),
           description: validated.metadata?.description || `Payment for ${listing.title}`,
           paystackData: validated.metadata,
-          ...(bookingId ? { bookings: { connect: { id: bookingId } } } : {}),
         },
         include: {
           listing: { select: { id: true, title: true, area: true } },
@@ -158,6 +157,13 @@ export async function POST(request: NextRequest) {
           agent: { select: { id: true, fullName: true, email: true } },
         },
       });
+
+      if (bookingId) {
+        await tx.booking.update({
+          where: { id: bookingId },
+          data: { transactionId: newTransaction.id },
+        });
+      }
 
       let agreementId = validated.agreementId;
     if (!agreementId) {

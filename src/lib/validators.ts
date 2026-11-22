@@ -390,7 +390,7 @@ export const initiatePaymentSchema = z.object({
   agreementId: uuidSchema.optional(),
   type: transactionTypeSchema,
   amount: z.number().positive(),
-  email: emailSchema,
+  email: emailSchema.optional(),
   phone: phoneSchema.optional(),
   metadata: z.record(z.string()).optional(),
   collectionType: z.enum(['direct','managed']).default('direct'),

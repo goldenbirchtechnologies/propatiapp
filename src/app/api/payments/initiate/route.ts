@@ -17,6 +17,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validated = initiatePaymentSchema.parse(body);
+    const payerEmail = validated.email || user.email;
+    if (!payerEmail) return NextResponse.json({ error: 'A valid payment email is required' }, { status: 400 });
 
     const listing = await prisma.listing.findUnique({
       where: { id: validated.listingId },
@@ -106,7 +108,7 @@ export async function POST(request: NextRequest) {
     const roleSlug = user.role === 'estate_manager' ? 'estate-manager' : user.role;
     const callbackUrl = `${getAppUrl()}/dashboard/${roleSlug}/payments/callback?reference=${reference}`;
     const paystackResponse = await paystack.initializePayment({
-      email: validated.email,
+      email: payerEmail,
       amount: amountKobo,
       reference,
       callback_url: callbackUrl,

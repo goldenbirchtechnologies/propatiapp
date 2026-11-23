@@ -22,7 +22,6 @@ export default async function LandlordPropertiesPage() {
 
   let listings: any[] = [];
   let normalized: any[] = [];
-  let registeredProperties: any[] = [];
   try {
     listings = await prisma.listing.findMany({
       where: {
@@ -30,6 +29,7 @@ export default async function LandlordPropertiesPage() {
         propertyType: { not: null },
         // Unit-level marketplace records are not portfolio properties.
         unitId: null,
+        spaceId: null,
       },
       include: {
         images: { where: { isCover: true }, take: 1 },
@@ -104,14 +104,59 @@ export default async function LandlordPropertiesPage() {
       };
     });
 
-    registeredProperties = await prisma.property.findMany({
+    const registeredProperties = await prisma.property.findMany({
       where: { ownerId: user.id },
       include: {
-        spaces: { select: { id: true, identifier: true, name: true, operationalStatus: true } },
+        spaces: { select: { id: true, identifier: true, name: true, operationalStatus: true, category: { select: { spaceType: true } }, listings: { select: { id: true, status: true, listingType: true, price: true, pricePeriod: true } } } },
         spaceCategories: { select: { id: true, categoryName: true, spaceType: true } },
       },
       orderBy: { updatedAt: 'desc' },
     });
+
+    normalized = [
+      ...normalized,
+      ...registeredProperties.map((property) => {
+        const listed = property.spaces.filter((space) => space.listings.some((listing) => listing.status === 'active')).length;
+        const occupied = property.spaces.filter((space) => space.operationalStatus === 'occupied').length;
+        return {
+          id: property.id,
+          title: property.name,
+          area: property.city,
+          state: property.state,
+          listingType: 'asset',
+          propertyType: property.category,
+          status: property.onboardingStatus,
+          price: 0,
+          pricePeriod: null,
+          viewsCount: 0,
+          allowShortlet: false,
+          images: [],
+          verification: null,
+          unitCount: property.spaces.length,
+          vacantUnitCount: property.spaces.length - occupied,
+          listedUnitCount: listed,
+          occupiedUnitCount: occupied,
+          assignedAgent: null,
+          registryOnly: true,
+          registryHref: `/dashboard/landlord/properties/registry/${property.id}`,
+          units: property.spaces.map((space) => ({
+            id: space.id,
+            unitNumber: space.identifier,
+            buildingName: property.name,
+            type: space.category.spaceType,
+            listingType: space.listings[0]?.listingType ?? 'rent',
+            pricePeriod: space.listings[0]?.pricePeriod ?? null,
+            rent: space.listings[0]?.price ? Number(space.listings[0].price) : 0,
+            status: space.operationalStatus,
+            occupancy: space.operationalStatus === 'occupied' ? 'OCCUPIED' : 'VACANT',
+            isListed: space.listings.some((listing) => listing.status === 'active'),
+            listings: space.listings.map((listing) => ({ id: listing.id, status: listing.status, listingType: listing.listingType, price: Number(listing.price), pricePeriod: listing.pricePeriod })),
+            bedrooms: 0,
+            bathrooms: 0,
+          })),
+        };
+      }),
+    ];
 
   } catch (error) {
     console.error('LandlordPropertiesPage server data load error:', error);
@@ -144,7 +189,7 @@ export default async function LandlordPropertiesPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <ErrorBoundary>
-        <PropertiesClient listings={normalized as any[]} registeredProperties={registeredProperties as any[]} />
+        <PropertiesClient listings={normalized as any[]} />
       </ErrorBoundary>
     </DashboardShell>
   );

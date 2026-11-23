@@ -67,24 +67,12 @@ type Listing = {
   occupiedUnitCount: number;
   assignedAgent: { id: string; fullName: string | null; email: string | null } | null;
   units: ListingUnit[];
+  registryOnly?: boolean;
+  registryHref?: string;
 };
 
 type Props = {
   listings: Listing[];
-  registeredProperties?: RegisteredProperty[];
-};
-
-type RegisteredProperty = {
-  id: string;
-  name: string;
-  category: string;
-  subtype: string;
-  city: string;
-  state: string;
-  address: string;
-  onboardingStatus: string;
-  spaces: { id: string; identifier: string; name: string; operationalStatus: string }[];
-  spaceCategories: { id: string; categoryName: string; spaceType: string }[];
 };
 
 function formatCurrency(value: number) {
@@ -106,16 +94,22 @@ function formatListingType(value?: string) {
     share: 'Shared',
     commercial: 'Commercial',
   };
+  if (value === 'asset') return 'Asset registry';
   if (!value) return 'Rent';
   return map[value] || titleCase(value);
 }
 
 function propertyStatusSummary(listing: Listing) {
+  if (listing.registryOnly) return `${listing.unitCount} Spaces • ${listing.listedUnitCount} Listed • ${listing.vacantUnitCount} Available`;
   if (!listing.unitCount) return 'No Units • Draft';
   return `${listing.unitCount} Units • ${listing.listedUnitCount} Active Listing${listing.listedUnitCount === 1 ? '' : 's'} • ${listing.vacantUnitCount} Unlisted`;
 }
 
-export default function PropertiesClient({ listings, registeredProperties = [] }: Props) {
+function propertyHref(listing: Listing) {
+  return listing.registryOnly && listing.registryHref ? listing.registryHref : `/dashboard/landlord/properties/${listing.id}`;
+}
+
+export default function PropertiesClient({ listings }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -315,28 +309,6 @@ export default function PropertiesClient({ listings, registeredProperties = [] }
         </div>
 
         {/* Content */}
-        {registeredProperties.length > 0 && (
-          <section className="space-y-4">
-            <div>
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Registered assets</h2>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Assets saved in the property registry. Create listings separately when ready.</p>
-            </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {registeredProperties.map((property) => (
-                <Link key={property.id} href={`/dashboard/landlord/properties/registry/${property.id}`} className={`${cardBase} block p-5 transition hover:-translate-y-0.5 hover:shadow-md`}>
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary"><Building2 size={22} /></div>
-                    <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-primary">{property.onboardingStatus}</span>
-                  </div>
-                  <h3 className="mt-4 text-base font-semibold text-zinc-900 dark:text-white">{titleCase(property.name)}</h3>
-                  <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{titleCase(property.category.replace('_', ' '))} · {property.subtype}</p>
-                  <div className="mt-3 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400"><MapPin size={13} className="text-primary" />{property.city}, {property.state}</div>
-                  <div className="mt-4 flex items-center justify-between border-t border-zinc-100 pt-3 text-xs dark:border-white/[0.06]"><span>{property.spaces.length} spaces</span><span>{property.spaceCategories.length} categories</span><span className="font-medium text-primary">View registry →</span></div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
         {filtered.length === 0 ? (
           <div className={`${cardBase} p-12 flex flex-col items-center justify-center text-center`}>
             <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-white/[0.08] flex items-center justify-center text-zinc-400 dark:text-zinc-500 mb-4">
@@ -424,18 +396,18 @@ export default function PropertiesClient({ listings, registeredProperties = [] }
                         <span>{listing.verification?.overallStatus === 'certified' ? 'Verified' : 'Pending Verification'}</span>
                       </div>
                       <div className="flex items-baseline justify-between">
-                        <span className="text-lg font-bold text-primary dark:text-[#4edea3]">{formatCurrency(listing.price)}</span>
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">/ {listing.pricePeriod || 'annum'}</span>
+                        <span className="text-lg font-bold text-primary dark:text-[#4edea3]">{listing.registryOnly ? 'Not listed' : formatCurrency(listing.price)}</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">{listing.registryOnly ? 'asset record' : `/ ${listing.pricePeriod || 'annum'}`}</span>
                       </div>
                     </div>
                   </div>
                   {/* Footer Actions */}
                   <div className="px-4 py-2.5 bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-between text-zinc-700 dark:text-zinc-300 text-xs font-medium border-t border-zinc-100 dark:border-white/[0.06]">
-                    <Link href={`/dashboard/landlord/properties/${listing.id}`} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
+                    <Link href={propertyHref(listing)} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
                       <Eye size={14} />
                       <span>View Property</span>
                     </Link>
-                    <Link href={`/dashboard/landlord/properties/${listing.id}`} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
+                    <Link href={propertyHref(listing)} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
                       <Pencil size={14} />
                       <span>Edit</span>
                     </Link>
@@ -447,15 +419,15 @@ export default function PropertiesClient({ listings, registeredProperties = [] }
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-44">
                         <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/landlord/properties/${listing.id}`}>View / Manage</Link>
+                          <Link href={propertyHref(listing)}>View / Manage</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                          <Link href={listing.registryOnly ? propertyHref(listing) : `/dashboard/landlord/properties/${listing.id}/units/new`}>{listing.registryOnly ? 'Manage spaces' : 'Add Unit'}</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-500 focus:text-red-500" onClick={() => setDeleteId(listing.id)}>
+                        {!listing.registryOnly && <DropdownMenuItem className="text-red-500 focus:text-red-500" onClick={() => setDeleteId(listing.id)}>
                           Remove from Marketplace
-                        </DropdownMenuItem>
+                        </DropdownMenuItem>}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -489,7 +461,7 @@ export default function PropertiesClient({ listings, registeredProperties = [] }
                         )}
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <Link href={`/dashboard/landlord/properties/${listing.id}`} className="text-sm font-semibold text-zinc-900 dark:text-white truncate hover:text-primary dark:hover:text-[#4edea3]">
+                        <Link href={propertyHref(listing)} className="text-sm font-semibold text-zinc-900 dark:text-white truncate hover:text-primary dark:hover:text-[#4edea3]">
                           {titleCase(listing.title)}
                         </Link>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
@@ -509,10 +481,10 @@ export default function PropertiesClient({ listings, registeredProperties = [] }
                       <span className="text-sm font-mono font-bold text-primary dark:text-[#4edea3]">{formatCurrency(listing.price)}</span>
                     </div>
                     <div className="col-span-2 flex items-center justify-end gap-1">
-                      <Link href={`/dashboard/landlord/properties/${listing.id}`} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
+                      <Link href={propertyHref(listing)} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
                         <Eye size={14} />
                       </Link>
-                      <Link href={`/dashboard/landlord/properties/${listing.id}`} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
+                      <Link href={propertyHref(listing)} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
                         <Pencil size={14} />
                       </Link>
                       <DropdownMenu>
@@ -523,15 +495,15 @@ export default function PropertiesClient({ listings, registeredProperties = [] }
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-40">
                           <DropdownMenuItem asChild>
-                            <Link href={`/dashboard/landlord/properties/${listing.id}`}>View</Link>
+                            <Link href={propertyHref(listing)}>View</Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
-                            <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                            <Link href={listing.registryOnly ? propertyHref(listing) : `/dashboard/landlord/properties/${listing.id}/units/new`}>{listing.registryOnly ? 'Manage spaces' : 'Add Unit'}</Link>
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-500" onClick={() => setDeleteId(listing.id)}>
+                        {!listing.registryOnly && <DropdownMenuItem className="text-red-500" onClick={() => setDeleteId(listing.id)}>
                             Remove Listing
-                          </DropdownMenuItem>
+                          </DropdownMenuItem>}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>

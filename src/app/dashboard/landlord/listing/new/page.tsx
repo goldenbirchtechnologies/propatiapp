@@ -37,7 +37,10 @@ export default async function LandlordAddListingPage({ searchParams }: { searchP
 
   try {
     listings = await prisma.listing.findMany({
-      where: { ownerId: user.id },
+      // Only parent legacy properties belong in the selector. Unit-level
+      // child listings and new registry-space listings are inventory records,
+      // not additional properties.
+      where: { ownerId: user.id, unitId: null, spaceId: null },
       select: {
         id: true,
         title: true,

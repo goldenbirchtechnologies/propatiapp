@@ -358,7 +358,8 @@ export default function AddListingClient({
       });
     }
   };
-  const goToNext = () => {
+  const goToNext = async () => {
+    await form.trigger(["title", "description", "address", "area", "price"]);
     if (type === "short_let" && !showShortletDetails) {
       setShowShortletDetails(true);
       window.setTimeout(
@@ -382,9 +383,12 @@ export default function AddListingClient({
               : type === "short_let" && !shortletReady
                 ? "shortlet-details"
                 : "marketing";
-    document
-      .getElementById(nextId)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const target = document.getElementById(nextId);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
   };
   const submit = async (status: "active" | "draft") => {
     const valid = await form.trigger();
@@ -782,7 +786,9 @@ export default function AddListingClient({
           >
             <div className="grid gap-4 md:grid-cols-2">
               <label className="md:col-span-2">
-                <span className="field-label">Listing title</span>
+                <span className="field-label">
+                  Listing title <span className="text-red-600">Required</span>
+                </span>
                 <Input
                   {...form.register("title")}
                   placeholder="e.g. Bright 3-bed apartment in Lekki Phase 1"
@@ -869,7 +875,8 @@ export default function AddListingClient({
                     ? "Asking price"
                     : type === "short_let"
                       ? "Nightly rate"
-                      : "Price"}
+                      : "Price"}{" "}
+                  <span className="text-red-600">Required</span>
                 </span>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5 text-sm text-zinc-500">
@@ -953,8 +960,13 @@ export default function AddListingClient({
           >
             <div className="grid gap-4 md:grid-cols-2">
               <label className="md:col-span-2">
-                <span className="field-label">Street address</span>
-                <Input {...form.register("address")} />
+                <span className="field-label">
+                  Street address <span className="text-red-600">Required</span>
+                </span>
+                <Input
+                  aria-invalid={Boolean(form.formState.errors.address)}
+                  {...form.register("address")}
+                />
                 {form.formState.errors.address && (
                   <span className="field-error">
                     {form.formState.errors.address.message}
@@ -962,8 +974,14 @@ export default function AddListingClient({
                 )}
               </label>
               <label>
-                <span className="field-label">Area / neighbourhood</span>
-                <Input {...form.register("area")} />
+                <span className="field-label">
+                  Area / neighbourhood{" "}
+                  <span className="text-red-600">Required</span>
+                </span>
+                <Input
+                  aria-invalid={Boolean(form.formState.errors.area)}
+                  {...form.register("area")}
+                />
                 {form.formState.errors.area && (
                   <span className="field-error">
                     {form.formState.errors.area.message}
@@ -1015,7 +1033,9 @@ export default function AddListingClient({
             hint="Be specific about the home, the neighbourhood and what makes it a good fit."
           >
             <label>
-              <span className="field-label">Description</span>
+              <span className="field-label">
+                Description <span className="text-red-600">Required</span>
+              </span>
               <Textarea
                 rows={6}
                 maxLength={5000}
@@ -1150,49 +1170,28 @@ export default function AddListingClient({
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
-            {type === "short_let" && !showShortletDetails && (
+            {publishBlocked ||
+            completed < 5 ||
+            (type === "short_let" && !showShortletDetails) ? (
+              <Button type="button" onClick={goToNext}>
+                {type === "short_let" && !showShortletDetails
+                  ? "Next: shortlet details"
+                  : "Next"}
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            ) : (
               <Button
                 type="button"
-                variant="outline"
-                onClick={() => {
-                  setShowShortletDetails(true);
-                  window.setTimeout(
-                    () =>
-                      document
-                        .getElementById("shortlet-details")
-                        ?.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start",
-                        }),
-                    0,
-                  );
-                }}
+                onClick={() => submit("active")}
+                disabled={submitting}
               >
-                Next: shortlet details
+                {submitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Review & publish
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             )}
-            {publishBlocked &&
-              !(type === "short_let" && !showShortletDetails) && (
-                <Button type="button" onClick={goToNext}>
-                  Next
-                  <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
-              )}
-            {!publishBlocked &&
-              (type !== "short_let" || showShortletDetails) && (
-                <Button
-                  type="button"
-                  onClick={() => submit("active")}
-                  disabled={submitting}
-                >
-                  {submitting && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  Review & publish
-                  <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
-              )}
           </div>
         </div>
       </div>

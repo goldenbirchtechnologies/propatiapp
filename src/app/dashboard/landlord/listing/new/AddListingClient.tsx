@@ -260,17 +260,53 @@ export default function AddListingClient({
     type === "short_let" ? shortletReady : images.length > 0,
   ].filter(Boolean).length;
   const readiness = Math.round((completed / 5) * 100);
-  const stepIds = [
-    "category",
-    "property",
-    "media",
-    "details",
-    "pricing",
-    ...(type === "short_let" ? ["shortlet-details"] : []),
-    "location",
-    "features",
-    "marketing",
-  ];
+  const stepIds = useMemo(
+    () => [
+      "category",
+      "property",
+      "media",
+      "details",
+      "pricing",
+      ...(type === "short_let" ? ["shortlet-details"] : []),
+      "location",
+      "features",
+      "marketing",
+    ],
+    [type],
+  );
+  const progressStep =
+    currentStep <= 3 ? 0 : currentStep <= 6 ? 1 : currentStep <= 7 ? 2 : 3;
+
+  // The form is intentionally presented as one continuous page. Keep the
+  // footer navigation in sync when the user reaches a section by scrolling
+  // directly to it instead of using the footer button.
+  useEffect(() => {
+    let frame = 0;
+    const syncStepToViewport = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const anchor = 180;
+        let visibleStep = 0;
+        stepIds.forEach((id, index) => {
+          const section = document.getElementById(id);
+          if (section && section.getBoundingClientRect().top <= anchor) {
+            visibleStep = index;
+          }
+        });
+        setCurrentStep((previous) => (previous === visibleStep ? previous : visibleStep));
+      });
+    };
+
+    syncStepToViewport();
+    window.addEventListener("scroll", syncStepToViewport, { passive: true });
+    window.addEventListener("resize", syncStepToViewport);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", syncStepToViewport);
+      window.removeEventListener("resize", syncStepToViewport);
+    };
+  }, [stepIds]);
+
   useEffect(() => {
     const raw = window.localStorage.getItem("propatibox:list-draft");
     if (raw) {
@@ -584,11 +620,11 @@ export default function AddListingClient({
                 className="flex min-w-max items-center gap-2 text-xs"
               >
                 <span
-                  className={`grid h-6 w-6 place-items-center rounded-full text-[11px] font-semibold ${index === 0 ? "bg-emerald-600 text-white" : "border border-zinc-300 text-zinc-500 dark:border-zinc-700"}`}
+                  className={`grid h-6 w-6 place-items-center rounded-full text-[11px] font-semibold ${index <= progressStep ? "bg-emerald-600 text-white" : "border border-zinc-300 text-zinc-500 dark:border-zinc-700"}`}
                 >
                   {index + 1}
                 </span>
-                <span className={index === 0 ? "font-medium" : "text-zinc-500"}>
+                <span className={index === progressStep ? "font-medium" : "text-zinc-500"}>
                   {step}
                 </span>
                 {index < 3 && (
@@ -1190,8 +1226,7 @@ export default function AddListingClient({
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
-            {publishBlocked ||
-            completed < 5 ||
+            {completed < 5 ||
             (type === "short_let" && !showShortletDetails) ? (
               <Button type="button" onClick={goToNext}>
                 {type === "short_let" && !showShortletDetails
@@ -1202,13 +1237,13 @@ export default function AddListingClient({
             ) : (
               <Button
                 type="button"
-                onClick={() => submit("active")}
+                onClick={() => submit(publishBlocked ? "draft" : "active")}
                 disabled={submitting}
               >
                 {submitting && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Review & publish
+                {publishBlocked ? "Save draft" : "Review & publish"}
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             )}

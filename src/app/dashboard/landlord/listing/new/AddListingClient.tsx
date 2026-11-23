@@ -354,6 +354,12 @@ export default function AddListingClient({
     else if (form.getValues("pricePeriod") === "night")
       form.setValue("pricePeriod", type === "sale" ? "total" : "month");
   }, [type, form]);
+  useEffect(() => {
+    // Shortlet-specific fields should be available immediately after the
+    // category is selected, including when the user scrolls instead of using
+    // the footer navigation.
+    setShowShortletDetails(type === "short_let");
+  }, [type]);
   const saveLocal = () => {
     const now = new Date().toISOString();
     window.localStorage.setItem(

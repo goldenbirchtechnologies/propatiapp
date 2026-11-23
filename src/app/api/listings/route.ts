@@ -296,17 +296,10 @@ let listing;
       // A unit listing is its own record. The parent listing is the property
       // anchor and must never be overwritten when a unit is published.
       const unitPrice = merged.price ?? Number(unit.rent || 0);
-      const unitListing = await prisma.$transaction(async (tx) => {
-        const created = await tx.listing.create({
+      const [unitListing] = await prisma.$transaction([
+        prisma.listing.update({
           data: {
-            ...(validated as any),
-            ownerId: userId,
-            unitId: unit.id,
-            title: merged.title,
-            description: merged.description,
-            address: merged.address,
-            area: merged.area,
-            state: merged.state,
+            status: publishRequested ? 'active' : 'draft',
             price: unitPrice,
             pricePeriod: merged.pricePeriod,
             listingType: merged.listingType,
@@ -320,27 +313,43 @@ let listing;
             agencyFee: merged.agencyFee ?? null,
             stampDuty: merged.stampDuty ?? null,
             minimumStay: merged.minimumStay ?? null,
-            status: publishRequested ? 'active' : 'draft',
           },
-        } as any);
-
-        await tx.unit.update({
+          where: { id: parent.id },
+        } as any),
+        prisma.unit.update({
           where: { id: unit.id },
           data: {
+            listingId: parent.id,
             isListed: publishRequested,
             rent: unitPrice,
             pricePeriod: merged.pricePeriod,
             listingType: merged.listingType,
           },
-        });
+        }),
+      ]);
 
-        return created;
-      });
-
-      return NextResponse.json(unitListing, { status: 201 });
+      return NextResponse.json(unitListing, { status: 200 });
     }
 
-    if (listingType === 'short_let') {
+    const spaceId = (body as any)?.spaceId as string | undefined;
+    if (spaceId) {
+      const space = await prisma.space.findUnique({ where: { id: spaceId }, include: { property: { select: { id: true, ownerId: true, name: true, address: true, city: true, state: true } } } });
+      if (!space) return NextResponse.json({ error: 'Space not found' }, { status: 404 });
+      if (space.property.ownerId !== userId && auth.user.role !== 'admin') return NextResponse.json({ error: 'Forbidden: that space is not yours to list' }, { status: 403 });
+      listing = await prisma.listing.create({
+        data: {
+          ...(validated as any),
+          ownerId: userId,
+          propertyId: space.property.id,
+          spaceId: space.id,
+          title: (validated as any).title || `${space.property.name} - ${space.name}`,
+          address: (validated as any).address || space.property.address,
+          area: (validated as any).area || space.property.city,
+          state: (validated as any).state || space.property.state,
+          status: publishRequested ? 'active' : 'draft',
+        },
+      } as any);
+    } else if (listingType === 'short_let') {
       const shortlet = validated as z.infer<typeof createShortletListingSchema>
       const prismaData: Record<string, unknown> = {
         title: shortlet.title,

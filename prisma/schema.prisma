@@ -44,6 +44,30 @@ enum PropertyType {
   warehouse
 }
 
+enum PropertyCategory {
+  residential
+  commercial
+  industrial
+  hospitality
+  outdoor_recreation
+  mixed_use
+}
+
+enum PropertyOnboardingStatus {
+  draft
+  submitted
+  verified
+  archived
+}
+
+enum SpaceOperationalStatus {
+  available
+  occupied
+  reserved
+  unavailable
+  maintenance
+}
+
 enum PrivacyType {
   entire_place
   private_room
@@ -651,6 +675,7 @@ model User {
   rentScenarios           RentScenario[]             @relation("RentScenarioOwner")
   autoPayMandates         AutoPayMandate[]           @relation("AutoPayMandateOwner")
   paymentMethods          PaymentMethod[]            @relation("PaymentMethodOwner")
+  ownedProperties         Property[]                 @relation("PropertyOwner")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -1049,8 +1074,12 @@ model Listing {
   legalMatters       LegalMatter[]
   ownerInvites       OwnerInvite[]
   agentReviews       AgentReview[]
-  unit              Unit?              @relation("UnitListing", fields: [unitId], references: [id], onDelete: SetNull)
-  unitId             String?           @map("unit_id")
+  unit               Unit?               @relation("UnitListing", fields: [unitId], references: [id], onDelete: SetNull)
+  unitId             String?             @map("unit_id")
+  propertyId         String?             @map("property_id")
+  spaceId            String?             @map("space_id")
+  property           Property?           @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  space              Space?              @relation(fields: [spaceId], references: [id], onDelete: SetNull)
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([title], map: "idx_listings_title")
@@ -1059,6 +1088,81 @@ model Listing {
   @@index([area], map: "idx_listings_area")
   @@index([unitId], map: "idx_listings_unit")
   @@map("listings")
+}
+
+/// Asset registration is separate from marketplace listings. Legacy records
+/// remain on Listing + Unit while new registrations use Property + Space.
+model Property {
+  id                 String                   @id @default(cuid())
+  ownerId            String                   @map("owner_id")
+  category           PropertyCategory
+  subtype            String
+  name               String
+  intendedUse        String?                  @map("intended_use")
+  description        String?
+  country            String                   @default("Nigeria")
+  state              String
+  city               String
+  address            String
+  landmarks          String?
+  coordinates        Json?
+  physicalAttributes Json?                    @map("physical_attributes")
+  facilities         Json?
+  ownershipRefs      Json?                    @map("ownership_refs")
+  verificationStatus String                   @default("not_started") @map("verification_status")
+  onboardingStatus   PropertyOnboardingStatus @default(draft) @map("onboarding_status")
+  createdAt          DateTime                 @default(now()) @map("created_at")
+  updatedAt          DateTime                 @updatedAt @map("updated_at")
+
+  owner           User            @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  spaceCategories SpaceCategory[]
+  spaces          Space[]
+  listings        Listing[]
+
+  @@index([ownerId], map: "idx_properties_owner")
+  @@index([category], map: "idx_properties_category")
+  @@index([onboardingStatus], map: "idx_properties_onboarding_status")
+  @@map("properties")
+}
+
+model SpaceCategory {
+  id            String   @id @default(cuid())
+  propertyId    String   @map("property_id")
+  categoryName  String   @map("category_name")
+  spaceType     String   @map("space_type")
+  configuration Json?
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  spaces   Space[]
+
+  @@unique([propertyId, categoryName, spaceType], map: "uq_space_categories_property_type")
+  @@index([propertyId], map: "idx_space_categories_property")
+  @@map("space_categories")
+}
+
+model Space {
+  id                String                 @id @default(cuid())
+  propertyId        String                 @map("property_id")
+  categoryId        String                 @map("category_id")
+  name              String
+  identifier        String
+  attributes        Json?
+  amenities         Json?
+  capacity          Int?
+  operationalStatus SpaceOperationalStatus @default(available) @map("operational_status")
+  createdAt         DateTime               @default(now()) @map("created_at")
+  updatedAt         DateTime               @updatedAt @map("updated_at")
+
+  property Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  category SpaceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  listings Listing[]
+
+  @@unique([propertyId, identifier], map: "uq_spaces_property_identifier")
+  @@index([propertyId], map: "idx_spaces_property")
+  @@index([categoryId], map: "idx_spaces_category")
+  @@map("spaces")
 }
 
 model UnitImage {
@@ -1661,7 +1765,7 @@ model Unit {
 
   utilityAllocations UtilityAllocation[]
   images             UnitImage[]
-  listings           Listing[]          @relation("UnitListing")
+  listings           Listing[]           @relation("UnitListing")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

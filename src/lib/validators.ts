@@ -198,6 +198,8 @@ stampDuty: z.number().nonnegative().optional(),
   minimumStay: z.number().int().positive().optional(),
   allowShortlet: z.boolean().default(false).optional(),
   ownerEmail: z.string().email().optional(),
+  propertyId: z.string().cuid().optional(),
+  spaceId: z.string().cuid().optional(),
 });
 
 export const updateListingSchema = createListingSchema.partial().extend({

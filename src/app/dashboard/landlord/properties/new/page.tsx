@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { getOnboardingSnapshot } from '@/lib/onboarding/status';
-import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
@@ -11,7 +10,7 @@ import AddPropertyClient from './AddPropertyClient';
 
 export const metadata = {
   title: 'Add Property – Landlord',
-  description: 'Create a new building and its units',
+  description: 'Register a property asset and its space inventory',
 };
 
 export default async function AddPropertyPage() {
@@ -22,30 +21,12 @@ export default async function AddPropertyPage() {
     redirect('/dashboard');
   }
 
-  // Drafts are open to every landlord: POST /api/listings gates only publishing
-  // (status: 'active') on a completed dossier, so the building and its units can
-  // be registered now and go live once onboarding is done. This page therefore
-  // shows what is still locked above the form rather than standing in for it.
+  // Draft registration is open to every landlord. Marketplace publication is
+  // intentionally a separate workflow from asset registration.
   const snapshot = await getOnboardingSnapshot(user.id);
   const onboardingBlocked = Boolean(
     snapshot?.required && snapshot.status !== 'completed'
   );
-
-  // Units are created inside an organisation, and each organisation has a unit
-  // cap. Handing the client the first owned org blindly meant every unit write
-  // failed with "Unit limit reached" on an already-full portfolio, leaving the
-  // property saved with no units. Pick one with room; null lets the client
-  // provision a fresh organisation.
-  const organisations = await prisma.organisation.findMany({
-    where: { members: { some: { userId: user.id, status: 'active' } } },
-    select: { id: true, maxUnits: true, _count: { select: { units: true } } },
-    orderBy: { createdAt: 'asc' },
-  });
-
-  // maxUnits <= 0 means unlimited on this schema.
-  const orgId =
-    organisations.find((org) => org.maxUnits <= 0 || org._count.units < org.maxUnits)
-      ?.id ?? null;
 
   const shell = (children: React.ReactNode) => (
     <DashboardShell
@@ -68,7 +49,7 @@ export default async function AddPropertyPage() {
               <h2 className="text-sm font-semibold">Saved as a draft</h2>
             </div>
             <p className="text-sm text-zinc-600 dark:text-zinc-300">
-              Your building and units are saved straight away, and stay off the
+              Your property and spaces are saved straight away, and stay off the
               marketplace until your onboarding dossier is complete.
               {snapshot?.currentStep ? ' The next step waiting on you is shown in the dossier.' : ''}
             </p>
@@ -81,7 +62,7 @@ export default async function AddPropertyPage() {
           </div>
         </div>
       ) : null}
-      <AddPropertyClient orgId={orgId} />
+      <AddPropertyClient />
     </ErrorBoundary>
   );
 }

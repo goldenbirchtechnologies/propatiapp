@@ -205,6 +205,7 @@ export default function AddListingClient({
   const [errorDialog, setErrorDialog] = useState<string | null>(null);
   const [successRoute, setSuccessRoute] = useState<string | null>(null);
   const [showShortletDetails, setShowShortletDetails] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
   const [shortletDetails, setShortletDetails] = useState<ShortletDetailsValue>(
     {},
   );
@@ -259,6 +260,17 @@ export default function AddListingClient({
     type === "short_let" ? shortletReady : images.length > 0,
   ].filter(Boolean).length;
   const readiness = Math.round((completed / 5) * 100);
+  const stepIds = [
+    "category",
+    "property",
+    "media",
+    "details",
+    "pricing",
+    ...(type === "short_let" ? ["shortlet-details"] : []),
+    "location",
+    "features",
+    "marketing",
+  ];
   useEffect(() => {
     const raw = window.localStorage.getItem("propatibox:list-draft");
     if (raw) {
@@ -359,36 +371,44 @@ export default function AddListingClient({
     }
   };
   const goToNext = async () => {
-    await form.trigger(["title", "description", "address", "area", "price"]);
-    if (type === "short_let" && !showShortletDetails) {
-      setShowShortletDetails(true);
-      window.setTimeout(
-        () =>
-          document
-            .getElementById("shortlet-details")
-            ?.scrollIntoView({ behavior: "smooth", block: "start" }),
-        0,
-      );
+    const stepId = stepIds[currentStep];
+    let valid = true;
+    if (stepId === "property") valid = !needsUnit || Boolean(selectedUnitId);
+    if (stepId === "media")
+      valid = type === "short_let" ? images.length >= 5 : images.length > 0;
+    if (stepId === "details") valid = await form.trigger(["title"]);
+    if (stepId === "pricing") valid = await form.trigger(["price"]);
+    if (stepId === "location") valid = await form.trigger(["address", "area"]);
+    if (stepId === "marketing") valid = await form.trigger(["description"]);
+    if (stepId === "shortlet-details") valid = shortletReady;
+    if (!valid) {
+      toast({
+        title: "Complete this step first",
+        description:
+          stepId === "property"
+            ? "Select a vacant unit."
+            : stepId === "media"
+              ? type === "short_let"
+                ? "Add at least 5 photos."
+                : "Add a cover photo."
+              : "Fill in the required fields marked in red.",
+        variant: "destructive",
+      });
+      document
+        .getElementById(stepId)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    const nextId =
-      !selectedUnitId && needsUnit
-        ? "property"
-        : !values.title
-          ? "details"
-          : !values.address || !values.area
-            ? "location"
-            : !values.price
-              ? "pricing"
-              : type === "short_let" && !shortletReady
-                ? "shortlet-details"
-                : "marketing";
-    const target = document.getElementById(nextId);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    }
+    const nextIndex = Math.min(currentStep + 1, stepIds.length - 1);
+    if (stepIds[nextIndex] === "shortlet-details") setShowShortletDetails(true);
+    setCurrentStep(nextIndex);
+    window.setTimeout(
+      () =>
+        document
+          .getElementById(stepIds[nextIndex])
+          ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      0,
+    );
   };
   const submit = async (status: "active" | "draft") => {
     const valid = await form.trigger();

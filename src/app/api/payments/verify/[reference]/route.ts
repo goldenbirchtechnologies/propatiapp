@@ -189,11 +189,33 @@ export async function GET(
     });
   } catch (error) {
     console.error('Payment verify error:', error);
+    try {
+      const settledTransaction = await prisma.transaction.findUnique({
+        where: { reference },
+        include: {
+          listing: { select: { id: true, title: true } },
+          payer: { select: { id: true, fullName: true, email: true } },
+          payee: { select: { id: true, fullName: true, email: true } },
+          agent: { select: { id: true, fullName: true, email: true } },
+        },
+      });
+      if (settledTransaction?.status === 'in_escrow' || settledTransaction?.status === 'released') {
+        return NextResponse.json({
+          success: true,
+          transaction: settledTransaction,
+          status: settledTransaction.status,
+          message: 'Payment was confirmed by the gateway webhook',
+        });
+      }
+    } catch (recoveryError) {
+      console.error('Payment verification recovery lookup failed:', recoveryError);
+    }
     if (error instanceof Error) {
       if (error.message.includes('Paystack')) {
         return NextResponse.json({ error: 'Payment provider error', details: error.message }, { status: 502 });
       }
+      return NextResponse.json({ error: 'Internal server error', details: error.message }, { status: 500 });
     }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error', details: 'Unknown verification error' }, { status: 500 });
   }
 }

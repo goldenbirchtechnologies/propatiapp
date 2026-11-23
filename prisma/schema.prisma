@@ -636,6 +636,7 @@ model User {
   tenantApplications      Application[]              @relation("TenantApplications")
   landlordApplications    Application[]              @relation("LandlordApplications")
   currentlyRentingUnits   Unit[]                     @relation("UnitCurrentTenant")
+  currentSpaceAssignments Space[]                    @relation("SpaceCurrentTenant")
   adminAuditLogs          AdminAuditLog[]            @relation("AdminAuditLogs")
   guestBookings           Booking[]                  @relation("BookingGuest")
   inspectionBookings      InspectionBooking[]        @relation("InspectionVisitor")
@@ -1115,9 +1116,11 @@ model Property {
   updatedAt          DateTime                 @updatedAt @map("updated_at")
 
   owner           User            @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  photos          PropertyPhoto[]
   spaceCategories SpaceCategory[]
   spaces          Space[]
   listings        Listing[]
+  transactions    Transaction[]
 
   @@index([ownerId], map: "idx_properties_owner")
   @@index([category], map: "idx_properties_category")
@@ -1152,17 +1155,54 @@ model Space {
   amenities         Json?
   capacity          Int?
   operationalStatus SpaceOperationalStatus @default(available) @map("operational_status")
+  currentTenantId   String?                @map("current_tenant_id")
+  leaseStartDate    DateTime?              @map("lease_start_date")
+  leaseEndDate      DateTime?              @map("lease_end_date")
   createdAt         DateTime               @default(now()) @map("created_at")
   updatedAt         DateTime               @updatedAt @map("updated_at")
 
-  property Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  category SpaceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  listings Listing[]
+  property           Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  category           SpaceCategory       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  currentTenant      User?               @relation("SpaceCurrentTenant", fields: [currentTenantId], references: [id], onDelete: SetNull)
+  photos             SpacePhoto[]
+  listings           Listing[]
+  transactions       Transaction[]
+  maintenanceTickets MaintenanceTicket[]
 
   @@unique([propertyId, identifier], map: "uq_spaces_property_identifier")
   @@index([propertyId], map: "idx_spaces_property")
   @@index([categoryId], map: "idx_spaces_category")
   @@map("spaces")
+}
+
+model PropertyPhoto {
+  id         String   @id @default(cuid())
+  propertyId String   @map("property_id")
+  url        String
+  publicId   String?  @map("public_id")
+  isCover    Boolean  @default(false) @map("is_cover")
+  sortOrder  Int      @default(0) @map("sort_order")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId], map: "idx_property_photos_property")
+  @@map("property_photos")
+}
+
+model SpacePhoto {
+  id        String   @id @default(cuid())
+  spaceId   String   @map("space_id")
+  url       String
+  publicId  String?  @map("public_id")
+  isCover   Boolean  @default(false) @map("is_cover")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  space Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+
+  @@index([spaceId], map: "idx_space_photos_space")
+  @@map("space_photos")
 }
 
 model UnitImage {
@@ -1300,6 +1340,8 @@ model Transaction {
   id                        String            @id @default(cuid()) @map("id") // 'txn_' + 12 chars
   reference                 String?           @unique @map("reference") // Paystack reference
   listingId                 String?           @map("listing_id")
+  propertyId                String?           @map("property_id")
+  spaceId                   String?           @map("space_id")
   payerId                   String            @map("payer_id")
   payeeId                   String            @map("payee_id")
   agentId                   String?           @map("agent_id")
@@ -1324,6 +1366,8 @@ model Transaction {
   updatedAt                 DateTime          @updatedAt @map("updated_at")
 
   listing            Listing?            @relation(fields: [listingId], references: [id])
+  property           Property?           @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  space              Space?              @relation(fields: [spaceId], references: [id], onDelete: SetNull)
   payer              User                @relation("TransactionPayer", fields: [payerId], references: [id])
   payee              User                @relation("TransactionPayee", fields: [payeeId], references: [id])
   agent              User?               @relation("TransactionAgent", fields: [agentId], references: [id])
@@ -1594,6 +1638,7 @@ model MaintenanceTicket {
   id             String              @id @default(cuid()) @map("id") // 'tkt_' + 12 chars
   orgId          String?             @map("org_id")
   listingId      String?             @map("listing_id")
+  spaceId        String?             @map("space_id")
   tenantId       String?             @map("tenant_id")
   raisedBy       String              @map("raised_by")
   title          String
@@ -1611,10 +1656,12 @@ model MaintenanceTicket {
 
   org            Organisation? @relation(fields: [orgId], references: [id])
   listing        Listing?      @relation(fields: [listingId], references: [id])
+  space          Space?        @relation(fields: [spaceId], references: [id], onDelete: SetNull)
   tenant         User?         @relation("MaintenanceTenant", fields: [tenantId], references: [id])
   raisedByUser   User          @relation("MaintenanceRaisedBy", fields: [raisedBy], references: [id])
   assignedToUser User?         @relation("MaintenanceAssignedTo", fields: [assignedTo], references: [id])
 
+  @@index([spaceId], map: "idx_maintenance_tickets_space")
   @@map("maintenance_tickets")
 }
 

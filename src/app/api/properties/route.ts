@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
   if (auth instanceof NextResponse) return auth;
   const properties = await prisma.property.findMany({
     where: auth.user.role === 'admin' ? undefined : { ownerId: auth.user.id },
-    include: { spaceCategories: true, spaces: { orderBy: { identifier: 'asc' }, include: { listings: { select: { id: true, status: true, listingType: true } } } } },
+    include: { photos: true, spaceCategories: true, spaces: { orderBy: { identifier: 'asc' }, include: { photos: true, currentTenant: { select: { id: true, fullName: true, email: true } }, listings: { select: { id: true, status: true, listingType: true } } } } },
     orderBy: { updatedAt: 'desc' },
   });
   return NextResponse.json({ properties });
@@ -73,10 +73,10 @@ export async function POST(request: NextRequest) {
           city: input.city,
           address: input.address,
           landmarks: input.landmarks ?? null,
-          coordinates: input.coordinates ?? undefined,
-          physicalAttributes: input.physicalAttributes ?? undefined,
-          facilities: input.facilities ?? undefined,
-          ownershipRefs: input.ownershipRefs ?? undefined,
+          coordinates: input.coordinates as any,
+          physicalAttributes: input.physicalAttributes as any,
+          facilities: input.facilities as any,
+          ownershipRefs: input.ownershipRefs as any,
           onboardingStatus: input.onboardingStatus,
         },
       });
@@ -95,8 +95,8 @@ export async function POST(request: NextRequest) {
             categoryId,
             name: space.name,
             identifier: space.identifier.trim(),
-            attributes: space.attributes,
-            amenities: space.amenities,
+            attributes: space.attributes as any,
+            amenities: space.amenities as any,
             capacity: space.capacity,
           },
         });

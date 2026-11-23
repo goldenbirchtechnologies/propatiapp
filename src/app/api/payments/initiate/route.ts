@@ -30,6 +30,8 @@ export async function POST(request: NextRequest) {
         price: true,
         listingType: true,
         status: true,
+        propertyId: true,
+        spaceId: true,
       },
     });
 
@@ -138,6 +140,8 @@ export async function POST(request: NextRequest) {
         data: {
           reference,
           listingId: listing.id,
+          propertyId: listing.propertyId,
+          spaceId: listing.spaceId,
           payerId: user.id,
           payeeId: landlordId,
           agentId: agentId,

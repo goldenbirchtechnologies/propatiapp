@@ -67,7 +67,17 @@ type Props = {
     propertyType: string | null;
   }>;
   vacantUnits: ListingUnit[];
+  registeredSpaces?: Array<{
+    id: string;
+    name: string;
+    identifier: string;
+    capacity: number | null;
+    propertyId: string;
+    property: { name: string; address: string; city: string; state: string; category: string };
+    category: { spaceType: string };
+  }>;
   initialUnitId?: string;
+  initialSpaceId?: string;
   basePath?: string;
   newPropertyHref?: string;
   propertiesHref?: string;
@@ -189,7 +199,9 @@ function Section({
 export default function AddListingClient({
   listings: _listings,
   vacantUnits,
+  registeredSpaces = [],
   initialUnitId = "",
+  initialSpaceId = "",
   basePath = "/dashboard/landlord",
   newPropertyHref,
   propertiesHref,
@@ -199,6 +211,7 @@ export default function AddListingClient({
   const router = useRouter();
   const { toast } = useToast();
   const [selectedUnitId, setSelectedUnitId] = useState(initialUnitId);
+  const [selectedSpaceId, setSelectedSpaceId] = useState(initialSpaceId);
   const [query, setQuery] = useState("");
   const [savedAt, setSavedAt] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -236,6 +249,7 @@ export default function AddListingClient({
   const type = useWatch({ control: form.control, name: "listingType" });
   const values = useWatch({ control: form.control });
   const unit = vacantUnits.find((item) => item.id === selectedUnitId);
+  const space = registeredSpaces.find((item) => item.id === selectedSpaceId);
   const needsUnit = type !== "sale";
   const filteredUnits = useMemo(
     () =>
@@ -246,6 +260,11 @@ export default function AddListingClient({
       ),
     [vacantUnits, query],
   );
+  const filteredSpaces = useMemo(
+    () => registeredSpaces.filter((item) => `${item.property.name} ${item.name} ${item.identifier} ${item.property.city}`.toLowerCase().includes(query.toLowerCase())),
+    [registeredSpaces, query],
+  );
+  const hasSelectedInventory = Boolean(selectedUnitId || selectedSpaceId);
   const shortletReady =
     type !== "short_let" ||
     (images.length >= 5 &&
@@ -253,8 +272,8 @@ export default function AddListingClient({
       Boolean(shortletDetails.guests_count) &&
       Boolean(shortletDetails.beds_count));
   const completed = [
-    Boolean(selectedUnitId || !needsUnit),
-    Boolean(values.title && values.description.length >= 50),
+    Boolean(hasSelectedInventory || !needsUnit),
+    Boolean(values.title && (values.description?.length ?? 0) >= 50),
     Boolean(values.address && values.area),
     Boolean(values.price && values.price > 0),
     type === "short_let" ? shortletReady : images.length > 0,
@@ -454,14 +473,14 @@ export default function AddListingClient({
   };
   const submit = async (status: "active" | "draft") => {
     const valid = await form.trigger();
-    if (!valid || (needsUnit && !selectedUnitId) || !shortletReady) {
+    if (!valid || (needsUnit && !hasSelectedInventory) || !shortletReady) {
       toast({
         title: "A few details are missing",
         description:
           type === "short_let" && images.length < 5
             ? "Shortlet listings need at least 5 photos."
-            : needsUnit && !selectedUnitId
-              ? "Choose an eligible vacant unit first."
+            : needsUnit && !hasSelectedInventory
+              ? "Choose an eligible vacant unit or registered space first."
               : "Review the highlighted fields before continuing.",
         variant: "destructive",
       });
@@ -520,11 +539,13 @@ export default function AddListingClient({
               discounts: shortletDetails.discounts,
               safety_disclosures: shortletDetails.safety_disclosures,
               unitId: selectedUnitId || undefined,
+              spaceId: selectedSpaceId || undefined,
             }
           : {
               ...base,
               status,
               unitId: selectedUnitId || undefined,
+              spaceId: selectedSpaceId || undefined,
               amenities: base.amenities || [],
             };
       const res = await fetch("/api/listings", {
@@ -677,10 +698,10 @@ export default function AddListingClient({
           <Section
             id="property"
             icon={Building2}
-            title="Select a property and unit"
+    title="Select a property and space"
             hint={
               needsUnit
-                ? "Only registered vacant units can be published."
+                ? "Choose a vacant legacy unit or a registered space to publish."
                 : "Sale listings can use the registered property directly."
             }
           >
@@ -694,12 +715,13 @@ export default function AddListingClient({
               />
             </div>
             {needsUnit ? (
+              <>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {filteredUnits.map((item) => (
                   <button
                     type="button"
                     key={item.id}
-                    onClick={() => setSelectedUnitId(item.id)}
+                    onClick={() => { setSelectedUnitId(item.id); setSelectedSpaceId(""); }}
                     className={`flex items-start gap-3 rounded-lg border p-3 text-left transition ${selectedUnitId === item.id ? "border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-500/10" : "border-zinc-200 hover:border-emerald-400 dark:border-zinc-800"}`}
                   >
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-zinc-100 dark:bg-zinc-800">
@@ -723,6 +745,17 @@ export default function AddListingClient({
                   </button>
                 ))}
               </div>
+              <div className="mt-5 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+                <div className="mb-3 flex items-center justify-between"><div><p className="text-sm font-semibold text-zinc-900 dark:text-white">Registered spaces</p><p className="text-xs text-zinc-500 dark:text-zinc-400">New registry inventory can be listed directly.</p></div><span className="text-xs text-zinc-500">{filteredSpaces.length} available</span></div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {filteredSpaces.map((item) => (
+                    <button type="button" key={item.id} onClick={() => { setSelectedSpaceId(item.id); setSelectedUnitId(""); form.setValue("title", `${item.property.name} - ${item.name}`); form.setValue("address", item.property.address); form.setValue("area", item.property.city); form.setValue("state", item.property.state); }} className={`flex items-start gap-3 rounded-lg border p-3 text-left transition ${selectedSpaceId === item.id ? "border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-500/10" : "border-zinc-200 hover:border-emerald-400 dark:border-zinc-800"}`}>
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"><Store className="h-4 w-4" /></span><span className="min-w-0"><span className="block truncate text-sm font-medium">{item.property.name}</span><span className="mt-0.5 block text-xs text-zinc-500">{item.category.spaceType} · {item.identifier}</span><span className="mt-1 block text-xs text-emerald-700 dark:text-emerald-400">Available · {item.property.city}, {item.property.state}</span></span>{selectedSpaceId === item.id && <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-emerald-600" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              </>
             ) : (
               <div className="mt-3 rounded-lg bg-zinc-50 p-4 text-sm dark:bg-zinc-800/60">
                 This sale listing will use the property record directly. Keep
@@ -1132,10 +1165,10 @@ export default function AddListingClient({
               </div>
               <div className="mt-4 space-y-3">
                 {[
-                  ["Property selected", Boolean(selectedUnitId || !needsUnit)],
+                  ["Property selected", Boolean(hasSelectedInventory || !needsUnit)],
                   [
                     "Property details",
-                    Boolean(values.title && values.description.length >= 50),
+                    Boolean(values.title && (values.description?.length ?? 0) >= 50),
                   ],
                   ["Location", Boolean(values.address && values.area)],
                   ["Pricing", Boolean(values.price && values.price > 0)],

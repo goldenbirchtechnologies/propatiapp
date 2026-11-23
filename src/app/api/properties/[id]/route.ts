@@ -17,7 +17,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const auth = await withAuth(request, ['landlord', 'estate_manager', 'admin']);
   if (auth instanceof NextResponse) return auth;
   const { id } = await params;
-  const property = await prisma.property.findFirst({ where: { id, ...(auth.user.role === 'admin' ? {} : { ownerId: auth.user.id }) }, include: { spaceCategories: true, spaces: { orderBy: { identifier: 'asc' }, include: { listings: { select: { id: true, status: true, listingType: true } } } } } });
+  const property = await prisma.property.findFirst({ where: { id, ...(auth.user.role === 'admin' ? {} : { ownerId: auth.user.id }) }, include: { photos: true, spaceCategories: true, spaces: { orderBy: { identifier: 'asc' }, include: { photos: true, currentTenant: { select: { id: true, fullName: true, email: true } }, listings: { select: { id: true, status: true, listingType: true } } } } } });
   if (!property) return NextResponse.json({ error: 'Property not found' }, { status: 404 });
   return NextResponse.json({ property });
 }
@@ -31,10 +31,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const property = await prisma.property.findFirst({ where: { id, ...(auth.user.role === 'admin' ? {} : { ownerId: auth.user.id }) } });
     if (!property) return NextResponse.json({ error: 'Property not found' }, { status: 404 });
     const updated = await prisma.$transaction(async (tx) => {
-      await tx.property.update({ where: { id }, data: { name: input.name, description: input.description, intendedUse: input.intendedUse, physicalAttributes: input.physicalAttributes, facilities: input.facilities, onboardingStatus: input.onboardingStatus } });
+      await tx.property.update({ where: { id }, data: { name: input.name, description: input.description, intendedUse: input.intendedUse, physicalAttributes: input.physicalAttributes as any, facilities: input.facilities as any, onboardingStatus: input.onboardingStatus } });
       for (const space of input.spaces ?? []) {
         const category = await tx.spaceCategory.upsert({ where: { propertyId_categoryName_spaceType: { propertyId: id, categoryName: space.categoryName, spaceType: space.spaceType } }, create: { propertyId: id, categoryName: space.categoryName, spaceType: space.spaceType }, update: {} });
-        await tx.space.upsert({ where: { propertyId_identifier: { propertyId: id, identifier: space.identifier } }, create: { propertyId: id, categoryId: category.id, name: space.name, identifier: space.identifier, attributes: space.attributes, amenities: space.amenities, capacity: space.capacity }, update: { categoryId: category.id, name: space.name, attributes: space.attributes, amenities: space.amenities, capacity: space.capacity } });
+        await tx.space.upsert({ where: { propertyId_identifier: { propertyId: id, identifier: space.identifier } }, create: { propertyId: id, categoryId: category.id, name: space.name, identifier: space.identifier, attributes: space.attributes as any, amenities: space.amenities as any, capacity: space.capacity }, update: { categoryId: category.id, name: space.name, attributes: space.attributes as any, amenities: space.amenities as any, capacity: space.capacity } });
       }
       return tx.property.findUnique({ where: { id }, include: { spaceCategories: true, spaces: { include: { listings: true } } } });
     });

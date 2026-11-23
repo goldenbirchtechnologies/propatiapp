@@ -14,8 +14,8 @@ export const metadata = {
   description: 'Create a marketplace listing from your vacant units.',
 };
 
-export default async function LandlordAddListingPage({ searchParams }: { searchParams: Promise<{ unitId?: string }> }) {
-  const { unitId } = await searchParams;
+export default async function LandlordAddListingPage({ searchParams }: { searchParams: Promise<{ unitId?: string; spaceId?: string }> }) {
+  const { unitId, spaceId } = await searchParams;
   // Auth check outside try/catch — redirect() throws NEXT_REDIRECT which must
   // not be swallowed by a catch block (see AGENTS.md critical rules).
   const user = await getCurrentUserWithProfile();
@@ -33,6 +33,7 @@ export default async function LandlordAddListingPage({ searchParams }: { searchP
 
   let listings: any[] = [];
   let vacantUnits: any[] = [];
+  let registeredSpaces: any[] = [];
 
   try {
     listings = await prisma.listing.findMany({
@@ -85,6 +86,21 @@ export default async function LandlordAddListingPage({ searchParams }: { searchP
         state: listing.state,
       }))
     );
+
+    registeredSpaces = await prisma.space.findMany({
+      where: {
+        property: { ownerId: user.id },
+        operationalStatus: 'available',
+        listings: { none: { status: 'active' } },
+      },
+      select: {
+        id: true, name: true, identifier: true, capacity: true, attributes: true,
+        propertyId: true,
+        property: { select: { name: true, address: true, city: true, state: true, category: true } },
+        category: { select: { spaceType: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
   } catch (error) {
     console.error('LandlordAddListingPage server render failed', error);
     // Fall through with empty arrays — the client component handles the empty state
@@ -116,7 +132,9 @@ export default async function LandlordAddListingPage({ searchParams }: { searchP
         <AddListingClient
           listings={listings}
           vacantUnits={vacantUnits}
+          registeredSpaces={registeredSpaces as any[]}
           initialUnitId={unitId}
+          initialSpaceId={spaceId}
           publishBlocked={onboardingBlocked}
         />
       </ErrorBoundary>

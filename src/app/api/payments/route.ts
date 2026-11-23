@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
     // Verify listing exists
     const listing = await prisma.listing.findUnique({
       where: { id: validated.listingId },
-      select: { id: true, ownerId: true, agentId: true, title: true, price: true, listingType: true },
+      select: { id: true, ownerId: true, agentId: true, title: true, price: true, listingType: true, propertyId: true, spaceId: true },
     });
 
     if (!listing) {
@@ -165,6 +165,8 @@ export async function POST(request: NextRequest) {
     const transaction = await prisma.transaction.create({
       data: {
         listingId: listing.id,
+        propertyId: listing.propertyId,
+        spaceId: listing.spaceId,
         payerId: user.id,
         payeeId,
         agentId: hasAgent ? agentId : null,

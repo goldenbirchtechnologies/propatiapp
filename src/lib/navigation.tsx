@@ -35,9 +35,8 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
   {
     title: 'Properties',
     items: [
-      { label: 'Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
+      { label: 'Asset Registry', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
       { label: 'Add Property', href: '/dashboard/landlord/properties/new', icon: <Plus className="h-5 w-5" /> },
-      { label: 'Listings', href: '/dashboard/landlord/properties', icon: <Store className="h-5 w-5" /> },
       { label: 'Create listing', href: '/dashboard/landlord/listing/new', icon: <ClipboardList className="h-5 w-5" /> },
       { label: 'Vacancies', href: '/dashboard/landlord/vacancies', icon: <Eye className="h-5 w-5" /> },
       { label: 'Shortlet', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },

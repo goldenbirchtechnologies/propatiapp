@@ -71,6 +71,20 @@ type Listing = {
 
 type Props = {
   listings: Listing[];
+  registeredProperties?: RegisteredProperty[];
+};
+
+type RegisteredProperty = {
+  id: string;
+  name: string;
+  category: string;
+  subtype: string;
+  city: string;
+  state: string;
+  address: string;
+  onboardingStatus: string;
+  spaces: { id: string; identifier: string; name: string; operationalStatus: string }[];
+  spaceCategories: { id: string; categoryName: string; spaceType: string }[];
 };
 
 function formatCurrency(value: number) {
@@ -101,7 +115,7 @@ function propertyStatusSummary(listing: Listing) {
   return `${listing.unitCount} Units • ${listing.listedUnitCount} Active Listing${listing.listedUnitCount === 1 ? '' : 's'} • ${listing.vacantUnitCount} Unlisted`;
 }
 
-export default function PropertiesClient({ listings }: Props) {
+export default function PropertiesClient({ listings, registeredProperties = [] }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -301,6 +315,28 @@ export default function PropertiesClient({ listings }: Props) {
         </div>
 
         {/* Content */}
+        {registeredProperties.length > 0 && (
+          <section className="space-y-4">
+            <div>
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Registered assets</h2>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">Assets saved in the property registry. Create listings separately when ready.</p>
+            </div>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {registeredProperties.map((property) => (
+                <Link key={property.id} href={`/dashboard/landlord/properties/registry/${property.id}`} className={`${cardBase} block p-5 transition hover:-translate-y-0.5 hover:shadow-md`}>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary"><Building2 size={22} /></div>
+                    <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-primary">{property.onboardingStatus}</span>
+                  </div>
+                  <h3 className="mt-4 text-base font-semibold text-zinc-900 dark:text-white">{titleCase(property.name)}</h3>
+                  <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{titleCase(property.category.replace('_', ' '))} · {property.subtype}</p>
+                  <div className="mt-3 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400"><MapPin size={13} className="text-primary" />{property.city}, {property.state}</div>
+                  <div className="mt-4 flex items-center justify-between border-t border-zinc-100 pt-3 text-xs dark:border-white/[0.06]"><span>{property.spaces.length} spaces</span><span>{property.spaceCategories.length} categories</span><span className="font-medium text-primary">View registry →</span></div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
         {filtered.length === 0 ? (
           <div className={`${cardBase} p-12 flex flex-col items-center justify-center text-center`}>
             <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-white/[0.08] flex items-center justify-center text-zinc-400 dark:text-zinc-500 mb-4">

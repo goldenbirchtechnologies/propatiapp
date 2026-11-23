@@ -22,6 +22,7 @@ export default async function LandlordPropertiesPage() {
 
   let listings: any[] = [];
   let normalized: any[] = [];
+  let registeredProperties: any[] = [];
   try {
     listings = await prisma.listing.findMany({
       where: {
@@ -103,6 +104,15 @@ export default async function LandlordPropertiesPage() {
       };
     });
 
+    registeredProperties = await prisma.property.findMany({
+      where: { ownerId: user.id },
+      include: {
+        spaces: { select: { id: true, identifier: true, name: true, operationalStatus: true } },
+        spaceCategories: { select: { id: true, categoryName: true, spaceType: true } },
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
+
   } catch (error) {
     console.error('LandlordPropertiesPage server data load error:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';
@@ -134,7 +144,7 @@ export default async function LandlordPropertiesPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <ErrorBoundary>
-        <PropertiesClient listings={normalized as any[]} />
+        <PropertiesClient listings={normalized as any[]} registeredProperties={registeredProperties as any[]} />
       </ErrorBoundary>
     </DashboardShell>
   );

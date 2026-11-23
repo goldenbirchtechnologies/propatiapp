@@ -293,22 +293,24 @@ let listing;
       // `createListingSchema` strips unknown keys, so the wizard's request to
       // publish is read off the raw body (`publishRequested`) rather than off
       // `validated`, where it would have been dropped.
-      // The parent listing is the building record; publishing a unit updates
-      // it instead of creating another top-level property card.
+      // A unit listing is its own record. The parent listing is the property
+      // anchor and must never be overwritten when a unit is published.
       const unitPrice = merged.price ?? Number(unit.rent || 0);
-      const [updatedParent] = await prisma.$transaction([
-        prisma.listing.update({
-          where: { id: parent.id },
+      const unitListing = await prisma.$transaction(async (tx) => {
+        const created = await tx.listing.create({
           data: {
-            title: parent.title,
-            address: parent.address,
-            area: parent.area || parent.address,
-            state: parent.state,
+            ...(validated as any),
+            ownerId: userId,
+            unitId: unit.id,
+            title: merged.title,
             description: merged.description,
-            listingType: merged.listingType,
-            propertyType: merged.propertyType,
+            address: merged.address,
+            area: merged.area,
+            state: merged.state,
             price: unitPrice,
             pricePeriod: merged.pricePeriod,
+            listingType: merged.listingType,
+            propertyType: merged.propertyType,
             bedrooms: merged.bedrooms ?? null,
             bathrooms: merged.bathrooms ?? null,
             sizeSqm: merged.sizeSqm ?? null,
@@ -318,23 +320,24 @@ let listing;
             agencyFee: merged.agencyFee ?? null,
             stampDuty: merged.stampDuty ?? null,
             minimumStay: merged.minimumStay ?? null,
-            status: publishRequested ? 'active' : parent.status,
-          } as any,
-        }),
-        prisma.unit.update({
+            status: publishRequested ? 'active' : 'draft',
+          },
+        } as any);
+
+        await tx.unit.update({
           where: { id: unit.id },
           data: {
-            listingId: parent.id,
             isListed: publishRequested,
             rent: unitPrice,
             pricePeriod: merged.pricePeriod,
             listingType: merged.listingType,
           },
-        }),
-      ]);
+        });
 
-      listing = updatedParent;
-      return NextResponse.json(listing, { status: 200 });
+        return created;
+      });
+
+      return NextResponse.json(unitListing, { status: 201 });
     }
 
     if (listingType === 'short_let') {

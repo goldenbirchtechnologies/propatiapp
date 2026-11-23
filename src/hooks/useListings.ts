@@ -2,6 +2,7 @@
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, apiEndpoints, type Listing, type ListingsFilters, type CreateListingInput, type UpdateListingInput } from '@/lib/api';
+import { unitsKeys } from './useUnits';
 
 // Query Keys
 export const listingsKeys = {
@@ -89,6 +90,8 @@ export function useCreateListing() {
       // Invalidate and refetch listings queries
       queryClient.invalidateQueries({ queryKey: listingsKeys.lists() });
       queryClient.invalidateQueries({ queryKey: listingsKeys.myListings() });
+      queryClient.invalidateQueries({ queryKey: unitsKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: unitsKeys.all });
       
       // Optimistically add to cache
       queryClient.setQueryData(listingsKeys.detail(newListing.id), newListing);
@@ -110,6 +113,7 @@ export function useUpdateListing() {
       queryClient.invalidateQueries({ queryKey: listingsKeys.lists() });
       queryClient.invalidateQueries({ queryKey: listingsKeys.myListings() });
       queryClient.invalidateQueries({ queryKey: listingsKeys.detail(id) });
+      queryClient.invalidateQueries({ queryKey: unitsKeys.all });
       
       // Update cached listing
       queryClient.setQueryData(listingsKeys.detail(id), updatedListing);
@@ -131,6 +135,7 @@ export function useUpdateListingStatus() {
       queryClient.invalidateQueries({ queryKey: listingsKeys.lists() });
       queryClient.invalidateQueries({ queryKey: listingsKeys.myListings() });
       queryClient.invalidateQueries({ queryKey: listingsKeys.detail(id) });
+      queryClient.invalidateQueries({ queryKey: unitsKeys.all });
     },
   });
 }
@@ -147,6 +152,7 @@ export function useDeleteListing() {
       // Invalidate lists and remove from cache
       queryClient.invalidateQueries({ queryKey: listingsKeys.lists() });
       queryClient.invalidateQueries({ queryKey: listingsKeys.myListings() });
+      queryClient.invalidateQueries({ queryKey: unitsKeys.all });
       queryClient.removeQueries({ queryKey: listingsKeys.detail(id) });
     },
   });

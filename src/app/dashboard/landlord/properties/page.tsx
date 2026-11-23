@@ -6,6 +6,7 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import PropertiesClient from './PropertiesClient';
+import { getPropertyMetrics } from '@/lib/property-metrics';
 
 export const metadata: Metadata = {
   title: 'My Properties | PROPTI',
@@ -21,16 +22,13 @@ export default async function LandlordPropertiesPage() {
 
   let listings: any[] = [];
   let normalized: any[] = [];
-  let listingIds: string[] = [];
-  let totalUnits = 0;
-  let activeListings = 0;
-  const loadError: string | null = null;
-
   try {
     listings = await prisma.listing.findMany({
       where: {
         ownerId: user.id,
         propertyType: { not: null },
+        // Unit-level marketplace records are not portfolio properties.
+        unitId: null,
       },
       include: {
         images: { where: { isCover: true }, take: 1 },
@@ -55,44 +53,31 @@ export default async function LandlordPropertiesPage() {
             listingType: true,
             pricePeriod: true,
             isListed: true,
+            listings: {
+              select: { id: true, status: true, listingType: true, price: true, pricePeriod: true },
+              orderBy: { createdAt: 'desc' },
+            },
           },
         },
       },
       orderBy: { createdAt: 'desc' },
     });
 
-    // Legacy unit-level cards ("<building> - Unit X") must not inflate the count.
-    const byTitle = new Map(listings.map((listing) => [listing.title.trim().toLowerCase(), listing]));
-    const visibleListings = listings.filter((listing) => {
-      const parentTitle = /^(.*) - Unit .+$/i.exec(listing.title)?.[1];
-      if (!parentTitle) return true;
-      const parent = byTitle.get(parentTitle.trim().toLowerCase());
-      if (!parent || parent.id === listing.id) return true;
-      const seenUnitIds = new Set(parent.units.map((unit) => unit.id));
- for (const unit of listing.units) {
- if (seenUnitIds.has(unit.id)) continue;
- parent.units.push(unit);
- seenUnitIds.add(unit.id);
- }
-      return false;
-    });
-
     // Every property the landlord owns is listed here, including freshly added
     // ones that have no units yet. Filtering unit-less buildings out made a
     // successful save look like a failed one: the property existed but vanished
     // from the portfolio until its first unit was created.
-    normalized = visibleListings.map((listing) => {
-      const totalUnitsForListing = listing.units.length;
-      const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
-      const listedUnits = listing.units.filter((u) => u.isListed).length;
+    normalized = listings.map((listing) => {
+      const metrics = getPropertyMetrics(listing.units);
       const assignedAgent =
         listing.agent ?? listing.assignments?.[0]?.agent ?? null;
       return {
         ...listing,
         price: Number(listing.price),
-        unitCount: totalUnitsForListing,
-        vacantUnitCount: vacantUnits,
-        listedUnitCount: listedUnits,
+        unitCount: metrics.totalUnits,
+        vacantUnitCount: metrics.unlistedUnits,
+        listedUnitCount: metrics.activeListings,
+        occupiedUnitCount: metrics.occupiedUnits,
         assignedAgent,
         units: listing.units.map((unit) => ({
           id: unit.id,
@@ -105,29 +90,19 @@ export default async function LandlordPropertiesPage() {
           status: unit.status,
           occupancy: unit.occupancy,
           isListed: unit.isListed,
+          listings: unit.listings.map((child) => ({
+            id: child.id,
+            status: child.status,
+            listingType: child.listingType,
+            price: Number(child.price),
+            pricePeriod: child.pricePeriod,
+          })),
           bedrooms: unit.bedrooms,
           bathrooms: unit.bathrooms,
         })),
       };
     });
 
-    listingIds = normalized.map((l) => l.id);
-    const [
-      totalUnitsFromRelation,
-      totalUnitsFromDb,
-      activeListingsFromDb,
-    ] = await Promise.all([
-      Promise.resolve(normalized.reduce((sum, l) => sum + l.unitCount, 0)),
-      listingIds.length
-        ? prisma.unit.count({ where: { listingId: { in: listingIds } } })
-        : Promise.resolve(0),
-      listingIds.length
-        ? prisma.unit.count({ where: { listingId: { in: listingIds }, occupancy: 'OCCUPIED' } })
-        : Promise.resolve(0),
-    ]);
-
-    totalUnits = totalUnitsFromRelation || totalUnitsFromDb;
-    activeListings = normalized.reduce((sum, l) => sum + (l.unitCount - l.vacantUnitCount), 0) || activeListingsFromDb;
   } catch (error) {
     console.error('LandlordPropertiesPage server data load error:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';

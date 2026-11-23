@@ -20,7 +20,6 @@ import {
   Search,
   Plus,
   ChevronDown,
-  Heart,
   MapPin,
   Home,
   Eye,
@@ -65,6 +64,7 @@ type Listing = {
   unitCount: number;
   vacantUnitCount: number;
   listedUnitCount: number;
+  occupiedUnitCount: number;
   assignedAgent: { id: string; fullName: string | null; email: string | null } | null;
   units: ListingUnit[];
 };
@@ -98,9 +98,7 @@ function formatListingType(value?: string) {
 
 function propertyStatusSummary(listing: Listing) {
   if (!listing.unitCount) return 'No Units • Draft';
-  const active = listing.units?.filter((unit) => unit.isListed).length ?? 0;
-  const vacantDraft = Math.max(0, listing.unitCount - active);
-  return `${listing.unitCount} Units • ${active} Active Listing${active === 1 ? '' : 's'} • ${vacantDraft} Vacant / Draft`;
+  return `${listing.unitCount} Units • ${listing.listedUnitCount} Active Listing${listing.listedUnitCount === 1 ? '' : 's'} • ${listing.vacantUnitCount} Unlisted`;
 }
 
 export default function PropertiesClient({ listings }: Props) {
@@ -110,15 +108,15 @@ export default function PropertiesClient({ listings }: Props) {
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [sortOption, setSortOption] = useState('recent');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const counts = useMemo(() => {
     const totalProperties = listings.length;
     const totalUnits = listings.reduce((sum, l) => sum + (l.unitCount || 0), 0);
-    const activeListings = listings.reduce((sum, l) => sum + ((l.unitCount || 0) - (l.vacantUnitCount || 0)), 0);
+    const activeListings = listings.reduce((sum, l) => sum + (l.listedUnitCount || 0), 0);
+    const occupiedUnits = listings.reduce((sum, l) => sum + (l.occupiedUnitCount || 0), 0);
     const verified = listings.filter((l) => l.verification?.overallStatus === 'certified').length;
-    const occupancy = totalUnits > 0 ? Math.round((activeListings / totalUnits) * 100) : 0;
+    const occupancy = totalUnits > 0 ? Math.round((occupiedUnits / totalUnits) * 100) : 0;
     return { totalProperties, totalUnits, activeListings, verified, occupancy };
   }, [listings]);
 
@@ -126,7 +124,7 @@ export default function PropertiesClient({ listings }: Props) {
     const q = query.trim().toLowerCase();
     return listings.filter((listing) => {
       if (statusFilter !== 'all') {
-        if (statusFilter === 'active' && ((listing.unitCount || 0) - (listing.vacantUnitCount || 0)) === 0) return false;
+        if (statusFilter === 'active' && listing.listedUnitCount === 0) return false;
         if (statusFilter !== 'active' && listing.status !== statusFilter) return false;
       }
       if (typeFilter !== 'all') {
@@ -140,10 +138,6 @@ export default function PropertiesClient({ listings }: Props) {
       return haystack.includes(q);
     });
   }, [listings, query, statusFilter, typeFilter]);
-
-  const toggleFavorite = (id: string) => {
-    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
 
   const handleDelete = async (id: string) => {
     try {
@@ -345,13 +339,6 @@ export default function PropertiesClient({ listings }: Props) {
                       <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                       {propertyStatusSummary(listing)}
                     </div>
-                    {/* Favorite */}
-                    <button
-                      onClick={() => toggleFavorite(listing.id)}
-                      className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md flex items-center justify-center text-zinc-600 dark:text-zinc-300 hover:text-red-500 transition-colors"
-                    >
-                      <Heart size={16} className={favorites[listing.id] ? 'fill-red-500 text-red-500' : ''} />
-                    </button>
                     {/* Bottom overlays */}
                     <div className="absolute bottom-3 left-3">
                       <span className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md text-zinc-700 dark:text-zinc-300 px-2.5 py-0.5 rounded text-[10px] font-medium">
@@ -360,7 +347,7 @@ export default function PropertiesClient({ listings }: Props) {
                     </div>
                     <div className="absolute bottom-3 right-3">
                       <span className="bg-primary/90 text-white backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-medium">
-                        {listing.unitCount - listing.vacantUnitCount} / {listing.unitCount} Leased
+                        {listing.occupiedUnitCount} / {listing.unitCount} Occupied
                       </span>
                     </div>
                   </div>

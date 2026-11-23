@@ -40,6 +40,17 @@ export default async function LandlordPropertyDetailPage({
           bedrooms: true,
           bathrooms: true,
           sizeSqm: true,
+          listings: {
+            select: {
+              id: true,
+              title: true,
+              status: true,
+              listingType: true,
+              price: true,
+              pricePeriod: true,
+            },
+            orderBy: { createdAt: 'desc' },
+          },
         },
       },
     },
@@ -97,6 +108,14 @@ export default async function LandlordPropertyDetailPage({
       bedrooms: unit.bedrooms,
       bathrooms: unit.bathrooms,
       sizeSqm: unit.sizeSqm ? Number(unit.sizeSqm) : null,
+      listings: unit.listings.map((child) => ({
+        id: child.id,
+        title: child.title,
+        status: child.status as string,
+        listingType: child.listingType as string,
+        price: Number(child.price),
+        pricePeriod: child.pricePeriod,
+      })),
     })),
   };
 

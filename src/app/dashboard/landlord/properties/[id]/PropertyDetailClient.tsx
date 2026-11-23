@@ -96,19 +96,22 @@ type Listing = {
     bedrooms: number;
     bathrooms: number;
     sizeSqm: number | null;
+    listings: { id: string; title: string; status: string; listingType: string; price: number; pricePeriod: string | null }[];
   }[];
 };
 
 export default function PropertyDetailClient({ listing }: { listing: Listing }) {
-  const [tab, setTab] = useState<'overview' | 'units' | 'financials' | 'verification'>('overview');
+  const [tab, setTab] = useState<'overview' | 'units' | 'listings' | 'financials' | 'verification' | 'activity'>('overview');
   const [showDelete, setShowDelete] = useState(false);
   const hero = listing.images?.[0]?.url;
 
   const tabs = [
     { key: 'overview', label: 'Overview' },
     { key: 'units', label: `Units (${listing.units.length})` },
+    { key: 'listings', label: 'Listings' },
     { key: 'financials', label: 'Financials & Payouts' },
     { key: 'verification', label: 'Verification (5-Tier)' },
+    { key: 'activity', label: 'Activity' },
   ] as const;
 
   return (
@@ -312,16 +315,16 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         {u.status ? u.status.charAt(0).toUpperCase() + u.status.slice(1).toLowerCase() : 'Vacant'}
                       </span>
                       <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
-                        u.isListed
+                        u.listings.some((child) => child.status === 'active')
                           ? 'bg-primary/15 text-primary dark:text-[#4edea3]'
                           : 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'
                       }`}>
-                        {u.isListed ? 'Listed' : 'Draft'}
+                        {u.listings.length ? `${u.listings.length} Listing${u.listings.length === 1 ? '' : 's'}` : 'Unlisted'}
                       </span>
                     </td>
                     <td className="p-2 text-right space-x-1">
                       <Link href={`/properties/${listing.id}`} title="View marketplace listing" className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400 inline-flex"><Eye className="h-4 w-4" /></Link>
-                      {!u.isListed && (
+                      {!u.listings.some((child) => child.status === 'active') && (
                         <Link href={`/dashboard/landlord/listing/new?unitId=${u.id}`} title="Publish this unit" className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-primary inline-flex"><Plus className="h-4 w-4" /></Link>
                       )}
                       <button className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400"><Pencil className="h-4 w-4" /></button>
@@ -340,14 +343,36 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         </div>
       )}
 
+      {tab === 'listings' && (
+        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
+          <div className="mb-4 flex items-center justify-between">
+            <div><h2 className="text-lg font-semibold">Property listings</h2><p className="text-sm text-zinc-500">Listings are independent records and never replace units.</p></div>
+            <Link href={`/dashboard/landlord/listing/new?propertyId=${listing.id}`}><Button className="bg-primary text-white"><Plus className="mr-2 h-4 w-4" />Create Listing</Button></Link>
+          </div>
+          <div className="divide-y divide-zinc-200 dark:divide-white/[0.08]">
+            {listing.units.flatMap((unit) => unit.listings.map((child) => ({ ...child, unitNumber: unit.unitNumber }))).map((child) => (
+              <div key={child.id} className="flex items-center justify-between gap-4 py-3 text-sm">
+                <div><p className="font-medium">{child.title}</p><p className="text-xs text-zinc-500">Unit {child.unitNumber} · {child.listingType}</p></div>
+                <span className="rounded-full bg-zinc-100 px-2 py-1 text-xs font-medium dark:bg-white/[0.08]">{child.status}</span>
+              </div>
+            ))}
+            {!listing.units.some((unit) => unit.listings.length) && <p className="py-8 text-center text-sm text-zinc-500">No unit listings yet. Add a listing from any unit.</p>}
+          </div>
+        </div>
+      )}
+
+      {tab === 'activity' && (
+        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900"><h2 className="text-lg font-semibold">Activity</h2><p className="mt-2 text-sm text-zinc-500">Property, unit and listing activity will appear here as audit events are recorded.</p></div>
+      )}
+
       {/* FINANCIALS */}
       {tab === 'financials' && (
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Annual Gross Rent', value: `₦${listing.price.toLocaleString()}` },
+              { label: 'Annual Gross Rent', value: '—' },
               { label: 'Service Charge Pool', value: '—' },
-              { label: 'Disbursal Target', value: 'Propati' },
+              { label: 'Payouts', value: '—' },
               { label: 'Net Cap Yield', value: '—' },
             ].map((k) => (
               <div key={k.label} className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-sm border border-zinc-200 dark:border-white/[0.08] space-y-1">

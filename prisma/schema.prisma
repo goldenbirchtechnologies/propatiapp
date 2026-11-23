@@ -1049,12 +1049,15 @@ model Listing {
   legalMatters       LegalMatter[]
   ownerInvites       OwnerInvite[]
   agentReviews       AgentReview[]
+  unit              Unit?              @relation("UnitListing", fields: [unitId], references: [id], onDelete: SetNull)
+  unitId             String?           @map("unit_id")
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([title], map: "idx_listings_title")
   @@index([status], map: "idx_listings_status")
   @@index([listingType], map: "idx_listings_type")
   @@index([area], map: "idx_listings_area")
+  @@index([unitId], map: "idx_listings_unit")
   @@map("listings")
 }
 
@@ -1658,6 +1661,7 @@ model Unit {
 
   utilityAllocations UtilityAllocation[]
   images             UnitImage[]
+  listings           Listing[]          @relation("UnitListing")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

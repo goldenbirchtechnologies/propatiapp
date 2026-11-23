@@ -139,7 +139,7 @@ export async function PATCH(
     // Check if listing exists and get owner
     const listing = await prisma.listing.findUnique({
       where: { id },
-      select: { ownerId: true, status: true },
+      select: { ownerId: true, status: true, unitId: true },
     });
 
     if (!listing) {
@@ -280,7 +280,7 @@ export async function PATCH(
       });
     }
 
-    const targetUnitId = (body as Record<string, unknown>).unitId as string | undefined;
+    const targetUnitId = ((body as Record<string, unknown>).unitId as string | undefined) || listing.unitId || undefined;
     if (validated.status && validated.status !== listing.status) {
       if (targetUnitId) {
         await prisma.unit.update({
@@ -355,7 +355,7 @@ export async function DELETE(
 
     const listing = await prisma.listing.findUnique({
       where: { id },
-      select: { ownerId: true, title: true },
+      select: { ownerId: true, title: true, unitId: true },
     });
 
     if (!listing) {
@@ -375,10 +375,20 @@ export async function DELETE(
       );
     }
 
-    const units = await prisma.unit.findMany({
-      where: { listingId: id },
-      select: { id: true },
-    });
+    const units = await prisma.unit.findMany({ where: { listingId: id }, select: { id: true } });
+
+    // Deleting a unit-level listing only unpublishes the unit. It does not
+    // delete or replace the unit record, and it never touches the property.
+    if (listing.unitId) {
+      await prisma.$transaction([
+        prisma.unit.update({ where: { id: listing.unitId }, data: { isListed: false } }),
+        prisma.listing.delete({ where: { id } }),
+      ]);
+      return NextResponse.json({
+        success: true,
+        message: `Listing "${listing.title}" deleted; the unit was kept and marked unlisted`,
+      });
+    }
 
     if (units.length > 0) {
       await prisma.$transaction([

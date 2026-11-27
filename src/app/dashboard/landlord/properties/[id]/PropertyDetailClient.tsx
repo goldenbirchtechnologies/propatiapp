@@ -9,8 +9,8 @@ import { ConfirmDialog } from '@/components/ui/modal';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Building2, Camera, Check, CheckCircle2, ChevronRight, FileText, Images, Layers3, MapPin, MoreHorizontal, Pencil, Plus, ShieldCheck, Trash2 } from 'lucide-react';
 
-type Unit = { id: string; unitNumber: string; buildingName: string | null; type: string; listingType: string; pricePeriod: string | null; rent: number; cautionDeposit: number | null; serviceCharge: number | null; status: string; occupancy: string; isListed: boolean; bedrooms: number; bathrooms: number; sizeSqm: number | null; listings: { id: string; title: string; status: string; listingType: string; price: number; pricePeriod: string | null }[] };
-type Listing = { id: string; title: string; address: string; area: string; state: string; status: string; listingType: string; propertyType: string; price: number; pricePeriod: string; allowShortlet: boolean; amenities: string[]; description: string; viewsCount: number; createdAt: string; verification: { id: string; overallStatus: string; currentLayer: number; l1Status: string; l2Status: string; l3Status: string; l4Status: string; l5Status: string } | null; images: { id: string; url: string; isCover: boolean }[]; units: Unit[] };
+type Unit = { id: string; unitNumber: string; buildingName: string | null; type: string; listingType: string; pricePeriod: string | null; rent: number; cautionDeposit: number | null; serviceCharge: number | null; status: string; occupancy: string; isListed: boolean; bedrooms: number; bathrooms: number; sizeSqm: number | null; photoCount?: number; listings: { id: string; title: string; status: string; listingType: string; price: number; pricePeriod: string | null }[] };
+type Listing = { id: string; title: string; address: string; area: string; state: string; status: string; listingType: string; propertyType: string; price: number; pricePeriod: string; allowShortlet: boolean; amenities: string[]; description: string; viewsCount: number; createdAt: string; verification: { id: string; overallStatus: string; currentLayer: number; l1Status: string; l2Status: string; l3Status: string; l4Status: string; l5Status: string } | null; images: { id: string; url: string; isCover: boolean }[]; units: Unit[]; mediaEndpoint?: string; isRegistered?: boolean };
 type TabKey = 'overview' | 'units' | 'listings' | 'financials' | 'verification' | 'activity';
 
 const humanize = (value?: string | null) => (value || 'Not set').replaceAll('_', ' ').replace(/\b\w/g, (character) => character.toUpperCase());
@@ -43,9 +43,9 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
     setUploading(true);
     const body = new FormData(); body.append('file', file); body.append('setCover', images.length === 0 ? 'true' : 'false');
     try {
-      const response = await fetch(`/api/listings/${listing.id}/images`, { method: 'POST', body }); const data = await response.json();
+      const response = await fetch(listing.mediaEndpoint || `/api/listings/${listing.id}/images`, { method: 'POST', body }); const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Could not upload photo');
-      setImages((current) => [...current, data.image]); toast({ title: 'Photo added', description: 'The property gallery has been updated.' });
+      setImages((current) => [...current, data.image || data.photo]); toast({ title: 'Photo added', description: 'The property gallery has been updated.' });
     } catch (error) { toast({ title: 'Upload failed', description: error instanceof Error ? error.message : 'Could not upload photo', variant: 'destructive' }); } finally { setUploading(false); }
   };
 

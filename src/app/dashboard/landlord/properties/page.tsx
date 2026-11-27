@@ -142,7 +142,7 @@ export default async function LandlordPropertiesPage() {
           occupiedUnitCount: occupied,
           assignedAgent: null,
           registryOnly: true,
-          registryHref: `/dashboard/landlord/properties/registry/${property.id}`,
+          registryHref: `/dashboard/landlord/properties/${property.id}`,
           units: property.spaces.map((space) => ({
             id: space.id,
             unitNumber: space.identifier,

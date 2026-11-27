@@ -18,8 +18,9 @@ export default async function LandlordPropertyDetailPage({
     redirect('/dashboard');
   }
 
-  const listing = await prisma.listing.findUnique({
-    where: { id },
+  const [listing, property] = await Promise.all([
+    prisma.listing.findFirst({
+    where: { id, ownerId: user.id },
     include: {
       images: true,
       verification: true,
@@ -54,13 +55,28 @@ export default async function LandlordPropertyDetailPage({
         },
       },
     },
-  });
+    }),
+    prisma.property.findFirst({
+      where: { id, ownerId: user.id },
+      include: {
+        photos: { orderBy: [{ isCover: 'desc' }, { sortOrder: 'asc' }] },
+        spaces: {
+          orderBy: { identifier: 'asc' },
+          include: {
+            photos: true,
+            category: { select: { spaceType: true } },
+            listings: { select: { id: true, title: true, status: true, listingType: true, price: true, pricePeriod: true }, orderBy: { createdAt: 'desc' } },
+          },
+        },
+      },
+    }),
+  ]);
 
-  if (!listing || listing.ownerId !== user.id) {
+  if (!listing && !property) {
     redirect('/dashboard/landlord/properties');
   }
 
-  const initialListing = {
+  const initialListing = listing ? {
     id: listing.id,
     title: listing.title,
     address: listing.address,
@@ -117,6 +133,45 @@ export default async function LandlordPropertyDetailPage({
         pricePeriod: child.pricePeriod,
       })),
     })),
+  } : {
+    id: property!.id,
+    title: property!.name,
+    address: property!.address,
+    area: property!.city,
+    state: property!.state,
+    status: property!.onboardingStatus as string,
+    listingType: property!.spaces.flatMap((space) => space.listings)[0]?.listingType as string || 'rent',
+    propertyType: property!.category as string,
+    price: Number(property!.spaces.flatMap((space) => space.listings).find((child) => child.status === 'active')?.price || 0),
+    pricePeriod: property!.spaces.flatMap((space) => space.listings).find((child) => child.status === 'active')?.pricePeriod || 'period',
+    allowShortlet: false,
+    amenities: Array.isArray(property!.facilities) ? property!.facilities as string[] : [],
+    description: property!.description || '',
+    viewsCount: 0,
+    createdAt: property!.updatedAt.toISOString(),
+    verification: null,
+    images: property!.photos.map((photo) => ({ id: photo.id, url: photo.url, isCover: photo.isCover })),
+    mediaEndpoint: `/api/properties/${property!.id}/photos/upload`,
+    isRegistered: true,
+    units: property!.spaces.map((space) => ({
+      id: space.id,
+      unitNumber: space.identifier,
+      buildingName: property!.name,
+      type: space.category.spaceType,
+      listingType: space.listings[0]?.listingType || 'rent',
+      pricePeriod: space.listings[0]?.pricePeriod || null,
+      rent: Number(space.listings[0]?.price || 0),
+      cautionDeposit: null,
+      serviceCharge: null,
+      status: space.operationalStatus,
+      occupancy: space.operationalStatus === 'occupied' ? 'OCCUPIED' : 'VACANT',
+      isListed: space.listings.some((child) => child.status === 'active'),
+      bedrooms: 0,
+      bathrooms: 0,
+      sizeSqm: null,
+      photoCount: space.photos.length,
+      listings: space.listings.map((child) => ({ id: child.id, title: child.title, status: child.status as string, listingType: child.listingType as string, price: Number(child.price), pricePeriod: child.pricePeriod })),
+    })),
   };
 
   return (
@@ -129,7 +184,7 @@ export default async function LandlordPropertyDetailPage({
 
       <ErrorBoundary>
 
-      <PropertyDetailClient listing={initialListing} {...({ userId: user.id } as unknown)} />
+      <PropertyDetailClient listing={initialListing as any} />
     
       </ErrorBoundary>
 </DashboardShell>

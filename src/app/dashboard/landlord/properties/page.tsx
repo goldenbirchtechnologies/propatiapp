@@ -107,6 +107,7 @@ export default async function LandlordPropertiesPage() {
     const registeredProperties = await prisma.property.findMany({
       where: { ownerId: user.id },
       include: {
+        photos: { orderBy: [{ isCover: 'desc' }, { sortOrder: 'asc' }], take: 1 },
         spaces: { select: { id: true, identifier: true, name: true, operationalStatus: true, category: { select: { spaceType: true } }, listings: { select: { id: true, status: true, listingType: true, price: true, pricePeriod: true } } } },
         spaceCategories: { select: { id: true, categoryName: true, spaceType: true } },
       },
@@ -126,11 +127,14 @@ export default async function LandlordPropertiesPage() {
           listingType: 'asset',
           propertyType: property.category,
           status: property.onboardingStatus,
+          verificationStatus: property.verificationStatus,
+          listingStatus: property.spaces.some((space) => space.listings.some((listing) => listing.status === 'active')) ? 'live' : 'not_listed',
+          address: property.address,
           price: 0,
           pricePeriod: null,
           viewsCount: 0,
           allowShortlet: false,
-          images: [],
+          images: property.photos.map((photo) => ({ url: photo.url })),
           verification: null,
           unitCount: property.spaces.length,
           vacantUnitCount: property.spaces.length - occupied,

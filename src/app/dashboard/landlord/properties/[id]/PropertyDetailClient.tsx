@@ -136,14 +136,14 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-2xl lg:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">{listing.title}</h1>
-            <span className="px-2 py-0.5 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] text-xs uppercase font-semibold flex items-center gap-1">
+            <span className="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-200 text-xs font-semibold flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              {listing.status}
+              Listing: {listing.status.replaceAll('_', ' ')}
             </span>
             {listing.verification && (
-              <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] text-zinc-900 dark:text-white text-xs uppercase font-semibold flex items-center gap-1">
+              <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-xs font-semibold flex items-center gap-1">
                 <BadgeCheck className="h-3.5 w-3.5 text-primary" />
-                Verified
+                Asset: {listing.verification.overallStatus.replaceAll('_', ' ')}
               </span>
             )}
           </div>
@@ -182,7 +182,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           <div className="absolute bottom-3 left-3 flex items-center gap-2 text-white">
             <span className="bg-black/50 backdrop-blur-md px-2 py-1 rounded-md text-xs uppercase tracking-wider font-semibold">
-              Photo 1 of {listing.images.length || 1}
+              {listing.images.length} {listing.images.length === 1 ? 'photo' : 'photos'}
             </span>
           </div>
           <button className="absolute top-3 right-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md text-zinc-900 dark:text-white px-2 py-1 rounded-lg text-sm flex items-center gap-1 shadow-sm hover:bg-white transition-all">
@@ -198,7 +198,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           ))}
           <div className="aspect-video rounded-lg overflow-hidden relative cursor-pointer bg-zinc-100 dark:bg-zinc-800 flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors shadow-sm">
             <Images className="h-6 w-6 text-primary" />
-            <span className="text-xs font-semibold uppercase tracking-wider mt-1">View All {listing.images.length}</span>
+            <span className="text-xs font-semibold tracking-wide mt-1">View gallery · {listing.images.length}</span>
           </div>
         </div>
       </div>

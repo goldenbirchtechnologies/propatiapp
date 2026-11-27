@@ -1,520 +1,59 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Building2, Eye, Grid2X2, List, MapPin, MoreHorizontal, Plus, Search, ShieldCheck, Upload, X } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/ui/modal';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  Building2,
-  ShieldCheck,
-  MoreVertical,
-  Search,
-  Plus,
-  ChevronDown,
-  MapPin,
-  Home,
-  Eye,
-  Pencil,
-  LayoutGrid,
-  List,
-  Upload,
-  PieChart,
-  BadgeCheck,
-} from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
-type ListingUnit = {
-  id: string;
-  unitNumber: string;
-  buildingName: string | null;
-  type: string;
-  listingType: string;
-  pricePeriod: string | null;
-  rent: number;
-  status: string;
-  occupancy: string;
-  isListed: boolean;
-  organizationId: string;
-  bedrooms?: number;
-  bathrooms?: number;
-};
-
+type Unit = { id: string; unitNumber: string; type: string; rent: number; occupancy: string; isListed: boolean; listings: { id: string; status: string }[] };
 type Listing = {
-  id: string;
-  title: string;
-  area: string;
-  state: string;
-  listingType: string;
-  propertyType: string | null;
-  status: string;
-  price: number;
-  pricePeriod: string | null;
-  viewsCount: number;
-  allowShortlet: boolean;
-  images: { url: string }[];
-  verification: { overallStatus: string; currentLayer: number } | null;
-  unitCount: number;
-  vacantUnitCount: number;
-  listedUnitCount: number;
-  occupiedUnitCount: number;
-  assignedAgent: { id: string; fullName: string | null; email: string | null } | null;
-  units: ListingUnit[];
-  registryOnly?: boolean;
-  registryHref?: string;
+  id: string; title: string; address?: string; area: string; state: string; listingType: string; propertyType: string | null;
+  status: string; verificationStatus?: string; listingStatus?: string; price: number; pricePeriod: string | null; viewsCount: number;
+  images: { url: string }[]; verification: { overallStatus: string; currentLayer: number } | null; unitCount: number; listedUnitCount: number;
+  occupiedUnitCount: number; units: Unit[]; registryOnly?: boolean; registryHref?: string;
 };
+type Props = { listings: Listing[] };
 
-type Props = {
-  listings: Listing[];
-};
+const label = (value?: string | null) => (value || 'Not set').replaceAll('_', ' ').replace(/\b\w/g, (character) => character.toUpperCase());
+const money = (value: number) => (value > 0 ? `₦${value.toLocaleString()}` : 'Not listed');
+const hrefFor = (item: Listing) => item.registryOnly && item.registryHref ? item.registryHref : `/dashboard/landlord/properties/${item.id}`;
 
-function formatCurrency(value: number) {
-  return `₦${Number(value).toLocaleString()}`;
+function StatusPill({ tone, children }: { tone: 'neutral' | 'success' | 'warning' | 'danger'; children: React.ReactNode }) {
+  const styles = { neutral: 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300', success: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300', warning: 'bg-amber-50 text-amber-800 dark:bg-amber-500/10 dark:text-amber-300', danger: 'bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-300' }[tone];
+  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ${styles}`}>{children}</span>;
 }
+function registrationTone(item: Listing) { const status = (item.verificationStatus || item.verification?.overallStatus || item.status).toLowerCase(); if (['verified', 'certified', 'approved'].includes(status)) return 'success' as const; if (status === 'rejected') return 'danger' as const; if (['submitted', 'pending', 'pending_verification', 'in_review'].includes(status)) return 'warning' as const; return 'neutral' as const; }
+function listingTone(item: Listing) { return item.listingStatus === 'live' || item.listedUnitCount > 0 || item.status === 'published' || item.status === 'active' ? 'success' as const : 'neutral' as const; }
 
-function titleCase(value: string) {
-  return value
-    .split(/[\s,]+/)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-    .join(' ');
-}
-
-function formatListingType(value?: string) {
-  const map: Record<string, string> = {
-    rent: 'Rent',
-    sale: 'For Sale',
-    short_let: 'Short-Let',
-    share: 'Shared',
-    commercial: 'Commercial',
-  };
-  if (value === 'asset') return 'Asset registry';
-  if (!value) return 'Rent';
-  return map[value] || titleCase(value);
-}
-
-function propertyStatusSummary(listing: Listing) {
-  if (listing.registryOnly) return `${listing.unitCount} Spaces • ${listing.listedUnitCount} Listed • ${listing.vacantUnitCount} Available`;
-  if (!listing.unitCount) return 'No Units • Draft';
-  return `${listing.unitCount} Units • ${listing.listedUnitCount} Active Listing${listing.listedUnitCount === 1 ? '' : 's'} • ${listing.vacantUnitCount} Unlisted`;
-}
-
-function propertyHref(listing: Listing) {
-  return listing.registryOnly && listing.registryHref ? listing.registryHref : `/dashboard/landlord/properties/${listing.id}`;
+function PropertyCard({ item, onDelete }: { item: Listing; onDelete: (id: string) => void }) {
+  const image = item.images?.[0]?.url;
+  const location = [item.area, item.state].filter(Boolean).join(', ');
+  return <article className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="relative aspect-[16/9] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+      {image ? <img src={image} alt={item.title} className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" /> : <div className="flex h-full flex-col items-center justify-center gap-2 text-zinc-400"><Building2 size={28} /><span className="text-xs">No property photos</span></div>}
+      <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2"><StatusPill tone={registrationTone(item)}><ShieldCheck size={12} />{label(item.verificationStatus || item.verification?.overallStatus || item.status)}</StatusPill><DropdownMenu><DropdownMenuTrigger asChild><button aria-label={`More actions for ${item.title}`} className="rounded-full bg-white/90 p-2 text-zinc-700 shadow-sm backdrop-blur hover:bg-white dark:bg-zinc-900/90 dark:text-zinc-200"><MoreHorizontal size={16} /></button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem asChild><Link href={hrefFor(item)}>Manage property</Link></DropdownMenuItem><DropdownMenuItem asChild><Link href={item.registryOnly ? hrefFor(item) : `/dashboard/landlord/properties/${item.id}/units/new`}>{item.registryOnly ? 'Manage spaces' : 'Add unit'}</Link></DropdownMenuItem><DropdownMenuSeparator />{!item.registryOnly && <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={() => onDelete(item.id)}>Remove listing</DropdownMenuItem>}</DropdownMenuContent></DropdownMenu></div>
+      <span className="absolute bottom-3 left-3 rounded-md bg-zinc-950/70 px-2 py-1 text-[11px] font-medium text-white">{label(item.propertyType || item.listingType)}</span>
+    </div>
+    <div className="flex flex-1 flex-col gap-4 p-4"><div className="min-w-0"><h2 className="truncate text-base font-semibold text-zinc-950 dark:text-white">{item.title}</h2><p className="mt-1 flex min-w-0 items-center gap-1.5 truncate text-sm text-zinc-500 dark:text-zinc-400"><MapPin size={14} className="shrink-0" />{location || 'Location not provided'}</p></div><div className="grid grid-cols-3 gap-2 border-y border-zinc-100 py-3 text-xs dark:border-zinc-800"><div><p className="text-zinc-500">Units</p><p className="mt-1 font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{item.unitCount}</p></div><div><p className="text-zinc-500">Live listings</p><p className="mt-1 font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{item.listedUnitCount}</p></div><div><p className="text-zinc-500">Occupancy</p><p className="mt-1 font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{item.unitCount ? `${Math.round((item.occupiedUnitCount / item.unitCount) * 100)}%` : '—'}</p></div></div><div className="mt-auto flex items-end justify-between gap-3"><div><p className="text-xs text-zinc-500">Publication</p><div className="mt-1"><StatusPill tone={listingTone(item)}><span className={`h-1.5 w-1.5 rounded-full ${listingTone(item) === 'success' ? 'bg-emerald-600' : 'bg-zinc-400'}`} />{item.listedUnitCount > 0 || item.listingStatus === 'live' ? 'Live' : 'Not listed'}</StatusPill></div></div><p className="text-right text-sm font-semibold text-zinc-900 dark:text-white">{money(item.price)}{item.price > 0 && <span className="ml-1 text-xs font-normal text-zinc-500">/ {item.pricePeriod || 'period'}</span>}</p></div></div>
+    <div className="flex items-center justify-between border-t border-zinc-100 px-4 py-3 dark:border-zinc-800"><Link href={hrefFor(item)} className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-800 dark:text-emerald-300"><Eye size={15} />Manage property</Link><span className="text-xs text-zinc-500">Ref {item.id.slice(0, 8).toUpperCase()}</span></div>
+  </article>;
 }
 
 export default function PropertiesClient({ listings }: Props) {
-  const router = useRouter();
-  const [query, setQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [typeFilter, setTypeFilter] = useState<string>('all');
-  const [sortOption, setSortOption] = useState('recent');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const router = useRouter(); const [query, setQuery] = useState(''); const [status, setStatus] = useState('all'); const [type, setType] = useState('all'); const [sort, setSort] = useState('recent'); const [view, setView] = useState<'grid' | 'list'>('grid'); const [deleteId, setDeleteId] = useState<string | null>(null); const [location, setLocation] = useState('all');
+  const locations = useMemo(() => Array.from(new Set(listings.map((item) => item.area).filter(Boolean))).sort(), [listings]);
+  const counts = useMemo(() => ({ properties: listings.length, units: listings.reduce((sum, item) => sum + item.unitCount, 0), live: listings.reduce((sum, item) => sum + item.listedUnitCount, 0), occupied: listings.reduce((sum, item) => sum + item.occupiedUnitCount, 0) }), [listings]);
+  const filtered = useMemo(() => { const needle = query.trim().toLowerCase(); const result = listings.filter((item) => { const searchText = [item.title, item.address, item.area, item.state, item.id, item.propertyType].join(' ').toLowerCase(); const isLive = item.listedUnitCount > 0 || item.listingStatus === 'live' || item.status === 'published' || item.status === 'active'; const isVerified = ['verified', 'certified', 'approved'].includes((item.verificationStatus || item.verification?.overallStatus || '').toLowerCase()); if (needle && !searchText.includes(needle)) return false; if (location !== 'all' && item.area !== location) return false; if (type !== 'all' && !(item.propertyType || '').toLowerCase().includes(type)) return false; if (status === 'live' && !isLive) return false; if (status === 'verified' && !isVerified) return false; if (status === 'needs_action' && isLive && isVerified) return false; return true; }); return result.sort((a, b) => sort === 'occupancy' ? (b.occupiedUnitCount / Math.max(b.unitCount, 1)) - (a.occupiedUnitCount / Math.max(a.unitCount, 1)) : sort === 'listings' ? b.listedUnitCount - a.listedUnitCount : 0); }, [listings, location, query, sort, status, type]);
+  const handleDelete = async (id: string) => { try { const response = await fetch(`/api/listings/${id}`, { method: 'DELETE' }); const data = await response.json().catch(() => null); if (!response.ok || !data?.success) throw new Error(data?.error || 'Could not remove listing'); toast({ title: 'Listing removed', description: 'The property remains in your portfolio.' }); router.refresh(); } catch (error) { toast({ title: 'Delete failed', description: error instanceof Error ? error.message : 'Unexpected error', variant: 'destructive' }); } };
+  const clearFilters = () => { setQuery(''); setStatus('all'); setType('all'); setLocation('all'); }; const hasFilters = Boolean(query || status !== 'all' || type !== 'all' || location !== 'all');
 
-  const counts = useMemo(() => {
-    const totalProperties = listings.length;
-    const totalUnits = listings.reduce((sum, l) => sum + (l.unitCount || 0), 0);
-    const activeListings = listings.reduce((sum, l) => sum + (l.listedUnitCount || 0), 0);
-    const occupiedUnits = listings.reduce((sum, l) => sum + (l.occupiedUnitCount || 0), 0);
-    const verified = listings.filter((l) => l.verification?.overallStatus === 'certified').length;
-    const occupancy = totalUnits > 0 ? Math.round((occupiedUnits / totalUnits) * 100) : 0;
-    return { totalProperties, totalUnits, activeListings, verified, occupancy };
-  }, [listings]);
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return listings.filter((listing) => {
-      if (statusFilter !== 'all') {
-        if (statusFilter === 'active' && listing.listedUnitCount === 0) return false;
-        if (statusFilter !== 'active' && listing.status !== statusFilter) return false;
-      }
-      if (typeFilter !== 'all') {
-        const pt = (listing.propertyType || '').toLowerCase();
-        if (!pt.includes(typeFilter.toLowerCase())) return false;
-      }
-      if (!q) return true;
-      const haystack = [listing.title, listing.area, listing.state, listing.propertyType || '']
-        .join(' ')
-        .toLowerCase();
-      return haystack.includes(q);
-    });
-  }, [listings, query, statusFilter, typeFilter]);
-
-  const handleDelete = async (id: string) => {
-    try {
-      const res = await fetch(`/api/listings/${id}`, { method: 'DELETE' });
-      const data = await res.json().catch(() => ({ success: false, error: 'Failed to delete' }));
-
-      if (!res.ok || !data?.success) {
-        throw new Error(data?.error || 'Failed to delete property');
-      }
-
-      toast({ title: 'Listing removed', description: data?.message || 'Marketplace listing removed successfully' });
-      router.refresh();
-    } catch (error) {
-      toast({
-        title: 'Delete failed',
-        description: error instanceof Error ? error.message : 'Unexpected error',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const cardBase = 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm';
-
-  return (
-    <div className="flex flex-col w-full">
-      <div className="px-4 lg:px-8 py-6 flex flex-col gap-6">
-        {/* Top Context & Page Header */}
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-          <div className="flex flex-col gap-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] uppercase tracking-wider text-primary dark:text-[#4edea3] font-semibold bg-primary/10 px-2.5 py-0.5 rounded-full">
-                Institutional Portfolio
-              </span>
-              <span className="text-zinc-400 text-xs">•</span>
-              <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Property Management</span>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">My Properties</h1>
-              <span className="text-sm text-zinc-500 dark:text-zinc-400">
-                Manage all your property listings, units, verification tiers, and leasing status
-              </span>
-            </div>
-            {/* Live Stat Badges */}
-            <div className="flex flex-wrap items-center gap-2 mt-2">
-              <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <span className="w-2 h-2 rounded-full bg-primary" />
-                <span className="font-semibold text-zinc-900 dark:text-white">{counts.totalProperties}</span> Properties
-              </div>
-              <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <Building2 size={14} className="text-primary dark:text-[#4edea3]" />
-                <span className="font-semibold text-zinc-900 dark:text-white">{counts.totalUnits}</span> Total Units
-              </div>
-              <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <PieChart size={14} className="text-primary dark:text-[#4edea3]" />
-                <span className="font-semibold text-primary dark:text-[#4edea3]">{counts.occupancy}%</span> Occupancy
-              </div>
-              <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-white/[0.08] px-3 py-1 rounded-md text-zinc-700 dark:text-zinc-300 text-xs font-medium">
-                <BadgeCheck size={14} className="text-primary dark:text-[#4edea3]" />
-                <span className="font-semibold text-primary dark:text-[#4edea3]">Tier {counts.verified > 0 ? '4' : '—'}</span> Certified
-              </div>
-            </div>
-          </div>
-          {/* Action Buttons */}
-          <div className="flex items-center gap-3 self-start xl:self-center">
-            <button className="flex items-center gap-2 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 px-4 py-2 rounded-lg text-sm font-medium shadow-sm border border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
-              <Upload size={16} />
-              <span>Import Properties</span>
-            </button>
-            <Link
-              href="/dashboard/landlord/properties/new"
-              className="flex items-center gap-2 bg-primary hover:bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors"
-            >
-              <Plus size={16} />
-              <span>Add Property</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Filter & View Controls Bar */}
-        <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-xl p-4 shadow-sm flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4 border border-zinc-200 dark:border-white/[0.08]">
-          <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
-            <div className="relative flex-1 min-w-[240px] max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-400" />
-              <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search properties by title, address, or tag..."
-                className="pl-9 bg-white dark:bg-zinc-800 border-zinc-200 dark:border-white/[0.08]"
-              />
-            </div>
-            {/* Status Filter */}
-            <div className="relative">
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="appearance-none bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-medium px-3 py-2 pr-8 rounded-lg shadow-sm border border-zinc-200 dark:border-white/[0.08] outline-none cursor-pointer"
-              >
-                <option value="all">All Statuses</option>
-                <option value="active">Active</option>
-                <option value="draft">Draft</option>
-                <option value="suspended">Suspended</option>
-              </select>
-              <ChevronDown className="size-4 text-zinc-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
-            {/* Type Filter */}
-            <div className="relative">
-              <select
-                value={typeFilter}
-                onChange={(e) => setTypeFilter(e.target.value)}
-                className="appearance-none bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-medium px-3 py-2 pr-8 rounded-lg shadow-sm border border-zinc-200 dark:border-white/[0.08] outline-none cursor-pointer"
-              >
-                <option value="all">All Types</option>
-                <option value="residential">Residential</option>
-                <option value="commercial">Commercial</option>
-                <option value="mixed">Mixed Use</option>
-              </select>
-              <ChevronDown className="size-4 text-zinc-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
-            {/* Verification Pill */}
-            <button className="flex items-center gap-1.5 bg-white dark:bg-zinc-800 text-primary dark:text-[#4edea3] px-3 py-2 rounded-lg text-sm font-medium shadow-sm border border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors">
-              <ShieldCheck size={14} />
-              <span>Tier 3–5 Verified</span>
-            </button>
-          </div>
-          <div className="flex items-center justify-between xl:justify-end gap-4 shrink-0">
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:inline">Sort:</span>
-              <div className="relative">
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value)}
-                  className="appearance-none bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm font-medium px-3 py-2 pr-8 rounded-lg shadow-sm border border-zinc-200 dark:border-white/[0.08] outline-none cursor-pointer"
-                >
-                  <option>Recently Added</option>
-                  <option>Highest Revenue</option>
-                  <option>Occupancy Rate</option>
-                </select>
-                <ChevronDown className="size-4 text-zinc-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center bg-zinc-100 dark:bg-white/[0.08] p-1 rounded-lg">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 text-primary shadow-sm' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
-                  title="Grid View"
-                >
-                  <LayoutGrid size={16} />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 text-primary shadow-sm' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
-                  title="List View"
-                >
-                  <List size={16} />
-                </button>
-              </div>
-              <span className="text-xs text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Showing {filtered.length} properties</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Content */}
-        {filtered.length === 0 ? (
-          <div className={`${cardBase} p-12 flex flex-col items-center justify-center text-center`}>
-            <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-white/[0.08] flex items-center justify-center text-zinc-400 dark:text-zinc-500 mb-4">
-              <Building2 size={32} />
-            </div>
-            <h3 className="text-base font-semibold text-zinc-900 dark:text-white mb-1">No properties yet</h3>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mb-6">
-              Get started by anchoring your first property or importing portfolio deeds for verification.
-            </p>
-            <Link
-              href="/dashboard/landlord/properties/new"
-              className="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm hover:bg-primary transition-colors"
-            >
-              <Plus size={18} />
-              <span>Add Property</span>
-            </Link>
-          </div>
-        ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((listing) => {
-              const img = listing.images?.[0]?.url;
-              return (
-                <div key={listing.id} className={`${cardBase} overflow-hidden hover:shadow-md transition-all duration-200 flex flex-col group`}>
-                  {/* Image Cover */}
-                  <div className="relative aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-                    {img ? (
-                      <img src={img} alt={titleCase(listing.title)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    ) : (
-                      <div className="flex h-full items-center justify-center">
-                        <Building2 className="h-12 w-12 text-zinc-300 dark:text-zinc-600" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-                    {/* Status Badge */}
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-primary dark:text-[#4edea3] text-[10px] font-semibold shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                      {propertyStatusSummary(listing)}
-                    </div>
-                    {/* Bottom overlays */}
-                    <div className="absolute bottom-3 left-3">
-                      <span className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md text-zinc-700 dark:text-zinc-300 px-2.5 py-0.5 rounded text-[10px] font-medium">
-                        {formatListingType(listing.listingType)}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-3 right-3">
-                      <span className="bg-primary/90 text-white backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-medium">
-                        {listing.occupiedUnitCount} / {listing.unitCount} Occupied
-                      </span>
-                    </div>
-                  </div>
-                  {/* Body */}
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-primary dark:group-hover:text-[#4edea3] transition-colors">
-                        {titleCase(listing.title)}
-                      </h3>
-                      <div className="flex items-center gap-1.5 mt-1 text-zinc-500 dark:text-zinc-400 text-xs truncate">
-                        <MapPin size={12} className="text-primary shrink-0" />
-                        <span className="truncate">{titleCase(listing.area)}, {titleCase(listing.state)}</span>
-                      </div>
-                      {/* Stats Bar */}
-                      <div className="flex items-center justify-between py-2 my-2.5 bg-zinc-50 dark:bg-zinc-800/50 px-2.5 rounded-lg text-xs text-zinc-500 dark:text-zinc-400">
-                        <div className="flex items-center gap-1">
-                          <Home size={12} className="text-primary dark:text-[#4edea3]" />
-                          <span>{listing.unitCount} Units</span>
-                        </div>
-                        <span className="text-zinc-300 dark:text-zinc-600">•</span>
-                        <div>{listing.units?.[0]?.bedrooms ?? '—'} Beds • {listing.units?.[0]?.bathrooms ?? '—'} Baths</div>
-                        <span className="text-zinc-300 dark:text-zinc-600">•</span>
-                        <div>{listing.units?.[0]?.type ? titleCase(listing.units[0].type) : '—'}</div>
-                      </div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-zinc-100 dark:bg-white/[0.08] flex items-center justify-center text-primary dark:text-[#4edea3] font-bold text-[10px]">
-                          {(listing.assignedAgent?.fullName || 'BA').slice(0, 2).toUpperCase()}
-                        </div>
-                        <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                          Managed by {listing.assignedAgent?.fullName || 'You'}
-                        </span>
-                      </div>
-                    </div>
-                    {/* Price & Verification */}
-                    <div className="pt-2 flex flex-col gap-1">
-                      <div className="flex items-center gap-1.5 text-primary dark:text-[#4edea3] text-xs font-medium">
-                        <BadgeCheck size={12} />
-                        <span>{listing.verification?.overallStatus === 'certified' ? 'Verified' : 'Pending Verification'}</span>
-                      </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="text-lg font-bold text-primary dark:text-[#4edea3]">{listing.registryOnly ? 'Not listed' : formatCurrency(listing.price)}</span>
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">{listing.registryOnly ? 'asset record' : `/ ${listing.pricePeriod || 'annum'}`}</span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Footer Actions */}
-                  <div className="px-4 py-2.5 bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-between text-zinc-700 dark:text-zinc-300 text-xs font-medium border-t border-zinc-100 dark:border-white/[0.06]">
-                    <Link href={propertyHref(listing)} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
-                      <Eye size={14} />
-                      <span>View Property</span>
-                    </Link>
-                    <Link href={propertyHref(listing)} className="flex items-center gap-1 hover:text-primary dark:hover:text-[#4edea3] transition-colors">
-                      <Pencil size={14} />
-                      <span>Edit</span>
-                    </Link>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <button className="p-1 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
-                          <MoreVertical size={14} />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-44">
-                        <DropdownMenuItem asChild>
-                          <Link href={propertyHref(listing)}>View / Manage</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href={listing.registryOnly ? propertyHref(listing) : `/dashboard/landlord/properties/${listing.id}/units/new`}>{listing.registryOnly ? 'Manage spaces' : 'Add Unit'}</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        {!listing.registryOnly && <DropdownMenuItem className="text-red-500 focus:text-red-500" onClick={() => setDeleteId(listing.id)}>
-                          Remove from Marketplace
-                        </DropdownMenuItem>}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          /* List View */
-          <div className={`${cardBase} overflow-hidden`}>
-            <div className="grid grid-cols-12 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3 text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">
-              <div className="col-span-4">Property &amp; Address</div>
-              <div className="col-span-2">Type &amp; Units</div>
-              <div className="col-span-2">Verification</div>
-              <div className="col-span-2 text-right">Annual Rent</div>
-              <div className="col-span-2 text-right">Actions</div>
-            </div>
-            <div className="divide-y divide-zinc-100 dark:divide-white/[0.06]">
-              {filtered.map((listing) => {
-                const img = listing.images?.[0]?.url;
-                return (
-                  <div key={listing.id} className="grid grid-cols-12 items-center px-4 py-3.5 hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
-                    <div className="col-span-4 flex items-center gap-3 min-w-0">
-                      <div className="w-12 h-12 rounded-lg bg-zinc-100 dark:bg-zinc-800 shrink-0 overflow-hidden">
-                        {img ? (
-                          <img src={img} alt={titleCase(listing.title)} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="flex h-full items-center justify-center">
-                            <Building2 className="h-5 w-5 text-zinc-400" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex flex-col min-w-0">
-                        <Link href={propertyHref(listing)} className="text-sm font-semibold text-zinc-900 dark:text-white truncate hover:text-primary dark:hover:text-[#4edea3]">
-                          {titleCase(listing.title)}
-                        </Link>
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
-                          {titleCase(listing.area)}, {titleCase(listing.state)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col-span-2 flex flex-col">
-                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{formatListingType(listing.listingType)}</span>
-                      <span className="text-xs text-primary dark:text-[#4edea3]">{listing.listedUnitCount}/{listing.unitCount} Units</span>
-                    </div>
-                    <div className="col-span-2 flex items-center gap-1 text-primary dark:text-[#4edea3] text-xs">
-                      <BadgeCheck size={14} />
-                      <span>{listing.verification?.overallStatus === 'certified' ? 'Verified' : 'Pending'}</span>
-                    </div>
-                    <div className="col-span-2 text-right">
-                      <span className="text-sm font-mono font-bold text-primary dark:text-[#4edea3]">{formatCurrency(listing.price)}</span>
-                    </div>
-                    <div className="col-span-2 flex items-center justify-end gap-1">
-                      <Link href={propertyHref(listing)} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
-                        <Eye size={14} />
-                      </Link>
-                      <Link href={propertyHref(listing)} className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-primary transition-colors">
-                        <Pencil size={14} />
-                      </Link>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <button className="p-1.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
-                            <MoreVertical size={14} />
-                          </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-40">
-                          <DropdownMenuItem asChild>
-                            <Link href={propertyHref(listing)}>View</Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem asChild>
-                            <Link href={listing.registryOnly ? propertyHref(listing) : `/dashboard/landlord/properties/${listing.id}/units/new`}>{listing.registryOnly ? 'Manage spaces' : 'Add Unit'}</Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                        {!listing.registryOnly && <DropdownMenuItem className="text-red-500" onClick={() => setDeleteId(listing.id)}>
-                            Remove Listing
-                          </DropdownMenuItem>}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
-      <ConfirmDialog open={Boolean(deleteId)} onOpenChange={(open) => !open && setDeleteId(null)} title="Remove this property from the marketplace?" description="The building and its units will be kept, but this property will no longer appear in marketplace results." confirmLabel="Remove property" confirmVariant="destructive" onConfirm={async () => { if (deleteId) await handleDelete(deleteId); setDeleteId(null); }} />
-    </div>
-  );
+  return <main className="mx-auto w-full max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8"><header className="flex flex-col gap-5 border-b border-zinc-200 pb-6 dark:border-zinc-800 lg:flex-row lg:items-end lg:justify-between"><div><p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Property management</p><h1 className="mt-1 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white sm:text-3xl">My properties</h1><p className="mt-2 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">Keep registered assets, units, and live listings organised in one workspace.</p><div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-zinc-600 dark:text-zinc-400"><span><strong className="tabular-nums text-zinc-950 dark:text-white">{counts.properties}</strong> properties</span><span><strong className="tabular-nums text-zinc-950 dark:text-white">{counts.units}</strong> units</span><span><strong className="tabular-nums text-zinc-950 dark:text-white">{counts.live}</strong> live listings</span><span><strong className="tabular-nums text-zinc-950 dark:text-white">{counts.units ? Math.round((counts.occupied / counts.units) * 100) : 0}%</strong> occupied</span></div></div><div className="flex flex-wrap gap-2"><button className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"><Upload size={15} />Import</button><Link href="/dashboard/landlord/listing/new" className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800">Create listing</Link><Link href="/dashboard/landlord/properties/new" className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"><Plus size={16} />Add property</Link></div></header>
+    <section aria-label="Property filters" className="mt-6 flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900 lg:flex-row lg:items-center"><div className="relative min-w-0 flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={16} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name, address, or asset reference" className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-9 pr-3 text-sm text-zinc-900 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white" /></div><div className="flex flex-wrap gap-2"><select aria-label="Filter by status" value={status} onChange={(event) => setStatus(event.target.value)} className="h-10 rounded-lg border border-zinc-200 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"><option value="all">All status</option><option value="live">Live listings</option><option value="verified">Verified assets</option><option value="needs_action">Needs action</option></select><select aria-label="Filter by type" value={type} onChange={(event) => setType(event.target.value)} className="h-10 rounded-lg border border-zinc-200 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"><option value="all">All types</option><option value="residential">Residential</option><option value="commercial">Commercial</option><option value="land">Land</option></select><select aria-label="Filter by location" value={location} onChange={(event) => setLocation(event.target.value)} className="h-10 max-w-[160px] rounded-lg border border-zinc-200 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"><option value="all">All locations</option>{locations.map((item) => <option key={item} value={item}>{item}</option>)}</select><select aria-label="Sort properties" value={sort} onChange={(event) => setSort(event.target.value)} className="h-10 rounded-lg border border-zinc-200 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"><option value="recent">Recently added</option><option value="listings">Most listings</option><option value="occupancy">Highest occupancy</option></select>{hasFilters && <button onClick={clearFilters} className="inline-flex h-10 items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-white"><X size={14} />Clear</button>}</div><div className="flex items-center gap-1 border-l border-zinc-200 pl-2 dark:border-zinc-700"><button aria-label="Grid view" onClick={() => setView('grid')} className={`rounded-md p-2 ${view === 'grid' ? 'bg-zinc-100 text-emerald-700 dark:bg-zinc-800 dark:text-emerald-300' : 'text-zinc-400'}`}><Grid2X2 size={16} /></button><button aria-label="List view" onClick={() => setView('list')} className={`rounded-md p-2 ${view === 'list' ? 'bg-zinc-100 text-emerald-700 dark:bg-zinc-800 dark:text-emerald-300' : 'text-zinc-400'}`}><List size={16} /></button></div></section>
+    <div className="mt-4 flex items-center justify-between text-sm text-zinc-500"><span>{filtered.length} {filtered.length === 1 ? 'property' : 'properties'}</span>{hasFilters && <span>Filtered view</span>}</div>
+    {filtered.length === 0 ? <section className="mt-4 rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center dark:border-zinc-700 dark:bg-zinc-900"><div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-100 text-zinc-400 dark:bg-zinc-800"><Building2 size={24} /></div><h2 className="mt-4 text-base font-semibold text-zinc-900 dark:text-white">{listings.length ? 'No properties match these filters' : 'Your portfolio is ready for its first property'}</h2><p className="mx-auto mt-2 max-w-md text-sm text-zinc-500">{listings.length ? 'Try clearing a filter or searching for another asset.' : 'Register an asset to start organising spaces, occupancy, and listings.'}</p>{listings.length ? <button onClick={clearFilters} className="mt-5 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700">Clear filters</button> : <Link href="/dashboard/landlord/properties/new" className="mt-5 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"><Plus size={16} />Add property</Link>}</section> : view === 'grid' ? <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-4 xl:gap-5">{filtered.map((item) => <PropertyCard key={item.id} item={item} onDelete={setDeleteId} />)}</div> : <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"><div className="hidden grid-cols-[minmax(220px,1.5fr)_140px_120px_140px_80px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold text-zinc-500 dark:border-zinc-800 dark:bg-zinc-800/60 lg:grid"><span>Property</span><span>Registration</span><span>Units</span><span>Publication</span><span /></div>{filtered.map((item) => <div key={item.id} className="grid gap-3 border-b border-zinc-100 px-5 py-4 last:border-0 dark:border-zinc-800 lg:grid-cols-[minmax(220px,1.5fr)_140px_120px_140px_80px] lg:items-center"><div className="min-w-0"><Link href={hrefFor(item)} className="truncate text-sm font-semibold text-zinc-900 hover:text-emerald-700 dark:text-white dark:hover:text-emerald-300">{item.title}</Link><p className="mt-1 truncate text-xs text-zinc-500">{[item.area, item.state].filter(Boolean).join(', ') || 'Location not provided'}</p></div><div><StatusPill tone={registrationTone(item)}>{label(item.verificationStatus || item.verification?.overallStatus || item.status)}</StatusPill></div><div className="text-sm text-zinc-700 dark:text-zinc-300">{item.unitCount} total · {item.occupiedUnitCount} occupied</div><div><StatusPill tone={listingTone(item)}>{item.listedUnitCount ? `${item.listedUnitCount} live` : 'Not listed'}</StatusPill></div><div className="flex justify-end"><Link aria-label={`Manage ${item.title}`} href={hrefFor(item)} className="rounded-md p-2 text-zinc-400 hover:bg-zinc-100 hover:text-emerald-700 dark:hover:bg-zinc-800"><Eye size={16} /></Link></div></div>)}</div>}
+    <ConfirmDialog open={Boolean(deleteId)} onOpenChange={(open) => !open && setDeleteId(null)} title="Remove this listing?" description="The property asset and its units will remain in your portfolio. Only the marketplace listing will be removed." confirmLabel="Remove listing" confirmVariant="destructive" onConfirm={async () => { if (deleteId) await handleDelete(deleteId); setDeleteId(null); }} />
+  </main>;
 }

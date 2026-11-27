@@ -1,432 +1,80 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/modal';
-import {
-  Building2,
-  CheckCircle2,
-  Clock,
-  Shield,
-  X,
-  Plus,
-  Layers,
-  Wifi,
-  Car,
-  Dumbbell,
-  Waves,
-  Tv,
-  Refrigerator,
-  ShowerHead,
-  Utensils,
-  Armchair,
-  Trees,
-  Lock,
-  Sun,
-  Wind,
-  Zap,
-  Eye,
-  ChevronRight,
-  Check,
-  Heart,
-  Share2,
-  Star,
-  Pencil,
-  Trash2,
-  MapPin,
-  BadgeCheck,
-  Download,
-  Phone,
-  MessageCircle,
-  Maximize2,
-  Images,
-  Bolt,
-  Router,
-  SquareParking,
-  Fingerprint,
-  Droplets,
-  ArrowUpDown,
-  DoorOpen,
-  Expand,
-  Landmark,
-} from 'lucide-react';
-import ManageUnitDrawer from './ManageUnitDrawer';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Building2, Camera, Check, CheckCircle2, ChevronRight, FileText, Images, Layers3, MapPin, MoreHorizontal, Pencil, Plus, ShieldCheck, Trash2 } from 'lucide-react';
 
-type Listing = {
-  id: string;
-  title: string;
-  address: string;
-  area: string;
-  state: string;
-  status: string;
-  listingType: string;
-  propertyType: string;
-  price: number;
-  pricePeriod: string;
-  allowShortlet: boolean;
-  amenities: string[];
-  description: string;
-  viewsCount: number;
-  createdAt: string;
-  verification: {
-    id: string;
-    overallStatus: string;
-    currentLayer: number;
-    l1Status: string;
-    l2Status: string;
-    l3Status: string;
-    l4Status: string;
-    l5Status: string;
-  } | null;
-  images: { id: string; url: string; isCover: boolean }[];
-  units: {
-    id: string;
-    unitNumber: string;
-    buildingName: string | null;
-    type: string;
-    listingType: string;
-    pricePeriod: string | null;
-    rent: number;
-    cautionDeposit: number | null;
-    serviceCharge: number | null;
-    status: string;
-    occupancy: string;
-    isListed: boolean;
-    bedrooms: number;
-    bathrooms: number;
-    sizeSqm: number | null;
-    listings: { id: string; title: string; status: string; listingType: string; price: number; pricePeriod: string | null }[];
-  }[];
-};
+type Unit = { id: string; unitNumber: string; buildingName: string | null; type: string; listingType: string; pricePeriod: string | null; rent: number; cautionDeposit: number | null; serviceCharge: number | null; status: string; occupancy: string; isListed: boolean; bedrooms: number; bathrooms: number; sizeSqm: number | null; listings: { id: string; title: string; status: string; listingType: string; price: number; pricePeriod: string | null }[] };
+type Listing = { id: string; title: string; address: string; area: string; state: string; status: string; listingType: string; propertyType: string; price: number; pricePeriod: string; allowShortlet: boolean; amenities: string[]; description: string; viewsCount: number; createdAt: string; verification: { id: string; overallStatus: string; currentLayer: number; l1Status: string; l2Status: string; l3Status: string; l4Status: string; l5Status: string } | null; images: { id: string; url: string; isCover: boolean }[]; units: Unit[] };
+type TabKey = 'overview' | 'units' | 'listings' | 'financials' | 'verification' | 'activity';
+
+const humanize = (value?: string | null) => (value || 'Not set').replaceAll('_', ' ').replace(/\b\w/g, (character) => character.toUpperCase());
+const formatMoney = (value: number) => value > 0 ? `₦${value.toLocaleString()}` : '—';
+const isOccupied = (unit: Unit) => unit.status.toLowerCase() === 'occupied' || unit.occupancy.toUpperCase() === 'OCCUPIED';
+const isLive = (unit: Unit) => unit.listings.some((listing) => ['active', 'published'].includes(listing.status.toLowerCase())) || unit.isListed;
+
+function Status({ children, tone = 'neutral' }: { children: React.ReactNode; tone?: 'neutral' | 'success' | 'warning' }) {
+  const styles = tone === 'success' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300' : tone === 'warning' ? 'bg-amber-50 text-amber-800 dark:bg-amber-500/10 dark:text-amber-300' : 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
+  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${styles}`}>{children}</span>;
+}
 
 export default function PropertyDetailClient({ listing }: { listing: Listing }) {
-  const [tab, setTab] = useState<'overview' | 'units' | 'listings' | 'financials' | 'verification' | 'activity'>('overview');
+  const router = useRouter();
+  const [tab, setTab] = useState<TabKey>('overview');
+  const [images, setImages] = useState(listing.images);
+  const [uploading, setUploading] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
-  const hero = listing.images?.[0]?.url;
+  const [activeImage, setActiveImage] = useState(0);
+  const hero = images[activeImage]?.url || images[0]?.url;
+  const occupied = listing.units.filter(isOccupied).length;
+  const liveListings = listing.units.filter(isLive).length;
+  const available = Math.max(listing.units.length - occupied, 0);
+  const tabs: { key: TabKey; label: string }[] = [
+    { key: 'overview', label: 'Overview' }, { key: 'units', label: `Units (${listing.units.length})` }, { key: 'listings', label: 'Listings' }, { key: 'financials', label: 'Financials & payouts' }, { key: 'verification', label: 'Verification' }, { key: 'activity', label: 'Activity' },
+  ];
+  const amenities = useMemo(() => listing.amenities || [], [listing.amenities]);
 
-  const tabs = [
-    { key: 'overview', label: 'Overview' },
-    { key: 'units', label: `Units (${listing.units.length})` },
-    { key: 'listings', label: 'Listings' },
-    { key: 'financials', label: 'Financials & Payouts' },
-    { key: 'verification', label: 'Verification (5-Tier)' },
-    { key: 'activity', label: 'Activity' },
-  ] as const;
+  const uploadPhoto = async (file: File) => {
+    setUploading(true);
+    const body = new FormData(); body.append('file', file); body.append('setCover', images.length === 0 ? 'true' : 'false');
+    try {
+      const response = await fetch(`/api/listings/${listing.id}/images`, { method: 'POST', body }); const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Could not upload photo');
+      setImages((current) => [...current, data.image]); toast({ title: 'Photo added', description: 'The property gallery has been updated.' });
+    } catch (error) { toast({ title: 'Upload failed', description: error instanceof Error ? error.message : 'Could not upload photo', variant: 'destructive' }); } finally { setUploading(false); }
+  };
 
-  return (
-    <div className="max-w-7xl mx-auto w-full py-6 px-4 space-y-6">
-      {/* Breadcrumbs */}
-      <div className="flex flex-wrap items-center justify-between gap-2 text-zinc-600 dark:text-zinc-400 text-sm">
-        <nav className="flex items-center gap-1 font-medium">
-          <Link href="/dashboard/landlord/properties" className="hover:text-primary transition-colors">Portfolio</Link>
-          <ChevronRight className="h-4 w-4 text-zinc-400" />
-          <span className="hover:text-primary transition-colors">{listing.area || 'Zone'}</span>
-          <ChevronRight className="h-4 w-4 text-zinc-400" />
-          <span className="text-zinc-900 dark:text-white font-semibold">{listing.title}</span>
-        </nav>
-        <div className="flex items-center gap-1 bg-zinc-50 dark:bg-white/[0.04] px-2 py-1 rounded-lg font-mono text-xs">
-          <span className="text-primary font-bold">ASSET REF:</span>
-          <span className="text-zinc-900 dark:text-white tracking-wider">{listing.id.slice(0, 12).toUpperCase()}</span>
-        </div>
-      </div>
+  const deleteListing = async () => {
+    try { const response = await fetch(`/api/listings/${listing.id}`, { method: 'DELETE' }); if (!response.ok) throw new Error('Could not delete property'); toast({ title: 'Property removed', description: 'The listing was removed from your portfolio.' }); router.push('/dashboard/landlord/properties'); } catch (error) { toast({ title: 'Delete failed', description: error instanceof Error ? error.message : 'Could not delete property', variant: 'destructive' }); }
+  };
 
-      {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl lg:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">{listing.title}</h1>
-            <span className="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-200 text-xs font-semibold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              Listing: {listing.status.replaceAll('_', ' ')}
-            </span>
-            {listing.verification && (
-              <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-xs font-semibold flex items-center gap-1">
-                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
-                Asset: {listing.verification.overallStatus.replaceAll('_', ' ')}
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-1 text-zinc-600 dark:text-zinc-400 text-sm">
-            <MapPin className="h-4 w-4 text-primary" />
-            <span>{listing.address}, {listing.area}, {listing.state}</span>
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Link href={`/dashboard/landlord/properties/${listing.id}/edit`}>
-            <Button variant="outline" className="flex items-center gap-1">
-              <Pencil className="h-4 w-4" /> Edit Listing
-            </Button>
-          </Link>
-          <label className="relative inline-flex items-center cursor-pointer bg-white dark:bg-zinc-900 px-3 py-1.5 rounded-lg shadow-sm border border-zinc-200 dark:border-white/[0.08]">
-            <input type="checkbox" className="sr-only peer" defaultChecked={listing.status === 'published'} />
-            <div className="w-9 h-5 bg-zinc-300 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary" />
-            <span className="ml-2 text-sm font-semibold text-zinc-900 dark:text-white">Propati Live</span>
-          </label>
-          <Button variant="outline" className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-1" onClick={() => setShowDelete(true)}>
-            <Trash2 className="h-4 w-4" /> Delete Asset
-          </Button>
-        </div>
-      </div>
+  return <main className="min-h-full bg-[#fbfaf7] px-4 py-6 dark:bg-zinc-950 sm:px-6 lg:px-8"><div className="mx-auto w-full max-w-[1320px]">
+    <div className="flex flex-wrap items-center justify-between gap-3 text-sm"><nav className="flex min-w-0 items-center gap-1.5 text-zinc-500"><Link href="/dashboard/landlord/properties" className="hover:text-emerald-700">Portfolio</Link><ChevronRight size={15} /><span className="font-medium text-emerald-700">{listing.area || 'Property'}</span><ChevronRight size={15} /><span className="truncate font-semibold text-zinc-900 dark:text-white">{listing.title}</span></nav><div className="text-sm text-zinc-600 dark:text-zinc-400"><span className="font-semibold text-emerald-700">Asset ref:</span><span className="ml-2 font-mono tracking-wide text-zinc-900 dark:text-white">{listing.id.slice(0, 12).toUpperCase()}</span></div></div>
+    <header className="mt-5 flex flex-col gap-3 border-b border-zinc-200 pb-5 dark:border-zinc-800 sm:flex-row sm:items-end sm:justify-between"><div><div className="flex flex-wrap items-center gap-3"><h1 className="text-3xl font-semibold tracking-tight text-zinc-950 dark:text-white">{listing.title}</h1><Status tone={listing.status === 'published' || listing.status === 'active' ? 'success' : 'neutral'}><span className="h-1.5 w-1.5 rounded-full bg-current" />{humanize(listing.status)}</Status></div><p className="mt-2 flex items-center gap-2 text-base text-zinc-600 dark:text-zinc-400"><MapPin size={18} className="text-zinc-800 dark:text-zinc-200" />{listing.address}, {listing.area}, {listing.state}</p></div><div className="flex items-center gap-2"><Link href={`/dashboard/landlord/properties/${listing.id}/edit`}><Button variant="outline" className="gap-2 rounded-full bg-white px-4 dark:bg-zinc-900"><Pencil size={15} />Edit property</Button></Link><Link href={`/dashboard/landlord/listing/new?propertyId=${listing.id}`}><Button className="gap-2 rounded-full bg-emerald-700 px-5 text-white hover:bg-emerald-800"><Plus size={16} />Create listing</Button></Link><DropdownMenu><DropdownMenuTrigger asChild><button aria-label="More property actions" className="rounded-full border border-zinc-200 bg-white p-2.5 text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"><MoreHorizontal size={18} /></button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem asChild><Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add unit</Link></DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={() => setShowDelete(true)}><Trash2 size={14} />Delete property</DropdownMenuItem></DropdownMenuContent></DropdownMenu></div></header>
+    <div className="mt-5 flex gap-1 overflow-x-auto border-b border-zinc-200 dark:border-zinc-800">{tabs.map((item) => <button key={item.key} onClick={() => setTab(item.key)} className={`whitespace-nowrap border-b-2 px-3 pb-3 text-sm font-medium transition ${tab === item.key ? 'border-emerald-700 text-emerald-800 dark:text-emerald-300' : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'}`}>{item.label}</button>)}</div>
 
-      {/* Hero image */}
-      <div className="space-y-2">
-        <div className="aspect-video w-full rounded-xl overflow-hidden relative shadow-md bg-zinc-100 dark:bg-zinc-800">
-          {hero ? (
-            <img src={hero} alt={listing.title} className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-zinc-400">
-              <Building2 className="h-16 w-16" />
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-          <div className="absolute bottom-3 left-3 flex items-center gap-2 text-white">
-            <span className="bg-black/50 backdrop-blur-md px-2 py-1 rounded-md text-xs uppercase tracking-wider font-semibold">
-              {listing.images.length} {listing.images.length === 1 ? 'photo' : 'photos'}
-            </span>
-          </div>
-          <button className="absolute top-3 right-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md text-zinc-900 dark:text-white px-2 py-1 rounded-lg text-sm flex items-center gap-1 shadow-sm hover:bg-white transition-all">
-            <Maximize2 className="h-4 w-4" /> Expand Media
-          </button>
-        </div>
-        {/* Thumbnail strip */}
-        <div className="grid grid-cols-5 gap-2">
-          {listing.images.slice(0, 4).map((img) => (
-            <div key={img.id} className="aspect-video rounded-lg overflow-hidden relative cursor-pointer opacity-80 hover:opacity-100 transition-opacity shadow-sm bg-zinc-100 dark:bg-zinc-800">
-              <img src={img.url} alt="" className="w-full h-full object-cover" />
-            </div>
-          ))}
-          <div className="aspect-video rounded-lg overflow-hidden relative cursor-pointer bg-zinc-100 dark:bg-zinc-800 flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors shadow-sm">
-            <Images className="h-6 w-6 text-primary" />
-            <span className="text-xs font-semibold tracking-wide mt-1">View gallery · {listing.images.length}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex items-center gap-1 bg-zinc-50 dark:bg-white/[0.04] p-1 rounded-xl shadow-sm overflow-x-auto">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key as any)}
-            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${
-              tab === t.key
-                ? 'bg-white dark:bg-zinc-900 text-primary shadow-sm'
-                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      {/* OVERVIEW */}
-      {tab === 'overview' && (
-        <div className="space-y-4">
-          <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm space-y-4 border border-zinc-200 dark:border-white/[0.08]">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Asset Specifications</h2>
-              <span className="text-xs bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] px-2 py-1 rounded-full font-semibold uppercase tracking-wider">Tier-1</span>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-1">
-              {[
-                { label: 'Asset Class', value: listing.propertyType || 'Property' },
-                { label: 'Listing Type', value: listing.listingType },
-                { label: 'Price', value: `₦${listing.price.toLocaleString()}` },
-                { label: 'Views', value: listing.viewsCount },
-              ].map((s) => (
-                <div key={s.label} className="bg-zinc-50 dark:bg-white/[0.04] p-3 rounded-lg">
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400 uppercase tracking-wider block">{s.label}</span>
-                  <span className="text-sm font-semibold text-zinc-900 dark:text-white mt-1 block">{s.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm space-y-2 border border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-base font-bold text-zinc-900 dark:text-white">Description</h3>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{listing.description || 'No description provided.'}</p>
-          </div>
-          {listing.amenities?.length > 0 && (
-            <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm space-y-4 border border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-base font-bold text-zinc-900 dark:text-white">Amenities &amp; Services</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {listing.amenities.map((a) => (
-                  <div key={a} className="flex items-center gap-2 p-2 bg-zinc-50 dark:bg-white/[0.04] rounded-lg">
-                    <Check className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium text-zinc-900 dark:text-white">{a}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* UNITS */}
-      {tab === 'units' && (
-        <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm space-y-4 border border-zinc-200 dark:border-white/[0.08]">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Unit Inventory ({listing.units.length})</h2>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                {listing.units.filter((u) => u.status.toLowerCase() === 'occupied' || u.occupancy.toUpperCase() === 'OCCUPIED').length} Occupied • {listing.units.filter((u) => u.status.toLowerCase() !== 'occupied' && u.occupancy.toUpperCase() !== 'OCCUPIED').length} Vacant
-              </p>
-            </div>
-            <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>
-              <Button className="bg-primary hover:bg-[var(--sovereign-hover)] text-white flex items-center gap-1">
-                <Plus className="h-4 w-4" /> Add Unit
-              </Button>
-            </Link>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-zinc-50 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400 text-xs uppercase tracking-wider">
-                <tr>
-                  <th className="p-2 rounded-l-lg">Unit &amp; Name</th>
-                  <th className="p-2">Type</th>
-                  <th className="p-2">Specs</th>
-                  <th className="p-2">Monthly Rent</th>
-                  <th className="p-2">Status</th>
-                  <th className="p-2 text-right rounded-r-lg">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-200 dark:divide-white/[0.08]">
-                {listing.units.map((u) => (
-                  <tr key={u.id} className="hover:bg-zinc-50 dark:hover:bg-white/[0.04] transition-colors">
-                    <td className="p-2">
-                      <Link href={`/dashboard/landlord/properties/${listing.id}/units/${u.id}`} className="hover:text-primary transition-colors">
-<div className="font-semibold text-zinc-900 dark:text-white">{u.unitNumber}</div>
-</Link>
-                      <div className="text-xs text-zinc-600 dark:text-zinc-400">{u.buildingName || u.type}</div>
-                    </td>
-                    <td className="p-2">
-                      <span className="px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.08] text-zinc-900 dark:text-white text-xs">{u.type}</span>
-                    </td>
-                    <td className="p-2 text-zinc-600 dark:text-zinc-400">
-                      {u.bedrooms} Bed • {u.bathrooms} Bath{u.sizeSqm ? ` • ${u.sizeSqm} m²` : ''}
-                    </td>
-                    <td className="p-2 font-mono font-bold text-zinc-900 dark:text-white">₦{u.rent.toLocaleString()}</td>
-                    <td className="p-2">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                        u.status.toLowerCase() === 'occupied' || u.occupancy.toUpperCase() === 'OCCUPIED'
-                          ? 'bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe]'
-                          : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
-                      }`}>
-                        {u.status ? u.status.charAt(0).toUpperCase() + u.status.slice(1).toLowerCase() : 'Vacant'}
-                      </span>
-                      <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
-                        u.listings.some((child) => child.status === 'active')
-                          ? 'bg-primary/15 text-primary dark:text-[#4edea3]'
-                          : 'bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-400'
-                      }`}>
-                        {u.listings.length ? `${u.listings.length} Listing${u.listings.length === 1 ? '' : 's'}` : 'Unlisted'}
-                      </span>
-                    </td>
-                    <td className="p-2 text-right space-x-1">
-                      <Link href={`/properties/${listing.id}`} title="View marketplace listing" className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400 inline-flex"><Eye className="h-4 w-4" /></Link>
-                      {!u.listings.some((child) => child.status === 'active') && (
-                        <Link href={`/dashboard/landlord/listing/new?unitId=${u.id}`} title="Publish this unit" className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-primary inline-flex"><Plus className="h-4 w-4" /></Link>
-                      )}
-                      <button className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400"><Pencil className="h-4 w-4" /></button>
-                      <button className="p-1 hover:bg-zinc-100 dark:hover:bg-white/[0.08] rounded text-zinc-600 dark:text-zinc-400"><Layers className="h-4 w-4" /></button>
-                    </td>
-                  </tr>
-                ))}
-                {listing.units.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="p-4 text-center text-zinc-600 dark:text-zinc-400">No units yet.</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {tab === 'listings' && (
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900">
-          <div className="mb-4 flex items-center justify-between">
-            <div><h2 className="text-lg font-semibold">Property listings</h2><p className="text-sm text-zinc-500">Listings are independent records and never replace units.</p></div>
-            <Link href={`/dashboard/landlord/listing/new?propertyId=${listing.id}`}><Button className="bg-primary text-white"><Plus className="mr-2 h-4 w-4" />Create Listing</Button></Link>
-          </div>
-          <div className="divide-y divide-zinc-200 dark:divide-white/[0.08]">
-            {listing.units.flatMap((unit) => unit.listings.map((child) => ({ ...child, unitNumber: unit.unitNumber }))).map((child) => (
-              <div key={child.id} className="flex items-center justify-between gap-4 py-3 text-sm">
-                <div><p className="font-medium">{child.title}</p><p className="text-xs text-zinc-500">Unit {child.unitNumber} · {child.listingType}</p></div>
-                <span className="rounded-full bg-zinc-100 px-2 py-1 text-xs font-medium dark:bg-white/[0.08]">{child.status}</span>
-              </div>
-            ))}
-            {!listing.units.some((unit) => unit.listings.length) && <p className="py-8 text-center text-sm text-zinc-500">No unit listings yet. Add a listing from any unit.</p>}
-          </div>
-        </div>
-      )}
-
-      {tab === 'activity' && (
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-white/[0.08] dark:bg-zinc-900"><h2 className="text-lg font-semibold">Activity</h2><p className="mt-2 text-sm text-zinc-500">Property, unit and listing activity will appear here as audit events are recorded.</p></div>
-      )}
-
-      {/* FINANCIALS */}
-      {tab === 'financials' && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: 'Annual Gross Rent', value: '—' },
-              { label: 'Service Charge Pool', value: '—' },
-              { label: 'Payouts', value: '—' },
-              { label: 'Net Cap Yield', value: '—' },
-            ].map((k) => (
-              <div key={k.label} className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-sm border border-zinc-200 dark:border-white/[0.08] space-y-1">
-                <span className="text-xs text-zinc-600 dark:text-zinc-400 uppercase font-semibold">{k.label}</span>
-                <div className="text-lg font-bold text-zinc-900 dark:text-white">{k.value}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* VERIFICATION */}
-      {tab === 'verification' && (
-        <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-sm space-y-4 border border-zinc-200 dark:border-white/[0.08]">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">5-Tier Institutional Verification</h2>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400">Audited by Propati Regulatory Compliance</p>
-            </div>
-            <span className="px-3 py-1 rounded-full bg-[var(--sovereign-container-bg)] dark:bg-primary/30 text-[var(--sovereign-hover)] dark:text-[#6ffbbe] font-bold text-sm self-start sm:self-auto">
-              {listing.verification?.overallStatus || 'Pending'}
-            </span>
-          </div>
-          <div className="space-y-3">
-            {[
-              { tier: 'Tier 1: CAC Document & Corporate Title', status: listing.verification?.l1Status },
-              { tier: 'Tier 2: Landlord Biometric Identity', status: listing.verification?.l2Status },
-              { tier: 'Tier 3: Drone & Interior Audit', status: listing.verification?.l3Status },
-              { tier: 'Tier 4: Physical SLA & Engineer Sign-Off', status: listing.verification?.l4Status },
-              { tier: 'Tier 5: LASRERA Digital Title Token', status: listing.verification?.l5Status },
-            ].map((v) => (
-              <div key={v.tier} className="flex items-start gap-3 p-3 bg-zinc-50 dark:bg-white/[0.04] rounded-lg">
-                <Shield className="h-6 w-6 text-primary mt-0.5" />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-zinc-900 dark:text-white">{v.tier}</span>
-                    <span className="text-primary text-xs font-bold">{v.status || 'PENDING'}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <ConfirmDialog
-        open={showDelete}
-        onOpenChange={setShowDelete}
-        title="Delete this property asset?"
-        description={`${listing.title} will be removed from the portfolio. This action cannot be undone.`}
-        confirmLabel="Permanently delete"
-        confirmVariant="destructive"
-        onConfirm={() => setShowDelete(false)}
-      />
-    </div>
-  );
+    {tab === 'overview' && <section className="mt-5 overflow-hidden rounded-[20px] border border-zinc-200 bg-white shadow-[0_2px_10px_rgba(25,45,35,0.06)] dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="grid gap-5 p-4 sm:p-5 lg:grid-cols-[280px_minmax(0,1fr)]"><div className="aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800">{hero ? <img src={hero} alt={listing.title} className="h-full w-full object-cover" /> : <div className="flex h-full flex-col items-center justify-center gap-2 text-zinc-400"><Building2 size={34} /><span className="text-xs">No property photos</span></div>}</div><div className="min-w-0"><div className="flex flex-col justify-between gap-4 sm:flex-row"><div><h2 className="text-2xl font-semibold text-zinc-950 dark:text-white">{listing.title}</h2><p className="mt-1 flex items-center gap-2 text-sm text-zinc-500"><MapPin size={15} />{listing.address}, {listing.area}</p><Status tone="success"><Building2 size={13} />{humanize(listing.propertyType)} · {humanize(listing.listingType)}</Status></div><div className="flex shrink-0 items-start gap-2"><label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-dashed border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-600 hover:border-emerald-500 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300"><Camera size={16} />{uploading ? 'Uploading…' : 'Add photo'}<input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadPhoto(file); event.currentTarget.value = ''; }} /></label></div></div><div className="mt-5 grid divide-x divide-zinc-200 rounded-2xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900 sm:grid-cols-4"><Metric icon={<Layers3 size={18} />} value={listing.units.length} label="Units" /><Metric icon={<Images size={18} />} value={liveListings} label="Active listings" /><Metric icon={<CheckCircle2 size={18} />} value={available ? `${available} available` : 'Occupied'} label="Availability" /><Metric icon={<span className="text-lg font-semibold">₦</span>} value={formatMoney(listing.price)} label="Asking price" /></div></div></div>
+      <div className="flex gap-2 overflow-x-auto px-4 pb-4 sm:px-5">{images.slice(0, 4).map((image, index) => <button key={image.id} onClick={() => setActiveImage(index)} className={`relative h-20 w-28 shrink-0 overflow-hidden rounded-xl border-2 ${activeImage === index ? 'border-emerald-600' : 'border-transparent'}`}><img src={image.url} alt={`${listing.title} photo ${index + 1}`} className="h-full w-full object-cover" /></button>)}<label className="flex h-20 w-28 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-zinc-300 text-sm font-medium text-zinc-600 hover:border-emerald-500 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300"><Camera size={18} />Add photo<input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadPhoto(file); event.currentTarget.value = ''; }} /></label><button onClick={() => setTab('overview')} className="ml-auto flex shrink-0 items-center gap-2 self-center px-3 text-sm font-semibold text-emerald-700 hover:text-emerald-800 dark:text-emerald-300"><Images size={17} />View gallery <ChevronRight size={16} /></button></div>
+      <div className="border-t border-zinc-100 p-4 sm:p-5 dark:border-zinc-800"><div className="flex items-center gap-2"><Layers3 size={18} className="text-zinc-800 dark:text-zinc-200" /><h2 className="text-lg font-semibold text-zinc-950 dark:text-white">Units &amp; listings</h2></div><UnitsTable listing={listing} compact /><div className="mt-4 grid gap-4 lg:grid-cols-2"><InfoPanel icon={<FileText size={18} />} title="Description"><p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">{listing.description || 'No description provided.'}</p></InfoPanel><InfoPanel icon={<ShieldCheck size={18} />} title="Amenities"><div className="flex flex-wrap gap-2">{amenities.length ? amenities.map((amenity) => <span key={amenity} className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"><Check size={13} className="text-emerald-600" />{humanize(amenity)}</span>) : <span className="text-sm text-zinc-500">No amenities added.</span>}</div></InfoPanel></div></div>
+      <div className="flex items-center gap-2 border-t border-zinc-100 px-4 py-3 text-xs text-zinc-500 sm:px-5 dark:border-zinc-800"><CheckCircle2 size={15} className="text-emerald-600" />Last updated {new Date(listing.createdAt).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+    </section>}
+    {tab === 'units' && <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900"><SectionHeader title="Units & listings" description={`${occupied} occupied · ${available} available`} action={<Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}><Button className="gap-2 bg-emerald-700 text-white hover:bg-emerald-800"><Plus size={16} />Add unit</Button></Link>} /><UnitsTable listing={listing} /></section>}
+    {tab === 'listings' && <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900"><SectionHeader title="Listings" description="Marketplace publications connected to this property." action={<Link href={`/dashboard/landlord/listing/new?propertyId=${listing.id}`}><Button className="gap-2 bg-emerald-700 text-white hover:bg-emerald-800"><Plus size={16} />Create listing</Button></Link>} /><div className="mt-5 divide-y divide-zinc-100 dark:divide-zinc-800">{listing.units.flatMap((unit) => unit.listings.map((child) => ({ ...child, unitNumber: unit.unitNumber }))).map((child) => <div key={child.id} className="flex flex-wrap items-center justify-between gap-3 py-3"><div><p className="font-medium text-zinc-900 dark:text-white">{child.title}</p><p className="text-xs text-zinc-500">Unit {child.unitNumber} · {humanize(child.listingType)}</p></div><div className="flex items-center gap-4"><span className="font-semibold text-zinc-900 dark:text-white">{formatMoney(child.price)}</span><Status tone={child.status === 'active' ? 'success' : 'neutral'}>{humanize(child.status)}</Status></div></div>)}{!listing.units.some((unit) => unit.listings.length) && <EmptyState title="No listings yet" description="Create a listing when a unit is ready for the marketplace." />}</div></section>}
+    {tab === 'financials' && <section className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{['Annual gross rent', 'Service charge pool', 'Payouts', 'Net cap yield'].map((item) => <InfoPanel key={item} title={item}><p className="text-2xl font-semibold tabular-nums text-zinc-950 dark:text-white">—</p><p className="mt-1 text-xs text-zinc-500">No financial data yet</p></InfoPanel>)}</section>}
+    {tab === 'verification' && <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900"><SectionHeader title="Verification" description="Asset verification and listing publication are separate states." /><div className="mt-5 space-y-2">{[['Layer 1', listing.verification?.l1Status], ['Layer 2', listing.verification?.l2Status], ['Layer 3', listing.verification?.l3Status], ['Layer 4', listing.verification?.l4Status], ['Layer 5', listing.verification?.l5Status]].map(([name, value]) => <div key={name} className="flex items-center justify-between rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-800/60"><span className="text-sm font-medium text-zinc-900 dark:text-white">{name}</span><Status tone={value === 'approved' || value === 'passed' ? 'success' : 'warning'}>{humanize(value as string || 'pending')}</Status></div>)}</div></section>}
+    {tab === 'activity' && <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900"><SectionHeader title="Activity" description="Property, unit, and listing changes will appear here." /><EmptyState title="No activity yet" description="Actions on this property will be recorded in this timeline." /></section>}
+    <ConfirmDialog open={showDelete} onOpenChange={setShowDelete} title="Delete this property?" description={`${listing.title} will be removed from the portfolio. This action cannot be undone.`} confirmLabel="Delete property" confirmVariant="destructive" onConfirm={deleteListing} />
+  </div></main>;
 }
+
+function Metric({ icon, value, label }: { icon: React.ReactNode; value: React.ReactNode; label: string }) { return <div className="flex min-w-0 items-center gap-3 px-3 py-3 sm:px-4"><span className="text-zinc-500">{icon}</span><div className="min-w-0"><p className="truncate text-sm font-semibold text-zinc-950 dark:text-white">{value}</p><p className="text-xs text-zinc-500">{label}</p></div></div>; }
+function InfoPanel({ icon, title, children }: { icon?: React.ReactNode; title: string; children: React.ReactNode }) { return <section className="rounded-2xl border border-zinc-200 p-4 dark:border-zinc-800"><h3 className="flex items-center gap-2 text-sm font-semibold text-zinc-950 dark:text-white">{icon}<span>{title}</span></h3><div className="mt-3">{children}</div></section>; }
+function SectionHeader({ title, description, action }: { title: string; description?: string; action?: React.ReactNode }) { return <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><h2 className="text-lg font-semibold text-zinc-950 dark:text-white">{title}</h2>{description && <p className="mt-1 text-sm text-zinc-500">{description}</p>}</div>{action}</div>; }
+function EmptyState({ title, description }: { title: string; description: string }) { return <div className="py-10 text-center"><Building2 className="mx-auto text-zinc-300" size={26} /><p className="mt-3 text-sm font-semibold text-zinc-800 dark:text-zinc-200">{title}</p><p className="mt-1 text-sm text-zinc-500">{description}</p></div>; }
+function UnitsTable({ listing, compact = false }: { listing: Listing; compact?: boolean }) { return <div className={`mt-4 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 ${compact ? 'text-sm' : ''}`}><div className="hidden grid-cols-[minmax(150px,1.2fr)_minmax(130px,1fr)_minmax(110px,0.8fr)_minmax(140px,1fr)_auto] gap-4 bg-zinc-50 px-4 py-3 text-xs font-semibold text-zinc-500 dark:bg-zinc-800/60 lg:grid"><span>Unit</span><span>Occupancy</span><span>Photos</span><span>Active listings</span><span className="text-right">Actions</span></div>{listing.units.map((unit) => <div key={unit.id} className="grid gap-3 border-t border-zinc-100 px-4 py-3 first:border-t-0 dark:border-zinc-800 lg:grid-cols-[minmax(150px,1.2fr)_minmax(130px,1fr)_minmax(110px,0.8fr)_minmax(140px,1fr)_auto] lg:items-center"><div><Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}`} className="font-semibold text-zinc-900 hover:text-emerald-700 dark:text-white dark:hover:text-emerald-300">{unit.unitNumber}</Link><p className="mt-1 text-xs text-zinc-500">{humanize(unit.type)}</p></div><div><span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${isOccupied(unit) ? 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300'}`}><span className="h-1.5 w-1.5 rounded-full bg-current" />{isOccupied(unit) ? 'Occupied' : 'Available'}</span></div><div className="text-sm text-zinc-600 dark:text-zinc-400">— photos</div><div className="text-sm text-zinc-600 dark:text-zinc-400">{unit.listings.filter((item) => item.status === 'active').length} active listings</div><div className="flex justify-start lg:justify-end"><Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}`} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 px-3 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-500/10">Manage <ChevronRight size={14} /></Link></div></div>)}{listing.units.length === 0 && <EmptyState title="No units registered" description="Add a unit to start managing occupancy and listings." />}</div>; }

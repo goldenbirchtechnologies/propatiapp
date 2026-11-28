@@ -49,13 +49,35 @@ function capitalizeWords(value: string) {
 
 const TYPE_OPTIONS = [
   { value: 'apartment', label: 'Apartment' },
+  { value: 'flat', label: 'Flat' },
   { value: 'studio', label: 'Studio' },
   { value: 'duplex', label: 'Duplex' },
+  { value: 'detached_house', label: 'Detached house' },
+  { value: 'semi_detached_house', label: 'Semi-detached house' },
+  { value: 'shared_accommodation', label: 'Shared accommodation' },
+  { value: 'individual_room', label: 'Individual room' },
   { value: 'office', label: 'Commercial Space' },
   { value: 'shop', label: 'Shop' },
+  { value: 'retail_space', label: 'Retail space' },
+  { value: 'commercial_suite', label: 'Commercial suite' },
+  { value: 'showroom', label: 'Showroom' },
+  { value: 'restaurant_space', label: 'Restaurant space' },
   { value: 'warehouse', label: 'Warehouse' },
-  { value: 'land', label: 'Land' },
-  { value: 'shared', label: 'Shared Room' },
+  { value: 'storage_unit', label: 'Storage unit' },
+  { value: 'factory_space', label: 'Factory space' },
+  { value: 'hotel_room', label: 'Hotel room' },
+  { value: 'suite', label: 'Suite' },
+  { value: 'guest_room', label: 'Guest room' },
+  { value: 'serviced_apartment', label: 'Serviced apartment' },
+] as const;
+
+const ARRANGEMENT_OPTIONS = [
+  { value: 'long_term', label: 'Long-term rental' },
+  { value: 'shortlet', label: 'Short-term / shortlet' },
+  { value: 'room_share', label: 'Room sharing' },
+  { value: 'bed_space', label: 'Bed-space rental' },
+  { value: 'commercial_lease', label: 'Commercial lease' },
+  { value: 'hospitality', label: 'Hospitality bookings' },
 ] as const;
 
 const LISTING_TYPE_OPTIONS = [
@@ -71,6 +93,10 @@ const RENT_CYCLE_OPTIONS = [
   { value: 'total', label: 'Total (One-time)' },
 ] as const;
 
+function AttributeField({ label, value, onChange }: { label: string; value?: string; onChange: (value: string) => void }) {
+  return <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-4 space-y-2"><Label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">{label}</Label><Input value={value || ''} onChange={(event) => onChange(event.target.value)} placeholder="Not provided" className="bg-zinc-50 dark:bg-white/[0.04]" /></div>;
+}
+
 export default function UnitAddClient({ listingId, orgId, listingTitle, existingUnits }: Props) {
   const router = useRouter();
   const createUnit = useCreateUnit();
@@ -81,6 +107,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
 
   const [unitNumber, setUnitNumber] = useState('');
   const [type, setType] = useState('apartment');
+  const [rentalArrangement, setRentalArrangement] = useState('long_term');
   const [listingType, setListingType] = useState<'rent' | 'short_let' | 'sale' | 'unlisted'>('rent');
   const [pricePeriod, setPricePeriod] = useState('month');
   const [bedrooms, setBedrooms] = useState(1);
@@ -89,6 +116,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
   const [rent, setRent] = useState('');
   const [cautionDeposit, setCautionDeposit] = useState('');
   const [serviceCharge, setServiceCharge] = useState('');
+  const [categoryAttributes, setCategoryAttributes] = useState<Record<string, string>>({});
   const [photos, setPhotos] = useState<File[]>([]);
 
   const priceLabel =
@@ -100,6 +128,10 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
 
   const showRentCycle = listingType === 'rent';
   const showPriceInput = listingType !== 'unlisted';
+  const isShared = ['shared_accommodation', 'individual_room'].includes(type) || ['room_share', 'bed_space'].includes(rentalArrangement);
+  const isHospitality = ['hotel_room', 'suite', 'guest_room', 'serviced_apartment'].includes(type) || rentalArrangement === 'hospitality';
+  const isCommercial = ['office', 'shop', 'retail_space', 'commercial_suite', 'showroom', 'restaurant_space'].includes(type);
+  const isIndustrial = ['warehouse', 'storage_unit', 'factory_space'].includes(type);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,6 +181,11 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
         listingId,
         unitNumber: unitNumber.trim(),
         type,
+        unitCategory: type,
+        rentalArrangement,
+        listingMethod: isHospitality ? 'booking_calendar' : isShared ? 'room_or_bed' : rentalArrangement === 'shortlet' ? 'multi_arrangement' : 'single_unit',
+        occupancyModel: isHospitality ? 'hotel' : isShared ? 'room_share' : isCommercial || isIndustrial ? 'commercial' : rentalArrangement === 'shortlet' ? 'shortlet' : 'long_term',
+        categoryAttributes,
         listingType,
         bedrooms,
         bathrooms,
@@ -255,6 +292,14 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
                 </SelectContent>
               </Select>
             </div>
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-5 space-y-3 md:col-span-2">
+              <Label className="text-sm font-medium text-zinc-900 dark:text-white">Rental arrangement</Label>
+              <Select value={rentalArrangement} onValueChange={setRentalArrangement}>
+                <SelectTrigger className="bg-zinc-50 dark:bg-white/[0.04]"><SelectValue /></SelectTrigger>
+                <SelectContent>{ARRANGEMENT_OPTIONS.map((option) => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}</SelectContent>
+              </Select>
+              <p className="text-xs text-zinc-500">Category and rental arrangement are independent, so mixed-use properties can combine apartments, shops, rooms, beds, and hospitality units.</p>
+            </div>
           </div>
         )}
 
@@ -296,6 +341,15 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
               <div className="text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Size (sqm)</div>
               <Input value={sizeSqm} onChange={(e) => setSizeSqm(e.target.value)} className="mt-2 text-center bg-zinc-50 dark:bg-white/[0.04]" placeholder="—" />
             </div>
+          </div>
+        )}
+
+        {currentStep === 3 && (isCommercial || isIndustrial || isHospitality || isShared) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {isCommercial && <AttributeField label="Business usage" value={categoryAttributes.businessUsage} onChange={(value) => setCategoryAttributes((current) => ({ ...current, businessUsage: value }))} />}
+            {isIndustrial && <><AttributeField label="Ceiling height" value={categoryAttributes.ceilingHeight} onChange={(value) => setCategoryAttributes((current) => ({ ...current, ceilingHeight: value }))} /><AttributeField label="Loading bays" value={categoryAttributes.loadingBays} onChange={(value) => setCategoryAttributes((current) => ({ ...current, loadingBays: value }))} /></>}
+            {isHospitality && <><AttributeField label="Maximum occupancy" value={categoryAttributes.maxOccupancy} onChange={(value) => setCategoryAttributes((current) => ({ ...current, maxOccupancy: value }))} /><AttributeField label="Bed configuration" value={categoryAttributes.bedConfiguration} onChange={(value) => setCategoryAttributes((current) => ({ ...current, bedConfiguration: value }))} /></>}
+            {isShared && <><AttributeField label="Total beds" value={categoryAttributes.totalBeds} onChange={(value) => setCategoryAttributes((current) => ({ ...current, totalBeds: value }))} /><AttributeField label="Shared facilities" value={categoryAttributes.sharedFacilities} onChange={(value) => setCategoryAttributes((current) => ({ ...current, sharedFacilities: value }))} /></>}
           </div>
         )}
 

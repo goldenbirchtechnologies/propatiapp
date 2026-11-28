@@ -8,7 +8,14 @@ import { UnitStatus, UnitOccupancy, PropertyType } from '@prisma/client';
 const createUnitSchema = z.object({
   buildingName: z.string().optional(),
   unitNumber: z.string().min(1, 'Unit number is required'),
-  type: z.enum(['apartment', 'house', 'duplex', 'office', 'shop', 'warehouse', 'land']),
+  type: z.string().trim().min(2).max(80).default('apartment'),
+  unitCategory: z.string().trim().min(2).max(80).optional(),
+  rentalArrangement: z.enum(['long_term', 'shortlet', 'room_share', 'bed_space', 'commercial_lease', 'hospitality']).default('long_term'),
+  listingMethod: z.enum(['single_unit', 'multi_arrangement', 'room_or_bed', 'booking_calendar']).default('single_unit'),
+  occupancyModel: z.enum(['long_term', 'shortlet', 'room_share', 'hotel', 'commercial']).optional(),
+  occupancyState: z.enum(['vacant', 'occupied', 'reserved', 'available', 'checked_in', 'checked_out', 'cleaning', 'partially_occupied', 'fully_occupied', 'under_maintenance', 'leased', 'out_of_service']).optional(),
+  categoryAttributes: z.record(z.string(), z.unknown()).optional(),
+  parentUnitId: z.string().cuid().nullable().optional(),
   bedrooms: z.number().int().min(0).max(20),
   bathrooms: z.number().int().min(0).max(20),
   sizeSqm: z.number().positive().optional(),
@@ -186,6 +193,19 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid request body', details: validated.error }, { status: 400 });
     }
 
+    const category = validated.data.unitCategory || validated.data.type;
+    if (validated.data.rentalArrangement === 'hospitality' && !['hotel_room', 'suite', 'guest_room', 'serviced_apartment', 'short_stay'].includes(category)) {
+      return NextResponse.json({ error: 'Hospitality arrangements require a hospitality unit category' }, { status: 400 });
+    }
+    if (validated.data.rentalArrangement === 'bed_space' && !['shared_accommodation', 'individual_room', 'room'].includes(category)) {
+      return NextResponse.json({ error: 'Bed-space rental requires a shared accommodation or room category' }, { status: 400 });
+    }
+
+    if (validated.data.parentUnitId) {
+      const parent = await prisma.unit.findFirst({ where: { id: validated.data.parentUnitId, organizationId: id }, select: { id: true } });
+      if (!parent) return NextResponse.json({ error: 'Parent unit not found in this organisation' }, { status: 400 });
+    }
+
     // Check for duplicate unit number within building
     const existingUnit = await prisma.unit.findFirst({
       where: {
@@ -222,7 +242,14 @@ export async function POST(
         organizationId: id,
         unitNumber: validated.data.unitNumber,
         buildingName: validated.data.buildingName,
-        type: validated.data.type as PropertyType,
+        type: (['apartment', 'house', 'duplex', 'office', 'shop', 'warehouse', 'land'].includes(validated.data.type) ? validated.data.type : 'apartment') as PropertyType,
+        unitCategory: category,
+        rentalArrangement: validated.data.rentalArrangement,
+        listingMethod: validated.data.listingMethod,
+        occupancyModel: validated.data.occupancyModel || (validated.data.rentalArrangement === 'shortlet' ? 'shortlet' : validated.data.rentalArrangement === 'hospitality' ? 'hotel' : validated.data.rentalArrangement === 'room_share' || validated.data.rentalArrangement === 'bed_space' ? 'room_share' : validated.data.rentalArrangement === 'commercial_lease' ? 'commercial' : 'long_term'),
+        occupancyState: validated.data.occupancyState || (validated.data.rentalArrangement === 'shortlet' || validated.data.rentalArrangement === 'hospitality' ? 'available' : 'vacant'),
+        categoryAttributes: validated.data.categoryAttributes,
+        parentUnitId: validated.data.parentUnitId,
         bedrooms: validated.data.bedrooms,
         bathrooms: validated.data.bathrooms,
         sizeSqm: validated.data.sizeSqm,

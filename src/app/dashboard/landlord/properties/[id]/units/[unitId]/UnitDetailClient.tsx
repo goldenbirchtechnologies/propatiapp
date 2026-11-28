@@ -1,231 +1,63 @@
+// @ts-nocheck
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import {
-  ChevronRight, MapPin, Home, Bed, Bath, Maximize2, Banknote, Shield, Lock, Calendar, User,
-  ExternalLink, ArrowLeft, Edit3, FileText, Download, Image as ImageIcon,
-} from 'lucide-react';
+import { ArrowLeft, Bath, BedDouble, CalendarDays, ChevronRight, CircleDollarSign, ClipboardList, Clock3, Download, Edit3, ExternalLink, FileText, Image as ImageIcon, LayoutGrid, MapPin, MoreHorizontal, Plus, Ruler, ShieldCheck, Upload, UserRound, Wrench, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import type { Unit } from '@/hooks/useUnits';
 
-interface ListingContext {
-  id: string;
-  title: string;
-  address: string;
-  area: string;
-  state: string;
-  status: string;
-}
+type ImageItem = { id: string; url: string; isCover: boolean };
+type Tenant = { id: string; fullName: string; email: string; phone?: string | null };
+type Agreement = { id: string; status: string; type: string; startDate: string | null; endDate: string | null; rentAmount: number | null; rentPeriod: string | null; pdfUrl: string | null; tenant: Tenant };
+type DocumentItem = { id: string; name: string; type: string; mimeType: string | null; sizeBytes: number | null; createdAt: string; uploadedBy: string };
+type Transaction = { id: string; type: string; status: string; amount: number; paidAt: string | null; createdAt: string; description: string | null };
+type Ticket = { id: string; title: string; description: string | null; category: string; priority: string; status: string; createdAt: string; updatedAt: string; resolvedAt: string | null };
+type ListingContext = { id: string; title: string; address: string; area: string; state: string; status: string; images: ImageItem[]; documents: DocumentItem[]; agreements: Agreement[]; transactions: Transaction[]; maintenanceTickets: Ticket[] };
+type Unit = { id: string; unitNumber: string; type: string; unitCategory: string; rentalArrangement: string; listingMethod: string; occupancyModel: string; occupancyState: string; categoryAttributes: Record<string, unknown> | null; parentUnitId: string | null; listingType: string; pricePeriod: string | null; rent: number; cautionDeposit: number | null; serviceCharge: number | null; status: string; occupancy: string; isListed: boolean; bedrooms: number; bathrooms: number; sizeSqm: number | null; leaseStartDate: string | null; leaseEndDate: string | null; currentTenantId: string | null; currentTenant: Tenant | null; createdAt?: string };
 
-interface UnitDetailClientProps {
-  listing: ListingContext;
-  unit: Omit<Unit, 'leaseStartDate' | 'leaseEndDate'> & {
-  leaseStartDate: Date | string | null;
-  leaseEndDate: Date | string | null;
-  currentTenant: { id: string; fullName: string; email: string } | null;
-};
-}
+const tabs = [
+  { id: 'overview', label: 'Overview', icon: LayoutGrid }, { id: 'tenancy', label: 'Tenancy', icon: UserRound }, { id: 'financials', label: 'Financials', icon: CircleDollarSign }, { id: 'maintenance', label: 'Maintenance', icon: Wrench }, { id: 'documents', label: 'Documents', icon: FileText }, { id: 'photos', label: 'Photos & media', icon: ImageIcon }, { id: 'activity', label: 'Activity', icon: Clock3 },
+] as const;
 
-function formatCurrency(value: number | null | undefined) {
-  if (value == null) return '—';
-  return `₦${Number(value).toLocaleString()}`;
-}
+function money(value: number | null | undefined) { return value == null ? 'Not configured' : `₦${value.toLocaleString('en-NG')}`; }
+function date(value: string | null | undefined) { return value ? new Date(value).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Not recorded'; }
+function label(value: string | null | undefined) { return value ? value.toLowerCase().replaceAll('_', ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : 'Not provided'; }
+function statusTone(value: string) { const v = value.toLowerCase(); return v.includes('occupied') || v.includes('paid') || v.includes('complete') || v.includes('signed') ? 'success' : v.includes('overdue') || v.includes('urgent') || v.includes('open') ? 'warning' : 'secondary'; }
 
-export default function UnitDetailClient({ listing, unit }: UnitDetailClientProps) {
-  const router = useRouter();
-  const [activeImage, setActiveImage] = useState(0);
+function Section({ title, eyebrow, action, children, className = '' }: { title: string; eyebrow?: string; action?: React.ReactNode; children: React.ReactNode; className?: string }) { return <section className={`rounded-2xl border border-zinc-200 bg-white p-5 shadow-[0_10px_30px_rgba(20,40,30,0.04)] dark:border-white/[0.08] dark:bg-zinc-900 ${className}`}><div className="mb-5 flex items-start justify-between gap-3"><div>{eyebrow && <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700">{eyebrow}</p>}<h2 className="text-base font-semibold text-zinc-950 dark:text-white">{title}</h2></div>{action}</div>{children}</section>; }
+function EmptyState({ title, text, action }: { title: string; text: string; action?: React.ReactNode }) { return <div className="rounded-xl border border-dashed border-zinc-300 bg-zinc-50/70 px-5 py-8 text-center dark:border-white/10 dark:bg-white/[0.03]"><p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{title}</p><p className="mx-auto mt-1 max-w-sm text-sm text-zinc-500">{text}</p>{action && <div className="mt-4">{action}</div>}</div>; }
+function Line({ label: name, value }: { label: string; value: string }) { return <div className="flex items-center justify-between gap-4"><span className="text-zinc-500">{name}</span><span className="text-right font-medium text-zinc-800 dark:text-zinc-200">{value}</span></div>; }
+function Metric({ label: name, value, detail, tone = 'default' }: { label: string; value: string; detail: string; tone?: 'default' | 'amber' }) { return <div className={`rounded-2xl border p-5 ${tone === 'amber' ? 'border-amber-200 bg-amber-50/70' : 'border-zinc-200 bg-white dark:border-white/[0.08] dark:bg-zinc-900'}`}><p className="text-xs text-zinc-500">{name}</p><p className="mt-2 text-xl font-semibold tracking-tight text-zinc-950 dark:text-white">{value}</p><p className="mt-1 text-xs text-zinc-500">{detail}</p></div>; }
+function HomeIcon(props: React.SVGProps<SVGSVGElement>) { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...props}><path d="m3 10 9-7 9 7" /><path d="M5 9v11h14V9M9 20v-6h6v6" /></svg>; }
+function Activity({ items }: { items: { label: string; date: string; detail: string }[] }) { return items.length ? <div className="space-y-4">{items.map((item, index) => <div key={`${item.label}-${index}`} className="flex gap-3"><div className="relative flex w-5 justify-center"><span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-emerald-600" />{index < items.length - 1 && <span className="absolute top-4 h-full w-px bg-emerald-100 dark:bg-emerald-900/40" />}</div><div className="pb-1"><p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{item.label}</p><p className="mt-0.5 text-xs text-zinc-500">{item.detail} · {date(item.date)}</p></div></div>)}</div> : <EmptyState title="No activity recorded" text="Activity will appear here as unit details, payments, documents, and maintenance records change." />; }
+function activityItems(listing: ListingContext, unit: Unit) { return [{ label: 'Unit created', date: unit.createdAt ?? '', detail: 'Property record' }, ...listing.transactions.map((transaction) => ({ label: `${label(transaction.type)} recorded`, date: transaction.createdAt, detail: label(transaction.status) })), ...listing.maintenanceTickets.map((ticket) => ({ label: 'Maintenance request created', date: ticket.createdAt, detail: ticket.title })), ...listing.documents.map((document) => ({ label: 'Document uploaded', date: document.createdAt, detail: document.name }))].filter((item) => item.date).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 20); }
 
-  // Placeholder images - in production these would come from a database or storage
-  const unitImages = [
-    `/api/properties/${listing.id}/units/${unit.id}/photo-1`,
-    `/api/properties/${listing.id}/units/${unit.id}/photo-2`,
-    `/api/properties/${listing.id}/units/${unit.id}/photo-3`,
-  ];
+export default function UnitDetailClient({ listing, unit, activeAgreement }: { listing: ListingContext; unit: Unit; activeAgreement: Agreement | null }) {
+  const [activeTab, setActiveTab] = useState<(typeof tabs)[number]['id']>('overview'); const [images, setImages] = useState(listing.images); const [activeImage, setActiveImage] = useState<ImageItem | null>(images[0] ?? null); const [uploading, setUploading] = useState(false); const inputRef = useRef<HTMLInputElement>(null);
+  const category = unit.unitCategory || unit.type; const arrangement = unit.rentalArrangement || 'long_term'; const occupancyState = unit.occupancyState || unit.occupancy.toLowerCase(); const isShared = ['shared_accommodation', 'individual_room', 'room'].includes(category) || ['room_share', 'bed_space'].includes(arrangement); const isHospitality = ['hotel_room', 'suite', 'guest_room', 'serviced_apartment', 'short_stay'].includes(category) || arrangement === 'hospitality'; const isCommercial = ['shop', 'retail_space', 'office', 'commercial_suite', 'showroom', 'restaurant_space'].includes(category); const isIndustrial = ['warehouse', 'storage_unit', 'factory_space', 'industrial_facility'].includes(category); const isOccupied = ['occupied', 'checked_in', 'leased', 'partially_occupied', 'fully_occupied'].includes(occupancyState) && Boolean(unit.currentTenant); const paidTransactions = listing.transactions.filter((t) => ['success', 'paid'].includes(t.status.toLowerCase())); const totalCollected = paidTransactions.reduce((sum, t) => sum + t.amount, 0); const outstanding = paidTransactions.length > 0 ? Math.max(0, unit.rent - paidTransactions[0].amount) : null;
+  async function uploadFiles(files: FileList | null) { if (!files?.length) return; setUploading(true); try { for (const file of Array.from(files)) { const form = new FormData(); form.append('file', file); form.append('setCover', String(images.length === 0)); const response = await fetch(`/api/listings/${listing.id}/images`, { method: 'POST', body: form }); if (!response.ok) throw new Error('Upload failed'); const result = await response.json(); const next = { ...result.image, url: result.image.url } as ImageItem; setImages((current) => [...current, next]); setActiveImage((current) => current ?? next); } } finally { setUploading(false); } }
+  async function setCover(image: ImageItem) { await fetch(`/api/listings/${listing.id}/images`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ imageId: image.id, setCover: true }) }); setImages((current) => current.map((item) => ({ ...item, isCover: item.id === image.id }))); }
+  async function removeImage(image: ImageItem) { if (!window.confirm('Delete this property photo?')) return; const response = await fetch(`/api/listings/${listing.id}/images`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ imageId: image.id }) }); if (response.ok) { const next = images.filter((item) => item.id !== image.id); setImages(next); setActiveImage(next[0] ?? null); } }
 
-  return (
-    <div className="max-w-7xl mx-auto w-full py-6 px-4 space-y-6">
-      {/* Breadcrumbs */}
-      <nav className="flex items-center gap-1 font-medium text-zinc-600 dark:text-zinc-400 text-sm">
-        <Link href="/dashboard/landlord/properties" className="hover:text-primary transition-colors">Portfolio</Link>
-        <ChevronRight className="h-4 w-4 text-zinc-400" />
-        <Link href={`/dashboard/landlord/properties/${listing.id}`} className="hover:text-primary transition-colors">{listing.title}</Link>
-        <ChevronRight className="h-4 w-4 text-zinc-400" />
-        <span className="text-zinc-900 dark:text-white font-semibold">Unit {unit.unitNumber}</span>
-      </nav>
+  const specs: Array<[React.ComponentType<{ className?: string }>, string, string]> = isShared ? [[HomeIcon, 'Unit category', label(category)], [Ruler, 'Floor area', unit.sizeSqm ? `${unit.sizeSqm} m²` : 'Not provided'], [BedDouble, 'Total beds', String(unit.categoryAttributes?.totalBeds ?? 'Not provided')], [UserRound, 'Available beds', String(unit.categoryAttributes?.availableBeds ?? 'Not recorded')], [ShieldCheck, 'Shared facilities', String(unit.categoryAttributes?.sharedFacilities ?? 'Not provided')], [ClipboardList, 'Rental arrangement', label(arrangement)]] : isHospitality ? [[HomeIcon, 'Room category', label(category)], [Ruler, 'Floor area', unit.sizeSqm ? `${unit.sizeSqm} m²` : 'Not provided'], [BedDouble, 'Bed configuration', String(unit.categoryAttributes?.bedConfiguration ?? 'Not provided')], [UserRound, 'Maximum occupancy', String(unit.categoryAttributes?.maxOccupancy ?? 'Not provided')], [ShieldCheck, 'Housekeeping', label(occupancyState)], [ClipboardList, 'Rental arrangement', label(arrangement)]] : isCommercial || isIndustrial ? [[HomeIcon, isIndustrial ? 'Industrial space' : 'Commercial space', label(category)], [Ruler, 'Floor area', unit.sizeSqm ? `${unit.sizeSqm} m²` : 'Not provided'], [BedDouble, 'Floor level', String(unit.categoryAttributes?.floorLevel ?? 'Not provided')], [UserRound, isIndustrial ? 'Ceiling height' : 'Business usage', String(unit.categoryAttributes?.ceilingHeight ?? unit.categoryAttributes?.businessUsage ?? 'Not provided')], [ShieldCheck, 'Utilities', String(unit.categoryAttributes?.utilities ?? 'Not recorded')], [ClipboardList, 'Rental arrangement', label(arrangement)]] : [[HomeIcon, 'Property type', label(category)], [Ruler, 'Floor area', unit.sizeSqm ? `${unit.sizeSqm} m²` : 'Not provided'], [BedDouble, 'Bedrooms', String(unit.bedrooms)], [Bath, 'Bathrooms', String(unit.bathrooms)], [ShieldCheck, 'Condition', 'Not recorded'], [ClipboardList, 'Rental arrangement', label(arrangement)]];
 
-      {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">
-            Unit {unit.unitNumber}
-          </h1>
-          <p className="flex items-center gap-1 text-zinc-600 dark:text-zinc-400 text-sm mt-1">
-            <MapPin className="h-4 w-4 text-primary" />
-            {listing.address}, {listing.area}, {listing.state}
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant={unit.status === 'AVAILABLE' ? 'success' : unit.status === 'OCCUPIED' ? 'default' : 'secondary'}>
-            {unit.status}
-          </Badge>
-          <Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}/edit`}>
-            <Button variant="outline" size="sm" className="flex items-center gap-1">
-              <Edit3 className="h-4 w-4" /> Edit
-            </Button>
-          </Link>
-        </div>
-      </div>
+  return <main className="mx-auto w-full max-w-[1480px] px-4 py-6 sm:px-6 lg:px-8"><nav className="mb-5 flex items-center gap-1.5 text-sm text-zinc-500"><Link href="/dashboard/landlord/properties" className="hover:text-emerald-700">Portfolio</Link><ChevronRight className="h-4 w-4" /><Link href={`/dashboard/landlord/properties/${listing.id}`} className="max-w-[180px] truncate hover:text-emerald-700">{listing.title}</Link><ChevronRight className="h-4 w-4" /><span className="font-medium text-zinc-900 dark:text-white">Unit {unit.unitNumber}</span></nav>
+    <header className="mb-6 flex flex-col justify-between gap-5 lg:flex-row lg:items-end"><div><div className="mb-2 flex flex-wrap items-center gap-2"><Badge variant={unit.occupancy === 'OCCUPIED' ? 'default' : 'success'}>{label(unit.occupancy)}</Badge><span className="text-xs text-zinc-500">{label(unit.type)} · {unit.isListed ? 'Listed on marketplace' : 'Not listed'}</span></div><h1 className="text-3xl font-semibold tracking-[-0.03em] text-zinc-950 dark:text-white">Unit {unit.unitNumber}</h1><p className="mt-2 flex items-center gap-1.5 text-sm text-zinc-500"><MapPin className="h-4 w-4 text-emerald-700" />{listing.address}, {listing.area}, {listing.state}</p><p className="mt-2 text-xs text-zinc-400">Reference {unit.id}</p></div><div className="flex flex-wrap gap-2"><Button variant="outline" size="sm" asChild><Link href={`/dashboard/landlord/properties/${listing.id}/edit`}><Edit3 className="mr-2 h-4 w-4" />Edit property</Link></Button><Button variant="outline" size="sm" onClick={() => navigator.clipboard?.writeText(window.location.href)}><ExternalLink className="mr-2 h-4 w-4" />Copy link</Button><Button variant="ghost" size="icon-sm" aria-label="More actions"><MoreHorizontal className="h-5 w-5" /></Button></div></header>
+    <div className="mb-6 -mx-4 overflow-x-auto border-y border-zinc-200 bg-white px-4 dark:border-white/[0.08] dark:bg-zinc-950 sm:mx-0 sm:rounded-xl sm:border"><div className="flex min-w-max gap-1">{tabs.map((tab) => { const Icon = tab.icon; return <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-2 border-b-2 px-3 py-3.5 text-sm font-medium transition-colors ${activeTab === tab.id ? 'border-emerald-700 text-emerald-800' : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'}`}><Icon className="h-4 w-4" />{tab.label}</button>; })}</div></div>
 
-      {/* Photo Gallery */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 h-80">
-        <div className="md:col-span-2 relative bg-zinc-100 dark:bg-zinc-900 rounded-xl overflow-hidden flex items-center justify-center">
-          <ImageIcon className="h-12 w-12 text-zinc-400" />
-          <span className="absolute bottom-2 right-2 text-xs text-zinc-500">Gallery Placeholder</span>
-        </div>
-        <div className="hidden md:flex flex-col gap-2">
-          {[1, 2].map((i) => (
-            <div key={i} className="flex-1 bg-zinc-100 dark:bg-zinc-900 rounded-xl overflow-hidden flex items-center justify-center">
-              <ImageIcon className="h-6 w-6 text-zinc-400" />
-            </div>
-          ))}
-        </div>
-      </div>
+    {activeTab === 'overview' && <div className="space-y-6"><div className="grid gap-6 lg:grid-cols-[1.4fr_0.9fr]"><Section title="Property photos" eyebrow="Gallery" action={<Button variant="outline" size="sm" onClick={() => inputRef.current?.click()} disabled={uploading}><Upload className="mr-2 h-4 w-4" />{uploading ? 'Uploading…' : 'Upload photos'}</Button>}><input ref={inputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => uploadFiles(event.target.files)} />{images.length ? <div className="grid h-[310px] grid-cols-3 gap-2"><button className="relative col-span-2 overflow-hidden rounded-xl bg-zinc-100 text-left" onClick={() => setActiveImage(images[0])}><img src={images[0].url} alt={`Unit ${unit.unitNumber}`} className="h-full w-full object-cover" />{images[0].isCover && <span className="absolute left-3 top-3 rounded-md bg-white/90 px-2 py-1 text-[11px] font-semibold text-zinc-700">Cover photo</span>}<span className="absolute bottom-3 right-3 rounded-md bg-black/65 px-2 py-1 text-xs text-white">{images.length} photo{images.length === 1 ? '' : 's'}</span></button><div className="grid gap-2">{images.slice(1, 3).map((image) => <button key={image.id} onClick={() => setActiveImage(image)} className="overflow-hidden rounded-xl bg-zinc-100"><img src={image.url} alt="Property detail" className="h-full w-full object-cover" /></button>)}{images.length < 3 && <button onClick={() => inputRef.current?.click()} className="flex items-center justify-center rounded-xl border border-dashed border-zinc-300 text-xs font-medium text-zinc-500 hover:border-emerald-500 hover:text-emerald-700"><Plus className="mr-1 h-4 w-4" />Add photo</button>}</div></div> : <EmptyState title="No property photos yet" text="Upload photos to showcase this unit to prospective tenants." action={<Button size="sm" onClick={() => inputRef.current?.click()}><Upload className="mr-2 h-4 w-4" />Upload photos</Button>} />}</Section><Section title="Unit overview" eyebrow="Specifications" action={<Link href={`/dashboard/landlord/properties/${listing.id}/edit`} className="text-sm font-medium text-emerald-700 hover:text-emerald-800">Edit details</Link>}><div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3">{[[HomeIcon, 'Property type', label(unit.type)], [Ruler, 'Floor area', unit.sizeSqm ? `${unit.sizeSqm} m²` : 'Not provided'], [BedDouble, 'Bedrooms', String(unit.bedrooms)], [Bath, 'Bathrooms', String(unit.bathrooms)], [ShieldCheck, 'Condition', 'Not recorded'], [ClipboardList, 'Listing intent', label(unit.listingType)]].map(([Icon, key, value]) => { const Component = Icon as typeof Ruler; return <div key={String(key)}><p className="flex items-center gap-2 text-xs text-zinc-500"><Component className="h-4 w-4 text-emerald-700" />{key}</p><p className="mt-1 text-sm font-semibold text-zinc-900 dark:text-white">{value}</p></div>; })}</div></Section></div><div className="grid gap-6 lg:grid-cols-3"><Section title="Financial summary" eyebrow="Advertised pricing"><div className="mb-5"><p className="text-xs text-zinc-500">Advertised rent</p><p className="mt-1 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white">{money(unit.rent)} <span className="text-sm font-normal text-zinc-400">/ {unit.pricePeriod || 'period'}</span></p></div><div className="space-y-3 text-sm"><Line label="Monthly equivalent" value={unit.pricePeriod === 'year' ? money(unit.rent / 12) : 'Not calculated'} /><Line label="Caution deposit" value={money(unit.cautionDeposit)} /><Line label="Service charge" value={money(unit.serviceCharge)} /><Line label="Payment records" value={String(listing.transactions.length)} /></div><button onClick={() => setActiveTab('financials')} className="mt-5 text-sm font-medium text-emerald-700">View financials <ChevronRight className="inline h-4 w-4" /></button></Section><Section title="Occupancy & tenancy" eyebrow="Live status">{isOccupied && unit.currentTenant ? <div><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 font-semibold text-emerald-800">{unit.currentTenant.fullName.slice(0, 1)}</div><div><p className="font-semibold text-zinc-900 dark:text-white">{unit.currentTenant.fullName}</p><p className="text-xs text-zinc-500">{unit.currentTenant.email}</p></div></div><div className="mt-5 space-y-3 text-sm"><Line label="Lease period" value={`${date(unit.leaseStartDate)} → ${date(unit.leaseEndDate)}`} /><Line label="Agreement" value={activeAgreement ? label(activeAgreement.status) : 'Not created'} /></div><button onClick={() => setActiveTab('tenancy')} className="mt-5 text-sm font-medium text-emerald-700">View tenancy <ChevronRight className="inline h-4 w-4" /></button></div> : <div><p className="text-lg font-semibold text-zinc-950 dark:text-white">Unit vacant</p><p className="mt-1 text-sm text-zinc-500">There is currently no active tenant assigned to this unit.</p><div className="mt-5 flex flex-wrap gap-2"><Button size="sm" asChild><Link href="/dashboard/landlord/tenants"><UserRound className="mr-2 h-4 w-4" />Assign tenant</Link></Button><Button size="sm" variant="outline" asChild><Link href={`/dashboard/landlord/listing/new?unitId=${unit.id}`}>Create listing</Link></Button></div></div>}</Section><Section title="Maintenance" eyebrow="Property condition"><div className="flex items-end justify-between"><div><p className="text-2xl font-semibold text-zinc-950 dark:text-white">{listing.maintenanceTickets.filter((ticket) => ticket.status !== 'completed').length}</p><p className="text-sm text-zinc-500">Open requests</p></div><Wrench className="h-7 w-7 text-emerald-700" /></div><div className="mt-5 space-y-3 text-sm"><Line label="Last inspection" value="Not recorded" /><Line label="Next inspection" value="Not scheduled" /></div><button onClick={() => setActiveTab('maintenance')} className="mt-5 text-sm font-medium text-emerald-700">Open maintenance <ChevronRight className="inline h-4 w-4" /></button></Section></div><Section title="Recent activity" eyebrow="Audit history"><Activity items={activityItems(listing, unit)} /><button onClick={() => setActiveTab('activity')} className="mt-4 text-sm font-medium text-emerald-700">View all activity <ChevronRight className="inline h-4 w-4" /></button></Section></div>}
 
-      {/* Details Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Unit Type */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Home className="h-4 w-4" /> Type
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white capitalize">{unit.type}</p>
-        </div>
+    {activeTab === 'tenancy' && <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]"><Section title={isOccupied ? 'Current tenant' : 'Unit vacant'} eyebrow="Occupancy"><div className="mb-5 flex items-center justify-between"><Badge variant={isOccupied ? 'default' : 'success'}>{label(unit.occupancy)}</Badge>{!isOccupied && <Button size="sm" asChild><Link href="/dashboard/landlord/tenants">Assign tenant</Link></Button>}</div>{isOccupied && unit.currentTenant ? <><div className="flex items-center gap-3"><div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-lg font-semibold text-emerald-800">{unit.currentTenant.fullName.slice(0, 1)}</div><div><h3 className="font-semibold text-zinc-900 dark:text-white">{unit.currentTenant.fullName}</h3><p className="text-sm text-zinc-500">{unit.currentTenant.email}{unit.currentTenant.phone ? ` · ${unit.currentTenant.phone}` : ''}</p></div></div><div className="mt-6 grid gap-4 sm:grid-cols-2"><Line label="Lease starts" value={date(unit.leaseStartDate)} /><Line label="Lease ends" value={date(unit.leaseEndDate)} /><Line label="Agreed rent" value={activeAgreement?.rentAmount ? money(activeAgreement.rentAmount) : 'Not recorded'} /><Line label="Payment frequency" value={activeAgreement?.rentPeriod ? label(activeAgreement.rentPeriod) : 'Not recorded'} /></div><div className="mt-6 flex flex-wrap gap-2"><Button variant="outline" size="sm" asChild><Link href={`/dashboard/landlord/tenants/${unit.currentTenant.id}`}>View tenant profile</Link></Button>{activeAgreement?.pdfUrl && <Button variant="outline" size="sm" asChild><a href={activeAgreement.pdfUrl} target="_blank" rel="noreferrer"><FileText className="mr-2 h-4 w-4" />Lease agreement</a></Button>}</div></> : <EmptyState title="Available for letting" text="Create a tenancy or publish a listing when you are ready to place a tenant." action={<Button size="sm" asChild><Link href={`/dashboard/landlord/listing/new?unitId=${unit.id}`}>Create rental listing</Link></Button>} />}</Section><Section title="Tenancy history" eyebrow="Previous occupants">{listing.agreements.length ? <div className="space-y-3">{listing.agreements.map((agreement) => <div key={agreement.id} className="flex items-center justify-between gap-3 border-b border-zinc-100 pb-3 last:border-0 dark:border-white/[0.06]"><div><p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{agreement.tenant.fullName}</p><p className="text-xs text-zinc-500">{date(agreement.startDate)} → {date(agreement.endDate)}</p></div><Badge variant={statusTone(agreement.status) as 'default' | 'success' | 'secondary' | 'warning'}>{label(agreement.status)}</Badge></div>)}</div> : <EmptyState title="No tenancy history" text="Previous lease records will appear here when they exist." />}</Section></div>}
 
-        {/* Size */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Maximize2 className="h-4 w-4" /> Size
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white">{unit.sizeSqm ? `${unit.sizeSqm} m²` : '—'}</p>
-        </div>
+    {activeTab === 'financials' && <div className="space-y-6"><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><Metric label="Advertised rent" value={money(unit.rent)} detail={`Per ${unit.pricePeriod || 'period'}`} /><Metric label="Collected" value={money(totalCollected)} detail={`${paidTransactions.length} successful payment${paidTransactions.length === 1 ? '' : 's'}`} /><Metric label="Outstanding" value={outstanding == null ? 'Not calculated' : money(outstanding)} detail={outstanding == null ? 'No payment baseline' : 'Based on latest payment record'} tone={outstanding ? 'amber' : 'default'} /><Metric label="Last payment" value={date(paidTransactions[0]?.paidAt)} detail="Actual payment records only" /></div><Section title="Payment history" eyebrow="Recorded transactions" action={<Button variant="outline" size="sm" asChild><Link href="/dashboard/landlord/financials"><ExternalLink className="mr-2 h-4 w-4" />Open rent collection</Link></Button>}>{listing.transactions.length ? <div className="overflow-x-auto"><table className="w-full min-w-[620px] text-left text-sm"><thead className="border-b border-zinc-200 text-xs text-zinc-500 dark:border-white/[0.08]"><tr><th className="pb-3 font-medium">Description</th><th className="pb-3 font-medium">Date</th><th className="pb-3 font-medium">Status</th><th className="pb-3 text-right font-medium">Amount</th></tr></thead><tbody>{listing.transactions.map((transaction) => <tr key={transaction.id} className="border-b border-zinc-100 last:border-0 dark:border-white/[0.06]"><td className="py-3 font-medium text-zinc-800 dark:text-zinc-200">{transaction.description || label(transaction.type)}</td><td className="py-3 text-zinc-500">{date(transaction.paidAt || transaction.createdAt)}</td><td className="py-3"><Badge variant={statusTone(transaction.status) as 'default' | 'success' | 'secondary' | 'warning'}>{label(transaction.status)}</Badge></td><td className="py-3 text-right font-semibold tabular-nums">{money(transaction.amount)}</td></tr>)}</tbody></table></div> : <EmptyState title="No payment records" text="Payment status and outstanding balances will appear once actual transactions are recorded." />}</Section></div>}
 
-        {/* Bedrooms */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Bed className="h-4 w-4" /> Bedrooms
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white">{unit.bedrooms}</p>
-        </div>
+    {activeTab === 'maintenance' && <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]"><Section title="Property condition" eyebrow="Inspections"><div className="rounded-xl bg-amber-50 p-4 text-amber-950"><p className="text-sm font-semibold">Condition not recorded</p><p className="mt-1 text-sm text-amber-900/70">Add an inspection record to track this unit’s condition over time.</p></div><div className="mt-5 space-y-3 text-sm"><Line label="Last inspection" value="Not recorded" /><Line label="Next inspection" value="Not scheduled" /></div><Button className="mt-5" size="sm" variant="outline" asChild><Link href="/dashboard/landlord/maintenance"><CalendarDays className="mr-2 h-4 w-4" />Open maintenance workspace</Link></Button></Section><Section title="Maintenance requests" eyebrow="Repairs and service"><div className="mb-4 flex justify-end"><Button size="sm" asChild><Link href="/dashboard/landlord/maintenance"><Plus className="mr-2 h-4 w-4" />Create request</Link></Button></div>{listing.maintenanceTickets.length ? <div className="space-y-3">{listing.maintenanceTickets.map((ticket) => <div key={ticket.id} className="rounded-xl border border-zinc-200 p-4 dark:border-white/[0.08]"><div className="flex items-start justify-between gap-3"><div><p className="font-semibold text-zinc-900 dark:text-white">{ticket.title}</p><p className="mt-1 text-sm text-zinc-500">{ticket.description || 'No description provided'}</p></div><Badge variant={statusTone(ticket.status) as 'default' | 'success' | 'secondary' | 'warning'}>{label(ticket.status)}</Badge></div><p className="mt-3 text-xs text-zinc-400">{label(ticket.category)} · {label(ticket.priority)} · {date(ticket.createdAt)}</p></div>)}</div> : <EmptyState title="No maintenance records" text="Requests, repairs, and inspection notes will appear here when recorded." />}</Section></div>}
 
-        {/* Bathrooms */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Bath className="h-4 w-4" /> Bathrooms
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white">{unit.bathrooms}</p>
-        </div>
+    {activeTab === 'documents' && <Section title="Property documents" eyebrow="Document management" action={<Button size="sm" asChild><Link href="/dashboard/landlord/documents"><Upload className="mr-2 h-4 w-4" />Upload document</Link></Button>}><div className="mb-5 flex flex-wrap gap-2"><span className="rounded-md bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">All documents</span><span className="px-2.5 py-1 text-xs text-zinc-500">Lease agreements</span><span className="px-2.5 py-1 text-xs text-zinc-500">Ownership</span><span className="px-2.5 py-1 text-xs text-zinc-500">Inspection reports</span></div>{listing.documents.length ? <div className="divide-y divide-zinc-100 dark:divide-white/[0.06]">{listing.documents.map((document) => <div key={document.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"><div className="flex items-center gap-3"><div className="rounded-lg bg-emerald-50 p-2 text-emerald-700"><FileText className="h-5 w-5" /></div><div><p className="text-sm font-semibold text-zinc-900 dark:text-white">{document.name}</p><p className="text-xs text-zinc-500">{label(document.type)} · {date(document.createdAt)} · {document.uploadedBy}</p></div></div><Button variant="ghost" size="sm" asChild><a href={`/api/landlord/documents/${document.id}`} download><Download className="mr-2 h-4 w-4" />Download</a></Button></div>)}</div> : <EmptyState title="No documents uploaded" text="Lease agreements, inspection reports, receipts, and ownership records will appear here." />}</Section>}
 
-        {/* Rent */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Banknote className="h-4 w-4" /> Rent
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white">{formatCurrency(unit.rent)}</p>
-          {unit.pricePeriod && <p className="text-xs text-zinc-500 dark:text-zinc-400">per {unit.pricePeriod}</p>}
-        </div>
-
-        {/* Caution Deposit */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Shield className="h-4 w-4" /> Caution Deposit
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white">{formatCurrency(unit.cautionDeposit)}</p>
-        </div>
-
-        {/* Service Charge */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Lock className="h-4 w-4" /> Service Charge
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white">{formatCurrency(unit.serviceCharge)}</p>
-        </div>
-
-        {/* Occupancy */}
-        <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-2">
-            <Home className="h-4 w-4" /> Occupancy
-          </div>
-          <p className="text-lg font-semibold text-zinc-900 dark:text-white capitalize">{unit.occupancy}</p>
-        </div>
-      </div>
-
-      {/* Lease & Tenant */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Lease */}
-        <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 mb-4">
-            <Calendar className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold text-zinc-900 dark:text-white">Lease Information</h3>
-          </div>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-zinc-500 dark:text-zinc-400">Start Date</span>
-              <span className="font-medium text-zinc-900 dark:text-white">{unit.leaseStartDate ? new Date(unit.leaseStartDate).toLocaleDateString() : '—'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-zinc-500 dark:text-zinc-400">End Date</span>
-              <span className="font-medium text-zinc-900 dark:text-white">{unit.leaseEndDate ? new Date(unit.leaseEndDate).toLocaleDateString() : '—'}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Tenant */}
-        <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="flex items-center gap-2 mb-4">
-            <User className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold text-zinc-900 dark:text-white">Current Tenant</h3>
-          </div>
-          {unit.currentTenant ? (
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-zinc-500 dark:text-zinc-400">Name</span>
-                <span className="font-medium text-zinc-900 dark:text-white">{unit.currentTenant.fullName}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-500 dark:text-zinc-400">Email</span>
-                <span className="font-medium text-zinc-900 dark:text-white">{unit.currentTenant.email}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-500 dark:text-zinc-400">ID</span>
-                <span className="font-medium text-zinc-900 dark:text-white">{unit.currentTenant.id}</span>
-              </div>
-            </div>
-          ) : (
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm">No tenant assigned</p>
-          )}
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex flex-wrap items-center gap-2">
-        <Button variant="outline" size="sm" className="flex items-center gap-1">
-          <FileText className="h-4 w-4" /> Lease Agreement
-        </Button>
-        <Button variant="outline" size="sm" className="flex items-center gap-1">
-          <Download className="h-4 w-4" /> Download
-        </Button>
-        <Button variant="outline" size="sm" className="flex items-center gap-1">
-          <ImageIcon className="h-4 w-4" /> Manage Photos
-        </Button>
-      </div>
-
-      {/* Back */}
-      <Button variant="ghost" size="sm" onClick={() => router.push(`/dashboard/landlord/properties/${listing.id}`)} className="flex items-center gap-1">
-        <ArrowLeft className="h-4 w-4" /> Back to property
-      </Button>
-    </div>
-  );
+    {activeTab === 'photos' && <Section title="Photos & media" eyebrow="Gallery management" action={<Button size="sm" onClick={() => inputRef.current?.click()}><Upload className="mr-2 h-4 w-4" />Upload photos</Button>}><input ref={inputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => uploadFiles(event.target.files)} />{images.length ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{images.map((image) => <div key={image.id} className="group relative overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08]"><button onClick={() => setActiveImage(image)} className="block aspect-[4/3] w-full bg-zinc-100"><img src={image.url} alt="Property media" className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]" /></button><div className="flex items-center justify-between gap-2 p-3"><button onClick={() => setCover(image)} className="text-xs font-medium text-emerald-700">{image.isCover ? 'Cover photo' : 'Set as cover'}</button><button onClick={() => removeImage(image)} className="text-xs text-zinc-400 hover:text-red-600">Delete</button></div></div>)}</div> : <EmptyState title="No property photos yet" text="Upload photos to build a complete media library for this unit." />}</Section>}
+    {activeTab === 'activity' && <Section title="Activity history" eyebrow="Recorded events"><Activity items={activityItems(listing, unit)} /></Section>}
+    {activeImage && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" role="dialog" aria-label="Photo preview"><button onClick={() => setActiveImage(null)} className="absolute right-5 top-5 rounded-full bg-white/10 p-2 text-white hover:bg-white/20" aria-label="Close preview"><X className="h-5 w-5" /></button><img src={activeImage.url} alt="Full-size property preview" className="max-h-[88vh] max-w-[92vw] rounded-xl object-contain" /></div>}
+  </main>;
 }

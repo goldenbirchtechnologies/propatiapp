@@ -1779,6 +1779,15 @@ model Unit {
 
   // Details
   type      PropertyType
+  // Flexible classification layer. `type` remains for backwards compatibility
+  // with legacy listings; these fields drive the multi-type unit workspace.
+  unitCategory       String  @default("apartment") @map("unit_category")
+  rentalArrangement String  @default("long_term") @map("rental_arrangement")
+  listingMethod      String  @default("single_unit") @map("listing_method")
+  occupancyModel     String  @default("long_term") @map("occupancy_model")
+  occupancyState     String  @default("vacant") @map("occupancy_state")
+  categoryAttributes Json?   @map("category_attributes")
+  parentUnitId       String? @map("parent_unit_id")
   bedrooms  Int
   bathrooms Int
   sizeSqm   Decimal?     @map("size_sqm") @db.Decimal(10, 2)
@@ -1813,6 +1822,8 @@ model Unit {
   utilityAllocations UtilityAllocation[]
   images             UnitImage[]
   listings           Listing[]           @relation("UnitListing")
+  parentUnit          Unit?               @relation("UnitHierarchy", fields: [parentUnitId], references: [id], onDelete: SetNull)
+  childUnits          Unit[]              @relation("UnitHierarchy")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -1822,6 +1833,9 @@ model Unit {
   @@index([status], map: "idx_units_status")
   @@index([occupancy], map: "idx_units_occupancy")
   @@index([listingId], map: "idx_units_listing")
+  @@index([unitCategory], map: "idx_units_category")
+  @@index([rentalArrangement], map: "idx_units_rental_arrangement")
+  @@index([parentUnitId], map: "idx_units_parent")
   @@map("units")
 }
 

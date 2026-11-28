@@ -17,6 +17,13 @@ export interface CreateUnitInput {
   buildingName?: string;
   unitNumber: string;
   type: string;
+  unitCategory?: string;
+  rentalArrangement?: 'long_term' | 'shortlet' | 'room_share' | 'bed_space' | 'commercial_lease' | 'hospitality';
+  listingMethod?: 'single_unit' | 'multi_arrangement' | 'room_or_bed' | 'booking_calendar';
+  occupancyModel?: 'long_term' | 'shortlet' | 'room_share' | 'hotel' | 'commercial';
+  occupancyState?: string;
+  categoryAttributes?: Record<string, unknown>;
+  parentUnitId?: string | null;
   bedrooms: number;
   bathrooms: number;
   sizeSqm?: number;

@@ -10,6 +10,13 @@ const updateUnitSchema = z.object({
   rent: z.number().nonnegative().optional(),
   listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']).optional(),
   pricePeriod: z.enum(['night', 'month', 'year', 'total']).optional(),
+  unitCategory: z.string().trim().min(2).max(80).optional(),
+  rentalArrangement: z.enum(['long_term', 'shortlet', 'room_share', 'bed_space', 'commercial_lease', 'hospitality']).optional(),
+  listingMethod: z.enum(['single_unit', 'multi_arrangement', 'room_or_bed', 'booking_calendar']).optional(),
+  occupancyModel: z.enum(['long_term', 'shortlet', 'room_share', 'hotel', 'commercial']).optional(),
+  occupancyState: z.enum(['vacant', 'occupied', 'reserved', 'available', 'checked_in', 'checked_out', 'cleaning', 'partially_occupied', 'fully_occupied', 'under_maintenance', 'leased', 'out_of_service']).optional(),
+  categoryAttributes: z.record(z.string(), z.unknown()).optional(),
+  parentUnitId: z.string().cuid().nullable().optional(),
 });
 
 export async function PATCH(
@@ -34,7 +41,7 @@ export async function PATCH(
 
     const unit = await prisma.unit.findFirst({
       where: { id: unitId, organizationId: id },
-      select: { id: true },
+      select: { id: true, currentTenantId: true, rentalArrangement: true, unitCategory: true },
     });
 
     if (!unit) {
@@ -45,6 +52,17 @@ export async function PATCH(
     const validated = updateUnitSchema.safeParse(body);
     if (!validated.success) {
       return NextResponse.json({ error: 'Invalid request body', details: validated.error }, { status: 400 });
+    }
+
+    if (validated.data.parentUnitId === unitId) {
+      return NextResponse.json({ error: 'A unit cannot be its own parent' }, { status: 400 });
+    }
+    if (validated.data.parentUnitId) {
+      const parent = await prisma.unit.findFirst({ where: { id: validated.data.parentUnitId, organizationId: id }, select: { id: true } });
+      if (!parent) return NextResponse.json({ error: 'Parent unit not found in this organisation' }, { status: 400 });
+    }
+    if ((validated.data.rentalArrangement && validated.data.rentalArrangement !== unit.rentalArrangement || validated.data.unitCategory && validated.data.unitCategory !== unit.unitCategory) && unit.currentTenantId) {
+      return NextResponse.json({ error: 'Classification cannot change while an active tenant is assigned. End the tenancy first.' }, { status: 409 });
     }
 
     const updated = await prisma.unit.update({

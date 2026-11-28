@@ -6,105 +6,28 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import UnitDetailClient from './UnitDetailClient';
 
-export const metadata = {
-  title: 'Unit Details | PROPTI',
-  description: 'View unit details, pricing, status, and lease information.',
-};
-
-export default async function LandlordUnitDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string; unitId: string }>;
-}) {
+export default async function LandlordUnitDetailPage({ params }: { params: Promise<{ id: string; unitId: string }> }) {
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
-
   const { id, unitId } = await params;
-
-  const listing = await prisma.listing.findFirst({
+  const property = await prisma.property.findFirst({
     where: { id, ownerId: user.id },
-    select: {
-      id: true,
-      title: true,
-      address: true,
-      area: true,
-      state: true,
-      status: true,
-      images: { orderBy: [{ isCover: 'desc' }, { sortOrder: 'asc' }] },
-      documents: { orderBy: { updatedAt: 'desc' }, take: 12, include: { uploadedBy: { select: { fullName: true } } } },
-      agreements: {
-        orderBy: { updatedAt: 'desc' },
-        take: 12,
-        select: { id: true, tenantId: true, type: true, status: true, startDate: true, endDate: true, rentAmount: true, rentPeriod: true, pdfUrl: true, updatedAt: true, tenant: { select: { id: true, fullName: true, email: true, phone: true } } },
-      },
-      transactions: { orderBy: { createdAt: 'desc' }, take: 12, select: { id: true, type: true, status: true, amount: true, paidAt: true, createdAt: true, description: true } },
-      maintenanceTickets: { orderBy: { createdAt: 'desc' }, take: 12, select: { id: true, title: true, description: true, category: true, priority: true, status: true, createdAt: true, updatedAt: true, resolvedAt: true } },
-      units: {
-        select: {
-          id: true,
-          unitNumber: true,
-          type: true,
-          unitCategory: true,
-          rentalArrangement: true,
-          listingMethod: true,
-          occupancyModel: true,
-          occupancyState: true,
-          categoryAttributes: true,
-          parentUnitId: true,
-          listingType: true,
-          pricePeriod: true,
-          rent: true,
-          cautionDeposit: true,
-          serviceCharge: true,
-          status: true,
-          occupancy: true,
-          isListed: true,
-          bedrooms: true,
-          bathrooms: true,
-          sizeSqm: true,
-          leaseStartDate: true,
-          leaseEndDate: true,
-          currentTenantId: true,
-          currentTenant: { select: { id: true, fullName: true, email: true } },
-        },
-      },
+    include: {
+      photos: { orderBy: [{ isCover: 'desc' }, { sortOrder: 'asc' }] },
     },
   });
+  const space = property ? await prisma.space.findFirst({ where: { id: unitId, propertyId: id }, include: { photos: { orderBy: { sortOrder: 'asc' } }, category: true, currentTenant: { select: { id: true, fullName: true, email: true, phone: true } }, listings: { orderBy: { createdAt: 'desc' }, take: 12, include: { documents: { orderBy: { updatedAt: 'desc' }, take: 12, include: { uploadedBy: { select: { fullName: true } } } }, agreements: { orderBy: { updatedAt: 'desc' }, take: 12, select: { id: true, tenantId: true, type: true, status: true, startDate: true, endDate: true, rentAmount: true, rentPeriod: true, pdfUrl: true, updatedAt: true, tenant: { select: { id: true, fullName: true, email: true, phone: true } } } }, transactions: { orderBy: { createdAt: 'desc' }, take: 12, select: { id: true, type: true, status: true, amount: true, paidAt: true, createdAt: true, description: true } }, maintenanceTickets: { orderBy: { createdAt: 'desc' }, take: 12, select: { id: true, title: true, description: true, category: true, priority: true, status: true, createdAt: true, updatedAt: true, resolvedAt: true } } } } } }) : null;
+  if (!property || !space) redirect(`/dashboard/landlord/properties/${id}`);
 
-  if (!listing) redirect('/dashboard/landlord/properties');
+  const primary = space.listings.find((listing) => listing.status === 'active') ?? space.listings[0] ?? null;
+  const agreements = space.listings.flatMap((listing) => listing.agreements);
+  const documents = space.listings.flatMap((listing) => listing.documents);
+  const transactions = space.listings.flatMap((listing) => listing.transactions);
+  const maintenanceTickets = space.listings.flatMap((listing) => listing.maintenanceTickets);
+  const activeAgreement = agreements.find((agreement) => agreement.tenantId === space.currentTenantId) ?? null;
+  const arrangement = primary?.listingType === 'short_let' ? 'shortlet' : primary?.listingType === 'commercial' ? 'commercial_lease' : primary?.listingType === 'share' ? 'room_share' : 'long_term';
+  const unit = { id: space.id, unitNumber: space.identifier, type: space.category.spaceType, unitCategory: space.category.spaceType, rentalArrangement: arrangement, listingMethod: primary?.listingType === 'short_let' ? 'booking_calendar' : 'single_unit', occupancyModel: arrangement === 'shortlet' ? 'shortlet' : arrangement === 'room_share' ? 'room_share' : arrangement === 'commercial_lease' ? 'commercial' : 'long_term', occupancyState: space.operationalStatus, categoryAttributes: (space.attributes as Record<string, unknown> | null) ?? null, parentUnitId: null, listingType: primary?.listingType ?? 'rent', pricePeriod: primary?.pricePeriod ?? null, rent: primary ? Number(primary.price) : 0, cautionDeposit: null, serviceCharge: null, status: space.operationalStatus, occupancy: space.operationalStatus === 'occupied' ? 'OCCUPIED' : 'VACANT', isListed: space.listings.some((listing) => listing.status === 'active'), bedrooms: Number((space.attributes as any)?.bedrooms ?? 0), bathrooms: Number((space.attributes as any)?.bathrooms ?? 0), sizeSqm: Number((space.attributes as any)?.sizeSqm ?? 0) || null, leaseStartDate: null, leaseEndDate: null, currentTenantId: space.currentTenantId, currentTenant: space.currentTenant, createdAt: space.createdAt.toISOString() };
+  const listing = { id: property.id, title: property.name, address: property.address, area: property.city, state: property.state, status: property.onboardingStatus as string, images: [...space.photos, ...property.photos].map((photo) => ({ id: photo.id, url: photo.url, isCover: photo.isCover })), documents: documents.map((document) => ({ id: document.id, name: document.name, type: document.type, mimeType: document.mimeType, sizeBytes: document.sizeBytes ? Number(document.sizeBytes) : null, createdAt: document.createdAt.toISOString(), uploadedBy: document.uploadedBy.fullName })), agreements: agreements.map((agreement) => ({ ...agreement, rentAmount: agreement.rentAmount ? Number(agreement.rentAmount) : null, startDate: agreement.startDate?.toISOString() ?? null, endDate: agreement.endDate?.toISOString() ?? null, updatedAt: agreement.updatedAt.toISOString() })), transactions: transactions.map((transaction) => ({ ...transaction, amount: Number(transaction.amount) / 100, paidAt: transaction.paidAt?.toISOString() ?? null, createdAt: transaction.createdAt.toISOString() })), maintenanceTickets: maintenanceTickets.map((ticket) => ({ ...ticket, createdAt: ticket.createdAt.toISOString(), updatedAt: ticket.updatedAt.toISOString(), resolvedAt: ticket.resolvedAt?.toISOString() ?? null })) };
 
-  const unit = listing.units.find((u) => u.id === unitId);
-  if (!unit) redirect(`/dashboard/landlord/properties/${id}`);
-
-  const selectedUnit = unit;
-  const activeAgreement = listing.agreements.find((agreement) => agreement.tenantId === selectedUnit.currentTenantId) ?? null;
-
-  return (
-    <DashboardShell
-      navigation={LANDLORD_NAVIGATION}
-      userRole={user.role}
-      userName={user.fullName}
-      userAvatar={user.avatarUrl || undefined}
-    >
-      <ErrorBoundary>
-        <UnitDetailClient
-          listing={{
-            id: listing.id,
-            title: listing.title,
-            address: listing.address,
-            area: listing.area,
-            state: listing.state,
-            status: listing.status as string,
-            images: listing.images.map((image) => ({ id: image.id, url: image.url, isCover: image.isCover })),
-            documents: listing.documents.map((document) => ({ id: document.id, name: document.name, type: document.type, mimeType: document.mimeType, sizeBytes: document.sizeBytes ? Number(document.sizeBytes) : null, createdAt: document.createdAt.toISOString(), uploadedBy: document.uploadedBy.fullName })),
-            agreements: listing.agreements.map((agreement) => ({ ...agreement, rentAmount: agreement.rentAmount ? Number(agreement.rentAmount) : null, startDate: agreement.startDate?.toISOString() ?? null, endDate: agreement.endDate?.toISOString() ?? null, updatedAt: agreement.updatedAt.toISOString() })),
-            transactions: listing.transactions.map((transaction) => ({ ...transaction, amount: Number(transaction.amount) / 100, paidAt: transaction.paidAt?.toISOString() ?? null, createdAt: transaction.createdAt.toISOString() })),
-            maintenanceTickets: listing.maintenanceTickets.map((ticket) => ({ ...ticket, createdAt: ticket.createdAt.toISOString(), updatedAt: ticket.updatedAt.toISOString(), resolvedAt: ticket.resolvedAt?.toISOString() ?? null })),
-          }}
-          unit={{ ...unit, unitCategory: unit.unitCategory, rentalArrangement: unit.rentalArrangement, listingMethod: unit.listingMethod, occupancyModel: unit.occupancyModel, occupancyState: unit.occupancyState, categoryAttributes: unit.categoryAttributes, parentUnitId: unit.parentUnitId, createdAt: unit.createdAt.toISOString(), rent: Number(unit.rent), cautionDeposit: unit.cautionDeposit ? Number(unit.cautionDeposit) : null, serviceCharge: unit.serviceCharge ? Number(unit.serviceCharge) : null, sizeSqm: unit.sizeSqm ? Number(unit.sizeSqm) : null, leaseStartDate: unit.leaseStartDate?.toISOString() ?? null, leaseEndDate: unit.leaseEndDate?.toISOString() ?? null }}
-          activeAgreement={activeAgreement ? { id: activeAgreement.id, status: activeAgreement.status as string, type: activeAgreement.type as string, startDate: activeAgreement.startDate?.toISOString() ?? null, endDate: activeAgreement.endDate?.toISOString() ?? null, rentAmount: activeAgreement.rentAmount ? Number(activeAgreement.rentAmount) : null, rentPeriod: activeAgreement.rentPeriod, pdfUrl: activeAgreement.pdfUrl, tenant: activeAgreement.tenant } : null}
-        />
-      </ErrorBoundary>
-    </DashboardShell>
-  );
+  return <DashboardShell navigation={LANDLORD_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}><ErrorBoundary><UnitDetailClient listing={listing as any} unit={unit as any} activeAgreement={activeAgreement ? { id: activeAgreement.id, status: activeAgreement.status as string, type: activeAgreement.type as string, startDate: activeAgreement.startDate?.toISOString() ?? null, endDate: activeAgreement.endDate?.toISOString() ?? null, rentAmount: activeAgreement.rentAmount ? Number(activeAgreement.rentAmount) : null, rentPeriod: activeAgreement.rentPeriod, pdfUrl: activeAgreement.pdfUrl, tenant: activeAgreement.tenant } : null} /></ErrorBoundary></DashboardShell>;
 }

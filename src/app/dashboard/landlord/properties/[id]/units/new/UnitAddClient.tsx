@@ -107,7 +107,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
 
   const [unitNumber, setUnitNumber] = useState('');
   const [type, setType] = useState('apartment');
-  const [rentalArrangement, setRentalArrangement] = useState('long_term');
+  const [rentalArrangement, setRentalArrangement] = useState<'long_term' | 'shortlet' | 'room_share' | 'bed_space' | 'commercial_lease' | 'hospitality'>('long_term');
   const [listingType, setListingType] = useState<'rent' | 'short_let' | 'sale' | 'unlisted'>('rent');
   const [pricePeriod, setPricePeriod] = useState('month');
   const [bedrooms, setBedrooms] = useState(1);

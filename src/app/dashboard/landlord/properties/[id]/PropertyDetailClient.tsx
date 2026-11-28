@@ -50,7 +50,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   };
 
   const deleteListing = async () => {
-    try { const response = await fetch(`/api/listings/${listing.id}`, { method: 'DELETE' }); if (!response.ok) throw new Error('Could not delete property'); toast({ title: 'Property removed', description: 'The listing was removed from your portfolio.' }); router.push('/dashboard/landlord/properties'); } catch (error) { toast({ title: 'Delete failed', description: error instanceof Error ? error.message : 'Could not delete property', variant: 'destructive' }); }
+    try { const response = await fetch(`/api/properties/${listing.id}`, { method: 'DELETE' }); if (!response.ok) throw new Error('Could not delete property'); toast({ title: 'Property removed', description: 'The registered property and its spaces were deleted.' }); router.push('/dashboard/landlord/properties'); } catch (error) { toast({ title: 'Delete failed', description: error instanceof Error ? error.message : 'Could not delete property', variant: 'destructive' }); }
   };
 
   return <main className="min-h-full bg-[#fbfaf7] px-4 py-6 dark:bg-zinc-950 sm:px-6 lg:px-8"><div className="mx-auto w-full max-w-[1320px]">

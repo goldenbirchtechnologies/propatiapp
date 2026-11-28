@@ -337,6 +337,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    const mode = new URL(request.url).searchParams.get('mode');
 
     if (!id) {
       return NextResponse.json(
@@ -376,6 +377,23 @@ export async function DELETE(
     }
 
     const units = await prisma.unit.findMany({ where: { listingId: id }, select: { id: true } });
+
+    if (mode === 'delete') {
+      try {
+        await prisma.$transaction(async (tx) => {
+          const unitIds = units.map((unit) => unit.id);
+          if (unitIds.length) {
+            await tx.listing.deleteMany({ where: { unitId: { in: unitIds } } });
+            await tx.unit.deleteMany({ where: { id: { in: unitIds } } });
+          }
+          await tx.listing.delete({ where: { id } });
+        });
+        return NextResponse.json({ success: true, message: `Property "${listing.title}" deleted` });
+      } catch (error) {
+        console.error('DELETE property failed:', error);
+        return NextResponse.json({ error: 'Could not delete property. Resolve linked records and try again.' }, { status: 409 });
+      }
+    }
 
     // Deleting a unit-level listing only unpublishes the unit. It does not
     // delete or replace the unit record, and it never touches the property.

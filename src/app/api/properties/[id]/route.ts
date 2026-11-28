@@ -45,3 +45,24 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     return NextResponse.json({ error: 'Could not update property' }, { status: 500 });
   }
 }
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const auth = await withAuth(request, ['landlord', 'estate_manager', 'admin']);
+  if (auth instanceof NextResponse) return auth;
+  const { id } = await params;
+  const property = await prisma.property.findFirst({ where: { id, ...(auth.user.role === 'admin' ? {} : { ownerId: auth.user.id }) }, select: { id: true, name: true } });
+  if (!property) return NextResponse.json({ error: 'Property not found' }, { status: 404 });
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      // Registry-linked marketplace listings are separate records. Remove them
+      // first so deleting spaces cannot leave orphaned public listings.
+      await tx.listing.deleteMany({ where: { propertyId: id } });
+      await tx.property.delete({ where: { id } });
+    });
+    return NextResponse.json({ success: true, message: `Property "${property.name}" deleted` });
+  } catch (error) {
+    console.error('DELETE /api/properties/[id] error:', error);
+    return NextResponse.json({ error: 'Could not delete property. Resolve linked records and try again.' }, { status: 409 });
+  }
+}

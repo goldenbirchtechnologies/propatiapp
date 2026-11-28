@@ -249,8 +249,9 @@ export default function AddListingClient({
   const type = useWatch({ control: form.control, name: "listingType" });
   const values = useWatch({ control: form.control });
   const unit = vacantUnits.find((item) => item.id === selectedUnitId);
-  const space = registeredSpaces.find((item) => item.id === selectedSpaceId);
-  const needsUnit = type !== "sale";
+  // Every listing starts from one property-register inventory selector.
+  // The API still accepts unitId and spaceId so existing records remain compatible.
+  const needsUnit = true;
   const filteredUnits = useMemo(
     () =>
       vacantUnits.filter((item) =>
@@ -386,6 +387,7 @@ export default function AddListingClient({
       JSON.stringify({
         values: form.getValues(),
         selectedUnitId,
+        selectedSpaceId,
         shortletDetails,
         showShortletDetails,
         savedAt: now,
@@ -447,7 +449,7 @@ export default function AddListingClient({
         title: "Complete this step first",
         description:
           stepId === "property"
-            ? "Select a vacant unit."
+            ? "Select available property inventory."
             : stepId === "media"
               ? type === "short_let"
                 ? "Add at least 5 photos."
@@ -480,7 +482,7 @@ export default function AddListingClient({
           type === "short_let" && images.length < 5
             ? "Shortlet listings need at least 5 photos."
             : needsUnit && !hasSelectedInventory
-              ? "Choose an eligible vacant unit or registered space first."
+              ? "Choose available property inventory first."
               : "Review the highlighted fields before continuing.",
         variant: "destructive",
       });
@@ -571,17 +573,17 @@ export default function AddListingClient({
       setSubmitting(false);
     }
   };
-  if (!vacantUnits.length)
+  if (!vacantUnits.length && !registeredSpaces.length)
     return (
       <div className="mx-auto max-w-3xl py-10">
         <div className="rounded-xl border border-zinc-200 bg-white p-10 text-center dark:border-white/[0.08] dark:bg-zinc-900">
           <Building2 className="mx-auto h-10 w-10 text-emerald-600" />
           <h1 className="mt-4 text-xl font-semibold text-zinc-900 dark:text-white">
-            Register a property before listing
+            Register property inventory before listing
           </h1>
           <p className="mx-auto mt-2 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
             List to Marketplace uses your property register to prevent duplicate
-            records. Add a property and at least one vacant unit to continue.
+            records. Add a property with at least one available space to continue.
           </p>
           <div className="mt-6 flex justify-center gap-3">
             <Button asChild>
@@ -698,12 +700,8 @@ export default function AddListingClient({
           <Section
             id="property"
             icon={Building2}
-    title="Select a property and space"
-            hint={
-              needsUnit
-                ? "Choose a vacant legacy unit or a registered space to publish."
-                : "Sale listings can use the registered property directly."
-            }
+            title="Select property inventory"
+            hint="Choose one available space from your property register."
           >
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
@@ -714,8 +712,6 @@ export default function AddListingClient({
                 className="pl-9"
               />
             </div>
-            {needsUnit ? (
-              <>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {filteredUnits.map((item) => (
                   <button
@@ -735,7 +731,7 @@ export default function AddListingClient({
                         Unit {item.unitNumber} · {item.area}, {item.state}
                       </span>
                       <span className="mt-1 block text-xs text-emerald-700 dark:text-emerald-400">
-                        Vacant · {item.bedrooms ?? 0} bed ·{" "}
+                        Available · {item.bedrooms ?? 0} bed ·{" "}
                         {item.bathrooms ?? 0} bath
                       </span>
                     </span>
@@ -744,36 +740,15 @@ export default function AddListingClient({
                     )}
                   </button>
                 ))}
+                {filteredSpaces.map((item) => (
+                  <button type="button" key={item.id} onClick={() => { setSelectedSpaceId(item.id); setSelectedUnitId(""); form.setValue("title", `${item.property.name} - ${item.name}`); form.setValue("address", item.property.address); form.setValue("area", item.property.city); form.setValue("state", item.property.state); }} className={`flex items-start gap-3 rounded-lg border p-3 text-left transition ${selectedSpaceId === item.id ? "border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-500/10" : "border-zinc-200 hover:border-emerald-400 dark:border-zinc-800"}`}>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"><Store className="h-4 w-4" /></span><span className="min-w-0"><span className="block truncate text-sm font-medium">{item.property.name}</span><span className="mt-0.5 block text-xs text-zinc-500">{item.category.spaceType} · {item.identifier}</span><span className="mt-1 block text-xs text-emerald-700 dark:text-emerald-400">Available · {item.property.city}, {item.property.state}</span></span>{selectedSpaceId === item.id && <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-emerald-600" />}
+                  </button>
+                ))}
               </div>
-              <div className="mt-5 border-t border-zinc-200 pt-4 dark:border-zinc-800">
-                <div className="mb-3 flex items-center justify-between"><div><p className="text-sm font-semibold text-zinc-900 dark:text-white">Registered spaces</p><p className="text-xs text-zinc-500 dark:text-zinc-400">New registry inventory can be listed directly.</p></div><span className="text-xs text-zinc-500">{filteredSpaces.length} available</span></div>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {filteredSpaces.map((item) => (
-                    <button type="button" key={item.id} onClick={() => { setSelectedSpaceId(item.id); setSelectedUnitId(""); form.setValue("title", `${item.property.name} - ${item.name}`); form.setValue("address", item.property.address); form.setValue("area", item.property.city); form.setValue("state", item.property.state); }} className={`flex items-start gap-3 rounded-lg border p-3 text-left transition ${selectedSpaceId === item.id ? "border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-500/10" : "border-zinc-200 hover:border-emerald-400 dark:border-zinc-800"}`}>
-                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"><Store className="h-4 w-4" /></span><span className="min-w-0"><span className="block truncate text-sm font-medium">{item.property.name}</span><span className="mt-0.5 block text-xs text-zinc-500">{item.category.spaceType} · {item.identifier}</span><span className="mt-1 block text-xs text-emerald-700 dark:text-emerald-400">Available · {item.property.city}, {item.property.state}</span></span>{selectedSpaceId === item.id && <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-emerald-600" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              </>
-            ) : (
-              <div className="mt-3 rounded-lg bg-zinc-50 p-4 text-sm dark:bg-zinc-800/60">
-                This sale listing will use the property record directly. Keep
-                ownership documentation ready for review.
-              </div>
-            )}
-            {needsUnit && !filteredUnits.length && (
-              <p className="mt-3 text-sm text-zinc-500">
-                No vacant units match that search.{" "}
-                <Link
-                  className="font-medium text-emerald-600"
-                  href={newPropertyHref ?? `${basePath}/properties/new`}
-                >
-                  Register another property
-                </Link>
-                .
-              </p>
-            )}
+              {!filteredUnits.length && !filteredSpaces.length && (
+                <p className="mt-3 text-sm text-zinc-500">No available property inventory matches that search.</p>
+              )}
             {unit && (
               <div className="mt-3 flex items-center gap-2 text-xs text-emerald-700 dark:text-emerald-400">
                 <CheckCircle2 className="h-4 w-4" /> Prefilled from{" "}

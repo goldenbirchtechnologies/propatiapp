@@ -219,8 +219,9 @@ export default function AddListingClient({
   const [successRoute, setSuccessRoute] = useState<string | null>(null);
   const [showShortletDetails, setShowShortletDetails] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const [inventoryFilter, setInventoryFilter] = useState("all");
   const [shortletDetails, setShortletDetails] = useState<ShortletDetailsValue>(
-    {},
+    { property_structure: "apartment", privacy_type: "entire_place", guests_count: 1, beds_count: 1, booking_model: "review_first_3_then_instant" },
   );
   const [images, setImages] = useState<
     { id: string; url: string; file: File }[]
@@ -252,80 +253,56 @@ export default function AddListingClient({
   // Every listing starts from one property-register inventory selector.
   // The API still accepts unitId and spaceId so existing records remain compatible.
   const needsUnit = true;
-  const filteredUnits = useMemo(
-    () =>
-      vacantUnits.filter((item) =>
-        `${item.listingTitle} ${item.area} ${item.unitNumber}`
-          .toLowerCase()
-          .includes(query.toLowerCase()),
-      ),
-    [vacantUnits, query],
-  );
+  const filteredUnits = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return vacantUnits.filter((item) => {
+      const matchesSearch = `${item.listingTitle} ${item.area} ${item.state} ${item.unitNumber} ${item.buildingName ?? ""}`
+        .toLowerCase()
+        .includes(needle);
+      const matchesType = inventoryFilter === "all" || item.type === inventoryFilter;
+      return matchesSearch && matchesType;
+    });
+  }, [vacantUnits, query, inventoryFilter]);
   const filteredSpaces = useMemo(
-    () => registeredSpaces.filter((item) => `${item.property.name} ${item.name} ${item.identifier} ${item.property.city}`.toLowerCase().includes(query.toLowerCase())),
-    [registeredSpaces, query],
+    () => registeredSpaces.filter((item) => {
+      const matchesSearch = `${item.property.name} ${item.name} ${item.identifier} ${item.property.address} ${item.property.city}`.toLowerCase().includes(query.toLowerCase());
+      const matchesType = inventoryFilter === "all" || item.category.spaceType === inventoryFilter;
+      return matchesSearch && matchesType;
+    }),
+    [registeredSpaces, query, inventoryFilter],
   );
+  const inventoryGroups = useMemo(() => {
+    const groups = new Map<string, { id: string; name: string; address: string; area: string; state: string; units: ListingUnit[]; spaces: typeof registeredSpaces }>();
+    filteredUnits.forEach((item) => {
+      const existing = groups.get(item.listingId) ?? { id: item.listingId, name: item.listingTitle, address: item.address, area: item.area, state: item.state, units: [], spaces: [] };
+      existing.units.push(item);
+      groups.set(item.listingId, existing);
+    });
+    filteredSpaces.forEach((item) => {
+      const existing = groups.get(item.propertyId) ?? { id: item.propertyId, name: item.property.name, address: item.property.address, area: item.property.city, state: item.property.state, units: [], spaces: [] };
+      existing.spaces.push(item);
+      groups.set(item.propertyId, existing);
+    });
+    return Array.from(groups.values());
+  }, [filteredUnits, filteredSpaces]);
   const hasSelectedInventory = Boolean(selectedUnitId || selectedSpaceId);
-  const shortletReady =
+  const shortletDetailsReady =
     type !== "short_let" ||
-    (images.length >= 5 &&
-      Boolean(shortletDetails.privacy_type) &&
+    (Boolean(shortletDetails.privacy_type) &&
       Boolean(shortletDetails.guests_count) &&
       Boolean(shortletDetails.beds_count));
-  const completed = [
-    Boolean(hasSelectedInventory || !needsUnit),
-    Boolean(values.title && (values.description?.length ?? 0) >= 50),
-    Boolean(values.address && values.area),
-    Boolean(values.price && values.price > 0),
-    type === "short_let" ? shortletReady : images.length > 0,
-  ].filter(Boolean).length;
-  const readiness = Math.round((completed / 5) * 100);
-  const stepIds = useMemo(
-    () => [
-      "category",
-      "property",
-      "media",
-      "details",
-      "pricing",
-      ...(type === "short_let" ? ["shortlet-details"] : []),
-      "location",
-      "features",
-      "marketing",
-    ],
-    [type],
-  );
-  const progressStep =
-    currentStep <= 3 ? 0 : currentStep <= 6 ? 1 : currentStep <= 7 ? 2 : 3;
-
-  // The form is intentionally presented as one continuous page. Keep the
-  // footer navigation in sync when the user reaches a section by scrolling
-  // directly to it instead of using the footer button.
-  useEffect(() => {
-    let frame = 0;
-    const syncStepToViewport = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const anchor = 180;
-        let visibleStep = 0;
-        stepIds.forEach((id, index) => {
-          const section = document.getElementById(id);
-          if (section && section.getBoundingClientRect().top <= anchor) {
-            visibleStep = index;
-          }
-        });
-        setCurrentStep((previous) => (previous === visibleStep ? previous : visibleStep));
-      });
-    };
-
-    syncStepToViewport();
-    window.addEventListener("scroll", syncStepToViewport, { passive: true });
-    window.addEventListener("resize", syncStepToViewport);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", syncStepToViewport);
-      window.removeEventListener("resize", syncStepToViewport);
-    };
-  }, [stepIds]);
+  const shortletReady = shortletDetailsReady && (type !== "short_let" || images.length >= 5);
+  const readinessChecks = [
+    { label: "Property selected", step: 0, ok: Boolean(hasSelectedInventory || !needsUnit) },
+    { label: "Property details", step: 0, ok: Boolean(values.title && values.propertyType) },
+    { label: "Pricing", step: 1, ok: Boolean(values.price && values.price > 0) },
+    { label: "Photos uploaded", step: 2, ok: type === "short_let" ? images.length >= 5 : images.length > 0 },
+    { label: "Location", step: 2, ok: Boolean(values.address && values.area) },
+    { label: "Description", step: 2, ok: Boolean((values.description?.length ?? 0) >= 50) },
+  ];
+  const completed = readinessChecks.filter((item) => item.ok).length;
+  const readiness = Math.round((completed / readinessChecks.length) * 100);
+  const progressStep = currentStep;
 
   useEffect(() => {
     const raw = window.localStorage.getItem("propatibox:list-draft");
@@ -342,6 +319,15 @@ export default function AddListingClient({
       }
     }
   }, [form]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      window.localStorage.setItem("propatibox:list-draft", JSON.stringify({
+        values: form.getValues(), selectedUnitId, selectedSpaceId, shortletDetails,
+        showShortletDetails, savedAt: savedAt ?? new Date().toISOString(),
+      }));
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, [values, selectedUnitId, selectedSpaceId, shortletDetails, showShortletDetails, savedAt, form]);
   useEffect(() => {
     if (!unit) return;
     form.setValue("title", unit.listingTitle);
@@ -434,45 +420,21 @@ export default function AddListingClient({
     }
   };
   const goToNext = async () => {
-    const stepId = stepIds[currentStep];
     let valid = true;
-    if (stepId === "property") valid = !needsUnit || Boolean(selectedUnitId);
-    if (stepId === "media")
-      valid = type === "short_let" ? images.length >= 5 : images.length > 0;
-    if (stepId === "details") valid = await form.trigger(["title"]);
-    if (stepId === "pricing") valid = await form.trigger(["price"]);
-    if (stepId === "location") valid = await form.trigger(["address", "area"]);
-    if (stepId === "marketing") valid = await form.trigger(["description"]);
-    if (stepId === "shortlet-details") valid = shortletReady;
+    if (currentStep === 0) valid = (!needsUnit || Boolean(hasSelectedInventory)) && await form.trigger(["title", "propertyType"]);
+    if (currentStep === 1) valid = await form.trigger(["price"]) && shortletDetailsReady;
+    if (currentStep === 2) valid = (type === "short_let" ? images.length >= 5 : images.length > 0) && await form.trigger(["address", "area", "description"]);
     if (!valid) {
       toast({
         title: "Complete this step first",
-        description:
-          stepId === "property"
-            ? "Select available property inventory."
-            : stepId === "media"
-              ? type === "short_let"
-                ? "Add at least 5 photos."
-                : "Add a cover photo."
-              : "Fill in the required fields marked in red.",
+        description: currentStep === 0 ? "Select a property and add the basic details." : currentStep === 1 ? "Add a valid price and complete the category-specific terms." : "Add photos, location and a description before continuing.",
         variant: "destructive",
       });
-      document
-        .getElementById(stepId)
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    const nextIndex = Math.min(currentStep + 1, stepIds.length - 1);
-    if (stepIds[nextIndex] === "shortlet-details") setShowShortletDetails(true);
-    setCurrentStep(nextIndex);
-    window.setTimeout(
-      () =>
-        document
-          .getElementById(stepIds[nextIndex])
-          ?.scrollIntoView({ behavior: "smooth", block: "start" }),
-      0,
-    );
+    setCurrentStep((step) => Math.min(step + 1, 3));
   };
+  const goToPrevious = () => setCurrentStep((step) => Math.max(step - 1, 0));
   const submit = async (status: "active" | "draft") => {
     const valid = await form.trigger();
     if (!valid || (needsUnit && !hasSelectedInventory) || !shortletReady) {
@@ -666,6 +628,12 @@ export default function AddListingClient({
       </header>
       <main className="mx-auto grid max-w-[1320px] gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div className="space-y-5">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 px-5 py-4 dark:border-emerald-500/20 dark:bg-emerald-500/10">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-300">Step {currentStep + 1} of 4</p>
+            <h2 className="mt-1 text-xl font-semibold tracking-tight">{["Property details", "Pricing & terms", "Features & marketing", "Review & publish"][currentStep]}</h2>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">{["Choose a verified unit and set the basic facts buyers need.", "Set a transparent price and the terms that apply to this category.", "Add the visual story, location and details that help a listing convert.", "Check the complete listing before it is sent to the marketplace."][currentStep]}</p>
+          </div>
+          {currentStep === 0 && <>
           <Section
             id="category"
             icon={Store}
@@ -712,8 +680,29 @@ export default function AddListingClient({
                 className="pl-9"
               />
             </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {filteredUnits.map((item) => (
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <div className="flex flex-1 items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950/50 dark:text-zinc-400">
+                <Building2 className="h-4 w-4 text-emerald-600" />
+                {inventoryGroups.length} properties · {filteredUnits.length + filteredSpaces.length} available spaces
+              </div>
+              <select value={inventoryFilter} onChange={(event) => setInventoryFilter(event.target.value)} className="field-select sm:w-44">
+                <option value="all">All property types</option>
+                <option value="apartment">Apartments</option>
+                <option value="house">Houses</option>
+                <option value="office">Offices</option>
+                <option value="shop">Shops</option>
+                <option value="warehouse">Warehouses</option>
+              </select>
+            </div>
+            <div className="mt-4 space-y-3">
+              {inventoryGroups.map((group) => (
+                <details key={group.id} open className="group rounded-xl border border-zinc-200 dark:border-zinc-800">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 [&::-webkit-details-marker]:hidden">
+                    <span className="min-w-0"><span className="block truncate text-sm font-semibold">{group.name}</span><span className="mt-0.5 block truncate text-xs text-zinc-500">{group.address} · {group.area}, {group.state}</span></span>
+                    <span className="shrink-0 text-right text-[11px] text-zinc-500"><span className="block font-semibold text-zinc-700 dark:text-zinc-300">{group.units.length + group.spaces.length} spaces</span><span>{group.units.length} available units</span></span>
+                  </summary>
+                  <div className="grid gap-2 border-t border-zinc-200 p-3 dark:border-zinc-800 sm:grid-cols-2">
+                {group.units.map((item) => (
                   <button
                     type="button"
                     key={item.id}
@@ -740,15 +729,18 @@ export default function AddListingClient({
                     )}
                   </button>
                 ))}
-                {filteredSpaces.map((item) => (
+                {group.spaces.map((item) => (
                   <button type="button" key={item.id} onClick={() => { setSelectedSpaceId(item.id); setSelectedUnitId(""); form.setValue("title", `${item.property.name} - ${item.name}`); form.setValue("address", item.property.address); form.setValue("area", item.property.city); form.setValue("state", item.property.state); }} className={`flex items-start gap-3 rounded-lg border p-3 text-left transition ${selectedSpaceId === item.id ? "border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-500/10" : "border-zinc-200 hover:border-emerald-400 dark:border-zinc-800"}`}>
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"><Store className="h-4 w-4" /></span><span className="min-w-0"><span className="block truncate text-sm font-medium">{item.property.name}</span><span className="mt-0.5 block text-xs text-zinc-500">{item.category.spaceType} · {item.identifier}</span><span className="mt-1 block text-xs text-emerald-700 dark:text-emerald-400">Available · {item.property.city}, {item.property.state}</span></span>{selectedSpaceId === item.id && <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-emerald-600" />}
                   </button>
                 ))}
-              </div>
-              {!filteredUnits.length && !filteredSpaces.length && (
+                  </div>
+                </details>
+              ))}
+              {!inventoryGroups.length && (
                 <p className="mt-3 text-sm text-zinc-500">No available property inventory matches that search.</p>
               )}
+            </div>
             {unit && (
               <div className="mt-3 flex items-center gap-2 text-xs text-emerald-700 dark:text-emerald-400">
                 <CheckCircle2 className="h-4 w-4" /> Prefilled from{" "}
@@ -757,6 +749,8 @@ export default function AddListingClient({
               </div>
             )}
           </Section>
+          </>}
+          {currentStep === 2 && <>
           <Section
             id="media"
             icon={ImageIcon}
@@ -848,6 +842,8 @@ export default function AddListingClient({
               </div>
             )}
           </Section>
+          </>}
+          {currentStep === 0 && <>
           <Section
             id="details"
             icon={FileText}
@@ -932,6 +928,8 @@ export default function AddListingClient({
               </label>
             </div>
           </Section>
+          </>}
+          {currentStep === 1 && <>
           <Section
             id="pricing"
             icon={CircleDollarSign}
@@ -1022,6 +1020,8 @@ export default function AddListingClient({
               onChange={setShortletDetails}
             />
           )}
+          </>}
+          {currentStep === 2 && <>
           <Section
             id="location"
             icon={MapPin}
@@ -1122,6 +1122,20 @@ export default function AddListingClient({
               )}
             </label>
           </Section>
+          </>}
+          {currentStep === 3 && (
+            <section className="space-y-5 rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/[0.08] dark:bg-zinc-900">
+              <div className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-4 dark:border-zinc-800">
+                <div><h2 className="text-base font-semibold">Marketplace preview</h2><p className="mt-1 text-sm text-zinc-500">This is the information buyers will see first.</p></div>
+                <Button type="button" variant="outline" size="sm" onClick={() => setCurrentStep(0)}><Pencil className="mr-2 h-4 w-4" />Edit details</Button>
+              </div>
+              {images[0] ? <img src={images[0].url} alt="Selected listing cover" className="h-56 w-full rounded-lg object-cover" /> : <div className="grid h-40 place-items-center rounded-lg bg-zinc-100 text-sm text-zinc-500 dark:bg-zinc-800">No cover photo added</div>}
+              <div><h3 className="text-xl font-semibold">{values.title || "Untitled listing"}</h3><p className="mt-1 text-sm text-zinc-500">{values.area || "Area not added"}{values.state ? `, ${values.state}` : ""}</p></div>
+              <div className="grid gap-3 sm:grid-cols-3"><div className="rounded-lg bg-zinc-50 p-3 dark:bg-zinc-950/50"><p className="text-xs text-zinc-500">Price</p><p className="mt-1 font-semibold">{naira(Number(values.price || 0))}{type === "rent" ? ` / ${values.pricePeriod || "month"}` : type === "short_let" ? " / night" : ""}</p></div><div className="rounded-lg bg-zinc-50 p-3 dark:bg-zinc-950/50"><p className="text-xs text-zinc-500">Property</p><p className="mt-1 font-semibold">{values.propertyType || "Not added"}</p></div><div className="rounded-lg bg-zinc-50 p-3 dark:bg-zinc-950/50"><p className="text-xs text-zinc-500">Photos</p><p className="mt-1 font-semibold">{images.length} uploaded</p></div></div>
+              <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800"><p className="text-sm leading-6 text-zinc-700 dark:text-zinc-300">{values.description || "Add a description to help buyers understand this property."}</p></div>
+              {values.amenities?.length ? <div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500">Amenities</p><div className="mt-2 flex flex-wrap gap-2">{values.amenities.map((amenity) => <span key={amenity} className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">{amenity}</span>)}</div></div> : null}
+            </section>
+          )}
         </div>
         <aside className="hidden lg:block">
           <div className="sticky top-6 space-y-4">
@@ -1139,48 +1153,20 @@ export default function AddListingClient({
                 />
               </div>
               <div className="mt-4 space-y-3">
-                {[
-                  ["Property selected", Boolean(hasSelectedInventory || !needsUnit)],
-                  [
-                    "Property details",
-                    Boolean(values.title && (values.description?.length ?? 0) >= 50),
-                  ],
-                  ["Location", Boolean(values.address && values.area)],
-                  ["Pricing", Boolean(values.price && values.price > 0)],
-                  ["Cover photo", images.length > 0],
-                ].map(([label, ok]) => (
+                {readinessChecks.map(({ label, step, ok }) => (
                   <div
-                    key={String(label)}
-                    className="flex items-center gap-2 text-xs"
+                    key={label}
+                    className="flex items-center justify-between gap-2 text-xs"
                   >
-                    <span
-                      className={`grid h-4 w-4 place-items-center rounded-full ${ok ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400" : "border border-zinc-300 text-transparent dark:border-zinc-700"}`}
-                    >
-                      <Check className="h-3 w-3" />
-                    </span>
-                    <span
-                      className={
-                        ok
-                          ? "text-zinc-700 dark:text-zinc-300"
-                          : "text-zinc-500"
-                      }
-                    >
-                      {label}
-                    </span>
+                    <button type="button" onClick={() => setCurrentStep(step)} className="flex min-w-0 items-center gap-2 text-left hover:text-emerald-700">
+                      <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-full ${ok ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400" : "border border-zinc-300 text-transparent dark:border-zinc-700"}`}><Check className="h-3 w-3" /></span>
+                      <span className={ok ? "text-zinc-700 dark:text-zinc-300" : "text-zinc-500"}>{label}</span>
+                    </button>
+                    {!ok && <span className="shrink-0 text-[10px] text-amber-600">Needs attention</span>}
                   </div>
                 ))}
               </div>
-              <button
-                type="button"
-                onClick={() =>
-                  document
-                    .getElementById("pricing")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-                className="mt-5 flex items-center gap-1 text-xs font-medium text-emerald-600"
-              >
-                Preview financial breakdown <ChevronRight className="h-3 w-3" />
-              </button>
+              <p className="mt-5 text-xs leading-5 text-zinc-500">Complete the required checks to unlock publishing. You can save a draft at any point.</p>
             </div>
             {unit && (
               <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/[0.08] dark:bg-zinc-900">
@@ -1229,25 +1215,14 @@ export default function AddListingClient({
           <p className="hidden text-xs text-zinc-500 sm:block">
             {publishBlocked
               ? "Onboarding is incomplete; this will remain a draft."
-              : `${completed}/5 readiness checks complete`}
+              : `${completed}/${readinessChecks.length} readiness checks complete`}
           </p>
           <div className="ml-auto flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
+            <Button type="button" variant="outline" onClick={currentStep === 0 ? () => router.back() : goToPrevious}>
+              <ArrowLeft className="mr-2 h-4 w-4" /> {currentStep === 0 ? "Back" : "Previous"}
             </Button>
-            {completed < 5 ||
-            (type === "short_let" && !showShortletDetails) ? (
-              <Button type="button" onClick={goToNext}>
-                {type === "short_let" && !showShortletDetails
-                  ? "Next: shortlet details"
-                  : "Next"}
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
+            {currentStep < 3 ? (
+              <Button type="button" onClick={goToNext}>Continue <ChevronRight className="ml-2 h-4 w-4" /></Button>
             ) : (
               <Button
                 type="button"
@@ -1257,7 +1232,7 @@ export default function AddListingClient({
                 {submitting && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                {publishBlocked ? "Save draft" : "Review & publish"}
+                {publishBlocked ? "Save draft" : "Publish listing"}
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             )}
